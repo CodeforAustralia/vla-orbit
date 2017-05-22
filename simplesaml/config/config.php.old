@@ -1,0 +1,5 @@
+<?php
+$config = array (
+	'baseurlpath'	=> 'https://vla753-lms.dev.org.au/saml/',
+	'certdir'	=> 'cert/',
+);

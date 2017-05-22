@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,uEAAuE;AAMvE;2DAC4D;EAE1D,qBAAqB;EAwBrB,eAAe;EAtBX;sEAAI;IAEM,UAAU,EAZlB,IAAI;IAaI,KAAK,EAZX,OAAO",
+"sources": ["../../../../sass/layouts/layout2/custom.scss"],
+"names": [],
+"file": "custom.css"
+}

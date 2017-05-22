@@ -1,0 +1,7 @@
+.dataTables_extended_wrapper.DTS .dataTables_info:nth-of-type(1){
+    display: none;
+}
+.main-green{
+    background-color: #17C4BB;
+    color: white;
+}
