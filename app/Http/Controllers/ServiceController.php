@@ -21,4 +21,15 @@ class ServiceController extends Controller
     {
         return view("service.create");
     }
+    
+    public function list()
+    {
+        return view("service.list");
+    }
+
+    public function destroy()
+    {
+        return view("service.destroy");
+    }   
+
 }
