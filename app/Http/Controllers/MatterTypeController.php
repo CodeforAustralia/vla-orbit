@@ -19,42 +19,9 @@ class MatterTypeController extends Controller
                 'sample-form-data' => 'value'
             ]
         ]);*/
-        /*
-	$wsdl = 'https://orbitservicehost.vla.vic.gov.au/VLA.Orbit.ServiceHost.OrbitService.svc?wsdl';
-        $client = new \SoapClient($wsdl);
-	
-	$info = [ 
-			'CreatedBy' => 'Christian Arevalo',
-			'CreatedOn' => '2017-05-11T16:00:00',
-			'MatterTypeID' => '2',
-			'MatterTypeName' => 'First Legal matter type',
-			'UpdatedBy' => 'Christian Arevalo',
-			'UpdatedOn' => '2017-05-11T16:00:00'
-		];
 
-
-    $response = $client->__soapCall("SaveMatterType", $info);
-    //$response = $client->SaveMatterType($info);
-    */
-
-    $wsdl_url = 'https://orbitservicehost.vla.vic.gov.au/VLA.Orbit.ServiceHost.OrbitService.svc?wsdl';
-    $client = new \SoapClient($wsdl_url);
-    $params = array(
-                    
-                    'MatterTypeName' =>'Test 12345',
-                    'UpdatedBy' =>'Tester',
-                    'UpdatedOn'=>'2017-05-11T16:00:00',
-                    'CreatedBy' =>'Tester',
-                    'CreatedOn'=>'2017-05-11T16:00:00'
-   );
-    $result = $client->SaveMatterType($params);
-    //$result = $client->__soapCall("SaveMatterType", $params);
-    dd($result->SaveMatterType);
-
-
-
-
-       return view("matter_type.index", compact('client','response','oi'));
+        //$matter_types = $this->getAllMatterTypes();
+        return view("matter_type.index");
     }
 
     public function show()
@@ -67,14 +34,61 @@ class MatterTypeController extends Controller
         return view("matter_type.create");
     }
     
-    public function store() {
-        dd(request('title'));
+    public function store() 
+    {        
         
         // Create Soap Object
+        $wsdl = env('ORBIT_WDSL_URL');
+        $client = new \SoapClient($wsdl);
         
-        // Create call request
+        // Create call request        
+        $info = [ 'ObjectInstance' => [
+                        
+                        'MatterTypeName' => request('title'),
+                        'CreatedBy' => auth()->user()->name,
+                        'CreatedOn' => '2017-05-11T16:00:00',
+                        'UpdatedBy' => auth()->user()->name,
+                        'UpdatedOn' => '2017-05-11T16:00:00'
+                        ]                    
+                ];
+
+        $response = $client->SaveMatterType($info);
+
+        // Redirect to index        
+        if($response->SaveMatterTypeResult){
+            return redirect('/matter_type')->with('success', 'New legal matter created.');
+        } else {
+            return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
+        }
+    }
+
+    public function destroy($mt_id)
+    {
+
+        // Create Soap Object
+        $wsdl = env('ORBIT_WDSL_URL');
+        $client = new \SoapClient($wsdl);
         
-        // Redirect to index
+        // Create call request        
+        $info = [ 'RefNumber' => $mt_id];
+
+        $response = $client->DeleteMatterType($info);
+        
+        // Redirect to index        
+        if($response->DeleteMatterTypeResult){
+            return redirect('/matter_type')->with('success', 'Legal matter deleted.');
+        } else {
+            return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
+        }
+    }
+
+    public function list()
+    {
+        $matter_type = new MatterType();
+
+        $result = $matter_type->getAllMatterTypes();
+
+        return array('data' => $result);
     }
     
 }

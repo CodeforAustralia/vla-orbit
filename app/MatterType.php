@@ -3,15 +3,26 @@ namespace App;
 
 Class MatterType
 {
-	function MatterType($params)
+	public function getAllMatterTypes()
 	{
-	
-		$this->CreatedBy = $params['CreatedBy'];
-		$this->CreatedOn = $params['CreatedOn'];
-		$this->MatterTypeID = $params['MatterTypeID'];
-		$this->MatterTypeName = $params['MatterTypeName'];
-		$this->UpdatedBy = $params['UpdatedBy'];
-		$this->UpdatedOn= $params['UpdatedOn'];	
+		// Create Soap Object
+        $wsdl = env('ORBIT_WDSL_URL');
+        $client = new \SoapClient($wsdl);
+        
+        $matter_types = json_decode($client->GetAllLegalMatterTypessasJSON()->GetAllLegalMatterTypessasJSONResult);
+
+        foreach ($matter_types as $matter_type) {
+            $result[]  = [ 
+                            'MatterTypeID' => $matter_type->MatterTypeID,
+                            'MatterTypeName' => $matter_type->MatterTypeName,
+                            'CreatedBy' => $matter_type->CreatedBy,
+                            'UpdatedBy' => $matter_type ->UpdatedBy,
+                            'CreatedOn' => $matter_type->CreatedOn,
+                            'UpdatedOn' => $matter_type->UpdatedOn,
+                        ];
+        }
+
+        return $result;
 	}
 }
 
