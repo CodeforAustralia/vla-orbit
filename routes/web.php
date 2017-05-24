@@ -43,14 +43,24 @@ Route::get('/posts/{post}', 'PostsController@show');
 //Matter
 Route::get('/matter', 'MatterController@index');
 
+Route::get('/matter/list', 'MatterController@list');
+
 Route::get('/matter/new', 'MatterController@create');
 
 Route::get('/matter/show/{m_id}', 'MatterController@show');
 
+Route::get('/matter/delete/{m_id}', 'MatterController@destroy');
+
+Route::post('/matter', 'MatterController@store');
+
 //Matter Type
 Route::get('/matter_type', 'MatterTypeController@index');
 
+Route::get('/matter_type/list', 'MatterTypeController@list');
+
 Route::get('/matter_type/show/{mt_id}', 'MatterTypeController@show');
+
+Route::get('/matter_type/delete/{mt_id}', 'MatterTypeController@destroy');
 
 Route::get('/matter_type/new', 'MatterTypeController@create');
 
@@ -59,16 +69,68 @@ Route::post('/matter_type', 'MatterTypeController@store');
 //Service
 Route::get('/service', 'ServiceController@index');
 
+Route::get('/service/list', 'ServiceController@list');
+
 Route::get('/service/show/{sv_id}', 'ServiceController@show');
 
+Route::get('/service/delete/{sv_id}', 'ServiceController@destroy');
+
 Route::get('/service/new', 'ServiceController@create');
+
+Route::post('/service', 'ServiceController@store');
+
+//Service Type
+Route::get('/service_type', 'ServiceTypeController@index');
+
+Route::get('/service_type/list', 'ServiceTypeController@list');
+
+Route::get('/service_type/show/{st_id}', 'ServiceTypeController@show');
+
+Route::get('/service_type/delete/{st_id}', 'ServiceTypeController@destroy');
+
+Route::get('/service_type/new', 'ServiceTypeController@create');
+
+Route::post('/service_type', 'ServiceTypeController@store');
+
+//Service
+Route::get('/service_level', 'ServiceLevelController@index');
+
+Route::get('/service_level/list', 'ServiceLevelController@list');
+
+Route::get('/service_level/show/{sl_id}', 'ServiceLevelController@show');
+
+Route::get('/service_level/delete/{sl_id}', 'ServiceLevelController@destroy');
+
+Route::get('/service_level/new', 'ServiceLevelController@create');
+
+Route::post('/service_level', 'ServiceLevelController@store');
 
 //Service Provider
 Route::get('/service_providers', 'ServiceProvidersController@index');
 
-Route::get('/service_providers/show/{sv_id}', 'ServiceProvidersController@show');
+Route::get('/service_providers/list', 'ServiceProvidersController@list');
+
+Route::get('/service_providers/show/{sp_id}', 'ServiceProvidersController@show');
+
+Route::get('/service_providers/delete/{sp_id}', 'ServiceProvidersController@destroy');
 
 Route::get('/service_providers/new', 'ServiceProvidersController@create');
+
+Route::post('/service_providers', 'ServiceProvidersController@store');
+
+//Catchment
+Route::get('/catchment', 'CatchmentController@index');
+
+Route::get('/catchment/list', 'CatchmentController@list');
+
+Route::get('/catchment/new', 'CatchmentController@create');
+
+Route::get('/catchment/show/{ca_id}', 'CatchmentController@show');
+
+Route::get('/catchment/delete/{ca_id}', 'CatchmentController@destroy');
+
+Route::post('/catchment', 'CatchmentController@store');
+
 
 //Booking
 Route::get('/booking', 'BookingController@index');

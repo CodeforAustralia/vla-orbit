@@ -65,8 +65,8 @@
             <!-- BEGIN THEME GLOBAL SCRIPTS -->
             <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
             <!-- END THEME GLOBAL SCRIPTS -->
-            <!-- BEGIN PAGE LEVEL SCRIPTS -->
-            <script src="/assets/pages/scripts/table-datatables-ajax.js?id=1" type="text/javascript"></script>
+            <!-- BEGIN PAGE LEVEL SCRIPTS -->            
+            <script src="/js/matter_type.js?id=1" type="text/javascript"></script>
             
             <script src="/assets/global/plugins/counterup/jquery.waypoints.min.js" type="text/javascript"></script>
             <script src="/assets/global/plugins/counterup/jquery.counterup.min.js" type="text/javascript"></script>

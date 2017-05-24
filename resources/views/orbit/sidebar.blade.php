@@ -21,15 +21,35 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/service" class="nav-link">
+                            <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-notebook"></i>
                                 <span class="title">Services</span>
                                 <span class="arrow"></span>
                             </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/service" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Services</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/service_level" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Service Level</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/service_type" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Service Type</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="/service_providers" class="nav-link">
-                                <i class="icon-notebook"></i>
+                                <i class="fa fa-briefcase"></i>
                                 <span class="title">Service providers</span>
                                 <span class="arrow"></span>
                             </a>
@@ -55,24 +75,19 @@
                                     </a>
                                 </li>
                                 <li class="nav-item start ">
-                                    <a href="/matter/new" class="nav-link ">
-                                        <i class="fa fa-plus"></i>
-                                        <span class="title">Create Legal Matter</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item start ">
                                     <a href="/matter_type" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Matter Type</span>
                                     </a>
                                 </li>
-                                <li class="nav-item start ">
-                                    <a href="/matter_type/new" class="nav-link ">
-                                        <i class="fa fa-plus"></i>
-                                        <span class="title">Create Matter Type</span>
-                                    </a>
-                                </li>
                             </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/catchment" class="nav-link">
+                                <i class="fa fa-map-signs"></i>
+                                <span class="title">Catchment</span>
+                                <span class="arrow"></span>
+                            </a>
                         </li>
                     </ul>
                     <!-- END SIDEBAR MENU -->
