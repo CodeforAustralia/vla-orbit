@@ -42,7 +42,7 @@ class MatterTypeController extends Controller
         $client = new \SoapClient($wsdl);
         
         // Create call request        
-        $info = [ 'ObjectInstance' => [
+        $info = [ 'MatterType' => [
                         
                         'MatterTypeName' => request('title'),
                         'CreatedBy' => auth()->user()->name,
@@ -51,14 +51,16 @@ class MatterTypeController extends Controller
                         'UpdatedOn' => '2017-05-11T16:00:00'
                         ]                    
                 ];
-
-        $response = $client->SaveMatterType($info);
-
-        // Redirect to index        
-        if($response->SaveMatterTypeResult){
-            return redirect('/matter_type')->with('success', 'New legal matter created.');
-        } else {
-            return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
+        try {
+            $response = $client->SaveMatterType($info);            
+            if($response->SaveMatterTypeResult){
+                return redirect('/matter_type')->with('success', 'New legal matter created.');
+            } else {
+                return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
+            }
+        }
+        catch (\Exception $e) {            
+            return redirect('/matter_type')->with('error', $e->getMessage());            
         }
     }
 
@@ -73,12 +75,16 @@ class MatterTypeController extends Controller
         $info = [ 'RefNumber' => $mt_id];
 
         $response = $client->DeleteMatterType($info);
-        
-        // Redirect to index        
-        if($response->DeleteMatterTypeResult){
-            return redirect('/matter_type')->with('success', 'Legal matter deleted.');
-        } else {
-            return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
+        try {
+            // Redirect to index        
+            if($response->DeleteMatterTypeResult){
+                return redirect('/matter_type')->with('success', 'Legal matter deleted.');
+            } else {
+                return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
+            }
+        }
+        catch (\Exception $e) {            
+            return redirect('/matter_type')->with('error', $e->getMessage());            
         }
     }
 

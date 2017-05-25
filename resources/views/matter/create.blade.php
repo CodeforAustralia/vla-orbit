@@ -36,12 +36,10 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Parent</label>
                         <div class="col-md-4">
-                            <select class="form-control" id="parent_id" name="parent_id">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Option 3</option>
-                                <option>Option 4</option>
-                                <option>Option 5</option>
+                            <select class="form-control" id="parent_id" name="parent_id">                                
+                                @foreach($matters as $matter)
+                                    <option value="{{ $matter['MatterID'] }}">{{ $matter['MatterName'] }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
