@@ -48,7 +48,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="/service_providers" class="nav-link">
+                            <a href="/service_provider" class="nav-link">
                                 <i class="fa fa-briefcase"></i>
                                 <span class="title">Service providers</span>
                                 <span class="arrow"></span>
