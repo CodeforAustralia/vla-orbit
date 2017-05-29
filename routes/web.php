@@ -22,6 +22,10 @@ Route::get('/logout', 'SessionController@destroy');
 
 Route::get('/outlook', 'SessionController@outlook');
 
+
+Route::get('/soap/types', 'MasterController@_types');
+Route::get('/soap/functions', 'MasterController@_functions');
+
 //Auth from Outlook
 
 Route::get('/signin', 'AuthController@signin');
