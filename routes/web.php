@@ -96,7 +96,7 @@ Route::get('/service_type/new', 'ServiceTypeController@create');
 
 Route::post('/service_type', 'ServiceTypeController@store');
 
-//Service
+//Service Level
 Route::get('/service_level', 'ServiceLevelController@index');
 
 Route::get('/service_level/list', 'ServiceLevelController@list');
