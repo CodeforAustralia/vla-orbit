@@ -12,13 +12,13 @@
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
-            <form method="POST" action="/service_providers" class="form-horizontal">
+            <form method="POST" action="/service_provider" class="form-horizontal">
                 {{ csrf_field() }}
                 <div class="form-body">
 
 	                <div class="form-group">
 	                  	<label for="some">Name:</label>
-	                  	<input type="text" class="form-control" id="name" name="name">
+	                  	<input type="text" class="form-control" id="name" name="name" required>
 	                </div>
 
 	                <div class="form-group">

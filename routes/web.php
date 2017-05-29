@@ -106,17 +106,17 @@ Route::get('/service_level/new', 'ServiceLevelController@create');
 Route::post('/service_level', 'ServiceLevelController@store');
 
 //Service Provider
-Route::get('/service_providers', 'ServiceProvidersController@index');
+Route::get('/service_provider', 'ServiceProvidersController@index');
 
-Route::get('/service_providers/list', 'ServiceProvidersController@list');
+Route::get('/service_provider/list', 'ServiceProvidersController@list');
 
-Route::get('/service_providers/show/{sp_id}', 'ServiceProvidersController@show');
+Route::get('/service_provider/show/{sp_id}', 'ServiceProvidersController@show');
 
-Route::get('/service_providers/delete/{sp_id}', 'ServiceProvidersController@destroy');
+Route::get('/service_provider/delete/{sp_id}', 'ServiceProvidersController@destroy');
 
-Route::get('/service_providers/new', 'ServiceProvidersController@create');
+Route::get('/service_provider/new', 'ServiceProvidersController@create');
 
-Route::post('/service_providers', 'ServiceProvidersController@store');
+Route::post('/service_provider', 'ServiceProvidersController@store');
 
 //Catchment
 Route::get('/catchment', 'CatchmentController@index');
