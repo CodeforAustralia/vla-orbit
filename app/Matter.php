@@ -6,8 +6,7 @@ Class Matter
 	public function getAllMatters()
 	{
 		// Create Soap Object
-        $wsdl = env( 'ORBIT_WDSL_URL' );
-        $client = new \SoapClient( $wsdl );
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         $matters = json_decode($client->GetAllLegalMattersasJSON()->GetAllLegalMattersasJSONResult);
 
@@ -35,8 +34,7 @@ Class Matter
     public function getAllMatterById( $m_id )
     {
         // Create Soap Object
-        $wsdl = env( 'ORBIT_WDSL_URL' );
-        $client = new \SoapClient( $wsdl );
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         $matter = $client->GetMattersById( array( 'MatterId' => $m_id ) )->GetMattersByIdResult->LegalMatter;
 
@@ -47,8 +45,7 @@ Class Matter
     public function saveMatter($matter) 
     {
         // Create Soap Object
-        $wsdl = env( 'ORBIT_WDSL_URL' );
-        $client = new \SoapClient( $wsdl );
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         // Create call request        
         $info = [ 'ObjectInstance' => [
@@ -85,8 +82,7 @@ Class Matter
     {
 
         // Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         // Create call request        
         $info = [ 'RefNumber' => $m_id];
@@ -102,6 +98,6 @@ Class Matter
         catch (\Exception $e) {            
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
-    }
+    }    
 }
 

@@ -3,11 +3,11 @@ namespace App;
 
 Class MatterType
 {
+
 	public function getAllMatterTypes()
 	{
 		// Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         $matter_types = json_decode($client->GetAllLegalMatterTypessasJSON()->GetAllLegalMatterTypessasJSONResult);
 
@@ -28,8 +28,7 @@ Class MatterType
     public function saveMatter( $matter_type ) 
     {
         // Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         // Create call request        
         $info = [ 'ObjectInstance' => [
@@ -59,8 +58,7 @@ Class MatterType
     {
 
         // Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         // Create call request        
         $info = [ 'RefNumber' => $mt_id];
@@ -79,5 +77,6 @@ Class MatterType
         }
 
     }
+    
 }
 
