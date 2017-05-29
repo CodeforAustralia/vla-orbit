@@ -14,53 +14,29 @@ class MatterController extends Controller
         return view("matter.index");
     }
 
-    public function show()
+    public function show($m_id)
     {
-        return view("matter.show");
+
+        $matter = new Matter();
+        $current_mattter = $matter->getAllMatterById( $m_id );
+
+        return view("matter.show", compact('current_mattter'));
     }
 
     public function store()
-    {
-        //return request();
-
-        // Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+    {        
+        $matter_params =    array(
+                                'title'         => request('title'),
+                                'description'   => request('description'),
+                                'parent_id'     => request('parent_id'), // Using 50 for the moment
+                                'tag'           => request('tag'),
+                                'lmt_id'        => request('lmt_id')
+                            );
         
-        // Create call request        
-        $info = [ 'ObjectInstance' => [
-                        
-                        'MatterName'    => request('title'),
-                        'Description'   => request('description'),
-                        'ParentId'      => request('parent_id'), // Using 50 for the moment
-                        'Tag'           => request('tag'),
-                        'TypeId'        => request('lmt_id'),
-
-
-                        'CreatedBy' => auth()->user()->name,
-                        'CreatedOn' => '2017-05-11T16:00:00',
-                        'UpdatedBy' => auth()->user()->name,
-                        'UpdatedOn' => '2017-05-11T16:00:00'
-                        ]                    
-                ];
-
-        //dd($client->__getTypes());
-        //dd($client->__getFunctions());
-
-        $response = $client->SaveMatter($info);
-
-        try {
-            // Redirect to index        
-            if($response->SaveMatterResult){
-                return redirect('/matter')->with('success', 'New legal matter created.');
-            } else {
-                return redirect('/matter')->with('error', 'something went wrong.');
-            }
-        }
-        catch (\Exception $e) {            
-            return redirect('/matter')->with('error', $e->getMessage());            
-        }
+        $matter = new Matter();
+        $response = $matter->saveMatter($matter_params);
         
+        return redirect('/matter')->with($response['success'], $response['message']);
     }
     
     public function create()
@@ -76,25 +52,11 @@ class MatterController extends Controller
     }
 
     public function destroy($m_id)
-    {
-        // Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+    {        
+        $matter = new Matter();
+        $response = $matter->deleteMatter($m_id);
         
-        // Create call request        
-        $info = [ 'RefNumber' => $m_id];
-
-        $response = $client->DeleteMatter($info);
-        try {
-            if($response->DeleteMatterResult){
-                return redirect('/matter')->with('success', 'Legal matter deleted.');
-            } else {
-                return redirect('/matter')->with('error', 'Ups, something went wrong.');
-            }
-        }
-        catch (\Exception $e) {            
-            return redirect('/matter')->with('error', $e->getMessage());            
-        }
+        return redirect('/matter')->with($response['success'], $response['message']);
     }
 
     public function list()
