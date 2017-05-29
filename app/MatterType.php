@@ -24,5 +24,60 @@ Class MatterType
 
         return $result;
 	}
+    
+    public function saveMatter( $matter_type ) 
+    {
+        // Create Soap Object
+        $wsdl = env('ORBIT_WDSL_URL');
+        $client = new \SoapClient($wsdl);
+        
+        // Create call request        
+        $info = [ 'ObjectInstance' => [
+                        
+                        'MatterTypeName' => request('title'), // $matter_type['title']
+                        'CreatedBy' => auth()->user()->name,
+                        'CreatedOn' => '2017-05-11T16:00:00',
+                        'UpdatedBy' => auth()->user()->name,
+                        'UpdatedOn' => '2017-05-11T16:00:00'
+                        ]                    
+                ];
+        try {
+            $response = $client->SaveMatterType($info);            
+            if($response->SaveMatterTypeResult){
+                return array( 'success' => 'success' , 'message' => 'Legal matter Type deleted.' );
+            } else {
+                return array( 'success' => 'error' , 'message' => 'something went wrong.' );
+            }
+        }
+        catch (\Exception $e) {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );           
+        }
+    }
+
+
+    public function deleteMatter($mt_id)
+    {
+
+        // Create Soap Object
+        $wsdl = env('ORBIT_WDSL_URL');
+        $client = new \SoapClient($wsdl);
+        
+        // Create call request        
+        $info = [ 'RefNumber' => $mt_id];
+
+        try {
+            $response = $client->DeleteMatterType($info);
+            // Redirect to index        
+            if($response->DeleteMatterTypeResult){
+                return array( 'success' => 'success' , 'message' => 'Legal matter Type deleted.' );
+            } else {
+                return array( 'success' => 'error' , 'message' => 'something went wrong.' );
+            }
+        }
+        catch (\Exception $e) {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );              
+        }
+
+    }
 }
 

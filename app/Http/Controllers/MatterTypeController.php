@@ -24,7 +24,7 @@ class MatterTypeController extends Controller
         return view("matter_type.index");
     }
 
-    public function show()
+    public function show($mt_id)
     {
         return view("matter_type.show");
     }
@@ -36,56 +36,23 @@ class MatterTypeController extends Controller
     
     public function store() 
     {        
+        $matter_type_params =    array(
+                                'title'         => request('title'),
+                            );
         
-        // Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+        $matter_type = new MatterType();
+        $response = $matter_type->saveMatter($matter_type_params);
         
-        // Create call request        
-        $info = [ 'MatterType' => [
-                        
-                        'MatterTypeName' => request('title'),
-                        'CreatedBy' => auth()->user()->name,
-                        'CreatedOn' => '2017-05-11T16:00:00',
-                        'UpdatedBy' => auth()->user()->name,
-                        'UpdatedOn' => '2017-05-11T16:00:00'
-                        ]                    
-                ];
-        try {
-            $response = $client->SaveMatterType($info);            
-            if($response->SaveMatterTypeResult){
-                return redirect('/matter_type')->with('success', 'New legal matter created.');
-            } else {
-                return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
-            }
-        }
-        catch (\Exception $e) {            
-            return redirect('/matter_type')->with('error', $e->getMessage());            
-        }
+        return redirect('/matter_type')->with($response['success'], $response['message']);
     }
 
     public function destroy($mt_id)
     {
 
-        // Create Soap Object
-        $wsdl = env('ORBIT_WDSL_URL');
-        $client = new \SoapClient($wsdl);
+        $matter_type = new MatterType();
+        $response = $matter_type->deleteMatter($mt_id);
         
-        // Create call request        
-        $info = [ 'RefNumber' => $mt_id];
-
-        $response = $client->DeleteMatterType($info);
-        try {
-            // Redirect to index        
-            if($response->DeleteMatterTypeResult){
-                return redirect('/matter_type')->with('success', 'Legal matter deleted.');
-            } else {
-                return redirect('/matter_type')->with('error', 'Ups, something went wrong.');
-            }
-        }
-        catch (\Exception $e) {            
-            return redirect('/matter_type')->with('error', $e->getMessage());            
-        }
+        return redirect('/matter_type')->with($response['success'], $response['message']);
     }
 
     public function list()
