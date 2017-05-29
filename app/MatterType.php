@@ -25,7 +25,7 @@ Class MatterType
         return $result;
 	}
     
-    public function saveMatter( $matter_type ) 
+    public function saveMatterType( $matter_type ) 
     {
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
@@ -33,7 +33,7 @@ Class MatterType
         // Create call request        
         $info = [ 'ObjectInstance' => [
                         
-                        'MatterTypeName' => request('title'), // $matter_type['title']
+                        'MatterTypeName' => $matter_type['title'], // $matter_type['title']
                         'CreatedBy' => auth()->user()->name,
                         'CreatedOn' => '2017-05-11T16:00:00',
                         'UpdatedBy' => auth()->user()->name,
