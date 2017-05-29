@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\ServiceType;
 
 class ServiceTypeController extends Controller
 {
@@ -21,14 +22,33 @@ class ServiceTypeController extends Controller
     {
         return view("service_type.create");
     }
+
+    public function store()
+    {        
+        $service_type_params =  array(
+                                        'title'         => request('title'),
+                                        'description'   => request('description'),
+                                    );
+        
+        $service_type = new ServiceType();
+        $response = $service_type->saveServiceType($service_type_params);
+        
+        return redirect('/service_type')->with($response['success'], $response['message']);
+    }
+
+    public function destroy($st_id)
+    {
+        $service_type = new ServiceType();
+        $response = $service_type->deleteServiceType($st_id);
+        
+        return redirect('/service_type')->with($response['success'], $response['message']);
+    }
     
     public function list()
     {
-        return view("service_type.list");
-    }
+        $service_type = new ServiceType();
+        $result = $service_type->getAllServiceTypes();
 
-    public function destroy()
-    {
-        return view("service_type.destroy");
+        return array('data' => $result);
     }
 }

@@ -37,11 +37,11 @@ class MatterTypeController extends Controller
     public function store() 
     {        
         $matter_type_params =    array(
-                                'title'         => request('title'),
+                                'title'   => request('title'),
                             );
         
         $matter_type = new MatterType();
-        $response = $matter_type->saveMatter($matter_type_params);
+        $response = $matter_type->saveMatterType($matter_type_params);
         
         return redirect('/matter_type')->with($response['success'], $response['message']);
     }
