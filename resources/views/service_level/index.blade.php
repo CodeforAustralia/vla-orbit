@@ -12,4 +12,23 @@
     </div>
     <!-- END PAGE HEADER-->
     
+    <!-- Begin: Datatable service Level-->
+    <div class="portlet light portlet-fit portlet-datatable ">
+        <div class="portlet-body">
+            <div class="table-container">
+                <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_service_level">
+                    <thead>
+                        <tr role="row" class="heading">
+                            <th width="10%"> Id </th>
+                            <th width="25%"> Service Level Name </th>
+                            <th width="35%"> Service Level Description </th>
+                            <th width="10%"> </th>
+                        </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End: Datatable service Level -->
 @endsection
