@@ -14,14 +14,24 @@ class ServiceProvidersController extends Controller
         return view("service_provider.index");
     }
 
-    public function show()
+    public function show($sp_id)
     {
-        return view("service_provider.show");
+        $service_provider_obj   = new ServiceProvider();
+        $result                 = $service_provider_obj->getServiceProviderByID($sp_id);
+
+        if(isset($result['data'])) {
+            $current_sp = json_decode( $result['data'] )[0];
+            return view( "service_provider.show", compact( 'current_sp' ) );         
+        } else {
+            return redirect('/service_provider')->with( $response['success'], $response['message'] );
+        }     
+
     }    
 
     public function store()
     {                
         $sp_params = array(                    
+                            'ServiceProviderId'     => request('sp_id'),
                             'ServiceProviderName'   => request('name'),
                             'ContactEmail'          => request('contact_email'),
                             'ContactName'           => request('contact_name'),
@@ -30,8 +40,8 @@ class ServiceProvidersController extends Controller
                             'ServiceProviderLogo'   => request('logo'),
                             'ServiceProviderURL'    => request('url')
                             );
+        
         $service_provider = new ServiceProvider();
-
         $response = $service_provider->saveServiceProvider( $sp_params );
         
         return redirect('/service_provider')->with( $response['success'], $response['message'] );

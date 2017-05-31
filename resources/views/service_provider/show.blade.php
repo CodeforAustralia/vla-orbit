@@ -2,7 +2,9 @@
 
 @section ('content')
     <!-- BEGIN PAGE HEADER-->
-    <h1 class="page-title"> Specific Service </h1>
+    <h1 class="page-title"> Edit Service Provider </h1>
     <!-- END PAGE HEADER-->
     
+    @include ('service_provider.form')
+
 @endsection

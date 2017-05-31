@@ -8,27 +8,9 @@ Class ServiceProvider
 		// Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
             
-        $service_providers = json_decode($client->GetAllOrbitServiceProviderssasJSON()->GetAllOrbitServiceProviderssasJSONResult);
+        $service_providers = json_decode($client->GetAllOrbitServiceProviderssasJSON()->GetAllOrbitServiceProviderssasJSONResult, true);
 
-        foreach ($service_providers as $service_provider) {
-            $result[]  = [ 
-                            'ServiceProviderId'     => $service_provider->ServiceProviderId,
-                            'ServiceProviderName'   => $service_provider->ServiceProviderName,
-                            'ContactEmail'          => $service_provider->ContactEmail,
-                            'ContactName'           => $service_provider->ContactName,
-                            'ContactPhone'          => $service_provider->ContactPhone,
-                            'ServiceProviderAbout'  => $service_provider->ServiceProviderAbout,
-                            'ServiceProviderLogo'   => $service_provider->ServiceProviderLogo,
-                            'ServiceProviderURL'    => $service_provider->ServiceProviderURL,
-
-                            'CreatedBy'     => $service_provider->CreatedBy,
-                            'UpdatedBy'     => $service_provider ->UpdatedBy,
-                            'CreatedOn'     => $service_provider->CreatedOn,
-                            'UpdatedOn'     => $service_provider->UpdatedOn,
-                        ];
-        }
-
-        return $result;
+        return $service_providers;
 	}
 
     public function saveServiceProvider( $sp_params ) 
@@ -37,31 +19,21 @@ Class ServiceProvider
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
-        // Create call request        
+        // Current time     
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
         $date_time = $date_now . "T" . $time_now;
-        $info = [ 'ObjectInstance' => [
-                        
-                            'ServiceProviderId'     => 0,
-                            'ServiceProviderName'   => request('name'),
-                            'ContactEmail'          => request('contact_email'),
-                            'ContactName'           => request('contact_name'),
-                            'ContactPhone'          => request('contact_phone'),
-                            'ServiceProviderAbout'  => request('about'),
-                            'ServiceProviderLogo'   => request('logo'),
-                            'ServiceProviderURL'    => request('url'),
 
-                            'CreatedBy'     => auth()->user()->name,
-                            'UpdatedBy'     => auth()->user()->name,
-                            'CreatedOn'     => $date_time,
-                            'UpdatedOn'     => $date_time,
-                        ]                    
-                ];
+        $sp_params['CreatedBy'] = auth()->user()->name;     
+        $sp_params['UpdatedBy'] = auth()->user()->name;     
+        $sp_params['CreatedOn'] = $date_time;       
+        $sp_params['UpdatedOn'] = $date_time;     
+
+        $info = [ 'ObjectInstance' => $sp_params ];
 
         try {
             $response = $client->SaveOrbitServiceProvider( $info );
-            // Redirect to index        
+            // Redirect to index               
             if($response->SaveOrbitServiceProviderResult){
                 return array( 'success' => 'success' , 'message' => 'Service provider created.' );
             } else {
@@ -94,6 +66,27 @@ Class ServiceProvider
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
 
+    }
+
+    public function getServiceProviderByID($sp_id)
+    {        
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+        
+        // Create call request        
+        $info = [ 'RefNumber' => $sp_id ];
+
+        try {
+            $response = $client->GetOrbitServiceProviderByIdasJSON( $info );
+            if( $response->GetOrbitServiceProviderByIdasJSONResult ){
+                return array( 'success' => 'success' , 'message' => 'Service.', 'data' => $response->GetOrbitServiceProviderByIdasJSONResult );
+            } else {
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+            }
+        }
+        catch (\Exception $e) {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        }
     }
 }
 
