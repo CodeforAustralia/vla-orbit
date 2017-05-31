@@ -33,8 +33,7 @@ class ServiceController extends Controller
         $matters            = $matter_type_obj->getAllMatters();
 
         $matter_service_obj = new MatterService();
-        //$matter_services    = $matter_service_obj->getMatterServiceBySvID($sv_id);              
-        $matter_services_list = $matter_service_obj->getMatterServiceBySvID(9);  
+        $matter_services    = $matter_service_obj->getMatterServiceBySvID($sv_id);    
         $matter_services =	[];
         foreach ($matter_services_list as $matter_service) {
            	$matter_services[] = $matter_service->MatterId;
