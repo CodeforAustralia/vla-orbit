@@ -25,6 +25,8 @@
                             <th width="10%"> Phone </th>
                             <th width="10%"> Email </th>
                             <th width="10%"> Wait Time </th>
+                            <th width="10%"> Service type </th>
+                            <th width="10%"> Service Level </th>
                             <th width="10%"> </th>
                         </tr>
                     </thead>
