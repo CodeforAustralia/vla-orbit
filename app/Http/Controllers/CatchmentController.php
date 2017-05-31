@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Catchment;
 
 class CatchmentController extends Controller
 {
@@ -26,5 +27,12 @@ class CatchmentController extends Controller
     {
 
         return view("catchment.create");
+    }
+
+    public function list()
+    {
+        $service = new Catchment();
+        $result  = $service->getAllCatchments();
+        return array( 'data' => $result );
     }
 }
