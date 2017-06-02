@@ -68,9 +68,6 @@
                     <div class="form-group">
                         <label for="matters">Legal Matters:</label>
                          <select multiple class="form-control" id="matters" name="matters[]">
-                             @foreach($matters as $matter)
-                                <option value="{{ $matter['MatterID'] }}"> {{ $matter['ParentName'] }} > {{ $matter['MatterName'] }}</option>
-                            @endforeach
                         </select>
                     </div>
 
@@ -89,8 +86,10 @@
     </div>
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#matters").val( {{ isset($matter_services) ? json_encode( $matter_services ) : '' }} );
-        });
+            function loadServiceMatters()
+            {
+                //$("#matters").val( {{ isset($matter_services) ? json_encode( $matter_services ) : '' }} );                
+                $("#matters").select2().val({{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }}).trigger("change");
+            }            
     </script>
 

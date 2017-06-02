@@ -33,8 +33,9 @@ class ServiceController extends Controller
         $matters            = $matter_type_obj->getAllMatters();
 
         $matter_service_obj = new MatterService();
-        $matter_services    = $matter_service_obj->getMatterServiceBySvID($sv_id);    
+        $matter_services_list    = $matter_service_obj->getMatterServiceBySvID($sv_id);    
         $matter_services =	[];
+
         foreach ($matter_services_list as $matter_service) {
            	$matter_services[] = $matter_service->MatterId;
        	}   
@@ -62,7 +63,7 @@ class ServiceController extends Controller
                             'Description'   => request('description'),
                             'ServiceProviderId' => request('service_provider_id'), 
                             'Wait'           => request('wait'),
-                            'ServiceLevelId' => request('service_level_id'), //This is service Level not location
+                            'ServiceLevelId' => request('service_level_id'),
                             'ServiceTypeId'  => request('service_type_id'),
                             );
 
@@ -70,7 +71,7 @@ class ServiceController extends Controller
         $service = new Service();
         $response = $service->saveService( $sv_params );        
 
-        if( isset( $response['data'] ) || request('sv_id') > 0 ) {
+        if( ( isset( $response['data'] ) || request('sv_id') > 0 )  && !empty( request('matters') )){
 
         	$sv_id = ( request('sv_id') > 0 ) ? request('sv_id') : $response['data'];
         	$matter_service_obj = new MatterService();        	
