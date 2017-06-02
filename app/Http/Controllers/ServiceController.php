@@ -54,7 +54,6 @@ class ServiceController extends Controller
 
     public function store()
     {                
-        
         $sv_params = array(                    
                             'ServiceId'   	=> request('sv_id'),
                             'ServiceName'   => request('name'),
@@ -71,15 +70,20 @@ class ServiceController extends Controller
         $service = new Service();
         $response = $service->saveService( $sv_params );        
 
-        if( ( isset( $response['data'] ) || request('sv_id') > 0 )  && !empty( request('matters') )){
+        if( isset( $response['data'] ) || request('sv_id') > 0 ){
 
         	$sv_id = ( request('sv_id') > 0 ) ? request('sv_id') : $response['data'];
-        	$matter_service_obj = new MatterService();        	
-       	      	
-        	foreach (request('matters') as $value) {        	        		
-        		$mt_id  = $value;	
-        		$result = $matter_service_obj->saveMatterService( $sv_id, $mt_id );        		
-        	}
+
+        	$matter_service_obj = new MatterService();      
+            $matter_service_obj->deleteMatterServiceByID( $sv_id ) ;	
+       	    
+            if( !empty( request('matters') ) )
+            {
+                foreach (request('matters') as $value) {                            
+                    $mt_id  = $value;   
+                    $result = $matter_service_obj->saveMatterService( $sv_id, $mt_id );             
+                }
+            }
 
         }
         

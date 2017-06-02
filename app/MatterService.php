@@ -41,4 +41,24 @@ Class MatterService
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
     }
+
+    public function deleteMatterServiceByID( $sv_id ) 
+    {
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+        $info = [ 'ServiceId'     => $sv_id ] ;
+
+        try {
+            $response = $client->DeleteServiceMatterByService( $info );            
+            if($response->DeleteServiceMatterByServiceResult){
+                return array( 'success' => 'success' , 'message' => 'Relation deleted.' );
+            } else {
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+            }
+        }
+        catch (\Exception $e) {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        }
+
+    }
 }
