@@ -129,6 +129,8 @@ Route::get('/catchment', 'CatchmentController@index');
 
 Route::get('/catchment/list', 'CatchmentController@list');
 
+Route::get('/catchment/listFormated', 'CatchmentController@listFormated');
+
 Route::get('/catchment/new', 'CatchmentController@create');
 
 Route::get('/catchment/show/{ca_id}', 'CatchmentController@show');

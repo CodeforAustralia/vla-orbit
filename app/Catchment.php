@@ -10,23 +10,27 @@ Class Catchment
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
 
         //GetAllOrbitServices
-        $services = json_decode($client->GetAllCatchmentsasJSON()->GetAllCatchmentsasJSONResult);
+        $services = json_decode($client->GetAllCatchmentsasJSON()->GetAllCatchmentsasJSONResult, true);
 
-        foreach ($services as $service) {
-            $result[]  = [ 
-                            'CatchmentId'   => $service->CatchmentId,
-                            'Suburb'     	=> $service->Suburb,
-                            'LGC'     		=> $service->LGC,
-                            'PostCode'   	=> $service->PostCode,
+        return $services;
+	}
 
-                            'CreatedBy'     => $service->CreatedBy,
-                            'UpdatedBy'     => $service->UpdatedBy,
-                            'CreatedOn'     => $service->CreatedOn,
-                            'UpdatedOn'     => $service->UpdatedOn,
+    public function getAllCatchmentsFormated()
+    {
+        $catchments = self::getAllCatchments();
+
+        $output = [];
+
+        foreach ($catchments as $catchment) {            
+            $output[] = [
+                        'id'    => $catchment['CatchmentId'],
+                        'text'  => $catchment['Suburb'] . 
+                                    ' , ' . $catchment['PostCode'] .
+                                    ' , ' . $catchment['LGC'] 
                         ];
         }
 
-        return $result;
-	}
+        return $output;
+    }
 
 }

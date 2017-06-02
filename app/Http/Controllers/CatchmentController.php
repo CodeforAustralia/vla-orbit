@@ -31,8 +31,15 @@ class CatchmentController extends Controller
 
     public function list()
     {
-        $service = new Catchment();
-        $result  = $service->getAllCatchments();
+        $catchment = new Catchment();
+        $result  = $catchment->getAllCatchments();
         return array( 'data' => $result );
+    }
+
+    public function listFormated()
+    {
+        $catchment = new Catchment();
+        $result = $catchment->getAllCatchmentsFormated();
+        return $result;
     }
 }
