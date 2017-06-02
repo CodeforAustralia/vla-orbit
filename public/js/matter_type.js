@@ -157,7 +157,7 @@ var TableDatatablesAjax = function () {
                         { data: "ContactEmail" },
                         { data: "ContactName" },
                         { data: "ContactPhone" },
-                        { data: "ServiceProviderURL" },
+                        //{ data: "ServiceProviderURL" },
                         {
                             data: null,
                             className: "center",

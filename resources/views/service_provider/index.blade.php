@@ -19,13 +19,13 @@
                 <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_service_provider">
                     <thead>
                         <tr role="row" class="heading">
-                            <th width="10%"> Id </th>
-                            <th width="30%"> Name </th>
-                            <th width="20%"> Contact Email </th>
+                            <th width="5%"> Id </th>
+                            <th width="10%"> Name </th>
+                            <th width="10%"> Contact Email </th>
                             <th width="20%"> Contct Name </th>
                             <th width="10%"> Contact Phone </th>
-                            <th width="10%"> Url </th>
-                            <th width="10%"> </th>
+                            <!-- <th width="10%"> Url </th> -->
+                            <th width="5%"> </th>
                         </tr>
                     </thead>
                     <tbody> </tbody>
