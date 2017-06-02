@@ -77,6 +77,11 @@
             <script src="/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
             <script src="/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
             <!-- END THEME LAYOUT SCRIPTS -->
+            <!-- SELECT2 LAYOUT SCRIPTS -->
+            <script src="/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+            <script src="/assets/pages/scripts/components-select2.min.js" type="text/javascript"></script>
+            <script src="/js/init_select2.js?id={{ str_random(6) }}" type="text/javascript"></script>
+            <!-- END SELECT2 LAYOUT SCRIPTS -->
             <script>
                 $(document).ready(function()
                 {

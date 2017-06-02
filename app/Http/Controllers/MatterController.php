@@ -65,4 +65,11 @@ class MatterController extends Controller
         $result = $matter->getAllMatters();
         return array('data' => $result);
     }
+
+    public function listFormated()
+    {
+        $matter = new Matter();
+        $result = $matter->getAllMattersFormated();
+        return $result;
+    }
 }

@@ -3,33 +3,31 @@ namespace App;
 
 Class Matter
 {
-	public function getAllMatters()
-	{
-		// Create Soap Object
+    public function getAllMatters()
+    {
+        // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
-        $matters = json_decode($client->GetAllLegalMattersasJSON()->GetAllLegalMattersasJSONResult);
+        $matters = json_decode($client->GetAllLegalMattersasJSON()->GetAllLegalMattersasJSONResult, true);
 
-        foreach ($matters as $matter) {
-            $result[]  = [ 
-                            'MatterID'   => $matter->MatterID,
-                            'MatterName' => $matter->MatterName,
-                            'Tag'        => $matter->Tag,
-                            'Description' => $matter->Description,
-                            'ParentId'   => $matter->ParentId,
-                            'ParentName' => $matter->ParentName,
-                            'TypeId'     => $matter->TypeId,
-                            'TypeName'   => $matter->TypeName,
-                            'CreatedBy'  => $matter->CreatedBy,
-                            'UpdatedBy'  => $matter ->UpdatedBy,
-                            'CreatedOn'  => $matter->CreatedOn,
-                            'UpdatedOn'  => $matter->UpdatedOn,
+        return $matters;
+    }
+
+    public function getAllMattersFormated()
+    {
+        $matters = self::getAllMatters();
+
+        $output = [];
+
+        foreach ($matters as $matter) {            
+            $output[] = [
+                        'id'    => $matter['MatterID'],
+                        'text'  => $matter['ParentName'] . ' - ' . $matter['MatterName']
                         ];
         }
 
-        return $result;
-	}
-
+        return $output;
+    }
 
     public function getAllMatterById( $m_id )
     {
