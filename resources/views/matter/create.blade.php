@@ -37,9 +37,11 @@
                         <label class="col-md-3 control-label">Parent</label>
                         <div class="col-md-4">
                             <select class="form-control" id="parent_id" name="parent_id">                                
-                                <option value="0"></option>
+                                <option value="50"></option>
                                 @foreach($matters as $matter)
-                                    <option value="{{ $matter['MatterID'] }}">{{ $matter['MatterName'] }}</option>
+                                    @if( $matter['MatterID'] != 50 )
+                                        <option value="{{ $matter['MatterID'] }}">{{ $matter['MatterName'] }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
