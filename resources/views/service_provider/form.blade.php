@@ -21,7 +21,7 @@
 
 	                <div class="form-group">
 	                  	<label for="some">About:</label>
-	                  	<input type="text" class="form-control" id="about" name="about" value="{{ isset($current_sp) ? $current_sp->ServiceProviderAbout : '' }}" required>
+	                  	<textarea class="form-control" rows="5" class="form-control" id="about" name="about" required>{{ isset($current_sp) ? $current_sp->ServiceProviderAbout : '' }}</textarea>
 	                </div>
 
 	                <div class="form-group">
