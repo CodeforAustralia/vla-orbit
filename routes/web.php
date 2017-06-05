@@ -131,6 +131,10 @@ Route::get('/catchment/list', 'CatchmentController@list');
 
 Route::get('/catchment/listFormated', 'CatchmentController@listFormated');
 
+Route::get('/catchment/listLgcs', 'CatchmentController@ListLgcs');
+
+Route::get('/catchment/listSuburbs', 'CatchmentController@ListSuburbs');
+
 Route::get('/catchment/new', 'CatchmentController@create');
 
 Route::get('/catchment/show/{ca_id}', 'CatchmentController@show');

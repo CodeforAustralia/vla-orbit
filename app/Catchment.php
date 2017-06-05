@@ -21,7 +21,8 @@ Class Catchment
 
         $output = [];
 
-        foreach ($catchments as $catchment) {            
+        foreach ($catchments as $catchment) 
+        {            
             $output[] = [
                         'id'    => $catchment['CatchmentId'],
                         'text'  => $catchment['Suburb'] . 
@@ -31,6 +32,44 @@ Class Catchment
         }
 
         return $output;
+    }
+
+    public function getDistinctLGC()
+    {    
+        $lgcs = self::getDistinctByKey( 'LGC' );
+        return $lgcs;
+    }
+
+
+    public function getDistinctPostcode()
+    {    
+        $postcodes = self::getDistinctByKey( 'PostCode' );
+        return $postcodes;
+    }
+
+
+    public function getDistinctSuburb()
+    {    
+        $suburbs = self::getDistinctByKey( 'Suburb' );
+        return $suburbs;
+    }
+
+    public function getDistinctByKey( $key='' )
+    {
+        $catchments = self::getAllCatchments();
+
+        
+       $temp_array = array();
+
+       foreach ( $catchments as $catchment ) {
+
+           if ( !isset( $temp_array[ $catchment[ $key ] ] ) )
+
+           $temp_array[ $catchment[ $key ] ] = array( 'id' => $catchment['CatchmentId'] , 'text' => $catchment[ $key ] ) ;
+
+       }
+
+        return array_values( $temp_array ); 
     }
 
 }

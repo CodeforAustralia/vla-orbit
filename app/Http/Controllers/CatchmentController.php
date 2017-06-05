@@ -42,4 +42,18 @@ class CatchmentController extends Controller
         $result = $catchment->getAllCatchmentsFormated();
         return $result;
     }
+
+    public function listLgcs()
+    {
+        $catchment = new Catchment();
+        $result = $catchment->getDistinctLGC();
+        return $result;
+    }
+
+    public function listSuburbs()
+    {
+        $catchment = new Catchment();
+        $result = $catchment->getDistinctSuburb();
+        return $result;
+    }
 }

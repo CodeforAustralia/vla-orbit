@@ -67,6 +67,7 @@ class ServiceController extends Controller
                             );
 
 
+        dd(request()->all());
         $service = new Service();
         $response = $service->saveService( $sv_params );        
 
