@@ -71,6 +71,47 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <span class="caption-subject font-purple-soft bold uppercase">Catchment Area</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#tab_lga" data-toggle="tab"> LGA </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_suburb" data-toggle="tab"> Suburb </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_postcode" data-toggle="tab"> Postcode </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+
+                                    <div class="tab-pane fade active in" id="tab_lga">  
+                                        <select multiple class="form-control" id="lga" name="lga[]"></select>
+
+                                    </div>
+
+                                    <div class="tab-pane fade" id="tab_suburb">
+                                        <select multiple class="form-control col-xs-9" id="suburbs" name="suburbs[]"></select>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="tab_postcode">
+                                        <input type="postcodes" class="form-control" id="postcodes" name="postcodes" value="">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                 </div>
                 <div class="form-actions">
                     <div class="row">
@@ -84,12 +125,3 @@
             <!-- END FORM-->
         </div>
     </div>
-
-    <script type="text/javascript">
-            function loadServiceMatters()
-            {
-                //$("#matters").val( {{ isset($matter_services) ? json_encode( $matter_services ) : '' }} );                
-                $("#matters").select2().val({{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }}).trigger("change");
-            }            
-    </script>
-

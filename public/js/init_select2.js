@@ -8,14 +8,14 @@ $(document).ready(function() {
         loadServiceMatters();
     });
     
-    $.get("/catchment/listFormated", function(data, status){
+    $.get("/catchment/listLgcs", function(data, status){
         $("#lga").select2({
             data: data,
             width: '100%'
         });
     });
     
-    $.get("/catchment/listLgcs", function(data, status){
+    $.get("/catchment/listSuburbs", function(data, status){
         $("#suburbs").select2({
             data: data,
             width: '100%'
