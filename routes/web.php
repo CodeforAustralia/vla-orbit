@@ -143,6 +143,45 @@ Route::get('/catchment/delete/{ca_id}', 'CatchmentController@destroy');
 
 Route::post('/catchment', 'CatchmentController@store');
 
+//Question Category
+Route::get('/question_category', 'QuestionCategoryController@index');
+
+Route::get('/question_category/list', 'QuestionCategoryController@list');
+
+Route::get('/question_category/show/{qc_id}', 'QuestionCategoryController@show');
+
+Route::get('/question_category/delete/{qc_id}', 'QuestionCategoryController@destroy');
+
+Route::get('/question_category/new', 'QuestionCategoryController@create');
+
+Route::post('/question_category', 'QuestionCategoryController@store');
+
+
+//Question Type
+Route::get('/question_type', 'QuestionTypeController@index');
+
+Route::get('/question_type/list', 'QuestionTypeController@list');
+
+Route::get('/question_type/show/{qc_id}', 'QuestionTypeController@show');
+
+Route::get('/question_type/delete/{qc_id}', 'QuestionTypeController@destroy');
+
+Route::get('/question_type/new', 'QuestionTypeController@create');
+
+Route::post('/question_type', 'QuestionTypeController@store');
+
+//Question
+Route::get('/question', 'QuestionController@index');
+
+Route::get('/question/list', 'QuestionController@list');
+
+Route::get('/question/show/{qu_id}', 'QuestionController@show');
+
+Route::get('/question/delete/{qu_id}', 'QuestionController@destroy');
+
+Route::get('/question/new', 'QuestionController@create');
+
+Route::post('/question', 'QuestionController@store');
 
 //Booking
 Route::get('/booking', 'BookingController@index');

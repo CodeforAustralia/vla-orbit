@@ -89,6 +89,33 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-question"></i>
+                                <span class="title">Questions</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/question" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Questions</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/question_type" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Question Type</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/question_category" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Question Categories</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                     <!-- END SIDEBAR MENU -->
                 </div>

@@ -342,7 +342,6 @@ var TableDatatablesAjax = function () {
         });
     }
 
-
     var handleCatchment = function () {
 
         var grid = new Datatable();
@@ -400,11 +399,173 @@ var TableDatatablesAjax = function () {
         });
     }
 
+    var handleQuestion = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_question"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/question/list", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "QuestionId" },
+                        { data: "QuestionName" },                        
+                        { data: "QuestionCategoryName" },                        
+                        { data: "QuestionTypeName" },                        
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('question', data.QuestionId) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
+
+    var handleQuestionType = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_question_type"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/question_type/list", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "QuestionTypeId" },
+                        { data: "QuestionTypeName" },                        
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('question_type', data.QuestionTypeId) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
+
+    var handleQuestionCategory = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_question_category"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/question_category/list", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "QuestionId" },
+                        { data: "QuestionName" },                        
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('question_category', data.QuestionId) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
+
+     
     var getButtons = function (controller, id) {
 
         var delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="badge badge-danger">Delete</a>';
         var edit_btn = '';
-        if (controller === 'service_provider' || controller === 'service') 
+        if (controller === 'service_provider' || controller === 'service' || 'question') 
         {
             var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="badge badge-warning">Edit</a>';
         }
@@ -422,6 +583,9 @@ var TableDatatablesAjax = function () {
             handleServiceLevel();
             handleServiceType();
             handleCatchment();
+            handleQuestion();
+            handleQuestionType();
+            handleQuestionCategory();
         }
 
     };
