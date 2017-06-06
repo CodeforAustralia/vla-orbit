@@ -65,9 +65,7 @@ class ServiceController extends Controller
                             'ServiceLevelId' => request('service_level_id'),
                             'ServiceTypeId'  => request('service_type_id'),
                             );
-
-
-        dd(request()->all());
+        
         $service = new Service();
         $response = $service->saveService( $sv_params );        
 
