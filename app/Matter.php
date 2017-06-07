@@ -40,32 +40,29 @@ Class Matter
 
     }
 
-    public function saveMatter($matter) 
+    public function saveMatter( $matter ) 
     {
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
-        // Create call request        
-        $info = [ 'ObjectInstance' => [
-                        
-                        'MatterName'    => $matter['title'],
-                        'Description'   => $matter['description'],
-                        'ParentId'      => $matter['parent_id'], // Using 50 for the moment
-                        'Tag'           => $matter['tag'],
-                        'TypeId'        => $matter['lmt_id'],
+        // Current time     
+        $date_now = date("Y-m-d");
+        $time_now = date("H:i:s");
+        $date_time = $date_now . "T" . $time_now;
 
-                        'CreatedBy' => auth()->user()->name,
-                        'CreatedOn' => '2017-05-11T16:00:00',
-                        'UpdatedBy' => auth()->user()->name,
-                        'UpdatedOn' => '2017-05-11T16:00:00'
-                        ]                    
-                ];
+        $matter['CreatedBy'] = auth()->user()->name;     
+        $matter['UpdatedBy'] = auth()->user()->name;     
+        $matter['CreatedOn'] = $date_time;       
+        $matter['UpdatedOn'] = $date_time;    
+
+        // Create call request        
+        $info = [ 'ObjectInstance' => $matter ];
         
         try {
 
-            $response = $client->SaveMatter($info);
+            $response = $client->SaveMatter( $info );
             
-            if($response->SaveMatterResult){
+            if( $response->SaveMatterResult ){
                 return array( 'success' => 'success' , 'message' => 'New legal matter created.' );
             } else {
                 return array( 'success' => 'error' , 'message' => 'something went wrong.' );
@@ -76,9 +73,8 @@ Class Matter
         }
     }
 
-    public function deleteMatter($m_id)
+    public function deleteMatter( $m_id )
     {
-
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
         

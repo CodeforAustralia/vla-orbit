@@ -5,4 +5,6 @@
     <h1 class="page-title"> Specific Matter </h1>
     <!-- END PAGE HEADER-->
     
+    @include ('matter.form')
+    
 @endsection

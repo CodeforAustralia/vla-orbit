@@ -14,23 +14,29 @@ class MatterController extends Controller
         return view("matter.index");
     }
 
-    public function show($m_id)
+    public function show( $m_id )
     {
 
+        $matter_type_obj = new MatterType();
+        $matter_types = $matter_type_obj->getAllMatterTypes();        
+
         $matter = new Matter();
+        $matters = $matter->getAllMatters();
+
         $current_mattter = $matter->getAllMatterById( $m_id );
 
-        return view("matter.show", compact('current_mattter'));
+        return view( "matter.show", compact( 'current_mattter', 'matters', 'matter_types' ) );
     }
 
     public function store()
     {        
         $matter_params =    array(
-                                'title'         => request('title'),
-                                'description'   => request('description'),
-                                'parent_id'     => request('parent_id'), // Using 50 for the moment
-                                'tag'           => request('tag'),
-                                'lmt_id'        => request('lmt_id')
+                                'MatterID'     => request('MatterID'),
+                                'MatterName'   => request('title'),
+                                'Description'  => request('description'),
+                                'ParentId'     => request('parent_id'), // Using 50 for the moment
+                                'Tag'          => request('tag'),
+                                'TypeId'       => request('lmt_id')
                             );
         
         $matter = new Matter();

@@ -565,7 +565,7 @@ var TableDatatablesAjax = function () {
 
         var delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="badge badge-danger">Delete</a>';
         var edit_btn = '';
-        if (controller === 'service_provider' || controller === 'service' || 'question') 
+        if (controller === 'service_provider' || controller === 'service' || controller === 'question' || controller === 'matter') 
         {
             var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="badge badge-warning">Edit</a>';
         }
