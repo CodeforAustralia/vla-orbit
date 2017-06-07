@@ -38,7 +38,8 @@ class ServiceProvidersController extends Controller
                             'ContactPhone'          => request('contact_phone'),
                             'ServiceProviderAbout'  => request('about'),
                             'ServiceProviderLogo'   => request('logo'),
-                            'ServiceProviderURL'    => request('url')
+                            'ServiceProviderURL'    => request('url'),
+                            'ServiceProviderAddress' => request('address')
                             );
         
         $service_provider = new ServiceProvider();

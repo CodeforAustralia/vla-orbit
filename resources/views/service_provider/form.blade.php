@@ -31,7 +31,7 @@
 
 	                <div class="form-group">
 	                  	<label for="some">Address:</label>
-	                  	<input type="text" class="form-control" id="address" name="address" value="" required>
+	                  	<input type="text" class="form-control" id="address" name="address" value="{{ isset($current_sp) ? $current_sp->ServiceProviderAddress : '' }}" 	required>
 	                </div>
 
 	                <div class="form-group">
