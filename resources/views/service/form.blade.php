@@ -125,3 +125,23 @@
             <!-- END FORM-->
         </div>
     </div>
+
+@section('scripts')
+    <script src="/js/init_select2.js?id={{ str_random(6) }}"></script>
+@endsection
+
+@section('inline-scripts')
+
+    function loadServiceMatters()            {
+        $("#matters").select2().val( {{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }} ).trigger("change");        
+    }
+
+    function loadCatchments()
+    {
+        $("#lga").select2({width: '100%'}).val(  {{ json_encode( $catchments['LGA'] ) }} ).trigger("change");
+        $("#suburbs").select2({width: '100%'}).val(  {{ json_encode( $catchments['Suburbs'] ) }} ).trigger("change");
+        $("#postcodes").val( '{{ $catchments['Postcode'] }}' );
+        console.log({{ $catchments['Postcode'] }});
+    }
+
+@endsection

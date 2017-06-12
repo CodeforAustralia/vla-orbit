@@ -9,6 +9,7 @@ use App\ServiceLevel;
 use App\ServiceProvider;
 use App\Matter;
 use App\MatterService;
+use App\Catchment;
 
 class ServiceController extends Controller
 {    
@@ -17,7 +18,7 @@ class ServiceController extends Controller
         return view("service.index");
     }
 
-    public function show($sv_id)
+    public function show( $sv_id )
     {
 
         $service_type_obj   = new ServiceType();
@@ -45,7 +46,11 @@ class ServiceController extends Controller
 
         if(isset($result['data'])) {
         	$current_service = json_decode( $result['data'] )[0];
-			return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services'  ) );        	
+
+            $catchment = new Catchment();
+            $catchments = $catchment->sortCatchments( $current_service->ServiceCatchments );
+
+			return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments' ) );        	
         } else {
         	return redirect('/service')->with( $response['success'], $response['message'] );
         }        
@@ -84,6 +89,8 @@ class ServiceController extends Controller
                 }
             }
 
+            $catchment = new Catchment();
+            $catchment->setCatchmentsOnRequest( request()->all() );
         }
         
         return redirect('/service')->with( $response['success'], $response['message'] );
