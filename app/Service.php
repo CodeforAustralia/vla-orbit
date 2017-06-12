@@ -75,17 +75,18 @@ Class Service
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         // Create call request        
-        $info = [ 'RefNumber' => $sv_id ];
+        $info = [ 'ServiceId' => $sv_id ];
 
         try {
-            $response = $client->GetOrbitServiceByIdasJSON( $info );
-            if( $response->GetOrbitServiceByIdasJSONResult ){
-                return array( 'success' => 'success' , 'message' => 'Service.', 'data' => $response->GetOrbitServiceByIdasJSONResult );
+            $response = $client->GetOrbitServicesWithMattersByIdasJSON( $info );
+
+            if( $response->GetOrbitServicesWithMattersByIdasJSONResult ){                
+                return array( 'success' => 'success' , 'message' => 'Service.', 'data' => $response->GetOrbitServicesWithMattersByIdasJSONResult );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
             }
         }
-        catch (\Exception $e) {            
+        catch (\Exception $e) {          
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
     }
