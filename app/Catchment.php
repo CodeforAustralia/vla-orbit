@@ -116,9 +116,9 @@ Class Catchment
         
     }
 
-    public function setCatchmentsOnRequest( $request )
+    public function setCatchmentsOnRequest( $request, $sv_id )
     {
-        self::deleteCatchmentAreaByServiceId( $request['sv_id'] );
+        self::deleteCatchmentAreaByServiceId( $sv_id );
         
         $catchments = array();
         if( isset( $request['lga'] ) )
@@ -127,7 +127,7 @@ Class Catchment
                 $catchment_lgas = self::getCatchmentsByID( $catchment_id );                
                 $catchments = array_merge( $catchments, $catchment_lgas ); //Check this is not efficient
             }
-            self::processCatchmentArea( $catchments, $request['sv_id'], 3 );
+            self::processCatchmentArea( $catchments, $sv_id, 3 );
         }
 
         $catchments = array();
@@ -139,7 +139,7 @@ Class Catchment
                 $catchments_suburb = self::getCatchmentsBySuburb( $suburb->Suburb ); //This is returning like %% results instead of exact matchs
                 $catchments = array_merge( $catchments, $catchments_suburb ); //Check this is not efficient                            
             }
-            self::processCatchmentArea( $catchments, $request['sv_id'], 2 );
+            self::processCatchmentArea( $catchments, $sv_id, 2 );
         }
 
         $catchments = array();
@@ -154,7 +154,7 @@ Class Catchment
                     $catchments[ $temp_postcode['PostCode'] ] = $catchments_postcode[0];
                 }            
             }            
-            self::processCatchmentArea( $catchments, $request['sv_id'], 1 );
+            self::processCatchmentArea( $catchments, $sv_id, 1 );
         }        
     }
 
