@@ -13,13 +13,23 @@ Class Question
         return $questions;
     }
 
+    public function getAllQuestionsByCategoryID( $qc_id )
+    {
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+        
+        $questions = json_decode($client->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => $qc_id ] )->GetAllQuestionsByCategoryIdasJSONResult, true);
+
+        return $questions;
+    }
+
     public function getAllQuestionById( $qu_id )
     {
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
 
         try {
-            $question = json_decode( $client->GetAllQuestionsByIdasJSON( array( 'RefNumber' => $qu_id ) )->GetAllQuestionsByIdasJSONResult );
+            $question = json_decode( $client->GetAllQuestionsByIdasJSON( [ 'RefNumber' => $qu_id  ] )->GetAllQuestionsByIdasJSONResult );
             return array( 'success' => 'success' , 'message' => 'Service.', 'data' => $question );
         }
         catch (\Exception $e) {            

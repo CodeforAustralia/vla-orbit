@@ -11,27 +11,27 @@
                 <div class="form-body">
 
                     <div class="form-group hidden">
-                        <input type="text" class="form-control" id="MatterID" name="MatterID" value="{{ isset($current_mattter) ? $current_mattter->MatterID : 0 }}" required>
+                        <input type="text" class="form-control" id="MatterID" name="MatterID" value="{{ isset($current_matter) ? $current_matter->MatterID : 0 }}" required>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Name</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="Enter text" id="title" name="title" value="{{ isset($current_mattter) ? $current_mattter->MatterName : '' }}" required>
+                            <input type="text" class="form-control" placeholder="Enter text" id="title" name="title" value="{{ isset($current_matter) ? $current_matter->MatterName : '' }}" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Tag</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="Enter text" id="tag" name="tag" value="{{ isset($current_mattter) ? $current_mattter->Tag : '' }}" required>
+                            <input type="text" class="form-control" placeholder="Enter text" id="tag" name="tag" value="{{ isset($current_matter) ? $current_matter->Tag : '' }}" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Description</label>
                         <div class="col-md-4">
-                            <textarea class="form-control" rows="3" id="description" name="description" required>{{ isset($current_mattter) ? $current_mattter->Description : '' }}</textarea>
+                            <textarea class="form-control" rows="3" id="description" name="description" required>{{ isset($current_matter) ? $current_matter->Description : '' }}</textarea>
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@
                                 <option value="50"></option>
                                 @foreach($matters as $matter)
                                     @if( $matter['MatterID'] != 50 )
-                                        <option value="{{ $matter['MatterID'] }}" {{ (isset($current_mattter) && $matter['MatterID'] ==  $current_mattter->ParentId ) ? 'selected' : '' }} >{{ $matter['MatterName'] }}</option>
+                                        <option value="{{ $matter['MatterID'] }}" {{ (isset($current_matter) && $matter['MatterID'] ==  $current_matter->ParentId ) ? 'selected' : '' }} >{{ $matter['MatterName'] }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -54,14 +54,16 @@
                         <div class="col-md-4">
                             <select class="form-control" id="lmt_id" name="lmt_id">
                             @foreach($matter_types as $matter_type)
-                                <option value="{{ $matter_type['MatterTypeID'] }}" {{ (isset($current_mattter) && $matter_type['MatterTypeID'] ==  $current_mattter->TypeId ) ? 'selected' : '' }} >{{ $matter_type['MatterTypeName'] }}</option>
+                                <option value="{{ $matter_type['MatterTypeID'] }}" {{ (isset($current_matter) && $matter_type['MatterTypeID'] ==  $current_matter->TypeId ) ? 'selected' : '' }} >{{ $matter_type['MatterTypeName'] }}</option>
                             @endforeach
                             </select>
                         </div>
                     </div>
 
-                </div>
+                    @include ('matter.questions')
 
+                </div>
+    
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">

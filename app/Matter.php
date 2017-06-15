@@ -29,13 +29,31 @@ Class Matter
         return $output;
     }
 
-    public function getAllMatterById( $m_id )
+    public function getAllMatterById( $mt_id )
     {
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
-        $matter = $client->GetMattersById( array( 'MatterId' => $m_id ) )->GetMattersByIdResult->LegalMatter;
-
+        $matter = $client->GetMattersById( array( 'MatterId' => $mt_id ) )->GetMattersByIdResult->LegalMatter;
+        if( isset( $matter->MatterQuestions->LegalMatterQuestions ) )
+        {
+            $questions = [];
+            if(sizeof($matter->MatterQuestions->LegalMatterQuestions) == 1)
+            {
+                $questionId = $matter->MatterQuestions->LegalMatterQuestions->QuestionId;
+                $operator = $matter->MatterQuestions->LegalMatterQuestions->Operator;
+                $value = $matter->MatterQuestions->LegalMatterQuestions->QuestionValue;
+                $questions[ $questionId ] = [ 'operator' => $operator , 'value' => $value ];
+                $matter->MatterQuestions = $questions; 
+            } else 
+            {
+                foreach ($matter->MatterQuestions->LegalMatterQuestions as $question) {
+                    $questions[ $question->QuestionId ] = [ 'operator' => $question->Operator , 'value' => $question->QuestionValue ];
+                }
+                $matter->MatterQuestions = $questions;                
+            }
+        }
+        
         return $matter;
 
     }
@@ -61,9 +79,9 @@ Class Matter
         try {
 
             $response = $client->SaveMatter( $info );
-            
+
             if( $response->SaveMatterResult ){
-                return array( 'success' => 'success' , 'message' => 'New legal matter created.' );
+                return array( 'success' => 'success' , 'message' => 'New legal matter created.', 'data' => $response->SaveMatterResult );
             } else {
                 return array( 'success' => 'error' , 'message' => 'something went wrong.' );
             }
