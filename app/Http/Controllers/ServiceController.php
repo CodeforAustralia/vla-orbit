@@ -10,6 +10,7 @@ use App\ServiceProvider;
 use App\Matter;
 use App\MatterService;
 use App\Catchment;
+use App\Vulnerability;
 
 class ServiceController extends Controller
 {    
@@ -44,13 +45,16 @@ class ServiceController extends Controller
         $service = new Service();
         $result  = $service->getServiceByID($sv_id);
 
+        $vulnerability_obj = new Vulnerability();
+        $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
+
         if(isset($result['data'])) {
         	$current_service = json_decode( $result['data'] )[0];
 
             $catchment = new Catchment();
             $catchments = $catchment->sortCatchments( $current_service->ServiceCatchments );
 
-			return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments' ) );        	
+			return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions' ) );        	
         } else {
         	return redirect('/service')->with( $response['success'], $response['message'] );
         }        
@@ -90,7 +94,15 @@ class ServiceController extends Controller
             }
 
             $catchment = new Catchment();
-            $catchment->setCatchmentsOnRequest( request()->all() );
+            $catchment->setCatchmentsOnRequest( request()->all(), $sv_id );
+
+            if( !empty( request('vulnerability') ) ) 
+            {
+                // TODO - Delete all vulnerabilities by service
+                $vul_questions = array_keys( request('vulnerability') );                
+                $vulnerability_obj = new Vulnerability();
+                $result = $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vul_questions );                
+            }
         }
         
         return redirect('/service')->with( $response['success'], $response['message'] );
@@ -110,7 +122,10 @@ class ServiceController extends Controller
         $matter_type_obj    = new Matter();
         $matters            = $matter_type_obj->getAllMatters();
 
-        return view( "service.create", compact( 'service_types','service_levels','service_providers', 'matters' ) );
+        $vulnerability_obj = new Vulnerability();
+        $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
+
+        return view( "service.create", compact( 'service_types','service_levels','service_providers', 'matters', 'vulnertability_questions' ) );
     }
 
     public function destroy($sv_id)

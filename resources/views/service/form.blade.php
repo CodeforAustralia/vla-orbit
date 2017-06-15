@@ -110,7 +110,13 @@
                         </div>
                     </div>
 
+                    @include ('service.vulnerability')
 
+                    @if( isset($current_service) )
+                        @include ('service.questions')
+                    @else
+                        <p>To set questions to this Service please save it first.</p>
+                    @endif
 
                 </div>
                 <div class="form-actions">
@@ -132,16 +138,18 @@
 
 @section('inline-scripts')
 
-    function loadServiceMatters()            {
+    function loadServiceMatters()            
+    {
         $("#matters").select2().val( {{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }} ).trigger("change");        
     }
 
     function loadCatchments()
     {
-        $("#lga").select2({width: '100%'}).val(  {{ json_encode( $catchments['LGA'] ) }} ).trigger("change");
-        $("#suburbs").select2({width: '100%'}).val(  {{ json_encode( $catchments['Suburbs'] ) }} ).trigger("change");
-        $("#postcodes").val( '{{ $catchments['Postcode'] }}' );
-        console.log({{ $catchments['Postcode'] }});
+        @if ( isset($catchments) )
+            $("#lga").select2({width: '100%'}).val(  {{ json_encode( $catchments['LGA'] ) }} ).trigger("change");
+            $("#suburbs").select2({width: '100%'}).val(  {{ json_encode( $catchments['Suburbs'] ) }} ).trigger("change");
+            $("#postcodes").val( '{{ $catchments['Postcode'] }}' );
+        @endif
     }
 
 @endsection
