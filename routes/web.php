@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -196,3 +196,15 @@ Route::get('/referral', 'ReferralController@index');
 Route::get('/referral/show/{rf_id}', 'ReferralController@show');
 
 Route::get('/referral/new', 'ReferralController@create');
+
+Route::get('/referral/create/location', 'ReferralController@location');
+
+Route::get('/referral/create/legal_issue', 'ReferralController@legal_issue');
+
+Route::get('/referral/create/details', 'ReferralController@details');
+
+Route::get('/referral/create/questions', 'ReferralController@questions');
+
+Route::get('/referral/create/review', 'ReferralController@review');
+
+Route::get('/referral/result', 'ReferralController@result');

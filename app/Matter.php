@@ -29,6 +29,36 @@ Class Matter
         return $output;
     }
 
+    public function getAllMattersParentChildrenList()
+    {
+        $matters = self::getAllMatters();
+        $output  = self::buildTree($matters, 50) ;
+        return $output;
+    }
+
+    /**
+     * Function taken from [https://stackoverflow.com/questions/13877656/php-hierarchical-array-parents-and-childs]
+     * @param  array   $elements [parents and childs array or obj]
+     * @param  integer $parentId [first parent]
+     * @return array             [Tree of childs]
+     */
+    public function buildTree(array $elements, $parentId = 0) 
+    {
+            $branch = array();
+
+            foreach ($elements as $element) {
+                if ($element['ParentId'] == $parentId) {
+                    $children = self::buildTree($elements, $element['MatterID']);
+                    if ($children) {
+                        $element['children'] = $children;
+                    }
+                    $branch[] = $element;
+                }
+            }
+
+            return $branch;
+    }  
+
     public function getAllMatterById( $mt_id )
     {
         // Create Soap Object

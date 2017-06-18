@@ -3,20 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use SimpleSAML_Auth_Simple;
+use App\Matter;
 
 class ReferralController extends Controller
 {
     public function index()
     {
-        /*           
-        $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
-        $as->requireAuth();
-        $attributes = $as->getAttributes();
-        
-        dd($attributes);
-        */
         return view("referral.index");
     }
 
@@ -28,5 +20,37 @@ class ReferralController extends Controller
     public function create()
     {
         return view("referral.create");
+    }
+
+    public function location()
+    {
+        return view("referral.create.location");
+    }
+    
+    public function legal_issue()
+    {
+        $matter = new Matter();
+        $matters = $matter->getAllMattersParentChildrenList();
+        return view( "referral.create.legal_issue", compact( 'matters' ) );
+    }
+    
+    public function details()
+    {
+        return view("referral.create.details");
+    }
+    
+    public function questions()
+    {
+        return view("referral.create.questions");
+    }
+    
+    public function review()
+    {
+        return view("referral.create.review");
+    }
+    
+    public function result()
+    {
+        return view("referral.result");
     }
 }
