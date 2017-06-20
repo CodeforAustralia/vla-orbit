@@ -66,7 +66,6 @@ Class Question
             }
         }
         catch (\Exception $e) {
-            dd($info, $e);
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );      
         }
     }
