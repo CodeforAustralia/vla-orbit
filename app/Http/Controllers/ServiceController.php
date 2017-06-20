@@ -11,6 +11,7 @@ use App\Matter;
 use App\MatterService;
 use App\Catchment;
 use App\Vulnerability;
+use App\MatterServiceAnswer;
 
 class ServiceController extends Controller
 {    
@@ -50,11 +51,12 @@ class ServiceController extends Controller
 
         if(isset($result['data'])) {
         	$current_service = json_decode( $result['data'] )[0];
+            $current_vulnerabilities = array_column($current_service->ServiceVulAnswers, 'QuestionId');
 
             $catchment = new Catchment();
             $catchments = $catchment->sortCatchments( $current_service->ServiceCatchments );
 
-			return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions' ) );        	
+            return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities' ) );        	
         } else {
         	return redirect('/service')->with( $response['success'], $response['message'] );
         }        
@@ -62,13 +64,15 @@ class ServiceController extends Controller
     
 
     public function store()
-    {                
+    {        
         $sv_params = array(                    
                             'ServiceId'   	=> request('sv_id'),
                             'ServiceName'   => request('name'),
                             'Phone'         => request('phone'),
                             'Email'         => request('email'),
                             'Description'   => request('description'),
+                            'Location'      => request('location'),
+                            'URL'           => request('URL'),
                             'ServiceProviderId' => request('service_provider_id'), 
                             'Wait'           => request('wait'),
                             'ServiceLevelId' => request('service_level_id'),
@@ -98,10 +102,19 @@ class ServiceController extends Controller
 
             if( !empty( request('vulnerability') ) ) 
             {
-                // TODO - Delete all vulnerabilities by service
                 $vul_questions = array_keys( request('vulnerability') );                
                 $vulnerability_obj = new Vulnerability();
-                $result = $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vul_questions );                
+                // Delete previous vul. answers
+                $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );    
+                // Save vul. answers          
+                $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vul_questions );                
+            }
+
+            if( !empty( request('question') ) )
+            {
+                $matter_service_answer = new MatterServiceAnswer();            
+                $matter_service_answer->processMatterServiceAnswer( request('question'), $sv_id ); 
+                $matter_service_answer->processVulnerabilityMatterServiceAnswer( request('vulnerability_matter'), $sv_id );
             }
         }
         
