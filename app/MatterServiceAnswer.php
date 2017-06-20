@@ -55,17 +55,20 @@ Class MatterServiceAnswer
                                                     'MatterID' //Column to search an specific matter
                                                 )
                                               );
-                
-                $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
+                if( isset($current_service->ServiceMatters[$sm_position]) )
+                {
+                    $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
 
-                self::saveMatterServiceAnswer( [
-                                            'RefNo'           => 0,
-                                            'MatterServiceId' => $lms_id,
-                                            'QuestionId'      => $qu_id,
-                                            'Operator'        => $qu_values['operator'],
-                                            'QuestionValue'   => $qu_values['answer']
-                                           ] 
-                                        );
+                    self::saveMatterServiceAnswer( [
+                                                'RefNo'           => 0,
+                                                'MatterServiceId' => $lms_id,
+                                                'QuestionId'      => $qu_id,
+                                                'Operator'        => $qu_values['operator'],
+                                                'QuestionValue'   => $qu_values['answer']
+                                               ] 
+                                            );
+
+                }
                 
             }
 
@@ -79,10 +82,9 @@ Class MatterServiceAnswer
         $service = new Service();
         $result  = $service->getServiceByID( $sv_id ); //Get the last version of that service
 
-        if(isset($result['data'])) 
+        if(isset($result['data']) && !is_null( $questions )) 
         {
-            $current_service = json_decode( $result['data'] )[0];
-
+            $current_service = json_decode( $result['data'] )[0];            
             foreach ( $questions as $lm_id => $qu_ids ) 
             {
                 
