@@ -13,13 +13,16 @@ $(document).ready(function() {
             data: data,
             width: '100%'
         });
+    })
+    .done(function() {
+        $.get("/catchment/listSuburbs", function(data, status){
+            $("#suburbs").select2({
+                data: data,
+                width: '100%'
+            });
+            loadCatchments();
+        });
+        
     });
     
-    $.get("/catchment/listSuburbs", function(data, status){
-        $("#suburbs").select2({
-            data: data,
-            width: '100%'
-        });
-    });
-
 });
