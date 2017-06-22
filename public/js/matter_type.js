@@ -560,14 +560,119 @@ var TableDatatablesAjax = function () {
         });
     }
 
+    var handleQuestionLegalMatter = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_question_legal_matter"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/question/list_legal_matter", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "QuestionId" },
+                        { data: "QuestionName" },                             
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('question', data.QuestionId) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
+
+    var handleQuestionEligibility = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_question_eligibility"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/question/list_eligibility", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "QuestionId" },
+                        { data: "QuestionName" },                             
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('question', data.QuestionId) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
      
     var getButtons = function (controller, id) {
 
-        var delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="badge badge-danger">Delete</a>';
+        var delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger">Delete</a>';
         var edit_btn = '';
         if (controller === 'service_provider' || controller === 'service' || controller === 'question' || controller === 'matter') 
         {
-            var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="badge badge-warning">Edit</a>';
+            var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning">Edit</a>';
         }
         return edit_btn + delete_btn;   	
 
@@ -586,6 +691,8 @@ var TableDatatablesAjax = function () {
             handleQuestion();
             handleQuestionType();
             handleQuestionCategory();
+            handleQuestionLegalMatter();
+            handleQuestionEligibility();
         }
 
     };
