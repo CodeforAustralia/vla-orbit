@@ -42,15 +42,20 @@ Class MatterQuestion
         self::deleteMatterQuestionsByMatterID( $mt_id );
         
         foreach ( $questions as $qu_id => $qu_values ) {
-            if( !is_null( $qu_values['operator'] ) && !is_null( $qu_values['answer'] ) ) 
-            {                    
+            if( isset( $qu_values['check'] ) )
+            {
+                if( is_null( $qu_values['operator'] ) || is_null( $qu_values['answer'] ) ) 
+                {     
+                    $qu_values['operator'] = '';
+                    $qu_values['answer'] = '';
+                }               
                 self::saveMatterQuestion( [
                                             'MatterId' => $mt_id,
                                             'QuestionId' => $qu_id,
                                             'Operator' => $qu_values['operator'],
                                             'QuestionValue' => $qu_values['answer']
                                            ] 
-                                        );
+                                        );                
             }
         }
     }

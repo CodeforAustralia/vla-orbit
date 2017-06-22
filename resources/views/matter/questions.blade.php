@@ -6,8 +6,6 @@
         </div>
     </div>
 
-
-
     <div id="long" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -18,18 +16,32 @@
                 <div class="modal-body">
                     @foreach($questions as $question)
 
+                    <?php 
+                    $exist_current_op_val = isset( $current_matter ) && 
+                                            is_array($current_matter->MatterQuestions) &&  
+                                            isset( $current_matter->MatterQuestions[ $question['QuestionId'] ] );
+
+                    $checked = '';
+                    if($exist_current_op_val)
+                    {
+                        $current_op_val =   [
+                                                'operator' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['operator'], 
+                                                'value' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['value'] 
+                                            ];
+                        $checked = 'checked';
+                    } else {
+                        $current_op_val = ['operator' => '', 'value' => ''];
+                    }            
+                    ?>
+
                     <div class="form-group">
+                        <div class="col-md-2">
+                            <input type="checkbox" name="question[{{ $question['QuestionId'] }}][check]" {{ $checked }}>
+                        </div>
                         <label class="col-md-5 control-label">{{ $question['QuestionName'] }}</label>
                         <div class="col-md-2">
                             <select  class="form-control" name="question[{{ $question['QuestionId'] }}][operator]" id="operator">
-                                <?php $current_op_val = isset( $current_matter ) && is_array($current_matter->MatterQuestions) &&  isset( $current_matter->MatterQuestions[ $question['QuestionId'] ] ) ? 
-                                [
-                                    'operator' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['operator'], 
-                                    'value' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['value'] 
-                                ] : 
-                                ['operator' => '', 'value' => ''];
-
-                                ?>
+                                
                                 <option></option> 
                                 <option value=">"  {{ ( $current_op_val['operator'] == '>'  ) ? 'selected' : '' }} > >  </option>
                                 <option value=">=" {{ ( $current_op_val['operator'] == '>=' ) ? 'selected' : '' }} > >= </option>
