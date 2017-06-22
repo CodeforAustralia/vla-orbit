@@ -171,15 +171,23 @@ Route::get('/question_type/new', 'QuestionTypeController@create');
 Route::post('/question_type', 'QuestionTypeController@store');
 
 //Question
+Route::get('/legal_matter_questions', 'QuestionController@legalMatterQuestions');
+
+Route::get('/eligibility_criteria', 'QuestionController@eligibilityCriteria');
+
 Route::get('/question', 'QuestionController@index');
 
 Route::get('/question/list', 'QuestionController@list');
+
+Route::get('/question/list_legal_matter', 'QuestionController@listLegalMatterQuestions');
+
+Route::get('/question/list_eligibility', 'QuestionController@listVulnerabilityQuestions');
 
 Route::get('/question/show/{qu_id}', 'QuestionController@show');
 
 Route::get('/question/delete/{qu_id}', 'QuestionController@destroy');
 
-Route::get('/question/new', 'QuestionController@create');
+Route::get('/question/new/{type?}', 'QuestionController@create');
 
 Route::post('/question', 'QuestionController@store');
 

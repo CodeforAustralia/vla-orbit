@@ -2,7 +2,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>Question</div>
+                <i class="fa fa-gift"></i>{{ $type_name }}</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
@@ -15,14 +15,14 @@
                     </div>
 
 	                <div class="form-group">
-	                  	<label class="col-md-3 control-label">Question text:</label>
+	                  	<label class="col-md-3 control-label">Label:</label>
 	                  	<div class="col-md-4">
 		                  	<input type="text" class="form-control" id="QuestionName" name="QuestionName"  value="{{ isset($current_question) ? $current_question->QuestionName : '' }}" required>
 		                </div>
 	                </div>
-
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Qeustion Type</label>
+                    
+                    <div class="form-group {{ ( sizeof($question_types) > 1 ? '' : 'hidden' ) }} ">
+                        <label class="col-md-3 control-label">Type</label>
                         <div class="col-md-4">
                             <select class="form-control" id="QuestionTypeId" name="QuestionTypeId">
                             @foreach($question_types as $question_type)
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label class="col-md-3 control-label">Question Category</label>
                         <div class="col-md-4">
                             <select class="form-control" id="QuestionCategoryId" name="QuestionCategoryId">

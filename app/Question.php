@@ -66,6 +66,7 @@ Class Question
             }
         }
         catch (\Exception $e) {
+            dd($e, $info);
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );      
         }
     }
@@ -89,5 +90,25 @@ Class Question
         catch (\Exception $e) {            
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
+    }
+
+    public function getAllLegalMatterQuestions()
+    {
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+        
+        $questions = json_decode($client->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => 1 ] )->GetAllQuestionsByCategoryIdasJSONResult, true);
+
+        return $questions;
+    }
+    
+    public function getAllVulnerabilityQuestions()
+    {
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+        
+        $questions = json_decode($client->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => 2 ] )->GetAllQuestionsByCategoryIdasJSONResult, true);
+
+        return $questions;
     }
 }

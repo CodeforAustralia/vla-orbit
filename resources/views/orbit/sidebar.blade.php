@@ -21,25 +21,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
+                            <a href="/service" class="nav-link">
                                 <i class="icon-notebook"></i>
                                 <span class="title">Services</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item start ">
+                                <li class="nav-item ">
                                     <a href="/service" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Services</span>
                                     </a>
                                 </li>
-                                <li class="nav-item start ">
+                                <li class="nav-item hidden">
                                     <a href="/service_level" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Service Level</span>
                                     </a>
                                 </li>
-                                <li class="nav-item start ">
+                                <li class="nav-item hidden">
                                     <a href="/service_type" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Service Type</span>
@@ -62,22 +62,43 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
+                            <a href="/matter" class="nav-link nav-toggle">
                                 <i class="fa fa-legal"></i>
                                 <span class="title">Legal Matter</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item start ">
+                                <li class="nav-item ">
                                     <a href="/matter" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Legal Matter</span>
                                     </a>
                                 </li>
-                                <li class="nav-item start ">
+                                <li class="nav-item hidden ">
                                     <a href="/matter_type" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Matter Type</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-question"></i>
+                                <span class="title">Eligibility</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/legal_matter_questions" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Legal Matter Conditions</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/eligibility_criteria" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Eligibility Criteria</span>
                                     </a>
                                 </li>
                             </ul>
@@ -88,33 +109,6 @@
                                 <span class="title">Catchment</span>
                                 <span class="arrow"></span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-question"></i>
-                                <span class="title">Questions</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item start ">
-                                    <a href="/question" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Questions</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item start ">
-                                    <a href="/question_type" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Question Type</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item start ">
-                                    <a href="/question_category" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Question Categories</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                     <!-- END SIDEBAR MENU -->
