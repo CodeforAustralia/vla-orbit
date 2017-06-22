@@ -23,10 +23,20 @@
 	                  	<input type="phone" class="form-control" id="phone" name="phone" value="{{ isset($current_service) ? $current_service->Phone : '' }}" required>
 	                </div>
 
-	                <div class="form-group">
-	                  	<label for="email">Email:</label>
-	                  	<input type="email" class="form-control" id="email" name="email" value="{{ isset($current_service) ? $current_service->Email : '' }}" required>
-	                </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ isset($current_service) ? $current_service->Email : '' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input type="location" class="form-control" id="location" name="location" value="{{ isset($current_service) ? $current_service->Location : '' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="URL">URL:</label>
+                        <input type="text" class="form-control" id="URL" name="URL" value="{{ isset($current_service) ? $current_service->URL : '' }}" required>
+                    </div>
 
 	                <div class="form-group">
 	                  	<label for="description">Description:</label>
@@ -67,8 +77,7 @@
 
                     <div class="form-group">
                         <label for="matters">Legal Matters:</label>
-                         <select multiple class="form-control" id="matters" name="matters[]">
-                        </select>
+                         <select multiple class="form-control" id="matters" name="matters[]"></select>
                     </div>
 
                     <div class="form-group">
@@ -140,7 +149,7 @@
 
     function loadServiceMatters()            
     {
-        $("#matters").select2().val( {{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }} ).trigger("change");        
+        $("#matters").select2({width: '100%'}).val( {{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }} ).trigger("change");        
     }
 
     function loadCatchments()
