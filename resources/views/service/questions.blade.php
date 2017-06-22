@@ -14,13 +14,13 @@
                     <h4 class="modal-title">Set Question values related to this service</h4>
                 </div>
                 <div class="modal-body">
-                    
                     <ul class="nav nav-tabs">
                     @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )                    
                         <li class="{{ ($pos == 0 ? 'active' : '') }}" ><a data-toggle="tab" href="#{{ str_replace(' ' , '-', $matter_name) }}">{{ $matter_name }}</a></li>
                     @endforeach
                     </ul>
                     
+                    <br>
                     <div class="tab-content">
                     @foreach($current_service->ServiceMatters as $pos => $cs_Legal_matter)
 
@@ -74,11 +74,14 @@
                         @endforeach
 
                         <hr>
+                        <?php 
+                        $current_lm_vulnerabilities = array_column($cs_Legal_matter->VulnerabilityMatterAnswers, 'QuestionId');
+                        ?>
                         <h3>Eligibility Check</h3>
 
                         @foreach($vulnertability_questions as $vulnerability_question)                     
                             <label class="checkbox-inline">                                
-                                <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" >
+                                <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
                                     {{ $vulnerability_question["QuestionName"] }}
                             </label>
                         @endforeach
