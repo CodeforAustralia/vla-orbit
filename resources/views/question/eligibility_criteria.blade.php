@@ -20,7 +20,7 @@
                     <thead>
                         <tr role="row" class="heading">
                             <th width="5%"> Id </th>
-                            <th width="10%"> Name </th>
+                            <th width="50%"> Name </th>
                             <th width="5%"> </th>
                         </tr>
                     </thead>
