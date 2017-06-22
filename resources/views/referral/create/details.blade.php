@@ -52,6 +52,12 @@
           <div class="col-xs-12">
             <div class="form-group">
               <div class="mt-checkbox-list">
+              @foreach($vulnertability_questions as $vulnerability_question)                 
+                <label class="mt-checkbox mt-checkbox-outline"> {{ $vulnerability_question["QuestionName"] }}
+                  <input type="checkbox" class="form-control" name="vulnerability" id="{{ $vulnerability_question['QuestionId'] }}" {{ ( isset( $current_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_vulnerabilities) ? 'checked' : '' ) }}>
+                  <span></span>
+                </label>
+              @endforeach
 
               </div>
             </div>
@@ -81,4 +87,8 @@
         <br>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="/js/eligibility.js?id={{ str_random(6) }}"></script>
 @endsection

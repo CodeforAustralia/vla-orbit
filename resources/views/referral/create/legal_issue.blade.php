@@ -55,7 +55,48 @@
               <div class="input-group select2-bootstrap">
                 <select id="single" class="form-control select2">
                     <option> </option>
-                   
+                    @foreach( $matters as $matter )
+                    <optgroup label="{{ $matter['MatterName'] }}">
+
+                      @if( isset( $matter['children'] ) )
+
+                          @foreach( $matter['children'] as $first_child )
+
+                              @if( isset( $first_child['children'] ) )
+
+                                  @foreach( $first_child['children'] as $second_child )
+
+                                      @if( isset( $second_child['children'] ) )
+                                          
+                                          @foreach( $second_child['children'] as $third_child )
+
+                                              <option value="{{ $third_child['MatterID'] }}">
+                                                {{ $second_child['MatterName'] }} > {{ $third_child['MatterName'] }}
+                                              </option>
+
+                                          @endforeach
+                                        
+                                      @else
+                                          <option value="{{ $second_child['MatterID'] }}">
+                                            {{ $first_child['MatterName'] }} > {{ $second_child['MatterName'] }}
+                                          </option>
+                                      @endif
+
+                                  @endforeach
+
+                              @else
+                                  <option value="{{ $first_child['MatterID'] }}">
+                                    {{ $matter['MatterName'] }} > {{ $first_child['MatterName'] }}
+                                  </option>
+
+                              @endif
+
+                          @endforeach
+
+                      @endif
+
+                    </optgroup>
+                    @endforeach
                 </select>
               </div>
             </div>
@@ -93,4 +134,13 @@
 </div>
 @endsection
 
+@section('scripts')
+    <script src="/js/legal_issue.js?id={{ str_random(6) }}"></script>
+@endsection
+
+@section('inline-scripts')
+  $(document).ready(function() {
+    $('#single').select2({placeholder: "Select an issue"});
+  });
+@endsection
 
