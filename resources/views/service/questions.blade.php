@@ -10,7 +10,6 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h4 class="modal-title">Set Question values related to this service</h4>
                 </div>
                 <div class="modal-body">
@@ -91,7 +90,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
+                    <button type="button" data-dismiss="modal" class="btn dark btn-outline">Save</button>
                 </div>
             </div>
         </div>
