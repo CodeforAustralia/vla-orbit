@@ -10,9 +10,11 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Set Question values related to this service</h4>
+                    <h4 class="modal-title">Add Conditions per Legal Matter</h4>
                 </div>
                 <div class="modal-body">
+                    <h3>Legal Matter Conditions</h3>
+                    <p>Add Conditions to a specific legal matter (EG: Only overdue fines >$4000) or override the service-wide eligibility criteria by selecting different criteria per Legal Matter (EG: Service-wide eligibility criteria may be just 'Low Income' but for the legal matter 'Fines' it may be 'Low Income' + 'Homeless')</p>
                     <ul class="nav nav-tabs">
                     @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )                    
                         <li class="{{ ($pos == 0 ? 'active' : '') }}" ><a data-toggle="tab" href="#{{ str_replace(' ' , '-', $matter_name) }}">{{ $matter_name }}</a></li>
@@ -27,9 +29,9 @@
                         @foreach( $cs_Legal_matter->MatterQuestions as $cs_Legal_matter_question )
 
                             <div class="form-group">
-                                <div class="col-md-1">
+                                <div class="col-md-5">
+                                    <label class="pull-right">{{ $cs_Legal_matter_question->QuestionName }}</label>
                                 </div>
-                                <label class="col-md-4">{{ $cs_Legal_matter_question->QuestionName }}</label>
                                 <div class="col-md-2">
                                     <select  class="form-control" name="question[{{ $cs_Legal_matter_question->QuestionId }}][operator]" id="operator">
                                         <?php 
@@ -63,7 +65,7 @@
                                         <option value="="  {{ ( $current_op_val['operator'] == '='  ) ? 'selected' : '' }} > =  </option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <input type="text" class="form-control"  name="question[{{ $cs_Legal_matter_question->QuestionId }}][answer]" id="answer"  value="{{ $current_op_val['value'] }}">
                                 </div>
                                 <div class="col-md-2">
@@ -76,13 +78,16 @@
                         <?php 
                         $current_lm_vulnerabilities = array_column($cs_Legal_matter->VulnerabilityMatterAnswers, 'QuestionId');
                         ?>
-                        <h3>Eligibility Check</h3>
+                        <h3>Eligibility Criteria</h3>
+                        <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>   
 
-                        @foreach($vulnertability_questions as $vulnerability_question)                     
-                            <label class="checkbox-inline">                                
-                                <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
-                                    {{ $vulnerability_question["QuestionName"] }}
-                            </label>
+                        @foreach($vulnertability_questions as $vulnerability_question) 
+                            <div class="col-md-6">
+                                <label class="checkbox-inline">                                
+                                    <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
+                                        {{ $vulnerability_question["QuestionName"] }}
+                                </label>
+                            </div>
                         @endforeach
 
                         </div>  
