@@ -1,8 +1,9 @@
 
     <div class="form-group">
-        <label class="col-md-2 tooltips" data-container="body" data-placement="right" data-original-title="If you have updated your legal matters please save and then choose questions">Legal Matter Questions ({{ sizeof($current_service->ServiceMatters) }})</label>
+        <p>Legal Matter Conditions</p>
+        <label class="col-md-2 tooltips" data-container="body" data-placement="right" data-original-title="If you have updated your legal matters please Save first">Legal Matters ({{ sizeof($current_service->ServiceMatters) }})</label>
         <div class="col-md-4">
-            <a class=" btn dark btn-outline sbold tooltips" data-toggle="modal" href="#long"  data-container="body" data-placement="right" data-original-title="If you have updated your legal matters please save and then choose questions"> Choose </a>
+            <a class=" btn dark btn-outline sbold tooltips" data-toggle="modal" href="#long"  data-container="body" data-placement="right" data-original-title="If you have updated your legal matters please Save first"> Add Condition </a>
         </div>
     </div>
 
