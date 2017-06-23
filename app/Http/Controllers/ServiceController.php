@@ -52,7 +52,7 @@ class ServiceController extends Controller
         if(isset($result['data'])) {
         	$current_service = json_decode( $result['data'] )[0];
             $current_vulnerabilities = array_column($current_service->ServiceVulAnswers, 'QuestionId');
-
+//dd($current_service);
             $catchment = new Catchment();
             $catchments = $catchment->sortCatchments( $current_service->ServiceCatchments );
 
@@ -65,6 +65,7 @@ class ServiceController extends Controller
 
     public function store()
     {        
+        //dd(request()->all());
         $sv_params = array(                    
                             'ServiceId'   	=> request('sv_id'),
                             'ServiceName'   => request('name'),
@@ -99,13 +100,13 @@ class ServiceController extends Controller
 
             $catchment = new Catchment();
             $catchment->setCatchmentsOnRequest( request()->all(), $sv_id );
-
+         
+            $vulnerability_obj = new Vulnerability();
+            // Delete previous vul. answers
+            $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id ); 
             if( !empty( request('vulnerability') ) ) 
             {
-                $vul_questions = array_keys( request('vulnerability') );                
-                $vulnerability_obj = new Vulnerability();
-                // Delete previous vul. answers
-                $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );    
+                $vul_questions = array_keys( request('vulnerability') );          
                 // Save vul. answers          
                 $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vul_questions );                
             }
