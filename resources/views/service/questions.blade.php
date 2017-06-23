@@ -24,7 +24,7 @@
                     
                     <br>
                     <div class="tab-content">
-                        @foreach($current_service->ServiceMatters as $pos => $cs_Legal_matter)
+                    @foreach($current_service->ServiceMatters as $pos => $cs_Legal_matter)
 
                         <div id="{{ str_replace(' ' , '-', $cs_Legal_matter->MatterName) }}" class="tab-pane fade {{ ($pos == 0 ? 'in active' : '') }}">
                             @foreach( $cs_Legal_matter->MatterQuestions as $cs_Legal_matter_question )
@@ -91,8 +91,8 @@
                                 </div>
                             @endforeach
                         </div> <!-- dynamic -->
-                    </div>  
                     @endforeach
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn dark btn-outline">Save</button>
