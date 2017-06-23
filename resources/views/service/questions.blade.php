@@ -13,8 +13,9 @@
                     <h4 class="modal-title">Add Conditions per Legal Matter</h4>
                 </div>
                 <div class="modal-body">
+                    <p>Use the tabs below to add Conditions to a specific legal matter (EG: "Only overdue fines > 4000' or "Has court date = true") or override the service-wide eligibility criteria for each Legal Matter (EG: Service-wide = 'Low Income' but for LM 'Fines' ='Low Income' + 'Homeless')</p>
                     <h3>Legal Matter Conditions</h3>
-                    <p>Add Conditions to a specific legal matter (EG: Only overdue fines >$4000) or override the service-wide eligibility criteria by selecting different criteria per Legal Matter (EG: Service-wide eligibility criteria may be just 'Low Income' but for the legal matter 'Fines' it may be 'Low Income' + 'Homeless')</p>
+                    <p>
                     <ul class="nav nav-tabs">
                     @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )                    
                         <li class="{{ ($pos == 0 ? 'active' : '') }}" ><a data-toggle="tab" href="#{{ str_replace(' ' , '-', $matter_name) }}">{{ $matter_name }}</a></li>
@@ -80,15 +81,14 @@
                         ?>
                         <h3>Eligibility Criteria</h3>
                         <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>   
-
+                        <div class="col-md-6">
                         @foreach($vulnertability_questions as $vulnerability_question) 
-                            <div class="col-md-6">
                                 <label class="checkbox-inline">                                
                                     <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
                                         {{ $vulnerability_question["QuestionName"] }}
                                 </label>
-                            </div>
                         @endforeach
+                        </div>
 
                         </div>  
                     @endforeach
