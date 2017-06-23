@@ -14,12 +14,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Name:</label>
+                        <label for="name">Service Name (EG: Fines Drop In Clinic):</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ isset($current_service) ? $current_service->ServiceName : '' }}" required>
                     </div>
 
 	                <div class="form-group">
-	                  	<label for="phone">Phone:</label>
+	                  	<label for="phone">Phone Number (No spaces EG: 0390001000 or 0400100200):(</label>
 	                  	<input type="phone" class="form-control" id="phone" name="phone" value="{{ isset($current_service) ? $current_service->Phone : '' }}" required>
 	                </div>
 
@@ -29,12 +29,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="location">Location:</label>
+                        <label for="location">Location: (EG: 570 Bourke Street, Melbourne 3000)</label>
                         <input type="location" class="form-control" id="location" name="location" value="{{ isset($current_service) ? $current_service->Location : '' }}" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="URL">URL:</label>
+                        <label for="URL">URL: (EG: www.codeforaustralia.org with no http:// beforehand)</label>
                         <input type="text" class="form-control" id="URL" name="URL" value="{{ isset($current_service) ? $current_service->URL : '' }}" required>
                     </div>
 
@@ -53,7 +53,7 @@
 	                </div>
 
 	                <div class="form-group">
-	                  	<label for="wait">Wait Time:</label>
+	                  	<label for="wait">Wait Time (EG: 1 week, 7 weeks, 22 weeks):</label>
 	                  	<input type="text" class="form-control" id="wait" name="wait" value="{{ isset($current_service) ? $current_service->Wait : '' }}" required>
 	                </div>
 
@@ -76,7 +76,7 @@
 	                </div>
 
                     <div class="form-group">
-                        <label for="matters">Legal Matters:</label>
+                        <label for="matters">Legal Matters (Make sure you are ONLY adding Specific Issues):</label>
                          <select multiple class="form-control" id="matters" name="matters[]"></select>
                     </div>
 
@@ -124,15 +124,14 @@
                     @if( isset($current_service) )
                         @include ('service.questions')
                     @else
-                        <p>To set questions to this Service please save it first.</p>
+                        <p>To narrow down Legal Matters or override Eligibility Criteria per Legal Matter you must save this service first.</p>
                     @endif
 
                 </div>
                 <div class="form-actions">
                     <div class="row">
-                        <div class="col-md-offset-3 col-md-9">
-                            <button type="submit" class="btn btn-circle green">Submit</button>
-                            <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-lg green">Save Service</button>
                         </div>
                     </div>
                 </div>
