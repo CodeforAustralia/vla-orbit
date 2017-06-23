@@ -20,10 +20,10 @@
                     @endforeach
                     </ul>
                     
-                    <br>
                     <div class="tab-content">
                     <h3>Legal Matter Conditions</h3>
                     <p>To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)</p>
+                    <br>
                     @foreach($current_service->ServiceMatters as $pos => $cs_Legal_matter)
 
                         <div id="{{ str_replace(' ' , '-', $cs_Legal_matter->MatterName) }}" class="tab-pane fade {{ ($pos == 0 ? 'in active' : '') }}">
