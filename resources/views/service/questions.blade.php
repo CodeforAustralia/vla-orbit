@@ -24,10 +24,10 @@
                     
                     <br>
                     <div class="tab-content">
-                    @foreach($current_service->ServiceMatters as $pos => $cs_Legal_matter)
+                        @foreach($current_service->ServiceMatters as $pos => $cs_Legal_matter)
 
                         <div id="{{ str_replace(' ' , '-', $cs_Legal_matter->MatterName) }}" class="tab-pane fade {{ ($pos == 0 ? 'in active' : '') }}">
-                        @foreach( $cs_Legal_matter->MatterQuestions as $cs_Legal_matter_question )
+                            @foreach( $cs_Legal_matter->MatterQuestions as $cs_Legal_matter_question )
 
                             <div class="form-group">
                                 <div class="col-md-5">
@@ -73,25 +73,26 @@
                                     <input type="text" class="form-control hidden"  name="question[{{ $cs_Legal_matter_question->QuestionId }}][mt_id]" id="answer"  value="{{ $cs_Legal_matter->MatterID }}">
                                 </div>
                             </div>                        
-                        @endforeach
+                            @endforeach
 
-                        <hr>
-                        <?php 
-                        $current_lm_vulnerabilities = array_column($cs_Legal_matter->VulnerabilityMatterAnswers, 'QuestionId');
-                        ?>
-                        <h3>Eligibility Criteria</h3>
-                        <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>   
-                        @foreach($vulnertability_questions as $vulnerability_question) 
-                                <label class="checkbox-inline col-md-6 col-s-12">                                
-                                    <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
-                                        {{ $vulnerability_question["QuestionName"] }}
-                                </label>
-                        @endforeach
-
-
-                        </div>  
+                            <hr>
+                            <?php 
+                            $current_lm_vulnerabilities = array_column($cs_Legal_matter->VulnerabilityMatterAnswers, 'QuestionId');
+                            ?>
+                            <h3>Eligibility Criteria</h3>
+                            <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>   
+                            
+                            @foreach($vulnertability_questions as $vulnerability_question) 
+                                <div class="col-md-6">
+                                    <label class="checkbox-inline">                                
+                                        <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
+                                            {{ $vulnerability_question["QuestionName"] }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div> <!-- dynamic -->
+                    </div>  
                     @endforeach
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn dark btn-outline">Save</button>
