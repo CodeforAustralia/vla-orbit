@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Matter;
+use App\Referral;
+use App\Vulnerability;
 
 class ReferralController extends Controller
 {
@@ -36,12 +38,21 @@ class ReferralController extends Controller
     
     public function details()
     {
-        return view("referral.create.details");
+        $vulnerability_obj = new Vulnerability();
+        $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
+
+        return view( "referral.create.details", compact( 'vulnertability_questions' ) );
     }
     
     public function questions()
     {
-        return view("referral.create.questions");
+        $ca_id  = isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : '';
+        $mt_id  = isset( $_GET['mt_id'] )  ? $_GET['mt_id']  : '';
+        $vls_id = isset( $_GET['vls_id'] ) ? $_GET['vls_id'] : '';
+        
+        $referral = new Referral();
+        $question_list = $referral->filterServices( $ca_id, $mt_id, $vls_id );
+        return view( "referral.create.questions", compact('question_list') );
     }
     
     public function review()
@@ -51,6 +62,10 @@ class ReferralController extends Controller
     
     public function result()
     {
-        return view("referral.result");
+        $answers = request('answers');
+
+        $referral = new Referral();
+        $matches  = $referral->filterByQuestions( $answers );
+        return view( "referral.create.result", compact('matches') );
     }
 }

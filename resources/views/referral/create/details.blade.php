@@ -53,7 +53,7 @@
             <div class="form-group">
               <div class="mt-checkbox-list">
               @foreach($vulnertability_questions as $vulnerability_question)                 
-                <label class="mt-checkbox mt-checkbox-outline"> {{ $vulnerability_question["QuestionName"] }}
+                <label class="mt-checkbox mt-checkbox-outline col-md-6"> {{ $vulnerability_question["QuestionName"] }}
                   <input type="checkbox" class="form-control" name="vulnerability" id="{{ $vulnerability_question['QuestionId'] }}" {{ ( isset( $current_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_vulnerabilities) ? 'checked' : '' ) }}>
                   <span></span>
                 </label>
@@ -72,7 +72,7 @@
 <div class="row">
   <div class="col-xs-10 col-xs-offset-1"><br>
     <div class="col-xs-4 col-lg-3 pull-left">
-      <a href="./legal_issue" class="btn grey-mint btn-block btn-lg pull-left"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></a>
+      <button onclick="window.history.back();" class="btn grey-mint btn-block btn-lg pull-left"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></button>
     </div>
     <div class="col-xs-4 col-lg-3 pull-right">
       <a href="#" id="next-eligibility" class="btn green-jungle btn-block btn-lg pull-right"><span>Next &nbsp;<i class="fa fa-lg fa-angle-right"></i></span></a>

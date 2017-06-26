@@ -111,7 +111,7 @@
 <div class="row">
   <div class="col-xs-10 col-lg-8 col-xs-offset-1 col-lg-offset-2"><br>
     <div class="col-xs-3 pull-left">
-      <a href="./location" class="btn grey-mint btn-block btn-lg pull-left"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></a>
+      <button onclick="window.history.back();" class="btn grey-mint btn-block btn-lg pull-left"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></button>
     </div>
     <div class="col-xs-3 pull-right">
       <a href="#" id="next-legal_issue" class="btn green-jungle btn-block btn-lg pull-right"><span>Next &nbsp;<i class="fa fa-lg fa-angle-right"></i></span></a>

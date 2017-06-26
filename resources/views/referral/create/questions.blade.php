@@ -45,91 +45,56 @@
         </div>
       </div>
       <div class="portlet-body">
-        <form role="form">
+        <form role="form" id="form_answers" action="/referral/create/result" method="POST" >
+          {{ csrf_field() }}
           <div class="form-body">
-            <!-- Dropdown -->
-            <div class="form-group"> 
-              <label><h4><strong>Question 1:</strong> What is the client's employment status?</h4></label>
-              <div class="input-group input-xlarge">
-                <select class="form-control input-lg">
-                  <option>Employed</option>
-                  <option>Unemployed</option>
-                  <option>Self Employed</option>
-                  <option>Centrelink</option>
-                </select>
-              </div>
-            </div>
-            <!-- Num - Currency -->
+           
+            @foreach( $question_list as $qu_id => $question ) 
+            
             <div class="form-group">
-              <label><h4><strong>Question 2:</strong> What is the client's weekly income after tax?</h4></label>
+              <label><h4> {{ $question['prop']['QuestionName'] }} </h4></label>
               <div class="input-group input-xlarge margin-left-20">
-                <span class="input-group-addon"><i class="fa fa-dollar font-dark"></i></span>
-                <input type="text" class="form-control input-lg" placeholder=""> 
+                
+                @if($question['prop']['QuestionTypeName'] == 'numeric') 
+                  <span class="input-group-addon"></span>
+                  <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]"> 
+                @endif
+                @if($question['prop']['QuestionTypeName'] == 'boolean')
+                  <div class="mt-radio-inline">
+                        <label class="mt-radio">
+                            <input type="radio" name="answers[{{ $qu_id }}]" value="true"> Yes
+                            <span></span>
+                        </label>
+                        <label class="mt-radio">
+                            <input type="radio" name="answers[{{ $qu_id }}]" value="false"> No
+                            <span></span>
+                        </label>
+                    </div>
+                @endif
+                @if($question['prop']['QuestionTypeName'] == 'numtiple') 
+                  <input type="text" class="form-control input-lg" placeholder="" name="answers[{{ $qu_id }}]"> 
+                @endif
               </div>
             </div>
-            <!-- Number -->
-            <div class="form-group">
-              <label><h4><strong>Question 3:</strong> How many charges does the client have?</h4></label>
-              <div class="input-group input-xlarge">
-                <input type="number" class="form-control input-lg" placeholder=""> 
-              </div>
-            </div>            
-            <!-- Radio - Yes/No -->  
-            <div class="form-group">
-              <label><h4><strong>Question 4:</strong> Does the client have a court summons for this charge?</h4></label>
-              <div class="mt-radio-list col-xs-12">
-                <label class="mt-radio mt-radio-outline"> Yes
-                  <input type="radio" class="form-control input-lg" value="1" name="test">
-                  <span></span>
-                </label>
-                <label class="mt-radio mt-radio-outline"> No
-                  <input type="radio" class="form-control" value="1" name="test">
-                  <span></span>
-                </label>
-              </div>
-            </div>
-            <!-- Date -->                
-            <div class="form-group">
-              <label><h4><strong>Question 5:</strong> When is the client's court date?</h4></label>
-                <div class="input-group input-xlarge">
-                    <input class="form-control input-lg" type="date" value="01/01/2017" id="example-date-input">
-                </div>
-            </div>
-            <!-- Checkbox -->
-            <div class="form-group">
-              <label><h4><strong>Question 6:</strong> Do any of the following apply to the client?</h4></label>
-              <div class="mt-checkbox-list">
-                <label class="mt-checkbox mt-checkbox-outline"> Checkbox 1
-                  <input type="checkbox" class="form-control" value="1" name="test">
-                  <span></span>
-                </label>
-                <label class="mt-checkbox mt-checkbox-outline"> Checkbox 2
-                  <input type="checkbox" class="form-control" value="1" name="test">
-                  <span></span>
-                </label>
-                <label class="mt-checkbox mt-checkbox-outline"> Checkbox 3
-                  <input type="checkbox" class="form-control"   value="1" name="test">
-                  <span></span>
-                </label>
-              </div>
-            </div>
+
+            @endforeach
           </div>
+
+          <!-- Navigation -->
+          <div class="row">
+              <br>
+              <div class="col-xs-4 col-lg-3 pull-left">
+                <a href="./details" class="btn grey-mint btn-block btn-lg pull-left"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></a>
+              </div>
+              <div class="col-xs-4 col-lg-3 pull-right">
+                <button type="submit" class="btn green-jungle btn-block btn-lg pull-right">Submit</button>
+              </div>
+           </div>     
         </form>
       </div>
     </div>
   </div>
 </div>
-<!-- Navigation -->
-<div class="row">
-  <div class="col-xs-10 col-lg-8 col-xs-offset-1 col-lg-offset-2"><br>
-    <div class="col-xs-4 col-lg-3 pull-left">
-      <a href="./details" class="btn grey-mint btn-block btn-lg pull-left"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></a>
-    </div>
-    <div class="col-xs-4 col-lg-3 pull-right">
-      <a href="./review" class="btn green-jungle btn-block btn-lg pull-right"><span>Next &nbsp;<i class="fa fa-lg fa-angle-right"></i></span></a>
-    </div>
-  </div>
-</div>     
 <!-- Bottom Padding -->
 <div class="row">
     <div class="col-xs-12">
@@ -138,4 +103,8 @@
     </div>
 </div>
     <!-- END PAGE HEADER-->
+@endsection
+
+@section('scripts')
+    <script src="/js/questions.js?id={{ str_random(6) }}"></script>
 @endsection
