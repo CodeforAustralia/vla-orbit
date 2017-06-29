@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 /** User Auth on boot **/
+use App\Role;
 use App\User;
 use Auth;
 use SimpleSAML_Auth_Simple;
@@ -18,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        
         Schema::defaultStringLength(191);
 
         $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
@@ -36,7 +37,13 @@ class AppServiceProvider extends ServiceProvider
                   'name'     => $attributes['name'][0],
                   'email'    => $attributes['mail'][0],
                   'password' => bcrypt('123344adsdsaasdasd'),
-                ]);
+                ]);                
+                //sign them in and Add role too
+                $user
+                   ->roles()
+                   ->attach(Role::where('name', 'VLA')->first());
+                $user->sp_id = 0 ; // No service provider
+                $user->save();
                 Auth::login($user);
             }
         }

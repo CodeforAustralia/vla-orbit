@@ -35,7 +35,7 @@ class SessionController extends Controller
     {
         auth()->logout();
         
-        return redirect('/');
+        return redirect('/login');
     }
     
 }

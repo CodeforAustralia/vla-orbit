@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Auth;
 use SimpleSAML_Auth_Simple;
@@ -51,10 +52,11 @@ class RegistrationController extends Controller
             'password' => bcrypt(request('password'))
         ]);
         
-        //sign them in
-        
-        //\Auth::login();
-        
+        //sign them in and add role
+                
+        $user->sp_id = 0; //No service provider
+        $user->save();
+
         auth()->login($user);
         
         //redirect

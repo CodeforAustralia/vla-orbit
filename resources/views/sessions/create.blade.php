@@ -1,4 +1,4 @@
-@extends ('layout.master')
+@extends ('orbit.master')
 
 
 @section ('content')
