@@ -216,10 +216,9 @@ var TableDatatablesAjax = function () {
                 "columns": [
                         { data: "ServiceId" },
                         { data: "ServiceName" },
-                        { data: "Description" },
+                        { data: "ServiceProviderName" },
                         { data: "Phone" },
                         { data: "Email" },
-                        { data: "Wait" },
                         { data: "ServiceTypeName" },
                         { data: "ServiceLevelName" },
                         {
