@@ -20,13 +20,13 @@
                     <thead>
                         <tr role="row" class="heading">
                             <th width="5%"> Id </th>
-                            <th width="20%"> Name </th>
-                            <th width="20%"> Service Provider </th>
+                            <th width="25%"> Name </th>
+                            <th width="15%"> Service Provider </th>
                             <th width="10%"> Phone </th>
-                            <th width="10%"> Email </th>
+                            <th width="5%"> Email </th>
                             <th width="10%"> Service type </th>
-                            <th width="10%"> Service Level </th>
-                            <th width="20%"> Actions</th>
+                            <th width="5%"> Service Level </th>
+                            <th width="30%"> Actions</th>
                         </tr>
                     </thead>
                     <tbody> </tbody>
