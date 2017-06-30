@@ -84,7 +84,7 @@
           <div class="row">
               <br>
               <div class="col-xs-4 col-lg-3 pull-left">
-                <a href="./details" class="btn grey-mint btn-block btn-lg pull-left"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></a>
+                <a href="#" class="btn grey-mint btn-block btn-lg pull-left" id="back"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></a>
               </div>
               <div class="col-xs-4 col-lg-3 pull-right">
                 <button type="submit" class="btn green-jungle btn-block btn-lg pull-right">Submit</button>

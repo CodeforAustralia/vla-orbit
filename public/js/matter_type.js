@@ -677,6 +677,62 @@ var TableDatatablesAjax = function () {
         });
     }
      
+    var handleUser = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_user"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+                confirmDialog();
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/user/list", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "name" },
+                        { data: "email" },                             
+                        { data: "role" },                             
+                        { data: "sp_id" },                             
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('user', data.id) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
+     
     var getButtons = function (controller, id) {
 
         var delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content">Delete</a>';
@@ -704,6 +760,7 @@ var TableDatatablesAjax = function () {
             handleQuestionCategory();
             handleQuestionLegalMatter();
             handleQuestionEligibility();
+            handleUser();
         }
 
     };

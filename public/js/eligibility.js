@@ -19,6 +19,10 @@ $(document).ready(function() {
         }
     });
 
+    $( "#back" ).on( "click", function(e) {
+        e.preventDefault();        
+        window.location.href = "/referral/create/legal_issue/?ca_id=" + getUrlParameter('ca_id');
+    });
 });
 
 //Function taken from https://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
