@@ -218,3 +218,15 @@ Route::get('/referral/create/review', 'ReferralController@review');
 //Route::get('/referral/result', 'ReferralController@result');
 
 Route::post('/referral/create/result', 'ReferralController@result');
+
+//Users
+
+Route::get('/user', 'UserController@index');
+
+Route::get('/user/show/{us_id}', 'UserController@show');
+
+Route::get('/user/new', 'UserController@create');
+
+Route::get('/user/list', 'UserController@list');
+
+Route::post('/user', 'UserController@store');

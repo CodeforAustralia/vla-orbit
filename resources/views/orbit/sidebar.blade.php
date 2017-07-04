@@ -110,6 +110,16 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
+                        
+                        @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
+                        <li class="nav-item">
+                            <a href="/user" class="nav-link">
+                                <i class="fa fa-map-signs"></i>
+                                <span class="title">Users</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                     <!-- END SIDEBAR MENU -->
                 </div>
