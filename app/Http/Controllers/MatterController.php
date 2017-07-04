@@ -38,7 +38,7 @@ class MatterController extends Controller
         return view( "matter.show", compact( 'current_matter', 'matters', 'matter_types', 'questions' ) );
     }
 
-    public function store()
+    public function store( Request $request )
     {        
         $request->user()->authorizeRoles('Administrator');
         
