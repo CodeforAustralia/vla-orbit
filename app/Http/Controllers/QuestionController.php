@@ -60,6 +60,7 @@ class QuestionController extends Controller
     {        
         $question_params =    array(
         						'QuestionId'			=> request('qu_id'),
+                                'QuestionLabel'         => request('QuestionLabel'),
                                 'QuestionName'         	=> request('QuestionName'),
                                 'QuestionTypeId'   		=> request('QuestionTypeId'),
                                 'QuestionCategoryId'    => request('QuestionCategoryId'),

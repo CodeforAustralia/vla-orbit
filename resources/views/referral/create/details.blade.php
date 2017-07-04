@@ -53,7 +53,9 @@
             <div class="form-group">
               <div class="mt-checkbox-list">
               @foreach($vulnertability_questions as $vulnerability_question)                 
-                <label class="mt-checkbox mt-checkbox-outline col-md-6"> {{ $vulnerability_question["QuestionName"] }}
+                <label class="mt-checkbox mt-checkbox-outline col-md-6"> 
+                  {{ ( $vulnerability_question["QuestionLabel"] != '' ? $vulnerability_question["QuestionLabel"]: $vulnerability_question["QuestionName"] )  }} 
+                  <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="{{ $vulnerability_question['QuestionName']  }}"></i>
                   <input type="checkbox" class="form-control" name="vulnerability" id="{{ $vulnerability_question['QuestionId'] }}" {{ ( isset( $current_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_vulnerabilities) ? 'checked' : '' ) }}>
                   <span></span>
                 </label>

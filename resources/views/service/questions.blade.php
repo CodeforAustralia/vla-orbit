@@ -35,7 +35,9 @@
 
                             <div class="form-group">
                                 <div class="col-md-5">
-                                    <label class="pull-right">{{ $cs_Legal_matter_question->QuestionName }}</label>
+                                    <label class="pull-right">
+                                    {{ ( $cs_Legal_matter_question->QuestionLabel != '' ? $cs_Legal_matter_question->QuestionLabel : $cs_Legal_matter_question->QuestionName ) }}
+                                    </label>
                                 </div>
                                 <div class="col-md-2">
                                     <select  class="form-control" name="question[{{ $cs_Legal_matter_question->QuestionId }}][operator]" id="operator">

@@ -38,7 +38,9 @@
                         <div class="col-md-2">
                             <input type="checkbox" name="question[{{ $question['QuestionId'] }}][check]" {{ $checked }}>
                         </div>
-                        <label class="col-md-5 control-label">{{ $question['QuestionName'] }}</label>
+                        <label class="col-md-5 control-label">
+                        {{ ( $question['QuestionLabel'] != '' ? $question['QuestionLabel'] : $question['QuestionName'] ) }}
+                        </label>
                         <div class="col-md-2">
                             <select  class="form-control" name="question[{{ $question['QuestionId'] }}][operator]" id="operator">
                                 
