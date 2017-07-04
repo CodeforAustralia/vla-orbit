@@ -41,8 +41,7 @@ class RegistrationController extends Controller
             
             'password' => 'required|confirmed'
             
-        ]);
-        
+        ]);        
         
         //create and save the user
         
@@ -53,8 +52,15 @@ class RegistrationController extends Controller
         ]);
         
         //sign them in and add role
-                
-        $user->sp_id = 0; //No service provider
+        if( request('sp_id') != 0 )
+        {
+            $user->sp_id = request('sp_id'); //No service provider
+        }
+        else {
+
+            $user->sp_id = 0; //No service provider
+        }
+
         $user->save();
 
         auth()->login($user);

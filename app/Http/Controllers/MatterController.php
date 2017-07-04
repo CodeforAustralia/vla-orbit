@@ -9,15 +9,20 @@ use App\Question;
 use App\MatterQuestion;
 
 class MatterController extends Controller
-{
-    
+{    
+    public function __construct()
+    {       
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view("matter.index");
     }
 
-    public function show( $m_id )
+    public function show( Request $request, $m_id )
     {
+        $request->user()->authorizeRoles('Administrator');
 
         $matter_type_obj = new MatterType();
         $matter_types    = $matter_type_obj->getAllMatterTypes();        
@@ -35,6 +40,8 @@ class MatterController extends Controller
 
     public function store()
     {        
+        $request->user()->authorizeRoles('Administrator');
+        
         $matter_params =    array(
                                 'MatterID'     => request('MatterID'),
                                 'MatterName'   => request('title'),
@@ -56,8 +63,10 @@ class MatterController extends Controller
         return redirect('/matter')->with($response['success'], $response['message']);
     }
     
-    public function create()
+    public function create( Request $request )
     {
+        $request->user()->authorizeRoles('Administrator');
+
         $matter_type_obj = new MatterType();
         $matter_types = $matter_type_obj->getAllMatterTypes();
 
@@ -71,8 +80,10 @@ class MatterController extends Controller
         return view( "matter.create", compact( 'matter_types', 'matters', 'questions' ) );
     }
 
-    public function destroy( $m_id )
+    public function destroy( Request $request, $m_id )
     {        
+        $request->user()->authorizeRoles('Administrator');
+
         $matter = new Matter();
         $response = $matter->deleteMatter( $m_id );
         
