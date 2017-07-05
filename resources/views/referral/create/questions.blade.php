@@ -43,6 +43,9 @@
         <div class="caption">
           <span class="caption-subject font-green sbold"><i class="icon-question font-green"></i>&nbsp; Matching Questions</span>
         </div>
+        <div class="pull-right caption">
+          <small># of services ( {{ $service_qty }} )</small>
+        </div>
       </div>
       <div class="portlet-body">
         <form role="form" id="form_answers" action="/referral/create/result" method="POST" >
@@ -57,7 +60,7 @@
                 
                 @if($question['prop']['QuestionTypeName'] == 'numeric') 
                   <span class="input-group-addon"></span>
-                  <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]"> 
+                  <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]" required> 
                 @endif
                 @if($question['prop']['QuestionTypeName'] == 'boolean')
                   <div class="mt-radio-inline">
@@ -66,13 +69,21 @@
                             <span></span>
                         </label>
                         <label class="mt-radio">
-                            <input type="radio" name="answers[{{ $qu_id }}]" value="false"> No
+                            <input type="radio" name="answers[{{ $qu_id }}]" value="false" required> No
                             <span></span>
                         </label>
                     </div>
                 @endif
-                @if($question['prop']['QuestionTypeName'] == 'numtiple') 
-                  <input type="text" class="form-control input-lg" placeholder="" name="answers[{{ $qu_id }}]"> 
+                @if( $question['prop']['QuestionTypeName'] == 'multiple' ) 
+                <?php 
+                  $options = array_unique( $question['prop']['QuestionValue'] );
+                ?>
+                  <select  class="form-control" name="answers[{{ $qu_id }}]">
+                    <option></option> 
+                    @foreach ( $options as $option )
+                      <option value="{{ $option }}"> {{ $option }} </option>
+                    @endforeach
+                  </select>
                 @endif
               </div>
             </div>

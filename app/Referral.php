@@ -1,5 +1,6 @@
 <?php
 namespace App;
+use App\Vulnerability;
 
 class Referral
 {
@@ -18,6 +19,41 @@ class Referral
             						true 
         						);
         return $services;
+    }
+
+
+    public function getVulnerabilityByServices( $ca_id, $mt_id )
+    {
+        $vulnerability_obj = new Vulnerability();
+        $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
+
+        $services = self::getServicesByCatchmentId( $ca_id, $mt_id );
+        $qu_id = [];
+        $question_list = [];
+
+        foreach ($services as $service) 
+        {            
+            foreach ($service['ServiceMatters'] as $erviceMatter) 
+            {
+                foreach ($erviceMatter['VulnerabilityMatterAnswers'] as $vulnerabilityMatterAnswer) 
+                {
+                    $qu_id[] = $vulnerabilityMatterAnswer['QuestionId'];
+                }
+            }
+            foreach ($service['ServiceVulAnswers'] as $serviceVulAnswer) 
+            {
+                $qu_id[] = $serviceVulAnswer['QuestionId'];
+            }
+        }
+
+        foreach ( $vulnertability_questions as $vulnertability_question ) {
+            if( in_array( $vulnertability_question['QuestionId'], $qu_id) )
+            {
+                $question_list[] = $vulnertability_question;
+            }
+        }
+
+        return ['vulnertability_questions' => $question_list, 'service_qty' => count( $services )];
     }
 
     public function filterServices( $ca_id, $mt_id, $vuln_list )
@@ -53,7 +89,7 @@ class Referral
 
     public function matchVulnerability( $vulnerability, $client_vuln_list )
     {        
-        $match = true;
+        $match = false;
         $service_vuln_list = []; 
         $service_vuln_list = array_column( $vulnerability, "QuestionId" );
 
@@ -62,9 +98,9 @@ class Referral
 
         foreach ( $service_vuln_list as $vu_id ) 
         {
-            if( !in_array( $vu_id, $client_vuln_list ) )
+            if( in_array( $vu_id, $client_vuln_list ) )
             {
-                $match = false;
+                $match = true;
             } 
         }
         return $match;
@@ -73,24 +109,55 @@ class Referral
     public function getMatterQuestions( $services, $mt_id )
     {
         $question_list = [];
-        
         foreach ( $services as $service ) 
         {
             $matter_pos = array_search( $mt_id,  array_column( $service['ServiceMatters'], 'MatterID' ) );
             $matter_questions = $service['ServiceMatters'][ $matter_pos ]['MatterQuestions'];
-            foreach ($matter_questions as $question) {                    
-                $question_list[ $question['QuestionId'] ]['prop'] = [
-                                                                    'Operator'      => $question['Operator'],
-                                                                    'QuestionValue' => $question['QuestionValue'],
-                                                                    'QuestionName'  => $question['QuestionName'] ,                      
-                                                                    'QuestionTypeName'  => $question['QuestionTypeName']                       
-                                                                    ] ;
-                $question_list[ $question['QuestionId'] ]['services'][] = $service['ServiceId'];
-                
-            }
-            
+            $matter_answers   = $service['ServiceMatters'][ $matter_pos ]['MatterAnswers'];
+            foreach ($matter_questions as $question) 
+            {
+                $qu_id = $question['QuestionId'];
+                $current_answers = self::getMultipleAnswers( $qu_id, $matter_answers );
+                if( !empty($current_answers) )
+                {
+                    if( !isset( $question_list[ $qu_id ]['prop'] ) )
+                    {
+                        $question_list[ $qu_id ]['prop'] = [
+                                                            'Operator'      => $question['Operator'],
+                                                            'QuestionName'  => $question['QuestionName'] ,                      
+                                                            'QuestionTypeName'  => $question['QuestionTypeName']
+                                                            ] ;
+                    }
+                    if( $question['QuestionTypeName'] == 'multiple' )
+                    {
+                        if ( !isset( $question_list[ $qu_id ]['prop']['QuestionValue'] ) )
+                        {
+                            $question_list[ $qu_id ]['prop']['QuestionValue'] = $current_answers ;
+                        }
+                        else {
+                            foreach ( $current_answers as $answer ) {                            
+                                array_push( $question_list[ $qu_id ]['prop']['QuestionValue'], $answer );
+                            }
+                        }                    
+                    }                                                                    
+                    $question_list[ $qu_id ]['services'][] = $service['ServiceId'];                
+                }
+            }            
         }
         return $question_list;
+    }
+
+    public function getMultipleAnswers( $qu_id, $matter_answers ) 
+    {
+        $answers = [];
+        foreach ($matter_answers as $answer) 
+        {
+            if( $answer['QuestionId'] == $qu_id && $answer['QuestionValue'] != ' ' )
+            {
+                $answers = explode( ',', $answer['QuestionValue'] );
+            }
+        }
+        return $answers;
     }
 
     public function filterByQuestions( $answers )
@@ -151,6 +218,10 @@ class Referral
                 break;
             case '=':
                 return ( $args['answer'] == $args["QuestionValue"] );
+                break;      
+            case 'in':
+                $options = explode( ',', $args['QuestionValue']);     
+                return ( in_array( $args['answer'], $options) );
                 break;            
             default:
                 # Check empty values in question because the answer was not answered

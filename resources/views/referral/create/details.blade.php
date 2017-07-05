@@ -41,7 +41,10 @@
     <div class="portlet light">
       <div class="portlet-title">
         <div class="caption">
-          <span class="caption-subject font-green sbold"><i class="icon-user font-green"></i> &nbsp;Client Details</span>
+          <span class="caption-subject font-green sbold"><i class="icon-user font-green"></i> &nbsp;Client Details</span> 
+        </div>
+        <div class="pull-right caption">
+          <small># of services ( {{ $service_qty }} )</small>
         </div>
       </div>
       <div class="portlet-body">

@@ -5,12 +5,7 @@
 <!-- Result 1 -->
 <div class="row">
   <div class="col-xs-10 col-xs-offset-1">
-    @if( sizeof($matches) > 0 )
-          @include ('referral.create.multiple-results')
-    @else
-          @include ('referral.create.no-results')
-
-    @endif
+    @include ('referral.create.multiple-results')
   </div> <!-- Col Close -->
 </div> <!-- Row Close -->
 
