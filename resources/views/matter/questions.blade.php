@@ -50,6 +50,7 @@
                                 <option value="<"  {{ ( $current_op_val['operator'] == '<'  ) ? 'selected' : '' }} > <  </option>
                                 <option value="<=" {{ ( $current_op_val['operator'] == '<=' ) ? 'selected' : '' }} > <= </option>
                                 <option value="="  {{ ( $current_op_val['operator'] == '='  ) ? 'selected' : '' }} > =  </option>
+                                <option value="in" {{ ( $current_op_val['operator'] == 'in'  ) ? 'selected' : '' }} > IN  </option>
                             </select>
                         </div>
                         <div class="col-md-3">

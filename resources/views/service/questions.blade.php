@@ -70,12 +70,13 @@
                                         <option value="<"  {{ ( $current_op_val['operator'] == '<'  ) ? 'selected' : '' }} > <  </option>
                                         <option value="<=" {{ ( $current_op_val['operator'] == '<=' ) ? 'selected' : '' }} > <= </option>
                                         <option value="="  {{ ( $current_op_val['operator'] == '='  ) ? 'selected' : '' }} > =  </option>
+                                        <option value="in" {{ ( $current_op_val['operator'] == 'in'  ) ? 'selected' : '' }} > IN  </option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control"  name="question[{{ $cs_Legal_matter_question->QuestionId }}][answer]" id="answer"  value="{{ $current_op_val['value'] }}">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control"  name="question[{{ $cs_Legal_matter_question->QuestionId }}][answer]" id="answer"  value="{{ $current_op_val['value'] }}" {{ ($cs_Legal_matter_question->QuestionTypeName == 'multiple' ? 'data-role=tagsinput': '') }}>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <input type="text" class="form-control hidden"  name="question[{{ $cs_Legal_matter_question->QuestionId }}][mt_id]" id="answer"  value="{{ $cs_Legal_matter->MatterID }}">
                                 </div>
                             </div>                        

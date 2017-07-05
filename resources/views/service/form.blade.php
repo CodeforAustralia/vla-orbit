@@ -140,8 +140,19 @@
         </div>
     </div>
 
+@section('styles')    
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<link href="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
+<link href="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css" rel="stylesheet" type="text/css" />
+<!-- END PAGE LEVEL PLUGINS -->
+@endsection
+
 @section('scripts')
     <script src="/js/init_select2.js?id={{ str_random(6) }}"></script>
+    <script src="/assets/pages/scripts/components-bootstrap-tagsinput.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/typeahead/handlebars.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
 @endsection
 
 @section('inline-scripts')
