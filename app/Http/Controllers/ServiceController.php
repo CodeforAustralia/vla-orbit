@@ -156,4 +156,11 @@ class ServiceController extends Controller
         return array( 'data' => $result );
     }
 
+    public function listServicesSP( $sp_id )
+    {
+        $service = new Service();
+        $result  = $service->getAllServicesByServiceProvider( $sp_id );
+        return $result;
+    }
+
 }

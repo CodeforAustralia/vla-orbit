@@ -90,5 +90,20 @@ Class Service
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
     }
+
+    public function getAllServicesByServiceProvider( $sp_id )
+    {
+        $services = self::getAllServices();
+
+        $sp_services = [];
+
+        foreach ($services as $service) {
+            if( $service['ServiceProviderId'] == $sp_id )
+            {
+                $sp_services[] = $service;
+            }
+        }
+        return $sp_services;
+    }
 }
 

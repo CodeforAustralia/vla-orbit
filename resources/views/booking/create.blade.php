@@ -12,7 +12,10 @@
             </div>
             <div class="portlet-body form">
                 
-                <form role="form">
+                <form role="form" method="POST" action="/booking">
+
+                    {{ csrf_field() }}
+
                     <h4 class="padding-top-10 padding-bottom-10">Service</h4>
                     
                     <div class="row">
@@ -22,11 +25,10 @@
                                     <label>Service Provider:</label>
                                 </div>
                                 <div class="col-xs-8">
-                                    <select class="form-control">
-                                        <option selected disabled> </option>
-                                        <option>Criminal Law Melbourne</option>
-                                        <option>VLA Ringwood</option>
-                                        <option>VLA Sunshine</option>
+                                    <select class="form-control" id="service_provider_id" name="service_provider_id">                                
+                                        @foreach($service_providers as $service_provider)
+                                            <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -40,11 +42,8 @@
                                     <label>Service:</label>  
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    <select class="form-control" data-toggle="modal" data-target="#EligibilityConfirm">
-                                        <option selected disabled> </option>
-                                        <option>Legal Advice Appointment - Criminal Law</option>
-                                        <option>Sunshine Magistrates Court Duty Lawyer Service</option>
-                                        <option>Werribee Magistrates Court Duty Lawyer Service</option>
+                                    <select class="form-control" id="sp_services" name="ServiceId" required>
+                                        <option> </option>
                                     </select>
                                 </div>
                                 <div class="col-xs-12 col-sm-4">
@@ -55,46 +54,9 @@
                     </div>
 
                     <hr>  
-                    <h4 class="padding-top-10 padding-bottom-10">Appointment</h4>
-                    
-                    <div class="row">
-                        <div class="col-xs-12 padding-bottom-20">
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <label>Date:</label>
-                                    <input class="form-control date-picker input-medium" placeholder="MM/DD/YYYY"></select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <label>Available Times:</label>
-                                    <div class="mt-radio-list">
-                                        <label class="mt-radio mt-radio-outline">
-                                            <input type="radio" name="times" id="Option1"> 11:30am - 12:00pm
-                                            <span></span>
-                                        </label>
-                                        <label class="mt-radio mt-radio-outline">
-                                            <input type="radio" name="times" id="Option2"> 2:00pm - 2:30pm
-                                            <span></span>
-                                        </label>
-                                        <label class="mt-radio mt-radio-outline">
-                                            <input type="radio" name="times" id="Option3"> 2:30pm - 3:00pm
-                                            <span></span>
-                                        </label>
-                                        <label class="mt-radio mt-radio-outline">
-                                            <input type="radio" name="times" id="Option4"> 4:00pm - 4:30pm
-                                            <span></span>
-                                        </label>                            
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                    </div>
+                    <h4 class="padding-top-10 padding-bottom-10">Appointment</h4>    
+
+                    @include ('booking.book-button')                    
                     
                     <hr>
                     <h4 class="padding-top-10 padding-bottom-10">Client Details</h4>
@@ -104,7 +66,7 @@
                             <div class="form-group">
                                 <div class="col-xs-12 padding-bottom-10">
                                     <label>First Name:</label>
-                                    <input type="text" class="form-control input-large" placeholder="Jane"> 
+                                    <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" required> 
                                 </div>
                             </div>
                         </div>
@@ -115,7 +77,7 @@
                             <div class="form-group">
                                 <div class="col-xs-12 padding-bottom-20">
                                     <label>Last Name:</label>
-                                    <input type="text" class="form-control input-large" placeholder="Smith"> 
+                                    <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" required> 
                                 </div>
                             </div>
                         </div>
@@ -126,7 +88,7 @@
                             <div class="form-group">
                                 <div class="col-xs-12 padding-bottom-10">
                                     <label>Email:</label>
-                                    <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com"> 
+                                    <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" id="email"> 
                                 </div>
                             </div>
                         </div>
@@ -155,7 +117,7 @@
                             <div class="form-group">
                                 <div class="col-xs-12 padding-bottom-10">
                                     <label>Phone Number:</label>
-                                    <input type="text" class="form-control input-large" placeholder="0400 000 000"> 
+                                    <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile"> 
                                 </div>
                             </div>
                         </div>
@@ -181,7 +143,7 @@
                 
                     <div class="row">
                         <div class="col-xs-12 padding-top-10 padding-bottom-20">
-                            <a href=" " class="btn green-jungle btn-block btn-lg"><span>Make Booking</span></a>
+                            <button type="submit" class="btn green-jungle btn-block btn-lg">Make Booking</button>
                         </div>
                     </div>
                 </form>

@@ -1,6 +1,9 @@
 @extends ('orbit.master')
 
 @section ('content')
+    
+    @include ('orbit.alert')
+    
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet ">
         <h1 class="page-title col-xs-10"> All Bookings </h1>
@@ -8,6 +11,32 @@
         <br>
     </div>
     <!-- END PAGE HEADER-->
+
+    <!-- Begin: Demo Datatable services -->
+    <div class="portlet light portlet-fit portlet-datatable ">
+        <div class="portlet-body">
+            <div class="table-container">
+                <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_bookings">
+                    <thead>
+                        <tr role="row" class="heading">
+                            <th width="5%" > Id </th>
+                            <th width="10%"> Service Name </th>
+                            <th width="5%" > Date </th>
+                            <th width="5%" > Time </th>
+                            <th width="10%"> First Name </th>
+                            <th width="10%"> Last Name </th>
+                            <th width="10%"> Email </th>
+                            <th width="10%"> Phone </th>
+                            <th width="10%"> </th>
+                        </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End: Demo Datatable services -->
+
     <!-- Content -->
     <div class="row"> 
       <div class="col-xs-12">

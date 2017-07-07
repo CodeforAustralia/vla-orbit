@@ -77,6 +77,8 @@ Route::get('/service', 'ServiceController@index');
 
 Route::get('/service/list', 'ServiceController@list');
 
+Route::get('/service/list_services_sp/{sp_id}', 'ServiceController@listServicesSP');
+
 Route::get('/service/show/{sv_id}', 'ServiceController@show');
 
 Route::get('/service/delete/{sv_id}', 'ServiceController@destroy');
@@ -197,6 +199,14 @@ Route::get('/booking', 'BookingController@index');
 Route::get('/booking/show/{bk_id}', 'BookingController@show');
 
 Route::get('/booking/new', 'BookingController@create');
+
+Route::get('/booking/delete/{bo_id}', 'BookingController@destroy');
+
+Route::get('/booking/listDatesByMonth/{month}/{sv_id}', 'BookingController@getServiceDatesByMonth');
+
+Route::get('/booking/list', 'BookingController@list');
+
+Route::post('/booking', 'BookingController@store');
 
 //Referral
 Route::get('/referral', 'ReferralController@index');
