@@ -1,20 +1,28 @@
 <?php
 namespace App;
 
+use Auth;
 
 Class Booking
 {
 	public function getAllBookings( $from, $to )
 	{		
 		// Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_booking_init();
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
 
         $info = [
         			'FromDate'  => $from , 
     				'ToDate'	=> $to 
 				];
 
-        $bookings = json_decode($client->GetAllBookings( $info )->GetAllBookingsResult, true );
+		$user = Auth::user();
+		if( $user->sp_id != 0 )
+		{
+			$info['ServiceProviderId'] = $user->sp_id;
+			$bookings = $client->GetAllOrbitBookingsByServiceProvider( $info )->GetAllOrbitBookingsByServiceProviderResult;			
+		} else {
+        	$bookings = $client->GetAllOrbitBookings( $info )->GetAllOrbitBookingsResult;
+		}
 
         return $bookings;
 	}
@@ -23,22 +31,11 @@ Class Booking
 	{		
 		// Create Soap Object
         $bookings = self::getAllBookings( $from, $to );
-
-        $format_bookings = [];
-
-        if( isset( $bookings['_embedded']['bookings'] ))
+        if( sizeof( $bookings->Bookings ) == 1 )
         {
-	        foreach ( $bookings['_embedded']['bookings'] as $booking ) {
-	        	$date_time = explode( 'T' , $booking['datetime'] );
-	        	$time = explode( '+' , $date_time[1] );
-	        	$booking['date'] = $date_time[0];
-	        	$booking['time'] = $time[0];
-	        	$format_bookings[] = $booking;
-	        }
+        	$bookings->Bookings = [$bookings->Bookings];
         }
-
-
-        return ['data' => $format_bookings];
+        return [ 'data' => $bookings->Bookings ];
 	}
 
 	public function getAllBookingsByService( $from, $to, $sv_id )
@@ -124,13 +121,35 @@ Class Booking
         return $reservation;
     }
 
+    public function createBookingService( $booking )
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_booking_init();
+
+        $reservation = $client->CreateBooking( $booking )->CreateBookingResult;
+
+        return $reservation;
+    }
+
     public function createBooking( $client_details, $booking )
     {
+    	$SendNotification = false;
+        $user = Auth::user();
     	$client = self::createClient( $client_details );
-    	$booking['UserEmail'] = $client->email;
-    	$booking['UserMobile'] = $client->mobile;
-    	$booking['ClientId'] = $client->id;
-    	$reservation = self::addBookingItem( $booking );
+    	$booking['AdminUserId'] 	 = $user->id;
+    	$booking['SendNotification'] = $SendNotification;
+
+    	$UserObject = 	[
+							'LocalRef' 	=> $client->LocalRef ,
+							'country' 	=> $client->country ,
+							'email' 	=> $client->email ,
+							'first_name' => $client->first_name ,
+							'id' 		=> $client->id ,
+							'last_name' => $client->last_name ,
+							'mobile' 	=> $client->mobile ,
+    					];
+    	$booking['UserObject'] = $UserObject;
+    	$reservation = self::createBookingService( $booking );
 
     	return [ 'cient' => $client, 'reservation' => $reservation ];
     }
