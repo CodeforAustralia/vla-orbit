@@ -741,7 +741,7 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                                
+                // execute some code after table records loaded              
             },
             onError: function (grid) {
                 // execute some code on network or other general error  
@@ -770,20 +770,20 @@ var TableDatatablesAjax = function () {
                 
                 "bInfo": false,
                 "columns": [
-                        { data: "id" },                             
-                        { data: "service_name" },                             
-                        { data: "date" },                             
-                        { data: "time" },                             
-                        { data: "_embedded.client.first_name" },                             
-                        { data: "_embedded.client.last_name" },                             
-                        { data: "client_email" },                             
-                        { data: "client_mobile" },                             
+                        { data: "BookingRef" },                             
+                        { data: "ServiceId" },                             
+                        { data: "BookingDate" },                             
+                        { data: "BookingTime" },                             
+                        { data: "FirstName" },                             
+                        { data: "LastName" },                             
+                        { data: "Email" },                             
+                        { data: "Mobile" },                             
                         {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('booking', data.id) ;
+                                return getButtons('booking', data.BookingRef) ;
                             }
                         }
                 ],
