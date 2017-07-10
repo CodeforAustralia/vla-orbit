@@ -170,7 +170,7 @@ function getServicesBySP(sp_id){
       url: "/service/list_services_sp/" + sp_id
     })
       .done(function( services_by_sp ) {
-        $("#sp_services").html('');
+        $("#sp_services").html('<option> </option>');
         for (index = 0; index < services_by_sp.length; ++index) {
             booking_id = services_by_sp[index].BookingServiceId;
             service_name = services_by_sp[index].ServiceName;
