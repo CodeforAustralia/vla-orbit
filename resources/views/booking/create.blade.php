@@ -160,13 +160,7 @@
         <br>
     </div>
 </div>
-    <!-- END PAGE HEADER-->
-    
-        <!-- Modal Start -->     
-        
-        
-
-                                    
+    <!-- END PAGE HEADER-->        
                                     
 <!-- Confirm Eligibility Modal -->                                        
     <div class="modal fade in" id="EligibilityConfirm" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="false" role="dialog" aria-labelledby="EligibilityConfirm">
@@ -199,6 +193,7 @@
                     
                     <h4 class="modal-title" id="SelectMatchLabel">Confirm Service Eligibility</h4>
                 </div>
+            </div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <p>Details, location and eligibility </p>
@@ -211,6 +206,7 @@
                 <div class="col-sm-6">
                     <button type="button" data-dismiss="modal" class="btn btn-block green-jungle">Confirm Client Eligibility</button>
                 </div>
+            </div>
         </div>
     </div>    
 
