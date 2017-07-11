@@ -25,12 +25,12 @@
               <div class="row">
                 <!-- Logo -->
                 <div class="col-xs-6 col-sm-4">
-                  <img src="https://pbs.twimg.com/profile_images/583201253980643328/NfKqUKrP.jpg" class="img-responsive img-thumbnail center-block">
+                  <img src="#" class="img-responsive img-thumbnail center-block">
                 </div>
                 <!-- Service & SP -->
                 <div class="col-xs-6 col-sm-8">
-                  <h3><strong>Homeless Law Service</strong></h3>
-                  <h4>Justice Connect</h4>
+                  <h3 class="service-name"><strong>Homeless Law Service</strong></h3>
+                  <h4 class="service-provider-name">Justice Connect</h4>
                   <p>Send the client the contact details of this service and a record of this Orbit referral by Email, SMS or both with the form below.</p>
                 </div>
               </div>
@@ -97,3 +97,28 @@
     </div><!-- Modal Dialogue Close-->
   </div><!-- Modal Fade Close-->
 @endsection
+
+@section('scripts')
+@endsection
+
+@section('inline-scripts')
+
+  $(document).ready(function() {
+    $('.open-modal').on( "click", function(){
+      var service_card = $( this ).closest(".service-card");
+      var service_provider_name = $(service_card).find(".service-provider-name").text();
+      var service_name = $(service_card).find(".service-name").text();
+      var image_path = $(service_card).find("img").attr("src");
+
+      console.log(service_card);
+      console.log(service_provider_name);
+      console.log(service_name);
+
+      var modal = $("#SelectMatch");
+      $(modal).find(".service-provider-name").text(service_provider_name);
+      $(modal).find(".service-name").text(service_name);
+      $(modal).find("img").attr("src", image_path);
+    });
+  });  
+@endsection
+

@@ -2,7 +2,7 @@
     <!-- Result -->
     <div class="portlet light">
       <div class="portlet-body">
-        <div class="row"> <!-- Card 1-->
+        <div class="row service-card" id="{{ $match['ServiceId'] }}"> <!-- Card 1-->
           <!-- Card Container -->
           <div class="col-xs-12">
             <!-- Logo -->
@@ -12,8 +12,8 @@
             <!-- Service Details -->
             <div class="col-xs-8">
               <div class="col-xs-12">
-                <h3 class="margin-top-10"><strong>{{ $match['ServiceName'] }}</strong></h3>
-                <h4>{{ $match['ServiceProviderName'] }}</h4>
+                <h3 class="margin-top-10 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
+                <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
                 <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank"><h5>{{ $match['Location'] }}</h5></a>
               </div>
               <!-- Description  -->
@@ -38,7 +38,7 @@
               <!--Card Content RHS-->  
               <div class="col-xs-12 col-sm-12 col-md-4"> 
                 <!-- Trigger Modal -->
-                <button type="button" class="btn green-jungle btn-block btn-lg pull-right" data-toggle="modal" data-target="#SelectMatch">Select Match</button>
+                <button type="button" class="btn green-jungle btn-block btn-lg pull-right open-modal" data-toggle="modal" data-target="#SelectMatch">Select Match</button>
               </div>    
             </div> <!-- Close Service Details-->
           </div> <!-- Close Card Col -->
