@@ -732,6 +732,7 @@ var TableDatatablesAjax = function () {
             }
         });
     }
+    
     var handleBookings = function () {
 
         var grid = new Datatable();
@@ -791,6 +792,85 @@ var TableDatatablesAjax = function () {
             }
         });
     }
+
+    var handleReferrals = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_referrals"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded              
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+                confirmDialog();
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/referral/list", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "RefNo" },                             
+                        { data: "ServiceName" },                             
+                        { data: "Email" },                             
+                        { data: "Mobile" },       
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                if( data.SafeEmail == 1 )
+                                {
+                                    return '<span class="label label-sm label-success"> Safe </span>';
+                                }
+                                return '<span class="label label-sm label-danger"> Not Safe </span>';
+                            }                          
+                        },
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                if( data.SafeMobile == 1 )
+                                {
+                                    return '<span class="label label-sm label-success"> Safe </span>';
+                                }
+                                return '<span class="label label-sm label-danger"> Not Safe </span>';
+                            }                          
+                        },                           
+                        { data: "CreatedBy" }
+                        /*{
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('referral', data.BookingRef) ;
+                            }
+                        }*/
+                ],
+
+            }
+        });
+    }
      
     var getButtons = function (controller, id) {
 
@@ -821,6 +901,7 @@ var TableDatatablesAjax = function () {
             handleQuestionEligibility();
             handleUser();
             handleBookings();
+            handleReferrals();
         }
 
     };
