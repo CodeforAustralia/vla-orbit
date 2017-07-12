@@ -173,6 +173,7 @@ function getServicesBySP(sp_id){
         $("#sp_services").html('<option> </option>');
         for (index = 0; index < services_by_sp.length; ++index) {
             booking_id = services_by_sp[index].BookingServiceId;
+            booking_interpreter_id = services_by_sp[index].BookingInterpritterServiceId;
             service_name = services_by_sp[index].ServiceName;
             var option = '<option value="' + booking_id + '"> ' + service_name + ' </option>';
             $("#sp_services").append(option);

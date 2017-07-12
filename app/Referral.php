@@ -1,9 +1,93 @@
 <?php
 namespace App;
+
 use App\Vulnerability;
+use Auth;
 
 class Referral
 {
+    public function getAllReferrals()
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $user = Auth::user();
+        if( $user->sp_id != 0 )
+        {
+            $info['ServiceProviderId'] = $user->sp_id;
+            $referrals = json_decode( 
+                                        $client
+                                        ->GetAllReferralsByServiceProviderasJSON( $info )
+                                        ->GetAllReferralsByServiceProviderasJSONResult, 
+                                        true
+                                    );
+        } 
+        else {
+            $referrals = json_decode( 
+                                    $client
+                                    ->GetAllReferralsasJSON()
+                                    ->GetAllReferralsasJSONResult, 
+                                    true 
+                                );
+        }
+
+        return $referrals;
+    }
+
+    public function getAllReferralsBySP( $sp_id )
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $info = [ 'ServiceProviderId' => $sp_id];
+
+        $referrals = json_decode( 
+                                    $client
+                                    ->GetAllReferralsByServiceProviderasJSON( $info )
+                                    ->GetAllReferralsByServiceProviderasJSONResult, 
+                                    true 
+                                );
+        return $referrals;
+    }
+
+    public function saveReferral( $referral )
+    {
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        // Current time
+        $date_now = date("Y-m-d");
+        $time_now = date("H:i:s");
+        $date_time = $date_now . "T" . $time_now;
+
+        $referral['CreatedBy'] = auth()->user()->name;
+        $referral['UpdatedBy'] = auth()->user()->name;
+        $referral['CreatedOn'] = $date_time;
+        $referral['UpdatedOn'] = $date_time;
+        $referral['Mobile']    = ( $referral['Mobile'] == '' ? '000000000' : $referral['Mobile'] );
+        $referral['Email']     = ( $referral['Email'] == '' ? 'N/P' : $referral['Email'] );
+        $referral['RefNo']     = 0;
+        $referral['SentEmail'] = 0;
+        $referral['SentMobile'] = 0;
+
+        $info = [ 'ObjectInstance' => $referral ];
+
+        try
+        {            
+            $response = $client->SaveReferral( $info );
+            if( $response->SaveReferralResult )
+            {
+                return array( 'success' => 'success' , 'message' => 'Service saved.', 'data' => $response->SaveReferralResult );
+            } 
+            else {
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+            }
+        }
+        catch (\Exception $e) 
+        {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage(), 'data' => $referral );       
+        }
+    }
 
     public function getServicesByCatchmentId( $ca_id, $mt_id )
     {		
@@ -20,7 +104,6 @@ class Referral
         						);
         return $services;
     }
-
 
     public function getVulnerabilityByServices( $ca_id, $mt_id )
     {

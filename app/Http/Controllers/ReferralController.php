@@ -24,6 +24,17 @@ class ReferralController extends Controller
         return view('referral.show');
     }
     
+    public function store()
+    {
+        $request = request()->all();       
+
+        $referral_obj = new Referral($request);
+        $response = $referral_obj->saveReferral( $request );
+
+        return $response;
+
+    }
+
     public function create()
     {
         return view('referral.create');
@@ -101,5 +112,12 @@ class ReferralController extends Controller
             }
         }
         return view( 'referral.create.no-results');
+    }
+
+    public function list()
+    {
+        
+        $referral_obj = new Referral();
+        return ['data' => $referral_obj->getAllReferrals() ];
     }
 }

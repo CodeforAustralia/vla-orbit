@@ -225,9 +225,13 @@ Route::get('/referral/create/questions', 'ReferralController@questions');
 
 Route::get('/referral/create/review', 'ReferralController@review');
 
+Route::get('/referral/list', 'ReferralController@list');
+
 //Route::get('/referral/result', 'ReferralController@result');
 
 Route::post('/referral/create/result', 'ReferralController@result');
+
+Route::post('/referral', 'ReferralController@store');
 
 //Users
 

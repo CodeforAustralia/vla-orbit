@@ -10,7 +10,7 @@
 </div> <!-- Row Close -->
 
   <!-- Modal Start -->     
-  <div class="modal fade" id="SelectMatch" tabindex="-1" role="dialog" aria-labelledby="SelectMatchLabel">
+  <div class="modal fade" id="SelectMatch" tabindex="-1" role="dialog" aria-labelledby="SelectMatchLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -51,7 +51,7 @@
                         <div class="form-group">
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox"> This email address is safe to contact                                  
+                              <input type="checkbox" id="safeEmail"> This email address is safe to contact                                  
                             </label>
                           </div>
                         </div>
@@ -66,15 +66,15 @@
                         <div class="form-group">
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox"> This phone number is safe to text                          
+                              <input type="checkbox" id="safePhone"> This phone number is safe to text                          
                             </label>
                           </div>  
                         </div>
                       </div>
                     </div>
                     <!-- Button -->
-                    <div class="col-xs-6 col-xs-offset-3"><br>
-                        <!--<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#SelectMatch">Send to Client</button><br><!-- Trigger Modal -->
+                    <div class="col-xs-6 col-xs-offset-3"><br>                        
+                        <!-- Trigger Modal -->
                         <button type="button" class="btn green-jungle btn-block btn-lg pull-right" id="send-client">Send to Client</button><br><!-- Trigger Modal -->
                     </div><!-- End Form -->
                   </form>
@@ -87,7 +87,7 @@
               <div class="col-xs-12 text-center">
                 <p style="font-size: 126px;"><i class="fa fa-check-circle" style="color: #5cb85c;background-color: #fff;"></i></p>
                 <h3><strong>Referral Sent to Client</strong></h3>
-                <h3><strong>ID:</strong> #43102</h3><br>
+                <h3><strong>ID: #</strong><span id="referral_id"></span></h3><br>
                 <button type="button" class="btn default btn-outline btn-lg" data-toggle="modal" data-target="#SelectMatch" id="close-modal"><span>View Results</span></button>
                 <button type="button" class="btn green-jungle btn-lg" onClick="window.location='/referral';">Return to Dashboard</button><br><br><br><br>
               </div>
@@ -102,23 +102,82 @@
 @endsection
 
 @section('inline-scripts')
-
+  var service_id = 0;
   $(document).ready(function() {
+
     $('.open-modal').on( "click", function(){
       var service_card = $( this ).closest(".service-card");
       var service_provider_name = $(service_card).find(".service-provider-name").text();
       var service_name = $(service_card).find(".service-name").text();
       var image_path = $(service_card).find("img").attr("src");
-
-      console.log(service_card);
-      console.log(service_provider_name);
-      console.log(service_name);
+      service_id = $( service_card ).attr('id');
 
       var modal = $("#SelectMatch");
       $(modal).find(".service-provider-name").text(service_provider_name);
       $(modal).find(".service-name").text(service_name);
       $(modal).find("img").attr("src", image_path);
     });
-  });  
-@endsection
 
+
+    $( "#close-modal" ).on( "click", function() {
+      $("#result-step-1").show();
+      $("#result-step-2").hide();
+    });
+
+    $('#send-client').on( "click", function(){
+      var phone = $("#Phone").val();
+      var email = $("#Email").val();
+      var safe_phone = 0;
+      var safe_email = 0;
+      if( $("#safeEmail").is(':checked') )
+      {
+        safe_email = 1;
+      }
+      if( $("#safePhone").is(':checked') )
+      {
+        safe_phone = 1;
+      }
+
+      if( isEmail( email ) || phone != '' )
+      {
+        $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+          },
+          method: "POST",
+          url: "/referral",
+          data: { 
+                  Mobile: phone, 
+                  Email: email,
+                  SafeMobile: safe_phone,
+                  SafeEmail: safe_email,
+                  ServiceId: service_id
+                }
+        })
+          .done(function( msg ) {
+            console.log( msg );
+            $("#referral_id").html(msg.data);
+            $("#result-step-1").hide();
+            $("#result-step-2").show();
+          });
+      } 
+      else {
+        if( safeEmail && !isEmail( email ) )
+        {
+          alert("Please enter a valid email address");
+        }
+        if ( safePhone && phone == '' )
+        {
+          alert("Please enter a mobile number");
+        }
+        alert( "Please provide an Email and/or a mobile number." );
+      }
+
+    });
+  });  
+
+  function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+  }
+@endsection
