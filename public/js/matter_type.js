@@ -772,7 +772,7 @@ var TableDatatablesAjax = function () {
                 "bInfo": false,
                 "columns": [
                         { data: "BookingRef" },                             
-                        { data: "ServiceId" },                             
+                        { data: "ServiceName" },                             
                         { data: "BookingDate" },                             
                         { data: "BookingTime" },                             
                         { data: "FirstName" },                             
