@@ -1,4 +1,5 @@
 @foreach( $matches as $match )
+
     <!-- Result -->
     <div class="portlet light">
       <div class="portlet-body">
@@ -39,6 +40,9 @@
               <div class="col-xs-12 col-sm-12 col-md-4"> 
                 <!-- Trigger Modal -->
                 <button type="button" class="btn green-jungle btn-block btn-lg pull-right open-modal" data-toggle="modal" data-target="#SelectMatch">Select Match</button>
+                @if ( in_array( Auth::user()->roles()->first()->name, [ 'Administrator', 'VLA', 'AdminSp' ] ) )
+                <button type="button" class="btn green-jungle btn-block btn-lg pull-right open-booking" data-toggle="modal" data-target="#SelectBooking" id="{{ $match['BookingServiceId']}}-{{ $match['BookingInterpritterServiceId']}}-{{ $match['ServiceProviderId']}}">Make Booking</button>
+                @endif
               </div>    
             </div> <!-- Close Service Details-->
           </div> <!-- Close Card Col -->

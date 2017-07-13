@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Matter;
 use App\Referral;
+use App\ServiceProvider;
 use App\Vulnerability;
 
 class ReferralController extends Controller
@@ -104,11 +105,14 @@ class ReferralController extends Controller
         {
             $answers = request('answers');
 
+            $service_providers_obj  = new ServiceProvider();
+            $service_providers      = $service_providers_obj->getAllServiceProviders();
+
             $referral = new Referral();
             $matches  = $referral->filterByQuestions( $answers );
             if( sizeof($matches) > 0 )
             {
-                return view( 'referral.create.result', compact('matches') );
+                return view( 'referral.create.result', compact( 'matches','service_providers' ) );
             }
         }
         return view( 'referral.create.no-results');

@@ -9,6 +9,7 @@
   </div> <!-- Col Close -->
 </div> <!-- Row Close -->
 
+    @include ('referral.create.booking')
   <!-- Modal Start -->     
   <div class="modal fade" id="SelectMatch" tabindex="-1" role="dialog" aria-labelledby="SelectMatchLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
@@ -105,7 +106,25 @@
   var service_id = 0;
   $(document).ready(function() {
 
-    $('.open-modal').on( "click", function(){
+    $('.open-booking').on( "click", function(){
+
+      var service_card = $( this ).closest(".service-card");
+      var sv_id = $( service_card ).attr("id");
+      var booking_ids = $( this ).attr("id").split('-');
+      var sp_id = booking_ids[2];
+      var booking_id = booking_ids[0];
+      var booking_interpretor_id = booking_ids[1];
+      
+      $('#service_provider_id').attr("disabled", "disabled");
+      $('#service_provider_id option[value="' + sp_id + '"]').prop("selected", "selected").change();
+      $('#sp_services').attr("disabled", "disabled");
+
+      setTimeout(function(){
+          $('#sp_services option[value="' + booking_id + '"]').prop("selected", "selected").change();
+      }, 2500);
+    });
+
+    $('.open-modal').on( "click", function(){    
       var service_card = $( this ).closest(".service-card");
       var service_provider_name = $(service_card).find(".service-provider-name").text();
       var service_name = $(service_card).find(".service-name").text();
@@ -119,9 +138,10 @@
     });
 
 
-    $( "#close-modal" ).on( "click", function() {
+    $( "#close-modal, .close" ).on( "click", function() {
       $("#result-step-1").show();
       $("#result-step-2").hide();
+      $("#service_provider_id option").prop("selected", false);
     });
 
     $('#send-client').on( "click", function(){
