@@ -85,16 +85,22 @@ Class Booking
 
         $bookings = json_decode($client->GetBookableServiesWithTime( $info )->GetBookableServiesWithTimeResult, true );
 
-        $events = $bookings['_embedded']['events'];
+        if ($bookings)
+        {
+            $events = $bookings['_embedded']['events'];
 
-        $unavailables = [];
-        foreach ($events as $event) {
-            if( empty( $event['times'] ) ) 
-            {
-                $unavailables[] = $event['date'];
+            $unavailables = [];
+            foreach ($events as $event) {
+                if( empty( $event['times'] ) ) 
+                {
+                    $unavailables[] = $event['date'];
+                }
             }
+            $bookings['unavailables'] = $unavailables;            
         }
-        $bookings['unavailables'] = $unavailables;
+        else {
+            $bookings = [];
+        }
         return $bookings;
 		
 	}

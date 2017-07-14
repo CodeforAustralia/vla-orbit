@@ -59,6 +59,7 @@ function getBookingsByService(booking_id)
 
 function getServiceDatesByMonth(month, sv_id)
 {
+    showLoading();
     if( sv_id.length > 0)
     {
         var dateInput = $('#booking-date');
@@ -68,13 +69,23 @@ function getServiceDatesByMonth(month, sv_id)
           url: "/booking/listDatesByMonth/" + month + "/" + sv_id
         })
           .done(function( msg ) {
-            dateInput.datepicker('setDatesDisabled', msg.unavailables);
-            services = msg;
-            showAvailability();
+            console.log(msg);
+            console.log(msg.length);
+            if( Object.keys(msg).length > 1)
+            {
+                dateInput.datepicker('setDatesDisabled', msg.unavailables);
+                services = msg;
+                showAvailability();
+                hideLoading();
+            } else{
+                hiddeAvailability();
+                hideLoading();                
+            }
           });
 
     } else {
         hiddeAvailability();
+        hideLoading();
     }
 }
 
@@ -88,6 +99,18 @@ function showAvailability()
 {
     $(".availability").hide().removeClass("hidden").fadeIn();
     $("#no-dates-availables").addClass("hidden");
+}
+
+function showLoading()
+{    
+    $("#loading").hide().removeClass("hidden").fadeIn(); 
+    $(".availability").addClass("hidden");
+    $("#no-dates-availables").addClass("hidden");
+}
+
+function hideLoading()
+{    
+    $("#loading").addClass("hidden");
 }
 
 function showTimes(day)
