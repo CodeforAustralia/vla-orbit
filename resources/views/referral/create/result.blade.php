@@ -119,8 +119,10 @@
       $('#service_provider_id option[value="' + sp_id + '"]').prop("selected", "selected").change();
       $('#sp_services').attr("disabled", "disabled");
 
+      $(".booking-area").addClass("hidden");      
       setTimeout(function(){
           $('#sp_services option[value="' + booking_id + '"]').prop("selected", "selected").change();
+          $(".booking-area").hide().removeClass("hidden").fadeIn();
       }, 2500);
     });
 
