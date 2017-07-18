@@ -59,7 +59,7 @@ class BookingController extends Controller
     }
 
     public function store()
-    {
+    {        
         $client_details = request('client');
         $client_details['ClientEmail']  = ( !isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ? '' : $client_details['ClientEmail'] );
         $client_details['Mobile']       = ( !isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ? '' : $client_details['Mobile'] );
@@ -67,7 +67,11 @@ class BookingController extends Controller
         $booking = [
                         'Date' => $service_time[0],
                         'Time' => $service_time[1],
-                        'ServiceId' => request('ServiceId')
+                        'ServiceId' => request('ServiceId'),
+                        'Desc'      => (is_null( request('Desc') ) ? '' : request('Desc') ),
+                        'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
+                        'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
+                        'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
                     ];
         
         $booking_obj = new Booking(); 
@@ -80,5 +84,16 @@ class BookingController extends Controller
     {
         $booking_obj = new Booking(); 
         return $booking_obj->getAllBookingsPerMonth("2017-07-01", "2017-07-31") ;
+    }
+
+    public function listCalendar()
+    {
+        $booking_obj = new Booking(); 
+        return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') ) ;
+    }
+
+    public function calendar()
+    {
+        return view("booking.calendar");
     }
 }

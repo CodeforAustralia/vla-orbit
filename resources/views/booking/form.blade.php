@@ -14,7 +14,9 @@
                 <div class="col-xs-8">
                     <select class="form-control" id="service_provider_id" name="service_provider_id">                                
                         @foreach($service_providers as $service_provider)
+                        	@if( in_array( $service_provider['ServiceProviderId'], [119, 121, 106, 47] ) )
                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -127,6 +129,65 @@
             </div>
         </div>
     </div>
+
+    <hr>
+    <h4 class="padding-top-10 padding-bottom-10">Booking Details</h4>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-10">
+                    <label>Description:</label>
+                    <textarea class="form-control" rows="5" class="form-control" id="Desc" name="Desc" required></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-10">
+                    <label>Language:</label>
+                    <select class="form-control" id="Language" name="Language">    
+                        @include( 'booking.language' )
+                    </select>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-10">
+                    <label>Is there risk of violence? :</label>
+                    <div class="mt-radio-inline">
+                        <label class="mt-radio">
+                            <input type="radio" name="Safe" value="true"> Yes
+                            <span></span>
+                        </label>
+                        <label class="mt-radio">
+                            <input type="radio" name="Safe" value="false" required> No
+                            <span></span>
+                        </label>
+                    </div>                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-10">
+                    <label>CIR Number :</label>
+                    <input type="text" class="form-control input-large" name="CIRNumber" id="CIRNumber">                 
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="row">
         <div class="col-xs-12 padding-top-10 padding-bottom-20">

@@ -27,16 +27,60 @@ Class Booking
         return $bookings;
 	}
 
-	public function getAllBookingsPerMonth( $from, $to )
-	{		
-		// Create Soap Object
+    public function getAllBookingsPerMonth( $from, $to )
+    {       
+        // Create Soap Object
         $bookings = self::getAllBookings( $from, $to );
-        if( sizeof( $bookings->Bookings ) == 1 )
+
+        if( isset( $bookings->Bookings))
         {
-        	$bookings->Bookings = [$bookings->Bookings];
+            if( sizeof( $bookings->Bookings ) == 1 )
+            {
+                $bookings->Bookings = [ $bookings->Bookings ];
+                return [ 'data' => $bookings->Bookings ];
+            } else {
+                return [ 'data' => $bookings->Bookings ];
+            }
+
         }
-        return [ 'data' => $bookings->Bookings ];
-	}
+        return ['data' => ''];
+    }
+
+    public function getAllBookingsPerMonthCalendar( $from, $to )
+    {       
+        // Create Soap Object
+        $bookings = self::getAllBookings( $from, $to );
+        $output = [];
+        if( isset( $bookings->Bookings))
+        {
+            if( sizeof( $bookings->Bookings ) == 1 )
+            {
+                $event = $bookings->Bookings;
+                $output[] =  [
+                                'title' => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
+                                'start' => $event->BookingDate . ' ' . $event->BookingTime,
+                                'backgroundColor' => '#17C4BB',
+                                'allDay' => false,
+                                'data'   => $event
+                              ];
+            } 
+            elseif( sizeof( $bookings->Bookings ) > 1 ) 
+            {
+                foreach ( $bookings->Bookings as $event ) 
+                {
+                    $output[] =   [
+                                    'title' => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
+                                    'start' => $event->BookingDate . ' ' . $event->BookingTime,
+                                    'backgroundColor' => '#17C4BB',
+                                    'allDay' => false,
+                                    'data'   => $event
+                                  ];
+                }
+            }
+        }
+
+        return $output;
+    }
 
 	public function getAllBookingsByService( $from, $to, $sv_id )
 	{
@@ -156,7 +200,7 @@ Class Booking
     					];
     	$booking['UserObject'] = $UserObject;
     	$reservation = self::createBookingService( $booking );
-
+        
     	return [ 'cient' => $client, 'reservation' => $reservation ];
     }
 

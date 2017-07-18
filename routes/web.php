@@ -206,6 +206,8 @@ Route::get('/booking/listDatesByMonth/{month}/{sv_id}', 'BookingController@getSe
 
 Route::get('/booking/list', 'BookingController@list');
 
+Route::get('/booking/listCalendar', 'BookingController@listCalendar');
+
 Route::post('/booking', 'BookingController@store');
 
 //Referral

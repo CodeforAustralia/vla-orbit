@@ -772,9 +772,15 @@ var TableDatatablesAjax = function () {
                 "bInfo": false,
                 "columns": [
                         { data: "BookingRef" },                             
-                        { data: "ServiceName" },                             
-                        { data: "BookingDate" },                             
-                        { data: "BookingTime" },                             
+                        { data: "ServiceName" },     
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return data.BookingDate + ' ' + data.BookingTime ;
+                            }                            
+                        },
                         { data: "FirstName" },                             
                         { data: "LastName" },                             
                         { data: "Email" },                             
