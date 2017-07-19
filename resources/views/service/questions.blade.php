@@ -19,8 +19,8 @@
                 <div class="modal-body">
                     <p>Use the tabs below to add Conditions to a specific legal matter or override the service-wide eligibility criteria for each Legal Matter </p>
                     <ul class="nav nav-tabs">
-                    @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )                    
-                        <li class="{{ ($pos == 0 ? 'active' : '') }}" ><a data-toggle="tab" href="#{{ str_replace(' ' , '-', $matter_name) }}">{{ $matter_name }}</a></li>
+                    @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )                                            
+                        <li class="{{ ($pos == 0 ? 'active' : '') }}" ><a data-toggle="tab" href="#{{ $current_service->ServiceMatters[$pos]->MatterID }}">{{ $matter_name }}</a></li>                        
                     @endforeach
                     </ul>
                     
@@ -30,7 +30,7 @@
                     <br>
                     @foreach($current_service->ServiceMatters as $pos => $cs_Legal_matter)
 
-                        <div id="{{ str_replace(' ' , '-', $cs_Legal_matter->MatterName) }}" class="tab-pane fade {{ ($pos == 0 ? 'in active' : '') }}">
+                        <div id="{{ $current_service->ServiceMatters[$pos]->MatterID }}" class="tab-pane fade {{ ($pos == 0 ? 'in active' : '') }}">
                             @foreach( $cs_Legal_matter->MatterQuestions as $cs_Legal_matter_question )
 
                             <div class="form-group">
