@@ -1,3 +1,11 @@
+
+  <!-- BEGIN PAGE HEADER-->
+  <div class="portlet ">
+      <h1 class="page-title col-xs-12"> Results <small class="pull-right"># of services ( {{ count($matches) }} )</small> </h1>      
+      <br>
+  </div>
+  <!-- END PAGE HEADER-->
+
 @foreach( $matches as $match )
 
     <!-- Result -->
@@ -19,8 +27,8 @@
               </div>
               <!-- Description  -->
               <div class="col-xs-12 visible-xs-block visible-sm-block visible-md-block visible-lg-block visible-xl-block padding-bottom-20 padding-top-10">     
-                <a class="btn-default bg-white dropdown-toggle" data-toggle="collapse" href="#description1" aria-expanded="false" aria"=false" aria-controls="description"  role="button"><strong>View Description <i class="fa fa-angle-down"></i></strong></a>      
-                <div class="collapse col-xs-12" id="description1">              
+                <a class="btn-default bg-white dropdown-toggle" data-toggle="collapse" href="#description{{ $match['ServiceId'] }}" aria-expanded="false" aria"=false" aria-controls="description"  role="button"><strong>View Description <i class="fa fa-angle-down"></i></strong></a>      
+                <div class="collapse col-xs-12" id="description{{ $match['ServiceId'] }}">              
                   <div class="col-xs-12"><br>
                     {{ $match['Description'] }}
                   </div>
