@@ -155,7 +155,15 @@ Class Catchment
                 }            
             }            
             self::processCatchmentArea( $catchments, $sv_id, 1 );
-        }        
+        }
+
+        if( !isset( $request['lga'] ) && !isset( $request['postcodes'] ) && !isset( $request['suburbs'] ) ) 
+        {
+            $catchments[] = [
+                                'CatchmentId' => 10209, //ID for all catchments
+                            ];
+            self::processCatchmentArea( $catchments, $sv_id, 4 ); //All catchments, 
+        }
     }
 
     public function processCatchmentArea( $catchments, $sv_id, $ct_id ) 
