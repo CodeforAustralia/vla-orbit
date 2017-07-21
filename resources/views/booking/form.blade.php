@@ -161,26 +161,6 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-10">
-                    <label>Is there risk of violence? :</label>
-                    <div class="mt-radio-inline">
-                        <label class="mt-radio">
-                            <input type="radio" name="Safe" value="true"> Yes
-                            <span></span>
-                        </label>
-                        <label class="mt-radio">
-                            <input type="radio" name="Safe" value="false" required> No
-                            <span></span>
-                        </label>
-                    </div>                  
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="form-group">
-                <div class="col-xs-12 padding-bottom-10">
                     <label>CIR Number :</label>
                     <input type="text" class="form-control input-large" name="CIRNumber" id="CIRNumber">                 
                 </div>

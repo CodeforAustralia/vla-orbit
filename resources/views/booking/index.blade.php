@@ -83,10 +83,6 @@
                                 <span id="bookingIntLanguage"></span>
                             </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Is there risk of violence? </strong></label>
-                                <span id="bookingIsSafe"></span>
-                            </div>
-                            <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Booking Description: </strong></label>
                                 <span id="bookingDescription"></span>
                             </div>
