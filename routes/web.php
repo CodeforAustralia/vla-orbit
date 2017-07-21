@@ -231,6 +231,8 @@ Route::get('/referral/list', 'ReferralController@list');
 
 //Route::get('/referral/result', 'ReferralController@result');
 
+Route::get('/referral/create/result', 'ReferralController@result');
+
 Route::post('/referral/create/result', 'ReferralController@result');
 
 Route::post('/referral', 'ReferralController@store');

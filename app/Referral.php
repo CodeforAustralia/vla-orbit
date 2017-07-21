@@ -110,7 +110,7 @@ class Referral
         $vulnerability_obj = new Vulnerability();
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
 
-        $services = self::getServicesByCatchmentId( $ca_id, $mt_id );
+        $services = self::getServicesByCatchmentId( $ca_id, $mt_id );        
         $qu_id = [];
         $question_list = [];
 
@@ -135,7 +135,7 @@ class Referral
                 $question_list[] = $vulnertability_question;
             }
         }
-
+        
         return ['vulnertability_questions' => $question_list, 'service_qty' => count( $services )];
     }
 
@@ -147,8 +147,19 @@ class Referral
         $matches = [];
 
         foreach ($services as $service) 
-        {
+        {            
             $service_match = self::matchVulnerability( $service['ServiceVulAnswers'], $vuln_list) ;
+
+            //Not getting information about legal matter and vulnerability
+            if( empty( $service['ServiceVulAnswers'] ) && empty( $service['ServiceMatters'] ) )
+            {
+                $matches[] = $service;
+            } 
+            elseif( $service_match &&  empty( $service['ServiceMatters'] ) ) 
+            {
+                $matches[] = $service;
+            }
+
             foreach ($service['ServiceMatters'] as $legal_matter) 
             {
                 // if LM does not have vuln on it take the service one 
@@ -159,13 +170,17 @@ class Referral
                 elseif( self::matchVulnerability( $legal_matter['VulnerabilityMatterAnswers'], $vuln_list ) )
                 {
                     $matches[] = $service;
+                } 
+                elseif( empty( $service['ServiceVulAnswers'] ) && empty( $legal_matter['VulnerabilityMatterAnswers'] ) )
+                {
+                    $matches[] = $service;
                 }
             }
         }
         //Get list of questions of a legal matter
         $question_list = self::getMatterQuestions( $matches, $mt_id );
         
-        session(['matches' => $matches ]);
+        session(['matches' => $matches ]);        
 
         return $question_list;
     }
@@ -190,42 +205,46 @@ class Referral
     }
 
     public function getMatterQuestions( $services, $mt_id )
-    {
+    {        
         $question_list = [];
         foreach ( $services as $service ) 
         {
-            $matter_pos = array_search( $mt_id,  array_column( $service['ServiceMatters'], 'MatterID' ) );
-            $matter_questions = $service['ServiceMatters'][ $matter_pos ]['MatterQuestions'];
-            $matter_answers   = $service['ServiceMatters'][ $matter_pos ]['MatterAnswers'];
-            foreach ($matter_questions as $question) 
+            if( !empty( $service['ServiceMatters'] ) )
             {
-                $qu_id = $question['QuestionId'];
-                $current_answers = self::getMultipleAnswers( $qu_id, $matter_answers );
-                if( !empty($current_answers) )
+                $matter_pos = array_search( $mt_id,  array_column( $service['ServiceMatters'], 'MatterID' ) );
+                $matter_questions = $service['ServiceMatters'][ $matter_pos ]['MatterQuestions'];
+                $matter_answers   = $service['ServiceMatters'][ $matter_pos ]['MatterAnswers'];
+                foreach ($matter_questions as $question) 
                 {
-                    if( !isset( $question_list[ $qu_id ]['prop'] ) )
+                    $qu_id = $question['QuestionId'];
+                    $current_answers = self::getMultipleAnswers( $qu_id, $matter_answers );
+                    if( !empty($current_answers) )
                     {
-                        $question_list[ $qu_id ]['prop'] = [
-                                                            'Operator'      => $question['Operator'],
-                                                            'QuestionName'  => $question['QuestionName'] ,                      
-                                                            'QuestionTypeName'  => $question['QuestionTypeName']
-                                                            ] ;
-                    }
-                    if( $question['QuestionTypeName'] == 'multiple' )
-                    {
-                        if ( !isset( $question_list[ $qu_id ]['prop']['QuestionValue'] ) )
+                        if( !isset( $question_list[ $qu_id ]['prop'] ) )
                         {
-                            $question_list[ $qu_id ]['prop']['QuestionValue'] = $current_answers ;
+                            $question_list[ $qu_id ]['prop'] = [
+                                                                'Operator'      => $question['Operator'],
+                                                                'QuestionName'  => $question['QuestionName'] ,                      
+                                                                'QuestionTypeName'  => $question['QuestionTypeName']
+                                                                ] ;
                         }
-                        else {
-                            foreach ( $current_answers as $answer ) {                            
-                                array_push( $question_list[ $qu_id ]['prop']['QuestionValue'], $answer );
+                        if( $question['QuestionTypeName'] == 'multiple' )
+                        {
+                            if ( !isset( $question_list[ $qu_id ]['prop']['QuestionValue'] ) )
+                            {
+                                $question_list[ $qu_id ]['prop']['QuestionValue'] = $current_answers ;
                             }
-                        }                    
-                    }                                                                    
-                    $question_list[ $qu_id ]['services'][] = $service['ServiceId'];                
-                }
-            }            
+                            else {
+                                foreach ( $current_answers as $answer ) {                            
+                                    array_push( $question_list[ $qu_id ]['prop']['QuestionValue'], $answer );
+                                }
+                            }                    
+                        }                                                                    
+                        $question_list[ $qu_id ]['services'][] = $service['ServiceId'];                
+                    }
+                }            
+            }
+                
         }
         return $question_list;
     }
@@ -249,12 +268,17 @@ class Referral
         $matches = [];
         foreach ( $services as $service ) 
         {
+            if ( empty( $service['ServiceMatters'] ) ) //not set answers on legal matter inside service, match by default
+            {
+                $matches[] = $service;
+            }
+
             foreach ( $service['ServiceMatters'] as $legal_matter ) 
             {
                 if( self::matchServiceAnswersWithAnswers( $answers, $legal_matter['CommonMatterAnswers'] ) )
                 {
                     $matches[] = $service;
-                }
+                } 
             }
         }
 
@@ -309,7 +333,7 @@ class Referral
             default:
                 # Check empty values in question because the answer was not answered
                 # Does not matter the answer to this question is always true
-                return ( $args["QuestionValue"] == " " || $args["QuestionValue"] == " " );
+                return ( $args["answer"] == " " || $args["QuestionValue"] == " " );
                 break;
         }
     }

@@ -13,10 +13,12 @@ $(document).ready(function() {
     $( "#next-location" ).on( "click", function(e) {
         e.preventDefault();
         var catchment = $('#single-prepend-text').select2('data');
-        if( catchment[0].id != '')
-        {
-            console.log( catchment[0].id );
+        if( catchment[0].id > 0)
+        {            
             window.location.href = "/referral/create/legal_issue/?ca_id=" + catchment[0].id;
+        } 
+        else {
+            alert("Please Select a catchment");
         }
     });
 

@@ -83,8 +83,12 @@ class ReferralController extends Controller
         $referral = new Referral();
         $question_list = $referral->filterServices( $ca_id, $mt_id, $vls_id );
         
-        $service_qty = sizeof( session('matches') );
-        if( $service_qty > 0 )
+        $service_qty = sizeof( session('matches') );        
+        if( empty( $question_list ) && $service_qty > 0)
+        {
+            return redirect('referral/create/result');
+        }
+        elseif( $service_qty > 0 )
         {
             return view( 'referral.create.questions', compact( 'question_list', 'service_qty' ) );
         }
@@ -101,12 +105,12 @@ class ReferralController extends Controller
     
     public function result( Request $request )
     {
+        $service_providers_obj  = new ServiceProvider();
+        $service_providers      = $service_providers_obj->getAllServiceProviders();
+
         if( $request->has('answers')  ) 
         {
             $answers = request('answers');
-
-            $service_providers_obj  = new ServiceProvider();
-            $service_providers      = $service_providers_obj->getAllServiceProviders();
 
             $referral = new Referral();
             $matches  = $referral->filterByQuestions( $answers );
@@ -114,6 +118,15 @@ class ReferralController extends Controller
             {
                 return view( 'referral.create.result', compact( 'matches','service_providers' ) );
             }
+        } 
+        else {
+            $service_qty = sizeof( session('matches') );
+            if( $service_qty > 0 )
+            {
+                $matches = session('matches');
+                return view( 'referral.create.result', compact( 'matches','service_providers' ) );
+            }
+               
         }
         return view( 'referral.create.no-results');
     }

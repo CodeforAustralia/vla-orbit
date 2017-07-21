@@ -12,6 +12,14 @@ Class Catchment
         //GetAllOrbitServices
         $services = json_decode($client->GetAllCatchmentsasJSON()->GetAllCatchmentsasJSONResult, true);
 
+        foreach ($services as $pos => $service) 
+        {
+            if( $service['PostCode'] == 0 )
+            {
+                unset( $services[$pos] );
+            }
+        }        
+
         return $services;
 	}
 
