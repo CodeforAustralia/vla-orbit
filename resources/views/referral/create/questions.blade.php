@@ -80,6 +80,7 @@
                 ?>
                   <select  class="form-control" name="answers[{{ $qu_id }}]">
                     <option></option> 
+                    <option> Not listed below / Not aplicable </option> 
                     @foreach ( $options as $option )
                       <option value="{{ $option }}"> {{ $option }} </option>
                     @endforeach
