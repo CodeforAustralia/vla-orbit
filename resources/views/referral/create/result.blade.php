@@ -121,7 +121,7 @@
 
       $(".booking-area").addClass("hidden");      
       setTimeout(function(){
-          $('#sp_services option[value="' + booking_id + '"]').prop("selected", "selected").change();
+          $('#sp_services option[value="' + booking_id + '-' + booking_interpretor_id + '"]').prop("selected", "selected").change();
           $(".booking-area").hide().removeClass("hidden").fadeIn();
       }, 2500);
     });
