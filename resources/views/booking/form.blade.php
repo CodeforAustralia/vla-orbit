@@ -42,6 +42,19 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-8 padding-bottom-10">
+                    <label>Interpreter Service (if required):</label>
+                    <select class="form-control" id="Language" name="Language">    
+                        @include( 'booking.language' )
+                    </select>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
     <hr>  
     <h4 class="padding-top-10 padding-bottom-10">Appointment</h4>    
 
@@ -72,6 +85,20 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-10">
+                    <label>CIR Number :</label>
+                    <input type="text" class="form-control input-large" name="CIRNumber" id="CIRNumber">                 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <h4 class="padding-top-10 padding-bottom-10">Contact Details</h4>    
+
    <div class="row">
         <div class="col-xs-12">                            
             <div class="form-group">
@@ -83,7 +110,7 @@
         </div>
     </div>
     
-   <div class="row">
+    <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12">
@@ -100,8 +127,7 @@
             </div>  
         </div>
     </div>
-    
-   <div class="row">
+    <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-10">
@@ -112,7 +138,7 @@
         </div>
     </div>
    
-   <div class="row">
+    <div class="row">
         <div class="col-xs-12">                            
             <div class="form-group">
                 <div class="col-xs-12">
@@ -130,39 +156,12 @@
         </div>
     </div>
 
-    <hr>
-    <h4 class="padding-top-10 padding-bottom-10">Booking Details</h4>
-
     <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-10">
                     <label>Description:</label>
                     <textarea class="form-control" rows="5" class="form-control" id="Desc" name="Desc" required></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="form-group">
-                <div class="col-xs-12 padding-bottom-10">
-                    <label>Language:</label>
-                    <select class="form-control" id="Language" name="Language">    
-                        @include( 'booking.language' )
-                    </select>                    
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="form-group">
-                <div class="col-xs-12 padding-bottom-10">
-                    <label>CIR Number :</label>
-                    <input type="text" class="form-control input-large" name="CIRNumber" id="CIRNumber">                 
                 </div>
             </div>
         </div>
