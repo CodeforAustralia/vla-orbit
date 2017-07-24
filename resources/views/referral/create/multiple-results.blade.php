@@ -8,6 +8,10 @@
 
 @foreach( $matches as $match )
 
+    <?php
+      $current_sp_pos = array_search( $match['ServiceProviderId'],  array_column( $service_providers, 'ServiceProviderId' ) );
+      $current_sp_logo = $service_providers[ $current_sp_pos ]['ServiceProviderLogo'];
+    ?>
     <!-- Result -->
     <div class="portlet light">
       <div class="portlet-body">
@@ -16,7 +20,7 @@
           <div class="col-xs-12">
             <!-- Logo -->
             <div class="col-xs-4">
-              <img src="https://pbs.twimg.com/profile_images/583201253980643328/NfKqUKrP.jpg" class="img-responsive img-thumbnail center-block">
+              <img src="{{ $current_sp_logo }}" class="img-responsive img-thumbnail center-block">
             </div>
             <!-- Service Details -->
             <div class="col-xs-8">
