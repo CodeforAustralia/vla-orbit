@@ -120,13 +120,15 @@ function showTimes(day)
     var event_id = services._embedded.events[day-1].event_id;
     $("#time-options").html('');
     for (index = 0; index < times.length; ++index) {
-        
-        var hour = ('0'+ new Date(times[index].datetime).getHours() ).slice(-2);
-        var minute = ('0'+ new Date(times[index].datetime).getMinutes() ).slice(-2);
-        var time = times[index].time;
+        if(times[index].avail == 1)
+        {            
+            var hour = ('0'+ new Date(times[index].datetime).getHours() ).slice(-2);
+            var minute = ('0'+ new Date(times[index].datetime).getMinutes() ).slice(-2);
+            var time = times[index].time;
 
-        var option = '<label class="mt-radio mt-radio-outline"><input type="radio" name="serviceTime" value="' + date + 'T' + hour + ':' + minute + '"> ' + hour + ':' +              minute + '<span></span></label>';
-        $("#time-options").append(option);        
+            var option = '<label class="mt-radio mt-radio-outline"><input type="radio" name="serviceTime" value="' + date + 'T' + hour + ':' + minute + '"> ' + hour + ':' +              minute + '<span></span></label>';
+            $("#time-options").append(option);        
+        }
     }
 }
 
