@@ -20,9 +20,22 @@ function service_provicer_change()
 
 function service_change()
 {
-    $("#sp_services").on("change",function() {
-        var booking_id = $( this ).val();
-        getBookingsByService(booking_id);        
+    $("#sp_services, #Language").on("change",function() {
+        var booking_id = $( "#sp_services" ).val().split('-')[0];
+        var booking_interpreter_id = $( "#sp_services" ).val().split('-')[1];
+        
+        //Clean times options
+        $("#time-options").html('');
+        $("#booking-date").val('')
+
+        if( $("#Language" ).val() != '' ) // Requires interpreter
+        {
+            getBookingsByService( booking_interpreter_id );
+        } 
+        else // Do not requires interpreter
+        {
+            getBookingsByService(booking_id); 
+        }       
     });
 
 }
@@ -38,7 +51,7 @@ function getBookingsByService(booking_id)
                     todayHighlight: true
                 }).on("changeDate", function(e) {
                     // `e` here contains the extra attributes
-
+/*
                     var month = e.date.getMonth() + 1;
                     var day =  e.date.getDate();                    
 
@@ -49,8 +62,31 @@ function getBookingsByService(booking_id)
 
                     }
                     showTimes(day);
+*/  
+                    if(e.hasOwnProperty("date"))
+                    {
+                        var day =  ('0'+ e.date.getDate()).slice(-2);
+                        var month = ('0'+ (e.date.getMonth() + 1) ).slice(-2);
+                        var year = e.date.getFullYear();
+                        showTimes(day, month, year);     
+                    }
+                })
+                .on('changeMonth', function(e){
+                    var booking_id = $( "#sp_services" ).val().split('-')[0];
+                    var booking_interpreter_id = $( "#sp_services" ).val().split('-')[1];
+                    //var currYear = String(e.date).split(" ")[3];
+                    var current_month = new Date(e.date).getMonth() + 1;
 
-                });
+                    $("#booking-date").val('')
+                    if( $("#Language" ).val() != '' ) // Requires interpreter
+                    {
+                        getServiceDatesByMonth(current_month, booking_interpreter_id);
+                    } 
+                    else // Do not requires interpreter
+                    {
+                        getServiceDatesByMonth(current_month, booking_id);               
+                    }   
+                });  
                 /**** Buggy method can't be used *****
                 .on('changeMonth', function(e){});  
                 *******/
@@ -69,12 +105,11 @@ function getServiceDatesByMonth(month, sv_id)
           url: "/booking/listDatesByMonth/" + month + "/" + sv_id
         })
           .done(function( msg ) {
-            console.log(msg);
-            console.log(msg.length);
             if( Object.keys(msg).length > 1)
             {
-                dateInput.datepicker('setDatesDisabled', msg.unavailables);
                 services = msg;
+                dateInput.datepicker( 'setDate', "2017-"+ month +"-01" );
+                dateInput.datepicker('setDatesDisabled', msg.unavailables);
                 showAvailability();
                 hideLoading();
             } else{
@@ -113,21 +148,40 @@ function hideLoading()
     $("#loading").addClass("hidden");
 }
 
-function showTimes(day)
+function showTimes(day, month, year)
 {
-    var times = services._embedded.events[day-1].times;
-    var date = services._embedded.events[day-1].date;
-    var event_id = services._embedded.events[day-1].event_id;
+    var current_date = year + '-' + month + '-' + day;
+    for (index = 0; index < services._embedded.events.length; ++index) {
+        if( services._embedded.events[index].date == current_date )
+        {
+            var times = services._embedded.events[index].times;
+            var date = services._embedded.events[index].date;
+            var event_id = services._embedded.events[index].event_id;            
+        }
+    }
+
     $("#time-options").html('');
+
+    var duration_slot = 30;
+    if( $("#Language" ).val() != '' ) // Requires interpreter
+    {
+        var duration_slot = 60;
+    }
+
     for (index = 0; index < times.length; ++index) {
         if(times[index].avail == 1)
         {            
-            var hour = ('0'+ new Date(times[index].datetime).getHours() ).slice(-2);
-            var minute = ('0'+ new Date(times[index].datetime).getMinutes() ).slice(-2);
+            var slot_time = new Date(times[index].datetime);
+            var hour = ('0'+ slot_time.getHours() ).slice(-2);
+            var minute = ('0'+ slot_time.getMinutes() ).slice(-2);
             var time = times[index].time;
 
-            var option = '<label class="mt-radio mt-radio-outline"><input type="radio" name="serviceTime" value="' + date + 'T' + hour + ':' + minute + '"> ' + hour + ':' +              minute + '<span></span></label>';
-            $("#time-options").append(option);        
+            var end_time = new Date(slot_time.getTime() + ( duration_slot * 60 * 1000));
+            var end_hour = ('0'+ end_time.getHours() ).slice(-2);
+            var end_minute = ('0'+ end_time.getMinutes() ).slice(-2);
+
+            var option = '<label class="mt-radio mt-radio-outline"><input type="radio" name="serviceTime" value="' + date + 'T' + hour + ':' + minute + '"> ' + hour + ':' + minute + ' - '+ end_hour +':' + end_minute + '<span></span></label>';
+            $("#time-options").append(option);               
         }
     }
 }
@@ -143,7 +197,8 @@ function getServicesBySP(sp_id){
             booking_id = services_by_sp[index].BookingServiceId;
             booking_interpreter_id = services_by_sp[index].BookingInterpritterServiceId;
             service_name = services_by_sp[index].ServiceName;
-            var option = '<option value="' + booking_id + '"> ' + service_name + ' </option>';
+            var option = '<option value="' + booking_id + '-' + booking_interpreter_id + '"> ' + service_name + ' </option>';
+            //var option = '<option value="' + booking_id + '"> ' + service_name + ' </option>';
             $("#sp_services").append(option);
         }        
         if( $("#sp_services option")[0] )

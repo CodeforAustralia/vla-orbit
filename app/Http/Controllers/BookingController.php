@@ -55,7 +55,7 @@ class BookingController extends Controller
         $finish_date = $finish_year . "-" . $finish_month . "-01";
 
         $booking_obj = new Booking(); 
-        return $booking_obj->getBookableServiesByDayWithTime( $sv_id, $init_date, $finish_date);
+        return $booking_obj->getBookableServiesByDayWithTime( $sv_id, date("Y-M"), $finish_date);
     }
 
     public function store()
@@ -64,10 +64,11 @@ class BookingController extends Controller
         $client_details['ClientEmail']  = ( !isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ? '' : $client_details['ClientEmail'] );
         $client_details['Mobile']       = ( !isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ? '' : $client_details['Mobile'] );
         $service_time = explode( 'T', request('serviceTime') );
+        $serviceId = explode( '-', request('ServiceId') );
         $booking = [
                         'Date' => $service_time[0],
                         'Time' => $service_time[1],
-                        'ServiceId' => request('ServiceId'),
+                        'ServiceId' => (is_null( request('Language') ) ? $serviceId[0] : $serviceId[1] ),
                         'Desc'      => (is_null( request('Desc') ) ? '' : request('Desc') ),
                         'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
                         'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
