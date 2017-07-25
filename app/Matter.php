@@ -175,9 +175,9 @@ Class Matter
             $response = $client->SaveMatter( $info );
 
             if( $response->SaveMatterResult ){
-                return array( 'success' => 'success' , 'message' => 'New legal matter created.', 'data' => $response->SaveMatterResult );
+                return array( 'success' => 'success' , 'message' => 'Legal matter saved.', 'data' => $response->SaveMatterResult );
             } else {
-                return array( 'success' => 'error' , 'message' => 'something went wrong.' );
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
             }
         }
         catch (\Exception $e) {            
@@ -198,7 +198,7 @@ Class Matter
             if($response->DeleteMatterResult){
                 return array( 'success' => 'success' , 'message' => 'Legal matter deleted.' );
             } else {
-                return array( 'success' => 'error' , 'message' => 'something went wrong.' );
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
             }
         }
         catch (\Exception $e) {            
