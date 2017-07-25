@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Catchment;
+use Auth;
 
 class CatchmentController extends Controller
 {
+    public function __construct()
+    {       
+        $this->middleware('auth');
+    }
     
     public function index()
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         return view("catchment.index");
     }
 
     public function show()
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         return view("catchment.show");
     }
 
@@ -26,6 +35,8 @@ class CatchmentController extends Controller
     public function create()
     {
 
+        Auth::user()->authorizeRoles('Administrator');
+        
         return view("catchment.create");
     }
 

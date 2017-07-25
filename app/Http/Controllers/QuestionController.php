@@ -6,27 +6,40 @@ use Illuminate\Http\Request;
 use App\Question;
 use App\QuestionType;
 use App\QuestionCategory;
+use Auth;
 
 class QuestionController extends Controller
 {
-    
+    public function __construct()
+    {       
+        $this->middleware('auth');
+    }
+
     public function index()
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         return view("question.index");
     }
 
     public function legalMatterQuestions()
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         return view("question.legal_matter_questions");
     }
     
     public function eligibilityCriteria()
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         return view("question.eligibility_criteria");
     }
 
     public function show( $qu_id )
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         $question_type_obj = new QuestionType();
         $question_types = $question_type_obj->getAllQuestionTypes();
 
@@ -58,6 +71,8 @@ class QuestionController extends Controller
 
     public function store()
     {        
+        Auth::user()->authorizeRoles('Administrator');
+
         $question_params =    array(
         						'QuestionId'			=> request('qu_id'),
                                 'QuestionLabel'         => request('QuestionLabel'),
@@ -74,6 +89,8 @@ class QuestionController extends Controller
     
     public function create( $type = '' )
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         $question_type_obj = new QuestionType();
         $question_types = $question_type_obj->getAllQuestionTypes();
 
@@ -106,6 +123,8 @@ class QuestionController extends Controller
 
     public function destroy( $qu_id )
     {        
+        Auth::user()->authorizeRoles('Administrator');
+        
         $question = new Question();
         $response = $question->deleteQuestion( $qu_id );
         

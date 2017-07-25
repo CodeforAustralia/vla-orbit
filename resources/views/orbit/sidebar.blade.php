@@ -33,20 +33,9 @@
                                         <span class="title">Services</span>
                                     </a>
                                 </li>
-                                <li class="nav-item hidden">
-                                    <a href="/service_level" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Service Level</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item hidden">
-                                    <a href="/service_type" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Service Type</span>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
+
                         <li class="nav-item">
                             <a href="/service_provider" class="nav-link">
                                 <i class="fa fa-briefcase"></i>
@@ -54,13 +43,21 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
+
+                        @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
+
                         <li class="nav-item">
                             <a href="/booking" class="nav-link">
                                 <i class="icon-calendar"></i>
                                 <span class="title">Bookings</span>
                                 <span class="arrow"></span>
                             </a>
-                        </li>
+                        </li>                        
+
+                        @endif
+
+                        @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
+
                         <li class="nav-item">
                             <a href="/matter" class="nav-link nav-toggle">
                                 <i class="fa fa-legal"></i>
@@ -82,6 +79,7 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-item">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="fa fa-question"></i>
@@ -103,6 +101,7 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-item">
                             <a href="/catchment" class="nav-link">
                                 <i class="fa fa-map-signs"></i>
@@ -110,8 +109,7 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
-                        
-                        @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
+
                         <li class="nav-item">
                             <a href="/user" class="nav-link">
                                 <i class="fa fa-map-signs"></i>

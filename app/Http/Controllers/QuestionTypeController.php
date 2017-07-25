@@ -4,17 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\QuestionType;
+use Auth;
 
 class QuestionTypeController extends Controller
 {
-    
+    public function __construct()
+    {       
+        $this->middleware('auth');
+    }
+
     public function index()
     {
+        Auth::user()->authorizeRoles('Administrator');
+
         return view( "question_type.index" );
     }
 
     public function show( $qt_id )
     {
+        Auth::user()->authorizeRoles('Administrator');
 
         $question_type = new QuestionType();
         $current_question_type = $question_type->getQuestionTypeById( $qt_id );
@@ -24,6 +32,8 @@ class QuestionTypeController extends Controller
 
     public function store()
     {        
+        Auth::user()->authorizeRoles('Administrator');
+
         $question_type_params =    array(
                     						'QuestionTypeId'	=> 0,
                                             'QuestionTypeName'  => request('QuestionTypeName'),
@@ -37,12 +47,15 @@ class QuestionTypeController extends Controller
     
     public function create()
     {
+        Auth::user()->authorizeRoles('Administrator');
 
         return view( "question_type.create" );
     }
 
     public function destroy( $qt_id )
     {        
+        Auth::user()->authorizeRoles('Administrator');
+        
         $question_type  = new QuestionType();
         $response       = $question_type->deleteQuestionType( $qt_id );
         

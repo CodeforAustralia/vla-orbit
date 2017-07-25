@@ -3,39 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use GuzzleHttp\Exception\GuzzleException;
-//use GuzzleHttp\Client;
 use App\MatterType;
+use Auth;
+
 
 class MatterTypeController extends Controller
 {
     
+    public function __construct()
+    {       
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        /*
-        $client = new Client(); //GuzzleHttp\Client
-        $result = $client->post('https://orbitservicehost.vla.vic.gov.au/VLA.Orbit.ServiceHost.OrbitService.svc?wsdl', [
-            'form_params' => [
-                'sample-form-data' => 'value'
-            ]
-        ]);*/
-
-        //$matter_types = $this->getAllMatterTypes();
+        Auth::user()->authorizeRoles('Administrator');
         return view("matter_type.index");
     }
 
     public function show($mt_id)
     {
+        Auth::user()->authorizeRoles('Administrator');
         return view("matter_type.show");
     }
     
     public function create()
     {
+        Auth::user()->authorizeRoles('Administrator');
         return view("matter_type.create");
     }
     
     public function store() 
     {        
+        Auth::user()->authorizeRoles('Administrator');
         $matter_type_params =    array(
                                 'title'   => request('title'),
                             );
@@ -48,7 +48,7 @@ class MatterTypeController extends Controller
 
     public function destroy($mt_id)
     {
-
+        Auth::user()->authorizeRoles('Administrator');
         $matter_type = new MatterType();
         $response = $matter_type->deleteMatter($mt_id);
         

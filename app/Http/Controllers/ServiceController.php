@@ -12,9 +12,15 @@ use App\MatterService;
 use App\Catchment;
 use App\Vulnerability;
 use App\MatterServiceAnswer;
+use Auth;
 
 class ServiceController extends Controller
 {    
+    public function __construct()
+    {       
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         return view("service.index");
@@ -22,6 +28,7 @@ class ServiceController extends Controller
 
     public function show( $sv_id )
     {
+        $user = Auth::user();
 
         $service_type_obj   = new ServiceType();
         $service_types      = $service_type_obj->getAllServiceTypes();
@@ -56,7 +63,15 @@ class ServiceController extends Controller
             $catchment = new Catchment();
             $catchments = $catchment->sortCatchments( $current_service->ServiceCatchments );
 
-            return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities' ) );        	
+            if( $user->sp_id == $current_service->ServiceProviderId || $user->roles()->first()->name == 'Administrator' ) //Same service provider or admin
+            {
+                return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities' ) ); 
+            }
+            else
+            {                
+                abort(401, 'This action is unauthorized.');
+            }
+       	
         } else {
         	return redirect('/service')->with( $response['success'], $response['message'] );
         }        
@@ -65,6 +80,8 @@ class ServiceController extends Controller
 
     public function store()
     {        
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
+
         $sv_params = array(                    
                             'ServiceId'   	=> request('sv_id'),
                             'ServiceName'   => request('name'),
@@ -123,6 +140,8 @@ class ServiceController extends Controller
     
     public function create()
     {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
+
         $service_type_obj   = new ServiceType();
         $service_types      = $service_type_obj->getAllServiceTypes();
 
@@ -138,11 +157,20 @@ class ServiceController extends Controller
         $vulnerability_obj = new Vulnerability();
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
 
+
+        $user = Auth::user();
+        if($user->sp_id != 0) //Just return current service provider
+        {
+            $service_provider = $service_providers[array_search($user->sp_id, array_column($service_providers, 'ServiceProviderId'))];            
+            $service_providers = [$service_provider]; 
+        }
         return view( "service.create", compact( 'service_types','service_levels','service_providers', 'matters', 'vulnertability_questions' ) );
     }
 
     public function destroy($sv_id)
     {
+        Auth::user()->authorizeRoles( 'Administrator' );
+
         $service  = new Service();
         $response = $service->deleteService($sv_id);
         
