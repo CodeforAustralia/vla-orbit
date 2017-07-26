@@ -1,6 +1,9 @@
 <?php
 namespace App;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReferralEmail;
+use App\Mail\ReferralSms;
 use App\Vulnerability;
 use Auth;
 
@@ -52,6 +55,7 @@ class Referral
 
     public function saveReferral( $referral )
     {
+        //dd($referral);
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
 
@@ -69,6 +73,22 @@ class Referral
         $referral['RefNo']     = 0;
         $referral['SentEmail'] = 0;
         $referral['SentMobile'] = 0;
+
+        $services = session('matches');
+        $service_pos = array_search( $referral['ServiceId'],  array_column( $services, 'ServiceId' ) );
+        $service = $services[$service_pos];
+            
+        if( $referral['Email'] != '' && $referral['SafeEmail'] != 0 )
+        {
+            Mail::to( $referral['Email'] )->send( new ReferralEmail( $service ) );
+            $referral['SentEmail'] = 1;
+        }
+
+        if( $referral['Mobile'] != '' && $referral['SafeMobile'] != 0 )
+        {                        
+            Mail::to( $referral['Mobile'] . "@e2s.pcsms.com.au"  )->send( new ReferralSms( $service ) );
+            $referral['SentMobile'] = 1;
+        }
 
         $info = [ 'ObjectInstance' => $referral ];
 
@@ -101,7 +121,7 @@ class Referral
             						->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSON( $info )
             						->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSONResult, 
             						true 
-        						);
+        						);        
         return $services;
     }
 
@@ -153,11 +173,11 @@ class Referral
             //Not getting information about legal matter and vulnerability
             if( empty( $service['ServiceVulAnswers'] ) && empty( $service['ServiceMatters'] ) )
             {
-                $matches[] = $service;
+                $matches[ $service['ServiceId'] ] = $service;
             } 
             elseif( $service_match &&  empty( $service['ServiceMatters'] ) ) 
             {
-                $matches[] = $service;
+                $matches[ $service['ServiceId'] ] = $service;
             }
 
             foreach ($service['ServiceMatters'] as $legal_matter) 
@@ -165,22 +185,22 @@ class Referral
                 // if LM does not have vuln on it take the service one 
                 if( empty($legal_matter['VulnerabilityMatterAnswers']) && $service_match  ) 
                 {
-                    $matches[] = $service;
+                    $matches[ $service['ServiceId'] ] = $service;
                 } 
                 elseif( self::matchVulnerability( $legal_matter['VulnerabilityMatterAnswers'], $vuln_list ) )
                 {
-                    $matches[] = $service;
+                    $matches[ $service['ServiceId'] ] = $service;
                 } 
                 elseif( empty( $service['ServiceVulAnswers'] ) && empty( $legal_matter['VulnerabilityMatterAnswers'] ) )
                 {
-                    $matches[] = $service;
+                    $matches[ $service['ServiceId'] ] = $service;
                 }
             }
         }
         //Get list of questions of a legal matter
         $question_list = self::getMatterQuestions( $matches, $mt_id );
         
-        session(['matches' => $matches ]);        
+        session(['matches' => $matches ]);
 
         return $question_list;
     }
