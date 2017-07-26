@@ -40,7 +40,7 @@
                                     </label>
                                 </div>
                                 <div class="col-md-2">
-                                    <select  class="form-control" name="question[{{ $cs_Legal_matter_question->QuestionId }}][operator]" id="operator">
+                                    <select  class="form-control" name="question[{{ $cs_Legal_matter->MatterServiceID }}][{{ $cs_Legal_matter_question->QuestionId }}][operator]" id="operator">
                                         <?php 
                                             // If no prevous value saved - Show default value
                                             $current_op_val = [
@@ -74,10 +74,10 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control"  name="question[{{ $cs_Legal_matter_question->QuestionId }}][answer]" id="answer"  value="{{ $current_op_val['value'] }}" {{ ($cs_Legal_matter_question->QuestionTypeName == 'multiple' ? 'data-role=tagsinput': '') }}>
+                                    <input type="text" class="form-control"  name="question[{{ $cs_Legal_matter->MatterServiceID }}][{{ $cs_Legal_matter_question->QuestionId }}][answer]" id="answer"  value="{{ $current_op_val['value'] }}" {{ ($cs_Legal_matter_question->QuestionTypeName == 'multiple' ? 'data-role=tagsinput': '') }}>
                                 </div>
                                 <div class="col-md-1">
-                                    <input type="text" class="form-control hidden"  name="question[{{ $cs_Legal_matter_question->QuestionId }}][mt_id]" id="answer"  value="{{ $cs_Legal_matter->MatterID }}">
+                                    <input type="text" class="form-control hidden"  name="question[{{ $cs_Legal_matter->MatterServiceID }}][{{ $cs_Legal_matter_question->QuestionId }}][mt_id]" id="answer"  value="{{ $cs_Legal_matter->MatterID }}">
                                 </div>
                             </div>                        
                             @endforeach

@@ -40,36 +40,39 @@ Class MatterServiceAnswer
         {
             $current_service = json_decode( $result['data'] )[0];
 
-            foreach ( $questions as $qu_id => $qu_values ) 
+            foreach ( $questions as $question ) 
             {
-                if( is_null( $qu_values['operator'] ) || is_null( $qu_values['answer'] ) ) 
+                foreach ( $question as $qu_id => $qu_values ) 
                 {
-                    $qu_values['operator'] = ' ';
-                    $qu_values['answer'] = ' ';
-                }
-                //Get service matter position of question in current service matter - Potentially slow for huge arrays
-                $sm_position = array_search( 
-                                                $qu_values['mt_id'],  //Legal matter id
-                                                array_column(
-                                                    $current_service->ServiceMatters,  // Array of matters in a service
-                                                    'MatterID' //Column to search an specific matter
-                                                )
-                                              );
-                if( isset($current_service->ServiceMatters[$sm_position]) )
-                {
-                    $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
+                    if( is_null( $qu_values['operator'] ) || is_null( $qu_values['answer'] ) ) 
+                    {
+                        $qu_values['operator'] = ' ';
+                        $qu_values['answer'] = ' ';
+                    }
+                    //Get service matter position of question in current service matter - Potentially slow for huge arrays
+                    $sm_position = array_search( 
+                                                    $qu_values['mt_id'],  //Legal matter id
+                                                    array_column(
+                                                        $current_service->ServiceMatters,  // Array of matters in a service
+                                                        'MatterID' //Column to search an specific matter
+                                                    )
+                                                  );
+                    if( isset($current_service->ServiceMatters[$sm_position]) )
+                    {
+                        $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
 
-                    self::saveMatterServiceAnswer( [
-                                                'RefNo'           => 0,
-                                                'MatterServiceId' => $lms_id,
-                                                'QuestionId'      => $qu_id,
-                                                'Operator'        => $qu_values['operator'],
-                                                'QuestionValue'   => $qu_values['answer']
-                                               ] 
-                                            );
+                        self::saveMatterServiceAnswer( [
+                                                    'RefNo'           => 0,
+                                                    'MatterServiceId' => $lms_id,
+                                                    'QuestionId'      => $qu_id,
+                                                    'Operator'        => $qu_values['operator'],
+                                                    'QuestionValue'   => $qu_values['answer']
+                                                   ] 
+                                                );
 
+                    }
+                    
                 }
-                
             }
 
         }
