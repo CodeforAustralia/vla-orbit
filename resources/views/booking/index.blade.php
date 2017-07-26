@@ -13,9 +13,7 @@
     <!-- END PAGE HEADER-->
 
     <div class="row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="portlet light portlet-fit  calendar">
                 <div class="portlet-title">
                     <div class="caption">
@@ -32,8 +30,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-1">
-        </div>
     </div>
 
     <!-- Modal Start -->     
@@ -41,6 +37,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">                
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h5 class="modal-title" id="SelectMatchLabel"><strong>Booking #<span id="bookingRef"></span></strong></h5>
                 </div>
 
@@ -89,6 +86,7 @@
                         </div>
                         <div class="row pull-right">
                             <a href="#" class="btn btn-danger delete-content" id="delete-booking">Delete</a>
+                            <a href="#" class="btn btn-outline dark" data-dismiss="modal" >Cancel</a>
                         </div>
                     </div>
                 </div>
