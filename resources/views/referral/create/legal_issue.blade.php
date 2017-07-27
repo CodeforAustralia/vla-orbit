@@ -4,7 +4,7 @@
 <!-- Steps -->
 <div class="mt-element-step margin-bottom-20">
   <div class="row step-line">
-    <div class="col-xs-3 mt-step-col first done" style="cursor: pointer;" onclick="window.location='./location';">
+    <div class="col-xs-3 mt-step-col first done" style="cursor: pointer;" onclick="window.location='/referral/create/location';">
       <div class="mt-step-number bg-white">
           <i class="fa fa-map-marker"></i>
       </div>
