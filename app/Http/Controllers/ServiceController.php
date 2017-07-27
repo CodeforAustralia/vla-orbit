@@ -23,7 +23,7 @@ class ServiceController extends Controller
     
     public function index()
     {
-        return view("service.index");
+        return view("service.index");    
     }
 
     public function show( $sv_id )

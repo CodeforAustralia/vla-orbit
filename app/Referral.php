@@ -280,7 +280,7 @@ class Referral
         return $answers;
     }
 
-    public function filterByQuestions( $answers )
+    public function filterByQuestions( $answers, $mt_id )
     {
         $services = session('matches');
         $matches = [];
@@ -293,7 +293,7 @@ class Referral
 
             foreach ( $service['ServiceMatters'] as $legal_matter ) 
             {
-                if( self::matchServiceAnswersWithAnswers( $answers, $legal_matter['CommonMatterAnswers'] ) )
+                if( self::matchServiceAnswersWithAnswers( $answers, $legal_matter['CommonMatterAnswers'] ) && $legal_matter['MatterID'] == $mt_id )
                 {
                     $matches[ $service['ServiceId'] ] = $service;
                 } 
@@ -345,7 +345,7 @@ class Referral
                 return ( $args['answer'] == $args["QuestionValue"] );
                 break;      
             case 'in':
-                $options = explode( ',', $args['QuestionValue']);     
+                $options = explode( ',', $args['QuestionValue']);  
                 return ( in_array( $args['answer'], $options) );
                 break;            
             default:

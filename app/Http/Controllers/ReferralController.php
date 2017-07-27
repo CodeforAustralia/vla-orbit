@@ -104,16 +104,17 @@ class ReferralController extends Controller
     }
     
     public function result( Request $request )
-    {
+    {        
         $service_providers_obj  = new ServiceProvider();
         $service_providers      = $service_providers_obj->getAllServiceProviders();
 
         if( $request->has('answers')  ) 
         {
             $answers = request('answers');
+            $mt_id   = request('mt_id');
 
             $referral = new Referral();
-            $matches  = $referral->filterByQuestions( $answers );
+            $matches  = $referral->filterByQuestions( $answers, $mt_id );            
             if( sizeof($matches) > 0 )
             {
                 return view( 'referral.create.result', compact( 'matches','service_providers' ) );
