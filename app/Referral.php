@@ -55,7 +55,6 @@ class Referral
 
     public function saveReferral( $referral )
     {
-        //dd($referral);
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
 
@@ -75,8 +74,7 @@ class Referral
         $referral['SentMobile'] = 0;
 
         $services = session('matches');
-        $service_pos = array_search( $referral['ServiceId'],  array_column( $services, 'ServiceId' ) );
-        $service = $services[$service_pos];
+        $service = $services[ $referral['ServiceId'] ];
             
         if( $referral['Email'] != '' && $referral['SafeEmail'] != 0 )
         {
@@ -290,14 +288,14 @@ class Referral
         {
             if ( empty( $service['ServiceMatters'] ) ) //not set answers on legal matter inside service, match by default
             {
-                $matches[] = $service;
+                $matches[ $service['ServiceId'] ] = $service;
             }
 
             foreach ( $service['ServiceMatters'] as $legal_matter ) 
             {
                 if( self::matchServiceAnswersWithAnswers( $answers, $legal_matter['CommonMatterAnswers'] ) )
                 {
-                    $matches[] = $service;
+                    $matches[ $service['ServiceId'] ] = $service;
                 } 
             }
         }
