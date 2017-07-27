@@ -208,6 +208,8 @@ Route::get('/booking/list', 'BookingController@list');
 
 Route::get('/booking/listCalendar', 'BookingController@listCalendar');
 
+Route::get('/booking/listCalendarByUser', 'BookingController@listCalendarByUser');
+
 Route::post('/booking', 'BookingController@store');
 
 //Referral

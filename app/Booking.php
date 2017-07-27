@@ -149,6 +149,21 @@ Class Booking
 		
 	}
 
+    public function getBookingsByUser()
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+        $bookings = [];
+        $user = Auth::user();
+        if( $user->id != 0 )
+        {
+            $info['UserID'] = $user->id;
+            $bookings = json_decode( $client->GetAllOrbitBookingsByUserasJSON( $info )->GetAllOrbitBookingsByUserasJSONResult, true );
+        }
+
+        return $bookings;
+    }
+
     public function createClient( $client_details )
     {       
         // Create Soap Object

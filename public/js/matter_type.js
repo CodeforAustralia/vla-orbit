@@ -762,7 +762,7 @@ var TableDatatablesAjax = function () {
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
-                    "url": "/booking/list", // ajax source
+                    "url": "/booking/listCalendarByUser", // ajax source
                     "type": "get"
                 },
                 "order": [

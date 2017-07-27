@@ -94,6 +94,35 @@
         </div><!-- Modal Dialogue Close-->
     </div><!-- Modal Fade Close-->
 
+    <!-- Begin: Demo Datatable services -->
+    <div class="portlet light portlet-fit portlet-datatable ">
+          <div class="portlet-title">
+            <div class="caption">
+              <span class="caption-subject font-green sbold"><i class="icon-list font-green"></i>&nbsp;  Sent Bookings</span>
+            </div>
+          </div>
+        <div class="portlet-body">
+            <div class="table-container">
+                <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_bookings">
+                    <thead>
+                        <tr role="row" class="heading">
+                            <th width="5%" > Id </th>
+                            <th width="10%"> Service Name </th>
+                            <th width="10%" > Date </th>
+                            <th width="10%"> First Name </th>
+                            <th width="10%"> Last Name </th>
+                            <th width="10%"> Email </th>
+                            <th width="10%"> Phone </th>
+                            <th width="10%"> </th>
+                        </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End: Demo Datatable services -->
+
     <!-- Content -->
     <div class="row"> 
       <div class="col-xs-12">

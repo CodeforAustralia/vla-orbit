@@ -93,6 +93,13 @@ class BookingController extends Controller
         return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') ) ;
     }
 
+    public function listCalendarByUser()
+    {
+        $booking_obj = new Booking(); 
+        $bookings = $booking_obj->getBookingsByUser() ;
+        return array( 'data' => $bookings );
+    }
+
     public function calendar()
     {
         return view("booking.calendar");
