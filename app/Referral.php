@@ -53,7 +53,7 @@ class Referral
         return $referrals;
     }
 
-    public function saveReferral( $referral )
+    public function saveReferral( $referral, $service_provider )
     {
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
@@ -75,6 +75,7 @@ class Referral
 
         $services = session('matches');
         $service = $services[ $referral['ServiceId'] ];
+        $service['sendingServiceProvider'] = $service_provider;        
             
         if( $referral['Email'] != '' && $referral['SafeEmail'] != 0 )
         {

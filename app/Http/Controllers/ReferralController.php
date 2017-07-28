@@ -7,6 +7,7 @@ use App\Matter;
 use App\Referral;
 use App\ServiceProvider;
 use App\Vulnerability;
+use Auth;
 
 class ReferralController extends Controller
 {
@@ -27,10 +28,15 @@ class ReferralController extends Controller
     
     public function store()
     {
-        $request = request()->all();       
+        $request = request()->all();
+
+        $user = auth()->user();
+
+        $service_provider_obj  = new ServiceProvider();
+        $service_provider      = json_decode($service_provider_obj->getServiceProviderByID($user->sp_id)['data'], true)[0];
 
         $referral_obj = new Referral($request);
-        $response = $referral_obj->saveReferral( $request );
+        $response = $referral_obj->saveReferral( $request , $service_provider );
 
         return $response;
 
