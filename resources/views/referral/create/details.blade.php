@@ -13,14 +13,14 @@
     </div>
     <div class="col-xs-2 mt-step-col done" style="cursor: pointer;" onclick="window.legal_issue='/referral/create/legal_issue';">
       <div class="mt-step-number bg-white">
-        <i class="fa fa-legal font-grey-cascade"></i>
+        <i class="fa fa-legal"></i>
       </div>
       <div class="mt-step-title font-grey-cascade">Legal Issue</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
     <div class="col-xs-2 mt-step-col active">
       <div class="mt-step-number bg-white">
-        <i class="fa fa-check-square-o font-grey-cascade"></i>
+        <i class="fa fa-check-square-o"></i>
       </div>
       <div class="mt-step-title font-grey-cascade">Client Details</div>
       <div class="mt-step-content font-grey-cascade"></div>
