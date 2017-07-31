@@ -19,11 +19,11 @@
           <!-- Card Container -->
           <div class="col-xs-12">
             <!-- Logo -->
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <img src="{{ $current_sp_logo }}" class="img-responsive img-thumbnail center-block">
             </div>
             <!-- Service Details -->
-            <div class="col-xs-8">
+            <div class="col-xs-9">
               <div class="col-xs-12">
                 <h3 class="margin-top-10 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
                 <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
