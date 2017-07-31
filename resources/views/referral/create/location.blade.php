@@ -4,7 +4,7 @@
 <!-- Steps -->
 <div class="mt-element-step margin-bottom-20">
   <div class="row step-line">
-    <div class="col-xs-2 mt-step-col first active">
+    <div class="col-xs-2 col-xs-offset-1 mt-step-col first active">
       <div class="mt-step-number bg-white">
         <i class="fa fa-map-marker"></i>
       </div>
@@ -29,7 +29,7 @@
       <div class="mt-step-number bg-white">
         <i class="fa fa-question font-grey-cascade"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Matching Questions</div>
+      <div class="mt-step-title font-grey-cascade">Questions</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
     <div class="col-xs-2 mt-step-col last">
