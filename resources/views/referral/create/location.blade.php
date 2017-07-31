@@ -60,7 +60,7 @@
                     </span>
 
                     <select class="form-control" id="single-prepend-text" name="lga[]">   
-                         <option value="0">Search for all suburbs, postcodes or councils</option> 
+                         <option value="0">Search for suburbs, postcodes or councils</option> 
                     </select>
                       
                         <!-- <option>  Search for a suburb, postcode or council    </option> -->
