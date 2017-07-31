@@ -41,7 +41,7 @@
     <div class="portlet light">
       <div class="portlet-title">
         <div class="caption">
-          <span class="caption-subject font-green sbold"><i class="icon-list font-green"></i>&nbsp;  Legal Issue</span>
+          <span class="caption-subject font-green sbold"><i class="fa fa-legal font-green"></i>&nbsp;  Legal Issue</span>
         </div>
       </div>
       <div class="portlet-body">
