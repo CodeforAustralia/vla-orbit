@@ -11,7 +11,7 @@
       <div class="mt-step-title font-grey-cascade">Location</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
-    <div class="col-xs-2 mt-step-col done" style="cursor: pointer;" onclick="window.legal_issue='/referral/create/legal_issue';">
+    <div class="col-xs-2 mt-step-col done">
       <div class="mt-step-number bg-white">
         <i class="fa fa-legal"></i>
       </div>
