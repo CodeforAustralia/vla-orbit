@@ -1,4 +1,4 @@
-<option> None </option>
+<option> </option>
 <option value="Akan"> Akan </option>
 <option value="Albanian"> Albanian </option>
 <option value="Amharic"> Amharic </option>
