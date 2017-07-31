@@ -14,7 +14,8 @@
                 <div class="col-xs-8">
                     <select class="form-control" id="service_provider_id" name="service_provider_id">                                
                         @foreach($service_providers as $service_provider)
-                        	@if( in_array( $service_provider['ServiceProviderId'], [119, 121, 106, 47] ) )
+                            @if( in_array( $service_provider['ServiceProviderId'], [119, 121, 106, 47] ) )
+                            <option selected=""> </option>
                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
                             @endif
                         @endforeach
@@ -89,8 +90,8 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-10">
-                    <label>CIR Number :</label>
-                    <input type="text" class="form-control input-large" name="CIRNumber" id="CIRNumber">                 
+                    <label>CIR Number:</label>
+                    <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" id="CIRNumber">                 
                 </div>
             </div>
         </div>
@@ -114,7 +115,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Is it safe to contact this client by email?</label>
+                    <label>Is it safe to contact this client by email?<i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client via email we will send a booking confirmation to the provided email with all of their booking details and may contact this client about changes to their booking. Select 'No' if it is unsafe to email this client and ensure you provide them with their booking details manually."></i></label>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="emailpermission" id="emailpermission" value="Yes">Yes<span></span>
@@ -142,7 +143,7 @@
         <div class="col-xs-12">                            
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Is it safe to contact this client by phone and SMS?</label>
+                    <label>Is it safe to contact this client by phone call and SMS?<i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
@@ -161,7 +162,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-10">
                     <label>Description:</label>
-                    <textarea class="form-control" rows="5" class="form-control" id="Desc" name="Desc" required></textarea>
+                    <textarea class="form-control" rows="5" class="form-control" id="Desc" placeholder="Client requirements, special needs, difficulties experienced with client, time limits, instructions for contact or any other information that may be useful for the service provider to know beforehand." name="Desc" required></textarea>
                 </div>
             </div>
         </div>
