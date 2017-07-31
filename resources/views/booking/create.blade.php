@@ -36,7 +36,7 @@
                 </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <p>Service Guidelines Go Here</p>
+                    <p>Service Guidelines Not Available</p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -44,7 +44,7 @@
                     <button type="button" data-dismiss="modal" class="btn btn-block btn-outline dark">Cancel</button>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" data-dismiss="modal" class="btn btn-block green-jungle">Confirm Client Eligibility</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-block disabled green-jungle">Confirm Client Eligibility</button>
                 </div>
         </div>
     </div>
