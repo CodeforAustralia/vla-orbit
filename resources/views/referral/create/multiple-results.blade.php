@@ -33,7 +33,7 @@
               </div>
               <!-- Description  -->
               <div class="col-xs-12 visible-xs-block visible-sm-block visible-md-block visible-lg-block visible-xl-block padding-bottom-20 padding-top-10">     
-                <a class="btn-default bg-white dropdown-toggle" data-toggle="collapse" href="#description{{ $match['ServiceId'] }}" aria-expanded="false" aria"=false" aria-controls="description"  role="button"><strong>View Description <i class="fa fa-angle-down"></i></strong></a>      
+                <a class="btn-default bg-white dropdown-toggle" data-toggle="collapse" href="#description{{ $match['ServiceId'] }}" aria-expanded="false" aria"=false" aria-controls="description"  role="button"><strong>Service Details  <i class="fa fa-angle-down"></i></strong></a>      
                 <div class="collapse col-xs-12" id="description{{ $match['ServiceId'] }}">              
                   <div class="col-xs-12"><br>
                     {{ $match['Description'] }}
