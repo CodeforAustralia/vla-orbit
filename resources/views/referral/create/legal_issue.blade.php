@@ -47,7 +47,7 @@
       <div class="portlet-body">
         <div class="row">
           <div class="col-xs-12">
-            <p>To help you match the client to an appropriate service Orbit needs to know the specific legal issue that best matches the client's matter. Only one specific issue can be selected at a time.</p>
+            <p>Select the specific legal issue that best matches the client's matter. Only one specific issue can be selected at a time.</p>
           </div>
           <div class="col-xs-12">
             <div class="form-group">
