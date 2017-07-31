@@ -48,7 +48,7 @@
     <div class="portlet light">
       <div class="portlet-title">
         <div class="caption">
-          <span class="caption-subject font-green sbold"><i class="icon-question font-green"></i>&nbsp; Matching Questions</span>
+          <span class="caption-subject font-green sbold"><i class="icon-question font-green"></i>&nbsp; Questions</span>
         </div>
         <div class="pull-right caption">
             <small>{{ $service_qty }} Services Matched</small>       
