@@ -115,7 +115,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Is it safe to contact this client by email?<i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client via email we will send a booking confirmation to the provided email with all of their booking details and may contact this client about changes to their booking. Select 'No' if it is unsafe to email this client and ensure you provide them with their booking details manually."></i></label>
+                    <label>Is it safe to contact this client by email? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client via email we will send a booking confirmation to the provided email with all of their booking details and may contact this client about changes to their booking. Select 'No' if it is unsafe to email this client and ensure you provide them with their booking details manually."></i></label>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="emailpermission" id="emailpermission" value="Yes">Yes<span></span>
@@ -143,7 +143,7 @@
         <div class="col-xs-12">                            
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Is it safe to contact this client by phone call and SMS?<i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
+                    <label>Is it safe to contact this client by phone call and SMS? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
