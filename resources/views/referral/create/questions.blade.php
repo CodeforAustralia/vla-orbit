@@ -4,33 +4,40 @@
 <!-- Steps -->
 <div class="mt-element-step margin-bottom-20">
   <div class="row step-line">
-    <div class="col-xs-3 mt-step-col first done" style="cursor: pointer;" onclick="window.location='/referral/create/location';">
-        <div class="mt-step-number bg-white">
-            <i class="fa fa-map-marker"></i>
-        </div>
-        <div class="mt-step-title font-grey-cascade">Location</div>
-        <div class="mt-step-content font-grey-cascade"></div>
+    <div class="col-xs-2 col-xs-offset-1 mt-step-col first done" style="cursor: pointer;" onclick="window.location='/referral/create/location';">
+      <div class="mt-step-number bg-white">
+        <i class="fa fa-map-marker"></i>
+      </div>
+      <div class="mt-step-title font-grey-cascade">Location</div>
+      <div class="mt-step-content font-grey-cascade"></div>
     </div>
-    <div class="col-xs-3 mt-step-col done">
-        <div class="mt-step-number bg-white">
-            <i class="fa fa-legal"></i>
-        </div>
-        <div class="mt-step-title font-grey-cascade">Legal Issue</div>
-        <div class="mt-step-content font-grey-cascade"></div>
+    <div class="col-xs-2 mt-step-col done" style="cursor: pointer;" onclick="window.legal_issue='/referral/create/legal_issue';">
+      <div class="mt-step-number bg-white">
+        <i class="fa fa-legal font-grey-cascade"></i>
+      </div>
+      <div class="mt-step-title font-grey-cascade">Legal Issue</div>
+      <div class="mt-step-content font-grey-cascade"></div>
     </div>
-    <div class="col-xs-3 mt-step-col done">
-        <div class="mt-step-number bg-white">
-            <i class="fa fa-check-square-o"></i>
-        </div>
-        <div class="mt-step-title font-grey-cascade">Client Details</div>
-        <div class="mt-step-content font-grey-cascade"></div>
+    <div class="col-xs-2 mt-step-col done">
+      <div class="mt-step-number bg-white">
+        <i class="fa fa-check-square-o font-grey-cascade"></i>
+      </div>
+      <div class="mt-step-title font-grey-cascade">Client Details</div>
+      <div class="mt-step-content font-grey-cascade"></div>
     </div>
-    <div class="col-xs-3 mt-step-col last active">
-        <div class="mt-step-number bg-white">
-            <i class="fa fa-question"></i>
-        </div>
-        <div class="mt-step-title font-grey-cascade">Matching Questions</div>
-        <div class="mt-step-content font-grey-cascade"></div>
+    <div class="col-xs-2 mt-step-col active">
+      <div class="mt-step-number bg-white">
+        <i class="fa fa-question font-grey-cascade"></i>
+      </div>
+      <div class="mt-step-title font-grey-cascade">Questions</div>
+      <div class="mt-step-content font-grey-cascade"></div>
+    </div>
+    <div class="col-xs-2 mt-step-col last">
+      <div class="mt-step-number bg-white">
+        <i class="fa fa-list font-grey-cascade"></i>
+      </div>
+      <div class="mt-step-title font-grey-cascade">Matches</div>
+      <div class="mt-step-content font-grey-cascade"></div>
     </div>
   </div>
 </div>
