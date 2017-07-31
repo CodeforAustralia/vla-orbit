@@ -36,7 +36,7 @@
       <div class="mt-step-number bg-white">
         <i class="fa fa-list font-grey-cascade"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Results</div>
+      <div class="mt-step-title font-grey-cascade">Matches</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
   </div>
