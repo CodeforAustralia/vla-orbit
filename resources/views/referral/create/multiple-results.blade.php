@@ -1,7 +1,5 @@
 
   <!-- BEGIN PAGE HEADER-->
-<div class="row">
-    <div class="col-xs-12">
         <div class="portlet">
               <h1 class="page-title col-xs-12">Results <small class="pull-right">{{ count($matches) }} Services Matched</small> </h1>      
               <br>
@@ -63,6 +61,4 @@
         </div><!-- Close Card Row -->
       </div><!-- Close Portlet Body -->
     </div><!-- Result Portlet -->
-  </div>
-</div>
   @endforeach
