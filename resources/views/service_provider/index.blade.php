@@ -6,8 +6,8 @@
 
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet ">
-        <h1 class="page-title col-xs-10"> All Service Provivers </h1>
-        <a role="button" class="btn main-green col-xs-2 pull-right" href="/service_provider/new">New Service Provivers</a>
+        <h1 class="page-title col-xs-10"> All Service Providers </h1>
+        <a role="button" class="btn main-green col-xs-2 pull-right" href="/service_provider/new">New Service Providers</a>
         <br>
     </div>
     <!-- END PAGE HEADER-->
@@ -20,12 +20,12 @@
                     <thead>
                         <tr role="row" class="heading">
                             <th width="5%"> Id </th>
-                            <th width="10%"> Name </th>
+                            <th width="20%"> Name </th>
                             <th width="10%"> Contact Email </th>
-                            <th width="20%"> Contct Name </th>
+                            <th width="10%"> Contact Name </th>
                             <th width="10%"> Contact Phone </th>
                             <!-- <th width="10%"> Url </th> -->
-                            <th width="5%"> </th>
+                            <th width="10%"> </th>
                         </tr>
                     </thead>
                     <tbody> </tbody>
