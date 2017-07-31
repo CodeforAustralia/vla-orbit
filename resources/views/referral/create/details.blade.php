@@ -44,7 +44,7 @@
           <span class="caption-subject font-green sbold"><i class="fa fa-check-square-o font-green"></i> &nbsp;Client Details</span> 
         </div>
         <div class="pull-right caption">
-          <small># of services ( {{ $service_qty }} )</small>
+          <small>{{ $service_qty }} Services Matched</small>
         </div>
       </div>
       <div class="portlet-body">
