@@ -51,7 +51,7 @@
         <div class="row">
           <div class="col-xs-12">
             <!-- <p>Below are the vulnerability criteria that determine possible entry into services that match your location and legal issue. Select any that may apply to the client so that we can match their personal circumstances to services catering specifically for their situation.</p> -->
-            <p>Select any the below options that apply to the client:</p>
+            <p>Select any of the below options that apply to the client:</p>
           </div>
           <div class="col-xs-12">
             <div class="form-group">
