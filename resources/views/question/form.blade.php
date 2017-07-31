@@ -22,7 +22,7 @@
                     </div>
 
 	                <div class="form-group">
-	                  	<label class="col-md-3 control-label">Question:</label>
+	                  	<label class="col-md-3 control-label">Question/Tooltip:</label>
 	                  	<div class="col-md-4">
 		                  	<input type="text" class="form-control" id="QuestionName" name="QuestionName"  value="{{ isset($current_question) ? $current_question->QuestionName : '' }}" required>
 		                </div>
