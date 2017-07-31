@@ -44,7 +44,7 @@
           <span class="caption-subject font-green sbold"><i class="icon-question font-green"></i>&nbsp; Matching Questions</span>
         </div>
         <div class="pull-right caption">
-          <small># of services ( {{ $service_qty }} )</small>
+            <small>{{ $service_qty }} Services Matched</small>       
         </div>
       </div>
       <div class="portlet-body">
