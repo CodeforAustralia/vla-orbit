@@ -47,11 +47,11 @@
       <div class="portlet-body">
         <div class="row">
           <div class="col-xs-12">
-            <p>Service providers often limit entry into their service based on where a client works, lives or studies. Search for the client's suburb, postcode or local government area and select the one that best matches the client to narrow down possible referral pathways</p>
+              <p>Service providers may limit entry into their service based on where a client works, lives or studies.</p>
           </div>
           <div class="col-xs-12">
             <div class="form-group">
-                <label for="single-prepend-text" class="control-label">Select the client's location:</label>
+                <label for="single-prepend-text" class="control-label">Select or search for the client's location:</label>
                 <div class="input-group select2-bootstrap-prepend">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" data-select2-open="single-prepend-text">
