@@ -41,7 +41,7 @@
     <div class="portlet light">
       <div class="portlet-title">
         <div class="caption">
-          <span class="caption-subject font-green sbold"><i class="icon-map font-green"></i>&nbsp;  Client Location</span>
+          <span class="caption-subject font-green sbold"><i class="fa fa-map-marker font-green"></i>&nbsp; Location</span>
         </div>
       </div>
       <div class="portlet-body">
