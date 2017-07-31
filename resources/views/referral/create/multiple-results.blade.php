@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="portlet">
-              <h1 class="page-title col-xs-12">Results <small class="pull-right">{{ $service_qty }} Services Matched</small> </h1>      
+              <h1 class="page-title col-xs-12">Results <small class="pull-right">{{ count($matches) }} Services Matched</small> </h1>      
               <br>
          </div>
   <!-- END PAGE HEADER-->
