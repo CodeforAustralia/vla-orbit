@@ -1,14 +1,58 @@
 @extends ('orbit.master')
 
 @section ('content')
-<!-- SC1 -->
-<!-- Result 1 -->
-<div class="row">
-  <div class="col-xs-12">
-    @include ('referral.create.multiple-results')
-  </div> <!-- Col Close -->
-</div> <!-- Row Close -->
 
+
+  <!-- BEGIN PAGE HEADER-->
+  <!-- Steps -->
+  <div class="mt-element-step margin-bottom-20">
+    <div class="row step-line">
+      <div class="col-xs-2 col-xs-offset-1 mt-step-col first done" style="cursor: pointer;" onclick="window.location='/referral/create/location';">
+        <div class="mt-step-number bg-white">
+          <i class="fa fa-map-marker"></i>
+        </div>
+        <div class="mt-step-title font-grey-cascade">Location</div>
+        <div class="mt-step-content font-grey-cascade"></div>
+      </div>
+      <div class="col-xs-2 mt-step-col done">
+        <div class="mt-step-number bg-white">
+          <i class="fa fa-legal"></i>
+        </div>
+        <div class="mt-step-title font-grey-cascade">Legal Issue</div>
+        <div class="mt-step-content font-grey-cascade"></div>
+      </div>
+      <div class="col-xs-2 mt-step-col done">
+        <div class="mt-step-number bg-white">
+          <i class="fa fa-check-square-o"></i>
+        </div>
+        <div class="mt-step-title font-grey-cascade">Eligibility</div>
+        <div class="mt-step-content font-grey-cascade"></div>
+      </div>
+      <div class="col-xs-2 mt-step-col done">
+        <div class="mt-step-number bg-white">
+          <i class="fa fa-question"></i>
+        </div>
+        <div class="mt-step-title font-grey-cascade">Questions</div>
+        <div class="mt-step-content font-grey-cascade"></div>
+      </div>
+      <div class="col-xs-2 mt-step-col active last">
+        <div class="mt-step-number bg-white">
+          <i class="fa fa-list"></i>
+        </div>
+        <div class="mt-step-title font-grey-cascade">Matches ({{ count($matches) }})</div>
+        <div class="mt-step-content font-grey-cascade"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- END PAGE HEADER-->
+
+  <!-- Result 1 -->
+  <div class="row">
+    <div class="col-xs-12">
+      @include ('referral.create.multiple-results')
+    </div> <!-- Col Close -->
+  </div> <!-- Row Close -->
     @include ('referral.create.booking')
   <!-- Modal Start -->     
   <div class="modal fade" id="SelectMatch" tabindex="-1" role="dialog" aria-labelledby="SelectMatchLabel" data-backdrop="static" data-keyboard="false">

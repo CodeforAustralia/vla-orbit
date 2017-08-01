@@ -22,7 +22,7 @@
       <div class="mt-step-number bg-white">
         <i class="fa fa-check-square-o font-grey-cascade"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Client Details</div>
+      <div class="mt-step-title font-grey-cascade">Eligibility</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
     <div class="col-xs-2 mt-step-col">

@@ -22,7 +22,7 @@
       <div class="mt-step-number bg-white">
         <i class="fa fa-check-square-o"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Client Details</div>
+      <div class="mt-step-title font-grey-cascade">Eligibility</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
     <div class="col-xs-2 mt-step-col">
@@ -48,7 +48,7 @@
     <div class="portlet light">
       <div class="portlet-title">
         <div class="caption">
-          <span class="caption-subject font-green sbold"><i class="fa fa-check-square-o font-green"></i> &nbsp;Client Details</span> 
+          <span class="caption-subject font-green sbold"><i class="fa fa-check-square-o font-green"></i> &nbsp;Eligibility</span> 
         </div>
         <div class="pull-right caption">
           <small>{{ $service_qty }} Services Matched</small>
