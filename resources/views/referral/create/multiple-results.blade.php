@@ -19,7 +19,9 @@
               <div class="col-xs-12">
                 <h3 class="margin-top-10 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
                 <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
+                @if( $match['Location'] != '#')
                 <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank"><h5>{{ $match['Location'] }}</h5></a>
+                @endif
               </div>
               <!-- Description  -->
               <div class="col-xs-12 visible-xs-block visible-sm-block visible-md-block visible-lg-block visible-xl-block padding-bottom-20 padding-top-10">     
@@ -32,7 +34,9 @@
               </div>
               <!--Card Content Mid-->  
               <div class="col-xs-12 col-sm-12 col-md-4">   
-                <p><strong>Open:</strong>  - </p>
+                @if( $match['URL'] != '#')
+                <p><strong><a href="http://{{ $match['URL'] }}" target="_blank">Website</a></strong></p>
+                @endif
                 <p><strong>Wait Time:</strong> {{ $match['Wait'] }}</p>
               </div>
               <!--Card Content LHS-->
