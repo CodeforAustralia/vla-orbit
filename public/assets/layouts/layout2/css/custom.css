@@ -219,3 +219,12 @@ b, optgroup, strong {
 .bg-white {
     background-color: #fff !important;
 }
+.sweet-overlay{
+    z-index:10060;
+}
+.sweet-alert{
+    z-index:10061;
+}
+.modal-dialog{
+    margin-top: 6%;
+}

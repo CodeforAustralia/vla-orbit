@@ -33,7 +33,11 @@ class ReferralController extends Controller
         $user = auth()->user();
 
         $service_provider_obj  = new ServiceProvider();
-        $service_provider      = json_decode($service_provider_obj->getServiceProviderByID($user->sp_id)['data'], true)[0];
+        if ( $user->sp_id == 0)
+        {
+            $user->sp_id = 128;
+        }
+        $service_provider      = json_decode($service_provider_obj->getServiceProviderByID( $user->sp_id )['data'], true)[0];
 
         $referral_obj = new Referral($request);
         $response = $referral_obj->saveReferral( $request , $service_provider );
@@ -120,7 +124,8 @@ class ReferralController extends Controller
             $mt_id   = request('mt_id');
 
             $referral = new Referral();
-            $matches  = $referral->filterByQuestions( $answers, $mt_id );            
+            $matches  = $referral->filterByQuestions( $answers, $mt_id );     
+                             
             if( sizeof($matches) > 0 )
             {
                 return view( 'referral.create.result', compact( 'matches','service_providers' ) );

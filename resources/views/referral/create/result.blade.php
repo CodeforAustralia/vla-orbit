@@ -83,36 +83,36 @@
               <!-- Start Form --> 
               <div class="row">
                 <div class="col-xs-12">
-                  <h3><small>Send to client by email:</small></h3>
+                  
                   <!-- Send to Client form -->
                   <form>
                     <!-- Client Name -->
                     <div class="form-group">
                     <!-- Email Address -->
                     <div class="form-group">
+                      <label>
+                        <input type="checkbox" id="safeEmail"> It is safe to contact client by email
+                      </label> 
                       <label class="sr-only" for="Email">Email Address</label>
                       <input type="email" class="form-control" id="Email" placeholder="Client Email Address">                        
                       <div class="col-xs-11 col-xs-offset-1">
                         <div class="form-group">
                           <div class="checkbox">
-                            <label>
-                              <input type="checkbox" id="safeEmail"> This email address is safe to contact                                  
-                            </label>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <h3><small>Send to client by SMS:</small></h3>
+                    
                     <!-- Phone Number -->
                     <div class="form-group">
+                      <label>
+                        <input type="checkbox" id="safePhone"> It is safe to contact client by SMS
+                      </label>
                       <label class="sr-only" for="Phone">Phone Number</label>
                       <input type="tel" class="form-control" id="Phone" placeholder="Client Phone Number">                            
                       <div class="col-xs-11 col-xs-offset-1">
                         <div class="form-group">
                           <div class="checkbox">
-                            <label>
-                              <input type="checkbox" id="safePhone"> This phone number is safe to text                          
-                            </label>
                           </div>  
                         </div>
                       </div>
@@ -196,17 +196,44 @@
       var phone = $("#Phone").val();
       var email = $("#Email").val();
       var safe_phone = 0;
-      var safe_email = 0;
+      var safe_to_email = 0;
       if( $("#safeEmail").is(':checked') )
       {
         safe_email = 1;
+      } 
+      else {
+        safe_email = 0;
       }
+
       if( $("#safePhone").is(':checked') )
       {
         safe_phone = 1;
       }
+      else {
+        safe_phone = 0;
+      }
 
-      if( isEmail( email ) || phone != '' )
+      if( safe_phone == 0 && safe_email == 0 ) // Not safe to contact
+      {
+        swal("Alert", "Please provide a safe contact information", "warning");
+      } 
+      else if( safe_email == 1 && email == '' ) //Empty valid email
+      {
+        swal("Alert", "Please provide a valid email", "warning");
+      }
+      else if( safe_email == 1 && email != '' && !isEmail( email ) ) //Not valid email
+      {
+        swal("Alert", "Please provide a valid email", "warning");
+      }
+      else if( safe_phone == 0 && phone != '' ) // Not safe phone
+      { 
+        swal("Alert", "Please enter a mobile number", "warning");
+      }
+      else if( safe_phone == 1 && phone == ''  ) // Empty Phone
+      { 
+        swal("Alert", "Please enter a mobile number", "warning");
+      }
+      else if( ( isEmail( email ) && safe_email == 1 ) || ( phone != '' && safe_phone ) )
       {
         $.ajax({
           headers: {
@@ -230,15 +257,7 @@
           });
       } 
       else {
-        if( safeEmail && !isEmail( email ) )
-        {
-          alert("Please enter a valid email address");
-        }
-        if ( safePhone && phone == '' )
-        {
-          alert("Please enter a mobile number");
-        }
-        alert( "Please provide an Email and/or a mobile number." );
+        swal( "Alert", "Please provide an Email and/or a mobile number.", "warning" );
       }
 
     });

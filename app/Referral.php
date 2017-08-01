@@ -77,7 +77,7 @@ class Referral
         $service = $services[ $referral['ServiceId'] ];
         $service['sendingServiceProvider'] = $service_provider;        
             
-        if( $referral['Email'] != '' && $referral['SafeEmail'] != 0 )
+        if( $referral['Email'] != 'N/P' && $referral['SafeEmail'] != 0 )
         {
             Mail::to( $referral['Email'] )->send( new ReferralEmail( $service ) );
             $referral['SentEmail'] = 1;
