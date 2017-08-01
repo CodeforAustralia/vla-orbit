@@ -57,13 +57,21 @@
       <div class="portlet-body">
         <div class="row">
           <div class="col-xs-12">
-            <!-- <p>Below are the vulnerability criteria that determine possible entry into services that match your location and legal issue. Select any that may apply to the client so that we can match their personal circumstances to services catering specifically for their situation.</p> -->
-            <p>Select any of the below options that apply to the client:</p>
+            
+              @if( count( $vulnertability_questions ) == 0 )
+
+                <h4>No client details required please click ‘Next’</h4>
+
+              @else
+
+                <p>Select any of the below options that apply to the client:</p>
+              
+              @endif
           </div>
           <div class="col-xs-12">
             <div class="form-group">
               <div class="mt-checkbox-list">
-              @foreach($vulnertability_questions as $vulnerability_question)                 
+              @foreach( $vulnertability_questions as $vulnerability_question )                 
                 <label class="mt-checkbox mt-checkbox-outline col-md-6"> 
                   {{ ( $vulnerability_question["QuestionLabel"] != '' ? $vulnerability_question["QuestionLabel"]: $vulnerability_question["QuestionName"] )  }} 
                   <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="{{ $vulnerability_question['QuestionName']  }}"></i>
