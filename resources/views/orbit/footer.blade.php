@@ -69,6 +69,8 @@
             
             <script src="/assets/global/plugins/counterup/jquery.waypoints.min.js" type="text/javascript"></script>
             <script src="/assets/global/plugins/counterup/jquery.counterup.min.js" type="text/javascript"></script>
+
+            <script src="/assets/pages/scripts/ui-sweetalert.min.js" type="text/javascript"></script>
             
             <!-- END PAGE LEVEL SCRIPTS -->
             <!-- BEGIN THEME LAYOUT SCRIPTS -->
