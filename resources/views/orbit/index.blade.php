@@ -78,7 +78,7 @@
                             <div class="thumbnail">
                                 <img src="/assets/layouts/layout2/img/overlay.jpg" alt="">
                                 <div class="caption">
-                                    <h3>How to create Services</h3>
+                                    <h3>Guide to making a referral in ORBIT</h3>
                                     <p> Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. </p>
                                     <p>
                                         <a href="javascript:;" class="btn red"> Read More </a>
@@ -108,7 +108,7 @@
                     <div class="note note-info">
                         <h4 class="block bold font-grey-mint">Announcements</h4>
                         <p> Thanks for using Orbit. We are currently testing the service and need to know what is working, what isn't and if something is missing. Please send any feedback to <a href="mailto:orbitgeneric@gmail.com">orbitgeneric@gmail.com</a> or use the chat tool. </p>
-                        <p></p>
+                        <br>
                         <p>- Orbit team</p>
                     </div>
                     <div class="note note-info">
