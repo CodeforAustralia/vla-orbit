@@ -20,9 +20,12 @@ class BookingController extends Controller
         return view("booking.index");
     }
 
-    public function show()
+    public function show( $bk_id )
     {
-        return view("booking.show");
+        $service_providers_obj  = new ServiceProvider();
+        $service_providers      = $service_providers_obj->getAllServiceProviders();
+
+        return view( "booking.show", compact( 'service_providers' ) );
     }
     
     public function create()
@@ -103,5 +106,13 @@ class BookingController extends Controller
     public function calendar()
     {
         return view("booking.calendar");
+    }
+
+    public function updateBooking( $booking_ref, $date_time )
+    {
+        $booking_obj = new Booking(); 
+        $result = $booking_obj->updateBooking( $booking_ref, $date_time ) ;
+
+        return $result;
     }
 }

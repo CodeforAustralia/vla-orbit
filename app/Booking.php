@@ -198,25 +198,42 @@ Class Booking
 
     public function createBooking( $client_details, $booking )
     {
-    	$SendNotification = false;
+        $SendNotification = false;
         $user = Auth::user();
-    	$client = self::createClient( $client_details );
-    	$booking['AdminUserId'] 	 = $user->id;
-    	$booking['SendNotification'] = $SendNotification;
+        $client = self::createClient( $client_details );
+        $booking['AdminUserId']      = $user->id;
+        $booking['SendNotification'] = $SendNotification;
 
-    	$UserObject = 	[
-							'LocalRef' 	=> $client->LocalRef ,
-							'country' 	=> $client->country ,
-							'email' 	=> $client->email ,
-							'first_name' => $client->first_name ,
-							'id' 		=> $client->id ,
-							'last_name' => $client->last_name ,
-							'mobile' 	=> $client->mobile ,
-    					];
-    	$booking['UserObject'] = $UserObject;
-    	$reservation = self::createBookingService( $booking );
+        $UserObject =   [
+                            'LocalRef'  => $client->LocalRef ,
+                            'country'   => $client->country ,
+                            'email'     => $client->email ,
+                            'first_name' => $client->first_name ,
+                            'id'        => $client->id ,
+                            'last_name' => $client->last_name ,
+                            'mobile'    => $client->mobile ,
+                        ];
+        $booking['UserObject'] = $UserObject;
+        $reservation = self::createBookingService( $booking );
         
-    	return [ 'cient' => $client, 'reservation' => $reservation ];
+        return [ 'cient' => $client, 'reservation' => $reservation ];
+    }
+
+    public function updateBooking( $booking_ref, $date_time )
+    {
+        $date_time = explode("T", $date_time);
+
+    	$info = 	[
+							'BookingRef'=> $booking_ref ,
+							'NewDate' 	=> $date_time[0] ,
+							'NewTime' 	=> $date_time[1]
+    					];
+    	
+        $client =  (new \App\Repositories\VlaSoap)->ws_booking_init();
+
+        $result = $client->UpdateBooking( $info )->UpdateBookingResult;
+        
+    	return $result;
     }
 
     public function deleteBooking( $booking_id )
@@ -224,11 +241,13 @@ Class Booking
 		// Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_booking_init();
 
+        $user = Auth::user();
+
         $info = [ 
         			'BookingRef' 	=> $booking_id,
-        			'CalcelReason'	=> 'Delete from admin',
+        			'CalcelReason'	=> 'Canceled from admin',
         			'Nortify'		=>	false,
-        			'User'			=> ' '
+        			'User'			=> $user->id
     			];        
         try {
         	$result = $client->DeleteBooking( $info );

@@ -143,6 +143,7 @@ var AppCalendar = function() {
                     $("#bookingIsSafe").text(calEvent.data.IsSafe);
                     $("#bookingDescription").text(calEvent.data.Description);
                     $("#delete-booking").attr('href', '/booking/delete/' + calEvent.data.BookingRef);
+                    $(".edit-booking").attr('id', calEvent.data.ServiceId); //Change for real service id ServiceId
                     // change the border color just for fun
                     $(this).css('border-color', 'red');
                     confirmDialog();

@@ -33,16 +33,16 @@
     </div>
 
     <!-- Modal Start -->     
-    <div class="modal fade" id="bookingInfo" tabindex="-1" role="dialog" aria-labelledby="bookingInfo">
+    <div class="modal fade" id="bookingInfo" tabindex="-1" role="dialog" aria-labelledby="bookingInfo" data-backdrop="static" data-keyboard="false" aria-hidden="false" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">                
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close close-booking-edit" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h5 class="modal-title" id="SelectMatchLabel"><strong>Booking #<span id="bookingRef"></span></strong></h5>
                 </div>
 
                 <div class="modal-body">
-                    <div class="container-fluid">
+                    <div class="container-fluid booking-information">
                         <div class="row">
                             <h4><strong> Client Information </strong></h4>
                             <hr>
@@ -84,10 +84,56 @@
                                 <span id="bookingDescription"></span>
                             </div>
                         </div>
-                        <div class="row pull-right">
+                        <div class="row pull-right">                            
+                            <a href="#" class="btn green edit-booking">Edit</a>                            
                             <a href="#" class="btn btn-danger delete-content" id="delete-booking">Delete</a>
-                            <a href="#" class="btn btn-outline dark" data-dismiss="modal" >Cancel</a>
+                            <a href="#" class="btn btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                         </div>
+                    </div>
+                    <div class="hidden booking-edit">
+                        <div class="row availability hidden">
+                            <div class="col-xs-12 padding-bottom-20">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label>Date:</label>                
+                                        <input type="text" class="form-control input-medium" id="booking-date" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row availability hidden">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label>Available Times:</label>
+                                        <div class="mt-radio-list" id="time-options">
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+
+                        <div class="row hidden" id="no-dates-availables">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <h3>Sorry there are no dates available for this service</h3>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+
+                        <div class="row hidden" id="loading">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-xs-12">                
+                                        <i class="fa fa-spinner fa-spin font-green-jungle" style="font-size:24px"></i>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+                        <button id="update-booking" class="btn green">Update</button>
                     </div>
                 </div>
             </div>
@@ -123,77 +169,19 @@
         </div>
     </div>
     <!-- End: Demo Datatable services -->
-
-    <!-- Content -->
-    <div class="row"> 
-      <div class="col-xs-12">
-        <div class="portlet light">
-          <div class="portlet-title">
-            <div class="caption">
-              <span class="caption-subject font-green sbold"><i class="icon-list font-green"></i>&nbsp;  Recieved Bookings</span>
-            </div>
-          </div>
-          <div class="portlet-body">
-            <div class="row">
-              <div class="col-xs-12">
-                <p>In this data table we need the following columns:</p>
-                <ul>
-                    <li>ID</li>
-                    <li>Service Name</li>
-                    <li>Date</li>
-                    <li>Time</li>
-                    <li>First Name</li>
-                    <li>Last Name</li>
-                    <li>Email</li>
-                    <li>Phone</li>
-                    <li>Safe to Contact? (In this column we will have two icons, one for phone and one for email. If 'safe to contact' is selected for either turn the icon to green-jungle and if not set to greyed out)</li>
-                    <li>Requirements (In this column we will have a disability icon that turns blue if the user has disability requirements and a translator icon that turns blue if a translator is required)</li>
-                    <li>Actions (Buttons: Edit, Delete)</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Content -->
-    <div class="row"> 
-      <div class="col-xs-12">
-        <div class="portlet light">
-          <div class="portlet-title">
-            <div class="caption">
-              <span class="caption-subject font-green sbold"><i class="icon-list font-green"></i>&nbsp;  Sent Bookings</span>
-            </div>
-          </div>
-          <div class="portlet-body">
-            <div class="row">
-              <div class="col-xs-12">
-                <p>In this data table we need the following columns:</p>
-                <ul>
-                    <li>ID</li>
-                    <li>Service Name</li>
-                    <li>Date</li>
-                    <li>Time</li>
-                    <li>First Name</li>
-                    <li>Last Name</li>
-                    <li>Email</li>
-                    <li>Phone</li>
-                    <li>Safe to Contact? (In this column we will have two icons, one for phone and one for email. If 'safe to contact' is selected for either turn the icon to green-jungle and if not set to greyed out)</li>
-                    <li>Requirements (In this column we will have a disability icon that turns blue if the user has disability requirements and a translator icon that turns blue if a translator is required)</li>
-                    <li>Actions (Buttons: Edit, Delete)</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
                 
 @endsection
 
 @section('styles')
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
     <link href="/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/clockface/css/clockface.css" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS -->
 @endsection
 
 @section('scripts')
@@ -201,8 +189,18 @@
     <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/clockface/js/clockface.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>    
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/js/calendar.js?id={{ str_random(6) }}" type="text/javascript"></script>
+
+    <script src="/js/edit-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
 @endsection
