@@ -255,7 +255,7 @@ class Referral
                             }
                             else {
                                 foreach ( $current_answers as $answer ) {                            
-                                    array_push( $question_list[ $qu_id ]['prop']['QuestionValue'], $answer );
+                                    array_push( $question_list[ $qu_id ]['prop']['QuestionValue'], trim( $answer ) );
                                 }
                             }                    
                         }                                                                    
@@ -346,8 +346,14 @@ class Referral
                 return ( $args['answer'] == $args["QuestionValue"] );
                 break;      
             case 'in':
-                $options = explode( ',', $args['QuestionValue']);  
-                return ( in_array( $args['answer'], $options) );
+                $options = explode( ',', $args['QuestionValue']);
+                foreach ($options as $answer) {
+                    if( trim( strtolower($answer) ) == trim( strtolower($args['answer']) ) )
+                    {
+                        return true;
+                    }
+                }
+                return false;
                 break;            
             default:
                 # Check empty values in question because the answer was not answered
