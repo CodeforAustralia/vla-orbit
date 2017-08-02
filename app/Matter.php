@@ -9,7 +9,7 @@ Class Matter
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
         
         $matters = json_decode($client->GetAllLegalMattersasJSON()->GetAllLegalMattersasJSONResult, true);
-
+        array_shift($matters);
         return $matters;
     }
 
