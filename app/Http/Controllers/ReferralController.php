@@ -35,7 +35,7 @@ class ReferralController extends Controller
         $service_provider_obj  = new ServiceProvider();
         if ( $user->sp_id == 0)
         {
-            $user->sp_id = 128;
+            $user->sp_id = 112;
         }
         $service_provider      = json_decode($service_provider_obj->getServiceProviderByID( $user->sp_id )['data'], true)[0];
 
