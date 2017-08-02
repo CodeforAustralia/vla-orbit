@@ -1,4 +1,4 @@
-Hi, this is the referral details to contact {{ $args['ServiceProviderName'] }} for their {{ $args['ServiceName'] }}.\n\n
+Hi, this is the referral details to contact {{ $args['ServiceProviderName'] }} for their {{ $args['ServiceName'] }} service.\n\n
 
 Contact details:\n
 {{ $args['Phone'] }}  \n
