@@ -103,4 +103,65 @@ class UserController extends Controller
     	}    	
     	return [ 'data' => $users ];
     }
+
+    public function destroy( Request $request, $uid )
+    {
+        $request->user()->authorizeRoles('Administrator');
+
+        $response = User::deleteUser($uid);
+
+        return redirect('/user')->with($response['success'], $response['message']);        
+    }
+
+    public function show( Request $request, $uid)
+    {
+        $request->user()->authorizeRoles('Administrator');
+
+        $user = User::find($uid);
+
+        $service_provider_obj   = new ServiceProvider();
+        $service_providers      = $service_provider_obj->getAllServiceproviders();
+
+        if( $request->user()->sp_id != 0 ) //If the user belongs to a service provider
+        {
+            foreach ( $service_providers as $service_provider ) 
+            {
+                if ( $service_provider['ServiceProviderId'] == $request->user()->sp_id  )
+                {
+                    $service_providers = []; //Destroy array and override
+                    $service_providers[] = $service_provider;
+                }
+            }
+        }
+
+        $role_obj = new Role();
+        $roles    = $role_obj->all();
+
+
+        return view("user.show", compact( 'user' ,'service_providers', 'roles' ));
+    }
+
+    public function update( Request $request)
+    {
+        $request->user()->authorizeRoles('Administrator');
+        
+        $this->validate(request(),[
+        
+            'name'  => 'required',
+            
+            'email' => 'required|email',
+            
+            //'password' => 'required|confirmed',
+
+            'id'    => 'required',
+
+            'sp_id' => 'required'
+
+        ]);        
+
+        $response = User::updateUser( request() );
+        
+        return redirect('/user')->with($response['success'], $response['message']);    
+    }
+    
 }

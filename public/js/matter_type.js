@@ -882,7 +882,7 @@ var TableDatatablesAjax = function () {
 
         var delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content">Delete</a>';
         var edit_btn = '';
-        if (controller === 'service_provider' || controller === 'service' || controller === 'question' || controller === 'matter') 
+        if (controller === 'service_provider' || controller === 'service' || controller === 'question' || controller === 'matter' || controller === 'user') 
         {
             var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content">Edit</a>';
         }

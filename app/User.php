@@ -73,4 +73,37 @@ class User extends Authenticatable
       }
       return false;
     }
+
+    public static function deleteUser($uid)
+    {
+      $user = User::find($uid);
+      
+      if( $user )
+      {
+        $user->delete();
+        return array( 'success' => 'success' , 'message' => 'User has been deleted.' );
+      }
+      return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+    }
+
+    public static function updateUser( $user_info )
+    {
+      $user = User::find($user_info->id);
+
+        //create and save the user
+        
+        $user->name     = $user_info->name;
+        $user->email    = $user_info->email;  
+        $user->sp_id    = $user_info->sp_id;
+        
+        //sign them in and Add role too
+        $user
+           ->roles()
+           ->sync(Role::where('id',  $user_info->ro_id)->first());
+
+        $user->save();
+        
+        return array( 'success' => 'success' , 'message' => 'User has been updated.' );
+      
+    }
 }
