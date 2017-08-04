@@ -379,7 +379,7 @@
                                                 <i class="icon-calendar"></i> My Bookings </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="/logout">
                                                 <i class="icon-key"></i> Log Out </a>
                                         </li>
                                     </ul>
