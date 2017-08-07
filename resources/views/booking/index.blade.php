@@ -149,7 +149,6 @@
           <div class="portlet-title">
             <div class="caption">
               <span class="caption-subject font-green sbold uppercase"><i class="icon-list font-green"></i>&nbsp;  Your Bookings</span>
-              <span class="caption-subject font-green sbold uppercase">Office Bookings</span>
             </div>
           </div>
         <div class="portlet-body">
