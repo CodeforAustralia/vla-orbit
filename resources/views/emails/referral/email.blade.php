@@ -11,9 +11,9 @@ They have referred you to another service for more help:
 - <strong>Service Name: </strong>{{ $args['ServiceName'] }}
 - <strong>Service Type: </strong>{{ $args['ServiceTypeName'] }}
 @if( $args['Location'] != "#" )
-- <strong>Address: </strong> {{ $args['Location'] }} [if relevant]
+- <strong>Address: </strong> {{ $args['Location'] }}
 @endif
-- <strong>Phone number:</strong> {{ $args['Phone'] }} [if relevant]
+- <strong>Phone number:</strong> {{ $args['Phone'] }}
 - <strong>Url:</strong> {{ $args['URL'] }}
 
 - <strong>Service details: </strong>{{ $args['Description'] }}
