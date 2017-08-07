@@ -58,6 +58,8 @@ class ReferralController extends Controller
     
     public function legal_issue()
     {
+        session( ['ca_id' => isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : ''] );
+
         $matter = new Matter();
         $matters = $matter->getAllMattersParentChildrenList();
         return view( 'referral.create.legal_issue', compact( 'matters' ) );
@@ -68,6 +70,8 @@ class ReferralController extends Controller
         $ca_id  = isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : '';
         $mt_id  = isset( $_GET['mt_id'] )  ? $_GET['mt_id']  : '';
         
+        session( ['mt_id' => $mt_id ] );
+
         $referral = new Referral();
         $vulnertability_info = $referral->getVulnerabilityByServices( $ca_id, $mt_id );
 
@@ -90,6 +94,8 @@ class ReferralController extends Controller
         $mt_id  = isset( $_GET['mt_id'] )  ? $_GET['mt_id']  : '';
         $vls_id = isset( $_GET['vls_id'] ) ? $_GET['vls_id'] : '';
         
+        session( ['vls_id' => $vls_id] );
+
         $referral = new Referral();
         $question_list = $referral->filterServices( $ca_id, $mt_id, $vls_id );
         

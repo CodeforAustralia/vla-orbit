@@ -228,3 +228,7 @@ b, optgroup, strong {
 .modal-dialog{
     margin-top: 6%;
 }
+
+#form_answers h4 {
+    font-size: 16px;
+}

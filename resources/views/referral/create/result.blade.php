@@ -2,39 +2,37 @@
 
 @section ('content')
 
-
-  <!-- BEGIN PAGE HEADER-->
   <!-- Steps -->
   <div class="mt-element-step margin-bottom-20">
     <div class="row step-line">
-      <div class="col-xs-2 col-xs-offset-1 mt-step-col first done" style="cursor: pointer;" onclick="window.location='/referral/create/location';">
+      <a class="col-xs-2 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location">
         <div class="mt-step-number bg-white">
           <i class="fa fa-map-marker"></i>
         </div>
         <div class="mt-step-title font-grey-cascade">Location</div>
-        <div class="mt-step-content font-grey-cascade"></div>
-      </div>
-      <div class="col-xs-2 mt-step-col done">
+        <div class="mt-step-content"></div>
+      </a>
+      <a class="col-xs-2 mt-step-col done" style="text-decoration: none;" href="/referral/create/legal_issue/{{ '?ca_id=' . session('ca_id')  }}">
         <div class="mt-step-number bg-white">
           <i class="fa fa-legal"></i>
         </div>
         <div class="mt-step-title font-grey-cascade">Legal Issue</div>
         <div class="mt-step-content font-grey-cascade"></div>
-      </div>
-      <div class="col-xs-2 mt-step-col done">
+      </a>
+      <a class="col-xs-2 mt-step-col done" style="text-decoration: none;" href="/referral/create/details/{{ '?ca_id=' . session('ca_id') . '&mt_id=' .  session('mt_id')  }}">
         <div class="mt-step-number bg-white">
           <i class="fa fa-check-square-o"></i>
         </div>
         <div class="mt-step-title font-grey-cascade">Eligibility</div>
         <div class="mt-step-content font-grey-cascade"></div>
-      </div>
-      <div class="col-xs-2 mt-step-col done">
+      </a>
+      <a class="col-xs-2 mt-step-col done" style="text-decoration: none;" href="/referral/create/questions/{{ '?ca_id=' . session('ca_id') . '&mt_id=' .  session('mt_id') . '&vls_id=' . session('vls_id') }}">
         <div class="mt-step-number bg-white">
           <i class="fa fa-question"></i>
         </div>
         <div class="mt-step-title font-grey-cascade">Questions</div>
         <div class="mt-step-content font-grey-cascade"></div>
-      </div>
+      </a>
       <div class="col-xs-2 mt-step-col active last">
         <div class="mt-step-number bg-white">
           <i class="fa fa-list"></i>
