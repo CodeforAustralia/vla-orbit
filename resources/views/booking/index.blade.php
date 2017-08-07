@@ -12,6 +12,8 @@
     </div>
     <!-- END PAGE HEADER-->
 
+    <!-- Calendar Start -->  
+    @if(Auth::user()->sp_id != 112)
     <div class="row">
         <div class="col-md-12">
             <div class="portlet light portlet-fit  calendar">
@@ -31,6 +33,8 @@
             </div>
         </div>
     </div>
+    @endif
+    <!-- Calendar End -->  
 
     <!-- Modal Start -->     
     <div class="modal fade" id="bookingInfo" tabindex="-1" role="dialog" aria-labelledby="bookingInfo" data-backdrop="static" data-keyboard="false" aria-hidden="false" role="dialog">
@@ -203,4 +207,11 @@
 
     <script src="/js/edit-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
+@endsection
+
+@section('inline-scripts')
+    $(document).ready(function()
+    {
+        $("#contentLoading").modal("hide")
+    })
 @endsection
