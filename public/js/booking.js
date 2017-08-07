@@ -35,7 +35,9 @@ function service_change()
         else // Do not requires interpreter
         {
             getBookingsByService(booking_id); 
-        }       
+        }
+
+        $("#ServiceName").val( $("#sp_services option:selected").text() );
     });
 
 }

@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingEmail;
 use Auth;
 
 Class Booking
@@ -196,7 +198,7 @@ Class Booking
         return $reservation;
     }
 
-    public function createBooking( $client_details, $booking )
+    public function createBooking( $client_details, $booking, $service_provider, $service_name )
     {
         $SendNotification = false;
         $user = Auth::user();
@@ -215,6 +217,8 @@ Class Booking
                         ];
         $booking['UserObject'] = $UserObject;
         $reservation = self::createBookingService( $booking );
+
+        self::notifyBooking( $booking, $client_details, $service_provider, $service_name );
         
         return [ 'cient' => $client, 'reservation' => $reservation ];
     }
@@ -261,5 +265,45 @@ Class Booking
         catch (\Exception $e) {            
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );           
         }
+    }
+
+    public function notifyBooking( $booking, $client, $service_provider, $service_name )
+    {
+        $user = Auth::user();
+
+        // If an user belongs to Legal Help send email to VLA Referrals contact email
+        if( $user->sp_id == '112' )
+        {
+            $lh_email = 'LHReferrals@vla.vic.gov.au';            
+
+            $subject  = 'ORBIT booking by ' . $user->name . ' - ' . $service_provider->ServiceProviderName . ', ' . $client['FirstName'] . ' ' . $client['LastName'];
+
+            $args = [
+                        'subject' => $subject,
+                        'client'  => $client,
+                        'booking' => $booking,
+                        'service_name' => $service_name,
+                        'send_booking' => 1
+                    ];
+
+            Mail::to( $lh_email )->send( new BookingEmail( $args ) );
+
+        }
+
+        //If an interpreter required in a booking, send a copy of the booking details to the Service email address
+        if( $booking['Language'] != '' )
+        {
+            $sp_email = $service_provider->ContactEmail;
+
+            $subject  = 'ORBIT booking notification - ' . $booking['Language'] . 
+                        ' interpreter required on ' . $booking['Date'] . ' ' . $booking['Time'];
+
+            $args = [
+                        'subject' => $subject,
+                        'send_booking' => 0
+                    ];
+
+            Mail::to( $sp_email )->send( new BookingEmail( $args ) );
+        }       
     }
 }

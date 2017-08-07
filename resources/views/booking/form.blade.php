@@ -40,6 +40,7 @@
                     <button type="button" class="btn btn-block dark btn-outline" data-toggle="modal" data-target="#EligibilityConfirm">View Service Details</button>
                 </div>
             </div>
+            <input type="text" class="form-control input-large hidden" id="ServiceName" name="ServiceName"> 
         </div>
     </div>
 

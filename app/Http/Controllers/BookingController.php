@@ -63,6 +63,7 @@ class BookingController extends Controller
 
     public function store()
     {        
+        $service_name = request('ServiceName');
         $client_details = request('client');
         $client_details['ClientEmail']  = ( !isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ? '' : $client_details['ClientEmail'] );
         $client_details['Mobile']       = ( !isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ? '' : $client_details['Mobile'] );
@@ -78,8 +79,14 @@ class BookingController extends Controller
                         'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
                     ];
         
+
+        $sp_id = request('service_provider_id');
+        $service_providers_obj   = new ServiceProvider();
+        $service_provider_result = $service_providers_obj->getServiceProviderByID( $sp_id );
+        $service_provider = json_decode( $service_provider_result['data'] )[0];
+
         $booking_obj = new Booking(); 
-        $reservation = $booking_obj->createBooking( $client_details, $booking );        
+        $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );        
 
         return redirect('/booking')->with('success', 'Booking saved.');
     }
