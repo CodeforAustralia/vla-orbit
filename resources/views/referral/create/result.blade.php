@@ -150,6 +150,8 @@
   var service_id = 0;
   $(document).ready(function() {
 
+    filters();
+
     $('.open-booking').on( "click", function(){
 
       var service_card = $( this ).closest(".service-card");
@@ -272,5 +274,49 @@
   function isEmail(email) {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
+  }
+
+  function filters()
+  {
+    var filter_level = ['all-level', 'phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop']
+
+
+    var filter_type = ['all-type', 'information', 'advice', 'representation']
+
+
+    $('.filter-type a').on( "click", function(){
+      for (index = 0; index < filter_type.length; ++index) {
+        
+        if( this.className == 'all-type' )
+        {   
+          $(".portlet." + filter_type[index]).show();
+        } 
+        else if( this.className != filter_type[index] )
+        {
+          console.log(this.className + ' - ' + filter_type[index]);
+          $(".portlet." + filter_type[index]).hide();
+        }
+
+      }
+      $(".portlet." + this.className ).show();
+    });
+
+
+    $('.filter-level a').on( "click", function(){
+      
+      for (index = 0; index < filter_level.length; ++index) {
+        
+        if( this.className == 'all-level' )
+        {   
+          $(".portlet." + filter_level[index]).show();
+        } 
+        else if( this.className != filter_level[index] )
+        {
+          console.log(this.className + ' - ' + filter_level[index]);
+          $(".portlet." + filter_level[index]).hide();
+        } 
+      }
+      $(".portlet." + this.className ).show();
+    });
   }
 @endsection

@@ -1,11 +1,62 @@
+
+<?php
+	$filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
+	$filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );
+?>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <span>Filter By:</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        
+        <div class="btn-group ">
+        	<button class="btn blue dropdown-toggle btn-fit-height" data-toggle="dropdown">Service Type
+	                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu filter-type">
+                <li >
+                    <a href="javascript:;" class="all-type"> All                        
+                    </a>
+                </li>
+            	@foreach( $filter_type as $filter )
+                <li >
+                    <a href="javascript:;" class="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }}                        
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button class="btn blue dropdown-toggle btn-fit-height" data-toggle="dropdown">Service Level
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu filter-level">
+                <li >
+                    <a href="javascript:;" class="all-level"> All                        
+                    </a>
+                </li>
+            	@foreach( $filter_level as $filter )
+                <li >
+                    <a href="javascript:;" class="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }}                        
+                    </a>
+                </li>
+                @endforeach
+            </ul>		            
+        </div>
+    </div>
+</div>
+
 @foreach( $matches as $match )
 
     <?php
-      $current_sp_pos = array_search( $match['ServiceProviderId'],  array_column( $service_providers, 'ServiceProviderId' ) );
+      $current_sp_pos  = array_search( $match['ServiceProviderId'],  array_column( $service_providers, 'ServiceProviderId' ) );
       $current_sp_logo = $service_providers[ $current_sp_pos ]['ServiceProviderLogo'];
+      $filters_class   = str_replace( ' ', '-', strtolower( $match['ServiceLevelName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceTypeName'] ) ) ;
     ?>
     <!-- Result -->
-    <div class="portlet light">
+    <div class="portlet light {{ $filters_class }}">
       <div class="portlet-body">
         <div class="row service-card" id="{{ $match['ServiceId'] }}"> <!-- Card 1-->
           <!-- Card Container -->
