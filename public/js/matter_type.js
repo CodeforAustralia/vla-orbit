@@ -91,8 +91,11 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [1, "asc"]
+                    [4, "asc"]
                 ],// set first column as a default sort by asc,
+
+                "serverSide": false,
+                "pageLength": 1000,
 
                 "bInfo": false,
                 "columns": [
@@ -114,6 +117,8 @@ var TableDatatablesAjax = function () {
 
             }
         });
+
+        grid
     }
 
     var handleServiceProvider = function () {
@@ -153,6 +158,9 @@ var TableDatatablesAjax = function () {
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
                 
+                "serverSide": false,
+                "pageLength": 1000,
+
                 "bInfo": false,
                 "columns": [
                         { data: "ServiceProviderId" },
@@ -209,9 +217,12 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [1, "asc"]
+                    [1, "asc"], [2, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
+                "serverSide": false,
+                "pageLength": 1000,
+
                 "bInfo": false,
                 "columns": [
                         { data: "ServiceId" },
@@ -710,8 +721,11 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [1, "asc"]
+                    [2, "asc"]
                 ],// set first column as a default sort by asc,
+                
+                "serverSide": false,
+                "pageLength": 1000,
                 
                 "bInfo": false,
                 "columns": [
@@ -768,6 +782,9 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
+                
+                "serverSide": false,
+                "pageLength": 1000,
                 
                 "bInfo": false,
                 "columns": [
@@ -835,6 +852,8 @@ var TableDatatablesAjax = function () {
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
                 
+                "serverSide": false,
+                "pageLength": 1000,
                 "bInfo": false,
                 "columns": [
                         { data: "RefNo" },                             
@@ -890,6 +909,14 @@ var TableDatatablesAjax = function () {
 
     }
 
+    var initSearchBox = function (){
+
+        var table = $('table[id^="datatable_ajax_"]').DataTable();
+        $('#search_box').on('keyup keypress change', function () {
+            table.search( this.value ).draw();
+        });
+    }
+
     return {
         //main function to initiate the module
         init: function () {
@@ -908,6 +935,7 @@ var TableDatatablesAjax = function () {
             handleUser();
             handleBookings();
             handleReferrals();
+            initSearchBox();
         }
 
     };

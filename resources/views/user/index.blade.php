@@ -16,6 +16,9 @@
     <div class="portlet light portlet-fit portlet-datatable ">
         <div class="portlet-body">
             <div class="table-container">
+                <div class="table-actions-wrapper">
+                    <div id="service_filter" class="dataTables_filter"><label>Search: <input type="search" id="search_box" class="" placeholder="" aria-controls="service"></label></div>
+                </div>
                 <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_user">
                     <thead>
                         <tr role="row" class="heading">
