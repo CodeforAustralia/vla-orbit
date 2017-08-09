@@ -53,14 +53,43 @@ Class Booking
         // Create Soap Object
         $bookings = self::getAllBookings( $from, $to );
         $output = [];
+
+        $colors = [
+					'#32C5D2',
+					'#E7505A',
+					'#F3C200',
+					'#3598DC',
+					'#8877A9',
+					'#BF55EC',
+					'#26C281',
+					'#E5E5E5',
+					'#FAFAFA',
+					'#29B4B6',
+					'#BFBFBF',
+					'#2AB4C0',
+					'#36D7B7',
+					'#E08283',
+					'#C5BF66',
+        		  ];
+
         if( isset( $bookings->Bookings))
         {
             if( sizeof( $bookings->Bookings ) == 1 )
             {
+	        	$time = strtotime( $event->BookingTime );
+				$endTime = date("H:i", strtotime('+30 minutes', $time));
+
+
+				if( $event->IntLanguage != '')
+				{
+					$endTime = date("H:i", strtotime('+60 minutes', $time));
+				}
+
                 $event = $bookings->Bookings;
                 $output[] =  [
                                 'title' => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
                                 'start' => $event->BookingDate . ' ' . $event->BookingTime,
+                                'end' => $event->BookingDate . ' ' . $endTime,
                                 'backgroundColor' => '#17C4BB',
                                 'allDay' => false,
                                 'data'   => $event
@@ -68,12 +97,29 @@ Class Booking
             } 
             elseif( sizeof( $bookings->Bookings ) > 1 ) 
             {
+            	$calendars = [];
                 foreach ( $bookings->Bookings as $event ) 
                 {
+		        	$time = strtotime( $event->BookingTime );
+					$endTime = date("H:i", strtotime('+30 minutes', $time));
+
+					if( $event->IntLanguage != '')
+					{
+						$endTime = date("H:i", strtotime('+60 minutes', $time));
+					}
+
+					if( !in_array( $event->ServiceName, $calendars) )
+					{
+						$calendars[] = $event->ServiceName;
+					}
+
+					$calendar_pos = array_search($event->ServiceName, $calendars);
+
                     $output[] =   [
                                     'title' => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
                                     'start' => $event->BookingDate . ' ' . $event->BookingTime,
-                                    'backgroundColor' => '#17C4BB',
+                                	'end' => $event->BookingDate . ' ' . $endTime,
+                                    'backgroundColor' => $colors[ $calendar_pos ],
                                     'allDay' => false,
                                     'data'   => $event
                                   ];
@@ -274,7 +320,7 @@ Class Booking
         // If an user belongs to Legal Help send email to VLA Referrals contact email
         if( $user->sp_id == '112' )
         {
-            $lh_email = 'LHReferrals@vla.vic.gov.au';            
+            $lh_email = 'LHReferrals@vla.vic.gov.au';
 
             $subject  = 'ORBIT booking by ' . $user->name . ' - ' . $service_provider->ServiceProviderName . ', ' . $client['FirstName'] . ' ' . $client['LastName'];
 

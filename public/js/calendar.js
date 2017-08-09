@@ -89,8 +89,11 @@ var AppCalendar = function() {
             $('#calendar').fullCalendar('destroy'); // destroy the calendar
             $('#calendar').fullCalendar({ //re-initialize the calendar
                 header: h,
-                defaultView: 'month', // change default view with available options from http://arshaw.com/fullcalendar/docs/views/Available_Views/ 
-                slotMinutes: 30,
+                defaultView: 'agendaWeek', // change default view with available options from http://arshaw.com/fullcalendar/docs/views/Available_Views/ 
+                slotDuration: '00:15:00',
+                minTime : '07:00:00',
+                maxTime : '19:00:00',
+                weekends: false,
                 editable: false,
                 droppable: false, // this allows things to be dropped onto the calendar !!!
                 drop: function(date, allDay) { // this function is called when something is dropped
