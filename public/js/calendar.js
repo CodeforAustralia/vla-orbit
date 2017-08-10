@@ -148,8 +148,7 @@ var AppCalendar = function() {
                     $("#delete-booking").attr('href', '/booking/delete/' + calEvent.data.BookingRef);
                     $(".edit-booking").attr('id', calEvent.data.ServiceId); //Change for real service id ServiceId
                     // change the border color just for fun
-                    $(this).css('border-color', 'red');
-                    confirmDialog();
+                    $(this).css('border-color', 'red');                    
                     $("#bookingInfo").modal();
 
                 },
@@ -167,7 +166,7 @@ var AppCalendar = function() {
 
 }();
 
-var confirmDialog = function() 
+function deleteBookingDialog() 
 {
     $( "#delete-booking" ).on( "click", function(e) 
     {        
@@ -180,6 +179,8 @@ var confirmDialog = function()
         }
     });  
 }
+
 jQuery(document).ready(function() {    
    AppCalendar.init(); 
+   deleteBookingDialog();
 });
