@@ -51,19 +51,19 @@
                             <h4><strong> Client Information </strong></h4>
                             <hr>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Client's Name: </strong></label>
+                                <label class="col-sm-5"><strong>Name: </strong></label>
                                 <span id="bookingName"></span>
                             </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Client's phone number: </strong></label>
+                                <label class="col-sm-5"><strong>Phone number: </strong></label>
                                 <span id="bookingPhone"></span>
                             </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Client's email: </strong></label>
+                                <label class="col-sm-5"><strong>Email: </strong></label>
                                 <span id="bookingEmail"></span>
                             </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Client's CIR Number: </strong></label>
+                                <label class="col-sm-5"><strong>CIR Number: </strong></label>
                                 <span id="bookingCIRNumber"></span>
                             </div>                      
                         </div>
