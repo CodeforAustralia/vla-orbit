@@ -76,11 +76,15 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="thumbnail">
-                                <img src="/assets/layouts/layout2/img/overlay.jpg" alt="">
+                            <!-- 16:9 aspect ratio -->
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/M-e5FlPKBGk" frameborder="0" allowfullscreen></iframe>
+                                </div>                               
+                                
                                 <div class="caption">
                                     <h3>Guide to making a referral in ORBIT</h3>
-                                    <p> Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. </p>
-                                    <p>
+                                    <p class="hidden"> Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. </p>
+                                    <p class="hidden">
                                         <a href="javascript:;" class="btn red"> Read More </a>
                                     </p>
                                 </div>
