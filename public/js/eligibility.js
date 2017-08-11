@@ -3,6 +3,8 @@ $(document).ready(function() {
     $( "#next-eligibility" ).on( "click", function(e) {
         e.preventDefault();
 
+        $("#contentLoading").modal("show");
+
         var eligibility = $('input:checked').map(function(){
 
           return $(this).attr('id');
@@ -21,6 +23,7 @@ $(document).ready(function() {
 
     $( "#back" ).on( "click", function(e) {
         e.preventDefault();        
+        $("#contentLoading").modal("show");
         window.location.href = "/referral/create/legal_issue/?ca_id=" + getUrlParameter('ca_id');
     });
 });

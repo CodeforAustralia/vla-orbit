@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+	$("#contentLoading").modal("show");
     //Referral section
     $.get("/catchment/listFormated", function(data, status){
         $("#single-prepend-text").select2({
@@ -7,6 +7,8 @@ $(document).ready(function() {
             width: '100%',
             placeholder: "Search for a suburb, postcode or council"
         });
+    }).done(function(){
+        $("#contentLoading").modal("hide");
     });
 
 
@@ -15,10 +17,11 @@ $(document).ready(function() {
         var catchment = $('#single-prepend-text').select2('data');
         if( catchment[0].id > 0)
         {            
+            $("#contentLoading").modal("show");
             window.location.href = "/referral/create/legal_issue/?ca_id=" + catchment[0].id;
         } 
         else {
-            alert("Please Select a catchment");
+            swal("Alert", "Please Select a catchment", "error");            
         }
     });
 

@@ -4,8 +4,13 @@ $(document).ready(function() {
         e.preventDefault();        
         var legal_issue = $('#single').select2('data');
         if( legal_issue[0].id != '')
-        {            
+        {
+        	$("#contentLoading").modal("show");
             window.location.href = "/referral/create/details/?ca_id=" + getUrlParameter('ca_id') + "&mt_id=" + legal_issue[0].id;
+        }
+        else
+        {        	
+            swal("Alert", "Please Select a Legal Issue", "error");  
         }
     });
 
