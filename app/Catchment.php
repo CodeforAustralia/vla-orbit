@@ -34,8 +34,8 @@ Class Catchment
             $output[] = [
                         'id'    => $catchment['CatchmentId'],
                         'text'  => $catchment['Suburb'] . 
-                                    ' , ' . $catchment['PostCode'] .
-                                    ' , ' . $catchment['LGC'] 
+                                    ', ' . $catchment['PostCode'] .
+                                    ', ' . $catchment['LGC'] 
                         ];
         }
 
