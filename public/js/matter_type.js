@@ -673,7 +673,7 @@ var TableDatatablesAjax = function () {
                 "bInfo": false,
                 "columns": [
                         { data: "QuestionId" },
-                        { data: "QuestionName" },                             
+                        { data: "QuestionLabel" },                             
                         {
                             data: null,
                             className: "center",

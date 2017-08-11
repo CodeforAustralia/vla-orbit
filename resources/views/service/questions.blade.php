@@ -93,7 +93,7 @@
                                 <div class="col-md-6">
                                     <label class="checkbox-inline">                                
                                         <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
-                                            {{ $vulnerability_question["QuestionName"] }}
+                                            {{ $vulnerability_question["QuestionLabel"] }}
                                     </label>
                                 </div>
                             @endforeach
