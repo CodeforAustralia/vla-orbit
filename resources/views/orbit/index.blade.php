@@ -15,7 +15,7 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        <span data-counter="counterup" data-value="7">0</span>
+                        <span data-counter="counterup" data-value="{{ $stats->NoOfReferrals }}">0</span>
                     </div>
                     <div class="desc"> Sent Referrals </div>
                 </div>
@@ -28,8 +28,8 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        <span data-counter="counterup" data-value="12">0</span></div>
-                    <div class="desc"> Today's Bookings </div>
+                        <span data-counter="counterup" data-value="{{ $stats->NoOfBookingToday }}">0</span></div>
+                    <div class="desc"> Bookings Today </div>
                 </div>
             </a>
         </div>
@@ -40,9 +40,9 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        <span data-counter="counterup" data-value="35">0</span>
+                        <span data-counter="counterup" data-value="{{ $stats->NoOfBookingThisWeek }}">0</span>
                     </div>
-                    <div class="desc"> Services this week </div>
+                    <div class="desc"> Bookings this week </div>
                 </div>
             </a>
         </div>
@@ -53,8 +53,9 @@
                 </div>
                 <div class="details">
                     <div class="number"> 
-                        <span data-counter="counterup" data-value="89"></span>% </div>
-                    <div class="desc"> Quality of referrals </div>
+                        <span data-counter="counterup" data-value="{{ $stats->NoOfBookingThisYear }}">0</span>
+                    </div>
+                    <div class="desc"> Bookings this year </div>
                 </div>
             </a>
         </div>
@@ -82,7 +83,7 @@
                                 </div>                               
                                 
                                 <div class="caption">
-                                    <h3>Guide to making a referral in ORBIT</h3>
+                                    <h3>How to use Orbit</h3>
                                     <p class="hidden"> Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. </p>
                                     <p class="hidden">
                                         <a href="javascript:;" class="btn red"> Read More </a>
@@ -116,8 +117,10 @@
                         <p>- Orbit team</p>
                     </div>
                     <div class="note note-info">
-                        <h4 class="block bold font-grey-mint">Keywords</h4>
-                        <p> To help navigate the search for the right legal issue an overview of the taxonomy used in Orbit with related keywords are available <a href="https://docs.google.com/spreadsheets/d/1L-pg_KxX9WP29CsE--3OvgyFE8BjL7CmgPBFHBw4-KM/" target="_blank">here</a>. </p>
+                        <h4 class="block bold font-grey-mint">Finding the right legal matter</h4>
+                        <p> To help you select the right legal matter, we're including a list of alternative search terms (for example, typing 'custody' will take you to 'Parenting disputes > Living arrangements').</p>
+                        <br>
+                        <p>This feature is coming soon. But for now, it might help to have a look at the taxonomy and the list of alternative search terms  <a href="https://docs.google.com/spreadsheets/d/1L-pg_KxX9WP29CsE--3OvgyFE8BjL7CmgPBFHBw4-KM/" target="_blank">here</a>. </p>
                     </div>
                     <div class="note note-info">
                         <h4 class="block bold font-grey-mint">Non-Legal Referrals</h4>

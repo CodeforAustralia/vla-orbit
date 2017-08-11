@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Report;
 use App\Role;
 use App\User;
 use Auth;
@@ -21,7 +22,11 @@ class RegistrationController extends Controller
     
     public function index()
     {           
-        return view("orbit.index");
+        $financial_year = date("Y");
+        $report_obj     = new Report();
+        $stats         = $report_obj->getDashboadStats( $financial_year );
+        
+        return view("orbit.index", compact( 'stats' ));
     }
     
     public function create()
