@@ -51,6 +51,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="shortcut icon" href="favicon.ico" /> 
         @yield('styles')
 
+        <script src="/js/ga.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
     </head>
     <!-- END HEAD -->
