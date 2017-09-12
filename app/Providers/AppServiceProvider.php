@@ -22,29 +22,31 @@ class AppServiceProvider extends ServiceProvider
         
         Schema::defaultStringLength(191);
 
-        $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
-        $as->requireAuth();
-        $attributes = $as->getAttributes();        
+        if ( !Auth::check() && \Request::is('login_vla') ) {
+            $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
+            $as->requireAuth();
+            $attributes = $as->getAttributes();        
 
-        //Check if is a VLA USER
-        if (isset($attributes['mail'][0]) && $attributes['mail'][0] != '') {
-            $email = $attributes['mail'][0];
-            $user = User::where('email',$email)->first();
-            if ($user) { // User exists?                
-                Auth::login($user);
-            } else { //Create that user!!!                
-                $user = User::create([
-                  'name'     => $attributes['name'][0],
-                  'email'    => $attributes['mail'][0],
-                  'password' => bcrypt('123344adsdsaasdasd'),
-                ]);                
-                //sign them in and Add role too
-                $user
-                   ->roles()
-                   ->attach(Role::where('name', 'VLA')->first());
-                $user->sp_id = 0 ; // No service provider
-                $user->save();
-                Auth::login($user);
+            //Check if is a VLA USER
+            if (isset($attributes['mail'][0]) && $attributes['mail'][0] != '') {
+                $email = $attributes['mail'][0];
+                $user = User::where('email',$email)->first();
+                if ($user) { // User exists?                
+                    Auth::login($user);
+                } else { //Create that user!!!                
+                    $user = User::create([
+                      'name'     => $attributes['name'][0],
+                      'email'    => $attributes['mail'][0],
+                      'password' => bcrypt('123344adsdsaasdasd'),
+                    ]);                
+                    //sign them in and Add role too
+                    $user
+                       ->roles()
+                       ->attach(Role::where('name', 'VLA')->first());
+                    $user->sp_id = 0 ; // No service provider
+                    $user->save();
+                    Auth::login($user);
+                }
             }
         }
     }
