@@ -23,10 +23,18 @@ class RegistrationController extends Controller
     public function index()
     {           
         $financial_year = date("Y");
+        $last_monday =  date('Y-m-d',time()+( 1 - date('w'))*24*3600);
+        $today = date('Y-m-d');
+        $month = date('Y-m');
+
         $report_obj     = new Report();
-        $stats         = $report_obj->getDashboadStats( $financial_year );
+        $stats          = $report_obj->getDashboadStats( $financial_year );
+        $stats_today    = $report_obj->getDashboadStats( $today );
+        $stats_month    = $report_obj->getDashboadStats( $month );
+        $stats_week     = $report_obj->getDashboadStats( $last_monday );
+
         
-        return view("orbit.index", compact( 'stats' ));
+        return view("orbit.index", compact( 'stats', 'stats_today', 'stats_month', 'stats_week' ));
     }
     
     public function create()

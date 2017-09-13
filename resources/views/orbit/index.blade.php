@@ -28,7 +28,7 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        <span data-counter="counterup" data-value="{{ $stats->NoOfBookingToday }}">0</span></div>
+                        <span data-counter="counterup" data-value="{{ $stats_today->NoOfBookingToday }}">0</span></div>
                     <div class="desc"> Bookings Today </div>
                 </div>
             </a>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        <span data-counter="counterup" data-value="{{ $stats->NoOfBookingThisWeek }}">0</span>
+                        <span data-counter="counterup" data-value="{{ $stats_week->NoOfBookingThisWeek }}">0</span>
                     </div>
                     <div class="desc"> Bookings this week </div>
                 </div>
