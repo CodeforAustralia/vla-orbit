@@ -1,8 +1,1 @@
-Hi, here are the details to contact {{ $args['ServiceProviderName'] }} for their {{ $args['ServiceName'] }} service.\n\n
-Contact details:\n
-{{ $args['Phone'] }}  \n
-@if( $args['Location'] != "#" )
-{{ $args['Location'] }} \n
-@endif
-{{ $args['URL'] }}\n\n
-Once you make contact they will assess whether they can help you or not.
+Hi, here are the details to contact {!! $args['ServiceProviderName'] !!} for their {!! $args['ServiceName'] !!} service.\n\n<?php if( $args['Phone'] != "#" ): ?>Contact details:\n{!! $args['Phone'] !!}<?php endif ?><?php if( $args['Location'] != "#" ): ?>\n{!! $args['Location'] !!}<?php endif ?><?php if( $args['URL'] != "#" ): ?>\n{!! $args['URL'] !!}<?php endif ?>\n\nOnce you make contact they will assess whether they can help you or not.
