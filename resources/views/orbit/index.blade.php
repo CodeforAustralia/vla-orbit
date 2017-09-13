@@ -112,7 +112,7 @@
                 <div class="portlet-body">
                     <div class="note note-info">
                         <h4 class="block bold font-grey-mint">Announcements</h4>
-                        <p> Thanks for using Orbit. We are currently testing the service and need to know what is working, what isn't and if something is missing. Please send any feedback to <a href="mailto:orbitgeneric@gmail.com">orbitgeneric@gmail.com</a> or use the chat tool. </p>
+                        <p> Thanks for using Orbit. We are currently testing the service and need to know what is working, what isn't and if something is missing. Please send any feedback to <a href="mailto:orbitteam@vla.vic.gov.au">orbitteam@vla.vic.gov.au</a> or use the chat tool. </p>
                         <br>
                         <p>- Orbit team</p>
                     </div>
