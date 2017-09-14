@@ -47,7 +47,11 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- SELECT2 LAYOUT STYLES -->
         <link href="/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- END SELECT2 LAYOUT STYLES -->
+        <!-- END SELECT2 LAYOUT STYLES -->        
+        <!-- include summernote css-->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+        <!-- End summernote css-->
+
         <link rel="shortcut icon" href="favicon.ico" /> 
         @yield('styles')
 

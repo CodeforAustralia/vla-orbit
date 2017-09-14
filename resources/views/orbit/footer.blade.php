@@ -87,6 +87,11 @@
             <!--Start of Tawk.to Script-->
             <script src="/js/tawk.js" type="text/javascript"></script>
             <!--End of Tawk.to Script-->
+            
+            <!-- include summernote js-->
+            <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+            <!-- end include summernote js-->
+
             <!-- ------------------------------------------ app loaded js ------------------------------------------ -->
             @yield('scripts')
 

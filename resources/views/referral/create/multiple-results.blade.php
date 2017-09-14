@@ -79,7 +79,7 @@
                 <a class="btn-default bg-white dropdown-toggle" data-toggle="collapse" href="#description{{ $match['ServiceId'] }}" aria-expanded="false" aria"=false" aria-controls="description"  role="button"><strong>Service Details  <i class="fa fa-angle-down"></i></strong></a>      
                 <div class="collapse col-xs-12" id="description{{ $match['ServiceId'] }}">              
                   <div class="col-xs-12"><br>
-                    {{ $match['Description'] }}
+                    {!! $match['Description'] !!}
                   </div>
                 </div>
               </div>
