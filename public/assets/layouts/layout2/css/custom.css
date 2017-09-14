@@ -232,3 +232,23 @@ b, optgroup, strong {
 #form_answers h4 {
     font-size: 16px;
 }
+
+.top-buttons a:first-child{
+    margin: 24px 0px 24px 20px;
+}
+
+.top-buttons a{
+    margin: 24px 0 24px 10px;
+}
+
+.table td, .table th {
+    font-size: 13px;
+}
+
+/***** Results page *****/
+
+.portlet.light .portlet-body {    
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
