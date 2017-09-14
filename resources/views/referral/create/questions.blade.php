@@ -8,35 +8,35 @@
       <div class="mt-step-number bg-white">
         <i class="fa fa-map-marker"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Location</div>
+      <div class="mt-step-title font-grey-cascade hidden-xs">Location</div>
       <div class="mt-step-content"></div>
     </a>
     <a class="col-xs-2 mt-step-col done" style="text-decoration: none;" href="/referral/create/legal_issue/{{ '?ca_id=' . session('ca_id')  }}">
       <div class="mt-step-number bg-white">
         <i class="fa fa-legal"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Legal Issue</div>
+      <div class="mt-step-title font-grey-cascade hidden-xs">Legal Issue</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </a>
     <a class="col-xs-2 mt-step-col done" style="text-decoration: none;" href="/referral/create/details/{{ '?ca_id=' . session('ca_id') . '&mt_id=' .  session('mt_id')  }}">
       <div class="mt-step-number bg-white">
         <i class="fa fa-check-square-o"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Eligibility</div>
+      <div class="mt-step-title font-grey-cascade hidden-xs">Eligibility</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </a>
     <div class="col-xs-2 mt-step-col active">
       <div class="mt-step-number bg-white">
         <i class="fa fa-question"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Questions</div>
+      <div class="mt-step-title font-grey-cascade hidden-xs">Questions</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
     <div class="col-xs-2 mt-step-col last">
       <div class="mt-step-number bg-white">
         <i class="fa fa-list font-grey-cascade"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade">Matches</div>
+      <div class="mt-step-title font-grey-cascade hidden-xs">Matches</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
   </div>
