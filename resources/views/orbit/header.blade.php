@@ -70,6 +70,19 @@
                     </form>
                     <!-- END HEADER SEARCH BOX -->
                     <!-- BEGIN TOP NAVIGATION MENU -->
+                    @if(Auth::check())
+                    <div class="pull-left top-buttons">                        
+                        <a href="/referral/create/location" class="btn btn-xs btn-default">
+                            <i class="fa fa-plus font-green"></i> New Referral 
+                        </a>                      
+
+                        @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
+                        <a href="/booking/new" class="btn btn-xs btn-default">
+                            <i class="fa fa-plus font-green"></i> New Booking 
+                        </a>
+                        @endif
+                    </div>
+                    @endif
 
                     <div class="top-menu">
                         <ul class="nav navbar-nav pull-right">
@@ -79,7 +92,7 @@
                             <!-- DOC: Apply "dropdown-dark" class below "dropdown-extended" to change the dropdown styte -->
                             <!-- DOC: Apply "dropdown-hoverable" class after below "dropdown" and remove data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to enable hover dropdown mode -->
                             <!-- DOC: Remove "dropdown-hoverable" and add data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to the below A element with dropdown-toggle class -->
-                            <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                            <li class="dropdown dropdown-extended dropdown-notification hidden" id="header_notification_bar">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <i class="icon-bell"></i>
                                     <span class="badge badge-default"> 7 </span>
