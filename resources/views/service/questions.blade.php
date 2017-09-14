@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <div class="col-md-5">
                                     <label class="pull-right">
-                                    {{ ( $cs_Legal_matter_question->QuestionLabel != '' ? $cs_Legal_matter_question->QuestionLabel : $cs_Legal_matter_question->QuestionName ) }}
+                                    {{ ( $cs_Legal_matter_question->QuestionName != '' ? $cs_Legal_matter_question->QuestionName : $cs_Legal_matter_question->QuestionLabel ) }}
                                     </label>
                                 </div>
                                 <div class="col-md-2">
