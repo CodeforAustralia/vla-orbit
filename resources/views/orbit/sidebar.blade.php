@@ -20,6 +20,20 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
+
+
+                        @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
+
+                        <li class="nav-item">
+                            <a href="/booking" class="nav-link">
+                                <i class="icon-calendar"></i>
+                                <span class="title">Bookings</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>                        
+
+                        @endif
+
                         <li class="nav-item">
                             <a href="/service" class="nav-link">
                                 <i class="icon-notebook"></i>
@@ -43,18 +57,6 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
-
-                        @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
-
-                        <li class="nav-item">
-                            <a href="/booking" class="nav-link">
-                                <i class="icon-calendar"></i>
-                                <span class="title">Bookings</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>                        
-
-                        @endif
 
                         @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
 
@@ -122,5 +124,9 @@
                     <!-- END SIDEBAR MENU -->
                 </div>
                 <!-- END SIDEBAR -->
+
+                @if ( isset(Auth::user()->roles()->first()->name) )
+                <div class="hidden role" id="{{ Auth::user()->roles()->first()->name }}"></div>
+                @endif
             </div>
             <!-- END SIDEBAR -->

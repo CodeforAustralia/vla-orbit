@@ -899,12 +899,23 @@ var TableDatatablesAjax = function () {
      
     var getButtons = function (controller, id) {
 
-        var delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content">Delete</a>';
         var edit_btn = '';
-        if (controller === 'service_provider' || controller === 'service' || controller === 'question' || controller === 'matter' || controller === 'user') 
-        {
-            var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content">Edit</a>';
+        var delete_btn = '';
+        
+        var role = $(".role").attr("id");
+
+        if( role == "VLA" || role == "CLC") {
+            var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
+        } else {
+
+            delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+            edit_btn = '';
+            if (controller === 'service_provider' || controller === 'service' || controller === 'question' || controller === 'matter' || controller === 'user') 
+            {
+                var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
+            }
         }
+
         return edit_btn + delete_btn;   	
 
     }
