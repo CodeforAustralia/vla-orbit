@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
                     $user
                        ->roles()
                        ->attach(Role::where('name', 'VLA')->first());
-                    $user->sp_id = 0 ; // No service provider
+                    $user->sp_id = 112 ; // No service provider
                     $user->save();
                     Auth::login($user);
                 }

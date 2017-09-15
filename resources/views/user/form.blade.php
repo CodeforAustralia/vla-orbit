@@ -32,7 +32,11 @@
                     <div class="form-group">
                         <label for="sp_id" class="col-md-3 control-label">Service Provider:</label>   
                         <div class="col-md-4">                    
-                            <select class="form-control" id="sp_id" name="sp_id">                               
+                            <select class="form-control" id="sp_id" name="sp_id">
+
+                                @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
+                                <option value="0">Orbit Admin</option>
+                                @endif
                                 @foreach($service_providers as $service_provider)                                    
                                     <option value="{{ $service_provider['ServiceProviderId'] }}" {{ ( isset($user) && $service_provider['ServiceProviderId'] == $user->sp_id ? 'selected' : '') }}> {{ $service_provider['ServiceProviderName'] }} </option>
                                 @endforeach
