@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Role;
 use App\User;
 use Auth;
+use URL;
 use SimpleSAML_Auth_Simple;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,7 +23,12 @@ class AppServiceProvider extends ServiceProvider
         
         Schema::defaultStringLength(191);
 
-        if ( !Auth::check() && \Request::is('login_vla') ) {
+        $adsf_rul = 'fs.vla.vic.gov.au';
+        $prev_url = URL::previous();
+        
+        if ( !Auth::check() && \Request::is('login_vla') ) 
+        {
+            session(['login_vla' => true ]);
             $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
             $as->requireAuth();
             $attributes = $as->getAttributes();        
@@ -48,6 +54,15 @@ class AppServiceProvider extends ServiceProvider
                     Auth::login($user);
                 }
             }
+        } 
+        elseif( strpos( $prev_url, $adsf_rul ) !== false && is_null( session('login_vla') ) )
+        {
+            //dd( $prev_url );
+            echo '
+            <script>
+                window.location.replace("/login_vla");
+            </script>
+            ';
         }
     }
 
