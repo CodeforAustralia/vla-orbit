@@ -151,6 +151,12 @@ var AppCalendar = function() {
                     $(this).css('border-color', 'red');                    
                     $("#bookingInfo").modal();
 
+                    if( calEvent.data.Mobile != '') {
+                        $('.remind-booking').show();
+                    } else {
+                        $('.remind-booking').hide();
+                    }
+
                 },
                 eventAfterRender: function (event, element, view) {
                     var today = new Date();

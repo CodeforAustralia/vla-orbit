@@ -3,6 +3,8 @@ namespace App;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingEmail;
+use App\Mail\BookingSms;
+use App\Service;
 use Auth;
 
 Class Booking
@@ -351,5 +353,29 @@ Class Booking
 
             Mail::to( $sp_email )->send( new BookingEmail( $args ) );
         }       
+    }
+
+    public function sendSmsReminder( $args )
+    {
+        $service_obj = new Service();
+        $services = $service_obj->getAllServices();
+        
+        $service_pos = array_search( $args['bb_service_id'] ,  array_column( $services, 'BookingServiceId' ) );
+
+        if( $service_pos )
+        {
+            $service = $services[$service_pos];
+            $args['location'] = $service['Location'];
+            $args['phone'] = $service['Phone'];            
+
+            Mail::to( $args['client_phone'] . "@e2s.pcsms.com.au"  )->send( new BookingSms( $args ) );
+
+            return array( 'success' => 'success' , 'message' => 'Reminder was sent' );
+                        
+        } 
+        else 
+        {
+            return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+        }
     }
 }

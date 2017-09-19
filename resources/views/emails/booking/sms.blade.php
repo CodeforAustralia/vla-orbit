@@ -1,0 +1,1 @@
+You have an appointment on {!! $args['date'] !!} at {!! $args['time'] !!} with Victoria Legal Aid. <?php if( $args['location'] != "#" ): ?>Location of appointment is at {!! $args['location'] !!}.<?php endif ?> To change call us on {!! $args['phone'] !!}.

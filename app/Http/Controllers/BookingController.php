@@ -122,4 +122,22 @@ class BookingController extends Controller
 
         return $result;
     }
+
+    public function sendSmsReminder()
+    {
+        $reminder = request('reminder');
+        
+        $args = [];
+        $args['bb_service_id'] = $reminder['bb_service_id']; //This is an identifier of a service id in bookingbug not in orbit
+        $args['date'] = $reminder['date'];
+        $args['time'] = $reminder['time'];
+
+        $args['client_name']  = $reminder['client_name'];
+        $args['client_phone'] = $reminder['client_phone'];
+
+        $booking_obj = new Booking(); 
+        $result = $booking_obj->sendSmsReminder( $args ) ;
+
+        return $result;
+    }
 }

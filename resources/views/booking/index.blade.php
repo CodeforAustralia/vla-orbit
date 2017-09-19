@@ -55,8 +55,11 @@
                                 <span id="bookingName"></span>
                             </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Phone number: </strong></label>
+                                <label class="col-sm-5"><strong>Phone number: </strong></label> 
                                 <span id="bookingPhone"></span>
+                                
+                                <a href="#" class="btn btn-xs green remind-booking">Send Reminder</a>                                
+
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Email: </strong></label>
@@ -89,7 +92,7 @@
                             </div>
                         </div>
                         <div class="row pull-right">                            
-                            <a href="#" class="btn green edit-booking">Edit</a>                            
+                            <a href="#" class="btn green edit-booking hidden">Edit</a>
                             <a href="#" class="btn btn-danger" id="delete-booking">Delete</a>
                             <a href="#" class="btn btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                         </div>
@@ -208,6 +211,8 @@
     <script src="/js/calendar.js?id={{ str_random(6) }}" type="text/javascript"></script>
 
     <script src="/js/edit-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
+
+    <script src="/js/remind-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
 @endsection
 
