@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div class="row pull-right">                            
-                            <a href="#" class="btn green edit-booking hidden">Edit</a>
+                            <a href="#" class="btn green edit-booking">Edit</a>
                             <a href="#" class="btn btn-danger" id="delete-booking">Delete</a>
                             <a href="#" class="btn btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                         </div>
