@@ -16,10 +16,10 @@ They have referred you to another service for more help:
 - <strong>Phone number:</strong> {{ $args['Phone'] }}
 - <strong>Url:</strong> {{ $args['URL'] }}
 
-- <strong>Service details: </strong>{{ $args['Description'] }}
+- <strong>Service details: </strong>{!! $args['Description'] !!}
 
 
-<p style="font-style:italic;">This email was sent by ORBIT on behalf of {{ $args['sendingServiceProvider']['ServiceProviderName'] }}. Please do not reply to this email.</p>
+<p style="font-style:italic;">This email was sent by ORBIT on behalf of {!! $args['sendingServiceProvider']['ServiceProviderName'] !!}. Please do not reply to this email.</p>
 
 
 @endcomponent
