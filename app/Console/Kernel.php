@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\SendReminders::class
     ];
 
     /**
@@ -26,6 +26,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('sms:reminders')
+         ->dailyAt('09:00')         
+         ->timezone('Australia/Melbourne')
+         ->emailOutputTo('christian@codeforaustralia.org');
     }
 
     /**

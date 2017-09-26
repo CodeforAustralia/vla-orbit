@@ -13,14 +13,15 @@ var RemindBooking = function () {
         });  
     }
 
+    //currentEventInCalendar is a global variable that is at calendar.js
     var service_call = function( reminder ) {
         $.ajax({
                   method: "GET",
                   url: "/booking/sendSmsReminder",
-                  data: { reminder: reminder }
+                  data: { reminder: reminder, booking: currentEventInCalendar }
                 })
                   .done(function( msg ) {                    
-                    swal( msg.message, "" , msg.success );
+                    swal( msg, "" , "success" );
                   });
     }
 

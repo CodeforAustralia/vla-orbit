@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Booking;
+use App\SentSms;
 use App\ServiceProvider;
 
 class BookingController extends Controller
@@ -126,18 +127,9 @@ class BookingController extends Controller
     public function sendSmsReminder()
     {
         $reminder = request('reminder');
-        
-        $args = [];
-        $args['bb_service_id'] = $reminder['bb_service_id']; //This is an identifier of a service id in bookingbug not in orbit
-        $args['date'] = $reminder['date'];
-        $args['time'] = $reminder['time'];
-
-        $args['client_name']  = $reminder['client_name'];
-        $args['client_phone'] = $reminder['client_phone'];
-
-        $booking_obj = new Booking(); 
-        $result = $booking_obj->sendSmsReminder( $args ) ;
-
+        $booking = json_decode( json_encode( request('booking') ), FALSE );
+        $sent_sms_obj = new SentSms();
+        $result = $sent_sms_obj->sendReminder( $booking );
         return $result;
     }
 }

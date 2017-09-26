@@ -20,7 +20,7 @@ Class Booking
 				];
 
 		$user = Auth::user();
-		if( $user->sp_id != 0 )
+		if( isset($user) && $user->sp_id != 0 )
 		{
 			$info['ServiceProviderId'] = $user->sp_id;
 			$bookings = $client->GetAllOrbitBookingsByServiceProvider( $info )->GetAllOrbitBookingsByServiceProviderResult;			
@@ -31,6 +31,19 @@ Class Booking
         return $bookings;
 	}
 
+    public function getAllBookingsByDay( $day )
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $info = [
+                    'Date'  => $day 
+                ];
+
+        $bookings = $client->GetAllOrbitBookingsByDate( $info )->GetAllOrbitBookingsByDateResult;        
+
+        return $bookings;
+    }
     public function getAllBookingsPerMonth( $from, $to )
     {       
         // Create Soap Object

@@ -1,3 +1,5 @@
+var currentEventInCalendar = [];
+
 var AppCalendar = function() {
 
     return {
@@ -156,7 +158,7 @@ var AppCalendar = function() {
                     } else {
                         $('.remind-booking').hide();
                     }
-
+                    currentEventInCalendar = calEvent.data;
                 },
                 eventAfterRender: function (event, element, view) {
                     var today = new Date();

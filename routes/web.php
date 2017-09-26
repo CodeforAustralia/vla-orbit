@@ -260,3 +260,17 @@ Route::get('/user/list', 'UserController@list');
 Route::post('/user/update', 'UserController@update');
 
 Route::post('/user', 'UserController@store');
+
+//SMS Templates
+
+Route::get('/sms_template', 'SmsTemplateController@index');
+
+Route::get('/sms_template/show/{st_id}', 'SmsTemplateController@show');
+
+Route::get('/sms_template/delete/{st_id}', 'SmsTemplateController@destroy');
+
+Route::get('/sms_template/new', 'SmsTemplateController@create');
+
+Route::get('/sms_template/list', 'SmsTemplateController@list');
+
+Route::post('/sms_template', 'SmsTemplateController@store');
