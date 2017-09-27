@@ -252,3 +252,9 @@ b, optgroup, strong {
     margin-left: auto;
     margin-right: auto;
 }
+
+/****** LOGO ****/
+
+.page-header.navbar .page-logo .logo-default{
+    margin: 20px 0 0;
+}
