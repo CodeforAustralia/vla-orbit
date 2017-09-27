@@ -105,6 +105,14 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="/sms_template" class="nav-link">
+                                <i class="fa fa-envelope"></i>
+                                <span class="title">Sms Templates</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="/catchment" class="nav-link">
                                 <i class="fa fa-map-signs"></i>
                                 <span class="title">Catchment</span>
