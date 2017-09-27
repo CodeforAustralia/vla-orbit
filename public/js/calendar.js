@@ -137,6 +137,10 @@ var AppCalendar = function() {
                 }],
                 eventClick: function(calEvent, jsEvent, view) {
                     
+                    //User info                    
+                    $("#createdBy").text(calEvent.user.name);
+                    
+                    //Booking info
                     $("#bookingRef").text(calEvent.data.BookingRef);
                     $("#bookingTitle").text(calEvent.data.ServiceName);
                     $("#bookingTime").text(calEvent.data.BookingDate + " " + calEvent.data.BookingTime);

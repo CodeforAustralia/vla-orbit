@@ -4,7 +4,9 @@ namespace App;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingEmail;
 use App\Mail\BookingSms;
+use App\SentSms;
 use App\Service;
+use App\User;
 use Auth;
 
 Class Booking
@@ -65,6 +67,7 @@ Class Booking
 
     public function getAllBookingsPerMonthCalendar( $from, $to )
     {       
+        $user = new User();
         // Create Soap Object
         $bookings = self::getAllBookings( $from, $to );
         $output = [];
@@ -100,6 +103,8 @@ Class Booking
 					$endTime = date("H:i", strtotime('+60 minutes', $time));
 				}
 
+                $uid = $bookings->Bookings->CreatedBy;                
+  
                 $event = $bookings->Bookings;
                 $output[] =  [
                                 'title' => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
@@ -107,7 +112,8 @@ Class Booking
                                 'end' => $event->BookingDate . ' ' . $endTime,
                                 'backgroundColor' => '#17C4BB',
                                 'allDay' => false,
-                                'data'   => $event
+                                'data'   => $event,
+                                'user'   => $user->find($uid)
                               ];
             } 
             elseif( sizeof( $bookings->Bookings ) > 1 ) 
@@ -130,13 +136,16 @@ Class Booking
 
 					$calendar_pos = array_search($event->ServiceName, $calendars);
 
+                    $uid = $event->CreatedBy;   
+
                     $output[] =   [
                                     'title' => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
                                     'start' => $event->BookingDate . ' ' . $event->BookingTime,
                                 	'end' => $event->BookingDate . ' ' . $endTime,
                                     'backgroundColor' => $colors[ $calendar_pos ],
                                     'allDay' => false,
-                                    'data'   => $event
+                                    'data'   => $event,
+                                    'user'   => $user->find($uid)
                                   ];
                 }
             }

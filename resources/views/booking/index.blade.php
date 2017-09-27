@@ -58,7 +58,7 @@
                                 <label class="col-sm-5"><strong>Phone number: </strong></label> 
                                 <span id="bookingPhone"></span>
                                 
-                                <a href="#" class="btn btn-xs green remind-booking">Send Reminder</a>                                
+                                <a href="#" class="btn btn-xs green remind-booking pull-right">Send Reminder</a>                                
 
                             </div>
                             <div class="col-sm-12">
@@ -91,6 +91,21 @@
                                 <span id="bookingDescription"></span>
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <h4><strong> Details </strong></h4>
+                            <hr>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Created By: </strong></label>
+                                <span id="createdBy"></span>
+                            </div>
+                            <div class="col-sm-12 hidden">
+                                <label class="col-sm-5"><strong>Status: </strong></label>
+                                <span id="sentStatus"></span>
+                            </div>
+
+                        </div>
+                        <br>
                         <div class="row pull-right">                            
                             <a href="#" class="btn green edit-booking">Edit</a>
                             <a href="#" class="btn btn-danger" id="delete-booking">Delete</a>
