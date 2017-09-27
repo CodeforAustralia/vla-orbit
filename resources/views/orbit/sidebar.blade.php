@@ -114,7 +114,7 @@
 
                         <li class="nav-item">
                             <a href="/user" class="nav-link">
-                                <i class="fa fa-map-signs"></i>
+                                <i class="fa fa-users"></i>
                                 <span class="title">Users</span>
                                 <span class="arrow"></span>
                             </a>
