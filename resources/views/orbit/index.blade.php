@@ -83,7 +83,7 @@
                                 </div>                               
                                 
                                 <div class="caption">
-                                    <h3>How to use Orbit</h3>
+                                    <h3 class="hidden">How to use Orbit</h3>
                                     <p class="hidden"> Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. </p>
                                     <p class="hidden">
                                         <a href="javascript:;" class="btn red"> Read More </a>
