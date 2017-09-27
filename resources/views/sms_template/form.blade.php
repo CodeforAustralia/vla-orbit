@@ -20,7 +20,7 @@
                             <select id="single" class="form-control select2" name="sv_id">
                                 <option> </option>
                                 @foreach( $services as $service)
-                                    <option value="{{ $service['ServiceId'] }}"> {{ $service['ServiceName'] }} </option>
+                                    <option value="{{ $service['ServiceId'] }}"> {{ $service['ServiceName'] }} - [ {{ $service['ServiceProviderName'] }} ]</option>
                                 @endforeach
                             </select>
                         </div>

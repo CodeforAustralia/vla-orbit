@@ -36,6 +36,8 @@ class SmsTemplateController extends Controller
         		$current_sms_template = $template;
         	}
         }
+        
+         usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); }); 
 
         return view("sms_template.show", compact( 'current_sms_template', 'services' ) );
     }
@@ -61,7 +63,7 @@ class SmsTemplateController extends Controller
     public function create()
     {
         $service_obj = new Service();
-        $services = $service_obj->getAllServices();
+        $services = $service_obj->getAllServices();        
 
         return view('sms_template.create', compact( 'services' ) );
     }
