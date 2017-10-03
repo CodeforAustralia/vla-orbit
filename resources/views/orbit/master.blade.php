@@ -68,6 +68,8 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="page-container">
             @if(Auth::check())
                 @include ('orbit.sidebar')
+            @else
+                @include ('orbit.login_modal')
             @endif
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">
