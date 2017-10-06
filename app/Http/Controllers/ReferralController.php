@@ -53,7 +53,9 @@ class ReferralController extends Controller
 
     public function location()
     {
-        return view('referral.create.location');
+        $matter = new Matter();
+        $matters = $matter->getAllMattersParentChildrenListTrimmed();
+        return view('referral.create.search', compact( 'matters' ));
     }
     
     public function legal_issue()

@@ -4,35 +4,21 @@
 <!-- Steps -->
 <div class="mt-element-step margin-bottom-20">
   <div class="row step-line">
-    <a class="col-xs-2 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location">
+    <a class="col-xs-3 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location/{{ '?ca_id=' . session('ca_id') . '&mt_id=' . session('mt_id') }}">
       <div class="mt-step-number bg-white">
-        <i class="fa fa-map-marker"></i>
+        <i class="fa fa-search"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade hidden-xs">Location</div>
+      <div class="mt-step-title font-grey-cascade hidden-xs">Search</div>
       <div class="mt-step-content"></div>
     </a>
-    <a class="col-xs-2 mt-step-col done" style="text-decoration: none;" href="/referral/create/legal_issue/{{ '?ca_id=' . session('ca_id')  }}">
-      <div class="mt-step-number bg-white">
-        <i class="fa fa-legal"></i>
-      </div>
-      <div class="mt-step-title font-grey-cascade hidden-xs">Legal Issue</div>
-      <div class="mt-step-content font-grey-cascade"></div>
-    </a>
-    <div class="col-xs-2 mt-step-col active">
+    <div class="col-xs-3 mt-step-col active">
       <div class="mt-step-number bg-white">
         <i class="fa fa-check-square-o"></i>
       </div>
-      <div class="mt-step-title font-grey-cascade hidden-xs">Eligibility</div>
+      <div class="mt-step-title font-grey-cascade hidden-xs">Refine</div>
       <div class="mt-step-content font-grey-cascade"></div>
     </div>
-    <div class="col-xs-2 mt-step-col">
-      <div class="mt-step-number bg-white">
-        <i class="fa fa-question font-grey-cascade"></i>
-      </div>
-      <div class="mt-step-title font-grey-cascade hidden-xs">Questions</div>
-      <div class="mt-step-content font-grey-cascade"></div>
-    </div>
-    <div class="col-xs-2 mt-step-col last">
+    <div class="col-xs-3 mt-step-col last">
       <div class="mt-step-number bg-white">
         <i class="fa fa-list font-grey-cascade"></i>
       </div>
@@ -44,7 +30,7 @@
 
 <!-- Details -->
 <div class="row"> 
-  <div class="col-xs-10 col-xs-offset-1">
+  <div class="col-xs-11 col-lg-10 col-xs-offset-1 col-lg-offset-1">
     <div class="portlet light">
       <div class="portlet-title">
         <div class="caption">

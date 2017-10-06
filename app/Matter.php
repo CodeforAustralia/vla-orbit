@@ -50,6 +50,30 @@ Class Matter
         }
     }
 
+    /**
+     * getAllMattersParentChildrenListTrimmed is men to be used by search page on referrals page
+     * @return array  [Array of legal matters with parent child relation]
+    */
+    public function getAllMattersParentChildrenListTrimmed()
+    {
+        $matters = self::getAllMatters();
+        $clean_matters = [];
+        foreach ($matters as $matter) {
+            $clean_matters[] = [
+                                    'id'         => $matter['MatterID'], 
+                                    'text'       => $matter['MatterName'], 
+                                    'ParentId'   => $matter['ParentId'],   
+                                    'ParentName' => $matter['ParentName'],
+                                    'MatterName' => $matter['MatterName'],
+                                    'MatterID'   => $matter['MatterID'] 
+
+                                ];
+        }
+        $matters = self::array_sort( $clean_matters, 'MatterName', SORT_ASC );        
+        $output  = self::buildTree($matters, 50) ;
+        return $output;
+    }
+
     public function getAllMattersParentChildrenList()
     {
         $matters = self::getAllMatters();
@@ -73,6 +97,9 @@ Class Matter
                     $children = self::buildTree($elements, $element['MatterID']);
                     if ($children) {
                         $element['children'] = $children;
+                        if(isset($element['id'])){
+                            unset($element['id']);
+                        }
                     }
                     $branch[] = $element;
                 }

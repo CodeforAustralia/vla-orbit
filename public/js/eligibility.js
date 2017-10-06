@@ -24,7 +24,8 @@ $(document).ready(function() {
     $( "#back" ).on( "click", function(e) {
         e.preventDefault();        
         $("#contentLoading").modal("show");
-        window.location.href = "/referral/create/legal_issue/?ca_id=" + getUrlParameter('ca_id');
+
+        window.location.href = "/referral/create/location/?ca_id=" + getUrlParameter('ca_id') + '&mt_id=' + getUrlParameter('mt_id');
     });
 });
 
