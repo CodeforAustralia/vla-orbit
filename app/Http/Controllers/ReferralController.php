@@ -55,6 +55,10 @@ class ReferralController extends Controller
     {
         $matter = new Matter();
         $matters = $matter->getAllMattersParentChildrenListTrimmed();
+        if( isset($_GET['search2']) )
+        {
+            return view('referral.create.search_test');
+        }
         return view('referral.create.search', compact( 'matters' ));
     }
     
@@ -72,7 +76,7 @@ class ReferralController extends Controller
         $ca_id  = isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : '';
         $mt_id  = isset( $_GET['mt_id'] )  ? $_GET['mt_id']  : '';
         
-        session( ['mt_id' => $mt_id ] );
+        session( ['mt_id' => $mt_id, 'ca_id' => $ca_id] );
 
         $referral = new Referral();
         $vulnertability_info = $referral->getVulnerabilityByServices( $ca_id, $mt_id );

@@ -53,6 +53,8 @@ Route::get('/matter/list', 'MatterController@list');
 
 Route::get('/matter/listFormated', 'MatterController@listFormated');
 
+Route::get('/matter/listFormatedTrimmed', 'MatterController@listFormatedTrimmed');
+
 Route::get('/matter/new', 'MatterController@create');
 
 Route::get('/matter/show/{m_id}', 'MatterController@show');

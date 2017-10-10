@@ -49,42 +49,6 @@
                 <div class="input-group select2-bootstrap col-xs-6 legal_issue">
                   <select id="single" class="form-control select2">
                       <option> </option>
-                      @foreach( $matters as $matter )
-                      <optgroup label="{{ $matter['MatterName'] }}">
-
-                        @if( isset( $matter['children'] ) )
-
-                            @foreach( $matter['children'] as $first_child )
-
-                                @if( isset( $first_child['children'] ) )
-
-                                    <option value="{{ $first_child['MatterID'] }}" disabled="disabled" class="specific_problem">
-                                     {{ $first_child['MatterName'] }}
-                                    </option>
-
-                                    @foreach( $first_child['children'] as $second_child )
-
-                                        @if( !isset( $second_child['children'] ) )
-                                            <option value="{{ $second_child['MatterID'] }}">
-                                              {{ $second_child['MatterName'] }}
-                                            </option>
-                                        @endif
-
-                                    @endforeach
-
-                                @else
-                                    <option value="{{ $first_child['MatterID'] }}">
-                                      {{ $first_child['MatterName'] }}
-                                    </option>
-
-                                @endif
-
-                            @endforeach
-
-                        @endif
-
-                      </optgroup>
-                      @endforeach
                   </select>
                 </div>
 
@@ -131,6 +95,5 @@
 
 @section('inline-scripts')
   $(document).ready(function() {
-    
   });
 @endsection

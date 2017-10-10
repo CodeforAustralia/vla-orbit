@@ -97,6 +97,13 @@ class MatterController extends Controller
         return array( 'data' => $result );
     }
 
+    public function listFormatedTrimmed()
+    {
+        $matter = new Matter();
+        $result = $matter->getMattersDatasetTrimmed();
+        return $result;
+    }
+
     public function listFormated()
     {
         $matter = new Matter();

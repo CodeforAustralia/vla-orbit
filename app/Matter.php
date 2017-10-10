@@ -65,13 +65,69 @@ Class Matter
                                     'ParentId'   => $matter['ParentId'],   
                                     'ParentName' => $matter['ParentName'],
                                     'MatterName' => $matter['MatterName'],
-                                    'MatterID'   => $matter['MatterID'] 
+                                    'MatterID'   => $matter['MatterID'],
+                                    'Tag'        => $matter['Tag'],
 
                                 ];
         }
         $matters = self::array_sort( $clean_matters, 'MatterName', SORT_ASC );        
         $output  = self::buildTree($matters, 50) ;
         return $output;
+    }
+
+    /**
+     * [getMattersDatasetTrimmed is used to provide an array to the search function that select2 uses in just 2 leves because more levels are not allowed]
+     * @return [array] [array of matters in 2 leveles, sub groups are disable options wich are just above each specific matter]
+     */
+    public function getMattersDatasetTrimmed()
+    {                
+        $matters = self::getAllMattersParentChildrenListTrimmed();
+        $dataset = [];
+        foreach( $matters as $key => $matter ):
+            
+            //Copy matters removing their childrens and store it in the dataset
+            $m_copy = $matter;
+            unset($m_copy['children']);
+            $dataset[$key] = $m_copy;
+            
+            if( isset( $matter['children'] ) ):
+
+                $pos = 0;
+                foreach( $matter['children'] as $first_child ):
+                    //For each subgroup of legal matters get the name and make it disable to select on plugin, un less is an specific issue of level 2
+                    if( isset( $first_child['children'] ) ):
+
+                        //Copy subgroup removing their childrens and store it in the dataset
+                        $fc_copy = $first_child;
+                        $fc_copy['disabled'] = true; //Disable to select on plugin
+                        $fc_copy['Tag'] .= ', ' . $matter['text']; //Add all specific matters to the sub group tags/keywords
+
+                        unset($fc_copy['children']);
+                        $parent_post = $pos;
+                        $dataset[$key]['children'][$pos] = $fc_copy;
+
+                        foreach( $first_child['children'] as $second_child ):
+                            //Each specific matter should be under each sub group title in the options with their own tag
+                            $pos++;
+
+                            if( !isset( $second_child['children'] ) ):
+                                $dataset[$key]['children'][$pos] = $second_child;
+                            endif;
+                            //Add all specific matters to the parent sub group tags/keywords
+                            $dataset[$key]['children'][$parent_post]['Tag'] .= ', ' . $second_child['text'];
+
+                        endforeach;
+
+                    else:
+                        $dataset[$key]['children'][$pos] = $first_child;
+                    endif;
+                    $pos++;
+                endforeach;
+            endif;
+
+        endforeach;
+
+        return $dataset;
     }
 
     public function getAllMattersParentChildrenList()
