@@ -91,6 +91,8 @@
             <!-- include summernote js-->
             <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
             <!-- end include summernote js-->
+            
+            <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 
             <!-- ------------------------------------------ app loaded js ------------------------------------------ -->
             @yield('scripts')

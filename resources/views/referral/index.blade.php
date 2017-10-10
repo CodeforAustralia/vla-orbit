@@ -26,6 +26,7 @@
                             <th width="10%"> Safe to contact by email </th>
                             <th width="10%"> Safe to contact by phone </th>
                             <th width="10%"> Referred by </th>
+                            <th width="10%"> Referred On </th>
                         </tr>
                     </thead>
                     <tbody> </tbody>

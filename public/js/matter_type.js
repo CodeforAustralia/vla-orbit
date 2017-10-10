@@ -825,7 +825,8 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded              
+                // execute some code after table records loaded         
+                console.log(response);
             },
             onError: function (grid) {
                 // execute some code on network or other general error  
@@ -849,7 +850,7 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [1, "asc"]
+                    [0, "desc"]
                 ],// set first column as a default sort by asc,
                 
                 "serverSide": false,
@@ -882,7 +883,15 @@ var TableDatatablesAjax = function () {
                                 return '<span class="label label-sm label-danger"> Not Safe </span>';
                             }                          
                         },                           
-                        { data: "CreatedBy" }
+                        { data: "CreatedBy" },
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {                   
+                                var referred_day = moment(data.CreatedOn).toDate();
+                                return moment(referred_day).format('YYYY-M-D');
+                            }                          
+                        }
                         /*{
                             data: null,
                             className: "center",
