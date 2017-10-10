@@ -323,8 +323,13 @@ body .select2-container--bootstrap .select2-results__option .select2-results__op
 body .select2-container--bootstrap .select2-results__option[aria-disabled=true] {
     color: #32c5d2;
     font-weight: bold;
+    cursor: initial;
 }
 
 body .select2-container--bootstrap .select2-results__option:not([aria-disabled]) {
     margin-left: 10px;
+}
+/******* Referrral process ***************************/
+.first .mt-step-number i {
+    line-height: 16px;
 }
