@@ -52,9 +52,9 @@ Class SentSms
 	}
 
     public function getBookings()
-    {
-        
-        $today = date('Y-m-d');
+    {        
+        date_default_timezone_set('Australia/Melbourne');
+        $today = date('Y-m-d h:i:s');
 
         //increment 7 days
         $tomorrow      = date( 'Y-m-d', strtotime($today.'+ 1 day')  ) ;
