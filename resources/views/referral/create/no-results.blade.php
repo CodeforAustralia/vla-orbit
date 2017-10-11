@@ -9,8 +9,7 @@
 
 	<div class="text-center">
 		<div class="snap-block">
-			<img class="snap-image" src="/assets/global/img/sad_man.png" width="200">
-			<h1 class="bold" >oh snap!</h1>
+			<img class="snap-image" src="/assets/global/img/sad_search_man.png" width="40%">
 		</div>
 		<div class="snap-text">
 			<p class="bold">No matching legal service found. For alternative referral options check out the non-legal referral list <a href="https://docs.google.com/document/d/1meV27i-3VT2o4zqN7bCWDoAa8gia96adz6u0V9qVtgs/edit#" target="_blank" class="font-green-jungle">here</a>. </p>
