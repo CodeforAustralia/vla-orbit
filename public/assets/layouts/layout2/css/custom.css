@@ -246,16 +246,18 @@ b, optgroup, strong {
     font-size: 16px;
 }
 
+.table td, .table th {
+    font-size: 13px;
+}
+
+/************ header **********/
 .top-buttons a:first-child{
-    margin: 24px 0px 24px 20px;
+    margin: 20px 0px 24px 20px;
 }
 
 .top-buttons a{
-    margin: 24px 0 24px 10px;
-}
-
-.table td, .table th {
-    font-size: 13px;
+    margin: 20px 0 24px 10px;
+    border-color: transparent;
 }
 
 /***** Results page *****/
