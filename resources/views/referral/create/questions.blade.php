@@ -71,9 +71,9 @@
                   @if( $question['prop']['QuestionTypeName'] == 'multiple' ) 
                   <?php 
                     $options = array_unique( $question['prop']['QuestionValue'] );
+                    sort($options);                    
                   ?>
-                    <select  class="form-control" name="answers[{{ $qu_id }}]">
-                      <option></option> 
+                    <select  class="form-control" name="answers[{{ $qu_id }}]">                      
                       <option> Not listed below / Not applicable </option> 
                       @foreach ( $options as $option )
                         <option value="{{ $option }}"> {{ $option }} </option>
