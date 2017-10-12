@@ -166,35 +166,26 @@ class Referral
         $matches = [];
 
         foreach ($services as $service) 
-        {            
-            $service_match = self::matchVulnerability( $service['ServiceVulAnswers'], $vuln_list) ;
+        {
+            //Global service match
+            $service_match = self::matchVulnerability( $service['ServiceVulAnswers'], $vuln_list);
 
-            //Not getting information about legal matter and vulnerability
-            if( empty( $service['ServiceVulAnswers'] ) && empty( $service['ServiceMatters'] ) )
-            {
-                $matches[ $service['ServiceId'] ] = $service;
-            } 
-            elseif( $service_match &&  empty( $service['ServiceMatters'] ) ) 
-            {
-                $matches[ $service['ServiceId'] ] = $service;
-            }
-
+            //Each LM inside a service
             foreach ($service['ServiceMatters'] as $legal_matter) 
             {
-                // if LM does not have vuln on it take the service one 
-                if( empty($legal_matter['VulnerabilityMatterAnswers']) && $service_match  ) 
-                {
-                    $matches[ $service['ServiceId'] ] = $service;
-                } 
-                elseif( self::matchVulnerability( $legal_matter['VulnerabilityMatterAnswers'], $vuln_list ) )
-                {
-                    $matches[ $service['ServiceId'] ] = $service;
-                } 
-                elseif( empty( $service['ServiceVulAnswers'] ) && empty( $legal_matter['VulnerabilityMatterAnswers'] ) )
-                {
-                    $matches[ $service['ServiceId'] ] = $service;
+                if( $legal_matter['MatterID'] == $mt_id )
+                {                        
+                    if( empty( $legal_matter['VulnerabilityMatterAnswers'] ) && $service_match )
+                    {
+                        $matches[ $service['ServiceId'] ] = $service;
+                    } 
+                    elseif ( !empty( $legal_matter['VulnerabilityMatterAnswers'] ) && $vuln_list != '' 
+                        && self::matchVulnerability( $legal_matter['VulnerabilityMatterAnswers'], $vuln_list) ) 
+                    {
+                        $matches[ $service['ServiceId'] ] = $service;
+                    }
                 }
-            }
+            }            
         }
         //Get list of questions of a legal matter
         $question_list = self::getMatterQuestions( $matches, $mt_id );
@@ -211,14 +202,19 @@ class Referral
         $service_vuln_list = array_column( $vulnerability, "QuestionId" );
 
         $client_vuln_list = explode( ",", $client_vuln_list );
-        $vuln_list_size = sizeof( $client_vuln_list );
-
-        foreach ( $service_vuln_list as $vu_id ) 
+        if( empty( $vulnerability ) )
         {
-            if( in_array( $vu_id, $client_vuln_list ) )
+            $match = true;
+        }
+        else
+        {
+            foreach ( $service_vuln_list as $vu_id ) 
             {
-                $match = true;
-            } 
+                if( in_array( $vu_id, $client_vuln_list ) )
+                {
+                    $match = true;
+                } 
+            }            
         }
         return $match;
     }
