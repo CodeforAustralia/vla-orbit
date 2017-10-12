@@ -856,33 +856,22 @@ var TableDatatablesAjax = function () {
                 "serverSide": false,
                 "pageLength": 1000,
                 "bInfo": false,
-                "columns": [
+                "columns": [ 
                         { data: "RefNo" },                             
                         { data: "ServiceName" },                             
-                        { data: "Email" },                             
-                        { data: "Mobile" },       
+                        { data: "ServiceProviderName" },                             
+                        { data: "Email" },
                         {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
-                                if( data.SafeEmail == 1 )
+                                if( data.Mobile == '000000000' )
                                 {
-                                    return '<span class="label label-sm label-success"> Safe </span>';
+                                    return 'N/P';
                                 }
-                                return '<span class="label label-sm label-danger"> Not Safe </span>';
+                                return data.Mobile ;
                             }                          
-                        },
-                        {
-                            data: null,
-                            className: "center",
-                            render: function ( data, type, row ) {
-                                if( data.SafeMobile == 1 )
-                                {
-                                    return '<span class="label label-sm label-success"> Safe </span>';
-                                }
-                                return '<span class="label label-sm label-danger"> Not Safe </span>';
-                            }                          
-                        },                           
+                        },                  
                         { data: "CreatedBy" },
                         {
                             data: null,

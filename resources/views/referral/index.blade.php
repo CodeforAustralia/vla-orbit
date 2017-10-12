@@ -19,12 +19,11 @@
                 <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_referrals">
                     <thead>
                         <tr role="row" class="heading">
-                            <th width="5%" > Id </th>
-                            <th width="10%"> Service Name </th>
-                            <th width="5%" > Email </th>
-                            <th width="5%" > Mobile </th>
-                            <th width="10%"> Safe to contact by email </th>
-                            <th width="10%"> Safe to contact by phone </th>
+                            <th width="5%"> Id </th>
+                            <th width="20%"> Service Name </th>
+                            <th width="20%"> Service Provider </th>
+                            <th width="15%"> Email </th>
+                            <th width="10%" > Mobile </th>
                             <th width="10%"> Referred by </th>
                             <th width="10%"> Referred On </th>
                         </tr>
