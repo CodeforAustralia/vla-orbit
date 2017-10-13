@@ -49,7 +49,7 @@
                     <div class="container-fluid booking-information">
                         <div class="row">
                             <h4><strong> Client Information </strong></h4>
-                            <hr>
+
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Name: </strong></label>
                                 <span id="bookingName"></span>
@@ -70,10 +70,9 @@
                                 <span id="bookingCIRNumber"></span>
                             </div>                      
                         </div>
-                        <br>
+                        <hr>
                         <div class="row">
                             <h4><strong> Booking Information </strong></h4>
-                            <hr>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Name: </strong></label>
                                 <span id="bookingTitle"></span>
@@ -88,19 +87,15 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Booking Description: </strong></label>
-                                <span id="bookingDescription"></span>
+                                <span id="bookingDescription" class="col-sm-7 padding-0"></span>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <h4><strong> Details </strong></h4>
-                            <hr>
+                        
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Created By: </strong></label>
                                 <span id="createdBy"></span>
                             </div>
-                            <div class="col-sm-12 hidden">
-                                <label class="col-sm-5"><strong>Status: </strong></label>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Sent status: </strong></label>
                                 <span id="sentStatus"></span>
                             </div>
 

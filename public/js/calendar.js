@@ -163,6 +163,19 @@ var AppCalendar = function() {
                         $('.remind-booking').hide();
                     }
                     currentEventInCalendar = calEvent.data;
+                    
+                    var sentDates = calEvent.data.SMSSendDates.string;
+                    var sentDatesStr = '';
+                    if( typeof sentDates === 'string' ) {
+                        sentDatesStr = sentDates.split(' ')[0];
+                    } else {                        
+                        for (var i = 0, len = sentDates.length; i < len; i++) {                          
+                            sentDatesStr += sentDates[i].split(' ')[0] + ', ';
+                        }
+                    }
+                    //sentStatus
+                    $("#sentStatus").text(sentDatesStr.replace(/,\s*$/, ''));
+                    
                 },
                 eventAfterRender: function (event, element, view) {
                     var today = new Date();
