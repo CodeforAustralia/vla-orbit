@@ -70,9 +70,17 @@
               <div class="col-xs-12">
                 <h3 class="margin-top-10 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
                 <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
-                @if( $match['Location'] != '#')
-                <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank"><h5>{{ $match['Location'] }}</h5></a>
-                @endif
+                <h5>
+	                @if( $match['Location'] != '#')
+	                <i class="fa fa-map-marker" aria-hidden="true"></i>
+	                <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank">{{ $match['Location'] }}</a>
+	                @endif
+	                @if( $match['Phone'] != '#') 
+	                	&nbsp&nbsp
+	                	<i class="fa fa-phone" aria-hidden="true"></i> 
+	                	{{ $match['Phone'] }}
+	                @endif
+                </h5>
               </div>
               <!-- Description  -->
               <div class="col-xs-12 visible-xs-block visible-sm-block visible-md-block visible-lg-block visible-xl-block padding-bottom-20 padding-top-10">     
