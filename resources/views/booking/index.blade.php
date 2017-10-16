@@ -173,12 +173,14 @@
                     <thead>
                         <tr role="row" class="heading">
                             <th width="5%" > Id </th>
-                            <th width="10%"> Service Name </th>
                             <th width="10%" > Date </th>
+                            <th width="10%" > Time </th>
+                            <th width="10%"> Service </th>
                             <th width="10%"> First Name </th>
                             <th width="10%"> Last Name </th>
                             <th width="10%"> Email </th>
                             <th width="10%"> Phone </th>
+                            <th width="10%"> Sent SMS </th>
                             <th width="10%"> </th>
                         </tr>
                     </thead>

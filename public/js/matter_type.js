@@ -757,6 +757,7 @@ var TableDatatablesAjax = function () {
                 // grid:        grid object
                 // response:    json object of server side ajax response
                 // execute some code after table records loaded              
+                
             },
             onError: function (grid) {
                 // execute some code on network or other general error  
@@ -788,20 +789,51 @@ var TableDatatablesAjax = function () {
                 
                 "bInfo": false,
                 "columns": [
-                        { data: "BookingRef" },                             
-                        { data: "ServiceName" },     
-                        {
+                        { data: "BookingRef" },      
+                        //{ data: "BookingDate" },  
+                        { 
+                        	data: null,
+                        	className: "center" ,
+                        	render: function (data, type, row) {
+                        		// body...    
+                                var booking_date = moment(data.BookingDate).toDate();
+                                return moment(booking_date).format('D-M-YYYY');
+                        	}
+                        },  
+                        { data: "BookingTime" },
+                        { data: "ServiceName" },
+                        { data: "FirstName" },
+                        { data: "LastName" },
+                        { data: "Email" },
+                        { data: "Mobile" },
+                        { 
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
-                                // Combine the first and last names into a single table field
-                                return data.BookingDate + ' ' + data.BookingTime ;
-                            }                            
+                                // Combine the first and last names into a single table field                                
+                                var sentDatesStr = '';
+                                var sentDates = data.SMSSendDates;
+                                                      
+                                for (var i = 0, len = sentDates.length; i < len; i++) 
+                                {
+                                	if(sentDates[i] != '')
+                                	{
+                                    	sentDatesStr += moment(sentDates[i].split(' ')[0]).format('D-M-YYYY') + ', ';
+                                	}
+                                }
+
+                                if( sentDatesStr == '' )
+                                {
+                                	sentDatesStr = '<span class="font-red">Not sent</span>';
+                                } 
+                                else 
+                                {
+                                	sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
+                                }
+                                //sent dates or status
+                                return sentDatesStr;
+                            }
                         },
-                        { data: "FirstName" },                             
-                        { data: "LastName" },                             
-                        { data: "Email" },                             
-                        { data: "Mobile" },                             
                         {
                             data: null,
                             className: "center",
