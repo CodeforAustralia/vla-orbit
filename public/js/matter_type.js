@@ -997,7 +997,7 @@ var TableDatatablesAjax = function () {
             delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
             edit_btn = '';
             if (controller === 'service_provider' || controller === 'service' || controller === 'question' 
-                || controller === 'matter' || controller === 'user' || 'sms_template') 
+                || controller === 'matter' || controller === 'user' || controller === 'sms_template') 
             {
                 var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
             }
