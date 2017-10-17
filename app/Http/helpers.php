@@ -1,12 +1,28 @@
 <?php
-
 namespace App\Http;
-class Helpers {
 
-   public function VlaSimpleSAML(){
+use Auth;
+
+class Helpers 
+{
+
+   public function VlaSimpleSAML()
+   {
         $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
         $as->requireAuth();
         $attributes = $as->getAttributes();
         return $attributes;
+    }
+
+    public static function getRole()
+    {
+    	if( Auth::check() )
+    	{
+    		return Auth::user()->roles()->first()->name ;
+    	} 
+    	else
+    	{
+    		return 'Anonymous';
+    	}
     }
 }

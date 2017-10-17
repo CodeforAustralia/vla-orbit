@@ -22,7 +22,7 @@
                         </li>
 
 
-                        @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
+                        @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp' , 'VLA']) )
 
                         <li class="nav-item">
                             <a href="/booking" class="nav-link">
@@ -58,7 +58,7 @@
                             </a>
                         </li>
 
-                        @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
+                        @if ( \App\Http\helpers::getRole() == 'Administrator' )
 
                         <li class="nav-item">
                             <a href="/matter" class="nav-link nav-toggle">
@@ -132,9 +132,8 @@
                     <!-- END SIDEBAR MENU -->
                 </div>
                 <!-- END SIDEBAR -->
+                
+                <div class="hidden role" id="{{ \App\Http\helpers::getRole() }}"></div>
 
-                @if ( isset(Auth::user()->roles()->first()->name) )
-                <div class="hidden role" id="{{ Auth::user()->roles()->first()->name }}"></div>
-                @endif
             </div>
             <!-- END SIDEBAR -->
