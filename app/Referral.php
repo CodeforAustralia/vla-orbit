@@ -79,13 +79,11 @@ class Referral
             
         if( $referral['Email'] != 'N/P' && $referral['SafeEmail'] != 0 )
         {
-            Mail::to( $referral['Email'] )->send( new ReferralEmail( $service ) );
             $referral['SentEmail'] = 1;
         }
 
         if( $referral['Mobile'] != '' && $referral['SafeMobile'] != 0 )
         {                        
-            Mail::to( $referral['Mobile'] . "@e2s.pcsms.com.au"  )->send( new ReferralSms( $service ) );
             $referral['SentMobile'] = 1;
         }
 
@@ -96,6 +94,16 @@ class Referral
             $response = $client->SaveReferral( $info );
             if( $response->SaveReferralResult )
             {
+                $service['RefNo'] = $response->SaveReferralResult;
+                if( $referral['Email'] != 'N/P' && $referral['SafeEmail'] != 0 )
+                {
+                    Mail::to( $referral['Email'] )->send( new ReferralEmail( $service ) );
+                }
+
+                if( $referral['Mobile'] != '' && $referral['SafeMobile'] != 0 )
+                {                        
+                    Mail::to( $referral['Mobile'] . "@e2s.pcsms.com.au"  )->send( new ReferralSms( $service ) );
+                }
                 return array( 'success' => 'success' , 'message' => 'Service saved.', 'data' => $response->SaveReferralResult );
             } 
             else {

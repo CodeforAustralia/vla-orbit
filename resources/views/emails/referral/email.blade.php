@@ -1,25 +1,24 @@
 @component('mail::message')
 
-Hello, 
+<div style="text-align: right">Ref. ID: {{ $args['RefNo'] }}</div>
 
+Hello,
   
-You contacted {{ $args['sendingServiceProvider']['ServiceProviderName'] }} on {{ date("Y-m-d") }} with a question about a legal matter. 
+You contacted {{ $args['sendingServiceProvider']['ServiceProviderName'] }} on {{ date("d-m-Y") }} with a question about a legal matter. 
 They have referred you to another service for more help:  
 
-
-- <strong>Service Provider: </strong>{{ $args['ServiceProviderName'] }}
-- <strong>Service Name: </strong>{{ $args['ServiceName'] }}
-- <strong>Service Type: </strong>{{ $args['ServiceTypeName'] }}
+  * __Service Provider__: {{ $args['ServiceProviderName'] }}
+  * __Service Name__: {{ $args['ServiceName'] }}
+  * __Service Type__: {{ $args['ServiceTypeName'] }}
 @if( $args['Location'] != "#" )
-- <strong>Address: </strong> {{ $args['Location'] }}
+  * __Address__: <a href="http://maps.google.com/?q={{ $args['Location'] }}">{{ $args['Location'] }}</a>
 @endif
-- <strong>Phone number:</strong> {{ $args['Phone'] }}
-- <strong>Url:</strong> {{ $args['URL'] }}
+  * __Phone number__: {{ $args['Phone'] }}
+  * <a href="{{ $args['URL'] }})">Website</a>
+  * __Service details__: <div>{!! $args['Description'] !!}</div>
 
-- <strong>Service details: </strong>{!! $args['Description'] !!}
+**Once you make contact the service will assess whether they can help you or not.**
 
-
-<p style="font-style:italic;">This email was sent by ORBIT on behalf of {!! $args['sendingServiceProvider']['ServiceProviderName'] !!}. Please do not reply to this email.</p>
-
+*This email was sent by ORBIT on behalf of {!! $args['sendingServiceProvider']['ServiceProviderName'] !!}. Please do not reply to this email.*
 
 @endcomponent
