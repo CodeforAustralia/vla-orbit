@@ -94,6 +94,7 @@ Class Booking
         {
             if( sizeof( $bookings->Bookings ) == 1 )
             {
+                $event = $bookings->Bookings ;
 	        	$time = strtotime( $event->BookingTime );
 				$endTime = date("H:i", strtotime('+30 minutes', $time));
 
@@ -105,7 +106,6 @@ Class Booking
 
                 $uid = $bookings->Bookings->CreatedBy;                
   
-                $event = $bookings->Bookings;
                 $output[] =  [
                                 'title' => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
                                 'start' => $event->BookingDate . ' ' . $event->BookingTime,
