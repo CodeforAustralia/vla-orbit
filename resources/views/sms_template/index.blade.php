@@ -1,8 +1,6 @@
 @extends ('orbit.master')
 
 @section ('content')
-
-    @include ('orbit.alert')
     
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet ">

@@ -1,8 +1,6 @@
 @extends ('orbit.master')
 
 @section ('content')
-    
-    @include ('orbit.alert')
 
     <div class="row">
         <div class="col-md-1">

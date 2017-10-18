@@ -66,6 +66,7 @@ License: You must have a valid license purchased only from themeforest(the above
         
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
+
             @if(Auth::check())
                 @include ('orbit.sidebar')
             @else
@@ -75,7 +76,11 @@ License: You must have a valid license purchased only from themeforest(the above
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content">
+
+                    @include ('orbit.alert')
+
                     @yield ('content')
+                    
                 </div>
                 <!-- END CONTENT BODY -->
             </div>

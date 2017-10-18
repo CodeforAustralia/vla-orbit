@@ -2,8 +2,6 @@
 
 @section ('content')
 
-    @include ('orbit.alert')
-    
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet ">
         <h1 class="page-title col-xs-10"> All Users </h1>
