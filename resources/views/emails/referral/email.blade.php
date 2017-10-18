@@ -14,7 +14,7 @@ They have referred you to another service for more help:
   * __Address__: <a href="http://maps.google.com/?q={{ $args['Location'] }}">{{ $args['Location'] }}</a>
 @endif
   * __Phone number__: {{ $args['Phone'] }}
-  * <a href="{{ $args['URL'] }})">Website</a>
+  * <a href="{{ $args['URL'] }}">Website</a>
   * __Service details__: <div>{!! $args['Description'] !!}</div>
 
 **Once you make contact the service will assess whether they can help you or not.**
