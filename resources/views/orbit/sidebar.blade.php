@@ -134,6 +134,7 @@
                 <!-- END SIDEBAR -->
                 
                 <div class="hidden role" id="{{ \App\Http\helpers::getRole() }}"></div>
+                <div class="hidden sp_id" id="{{ \App\Http\helpers::getUSerServiceProviderId() }}"></div>
 
             </div>
             <!-- END SIDEBAR -->

@@ -80,7 +80,7 @@ class ServiceController extends Controller
 
     public function store()
     {        
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
 
         $sv_params = array(                    
                             'ServiceId'   	=> request('sv_id'),

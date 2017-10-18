@@ -49,7 +49,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('matter_type', data.MatterTypeID) ;
+                                return getButtons('matter_type', data.MatterTypeID, data) ;
                             }
                         }
                 ],
@@ -110,7 +110,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field                                
-                                return getButtons('matter', data.MatterID) ;
+                                return getButtons('matter', data.MatterID, data) ;
                             }
                         }
                 ],
@@ -174,7 +174,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('service_provider', data.ServiceProviderId) ;
+                                return getButtons('service_provider', data.ServiceProviderId, data) ;
                             }
                         }
                 ],
@@ -237,7 +237,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('service', data.ServiceId) ;
+                                return getButtons('service', data.ServiceId, data) ;
                             }
                         }
                 ],
@@ -293,7 +293,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('service_level', data.ServiceLevelId) ;
+                                return getButtons('service_level', data.ServiceLevelId, data) ;
                             }
                         }
                 ],
@@ -349,7 +349,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('service_type', data.ServiceTypelId) ;
+                                return getButtons('service_type', data.ServiceTypelId, data) ;
                             }
                         }
                 ],
@@ -407,7 +407,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('catchment', data.ServiceProviderId) ;
+                                return getButtons('catchment', data.ServiceProviderId, data) ;
                             }
                         }*/
                 ],
@@ -463,7 +463,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('question', data.QuestionId) ;
+                                return getButtons('question', data.QuestionId, data) ;
                             }
                         }
                 ],
@@ -517,7 +517,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('question_type', data.QuestionTypeId) ;
+                                return getButtons('question_type', data.QuestionTypeId, data) ;
                             }
                         }
                 ],
@@ -571,7 +571,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('question_category', data.QuestionId) ;
+                                return getButtons('question_category', data.QuestionId, data) ;
                             }
                         }
                 ],
@@ -625,7 +625,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('question', data.QuestionId) ;
+                                return getButtons('question', data.QuestionId, data) ;
                             }
                         }
                 ],
@@ -679,7 +679,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('question', data.QuestionId) ;
+                                return getButtons('question', data.QuestionId, data) ;
                             }
                         }
                 ],
@@ -738,7 +738,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('user', data.id) ;
+                                return getButtons('user', data.id, data) ;
                             }
                         }
                 ],
@@ -839,7 +839,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('booking', data.BookingRef) ;
+                                return getButtons('booking', data.BookingRef, data) ;
                             }
                         }
                 ],
@@ -918,7 +918,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('referral', data.BookingRef) ;
+                                return getButtons('referral', data.BookingRef, data) ;
                             }
                         }*/
                 ],
@@ -974,7 +974,7 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('sms_template', data.TemplateId) ;
+                                return getButtons('sms_template', data.TemplateId, data) ;
                             }
                         }
                 ],
@@ -983,24 +983,49 @@ var TableDatatablesAjax = function () {
         });
     }
      
-    var getButtons = function (controller, id) {
+    var getButtons = function (controller, id, data) {
 
         var edit_btn = '';
         var delete_btn = '';
         
         var role = $(".role").attr("id");
+        var sp_id = $(".sp_id").attr("id");
 
         if( role == "VLA" || role == "CLC") {
             var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
         } else {
 
-            delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
-            edit_btn = '';
-            if (controller === 'service_provider' || controller === 'service' || controller === 'question' 
-                || controller === 'matter' || controller === 'user' || controller === 'sms_template') 
+            edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
+            switch(controller) 
             {
-                var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
+                case 'service':
+                    if( data.ServiceProviderId == sp_id || sp_id == 0 )
+                    {
+                        edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
+                        delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+                    } else {
+                        edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
+                    }
+                    break;
+                case 'service_provider':
+                    if( data.ServiceProviderId == sp_id || sp_id == 0 )
+                    {
+                        edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
+                        if( sp_id == 0 )
+                        {
+                            delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+                        }
+                    }
+                    break;
+                case 'question':
+                case 'matter':
+                case 'user':
+                case 'sms_template':                    
+                    delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+                    break;
+                default:                    
             }
+
         }
 
         return edit_btn + delete_btn;   	

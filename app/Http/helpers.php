@@ -25,4 +25,16 @@ class Helpers
     		return 'Anonymous';
     	}
     }
+
+    public static function getUSerServiceProviderId()
+    {
+    	if( Auth::check() )
+    	{
+    		return Auth::user()->sp_id ;
+    	} 
+    	else
+    	{
+    		return '';
+    	}
+    }
 }
