@@ -833,15 +833,15 @@ var TableDatatablesAjax = function () {
                                 //sent dates or status
                                 return sentDatesStr;
                             }
-                        },
+                        }/*,
                         {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('booking', data.BookingRef, data) ;
+                                return getButtons('booking', data.BookingRef, data) ;                                
                             }
-                        }
+                        }*/
                 ],
 
             }
