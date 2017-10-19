@@ -66,7 +66,7 @@
     <h4 class="padding-top-10 padding-bottom-10">Client Details</h4>
     
     <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-5">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>First Name:</label>
@@ -86,7 +86,7 @@
     </div>
 
    <div class="row">
-        <div class="col-xs-4">                            
+        <div class="col-xs-5">                            
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Email:</label>
@@ -95,7 +95,7 @@
             </div>
         </div>
 
-        <div class="col-xs-5">
+        <div class="col-xs-7">
             <div class="form-group">
                 <div class="col-xs-12">
                     <label>Is it safe to contact this client by email? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client via email we will send a booking confirmation to the provided email with all of their booking details and may contact this client about changes to their booking. Select 'No' if it is unsafe to email this client and ensure you provide them with their booking details manually."></i></label>
@@ -112,7 +112,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-5">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Phone Number:</label>
@@ -121,7 +121,7 @@
             </div>
         </div>
 
-        <div class="col-xs-5">                            
+        <div class="col-xs-7">                            
             <div class="form-group">
                 <div class="col-xs-12">
                     <label>Is it safe to contact this client by phone call and SMS? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
