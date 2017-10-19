@@ -20,7 +20,6 @@
 <option value="Deaf Sign Language"> Deaf Sign Language </option>
 <option value="Dinka"> Dinka </option>
 <option value="Dutch"> Dutch </option>
-<option value="English"> English </option>
 <option value="Estonian"> Estonian </option>
 <option value="Farsi"> Farsi </option>
 <option value="Fijian"> Fijian </option>
