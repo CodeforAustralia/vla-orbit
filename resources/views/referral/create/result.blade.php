@@ -255,6 +255,16 @@
             $(this).removeAttr('disabled');
         })
     });
+
+    $('#Desc').summernote({
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline']],
+            ['para', ['ul', 'ol', 'paragraph']],          
+            ['link', ['linkDialogShow', 'unlink']]          
+        ]
+    });
+
   });  
 
   function isEmail(email) {

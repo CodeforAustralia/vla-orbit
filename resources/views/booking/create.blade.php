@@ -75,3 +75,17 @@
     </div>    
 
 @endsection
+
+
+@section('inline-scripts')
+
+    $('#Desc').summernote({
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline']],
+            ['para', ['ul', 'ol', 'paragraph']],          
+            ['link', ['linkDialogShow', 'unlink']]          
+        ]
+    });
+
+@endsection
