@@ -136,8 +136,7 @@ Class SentSms
     {        
         $args = [];
 
-        //get client info                    
-        
+        //get client info
         $args['client_name']  = $booking->FirstName;
         $args['client_phone'] = $booking->Mobile;
         $args['date'] = $booking->BookingDate;
@@ -162,7 +161,7 @@ Class SentSms
         
         //SMS template
         $sms_template_obj = new SmsTemplate();
-        $sms_template = $sms_template_obj->getTemplateByServiceId( $booking->ServiceId );
+        $sms_template = $sms_template_obj->getTemplateByServiceId( $current_service['ServiceId'] );
         $args['template'] = $sms_template['Template'];
         
         //replace tags in template
@@ -170,7 +169,6 @@ Class SentSms
 
         //send sms
         Mail::to( $args['client_phone'] . '@e2s.pcsms.com.au'  )->send( new ReminderSms( $template ) );
-
         
         //store log information
         $sent_sms_info = array(
@@ -179,6 +177,6 @@ Class SentSms
                                 'TemplateId' => $sms_template['TemplateId']
                               );
         $response = self::saveSmSSent( $sent_sms_info );
-        echo $response['message'] ;
+        echo $response['message'];
     }
 }
