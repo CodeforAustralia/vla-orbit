@@ -52,7 +52,10 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
         <!-- End summernote css-->
 
-        <link rel="shortcut icon" href="favicon.ico" /> 
+        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-16x16.png" sizes="16x16">  
+        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-32x32.png" sizes="32x32">  
+        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-92x92.png" sizes="92x92">  
+
         @yield('styles')
 
         <script src="/js/ga.js" type="text/javascript"></script>
