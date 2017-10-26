@@ -199,9 +199,12 @@ function getServicesBySP(sp_id){
             booking_id = services_by_sp[index].BookingServiceId;
             booking_interpreter_id = services_by_sp[index].BookingInterpritterServiceId;
             service_name = services_by_sp[index].ServiceName;
-            var option = '<option value="' + booking_id + '-' + booking_interpreter_id + '"> ' + service_name + ' </option>';
-            //var option = '<option value="' + booking_id + '"> ' + service_name + ' </option>';
-            $("#sp_services").append(option);
+            if( booking_id != '' || booking_interpreter_id != '')
+            {
+                var option = '<option value="' + booking_id + '-' + booking_interpreter_id + '"> ' + service_name + ' </option>';
+                //var option = '<option value="' + booking_id + '"> ' + service_name + ' </option>';
+                $("#sp_services").append(option);
+            }
         }        
         if( $("#sp_services option")[0] )
         {
