@@ -23,14 +23,14 @@
                             <th colspan="1">From</th>
                         </tr>
                         <tr role="row" class="heading">
-                            <th width="5%"> Id </th>
-                            <th width="10%"> Date </th>
-                            <th width="20%"> Legal Issue </th>
-                            <th width="20%"> Location </th>
-                            <th width="20%"> Reason </th>
-                            <th width="20%"> Service Provider </th>
-                            <th width="20%"> Service Name </th>
-                            <th width="20%"> Service Provider </th>
+                            <th> Id </th>
+                            <th> Date </th>
+                            <th> Legal Issue </th>
+                            <th> Location </th>
+                            <th> Reason </th>
+                            <th> Service Provider </th>
+                            <th> Service Name </th>
+                            <th> Service Provider </th>
                         </tr>
                     </thead>
                     <tbody class="table-body-inbound"> </tbody>
