@@ -14,13 +14,26 @@
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
                     <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-compact " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                         <li class="nav-item start ">
-                            <a href="/referral" class="nav-link">
+                            <a href="/referral" class="nav-link nav-toggle">
                                 <i class="icon-paper-plane"></i>
                                 <span class="title">Referrals</span>
                                 <span class="arrow"></span>
                             </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item ">
+                                    <a href="/referral" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Inbound</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/referral/outbound" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Outbound</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-
 
                         @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp' , 'VLA']) )
 

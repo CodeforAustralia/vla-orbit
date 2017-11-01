@@ -396,6 +396,7 @@ var TableDatatablesAjax = function () {
                 ],// set first column as a default sort by asc,
                 
                 "bInfo": false,
+
                 "columns": [
                         //{ data: "CatchmentId" },
                         { data: "PostCode" },
@@ -875,7 +876,7 @@ var TableDatatablesAjax = function () {
                 // So when dropdowns used the scrollable div should be removed. 
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
                
-                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+                "dom": "<'row'<'col-md-8 col-sm-12'iB><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
                     "url": "/referral/list", // ajax source
@@ -888,31 +889,140 @@ var TableDatatablesAjax = function () {
                 "serverSide": false,
                 "pageLength": 1000,
                 "bInfo": false,
+                buttons: [                    
+                    { extend: 'print', className: 'btn blue-stripe default export-button' },
+                    { extend: 'csv', className: 'btn green-meadow-stripe default export-button' }
+                ],
+                "scrollX": true,
+                "scrollY": (screen.height <= 1200 ? screen.height - ( screen.height * 0.40) : screen.height - ( screen.height * 0.55) ) + "px",
+                "scrollCollapse": true,
                 "columns": [ 
-                        { data: "RefNo" },                             
+                        { data: "RefNo", "orderable": true },
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {                   
+                                var referred_day = moment(data.CreatedOn).toDate();
+                                return moment(referred_day).format('YYYY-MM-DD');
+                            }                          
+                        },
+                        { data: "MatterName" },
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                var location = '';
+                                if( data.PostCode != '' )
+                                {
+                                    location = data.PostCode + ', ' + data.Suburb + ', ' + data.LGC;
+
+                                }
+                                return location;
+                            }                          
+                        },
+                        { data: "Notes" },                             
+                        { data: "ServiceProviderName" },
                         { data: "ServiceName" },                             
-                        { data: "ServiceProviderName" },                             
-                        { data: "Email" },
+                        { data: "OutboundServiceProviderName" }
+                        /*{
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('referral', data.BookingRef, data) ;
+                            }
+                        }*/
+                ],
+
+            }
+        });
+    }
+
+    var handleOutboundReferrals = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_outbound_referrals"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                         
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+                confirmDialog();
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'iB><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/referral/listOutbound", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [0, "desc"]
+                ],// set first column as a default sort by asc,
+                
+                "serverSide": false,
+                "pageLength": 1000,
+                "bInfo": false,
+                buttons: [                    
+                    { extend: 'print', className: 'btn blue-stripe default export-button' },
+                    { extend: 'csv', className: 'btn green-meadow-stripe default export-button' }
+                ],
+                "scrollX": true,
+                "scrollY": (screen.height <= 1200 ? screen.height - ( screen.height * 0.40) : screen.height - ( screen.height * 0.55) ) + "px",
+                "scrollCollapse": true,
+                "columns": [ 
+                        { data: "RefNo", "orderable": true },
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {                   
+                                var referred_day = moment(data.CreatedOn).toDate();
+                                return moment(referred_day).format('YYYY-MM-DD');
+                            }                          
+                        },                                      
+                        { data: "MatterName" },
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                var location = '';
+                                if( data.PostCode != '' )
+                                {
+                                    location = data.PostCode + ', ' + data.Suburb + ', ' + data.LGC;
+
+                                }
+                                return location;
+                            }                          
+                        }, 
                         {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
                                 if( data.Mobile == '000000000' )
                                 {
-                                    return 'N/P';
+                                    data.Mobile = 'N/P';
                                 }
-                                return data.Mobile ;
+                                return data.Mobile + '  <br>' + data.Email;
                             }                          
-                        },                  
-                        { data: "CreatedBy" },
-                        {
-                            data: null,
-                            className: "center",
-                            render: function ( data, type, row ) {                   
-                                var referred_day = moment(data.CreatedOn).toDate();
-                                return moment(referred_day).format('YYYY-M-D');
-                            }                          
-                        }
+                        },                          
+                        {  "width": "300px", data: "Notes" }, 
+                        { data: "ServiceProviderName" },
+                        { data: "ServiceName" },
+                        { data: "CreatedBy" }
                         /*{
                             data: null,
                             className: "center",
@@ -1058,6 +1168,7 @@ var TableDatatablesAjax = function () {
             handleUser();
             handleBookings();
             handleReferrals();
+            handleOutboundReferrals();
             handleSmsTemplates();
             initSearchBox();
         }

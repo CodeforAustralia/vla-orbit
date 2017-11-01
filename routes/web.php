@@ -223,6 +223,8 @@ Route::get('/booking/sendSmsReminder', 'BookingController@sendSmsReminder');
 //Referral
 Route::get('/referral', 'ReferralController@index');
 
+Route::get('/referral/outbound', 'ReferralController@outbound');
+
 Route::get('/referral/show/{rf_id}', 'ReferralController@show');
 
 Route::get('/referral/new', 'ReferralController@create');
@@ -238,6 +240,8 @@ Route::get('/referral/create/questions', 'ReferralController@questions');
 Route::get('/referral/create/review', 'ReferralController@review');
 
 Route::get('/referral/list', 'ReferralController@list');
+
+Route::get('/referral/listOutbound', 'ReferralController@listOutbound');
 
 //Route::get('/referral/result', 'ReferralController@result');
 

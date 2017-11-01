@@ -101,6 +101,35 @@
                         </div>
                       </div>
                     </div>
+
+                    <!-- Notes -->
+                    <div class="form-group">
+                      <label for="Notes">Referral reason (Optional)</label>                      
+                      <select class="form-control" id="Notes" name="Notes">                                
+                                <option></option>
+                                <option>Already instructing a private solicitor</option>
+                                <option>Centre does not have capacity to deliver service</option>
+                                <option>Centre does not offer service required</option>
+                                <option>Conflict of Interest</option>
+                                <option>Eligible for Legal Aid</option>
+                                <option>Internal referrals to programs run by the centre</option>
+                                <option>Not in cathment area</option>
+                                <option>Other</option>
+                                <option>Person could not be assisted within time frame needed or wanted by them</option>
+                                <option>Referred to funded agency (ie. Welfare rights)</option>
+                                <option>Specialist service available</option>
+                                <option>Wanted guaranteed Court representation</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Extra -->
+                    <div class="form-group">                      
+                      <input type="text" class="form-control hidden" id="CatchmentId" name="CatchmentId" value="{{ session('ca_id') }}">
+                      <input type="text" class="form-control hidden" id="MatterId" name="MatterId" value="{{ session('mt_id') }}">
+                      <input type="text" class="form-control hidden" id="UserID" name="UserID" value="{{ Auth::user()->id }}">
+                      <input type="text" class="form-control hidden" id="OutboundServiceProviderId" name="OutboundServiceProviderId" value="{{ Auth::user()->sp_id }}">
+                    </div>
+
                     <!-- Button -->
                     <div class="col-xs-8 col-sm-6 col-xs-offset-2 col-sm-offset-3"><br>                        
                         <!-- Trigger Modal -->
@@ -182,6 +211,11 @@
     $('#send-client').on( "click", function(){
       var phone = $("#Phone").val();
       var email = $("#Email").val();
+      var OutboundServiceProviderId = $("#OutboundServiceProviderId").val();
+      var UserID = $("#UserID").val();
+      var MatterId = $("#MatterId").val();
+      var Notes = $("#Notes option:selected").text();
+      var CatchmentId = $("#CatchmentId").val();
       var safe_phone = 0;
       var safe_to_email = 0;
       if( $("#safeEmail").is(':checked') )
@@ -233,7 +267,12 @@
                   Email: email,
                   SafeMobile: safe_phone,
                   SafeEmail: safe_email,
-                  ServiceId: service_id
+                  ServiceId: service_id,
+                  CatchmentId: CatchmentId,
+                  MatterId: MatterId,
+                  UserID: UserID,
+                  OutboundServiceProviderId: OutboundServiceProviderId,
+                  Notes: Notes
                 }
         })
           .done(function( msg ) {

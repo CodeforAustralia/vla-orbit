@@ -355,3 +355,28 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 .first .mt-step-number i {
     line-height: 16px;
 }
+
+/******** Referral table *****************/
+.table>thead:first-child>tr:first-child>th.text-left-padding {
+    text-align: left;
+    padding-left: 10px; 
+}
+
+.portlet.light .dataTables_wrapper .dt-buttons {
+    margin-top: unset;
+    float: left;
+}
+.portlet.light .dataTables_wrapper .dt-buttons>a{
+    margin-right: 10px;
+}
+.portlet.light .dataTables_extended_wrapper .dataTables_scrollHead {
+    height: 111px!important; /** Overide plugins important declaration too **/
+    border-bottom: 0 !important;
+}
+.portlet.light .dataTables_extended_wrapper .dataTables_scrollHead .table.dataTable {
+    margin-bottom: 0px !important;
+}
+
+.portlet.light .dataTables_extended_wrapper .dataTables_scrollBody .table.dataTable {
+    margin-top: 0px !important; /** Overide plugins important declaration too **/ 
+}

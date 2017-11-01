@@ -16,9 +16,16 @@ class ReferralController extends Controller
         $this->middleware('auth');
     }
     
+    //Inbound referrals
     public function index()
     {
         return view('referral.index');
+    }
+    
+    //Outbound referrals
+    public function outbound()
+    {
+        return view('referral.outbound');
     }
 
     public function show()
@@ -161,4 +168,12 @@ class ReferralController extends Controller
         $referral_obj = new Referral();
         return ['data' => $referral_obj->getAllReferrals() ];
     }
+
+    public function listOutbound()
+    {
+        
+        $referral_obj = new Referral();
+        return ['data' => $referral_obj->getAllOutboundReferrals() ];
+    }
+
 }

@@ -37,6 +37,34 @@ class Referral
         return $referrals;
     }
 
+    public function getAllOutboundReferrals()
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $user = Auth::user();
+        if( $user->sp_id != 0 )
+        {
+            $info['OutServiceProviderId'] = $user->sp_id;
+            $referrals = json_decode( 
+                                        $client
+                                        ->GetAllReferralsByOutServiceProviderasJSON( $info )
+                                        ->GetAllReferralsByOutServiceProviderasJSONResult, 
+                                        true
+                                    );
+        } 
+        else {
+            $referrals = json_decode( 
+                                    $client
+                                    ->GetAllReferralsasJSON()
+                                    ->GetAllReferralsasJSONResult, 
+                                    true 
+                                );
+        }
+
+        return $referrals;
+    }
+
     public function getAllReferralsBySP( $sp_id )
     {       
         // Create Soap Object
@@ -69,6 +97,7 @@ class Referral
         $referral['UpdatedOn'] = $date_time;
         $referral['Mobile']    = ( $referral['Mobile'] == '' ? '000000000' : $referral['Mobile'] );
         $referral['Email']     = ( $referral['Email'] == '' ? 'N/P' : $referral['Email'] );
+        $referral['Notes']     = ( ( !isset( $referral['Notes'] ) || $referral['Notes'] === '') ? 'N/P' : $referral['Notes'] );
         $referral['RefNo']     = 0;
         $referral['SentEmail'] = 0;
         $referral['SentMobile'] = 0;
