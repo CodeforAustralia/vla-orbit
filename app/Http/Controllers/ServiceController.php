@@ -94,6 +94,8 @@ class ServiceController extends Controller
                             'Wait'           => request('wait'),
                             'ServiceLevelId' => request('service_level_id'),
                             'ServiceTypeId'  => request('service_type_id'),
+                            'OpenningHrs'    => request('OpenningHrs'),
+                            'Status'         => ( request('Status') == 'on' ? 1 : 0 ),
                             );
         
         $service = new Service();

@@ -11,6 +11,11 @@
 
                     <div class="form-group hidden">
                         <input type="text" class="form-control" id="sv_id" name="sv_id" value="{{ isset($current_service) ? $current_service->ServiceId : 0 }}" required>
+                    </div>                    
+
+                    <div class="form-group pull-right">   
+                        <label for="Status">Show this service in results?</label>                      
+                        <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" name="Status" id="Status" {{ ( isset( $current_service ) && $current_service->Status == 1 ) ? 'checked' : '' }}>
                     </div>
 
                     <div class="form-group">
@@ -19,7 +24,7 @@
                     </div>
 
 	                <div class="form-group">
-	                  	<label for="phone">Phone Number (No spaces EG: 0390001000 or 0400100200):(</label>
+	                  	<label for="phone">Phone Number (No spaces EG: 0390001000 or 0400100200):</label>
 	                  	<input type="phone" class="form-control" id="phone" name="phone" value="{{ isset($current_service) ? $current_service->Phone : '' }}" required>
 	                </div>
 
@@ -52,9 +57,14 @@
                         </select>
 	                </div>
 
+                    <div class="form-group">
+                        <label for="wait">Wait Time (EG: 1 week, 7 weeks, 22 weeks):</label>
+                        <input type="text" class="form-control" id="wait" name="wait" value="{{ isset($current_service) ? $current_service->Wait : '' }}" required>
+                    </div>
+
 	                <div class="form-group">
-	                  	<label for="wait">Wait Time (EG: 1 week, 7 weeks, 22 weeks):</label>
-	                  	<input type="text" class="form-control" id="wait" name="wait" value="{{ isset($current_service) ? $current_service->Wait : '' }}" required>
+	                  	<label for="OpenningHrs">Opening Hours:</label>
+	                  	<input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs" value="{{ isset($current_service) ? $current_service->OpenningHrs : '' }}" required>
 	                </div>
 
 	                <div class="form-group">
@@ -145,6 +155,9 @@
 <link href="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
 <link href="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css" rel="stylesheet" type="text/css" />
 <!-- END PAGE LEVEL PLUGINS -->
+<!-- Bootstrap toogle CSS -->
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<!-- END Bootstrap toogle CSS -->
 @endsection
 
 @section('scripts')
@@ -153,6 +166,9 @@
     <script src="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/typeahead/handlebars.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
+    <!-- Bootstrap toogle JS -->
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <!-- END Bootstrap toogle JS -->
 @endsection
 
 @section('inline-scripts')
