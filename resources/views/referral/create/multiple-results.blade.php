@@ -71,12 +71,17 @@
                 <h3 class="margin-top-10 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
                 <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
                 <h5>
+                  @if( $match['URL'] != '#')
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                    <strong><a href="http://{{ $match['URL'] }}" target="_blank">Website</a></strong>
+                    &nbsp&nbsp
+                  @endif
 	                @if( $match['Location'] != '#')
-	                <i class="fa fa-map-marker" aria-hidden="true"></i>
-	                <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank">{{ $match['Location'] }}</a>
+  	                <i class="fa fa-map-marker" aria-hidden="true"></i>
+  	                <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank">{{ $match['Location'] }}</a>
+                    &nbsp&nbsp
 	                @endif
 	                @if( $match['Phone'] != '#') 
-	                	&nbsp&nbsp
 	                	<i class="fa fa-phone" aria-hidden="true"></i> 
 	                	{{ $match['Phone'] }}
 	                @endif
@@ -93,10 +98,8 @@
               </div>
               <!--Card Content Mid-->  
               <div class="col-xs-12 col-sm-12 col-md-4">   
-                @if( $match['URL'] != '#')
-                <p><strong><a href="http://{{ $match['URL'] }}" target="_blank">Website</a></strong></p>
-                @endif
-                <p><strong>Wait Time:</strong> {{ $match['Wait'] }}</p>
+                <p><strong>Wait Time:</strong> {{ $match['Wait'] }}</p>                
+                <p><strong>Hours:</strong> {{ ( $match['OpenningHrs'] != '#' ? $match['OpenningHrs'] : 'TBA' )}}</p>                
               </div>
               <!--Card Content LHS-->
               <div class="col-xs-12 col-sm-12 col-md-4">   

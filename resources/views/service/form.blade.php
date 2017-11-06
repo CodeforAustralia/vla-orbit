@@ -15,7 +15,7 @@
 
                     <div class="form-group pull-right">   
                         <label for="Status">Show this service in results?</label>                      
-                        <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" name="Status" id="Status" {{ ( isset( $current_service ) && $current_service->Status == 1 ) ? 'checked' : '' }}>
+                        <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" name="Status" id="Status" {{ ( isset( $current_service ) && $current_service->Status == 0 ) ? '' : 'checked' }}>
                     </div>
 
                     <div class="form-group">
