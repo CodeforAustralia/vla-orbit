@@ -63,8 +63,6 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Phone number: </strong></label>                                 
                                 <a href="javascript:;" id="bookingPhone" data-type="text" data-original-title="Enter Phone number"></a>
-                                
-                                <a href="#" class="btn btn-xs green remind-booking pull-right">Send Reminder</a>
                             </div>
 
                             <div class="col-sm-12">
@@ -88,7 +86,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Booking Time: </strong></label>
-                                <span id="bookingTime"></span>
+                                <a id="bookingTime" class="editable editable-click edit-booking"></a>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Interpreter Language: </strong></label>
@@ -119,8 +117,8 @@
                             <input type="text" name="csrf" id="csrf" value="{{ csrf_token() }}" class="hidden">
                         </div>
                         <br>
-                        <div class="row pull-right">                            
-                            <a href="#" class="btn btn-xs green edit-booking">Edit</a>
+                        <div class="row pull-right">
+                            <a href="#" class="btn btn-xs green remind-booking">Send Reminder</a>                            
                             <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
                             <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                         </div>
