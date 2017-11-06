@@ -144,13 +144,58 @@ var AppCalendar = function() {
                     $("#bookingRef").text(calEvent.data.BookingRef);
                     $("#bookingTitle").text(calEvent.data.ServiceName);
                     $("#bookingTime").text(calEvent.data.BookingDate + " " + calEvent.data.BookingTime);
-                    $("#bookingName").text(calEvent.data.FirstName + " " + calEvent.data.LastName);
-                    $("#bookingPhone").text(calEvent.data.Mobile);
-                    $("#bookingEmail").text(calEvent.data.Email);
-                    $("#bookingCIRNumber").text(calEvent.data.CIRNumber);
+
+                    $("#bookingFirstName").text(calEvent.data.FirstName);
+                    $("#bookingFirstName").removeClass('editable-empty');
+
+                    $("#bookingLastName").text(calEvent.data.LastName);
+                    $("#bookingLastName").removeClass('editable-empty');
+
+                    if( calEvent.data.Mobile != '' )
+                    {
+                        $("#bookingPhone").text(calEvent.data.Mobile);
+                        $("#bookingPhone").removeClass('editable-empty');
+                    } 
+                    else
+                    {
+                        $("#bookingPhone").text('N/P');
+                    }
+
+                    if( calEvent.data.Email != '' )
+                    {
+                        $("#bookingEmail").text(calEvent.data.Email);
+                        $("#bookingEmail").removeClass('editable-empty');
+                    } 
+                    else
+                    {
+                        $("#bookingEmail").text('N/P');
+                    }
+
+                    if( calEvent.data.CIRNumber != '' )
+                    {
+                        $("#bookingCIRNumber").text(calEvent.data.CIRNumber);
+                        $("#bookingCIRNumber").removeClass('editable-empty');
+                    } 
+                    else
+                    {
+                        $("#bookingCIRNumber").text('N/P');
+                    }
+                    
                     $("#bookingIntLanguage").text(calEvent.data.IntLanguage);
                     $("#bookingIsSafe").text(calEvent.data.IsSafe);
-                    $("#bookingDescription").html(calEvent.data.Description);
+
+                    
+
+                    if( calEvent.data.Description != '' )
+                    {
+                        $("#bookingDescription").html(calEvent.data.Description);
+                        $("#bookingDescription").removeClass('editable-empty');
+                    } 
+                    else
+                    {
+                        $("#bookingDescription").text('N/P');
+                    }
+
                     $("#delete-booking").attr('href', '/booking/delete/' + calEvent.data.BookingRef);
                     $(".edit-booking").attr('id', calEvent.data.ServiceId); //Change for real service id ServiceId
                     // change the border color just for fun
@@ -175,16 +220,159 @@ var AppCalendar = function() {
                     }
                     //sentStatus
                     $("#sentStatus").text(sentDatesStr.replace(/,\s*$/, ''));
-                    
+
+                    setStatus(calEvent.data.BookingStatusId);
+                    setColorStatus(calEvent.data.BookingStatusId);                    
                 },
                 eventAfterRender: function (event, element, view) {
                     var today = new Date();
                     if (event.start < today && event.end < today) {                     
                         element.css('background-color', '#77DD77');
-                    }
+                    }                    
                 },
             });
+            
+            var setStatus = function (status_id) 
+            {    
+                $('.booking-status option[value="' + status_id + '"]').prop("selected", true);
+            }            
 
+            var setColorStatus = function (status_id) 
+            {
+                $('.booking-status').removeClass('bg-green-jungle bg-font-green-jungle');
+                $('.booking-status').removeClass('bg-red bg-font-red');
+                switch(status_id) 
+                {
+                    case 2:
+                        $('.booking-status').addClass('bg-green-jungle bg-font-green-jungle');                        
+                        break;
+                    case 3:
+                        $('.booking-status').addClass('bg-red bg-font-red');
+                        break;
+                }
+
+            }
+
+            var onChangeStatus = function () 
+            {
+                $('.booking-status').on('change', function() 
+                {                  
+                    setColorStatus( parseInt(this.value) );
+                    currentEventInCalendar.BookingStatusId = this.value;
+                    saveBooking( currentEventInCalendar );
+
+                })
+            }();
+
+            var updateForm = function () 
+            {
+                $('#bookingFirstName').editable({                    
+                    url: function(params) 
+                    {
+                        currentEventInCalendar.FirstName = params.value;
+                        saveBooking(currentEventInCalendar);
+                    },
+                    validate: function(value) 
+                    {
+                        if($.trim(value) == '') 
+                        {
+                            return 'This field is required';
+                        }
+                    }
+                });
+                $('#bookingLastName').editable({                    
+                    url: function(params) 
+                    {                        
+                        currentEventInCalendar.LastName = params.value;
+                        saveBooking(currentEventInCalendar);
+                    },
+                    validate: function(value) 
+                    {
+                        if($.trim(value) == '') 
+                        {
+                            return 'This field is required';
+                        }
+                    }
+                });
+                $('#bookingPhone').editable({                    
+                    url: function(params) 
+                    {                        
+                        currentEventInCalendar.Mobile = params.value;
+                        saveBooking(currentEventInCalendar);
+                    },
+                    validate: function(value) 
+                    {
+                        if($.trim(value) == '') 
+                        {
+                            return 'This field is required';
+                        }
+                    }
+                });
+                $('#bookingEmail').editable({                    
+                    url: function(params) 
+                    {                        
+                        currentEventInCalendar.Email = params.value;
+                        saveBooking(currentEventInCalendar);
+                    },
+                    validate: function(value) 
+                    {
+                        if($.trim(value) == '') 
+                        {
+                            return 'This field is required';
+                        }
+                    }
+                });
+                $('#bookingCIRNumber').editable({                    
+                    url: function(params) 
+                    {                        
+                        currentEventInCalendar.CIRNumber = params.value;
+                        saveBooking(currentEventInCalendar);
+                    },
+                    validate: function(value) 
+                    {
+                        if($.trim(value) == '') 
+                        {
+                            return 'This field is required';
+                        }
+                    }
+                });
+                $('#bookingDescription').editable({                    
+                    url: function(params) 
+                    {                        
+                        currentEventInCalendar.Description = params.value;
+                        saveBooking(currentEventInCalendar);
+                    },
+                    validate: function(value) 
+                    {
+                        if($.trim(value) == '') 
+                        {
+                            return 'This field is required';
+                        }
+                    }
+                });
+            }();
+
+            var saveBooking = function ( booking ) {
+
+                var csrf = $("#csrf").val();
+                $("#contentLoading").modal("show");
+                    $.ajax({
+                        headers: 
+                        {
+                            'X-CSRF-TOKEN': csrf
+                        },
+                        method: "POST",
+                        url: "/booking/updateBooking",
+                        data: 
+                        {
+                            booking: JSON.stringify(booking)
+                        }
+                    })
+                    .done(function( msg ) 
+                    {
+                        $("#contentLoading").modal("hide");
+                    });
+            };
         },
 
     };

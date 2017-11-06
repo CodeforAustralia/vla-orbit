@@ -216,6 +216,8 @@ Route::get('/booking/listCalendarByUser', 'BookingController@listCalendarByUser'
 
 Route::get('/booking/updateBooking/{booking_ref}/{date_time}', 'BookingController@updateBooking');
 
+Route::post('/booking/updateBooking', 'BookingController@updateBookingDetails');
+
 Route::post('/booking', 'BookingController@store');
 
 Route::get('/booking/sendSmsReminder', 'BookingController@sendSmsReminder');

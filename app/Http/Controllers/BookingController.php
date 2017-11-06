@@ -59,7 +59,7 @@ class BookingController extends Controller
         $finish_date = $finish_year . "-" . $finish_month . "-01";
 
         $booking_obj = new Booking(); 
-        return $booking_obj->getBookableServiesByDayWithTime( $sv_id, date("Y-M"), $finish_date);
+        return $booking_obj->getBookableServiesByDayWithTime( $sv_id, $init_date, $finish_date);
     }
 
     public function store()
@@ -120,6 +120,16 @@ class BookingController extends Controller
     {
         $booking_obj = new Booking(); 
         $result = $booking_obj->updateBooking( $booking_ref, $date_time ) ;
+
+        return $result;
+    }
+
+    public function updateBookingDetails()
+    {
+        $booking = request('booking');
+
+        $booking_obj = new Booking(); 
+        $result = $booking_obj->updateBookingDetails( json_decode($booking) ) ;
 
         return $result;
     }

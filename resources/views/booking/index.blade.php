@@ -46,31 +46,42 @@
                 <div class="modal-body">
                     <div class="container-fluid booking-information">
                         <div class="row">
-                            <h4><strong> Client Information </strong></h4>
+                            <div class="col-sm-6">
+                                <h4><strong> Client Information </strong></h4>
+                            </div>
 
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Name: </strong></label>
-                                <span id="bookingName"></span>
+                                <label class="col-sm-5"><strong>Fist name: </strong></label>                                
+                                <a href="javascript:;" id="bookingFirstName" data-type="text" data-original-title="Enter First name"></a>
                             </div>
+
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Phone number: </strong></label> 
-                                <span id="bookingPhone"></span>
+                                <label class="col-sm-5"><strong>Last name: </strong></label>                                
+                                <a href="javascript:;" id="bookingLastName" data-type="text" data-original-title="Enter Last name"></a>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Phone number: </strong></label>                                 
+                                <a href="javascript:;" id="bookingPhone" data-type="text" data-original-title="Enter Phone number"></a>
                                 
-                                <a href="#" class="btn btn-xs green remind-booking pull-right">Send Reminder</a>                                
+                                <a href="#" class="btn btn-xs green remind-booking pull-right">Send Reminder</a>
+                            </div>
 
-                            </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Email: </strong></label>
-                                <span id="bookingEmail"></span>
+                                <label class="col-sm-5"><strong>Email: </strong></label>                                
+                                <a href="javascript:;" id="bookingEmail" data-type="email" data-original-title="Enter Email"></a>
                             </div>
+
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>CIR Number: </strong></label>
-                                <span id="bookingCIRNumber"></span>
+                                <label class="col-sm-5"><strong>CIR Number: </strong></label>                                
+                                <a href="javascript:;" id="bookingCIRNumber" data-type="text" data-original-title="Enter CIR number"></a>
                             </div>                      
                         </div>
                         <hr>
                         <div class="row">
-                            <h4><strong> Booking Information </strong></h4>
+                            <div class="col-sm-6">
+                                <h4><strong> Booking Information </strong></h4>
+                            </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Name: </strong></label>
                                 <span id="bookingTitle"></span>
@@ -85,7 +96,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Booking Description: </strong></label>
-                                <span id="bookingDescription" class="col-sm-7 padding-0"></span>
+                                <div id="bookingDescription" class="col-sm-7 padding-0" data-type="wysihtml5"></div>
                             </div>
                         
                             <div class="col-sm-12">
@@ -96,13 +107,22 @@
                                 <label class="col-sm-5"><strong>Sent status: </strong></label>
                                 <span id="sentStatus"></span>
                             </div>
-
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Arrival status: </strong></label>
+                                
+                                <select class="form-control input-small booking-status input-sm">
+                                    <option value="1" class="bg-white bg-font-white">Pending</option>
+                                    <option value="2" class="bg-white font-green-jungle">Arrived</option>
+                                    <option value="3" class="bg-white font-red">No Show</option>
+                                </select>
+                            </div>
+                            <input type="text" name="csrf" id="csrf" value="{{ csrf_token() }}" class="hidden">
                         </div>
                         <br>
                         <div class="row pull-right">                            
-                            <a href="#" class="btn green edit-booking">Edit</a>
-                            <a href="#" class="btn btn-danger" id="delete-booking">Delete</a>
-                            <a href="#" class="btn btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
+                            <a href="#" class="btn btn-xs green edit-booking">Edit</a>
+                            <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
+                            <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                         </div>
                     </div>
                     <div class="hidden booking-edit">
@@ -200,22 +220,34 @@
     <link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/clockface/css/clockface.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-editable/inputs-ext/address/address.css" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS -->
 @endsection
 
 @section('scripts')
     <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 
-    <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/clockface/js/clockface.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>    
+
+    <script src="/assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery.mockjax.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-editable/bootstrap-editable/js/bootstrap-editable.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-editable/inputs-ext/address/address.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-typeahead/bootstrap3-typeahead.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/js/calendar.js?id={{ str_random(6) }}" type="text/javascript"></script>
@@ -224,11 +256,8 @@
 
     <script src="/js/remind-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
+
 @endsection
 
 @section('inline-scripts')
-    $(document).ready(function()
-    {
-        $("#contentLoading").modal("hide")
-    })
 @endsection

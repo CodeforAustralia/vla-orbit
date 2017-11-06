@@ -297,15 +297,26 @@ Class Booking
     {
         $date_time = explode("T", $date_time);
 
-    	$info = 	[
-							'BookingRef'=> $booking_ref ,
-							'NewDate' 	=> $date_time[0] ,
-							'NewTime' 	=> $date_time[1]
-    					];
-    	
+        $info =     [
+                            'BookingRef'=> $booking_ref ,
+                            'NewDate'   => $date_time[0] ,
+                            'NewTime'   => $date_time[1]
+                        ];
+        
         $client =  (new \App\Repositories\VlaSoap)->ws_booking_init();
 
         $result = $client->UpdateBooking( $info )->UpdateBookingResult;
+        
+        return $result;
+    }
+
+    public function updateBookingDetails( $booking )
+    {
+        //This WS belongs to the basic behabour of Orbit and not to the booking services
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+    	$info = 	[ 'ObjectInstance'=> $booking ];        
+        $result = $client->SaveOrbitLocalBooking( $info )->SaveOrbitLocalBookingResult;
         
     	return $result;
     }
