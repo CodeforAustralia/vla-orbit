@@ -25,7 +25,8 @@ License: You must have a valid license purchased only from themeforest(the above
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="Preview page of Orbit" name="description" />
-        <meta content="" name="author" />
+        <meta content="Code For Australia and Victoria Legal Aid" name="author" />
+        <meta name="_token" content="{{ csrf_token() }}"/>
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
