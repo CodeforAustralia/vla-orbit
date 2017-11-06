@@ -23,8 +23,7 @@ function updateBooking()
             })
               .done(function( msg ) {
                 swal( "Booking Updated", "Booking #" + booking_ref + " has been updated", "success" );
-                $(".close-booking-edit").click();
-                AppCalendar.init(); 
+                $(".close-booking-edit").click();                
               });
 
         } else {
@@ -167,6 +166,6 @@ function closeEditBooking()
         var booking_id = $(".edit-booking").attr("id");
         $(".booking-edit").addClass("hidden");
         $(".booking-information").hide().removeClass("hidden").fadeIn(); 
-
+        AppCalendar.init();
     }); 
 }
