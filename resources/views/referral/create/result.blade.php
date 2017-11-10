@@ -104,7 +104,7 @@
 
                     <!-- Notes -->
                     <div class="form-group">
-                      <label for="Notes">Referral reason (Optional)</label>                      
+                      <label for="Notes">Referral reason <small>(information is <strong><u>not</u></strong> shared with client)</small></label>                      
                       <select class="form-control" id="Notes" name="Notes">                                
                                 <option></option>
                                 <option>Already instructing a private solicitor</option>
