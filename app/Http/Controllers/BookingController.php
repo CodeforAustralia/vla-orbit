@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use File;
 use App\Booking;
+use App\BookingDocument;
 use App\SentSms;
 use App\ServiceProvider;
 
@@ -63,7 +66,7 @@ class BookingController extends Controller
     }
 
     public function store()
-    {        
+    {           
         $service_name = request('ServiceName');
         $client_details = request('client');
         $client_details['ClientEmail']  = ( !isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ? '' : $client_details['ClientEmail'] );
@@ -88,6 +91,23 @@ class BookingController extends Controller
 
         $booking_obj = new Booking(); 
         $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );        
+
+        $reservation_details = json_decode( $reservation['reservation'] );
+
+        //Upload attached files
+        $files = request('files');
+        if( !empty( $files ) )
+        {
+            $booking_document = new BookingDocument();
+            foreach ($files as $file) 
+            {                
+                $fileName = $file->getClientOriginalName();
+                $file->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
+                //Get booking refer from clients name 
+                $clientBokingRefNo = explode(' ',  $reservation_details->client_name );
+                $booking_document->saveBookingDocument( $fileName , $clientBokingRefNo [0] );
+            }
+        }     
 
         return redirect('/booking')->with('success', 'Booking saved.');
     }

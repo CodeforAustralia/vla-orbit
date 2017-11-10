@@ -114,6 +114,19 @@
                                     <option value="3" class="bg-white font-red">No Show</option>
                                 </select>
                             </div>
+                            <br>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5">&nbsp;</label>
+                                
+                                        <div class="tab-pane" id="booking_document_tab">
+                                            <div class="scroller" style="height: auto;" data-always-visible="1" data-rail-visible1="1">
+                                                <ul class="feeds">
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                            </div>
+
                             <input type="text" name="csrf" id="csrf" value="{{ csrf_token() }}" class="hidden">
                         </div>
                         <br>
@@ -258,4 +271,8 @@
 @endsection
 
 @section('inline-scripts')
+    $(document).ready(function()       
+    {     
+        $("#contentLoading").modal("hide")        
+    })
 @endsection

@@ -363,7 +363,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 }
 
 .portlet.light .dataTables_wrapper .dt-buttons {
-    margin-top: unset;
+    margin-top: 0px;
     float: left;
 }
 .portlet.light .dataTables_wrapper .dt-buttons>a{
@@ -379,4 +379,45 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 
 .portlet.light .dataTables_extended_wrapper .dataTables_scrollBody .table.dataTable {
     margin-top: 0px !important; /** Overide plugins important declaration too **/ 
+}
+
+/******** Booking screen ************************/
+
+.booking-form{
+  border: 4px dashed #17C4BB;
+}
+.booking-form p{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 170px;
+  color: #17C4BB;
+  font-family: Arial;
+}
+.booking-form input{
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+}
+
+#booking_document_tab{
+    margin-top: 15px;
+}
+
+#booking_document_tab .col2{    
+    width: 25px;
+    margin-left: -30px;
+}
+
+#booking_document_tab .feeds li .col1>.cont>.cont-col2>.desc {
+    margin-left: 10px;
+}
+
+/************** Home page ***************************/
+.dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
+    cursor: default;
 }

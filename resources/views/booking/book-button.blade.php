@@ -42,27 +42,3 @@
         </div>
     </div>
 </div>
-
-@section('styles')    
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/global/plugins/clockface/css/clockface.css" rel="stylesheet" type="text/css" />
-    <!-- END PAGE LEVEL PLUGINS -->
-@endsection
-
-@section('scripts')    
-    <!-- BEGIN PAGE LEVEL SCRIPTS -->
-    <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/clockface/js/clockface.js" type="text/javascript"></script>
-    <script src="/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
-    <!-- END PAGE LEVEL SCRIPTS -->
-    <script src="/js/booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
-@endsection
-

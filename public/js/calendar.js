@@ -222,7 +222,18 @@ var AppCalendar = function() {
                     $("#sentStatus").text(sentDatesStr.replace(/,\s*$/, ''));
 
                     setStatus(calEvent.data.BookingStatusId);
-                    setColorStatus(calEvent.data.BookingStatusId);                    
+                    setColorStatus(calEvent.data.BookingStatusId);
+
+                    if( Object.keys(calEvent.data.BookingDocuments).length > 0)
+                    {                        
+                        var BookingRef = calEvent.data.BookingRef;
+                        showBookingDocuments(calEvent.data.BookingDocuments, BookingRef);
+                    } 
+                    else 
+                    {                        
+                        $(".slimScrollDiv").css('height', '0px');
+                        $(".scroller").css('height', '0px');
+                    }
                 },
                 eventAfterRender: function (event, element, view) {
                     var today = new Date();
@@ -231,6 +242,53 @@ var AppCalendar = function() {
                     }                    
                 },
             });
+
+            var showBookingDocuments = function (bookingDocuments, BookingRef) 
+            {      
+
+                $(".slimScrollDiv").css('height', 33 + 'px');
+                $(".scroller").css('height', 33 + 'px');
+                $('.feeds').html('');
+
+                if( bookingDocuments.BookingDocument instanceof Array )
+                {                              
+                    var amount_docs = Object.keys(bookingDocuments.BookingDocument).length;
+                    $(".slimScrollDiv").css('height', (parseInt(amount_docs) * 33) + 'px');
+                    $(".scroller").css('height', (parseInt(amount_docs) * 33) + 'px');
+                    for (var i = 0, len = amount_docs; i < len; i++) 
+                    { 
+                      var filePath = bookingDocuments.BookingDocument[i].Filepath;
+                      showDocumentTemplate(filePath, BookingRef);
+                    }
+                } 
+                else
+                {                              
+                  var filePath = bookingDocuments.BookingDocument.Filepath;
+                  showDocumentTemplate(filePath, BookingRef);                            
+                }
+            }
+
+            var showDocumentTemplate = function (filePath, BookingRef) 
+            {
+                var booking_doc = 
+                                  `
+                                    <li>
+                                        <a href="/booking_docs/` + BookingRef + `/` + filePath + `" download>
+                                            <div class="col1">
+                                                <div class="cont">
+                                                    <div class="cont-col2">
+                                                        <div class="desc">` + filePath + `</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col2">
+                                                <div class="date">  </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                  `;
+                $('.feeds').append(booking_doc);
+            }
             
             var setStatus = function (status_id) 
             {    
