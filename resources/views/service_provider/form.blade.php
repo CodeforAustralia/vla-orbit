@@ -54,6 +54,18 @@
 	                  	<input type="text" class="form-control" id="contact_email" name="contact_email" value="{{ isset($current_sp) ? $current_sp->ContactEmail : '' }}" required>
 	                </div>
 
+                    <div class="form-group">
+                        <label for="spt_id">Service Provider:</label>                        
+                        <select class="form-control" id="spt_id" name="spt_id" required>
+                            <option value=""></option>
+                            <option value="1" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 1 ) ? 'selected' : '' ?> >Non Legal Provider</option>
+                            <option value="2" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 2 ) ? 'selected' : '' ?>>CLC</option>
+                            <option value="3" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 3 ) ? 'selected' : '' ?>>VLA</option>
+                            <option value="4" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 4 ) ? 'selected' : '' ?>>Legal Help</option>                                
+                        </select>
+                        
+                    </div>
+
                 </div>
                 <div class="form-actions">
                     <div class="row">

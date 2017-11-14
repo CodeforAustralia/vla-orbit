@@ -31,7 +31,7 @@ class ServiceProvidersController extends Controller
             $result                 = $service_provider_obj->getServiceProviderByID($sp_id);
 
             if(isset($result['data'])) {
-                $current_sp = json_decode( $result['data'] )[0];
+                $current_sp = json_decode( $result['data'] )[0];                
                 return view( "service_provider.show", compact( 'current_sp' ) );         
             } else {
                 return redirect('/service_provider')->with( $response['success'], $response['message'] );
@@ -54,7 +54,8 @@ class ServiceProvidersController extends Controller
                             'ServiceProviderAbout'  => request('about'),
                             'ServiceProviderLogo'   => request('logo'),
                             'ServiceProviderURL'    => request('url'),
-                            'ServiceProviderAddress' => request('address')
+                            'ServiceProviderAddress' => request('address'),
+                            'ServiceProviderTypeId' => request('spt_id')
                             );
         
         $service_provider = new ServiceProvider();
