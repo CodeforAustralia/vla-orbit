@@ -271,22 +271,22 @@ var AppCalendar = function() {
             var showDocumentTemplate = function (filePath, BookingRef) 
             {
                 var booking_doc = 
-                                  `
-                                    <li>
-                                        <a href="/booking_docs/` + BookingRef + `/` + filePath + `" download>
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col2">
-                                                        <div class="desc">` + filePath + `</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date">  </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                  `;
+                                  '\
+                                    <li>\
+                                        <a href="/booking_docs/' + BookingRef + '/' + filePath + '" download>\
+                                            <div class="col1">\
+                                                <div class="cont">\
+                                                    <div class="cont-col2">\
+                                                        <div class="desc">' + filePath + '</div>\
+                                                    </div>\
+                                                </div>\
+                                            </div>\
+                                            <div class="col2">\
+                                                <div class="date">  </div>\
+                                            </div>\
+                                        </a>\
+                                    </li>\
+                                  ';
                 $('.feeds').append(booking_doc);
             }
             
