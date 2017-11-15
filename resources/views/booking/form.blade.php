@@ -15,7 +15,7 @@
                     <select class="form-control" id="service_provider_id" name="service_provider_id">                                
                         <option selected=""> </option>
                         @foreach($service_providers as $service_provider)
-                            @if( in_array( $service_provider['ServiceProviderId'], [119, 121, 106, 47, 95, 124] ) )
+                            @if( in_array( $service_provider['ServiceProviderId'], [119, 121, 106, 47, 95, 124, 98] ) )
                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
                             @endif
                         @endforeach
