@@ -88,6 +88,10 @@
             <script src="/js/tawk.js" type="text/javascript"></script>
             <!--End of Tawk.to Script-->
             
+            <!--Start of HotJar to Script-->
+            <script src="/js/hotjar.js" type="text/javascript"></script>
+            <!--End of HotJar to Script-->
+            
             <!-- include summernote js-->
             <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
             <!-- end include summernote js-->
