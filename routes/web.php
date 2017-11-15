@@ -206,7 +206,7 @@ Route::get('/booking/new', 'BookingController@create');
 
 Route::get('/booking/delete/{bo_id}', 'BookingController@destroy');
 
-Route::get('/booking/listDatesByMonth/{month}/{sv_id}', 'BookingController@getServiceDatesByMonth');
+Route::get('/booking/listDatesByDate/{year}/{month}/{sv_id}', 'BookingController@getServiceDatesByDate');
 
 Route::get('/booking/list', 'BookingController@list');
 

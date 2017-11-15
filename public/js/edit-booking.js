@@ -1,6 +1,7 @@
 var services = [];
 var current_date = new Date();
 var current_month = current_date.getMonth() + 1;
+var current_year = current_date.getFullYear();
 var current_service = '';
 
 $(document).ready(function() { 
@@ -64,29 +65,31 @@ function getBookingsByService(booking_id)
                 })
                 .on('changeMonth', function(e){
                     var current_month = new Date(e.date).getMonth() + 1;
+                    var current_year = String(e.date).split(" ")[3];
                     $("#booking-date").val('');                    
-                    getServiceDatesByMonth(current_month, booking_id); 
+                    getServiceDatesByDate( current_year, current_month, current_service); //Init dates  
                 });  
                 /**** Buggy method can't be used *****
                 .on('changeMonth', function(e){});  
                 *******/
-    getServiceDatesByMonth(current_month, current_service); //Init dates     
+    getServiceDatesByDate( current_year, current_month, current_service); //Init dates    
 }
 
-function getServiceDatesByMonth(month, sv_id)
+function getServiceDatesByDate( year, month, sv_id )
 {
     showLoading();
     var dateInput = $('#booking-date');
 
     $.ajax({
       method: "GET",
-      url: "/booking/listDatesByMonth/" + month + "/" + sv_id
+      url: "/booking/listDatesByDate/" + year + "/" + month + "/" + sv_id,
+      async: false
     })
       .done(function( msg ) {        
         if( Object.keys(msg).length > 1)
         {
             services = msg;
-            dateInput.datepicker( 'setDate', "2017-"+ month +"-01" );
+            dateInput.datepicker( 'setDate',  year + "-" + month + "-01" );
             dateInput.datepicker('setDatesDisabled', msg.unavailables);
             showAvailability();
             hideLoading();

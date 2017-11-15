@@ -48,9 +48,9 @@ class BookingController extends Controller
         return redirect('/booking')->with($response['success'], $response['message']);        
     }
 
-    public function getServiceDatesByMonth( $month, $sv_id )
+    public function getServiceDatesByDate( $year, $month, $sv_id )
     {
-        $init_year = $finish_year = date("Y");
+        $init_year = $finish_year = $year;
         $finish_month = $month + 1;
         $init_date   = $init_year . "-" . $month . "-01";
         
