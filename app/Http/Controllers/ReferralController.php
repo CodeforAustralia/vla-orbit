@@ -62,10 +62,7 @@ class ReferralController extends Controller
     {
         $matter = new Matter();
         $matters = $matter->getAllMattersParentChildrenListTrimmed();
-        if( isset($_GET['search2']) )
-        {
-            return view('referral.create.search_test');
-        }
+        
         return view('referral.create.search', compact( 'matters' ));
     }
     
