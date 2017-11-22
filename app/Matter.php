@@ -127,7 +127,9 @@ Class Matter
 
         endforeach;
 
-        return $dataset;
+        array_pop( $dataset );
+
+        return array_reverse($dataset);
     }
 
     public function getAllMattersParentChildrenList()
