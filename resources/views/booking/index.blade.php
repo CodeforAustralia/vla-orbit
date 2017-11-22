@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Fist name: </strong></label>                                
+                                <label class="col-sm-5"><strong>First name: </strong></label>                                
                                 <a href="javascript:;" id="bookingFirstName" data-type="text" data-original-title="Enter First name"></a>
                             </div>
 

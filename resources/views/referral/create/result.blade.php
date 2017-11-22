@@ -113,7 +113,7 @@
                                 <option>Conflict of Interest</option>
                                 <option>Eligible for Legal Aid</option>
                                 <option>Internal referrals to programs run by the centre</option>
-                                <option>Not in cathment area</option>
+                                <option>Not in catchment area</option>
                                 <option>Other</option>
                                 <option>Person could not be assisted within time frame needed or wanted by them</option>
                                 <option>Referred to funded agency (ie. Welfare rights)</option>
