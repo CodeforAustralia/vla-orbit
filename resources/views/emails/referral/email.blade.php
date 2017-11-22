@@ -13,7 +13,9 @@ They have referred you to another service for more help:
 @if( $args['Location'] != "#" )
   * __Address__: <a href="http://maps.google.com/?q={{ $args['Location'] }}">{{ $args['Location'] }}</a>
 @endif
+@if( $args['Phone'] != "#" )
   * __Phone number__: {{ $args['Phone'] }}
+@endif
   * <a href="{{ $args['URL'] }}">Website</a>
   * __Service details__: <div>{!! $args['Description'] !!}</div>
 
