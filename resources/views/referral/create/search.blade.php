@@ -41,7 +41,7 @@
         <div class="row">
           <div class="col-xs-12">
               <p>Find a service by selecting the legal issue that best matches the client’s situation.</p>
-              <p>Service providers may limit entry to services based on where a client lives, works or studies. Add a location to specify the search.</p>
+              <p>Service providers may limit services based on where a client lives, works or studies. Add client’s location to specify search.</p>
           </div>
           <div class="col-xs-12">
             <div class="form-group">

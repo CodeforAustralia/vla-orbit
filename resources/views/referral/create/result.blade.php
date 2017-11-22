@@ -78,7 +78,7 @@
                         <input type="checkbox" id="safeEmail"> It is safe to contact client by email
                       </label> 
                       <label class="sr-only" for="Email">Email Address</label>
-                      <input type="email" class="form-control" id="Email" placeholder="Client Email Address">                        
+                      <input type="email" class="form-control" id="Email" placeholder="Client email address">                        
                       <div class="col-xs-11 col-xs-offset-1">
                         <div class="form-group">
                           <div class="checkbox">
@@ -93,7 +93,7 @@
                         <input type="checkbox" id="safePhone"> It is safe to contact client by SMS
                       </label>
                       <label class="sr-only" for="Phone">Phone Number</label>
-                      <input type="tel" class="form-control" id="Phone" placeholder="Client Phone Number">                            
+                      <input type="tel" class="form-control" id="Phone" placeholder="Client mobile number">                            
                       <div class="col-xs-11 col-xs-offset-1">
                         <div class="form-group">
                           <div class="checkbox">
