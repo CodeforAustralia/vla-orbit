@@ -43,11 +43,13 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="/assets/layouts/layout2/css/layout.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/layouts/layout2/css/themes/blue.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="/assets/layouts/layout2/css/custom.css" rel="stylesheet" type="text/css" />
-        <link href="/assets/layouts/layout2/css/loading.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/layouts/layout2/css/loading.css" rel="stylesheet" type="text/css" />                
+        <link href="/assets/layouts/layout2/css/xl-grid-bootstrap.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <!-- SELECT2 LAYOUT STYLES -->
         <link href="/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
         <!-- END SELECT2 LAYOUT STYLES -->        
         <!-- include summernote css-->
         <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">

@@ -93,7 +93,8 @@
                         <input type="checkbox" id="safePhone"> It is safe to contact client by SMS
                       </label>
                       <label class="sr-only" for="Phone">Phone Number</label>
-                      <input type="tel" class="form-control" id="Phone" placeholder="Client mobile number">                            
+                      <input type="number" class="form-control" id="Phone" placeholder="Client mobile number">
+
                       <div class="col-xs-11 col-xs-offset-1">
                         <div class="form-group">
                           <div class="checkbox">
@@ -159,6 +160,7 @@
 @endsection
 
 @section('scripts-extra')
+    <script src="/assets/global/plugins/readmore/readmore.min.js" type="text/javascript"></script>
     <script src="/js/referral-result-page.js?id={{ str_random(6) }}" type="text/javascript"></script>
 @endsection
 

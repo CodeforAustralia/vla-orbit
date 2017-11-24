@@ -1,7 +1,7 @@
 
 <?php
-	$filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
-	$filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );
+  $filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
+  $filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );
 ?>
 <div class="page-bar">
     <ul class="page-breadcrumb">
@@ -11,40 +11,21 @@
     </ul>
     <div class="page-toolbar">
         
-        <div class="btn-group ">
-        	<button class="btn blue dropdown-toggle btn-fit-height" data-toggle="dropdown">Service Type
-	                <i class="fa fa-angle-down"></i>
-            </button>
-            <ul class="dropdown-menu filter-type">
-                <li >
-                    <a href="javascript:;" class="all-type"> All                        
-                    </a>
-                </li>
-            	@foreach( $filter_type as $filter )
-                <li >
-                    <a href="javascript:;" class="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }}                        
-                    </a>
-                </li>
+        <div class="filter">
+            
+            <select class="mt-multiselect btn btn-default" id="filter-type" multiple="multiple">                
+                @foreach( $filter_type as $filter )
+                    <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
                 @endforeach
-            </ul>
-        </div>
-        <div class="btn-group">
-            <button class="btn blue dropdown-toggle btn-fit-height" data-toggle="dropdown">Service Level
-                <i class="fa fa-angle-down"></i>
-            </button>
-            <ul class="dropdown-menu filter-level">
-                <li >
-                    <a href="javascript:;" class="all-level"> All                        
-                    </a>
-                </li>
-            	@foreach( $filter_level as $filter )
-                <li >
-                    <a href="javascript:;" class="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }}                        
-                    </a>
-                </li>
+            </select>
+            <select class="mt-multiselect btn btn-default" id="filter-level" multiple="multiple">                
+                @foreach( $filter_level as $filter )
+                    <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
                 @endforeach
-            </ul>		            
+            </select>
+        
         </div>
+
     </div>
 </div>
 
@@ -55,68 +36,96 @@
       $current_sp_logo = $service_providers[ $current_sp_pos ]['ServiceProviderLogo'];
       $filters_class   = str_replace( ' ', '-', strtolower( $match['ServiceLevelName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceTypeName'] ) ) ;
     ?>
-    <!-- Result -->
-    <div class="portlet light {{ $filters_class }}">
-      <div class="portlet-body">
-        <div class="row service-card" id="{{ $match['ServiceId'] }}"> <!-- Card 1-->
-          <!-- Card Container -->
-          <div class="col-xs-12">
-            <!-- Logo -->
-            <div class="col-xs-12 col-sm-3">
-              <img src="{{ $current_sp_logo }}" class="img-responsive img-thumbnail center-block">
-            </div>
-            <!-- Service Details -->
-            <div class="col-xs-12 col-sm-9">
-              <div class="col-xs-12">
-                <h3 class="margin-top-10 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
-                <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
-                <h5>
-                  @if( $match['URL'] != '#')
-                    <i class="fa fa-globe" aria-hidden="true"></i>
-                    <strong><a href="http://{{ $match['URL'] }}" target="_blank">Website</a></strong>
-                    &nbsp&nbsp
-                  @endif
-	                @if( $match['Location'] != '#')
-  	                <i class="fa fa-map-marker" aria-hidden="true"></i>
-  	                <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank">{{ $match['Location'] }}</a>
-                    &nbsp&nbsp
-	                @endif
-	                @if( $match['Phone'] != '#') 
-	                	<i class="fa fa-phone" aria-hidden="true"></i> 
-	                	{{ $match['Phone'] }}
-	                @endif
-                </h5>
-              </div>
-              <!-- Description  -->
-              <div class="col-xs-12 visible-xs-block visible-sm-block visible-md-block visible-lg-block visible-xl-block padding-bottom-20 padding-top-10">     
-                <a class="btn-default bg-white dropdown-toggle" data-toggle="collapse" href="#description{{ $match['ServiceId'] }}" aria-expanded="false" aria"=false" aria-controls="description"  role="button"><strong>Service Details  <i class="fa fa-angle-down"></i></strong></a>      
-                <div class="collapse col-xs-12" id="description{{ $match['ServiceId'] }}">              
-                  <div class="col-xs-12"><br>
-                    {!! $match['Description'] !!}
-                  </div>
+
+    <div class="card-container col-xs-12 col-sm-6 col-xl-4 {{ $filters_class }}" id="{{ $match['ServiceId'] }}">
+        <div class="col-xs-12 form-group result-card padding-0">
+            <div class="row card-top-info">
+
+                <div class="col-xs-12 col-sm-5">
+
+                    <div class="col-sm-12"> 
+                        <img src="{{ $current_sp_logo }}">
+                    </div>              
+                    @if( $match['URL'] != '#')
+                    <div class="col-sm-12 website"> 
+                        <a href="http://{{ $match['URL'] }}" target="_blank">Visit website</a>
+                    </div>
+                    @endif
+                    
                 </div>
-              </div>
-              <!--Card Content Mid-->  
-              <div class="col-xs-12 col-sm-12 col-md-4">   
-                <p><strong>Wait Time:</strong> {{ $match['Wait'] }}</p>                
-                <p><strong>Hours:</strong> {{ ( $match['OpenningHrs'] != '#' ? $match['OpenningHrs'] : 'TBA' )}}</p>                
-              </div>
-              <!--Card Content LHS-->
-              <div class="col-xs-12 col-sm-12 col-md-4">   
-                <p><strong>Service Type:</strong> {{ $match['ServiceTypeName'] }}</p>
-                <p><strong>Service Level:</strong> {{ $match['ServiceLevelName'] }}</p>
-              </div>
-              <!--Card Content RHS-->  
-              <div class="col-xs-12 col-sm-12 col-md-4"> 
-                <!-- Trigger Modal -->
-                <button type="button" class="btn green-jungle btn-block btn-lg pull-right open-modal" data-toggle="modal" data-target="#SelectMatch">Select Match</button>
+
+                <div class="col-xs-12 col-sm-7 padding-0">
+                    <h3 class="margin-0 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
+                    <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
+                    @if( $match['Location'] != '#')                        
+                    <p>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> 
+                        <a href="http://maps.google.com/?q={{ $match['Location'] }}" target="_blank">{{ mb_strimwidth($match['Location'], 0, 40, "...") }}</a>
+                    </p>                        
+                    @endif                        
+                    @if( $match['Phone'] != '#') 
+                    <p><i class="fa fa-phone" aria-hidden="true"></i> {{ $match['Phone'] }}</p>
+                    @endif
+                    @if( $match['OpenningHrs'] != '#' && $match['OpenningHrs'] != 'TBA' )
+                    <p> <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $match['OpenningHrs'] }} </p>
+                    @endif
+                    @if( $match['Wait'] != '#' && $match['Wait'] != 'TBA' )
+                    <p> <i class="fa fa-hourglass-end" aria-hidden="true"></i> {{ $match['Wait'] }} </p>
+                    @endif
+                </div>
+                
+            </div>
+            <hr>
+            <div class="row card-body-info">
+
+                <div class="col-xs-6">
+                    <span> 
+                        <strong>Service Level:</strong></span> <span id="service-level">{{ $match['ServiceLevelName'] }} 
+                    </span>
+                </div>
+
+                <div class="col-xs-6">
+                    <span> 
+                        <strong>Service Type:</strong></span> <span id="service-type">{{ $match['ServiceTypeName'] }}
+                    </span>
+                </div>
+
+                <div class="col-xs-12 description">
+                    {!! $match['Description'] !!}
+                    <p>&nbsp;</p>
+                </div>
+                
+            </div>
+
+            <div class="row bottom-buttons margin-0">
                 @if ( in_array( Auth::user()->roles()->first()->name, [ 'Administrator', 'VLA', 'AdminSp' ] ) && $match['BookingServiceId'] != '' )
-                <button type="button" class="btn green-jungle btn-block btn-lg pull-right open-booking" data-toggle="modal" data-target="#SelectBooking" id="{{ $match['BookingServiceId']}}-{{ $match['BookingInterpritterServiceId']}}-{{ $match['ServiceProviderId']}}">Make Booking</button>
+
+                <div class="col-xs-6 padding-0 book-button bg-blue">    
+
+                    <button type="button" class="btn bg-blue bg-font-blue open-booking" data-toggle="modal" data-target="#SelectBooking" id="{{ $match['BookingServiceId']}}-{{ $match['BookingInterpritterServiceId']}}-{{ $match['ServiceProviderId']}}">Make booking</button>                 
+
+                </div>
+
+                <div class="col-xs-6 padding-0 refer-button bg-green-jungle"> 
+
+                    <button type="button" class="btn bg-green-jungle bg-font-green-jungle open-modal" data-toggle="modal" data-target="#SelectMatch">Send to client</button>
+
+                </div>
+
+
+                @else
+
+                <div class="col-xs-12 padding-0 refer-button bg-green-jungle"> 
+
+                    <button type="button" class="btn bg-green-jungle bg-font-green-jungle open-modal" data-toggle="modal" data-target="#SelectMatch">Send to client</button>
+
+                </div>
+
                 @endif
-              </div>    
-            </div> <!-- Close Service Details-->
-          </div> <!-- Close Card Col -->
-        </div><!-- Close Card Row -->
-      </div><!-- Close Portlet Body -->
-    </div><!-- Result Portlet -->
+                
+                
+            </div>
+        </div>
+    </div>
+
   @endforeach

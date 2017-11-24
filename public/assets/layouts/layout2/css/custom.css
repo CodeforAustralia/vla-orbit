@@ -3,6 +3,11 @@ body .page-container-bg-solid .page-content, .page-container-bg-solid .page-cont
     background: #e2e2e2;
 }
 
+.page-content {
+    overflow: auto;
+    height: 100%;
+}
+
 .mt-element-step .step-line .mt-step-title:after, .mt-element-step .step-line .mt-step-title:before {
     background-color: #c9c9c9;
 }
@@ -169,6 +174,14 @@ b, optgroup, strong {
 
 
 
+.margin-0 {
+    margin: 0px !important; 
+}
+
+.margin-top-0 {
+    margin-top: 0px !important; 
+}
+
 .margin-bottom-10 {
     margin-bottom: 10px !important; 
 }
@@ -268,6 +281,10 @@ b, optgroup, strong {
 
 .table td, .table th {
     font-size: 13px;
+}
+
+.tooltip{
+  z-index: 1151 !important;
 }
 
 /************ header **********/
@@ -420,4 +437,104 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
     cursor: default;
+}
+
+/************** New Matching Screen *****************/
+.result-card {
+    background-color: white;    
+}
+
+.result-card hr{
+    margin: 0 15px;
+}
+
+.card-top-info{   
+    padding: 15px 15px 0px 0px;
+    height: 189px;
+    overflow: hidden;
+}
+
+.card-top-info img{
+    max-width: 100%;
+    border: 1px solid #eee;
+    border-radius: 3px;
+}
+
+.card-top-info h3{
+    font-size: 19px;
+    max-height: 46px;
+    overflow: hidden;
+    line-height: 23px;
+}
+
+.card-top-info h4{
+    font-size: 15px;
+    height: 1.2em;
+    overflow: hidden;
+    margin: 2px 0;
+}
+
+.card-top-info p {
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.card-top-info i {
+    margin-right: 10px;
+}
+
+.card-top-info .website {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.card-body-info {
+    padding: 15px 15px 0;
+}
+
+.card-body-info .description {    
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.card-body-info .description p {
+    margin: 0px;
+}
+
+.book-button, .refer-button{
+    text-align: center;    
+}
+
+.refer-button button {
+    width: 100%;    
+}
+.book-button button {
+    width: 100%;    
+}
+
+[data-readmore-toggle] {
+    text-align: right; 
+    font-size: 12px; 
+    padding: 15px;
+}
+
+.filter .btn:not(.btn-sm):not(.btn-lg), .filter .btn:not(.btn-sm):not(.btn-lg) {
+    line-height: 1.84;
+}
+
+@media (max-width:767px){
+    .card-top-info {
+        padding: 30px;
+        height: unset;
+    }
+}
+
+@media (min-width:1240px){
+    .card-top-info {
+        padding: 15px 15px 0px 0px;
+        height: 220px;
+        overflow: hidden;
+    }
 }

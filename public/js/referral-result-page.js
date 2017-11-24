@@ -1,11 +1,84 @@
 var service_id = 0;
-$(document).ready(function() {
 
-  filters();
+function isEmail(email) 
+{
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}
 
-  $('.open-booking').on( "click", function(){
+/** rewrite module */
+var initReadmore = function()
+{
+	$('.description').readmore({
+	    collapsedHeight: 56,
+	    speed: 1000,    
+	    lessLink: '<a href="#">Read less</a>'
+	});
+}();
 
-    var service_card = $( this ).closest(".service-card");
+var showCard = function (element_class, show) 
+{
+	if( show )
+	{		
+		$("." + element_class ).fadeIn("slow");
+	} else 
+	{
+		$("." + element_class ).fadeOut("slow");
+	}	
+}
+
+var filterElements = function (checked_values, filter_arr) {
+		
+	if( checked_values )
+	{
+		var off_values = filter_arr.filter( x => checked_values.indexOf(x) === -1 ); // Substract checked values from filters										
+		off_values.map( (current_value)=> showCard(current_value, false) ); // Hide substracted values
+		checked_values.map( (current_value)=> showCard(current_value, true) );	// Show checked elements
+	}
+	else 
+	{
+		filter_arr.map( (current_value)=> showCard(current_value, true) ); // Show all elements if checked values is null
+	}
+}
+
+var initFilters = function () 
+{
+
+  const filter_level = ['information', 'advice', 'representation'];
+  const filter_type = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop'];
+	
+  $('#filter-type').multiselect({
+  									nonSelectedText: 'Select Type',
+							  		onChange: function(option, checked) 
+							  		{
+							  			filterElements( $('#filter-type').val(), filter_type); //Selected values and filter
+						            },
+  									includeSelectAllOption: true,
+						            onSelectAll: function() 
+						            {
+							            filterElements( null, filter_level); // Show elements if checked values is null
+							        }
+						  		});
+  $('#filter-level').multiselect({
+  									nonSelectedText: 'Select Level',
+							  		onChange: function(option, checked) 
+							  		{
+										filterElements( $('#filter-level').val(), filter_level); //Selected values and filter
+						            },
+  									includeSelectAllOption: true,
+						            onSelectAll: function() 
+						            {
+										filterElements( null, filter_level); // Show elements if checked values is null
+							        }
+						  		}); 
+}();
+
+var openBooking = function () 
+{  
+  $('.open-booking').on( "click", function()
+  {
+    $("#contentLoading").modal("show");
+    var service_card = $( this ).closest(".card-container");
     var sv_id = $( service_card ).attr("id");
     var booking_ids = $( this ).attr("id").split('-');
     var sp_id = booking_ids[2];
@@ -20,11 +93,15 @@ $(document).ready(function() {
     setTimeout(function(){
         $('#sp_services option[value="' + booking_id + '-' + booking_interpretor_id + '"]').prop("selected", "selected").change();
         $(".booking-area").hide().removeClass("hidden").fadeIn();
+        $("#contentLoading").modal("hide");
     }, 2500);
   });
+}();
 
+var openModal = function () 
+{
   $('.open-modal').on( "click", function(){    
-    var service_card = $( this ).closest(".service-card");
+    var service_card = $( this ).closest(".card-container");
     var service_provider_name = $(service_card).find(".service-provider-name").text();
     var service_name = $(service_card).find(".service-name").text();
     var image_path = $(service_card).find("img").attr("src");
@@ -34,16 +111,21 @@ $(document).ready(function() {
     $(modal).find(".service-provider-name").text(service_provider_name);
     $(modal).find(".service-name").text(service_name);
     $(modal).find("img").attr("src", image_path);
-  });
+  });  
+}();
 
-
+var closeModal = function () 
+{  
   $( "#close-modal, .close" ).on( "click", function() {
     $("#result-step-1").show();
     $("#result-step-2").hide();
     $("#service_provider_id option").prop("selected", false);
     $("#SelectMatchLabel").text("Send Referral");
   });
+}();
 
+var sendToClient = function () {
+  
   $('#send-client').on( "click", function(){
     var phone = $("#Phone").val();
     var email = $("#Email").val();
@@ -92,6 +174,7 @@ $(document).ready(function() {
     }
     else if( ( isEmail( email ) && safe_email == 1 ) || ( phone != '' && safe_phone ) )
     {
+      $("#contentLoading").modal("show");
       var csrf = $('meta[name=_token]').attr('content');
       $.ajax({
         headers: {
@@ -117,6 +200,7 @@ $(document).ready(function() {
           $("#SelectMatchLabel").text("Referral Sent");
           $("#result-step-1").hide();
           $("#result-step-2").show();
+          $("#contentLoading").modal("hide")
         });
     } 
     else {
@@ -124,13 +208,19 @@ $(document).ready(function() {
     }
 
   });
+}();
 
+var submitForm = function () 
+{  
   $('form').submit(function(e) {
       $(':disabled').each(function(e) {
           $(this).removeAttr('disabled');
       })
   });
+}();
 
+var enableSummernote = function () 
+{  
   $('#Desc').summernote({
       toolbar: [
           // [groupName, [list of button]]
@@ -139,53 +229,4 @@ $(document).ready(function() {
           ['link', ['linkDialogShow', 'unlink']]          
       ]
   });
-
-});  
-
-function isEmail(email) {
-  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  return regex.test(email);
-}
-
-function filters()
-{
-  console.log('in');
-  var filter_level = ['all-level', 'phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop']
-
-
-  var filter_type = ['all-type', 'information', 'advice', 'representation']
-
-
-  $('.filter-type a').on( "click", function(){
-    for (index = 0; index < filter_type.length; ++index) {
-      
-      if( this.className == 'all-type' )
-      {   
-        $(".portlet." + filter_type[index]).show();
-      } 
-      else if( this.className != filter_type[index] )
-      {        
-        $(".portlet." + filter_type[index]).hide();
-      }
-
-    }
-    $(".portlet." + this.className ).show();
-  });
-
-
-  $('.filter-level a').on( "click", function(){
-    
-    for (index = 0; index < filter_level.length; ++index) {
-      
-      if( this.className == 'all-level' )
-      {   
-        $(".portlet." + filter_level[index]).show();
-      } 
-      else if( this.className != filter_level[index] )
-      {        
-        $(".portlet." + filter_level[index]).hide();
-      } 
-    }
-    $(".portlet." + this.className ).show();
-  });
-}
+}();
