@@ -449,7 +449,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 }
 
 .card-top-info{   
-    padding: 15px 15px 0px 0px;
+    padding: 15px 25px 0px 0px;
     height: 189px;
     overflow: hidden;
 }
@@ -533,7 +533,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 
 @media (min-width:1240px){
     .card-top-info {
-        padding: 15px 15px 0px 0px;
+        padding: 15px 25px 0px 0px;
         height: 220px;
         overflow: hidden;
     }
