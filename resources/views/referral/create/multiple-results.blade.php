@@ -2,6 +2,7 @@
 <?php
   $filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
   $filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );
+  $filter_sp_type = array_unique( array_column( $matches, 'ServiceProviderTypeName' ) );
 ?>
 <div class="page-bar">
     <ul class="page-breadcrumb">
@@ -13,6 +14,13 @@
         
         <div class="filter">
             
+            <select class="mt-multiselect btn btn-default" id="filter-sp-type" multiple="multiple">                
+                @foreach( $filter_sp_type as $filter )
+                    @if( $filter!= '' )
+                        <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
+                    @endif
+                @endforeach
+            </select>
             <select class="mt-multiselect btn btn-default" id="filter-type" multiple="multiple">                
                 @foreach( $filter_type as $filter )
                     <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
@@ -34,7 +42,7 @@
     <?php
       $current_sp_pos  = array_search( $match['ServiceProviderId'],  array_column( $service_providers, 'ServiceProviderId' ) );
       $current_sp_logo = $service_providers[ $current_sp_pos ]['ServiceProviderLogo'];
-      $filters_class   = str_replace( ' ', '-', strtolower( $match['ServiceLevelName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceTypeName'] ) ) ;
+      $filters_class   = str_replace( ' ', '-', strtolower( $match['ServiceLevelName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceTypeName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceProviderTypeName'] ) ) ;
     ?>
 
     <div class="card-container col-xs-12 col-sm-6 col-xl-4 {{ $filters_class }}" id="{{ $match['ServiceId'] }}">

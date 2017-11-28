@@ -41,36 +41,32 @@ var filterElements = function (checked_values, filter_arr) {
 	}
 }
 
+var setFilterOnElement = function (element, nonSelectedText,filter) {
+  
+    element.multiselect({
+                    nonSelectedText: nonSelectedText,
+                    onChange: function(option, checked) 
+                    {
+                      filterElements( element.val(), filter); //Selected values and filter
+                    },
+                    includeSelectAllOption: true,
+                        onSelectAll: function() 
+                        {
+                          filterElements( null, filter); // Show elements if checked values is null
+                      }
+                  });
+};
+
 var initFilters = function () 
 {
-
-  const filter_level = ['information', 'advice', 'representation'];
-  const filter_type = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop'];
+  const filter_level   = ['information', 'advice', 'representation'];
+  const filter_type    = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop'];
+  const filter_sp_type = ['non-legal-provider', 'clc', 'vla', 'legal-help'];
 	
-  $('#filter-type').multiselect({
-  									nonSelectedText: 'Select Type',
-							  		onChange: function(option, checked) 
-							  		{
-							  			filterElements( $('#filter-type').val(), filter_type); //Selected values and filter
-						            },
-  									includeSelectAllOption: true,
-						            onSelectAll: function() 
-						            {
-							            filterElements( null, filter_level); // Show elements if checked values is null
-							        }
-						  		});
-  $('#filter-level').multiselect({
-  									nonSelectedText: 'Select Level',
-							  		onChange: function(option, checked) 
-							  		{
-										filterElements( $('#filter-level').val(), filter_level); //Selected values and filter
-						            },
-  									includeSelectAllOption: true,
-						            onSelectAll: function() 
-						            {
-										filterElements( null, filter_level); // Show elements if checked values is null
-							        }
-						  		}); 
+  setFilterOnElement( $('#filter-type'), 'Select Type',filter_type);
+  setFilterOnElement( $('#filter-level'), 'Select Level',filter_level);
+  setFilterOnElement( $('#filter-sp-type'), 'SP Type',filter_sp_type);
+
 }();
 
 var openBooking = function () 
