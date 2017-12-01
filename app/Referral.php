@@ -438,7 +438,7 @@ class Referral
             if( $sp_type_name == 'Legal Help' ) // is Legal Help
             {
                 $service['sort']['is_lh']  = true;
-                $service['sort']['weight'] = ( isset($service['sort']['weight']) ?  $service['sort']['weight'] + legal_help_w : legal_help_w);
+                $service['sort']['weight'] = ( isset($service['sort']['weight']) ?  $service['sort']['weight'] + $legal_help_w : $legal_help_w);
             }
 
             // Catchment
