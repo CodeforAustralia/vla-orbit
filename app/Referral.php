@@ -202,6 +202,9 @@ class Referral
         $service_match = false;
         $matches = [];
 
+        //Define weights
+        $vulnerability_w = config('referral.vulnerability');
+
         foreach ($services as $service) 
         {
             //Global service match
@@ -211,14 +214,27 @@ class Referral
             foreach ($service['ServiceMatters'] as $legal_matter) 
             {
                 if( $legal_matter['MatterID'] == $mt_id )
-                {                        
+                {        
+                    // No answers and fit the global eligib.
                     if( empty( $legal_matter['VulnerabilityMatterAnswers'] ) && $service_match )
                     {
+                        // global eligibility match against vuln list
+                        if( $vuln_list != '' && !empty( $service['ServiceVulAnswers'] ) )
+                        {                            
+                            $service['sort']['eligibility'][] = $legal_matter;                            
+                            $service['sort']['weight'] = 
+                            ( isset($service['sort']['weight']) ?  $service['sort']['weight'] + $vulnerability_w : $vulnerability_w);
+                        }
                         $matches[ $service['ServiceId'] ] = $service;
                     } 
+                    // Answered/checked eligibility on specific LM and match vuln list.
                     elseif ( !empty( $legal_matter['VulnerabilityMatterAnswers'] ) && $vuln_list != '' 
                         && self::matchVulnerability( $legal_matter['VulnerabilityMatterAnswers'], $vuln_list) ) 
-                    {
+                    {                        
+                        $service['sort']['eligibility'][] = $legal_matter;
+                        $service['sort']['weight'] = 
+                        ( isset($service['sort']['weight']) ?  $service['sort']['weight'] + $vulnerability_w : $vulnerability_w);
+                        
                         $matches[ $service['ServiceId'] ] = $service;
                     }
                 }
@@ -327,8 +343,14 @@ class Referral
 
             foreach ( $service['ServiceMatters'] as $legal_matter ) 
             {
-                if( self::matchServiceAnswersWithAnswers( $answers, $legal_matter['CommonMatterAnswers'] ) && $legal_matter['MatterID'] == $mt_id )
+                $match_sa = self::matchServiceAnswersWithAnswers( $answers, $legal_matter['CommonMatterAnswers'] );
+                if( $match_sa['match'] && $legal_matter['MatterID'] == $mt_id )
                 {
+                    if( !empty( $legal_matter['CommonMatterAnswers'] ) )
+                    {
+                        $service['sort']['questions'][] = $legal_matter;
+                        $service['sort']['weight'] = ( isset($service['sort']['weight']) ?  $service['sort']['weight'] +  $match_sa['weight']  :  $match_sa['weight'] );                        
+                    }
                     $matches[ $service['ServiceId'] ] = $service;
                 } 
             }
@@ -339,7 +361,10 @@ class Referral
 
     public function matchServiceAnswersWithAnswers( $answers, $sericeAnswers )
     {
-        $match = true;
+        $weight = 0; // For questions that are not answered is false
+        $match  = true;        
+        //Define weights
+        $question_w = config('referral.question');
         foreach ( $sericeAnswers as $sericeAnswer ) //each question by matter
         {
             $sva_id = $sericeAnswer['QuestionId'];
@@ -348,15 +373,19 @@ class Referral
                 $sericeAnswer['answer'] = $answers[ $sva_id ];
             } 
             else {
-                $sericeAnswer['answer'] = " ";
+                $sericeAnswer['answer'] = " ";                
             }
             
             if( !self::compareQuestionAnswer( $sericeAnswer ) ) // not apply for this service
             {
                 $match = false;
             }
+            elseif( $sericeAnswer['QuestionValue'] != ' ' && self::compareQuestionAnswer( $sericeAnswer ) )
+            {
+                $weight += $question_w;
+            }
         }
-        return $match;
+        return [ 'match' => $match, 'weight' => $weight ];
     }
 
     public function compareQuestionAnswer( $args )
@@ -395,4 +424,47 @@ class Referral
                 break;
         }
     }
+
+    public function sortMatches( $services )
+    {
+        //Define weights
+        $catcment_w = config('referral.catchment');
+        $legal_help_w = config('referral.legal_help');
+        $matches = [];
+        foreach ( $services as $key => $service ) 
+        {
+            // is LH
+            $sp_type_name =  $service['ServiceProviderTypeName'];
+            if( $sp_type_name == 'Legal Help' ) // is Legal Help
+            {
+                $service['sort']['is_lh']  = true;
+                $service['sort']['weight'] = ( isset($service['sort']['weight']) ?  $service['sort']['weight'] + legal_help_w : legal_help_w);
+            }
+
+            // Catchment
+            $catchments = $service['ServiceCatchments'];
+            foreach ( $catchments as $catchment ) 
+            {
+                if( $catchment['CatchmentPostcode'] != 0 )
+                {
+                    $service['sort']['weight'] = 
+                    ( isset($service['sort']['weight']) ? $service['sort']['weight'] + $catcment_w : $catcment_w);
+                }
+            }
+            $matches[$key] = $service;
+        }
+
+        array_multisort(
+            array_map(function($element) {
+                if( isset( $element['sort']['weight'] ) ){                    
+                    return $element['sort']['weight'];
+                } else {
+                    return 0;
+                }
+            }, $matches) 
+        , SORT_DESC, $matches);
+
+        return $matches;
+    }
+
 }

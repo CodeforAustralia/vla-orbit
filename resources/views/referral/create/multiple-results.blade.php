@@ -1,4 +1,3 @@
-
 <?php
   $filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
   $filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );

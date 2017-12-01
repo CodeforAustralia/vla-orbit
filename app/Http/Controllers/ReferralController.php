@@ -140,8 +140,9 @@ class ReferralController extends Controller
             $mt_id   = request('mt_id');
 
             $referral = new Referral();
-            $matches  = $referral->filterByQuestions( $answers, $mt_id );     
-                             
+            $matches  = $referral->filterByQuestions( $answers, $mt_id ); // Match questions
+            $matches  = $referral->sortMatches( $matches );               // Sort matches
+
             if( sizeof($matches) > 0 )
             {
                 return view( 'referral.create.result', compact( 'matches','service_providers' ) );
@@ -152,6 +153,8 @@ class ReferralController extends Controller
             if( $service_qty > 0 )
             {
                 $matches = session('matches');
+                $referral = new Referral();
+                $matches  = $referral->sortMatches( $matches );               // Sort matches
                 return view( 'referral.create.result', compact( 'matches','service_providers' ) );
             }
                
