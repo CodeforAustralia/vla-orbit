@@ -241,6 +241,9 @@ var AppCalendar = function() {
                         element.css('background-color', '#77DD77');
                     }                    
                 },
+                columnFormat: {
+                    week: 'ddd D/M'
+                }
             });
 
             var showBookingDocuments = function (bookingDocuments, BookingRef) 
