@@ -287,6 +287,17 @@ b, optgroup, strong {
   z-index: 1151 !important;
 }
 
+/**
+ * Remove arrows from number inputs
+ */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
 /************ header **********/
 .top-buttons a:first-child{
     margin: 20px 0px 24px 20px;
