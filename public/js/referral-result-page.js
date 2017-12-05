@@ -31,13 +31,13 @@ var filterElements = function (checked_values, filter_arr) {
 		
 	if( checked_values )
 	{
-		var off_values = filter_arr.filter( x => checked_values.indexOf(x) === -1 ); // Substract checked values from filters										
-		off_values.map( (current_value)=> showCard(current_value, false) ); // Hide substracted values
-		checked_values.map( (current_value)=> showCard(current_value, true) );	// Show checked elements
+		var off_values = filter_arr.filter( function(x) { return checked_values.indexOf(x) === -1 }); // Substract checked values from filters										
+		off_values.map( function(current_value) { return showCard(current_value, false) }); // Hide substracted values
+		checked_values.map( function(current_value) { return showCard(current_value, true) });	// Show checked elements
 	}
 	else 
 	{
-		filter_arr.map( (current_value)=> showCard(current_value, true) ); // Show all elements if checked values is null
+		filter_arr.map( function(current_value) { return showCard(current_value, true) }); // Show all elements if checked values is null
 	}
 }
 
