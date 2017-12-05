@@ -445,6 +445,16 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     margin-left: 10px;
 }
 
+.datepicker table tr td.today {
+    border-radius: 15px;
+}
+
+.datepicker table tr td.day:not(.new):not(.today):not(.disabled) {
+    border-radius: 15px;
+    background-color: #26c281;
+}
+
+
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
     cursor: default;
