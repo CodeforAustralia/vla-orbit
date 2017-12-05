@@ -119,7 +119,10 @@ function getServiceDatesByDate( year, month, sv_id )
 function hiddeAvailability()
 {
     $(".availability").addClass("hidden");
-    $("#no-dates-availables").hide().removeClass("hidden").fadeIn();    
+    if( $( "#sp_services" ).val() != "")
+    {
+        $("#no-dates-availables").hide().removeClass("hidden").fadeIn();    
+    }
 }
 
 function showAvailability()
