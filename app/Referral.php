@@ -152,9 +152,9 @@ class Referral
         //eligibility
         $vls = explode(',', session('vls_id') );
 
-        if( !empty( $vls_qty ) )
+        if( !empty( $vls ) )
         {
-            foreach (session('vls_id') as $eligibility) {
+            foreach ($vls as $eligibility) {
                 $referral_answers[] =  [
                                             'Answer' => true,
                                             'QuestionId' => $eligibility,
