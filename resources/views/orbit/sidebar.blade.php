@@ -134,6 +134,14 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="/statistic" class="nav-link">
+                                <i class="fa fa-bar-chart"></i>
+                                <span class="title">Statistics</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="/user" class="nav-link">
                                 <i class="fa fa-users"></i>
                                 <span class="title">Users</span>
