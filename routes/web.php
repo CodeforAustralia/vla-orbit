@@ -282,3 +282,9 @@ Route::get('/sms_template/new', 'SmsTemplateController@create');
 Route::get('/sms_template/list', 'SmsTemplateController@list');
 
 Route::post('/sms_template', 'SmsTemplateController@store');
+
+//Statistics
+
+Route::get('/statistic', 'StatisticController@index');
+
+Route::get('/statistic/list', 'StatisticController@listStatistics');
