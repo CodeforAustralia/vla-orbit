@@ -101,6 +101,7 @@ class Referral
         $referral['RefNo']     = 0;
         $referral['SentEmail'] = 0;
         $referral['SentMobile'] = 0;
+        $referral['ReferralAnswers'] = self::getAnswersFromSession();
 
         $services = session('matches');
         $service = $services[ $referral['ServiceId'] ];
@@ -143,6 +144,40 @@ class Referral
         {            
             return array( 'success' => 'error' , 'message' =>  $e->getMessage(), 'data' => $referral );       
         }
+    }
+
+    public function getAnswersFromSession()
+    {
+        $referral_answers = [];
+        //eligibility
+        $vls = explode(',', session('vls_id') );
+
+        if( !empty( $vls_qty ) )
+        {
+            foreach (session('vls_id') as $eligibility) {
+                $referral_answers[] =  [
+                                            'Answer' => true,
+                                            'QuestionId' => $eligibility,
+                                            'RefNo' => 0 ,
+                                            'ReferrelId' => 0
+                                        ];  
+            }
+        }
+
+        //questions
+        $answers = sizeof( session('answers') );
+        if( $answers > 0 )
+        {
+            foreach (session('answers') as $answer_id => $answer) {
+                $referral_answers[] = [
+                                        'Answer' => $answer,
+                                        'QuestionId' => $answer_id,
+                                        'RefNo' => 0 ,
+                                        'ReferrelId' => 0
+                                    ];  
+            }
+        }
+        return $referral_answers;
     }
 
     public function getServicesByCatchmentId( $ca_id, $mt_id )

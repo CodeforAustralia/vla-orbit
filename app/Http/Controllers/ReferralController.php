@@ -136,6 +136,7 @@ class ReferralController extends Controller
 
         if( $request->has('answers')  ) 
         {
+            session( ['answers' => request('answers')] );
             $answers = request('answers');
             $mt_id   = request('mt_id');
 
