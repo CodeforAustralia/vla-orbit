@@ -95,6 +95,12 @@
             <!--Start of HotJar to Script-->
             <script src="/js/hotjar.js" type="text/javascript"></script>
             <!--End of HotJar to Script-->
+
+            <!--Start of Survey Monkey Script-->
+            @if( isset($referrals_made) && $referrals_made > 5)
+            <script src="/js/survey-monkey.js" type="text/javascript"></script>
+            @endif
+            <!--End of Survey Monkey Script-->
             
             <!-- include summernote js-->
             <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
