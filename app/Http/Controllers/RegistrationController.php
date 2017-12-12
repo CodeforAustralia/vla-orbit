@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Report;
 use App\Role;
 use App\User;
@@ -12,16 +14,16 @@ class RegistrationController extends Controller
 {
 
     public function __construct()
-    {        
-        
+    {   
         //$this->middleware('auth')->except(['create','show']);
         $this->middleware('guest', ['except' => ['index']]);
                 
     }
-
     
     public function index()
     {           
+        $user = Auth::user();
+
         $financial_year = date("Y");
         $last_monday =  date('Y-m-d',time()+( 1 - date('w'))*24*3600);
         $today = date('Y-m-d');
@@ -33,8 +35,18 @@ class RegistrationController extends Controller
         $stats_month    = $report_obj->getDashboadStats( $month );
         $stats_week     = $report_obj->getDashboadStats( $last_monday );
 
+        $referrals_made = 0;
+        if( isset($user->id) )
+        {
+            $referrals_made = DB::table('logs')
+                                ->where([
+                                            ['object_type', 'referral'],
+                                            ['user_id', $user->id]
+                                        ])
+                                ->count();        
+        }
         
-        return view("orbit.index", compact( 'stats', 'stats_today', 'stats_month', 'stats_week' ));
+        return view("orbit.index", compact( 'stats', 'stats_today', 'stats_month', 'stats_week', 'referrals_made' ));
     }
     
     public function create()
