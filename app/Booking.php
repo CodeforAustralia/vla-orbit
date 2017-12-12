@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\Mail;
+use App\Log;
 use App\Mail\BookingEmail;
 use App\Mail\BookingSms;
 use App\SentSms;
@@ -289,6 +290,10 @@ Class Booking
         $reservation = self::createBookingService( $booking );
 
         self::notifyBooking( $booking, $client_details, $service_provider, $service_name );
+        $reservation_details = json_decode( $reservation );
+
+        $log = new Log();
+        $log::record('CREATE', 'booking', $reservation_details->id, $booking);
         
         return [ 'cient' => $client, 'reservation' => $reservation ];
     }
@@ -307,6 +312,9 @@ Class Booking
 
         $result = $client->UpdateBooking( $info )->UpdateBookingResult;
         
+        $log = new Log();
+        $log::record('UPDATE', 'booking', $booking_ref, $info);
+
         return $result;
     }
 
@@ -318,6 +326,9 @@ Class Booking
     	$info = 	[ 'ObjectInstance'=> $booking ];        
         $result = $client->SaveOrbitLocalBooking( $info )->SaveOrbitLocalBookingResult;
         
+        $log = new Log();
+        $log::record('UPDATE', 'booking', $booking->BookingRef, $booking);
+
     	return $result;
     }
 
@@ -338,6 +349,10 @@ Class Booking
         	$result = $client->DeleteBooking( $info );
             if($result->DeleteBookingResult){
             	$cancelation = json_decode($result->DeleteBookingResult, true );
+
+                $log = new Log();
+                $log::record('DELETE', 'booking', $booking_id, $info);
+
                 return array( 'success' => 'success' , 'message' => $cancelation['id'] . ' - ' . $cancelation['full_describe'] );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
