@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\Mail;
+use App\Log;
 use App\Mail\ReferralEmail;
 use App\Mail\ReferralSms;
 use App\Vulnerability;
@@ -134,6 +135,10 @@ class Referral
                 {                        
                     Mail::to( $referral['Mobile'] . "@e2s.pcsms.com.au"  )->send( new ReferralSms( $service ) );
                 }
+
+                $log = new Log();
+                $log::record('CREATE', 'referral', $service['RefNo'], $referral);
+
                 return array( 'success' => 'success' , 'message' => 'Service saved.', 'data' => $response->SaveReferralResult );
             } 
             else {
