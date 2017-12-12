@@ -160,12 +160,16 @@ class Referral
         if( !empty( $vls ) )
         {
             foreach ($vls as $eligibility) {
-                $referral_answers[] =  [
+                if(  $eligibility != '' )
+                {
+                    $referral_answers[] =  [
                                             'Answer' => true,
                                             'QuestionId' => $eligibility,
                                             'RefNo' => 0 ,
                                             'ReferrelId' => 0
                                         ];  
+                }
+                    
             }
         }
 
