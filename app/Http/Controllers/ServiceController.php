@@ -73,7 +73,7 @@ class ServiceController extends Controller
             }
        	
         } else {
-        	return redirect('/service')->with( $response['success'], $response['message'] );
+        	return redirect('/service')->with( $result['success'], $result['message'] );
         }        
     }
     
