@@ -96,6 +96,7 @@ class ServiceController extends Controller
                             'ServiceTypeId'  => request('service_type_id'),
                             'OpenningHrs'    => request('OpenningHrs'),
                             'Status'         => ( request('Status') == 'on' ? 1 : 0 ),
+                            'Specialist'     => false,
                             );
         
         $service = new Service();
