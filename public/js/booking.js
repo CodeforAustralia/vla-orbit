@@ -1,4 +1,5 @@
 var services = [];
+var services_by_sp_obj = [];
 var current_date = new Date();
 var current_month = current_date.getMonth() + 1;
 var current_year = current_date.getFullYear();
@@ -58,8 +59,8 @@ function getBookingsByService(booking_id)
                     {
                         var day =  ('0'+ e.date.getDate()).slice(-2);
                         var month = ('0'+ (e.date.getMonth() + 1) ).slice(-2);
-                        var year = e.date.getFullYear();
-                        showTimes(day, month, year);     
+                        var year = e.date.getFullYear();                        
+                        showTimes(day, month, year, current_service);     
                     }
                 })
                 .on('changeMonth', function(e){
@@ -143,7 +144,18 @@ function hideLoading()
     $("#loading").addClass("hidden");
 }
 
-function showTimes(day, month, year)
+function getServiceByBookingId( services, booking_id )
+{
+    for (index = 0; index < services.length; ++index) {
+        if( booking_id == services[index].BookingServiceId || booking_id == services[index].BookingInterpritterServiceId )
+        {
+            return { length: services[index].BookingServiceLength, lengthInt: services[index].BookingInternalServiceLength };
+        }
+    }
+    return { length: 0, lengthInt: 0 };
+}
+
+function showTimes(day, month, year, current_service)
 {
     var current_date = year + '-' + month + '-' + day;
     for (index = 0; index < services._embedded.events.length; ++index) {
@@ -157,10 +169,12 @@ function showTimes(day, month, year)
 
     $("#time-options").html('');
 
-    var duration_slot = 30;
+    var durations_by_service = getServiceByBookingId( services_by_sp_obj, current_service );
+    var duration_slot = durations_by_service.length;
+    
     if( $("#Language" ).val() != '' ) // Requires interpreter
     {
-        var duration_slot = 60;
+        var duration_slot = durations_by_service.lengthInt;
     }
 
     for (index = 0; index < times.length; ++index) {
@@ -187,6 +201,7 @@ function getServicesBySP(sp_id){
       url: "/service/list_services_sp/" + sp_id
     })
       .done(function( services_by_sp ) {
+        services_by_sp_obj = services_by_sp;        
         $("#sp_services").html('<option> </option>');
         for (index = 0; index < services_by_sp.length; ++index) {
             booking_id = services_by_sp[index].BookingServiceId;
