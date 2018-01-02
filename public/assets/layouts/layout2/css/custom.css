@@ -449,7 +449,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     border-radius: 15px;
 }
 
-.datepicker table tr td.day:not(.new):not(.today):not(.disabled) {
+.datepicker table tr td.day:not(.new):not(.today):not(.disabled):not(.old) {
     border-radius: 15px;
     background-color: #26c281;
 }
