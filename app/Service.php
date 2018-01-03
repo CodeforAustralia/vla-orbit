@@ -103,6 +103,10 @@ Class Service
                 $sp_services[] = $service;
             }
         }
+
+        //Sort by key on a multidimentional array
+        usort($sp_services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+
         return $sp_services;
     }
 }
