@@ -521,7 +521,13 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 }
 
 .card-body-info .description p {
-    margin: 0px;
+    margin: 0 0 6px 0;
+}
+
+.card-body-info .description p[style],ul[style] {    
+    font-family: "Open Sans",sans-serif !important;
+    font-size: 14px !important;
+    color: #333 !important;
 }
 
 .book-button, .refer-button{
