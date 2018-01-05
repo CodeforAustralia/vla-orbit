@@ -111,6 +111,17 @@
 
                 <div class="portlet-body">
                     <div class="note note-info">
+                        <h4 class="block bold font-grey-mint">Legal Help users!</h4>
+                        <p> Bookings can now be made for <b>CRIMINAL LAW APPOINTMENTS</b> at these offices:</p>
+                        <br>
+                        <ul>
+                            <li>Ringwood</li>
+                            <li>Sunshine</li>
+                            <li>CLM (summary crime)</li>
+                        </ul>
+                        <p>You can book clients in using the 'new booking' button on the top menu.</p>
+                    </div>
+                    <div class="note note-info">
                         <h4 class="block bold font-grey-mint">Announcements</h4>
                         <p> Thanks for using Orbit. We are currently testing the service and need to know what is working, what isn't and if something is missing. Please send any feedback to <a href="mailto:orbitteam@vla.vic.gov.au">orbitteam@vla.vic.gov.au</a> or use the chat tool. </p>
                         <br>
@@ -120,7 +131,7 @@
                         <h4 class="block bold font-grey-mint">Finding the right legal matter</h4>
                         <p> To help you select the right legal matter, we're including a list of alternative search terms (for example, typing 'custody' will take you to 'Parenting disputes > Living arrangements').</p>
                         <br>
-                        <p>This feature is coming soon. But for now, it might help to have a look at the taxonomy and the list of alternative search terms  <a href="https://docs.google.com/spreadsheets/d/1L-pg_KxX9WP29CsE--3OvgyFE8BjL7CmgPBFHBw4-KM/" target="_blank">here</a>. </p>
+                        <p>This feature is <b>now available</b>. If you want to have a look at the taxonomy and the list of available search terms just click <a href="https://docs.google.com/spreadsheets/d/1L-pg_KxX9WP29CsE--3OvgyFE8BjL7CmgPBFHBw4-KM/" target="_blank">here</a>. </p>
                     </div>
                     <div class="note note-info">
                         <h4 class="block bold font-grey-mint">Non-Legal Referrals</h4>
