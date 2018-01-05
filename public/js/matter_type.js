@@ -834,15 +834,25 @@ var TableDatatablesAjax = function () {
                                 //sent dates or status
                                 return sentDatesStr;
                             }
-                        }/*,
+                        },
                         {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return getButtons('booking', data.BookingRef, data) ;                                
+                                if(data.Mobile != '')
+                                {
+                                    //return '<a href="#" class="btn btn-xs green remind-booking" id="'+ data.Mobile +'">Send Reminder</a>' ;
+                                    var action_buttons = "";
+                                    action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+                                    action_buttons += '<button class="btn btn-xs green remind-booking" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
+                                    return action_buttons;
+                                } else
+                                {
+                                    return '';
+                                }
                             }
-                        }*/
+                        }
                 ],
 
             }

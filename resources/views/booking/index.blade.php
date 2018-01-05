@@ -210,7 +210,7 @@
                             <th width="10%"> Email </th>
                             <th width="10%"> Phone </th>
                             <th width="10%"> Sent SMS </th>
-                            <!-- <th width="10%"> </th> -->
+                            <th width="10%"> </th>
                         </tr>
                     </thead>
                     <tbody> </tbody>

@@ -1,4 +1,5 @@
 var currentEventInCalendar = [];
+var EventsInCalendar = [];
 
 var AppCalendar = function() {
 
@@ -131,8 +132,9 @@ var AppCalendar = function() {
                         alert('there was an error while fetching events!');
                         $("#contentLoading").modal('hide');
                     },
-                    success: function () {
+                    success: function (data) {
                         $("#contentLoading").modal('hide');
+                        EventsInCalendar = data;
                     }
                 }],
                 eventClick: function(calEvent, jsEvent, view) {
