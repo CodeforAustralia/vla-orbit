@@ -87,6 +87,8 @@
             <!-- END SELECT2 LAYOUT SCRIPTS -->            
             <!-- BEGIN multiselect PLUGIN -->
             <script src="/assets/global/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js" type="text/javascript"></script>
+            <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+            <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
             <!-- END multiselect PLUGIN -->
             <!--Start of Tawk.to Script-->
             <script src="/js/tawk.js" type="text/javascript"></script>

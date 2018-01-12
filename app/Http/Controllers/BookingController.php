@@ -66,50 +66,73 @@ class BookingController extends Controller
     }
 
     public function store()
-    {           
-        $service_name = request('ServiceName');
-        $client_details = request('client');
-        $client_details['ClientEmail']  = ( !isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ? '' : $client_details['ClientEmail'] );
-        $client_details['Mobile']       = ( !isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ? '' : $client_details['Mobile'] );
-        $service_time = explode( 'T', request('serviceTime') );
-        $serviceId = explode( '-', request('ServiceId') );
-        $booking = [
-                        'Date' => $service_time[0],
-                        'Time' => $service_time[1],
-                        'ServiceId' => (is_null( request('Language') ) ? $serviceId[0] : $serviceId[1] ),
-                        'Desc'      => (is_null( request('Desc') ) ? '' : request('Desc') ),
-                        'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
-                        'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
-                        'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
-                    ];
-        
-
-        $sp_id = request('service_provider_id');
-        $service_providers_obj   = new ServiceProvider();
-        $service_provider_result = $service_providers_obj->getServiceProviderByID( $sp_id );
-        $service_provider = json_decode( $service_provider_result['data'] )[0];
-
-        $booking_obj = new Booking(); 
-        $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );        
-
-        $reservation_details = json_decode( $reservation['reservation'] );
-
-        //Upload attached files
-        $files = request('files');
-        if( !empty( $files ) )
+    {
+        $booking_obj = new Booking();
+        $request_type = request('request_type');
+        if( $request_type == 'direct_booking' ) //Booking Bug integration
         {
-            $booking_document = new BookingDocument();
-            foreach ($files as $file) 
-            {                
-                $fileName = $file->getClientOriginalName();
-                $file->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
-                //Get booking refer from clients name 
-                $clientBokingRefNo = explode(' ',  $reservation_details->client_name );
-                $booking_document->saveBookingDocument( $fileName , $clientBokingRefNo [0] );
-            }
-        }     
+            $service_name = request('ServiceName');
+            $client_details = request('client');
+            $client_details['ClientEmail']  = ( 
+            									!isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ? 
+            										'' : 
+            										$client_details['ClientEmail'] 
+            								  );
+            $client_details['Mobile']       = ( 
+            									!isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ? 
+            										'' :
+            										str_replace(" ", "", $client_details['Mobile']) 
+            								  );
+            $service_time = explode( 'T', request('serviceTime') );
+            $serviceId = explode( '-', request('ServiceId') );
+            $booking = [
+                            'Date' => $service_time[0],
+                            'Time' => $service_time[1],
+                            'ServiceId' => (is_null( request('Language') ) ? $serviceId[0] : $serviceId[1] ),
+                            'Desc'      => (is_null( request('Desc') ) ? '' : request('Desc') ),
+                            'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
+                            'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
+                            'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
+                            'IsComplex' => true,
+                        ];
+            
 
-        return redirect('/booking')->with('success', 'Booking saved.');
+            $sp_id = request('service_provider_id');
+            $service_providers_obj   = new ServiceProvider();
+            $service_provider_result = $service_providers_obj->getServiceProviderByID( $sp_id );
+            $service_provider = json_decode( $service_provider_result['data'] )[0];
+            
+            $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );        
+
+            $reservation_details = json_decode( $reservation['reservation'] );
+
+            //Upload attached files
+            $files = request('files');
+            if( !empty( $files ) )
+            {
+                $booking_document = new BookingDocument();
+                foreach ($files as $file) 
+                {                
+                    $fileName = $file->getClientOriginalName();
+                    $file->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
+                    //Get booking refer from clients name 
+                    $clientBokingRefNo = explode(' ',  $reservation_details->client_name );
+                    $booking_document->saveBookingDocument( $fileName , $clientBokingRefNo [0] );
+                }
+            }     
+
+            return redirect('/booking')->with('success', 'Booking saved.');
+        } else {
+            $response = $booking_obj->requestBooking( request()->all() );
+            if( $response )
+            {
+                return redirect('/booking')->with('success', 'e-Referral sent.');
+            }
+            else
+            {
+                return redirect('/booking')->with('error', 'Email not set in service, please contact an administrator.');
+            }
+        }
     }
 
     public function list()

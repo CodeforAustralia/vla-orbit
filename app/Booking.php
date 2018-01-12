@@ -4,6 +4,7 @@ namespace App;
 use Illuminate\Support\Facades\Mail;
 use App\Log;
 use App\Mail\BookingEmail;
+use App\Mail\BookingRequestEmail;
 use App\Mail\BookingSms;
 use App\SentSms;
 use App\Service;
@@ -401,5 +402,52 @@ Class Booking
 
             Mail::to( $sp_email )->send( new BookingEmail( $args ) );
         }       
+    }
+
+    public function requestBooking( $booking_request )
+    {
+        $sv_id = explode('-',$booking_request['ServiceId'])[2];
+        
+        $service_obj = new Service();        
+        $service = json_decode( $service_obj->getServiceByID($sv_id)['data'] )[0];
+        
+        if( isset($service->Email) && $service->Email != '' )
+        {
+            $sp_email = $service->Email;            
+            switch ( $booking_request["request_type"] ) 
+            {
+                case 'appointment_request':
+                    $booking_request['subject'] = 'Appointment request - ';                    
+                    break;
+                
+                case 'for_assessment':
+                    $booking_request['subject'] =  'For Assessment - ';               
+                    break;
+                
+                case 'phone_advice':
+                    $booking_request['subject'] = 'Phone advice - ' ;
+                    break;
+
+                case 'duty_layer':                
+                    $booking_request['subject'] = 'Duty Lawyer - ';
+                    break;
+            }
+
+            $booking_request['subject'] .=  $booking_request['ServiceProviderName'] . ', ' . 
+                                            $booking_request['ServiceName'] . ': ' . 
+                                            $booking_request['client']['LastName'] . ', ' . 
+                                            $booking_request['client']['FirstName'] . ' - ' . 
+                                            (   
+                                                isset($booking_request['client']['Mobile']) ? 
+                                                $booking_request['client']['Mobile'] : ''
+                                            );
+                    
+            Mail::to( $sp_email )->send( new BookingRequestEmail( $booking_request ) );
+            return true;
+        } 
+        else
+        {
+            return false;
+        }
     }
 }

@@ -1,8 +1,4 @@
-<?php
-    $sp_arr = [119, 121, 106, 47, 95, 124, 98];
-    array_push($sp_arr, \App\Http\helpers::getUSerServiceProviderId() );
-?>
-<form role="form" method="POST" action="/booking" enctype="multipart/form-data">
+<form role="form" method="POST" action="/booking" enctype="multipart/form-data" id="bookingForm">
 
     {{ csrf_field() }}
 
@@ -15,17 +11,18 @@
                     <label>Service Provider:</label>
                 </div>
                 <div class="col-xs-8">
-                    <select class="form-control" id="service_provider_id" name="service_provider_id">                                
+                    <select class="form-control" id="service_provider_id" name="service_provider_id" required>                                
                         <option selected=""> </option>
                         
                         @foreach($service_providers as $service_provider)
-                            @if( in_array( $service_provider['ServiceProviderId'], $sp_arr ) )
+                            @if( $service_provider['ServiceProviderTypeName'] == 'VLA' )
                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
                             @endif
                         @endforeach
                     </select>
                 </div>
             </div>
+            <input type="text" class="form-control input-large hidden" id="ServiceProviderName" name="ServiceProviderName"> 
         </div>
     </div>
 
@@ -52,7 +49,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-8 padding-bottom-10">
-                    <label>Interpreter Service:</label>
+                    <label>Interpreter:</label> <small>If required choose from list</small>
                     <select class="form-control" id="Language" name="Language">    
                         @include( 'booking.language' )
                     </select>                    
@@ -61,9 +58,25 @@
         </div>
     </div>
 
-    <hr>  
-    <h4 class="padding-top-10 padding-bottom-10">Appointment</h4>    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-8 padding-bottom-10">
+                    <label>Form Type:</label> <small>Select the appropriate e-referral template, or book the client directly (if available)</small>
+                    <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Direct bookings: please consider practical considerations. What service could the appointment provide that a duty lawyer can’t? Is the client far away from the service? Is the court date close to the date of the next available appointment? Have they got the charge sheet and brief? Advise them to bring this and any other supporting documents to the appointment"></i>
 
+                    <select class="form-control" id="request_type" name="request_type">                                                    
+                        <option value="direct_booking" id="direct_booking">Direct Booking</option>
+                        <option value="appointment_request">Appointment Request</option>
+                        <option value="for_assessment">For Assessment</option>
+                        <option value="phone_advice">Phone Advice</option>
+                        <option value="duty_layer">Duty Lawyer</option>
+                    </select>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
     @include ('booking.book-button')                    
     
     <hr>
@@ -158,7 +171,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-10">
                     <label>Description:</label>
-                    <textarea class="form-control" rows="5" class="form-control" id="Desc" placeholder="Client requirements, special needs, difficulties experienced with client, time limits, instructions for contact or any other information that may be useful for the service provider to know beforehand." name="Desc" required></textarea>
+                    <textarea rows="5" class="form-control" id="Desc" placeholder="Client requirements, special needs, difficulties experienced with client, time limits, instructions for contact or any other information that may be useful for the service provider to know beforehand." name="Desc" required></textarea>
                 </div>
             </div>
         </div>
@@ -168,7 +181,7 @@
 
     <div class="row">
         <div class="col-xs-12 padding-top-10 padding-bottom-20">
-            <button type="submit" class="btn green-jungle btn-block btn-lg">Make Booking</button>
+            <button type="submit" class="btn green-jungle btn-block btn-lg" id="submit-booking">Make Booking</button>
         </div>
     </div>
 </form>

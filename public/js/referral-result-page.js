@@ -84,6 +84,8 @@ var openBooking = function ()
     $('#service_provider_id').attr("disabled", "disabled");
     $('#service_provider_id option[value="' + sp_id + '"]').prop("selected", "selected").change();
     $('#sp_services').attr("disabled", "disabled");
+    $('#request_type').attr("disabled", "disabled");
+    $('#booking-date').attr("required");
 
     $(".booking-area").addClass("hidden");      
     setTimeout(function(){
@@ -203,15 +205,6 @@ var sendToClient = function () {
       swal( "Alert", "Please provide an Email and/or a mobile number.", "warning" );
     }
 
-  });
-}();
-
-var submitForm = function () 
-{  
-  $('form').submit(function(e) {
-      $(':disabled').each(function(e) {
-          $(this).removeAttr('disabled');
-      })
   });
 }();
 

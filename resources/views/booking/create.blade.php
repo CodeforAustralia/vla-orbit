@@ -7,7 +7,7 @@
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-green sbold"><i class="icon-question font-green"></i>&nbsp; New Booking</span>
+                    <span class="caption-subject font-green sbold"><i class="icon-question font-green"></i>&nbsp; New Booking / Intake</span>
                 </div>
             </div>
             <div class="portlet-body form">
@@ -78,14 +78,4 @@
 
 
 @section('inline-scripts')
-
-    $('#Desc').summernote({
-        toolbar: [
-            // [groupName, [list of button]]
-            ['style', ['bold', 'italic', 'underline']],
-            ['para', ['ul', 'ol', 'paragraph']],          
-            ['link', ['linkDialogShow', 'unlink']]          
-        ]
-    });
-
 @endsection

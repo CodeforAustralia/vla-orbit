@@ -26,20 +26,37 @@ function service_change()
         var booking_id = $( "#sp_services" ).val().split('-')[0];
         var booking_interpreter_id = $( "#sp_services" ).val().split('-')[1];
         
-        //Clean times options
-        $("#time-options").html('');
-        $("#booking-date").val('')
+        if( booking_id !== '' || booking_interpreter_id !== '' ) //Direct booking is available
+        {
+            $("#direct_booking").show();
+            document.getElementById("request_type").selectedIndex = 0;
+            $("#direct_booking").trigger('change');
 
-        if( $("#Language" ).val() != '' ) // Requires interpreter
-        {
-            getBookingsByService( booking_interpreter_id );
-        } 
-        else // Do not requires interpreter
-        {
-            getBookingsByService(booking_id); 
+            //Clean times options
+            $("#time-options").html('');
+            $("#booking-date").val('');
+
+            if( $("#Language" ).val() != '' ) // Requires interpreter
+            {
+                getBookingsByService( booking_interpreter_id );
+            } 
+            else // Do not requires interpreter
+            {
+                getBookingsByService(booking_id); 
+            }
+        }
+        else // Alternative bookings
+        {            
+            document.getElementById("request_type").selectedIndex = 1;
+            $("#direct_booking").trigger('change');
+
+            $("#direct_booking").hide();
+            $(".availability").addClass("hidden");
         }
 
         $("#ServiceName").val( $("#sp_services option:selected").text() );
+        $("#ServiceProviderName").val( $("#service_provider_id option:selected").text() );
+            
     });
 
 }
@@ -204,20 +221,18 @@ function getServicesBySP(sp_id){
         services_by_sp_obj = services_by_sp;        
         $("#sp_services").html('<option> </option>');
         for (index = 0; index < services_by_sp.length; ++index) {
+            service_id = services_by_sp[index].ServiceId;
             booking_id = services_by_sp[index].BookingServiceId;
             booking_interpreter_id = services_by_sp[index].BookingInterpritterServiceId;
             service_name = services_by_sp[index].ServiceName;
-            if( booking_id != '' || booking_interpreter_id != '')
-            {
-                var option = '<option value="' + booking_id + '-' + booking_interpreter_id + '"> ' + service_name + ' </option>';
-                //var option = '<option value="' + booking_id + '"> ' + service_name + ' </option>';
-                $("#sp_services").append(option);
-            }
+
+            var option = '<option value="' + booking_id + '-' + booking_interpreter_id + '-' + service_id + ' "> ' + service_name + ' </option>';            
+            $("#sp_services").append(option);
         }        
         if( $("#sp_services option")[0] )
         {
             var booking_id = $( $("#sp_services option")[0] ).val();
-            getBookingsByService(booking_id);  
+            getBookingsByService(booking_id);
         } else {
             hiddeAvailability();
         }
@@ -245,4 +260,120 @@ function checkSecureContact()
             $( "#mobile" ).prop('disabled', false);
         }
     });
+}
+
+var enableSummernote = function () 
+{  
+  $('#Desc').summernote({
+      toolbar: [
+          // [groupName, [list of button]]
+          ['style', ['bold', 'italic', 'underline']],
+          ['para', ['ul', 'ol', 'paragraph']],          
+          ['link', ['linkDialogShow', 'unlink']]          
+      ]
+  });
+}();
+
+var changeRequestType = function()
+{
+    $("#request_type").on("change", function() 
+    {
+        var template = '';
+        hide_direct_booking_elements();            
+        setSubmitButtonText('is_request');
+        if( this.value === 'appointment_request' )
+        {
+            template += 'Safe to SMS? <br><br>';
+            template += 'Safe to call? <br><br>';
+            template += 'Safe to leave a message? <br><br>';
+            template += 'Any unavailable times or instructions re contact? <br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';
+        }
+        else if ( this.value === 'for_assessment' ) 
+        {
+            template += 'Safe to SMS? <br><br>';
+            template += 'Safe to call? <br><br>';
+            template += 'Safe to leave a message? <br><br>';
+            template += 'Any unavailable times or instructions re contact? <br><br>';
+
+            template += 'Suburb/town of caller: <br> <br>';            
+            template += 'Date of birth: <br> <br>';
+            template += 'Client ID (if known): <br> <br>';            
+            template += 'Brief outline of matter: <br><br><br>';
+            template += 'Notes (special needs, urgency, time limits, tribunal/court hearing dates and location if the caller is in custody/detention):<br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';
+        } 
+        else if ( this.value === 'phone_advice' ) 
+        {
+            template += 'Safe to SMS? <br><br>';
+            template += 'Safe to call? <br><br>';
+            template += 'Safe to leave a message? <br><br>';
+            template += 'Any unavailable times or instructions re contact? <br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';
+        }        
+        else if ( this.value === 'duty_layer' ) 
+        {
+            template += 'Safe to SMS? <br><br>';
+            template += 'Safe to call? <br><br>';
+            template += 'Safe to leave a message? <br><br>';
+            template += 'Any unavailable times or instructions re contact? <br><br>';
+            template += 'Upcoming court date: <br><br>';
+            template += 'Court location: <br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';    
+        } 
+        else if ( this.value === 'direct_booking' ) 
+        {
+            show_direct_booking_elements();
+            setSubmitButtonText( 'direct' );
+        } 
+        $('#Desc').summernote('code', template);
+    });
+}();
+
+var hide_direct_booking_elements = function()
+{
+    $('.attached-files').hide();
+    $('.booking-area').hide();
+};
+
+var show_direct_booking_elements = function()
+{
+    $('.attached-files').show();
+    $('.booking-area').show();
+};
+
+var form_validate = function()
+{
+    $("#bookingForm").validate({       
+       
+        ignore:":not(:visible)",
+
+        submitHandler: function(form, event) 
+        {
+          event.preventDefault();
+          removeDisabledAttribute();
+          
+          form.submit();
+        }
+    });
+}();
+
+
+var removeDisabledAttribute = function ()
+{
+    $(':disabled').each(function(event) 
+    {
+        $(this).removeAttr('disabled');
+    });
+
+}
+
+var setSubmitButtonText = function ( type )
+{
+    var message = "Make booking";
+    if( type === 'is_request' )
+    {
+        message = "Send e-Referral";
+    }
+    $('#submit-booking').text(message);
 }

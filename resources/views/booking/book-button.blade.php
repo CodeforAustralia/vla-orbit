@@ -1,10 +1,12 @@
 <div class="booking-area">
+    <hr>  
+    <h4 class="padding-top-10 padding-bottom-10">Appointment</h4>
     <div class="row availability hidden">
         <div class="col-xs-12 padding-bottom-20">
             <div class="form-group">
                 <div class="col-xs-12">
                     <label>Date:</label>                
-                    <input type="text" class="form-control input-medium" id="booking-date" required>
+                    <input type="text" class="form-control input-medium" id="booking-date" name="booking-date" required>
                 </div>
             </div>
         </div>

@@ -287,6 +287,11 @@ b, optgroup, strong {
   z-index: 1151 !important;
 }
 
+.error{
+    color: red;
+    font-size: 12px;
+}
+
 /**
  * Remove arrows from number inputs
  */
