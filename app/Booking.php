@@ -442,6 +442,8 @@ Class Booking
                                                 $booking_request['client']['Mobile'] : ''
                                             );
                     
+            $log = new Log();
+            $log::record('CREATE', 'booking_request', 0, $booking_request);
             Mail::to( $sp_email )->send( new BookingRequestEmail( $booking_request ) );
             return true;
         } 
