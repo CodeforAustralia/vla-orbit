@@ -50,6 +50,7 @@ class BookingRequestEmail extends Mailable
         }
         
         return $this->from( auth()->user()->email )
+                    ->bcc( config('emails.booking_request_bcc') )
                     ->subject( $this->args['subject'] )
                     ->markdown($view_path)
                     ->with($this->args);
