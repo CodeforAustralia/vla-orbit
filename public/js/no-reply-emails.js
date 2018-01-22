@@ -32,17 +32,18 @@ var noReplyEmails = function()
             } 
         });
 	}
-/*
+
 	var form_validate = function()
 	{
 	    $("#nre_form").validate({ 
 	        submitHandler: function(form, event) 
-	        {	          
-	          form.submit();
+	        {
+	        	event.preventDefault();
+	        	form.submit();
 	        }
 	    });
 	};
-*/ 
+ 
 	var onChangeTemplate = function()
 	{
 		$('#template_id').on("change",function() {
@@ -60,7 +61,7 @@ var noReplyEmails = function()
         {
         	enableSummernote();
         	onChangeTemplate();
-        	///form_validate();
+        	form_validate();
         }
 
     }
