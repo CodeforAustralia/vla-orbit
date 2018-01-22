@@ -13,8 +13,8 @@
                     <div class="form-group ">
                         <label class="col-md-3 control-label">Template:</label>
                         <div class="col-md-4">
-                            <select class="form-control" id="template_id" name="template_id">
-                                <option> - Select from list - </option>
+                            <select class="form-control" id="template_id" name="template_id" required>
+                                <option value=""> - Select from list - </option>
                                 @foreach( $templates as $template)
                                 <option value="{{ $template['RefNo'] }}"> {{ $template['Name'] }} </option>
                                 @endforeach
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">To:</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="to" name="to"  value="" placeholder="Client email" required>
+                            <input type="email" class="form-control" id="to" name="to"  value="" placeholder="Client email" required>
                         </div>
                     </div>
 

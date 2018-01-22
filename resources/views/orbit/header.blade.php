@@ -80,7 +80,7 @@
                         <a href="/booking/new" class="btn btn-sm btn-default main-green ">
                             New Booking / Intake
                         </a>
-                        <a href="https://noreply.vla.vic.gov.au/" target="_blank" class="btn btn-sm btn-default main-green ">
+                        <a href="/no_reply_emails/new" class="btn btn-sm btn-default main-green ">
                             No Reply Emails
                         </a>
                         @endif

@@ -5,7 +5,7 @@
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
-            <form method="POST" action="/no_reply_emails/templates" class="form-horizontal" id="nre_template_form">
+            <form method="POST" action="/no_reply_emails/templates" class="form-horizontal nre_template_form" id="nre_template_form">
                 {{ csrf_field() }}
                 <div class="form-body">
 
@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Make template available for everyone?:</label>
                         <div class="col-md-4">
-                            <input type="checkbox" id="all" name="all" {{ ( isset($template['Section']) && $template['Section'] == 'All' ? 'checked' : '' ) }}>
+                            <input type="checkbox" class="checkbox_all" id="all" name="all" {{ ( isset($template['Section']) && $template['Section'] == 'All' ? 'checked' : '' ) }}>
                         </div>
                     </div>
                     

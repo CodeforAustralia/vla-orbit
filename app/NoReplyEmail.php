@@ -1,8 +1,11 @@
 <?php
 namespace App;
 
+use Illuminate\Support\Facades\Mail;
+
 use Auth;
 use App\ServiceProvider;
+use App\Mail\NoReplyEmailMailable;
 
 class NoReplyEmail
 {
@@ -121,10 +124,12 @@ class NoReplyEmail
 
 	       	$prefix = '<p><span style="font-family:Arial,Helvetica,sans-serif"><em><em>This email was sent by Orbit to</em> ' . $email_data['to'] .  ' </em></span></p><p><span style="font-family:Arial,Helvetica,sans-serif"><em>Please do not reply to this email.</em>&nbsp;</span></p><hr>';
 
+	       	$email_data['message'] = $prefix . $email_data['message'];
+
 			$info = [
 						'MessageObject' => [
 												'Attachments' 	=> $attachments,
-												'Body' 			=> $prefix . $email_data['message'],
+												'Body' 			=> $email_data['message'],
 												'Deliverd' 		=> 1,
 												'Error' 		=> 0,
 												'FromAddress' 	=> 'noreply@vla.vic.gov.au',
@@ -139,7 +144,7 @@ class NoReplyEmail
 					];
 			
 			$response = $this->client->SendEmailasJSON($info);
-			
+			Mail::to( auth()->user()->email )->send( new NoReplyEmailMailable( $email_data ) );
 			//return json_decode( $response->SendEmailasJSONResult, true );
 			return array( 'success' => 'success' , 'message' => 'The email was sent.' );
 		} 
