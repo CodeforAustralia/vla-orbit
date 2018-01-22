@@ -1102,6 +1102,121 @@ var TableDatatablesAjax = function () {
             }
         });
     }
+
+    var handleNreTemplates = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_nre_templates"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded              
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+                confirmDialog();
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/no_reply_emails/listAllTemplatesBySection", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [0, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "serverSide": false,
+                "pageLength": 1000,
+                "bInfo": false,
+                "columns": [
+                        { data: "Name", "orderable": true },                             
+                        { data: "Section" },                             
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('no_reply_emails/templates', data.RefNo, data) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
+
+    var handleNreLog = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_nre_log"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded              
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+                confirmDialog();
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/no_reply_emails/listAllLogRecords", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [3, "desc"]
+                ],// set first column as a default sort by asc,
+                
+                "serverSide": false,
+                "pageLength": 1000,
+                "bInfo": false,
+                "columns": [
+                        { data: "ToAddress", "orderable": true },                             
+                        { data: "Subject" },
+                        { data: "Section" }, 
+                        { 
+                            data: null,
+                            type: 'date-uk',
+                            className: "center" ,
+                            render: function (data, type, row) {
+                                // body...    
+                                var sent_on_date = moment(data.SentOn).toDate();
+                                return moment(sent_on_date).format('DD/MM/YYYY HH:mm:ss');
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
      
     var getButtons = function (controller, id, data) {
 
@@ -1112,7 +1227,7 @@ var TableDatatablesAjax = function () {
         var sp_id = $(".sp_id").attr("id");
 
         if( role == "VLA" || role == "CLC") {
-            var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
+            //var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
         } else {
 
             edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
@@ -1141,6 +1256,7 @@ var TableDatatablesAjax = function () {
                 case 'matter':
                 case 'user':
                 case 'sms_template':                    
+                case 'no_reply_emails/templates':                    
                     delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
                     break;
                 default:                    
@@ -1160,9 +1276,32 @@ var TableDatatablesAjax = function () {
         });
     }
 
+    //Support to UK dates and sorting https://datatables.net/plug-ins/sorting/date-uk
+    var date_uk = function()
+    {
+        jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function ( a ) {
+                if (a == null || a == "") {
+                    return 0;
+                }
+                var ukDatea = a.split('/');
+                return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+            },
+         
+            "date-uk-asc": function ( a, b ) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+         
+            "date-uk-desc": function ( a, b ) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        } );
+    };
+
     return {
         //main function to initiate the module
         init: function () {
+            date_uk();
             handleMatter();
             handleMatterType();
             handleServiceProvider();
@@ -1180,6 +1319,8 @@ var TableDatatablesAjax = function () {
             handleReferrals();
             handleOutboundReferrals();
             handleSmsTemplates();
+            handleNreTemplates();
+            handleNreLog();
             initSearchBox();
         }
 
