@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
             $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
             $as->requireAuth();
             $attributes = $as->getAttributes();        
+            session(['login_vla_attributes' => $attributes ]);
 
             //Check if is a VLA USER
             if (isset($attributes['mail'][0]) && $attributes['mail'][0] != '') {

@@ -47,6 +47,28 @@
 
                         @endif
 
+                        <li class="nav-item start ">
+                            <a href="/no_reply_emails" class="nav-link nav-toggle">
+                                <i class="icon-envelope"></i>
+                                <span class="title">No Reply Emails</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item">
+                                    <a href="/no_reply_emails/templates/" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Templates</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a href="/no_reply_emails/" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">View emails sent</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="nav-item">
                             <a href="/service" class="nav-link">
                                 <i class="icon-notebook"></i>

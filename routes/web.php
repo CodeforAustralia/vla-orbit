@@ -288,3 +288,31 @@ Route::post('/sms_template', 'SmsTemplateController@store');
 Route::get('/statistic', 'StatisticController@index');
 
 Route::get('/statistic/list', 'StatisticController@listStatistics');
+
+//No Reply emails
+
+Route::get('/no_reply_emails', 'NoReplyEmailController@index');
+
+Route::get('/no_reply_emails/new', 'NoReplyEmailController@create');
+
+Route::get('/no_reply_emails/templates', 'NoReplyEmailController@indexTemplates');
+
+Route::get('/no_reply_emails/templates/new', 'NoReplyEmailController@createTemplate');
+
+Route::get('/no_reply_emails/templates/show/{te_id}', 'NoReplyEmailController@show');
+
+Route::get('/no_reply_emails/templates/delete/{te_id}', 'NoReplyEmailController@destroyTemplate');
+
+Route::get('/no_reply_emails/listAllTemplates', 'NoReplyEmailController@listAllTemplates');
+
+Route::get('/no_reply_emails/listAllLogRecords', 'NoReplyEmailController@listAllLogRecords');
+
+Route::get('/no_reply_emails/listTemplateById', 'NoReplyEmailController@listTemplateById');
+
+Route::get('/no_reply_emails/listAllTemplatesBySection', 'NoReplyEmailController@listAllTemplatesBySection');
+
+Route::get('/no_reply_emails/listAllMailBoxes', 'NoReplyEmailController@listAllMailBoxes');
+
+Route::post('/no_reply_emails', 'NoReplyEmailController@sendEmail');
+
+Route::post('/no_reply_emails/templates', 'NoReplyEmailController@saveTemplate');

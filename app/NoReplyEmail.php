@@ -2,6 +2,7 @@
 namespace App;
 
 use Auth;
+use App\ServiceProvider;
 
 class NoReplyEmail
 {
@@ -17,27 +18,68 @@ class NoReplyEmail
 		try 
 		{
 			$user = auth()->user();
-			dd(session('login_vla_attributes'));
-			$response = $this->client->GetAllTemplatesasJSON();
+			//dd(session('login_vla_attributes'));
+			$response =  $this->client->GetAllTemplatesasJSON() ;			
 			return json_decode( $response->GetAllTemplatesasJSONResult, true );
 		} 
 		catch (Exception $e) 
 		{
-			
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );			
 		}
 	}
 
-	public function getAllTemplatesBySection( $section )
+	public function getTemplateById( $template_id )
 	{
 		try 
 		{
-			$info = [ 'Section' => $section ];
-			$response = $this->client->GetTemplatesBySectionasJSON( $info );
-			return json_decode( $response->GetTemplatesBySectionasJSONResult, true );
+			$templates = self::getAllTemplates();
+
+			foreach ($templates as $template) 
+			{
+				if( $template['RefNo'] == $template_id )
+				{
+					return $template;
+				}
+			}
+			return false;
 		} 
 		catch (Exception $e) 
 		{
-			
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );		
+		}
+	}
+
+	public function getAllTemplatesBySection()
+	{
+		try 
+		{
+			$data = [];
+			if( auth()->user()->sp_id != 0)
+			{				
+				$section = self::getSection();			
+				$info = [ 'Section' => $section ];
+				$response = $this->client->GetTemplatesBySectionasJSON( $info );
+				$templates = json_decode( $response->GetTemplatesBySectionasJSONResult, true );
+
+				foreach ($templates as $template) 
+				{
+					if($template['RefNo'] > 0)
+					{
+						$data[] = $template;
+					}
+				}
+			}
+			else
+			{
+				$templates = self::getAllTemplates();
+				array_shift( $templates ); // Remove first element of array as it is returning an empty element
+				$data = $templates;
+			}
+			return ['data' => $data ];
+		} 
+		catch (Exception $e) 
+		{
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );		
 		}
 	}
 
@@ -50,11 +92,11 @@ class NoReplyEmail
 		} 
 		catch (Exception $e) 
 		{
-			
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );		
 		}
 	}
 
-	public function sendEmail()
+	public function sendEmail( $email_data )
 	{	
 		try 
 		{
@@ -63,77 +105,112 @@ class NoReplyEmail
 	        $time_now  = date("H:i:s");
 	        $date_time = $date_now . "T" . $time_now;
 
-	        $location = "/var/www/html/public/ch/files/test.pdf"; // Mention where to upload the file
-	        
-			$handle = fopen($location, "rb");                  // Open the temp file
+	       	$files = array();
 
-	       	$content = fread($handle, filesize($location) );  // Read the temp file    		
-	       	fclose($handle);                                 // Close the temp file
-	       	$out = $content;
-	       	$attachments[] = [ 'AttachmentBytes' => $out, 'FileName' => 'test.pdf'];
+	       	if ( isset($email_data['attachments']) )
+	       	{
+	       		$files = $email_data['attachments'];
+	       	}
+
+	       	if( isset($email_data['main_attachment']) )
+	       	{
+	       		$files[]['files'] = $email_data['main_attachment'];
+	       	}
+
+	       	$attachments = self::attachFiles( $files );
+
+	       	$prefix = '<p><span style="font-family:Arial,Helvetica,sans-serif"><em><em>This email was sent by Orbit to</em> ' . $email_data['to'] .  ' </em></span></p><p><span style="font-family:Arial,Helvetica,sans-serif"><em>Please do not reply to this email.</em>&nbsp;</span></p><hr>';
 
 			$info = [
 						'MessageObject' => [
 												'Attachments' 	=> $attachments,
-												'Body' 			=> '<h1>hola</h1>',
-												//'Body' 			=> 'Hola',
+												'Body' 			=> $prefix . $email_data['message'],
 												'Deliverd' 		=> 1,
 												'Error' 		=> 0,
 												'FromAddress' 	=> 'noreply@vla.vic.gov.au',
-												'PersonID' 		=> 'ChristianA16',
+												'PersonID' 		=> auth()->user()->id,
 												'RefNo' 		=> 0,
-												'Section' 		=> 'Applications',
+												'Section' 		=> self::getSection(),
 												'SentOn' 		=> $date_time,
-												'Subject' 		=> 'Testing 10:04',
-												'ToAddress' 	=> 'christian@codeforaustralia.org',
+												'Subject' 		=> $email_data['subject'],
+												'ToAddress' 	=> $email_data['to'],
 											],
 						'IsHTML'		=> true,
 					];
 			
 			$response = $this->client->SendEmailasJSON($info);
 			
-			return json_decode( $response->SendEmailasJSONResult, true );
+			//return json_decode( $response->SendEmailasJSONResult, true );
+			return array( 'success' => 'success' , 'message' => 'The email was sent.' );
 		} 
 		catch (Exception $e) 
 		{
-			return "Error";
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
 		}
 	}
 
-	public function saveEmailTemplate(  )
+    public function attachFiles( $files )
+    {
+    	$attachments = [];
+
+    	foreach ($files as $current_file) {
+    		$file = $current_file['files'];
+    		$handle = fopen($file->getPathName(), "rb");                  // Open the temp file
+
+	       	$content = fread( $handle, filesize($file->getPathName()) );  // Read the temp file
+
+	       	fclose($handle);
+
+	       	$attachments[] = [ 'AttachmentBytes' => $content, 'FileName' => $file->getClientOriginalName() ];
+	       	
+    	}
+    	return $attachments;
+    }
+    
+	public function saveEmailTemplate( $data )
 	{
-		try {
+		try 
+		{	
 	        // Current time
 	        $date_now  = date("Y-m-d");
 	        $time_now  = date("H:i:s");
 	        $date_time = $date_now . "T" . $time_now;
-/*
+
+		   	$section = '';
+
+		   	if( isset($data['Section']) && $data['Section'] != '' && !isset($data['all']) )
+		   	{
+		   		$section = $data['Section'];
+		   	}
+		   	elseif( isset($data['all']) && $data['all'] == 'on' )
+		   	{
+		   		$section = 'All';
+		   	}
+		   	else
+		   	{
+		   		$section = self::getSection();
+		   	}
+
 			$template =  [
-								'RefNo' 		=> 0,
+								'RefNo' 		=> $data['RefNo'],
 								'Created' 		=> $date_time,
 								'CreatedBy' 	=> auth()->user()->id,
 								'Name' 			=> $data['name'],
-								'Section' 		=> $data['section'],
+								'Section' 		=> $section,
 								'TemplateText' 	=> $data['template'],
-								'Updated' 		=> $date_time,
-								'UpdatedBy' 	=> auth()->user()->id,
-						   ];*/
-			$template =  [
-								'RefNo' 		=> 0,
-								'Created' 		=> $date_time,
-								'CreatedBy' 	=> auth()->user()->id,
-								'Name' 			=> 'CFA test',
-								'Section' 		=> 'All',
-								'TemplateText' 	=> '<h1>Hola</h1>',
 								'Updated' 		=> $date_time,
 								'UpdatedBy' 	=> auth()->user()->id,
 						   ];
 
        		$info = [ 'ObjectInstance' => $template ];
        		$response = $this->client->SaveEmailTemplate( $info );
+
+			return array( 'success' => 'success' , 'message' => 'The template was saved.', 'data' => $response );
 			
-		} catch (Exception $e) {
-			
+		} 
+		catch (Exception $e) 
+		{
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );		
 		}
 	}
 	public function saveFromAddress()
@@ -166,10 +243,69 @@ class NoReplyEmail
        		$info = [ 'ObjectInstance' => $address ];
        		$response = $this->client->SaveFromAddress( $info );
 			
-		} catch (Exception $e) {
-			
+		} 
+		catch (Exception $e) 
+		{
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );		
 		}
 	}
-    
 
+	public function getSection()
+	{
+	   	$section = 'All';
+		/*	   	
+	   	//Simple SAML user provides department attribute
+	   	if ( session('login_vla_attributes') && isset( session('login_vla_attributes')['department'][0]) )
+	   	{
+	   		$section = session('login_vla_attributes')['department'][0];
+	   	}
+	   	else 
+	   	{		   	*/	
+   		if( auth()->user()->sp_id != 0)
+		{
+	   		$sp_obj = new ServiceProvider();
+	   		$service_provider = $sp_obj->getServiceProviderByID( auth()->user()->sp_id );
+	   		if ( $service_provider['data'] != '')
+	   		{
+	   			$sp_info = json_decode($service_provider['data']);
+				$section =  substr( $sp_info[0]->ServiceProviderName,0,50 ); //Shouldn't be longer than 50 Chars
+	   		}
+   		}
+	   	//}
+
+	   	return $section;
+	}    
+
+	public function getAllLogRecords()
+	{
+		try 
+		{
+			$response = $this->client->GetAllLogRecordsasJSON( );
+			$logs = json_decode( $response->GetAllLogRecordsasJSONResult, true );
+
+			return ['data' => $logs ];
+		} 
+		catch (Exception $e) 
+		{
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );		
+		}
+	}
+
+    public function deleteTemplate( $te_id )
+    {
+        // Create call request        
+        $info = [ 'RefNumber' => $te_id];
+
+        try {
+            $response = $this->client->DeleteTemplate($info);
+            if($response->DeleteTemplateResult){
+                return array( 'success' => 'success' , 'message' => 'NRE Template deleted.' );
+            } else {
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+            }
+        }
+        catch (\Exception $e) {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        }
+    }   
 }
