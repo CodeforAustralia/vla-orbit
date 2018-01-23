@@ -1226,10 +1226,16 @@ var TableDatatablesAjax = function () {
         var role = $(".role").attr("id");
         var sp_id = $(".sp_id").attr("id");
 
-        if( role == "VLA" || role == "CLC") {
-            //var edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
-        } else {
-
+        if( role == "CLC" || role == "VLA" ) 
+        {                
+            if( controller == 'no_reply_emails/templates' && data.Section != 'All')
+            {
+                edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';                
+            }
+            //edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
+        } 
+        else 
+        {       
             edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
             switch(controller) 
             {
@@ -1261,6 +1267,20 @@ var TableDatatablesAjax = function () {
                     break;
                 default:                    
             }
+
+            if( role == "AdminSp" || role == "AdminSpClc" ) 
+            {                
+                if( controller == 'no_reply_emails/templates' && data.Section != 'All')
+                {
+                    edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
+                    delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';                    
+                }
+                else
+                {
+                    delete_btn = '';
+                    edit_btn = '';
+                }
+            } 
 
         }
 

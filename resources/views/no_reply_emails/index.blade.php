@@ -4,8 +4,7 @@
 
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet ">
-        <h1 class="page-title col-xs-10"> Emails sent </h1>
-        <a role="button" class="btn main-green col-xs-2 pull-right" href="/no_reply_emails/new">Send Email</a>
+        <h1 class="page-title col-xs-10"> Emails sent </h1>        
         <br>
     </div>
     <!-- END PAGE HEADER-->

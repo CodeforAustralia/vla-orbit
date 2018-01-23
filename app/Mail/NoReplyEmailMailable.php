@@ -29,6 +29,6 @@ class NoReplyEmailMailable extends Mailable
      */
     public function build()
     {        
-        return $this->subject( $this->args['subject'] . 'sent on : ' . date('d/m/Y h:i:s a') )->view('emails.noReplyEmail.email')->with($this->args);
+        return $this->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )->view('emails.noReplyEmail.email')->with($this->args);
     }
 }
