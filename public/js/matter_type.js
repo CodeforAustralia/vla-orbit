@@ -933,7 +933,17 @@ var TableDatatablesAjax = function () {
                         { data: "Notes" },                             
                         { data: "ServiceProviderName" },
                         { data: "ServiceName" },                             
-                        { data: "OutboundServiceProviderName" }
+                        { 
+                            data: null,
+                            render: function ( data, type, row ) {
+                                var location = '';
+                                if( data.OutboundServiceProviderName === '' )
+                                {
+                                    return 'Admin';
+                                }
+                                return data.OutboundServiceProviderName;
+                            } 
+                        }
                         /*{
                             data: null,
                             className: "center",
