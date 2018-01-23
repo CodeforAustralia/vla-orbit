@@ -840,17 +840,13 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
+                                var action_buttons = "";
+                                action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
                                 if(data.Mobile != '')
-                                {
-                                    //return '<a href="#" class="btn btn-xs green remind-booking" id="'+ data.Mobile +'">Send Reminder</a>' ;
-                                    var action_buttons = "";
-                                    action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
-                                    action_buttons += '<button class="btn btn-xs green remind-booking" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
-                                    return action_buttons;
-                                } else
-                                {
-                                    return '';
+                                {                                    
+                                    action_buttons += '<button class="btn btn-xs green remind-booking" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;                                    
                                 }
+                                return action_buttons;
                             }
                         }
                 ],
