@@ -75,12 +75,13 @@
                         <a href="/referral/create/location" class="btn btn-sm btn-default main-green ">
                             New Referral 
                         </a>
+
+                        @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
                                    
                         <a href="/no_reply_emails/new" class="btn btn-sm btn-default main-green ">
                             No Reply Emails
                         </a>
-
-                        @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
+                        
                         <a href="/booking/new" class="btn btn-sm btn-default main-green ">
                             New Booking / Intake           
                         </a>

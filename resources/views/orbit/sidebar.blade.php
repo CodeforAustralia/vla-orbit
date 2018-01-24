@@ -43,9 +43,7 @@
                                 <span class="title">Bookings</span>
                                 <span class="arrow"></span>
                             </a>
-                        </li>                        
-
-                        @endif
+                        </li>        
 
                         <li class="nav-item start ">
                             <a href="/no_reply_emails" class="nav-link nav-toggle">
@@ -67,7 +65,9 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>                
+
+                        @endif
 
                         <li class="nav-item">
                             <a href="/service" class="nav-link">
