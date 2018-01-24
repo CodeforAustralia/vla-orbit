@@ -782,7 +782,7 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [1, "asc"]
+                    [1, "desc"]
                 ],// set first column as a default sort by asc,
                 
                 "serverSide": false,
@@ -791,16 +791,17 @@ var TableDatatablesAjax = function () {
                 "bInfo": false,
                 "columns": [
                         { data: "BookingRef" },      
-                        //{ data: "BookingDate" },  
+                        //{ data: "BookingDate" },
                         { 
-                        	data: null,
-                        	className: "center" ,
-                        	render: function (data, type, row) {
-                        		// body...    
+                            data: null,
+                            type: 'date-uk',
+                            className: "center" ,
+                            render: function (data, type, row) {
+                                // body...    
                                 var booking_date = moment(data.BookingDate).toDate();
-                                return moment(booking_date).format('D-M-YYYY');
-                        	}
-                        },  
+                                return moment(booking_date).format('DD/MM/YYYY');
+                            }
+                        },
                         { data: "BookingTime" },
                         { data: "ServiceName" },
                         { data: "FirstName" },
@@ -904,13 +905,15 @@ var TableDatatablesAjax = function () {
                 "scrollCollapse": true,
                 "columns": [ 
                         { data: "RefNo", "orderable": true },
-                        {
+                        { 
                             data: null,
-                            className: "center",
-                            render: function ( data, type, row ) {                   
+                            type: 'date-uk',
+                            className: "center" ,
+                            render: function (data, type, row) {
+                                // body...    
                                 var referred_day = moment(data.CreatedOn).toDate();
-                                return moment(referred_day).format('YYYY-MM-DD');
-                            }                          
+                                return moment(referred_day).format('DD/MM/YYYY');
+                            }
                         },
                         { data: "MatterName" },
                         {
@@ -1002,14 +1005,16 @@ var TableDatatablesAjax = function () {
                 "scrollCollapse": true,
                 "columns": [ 
                         { data: "RefNo", "orderable": true },
-                        {
+                        { 
                             data: null,
-                            className: "center",
-                            render: function ( data, type, row ) {                   
+                            type: 'date-uk',
+                            className: "center" ,
+                            render: function (data, type, row) {
+                                // body...    
                                 var referred_day = moment(data.CreatedOn).toDate();
-                                return moment(referred_day).format('YYYY-MM-DD');
-                            }                          
-                        },                                      
+                                return moment(referred_day).format('DD/MM/YYYY');
+                            }
+                        },
                         { data: "MatterName" },
                         {
                             data: null,
