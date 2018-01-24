@@ -152,7 +152,7 @@ var sendToClient = function () {
 
     if( safe_phone == 0 && safe_email == 0 ) // Not safe to contact
     {
-      swal("Alert", "Please provide a safe contact information", "warning");
+      swal("Alert", "SMS or email can’t be send if it’s not safe to contact client. Please tick box if it is safe", "warning");
     } 
     else if( safe_email == 1 && email == '' ) //Empty valid email
     {
