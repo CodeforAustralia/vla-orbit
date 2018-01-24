@@ -7,7 +7,7 @@ var noReplyEmails = function()
 			toolbar: [
 			    // [groupName, [list of button]]
 			    ['style', ['bold', 'italic', 'underline', 'color']],
-			    ['fontsize', ['fontsize']],
+			    ['fontsize', ['fontname','fontsize']],
 			    ['para', ['ul', 'ol', 'paragraph']],          
 			    ['link', ['linkDialogShow', 'unlink']]          
 			],
