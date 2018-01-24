@@ -82,7 +82,7 @@
                                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4Z4iC1eD3Es" frameborder="0" allowfullscreen></iframe>
                                 </div>                               
                                 
-                                <div class="caption">
+                                <div class="caption hidden">
                                     <h3 class="">Request a new service</h3>
                                     <p class=""> Does your office provide a service that isn't in ORBIT yet? Any local services you refer to a lot and would like to see as a referral option?
                                     Complete <a target="_blank" href="https://www.surveymonkey.com/r/Orbit_request_service">this form</a> to request a new service added to ORBIT and we'll check that the service qualifies as a referral option.</p>
@@ -112,6 +112,10 @@
 
                 <div class="portlet-body">
                     <div class="note note-info">
+                        <h4 class="block bold font-grey-mint">Request a new service</h4>
+                        <p class=""> Does your office provide a service that isn't in ORBIT yet? Any local services you refer to a lot and would like to see as a referral option? Complete <a target="_blank" href="https://www.surveymonkey.com/r/Orbit_request_service">this form</a> to request a new service added to ORBIT and we'll check that the service qualifies as a referral option.</p>
+                    </div>
+                    <div class="note note-info">
                         <h4 class="block bold font-grey-mint">Legal Help users!</h4>
                         <p> Bookings can now be made for <b>CRIMINAL LAW APPOINTMENTS</b> at these offices:</p>
                         <br>
@@ -132,10 +136,6 @@
                         <p> To help you select the right legal matter, we're including a list of alternative search terms (for example, typing 'custody' will take you to 'Parenting disputes > Living arrangements').</p>
                         <br>
                         <p>This feature is <b>now available</b>. If you want to have a look at the taxonomy and the list of available search terms just click <a href="https://docs.google.com/spreadsheets/d/1L-pg_KxX9WP29CsE--3OvgyFE8BjL7CmgPBFHBw4-KM/" target="_blank">here</a>. </p>
-                    </div>
-                    <div class="note note-info">
-                        <h4 class="block bold font-grey-mint">Non-Legal Referrals</h4>
-                        <p> Find a list of alternative referral options <a href="https://docs.google.com/document/d/1meV27i-3VT2o4zqN7bCWDoAa8gia96adz6u0V9qVtgs/" target="_blank">here</a>.</p>
                     </div>
                 </div>
             </div>
