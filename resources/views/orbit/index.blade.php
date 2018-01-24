@@ -117,7 +117,6 @@
                         <br>
                         <ul>
                             <li>Ringwood</li>
-                            <li>Sunshine</li>
                             <li>CLM (summary crime)</li>
                         </ul>
                         <p>You can book clients in using the 'new booking' button on the top menu.</p>
