@@ -9,7 +9,8 @@ var noReplyEmails = function()
 			    ['style', ['bold', 'italic', 'underline', 'color']],
 			    ['fontsize', ['fontname','fontsize']],
 			    ['para', ['ul', 'ol', 'paragraph']],          
-			    ['link', ['linkDialogShow', 'unlink']]          
+			    ['link', ['linkDialogShow', 'unlink']],
+    			['height', ['height']]              
 			],
         	height: 500
 		});
