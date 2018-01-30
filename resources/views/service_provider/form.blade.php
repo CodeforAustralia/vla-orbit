@@ -61,7 +61,8 @@
                             <option value="1" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 1 ) ? 'selected' : '' ?> >Non Legal Provider</option>
                             <option value="2" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 2 ) ? 'selected' : '' ?>>CLC</option>
                             <option value="3" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 3 ) ? 'selected' : '' ?>>VLA</option>
-                            <option value="4" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 4 ) ? 'selected' : '' ?>>Legal Help</option>                                
+                            <option value="4" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 4 ) ? 'selected' : '' ?>>Legal Help</option>
+                            <option value="5" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 5 ) ? 'selected' : '' ?>>Private Practitioner</option>
                         </select>
                         
                     </div>
