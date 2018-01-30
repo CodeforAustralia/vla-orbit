@@ -79,7 +79,7 @@ var openBooking = function ()
     var booking_ids = $( this ).attr("id").split('-');
     var sp_id = booking_ids[2];
     var booking_id = booking_ids[0];
-    var booking_interpretor_id = booking_ids[1];
+    var booking_interpretor_id = booking_ids[1];    
     
     $('#service_provider_id').attr("disabled", "disabled");
     $('#service_provider_id option[value="' + sp_id + '"]').prop("selected", "selected").change();
@@ -88,8 +88,8 @@ var openBooking = function ()
     $('#booking-date').attr("required");
 
     $(".booking-area").addClass("hidden");      
-    setTimeout(function(){
-        $('#sp_services option[value="' + booking_id + '-' + booking_interpretor_id + '"]').prop("selected", "selected").change();
+    setTimeout(function(){      
+        $('#sp_services option[value="' + booking_id + '-' + booking_interpretor_id + '-' + sv_id + '"]').prop("selected", "selected").change();
         $(".booking-area").hide().removeClass("hidden").fadeIn();
         $("#contentLoading").modal("hide");
     }, 2500);
