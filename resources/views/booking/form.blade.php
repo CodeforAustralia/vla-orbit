@@ -8,7 +8,7 @@
         <div class="col-xs-12 padding-bottom-20">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Office:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Office (note: ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
+                    <label>Office/program area:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Office (note: ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
                 </div>
                 <div class="col-xs-8">
                     <select class="form-control" id="service_provider_id" name="service_provider_id" required>                                
