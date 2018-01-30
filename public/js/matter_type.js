@@ -748,6 +748,115 @@ var TableDatatablesAjax = function () {
         });
     }
     
+    var handleBookingsAll = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_next_bookings"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded              
+                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+                confirmDialog();
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/booking/list", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "desc"]
+                ],// set first column as a default sort by asc,
+                
+                "serverSide": false,
+                "pageLength": 1000,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "BookingRef" },      
+                        //{ data: "BookingDate" },
+                        { 
+                            data: null,
+                            type: 'date-uk',
+                            className: "center" ,
+                            render: function (data, type, row) {
+                                // body...    
+                                var booking_date = moment(data.BookingDate).toDate();
+                                return moment(booking_date).format('DD/MM/YYYY');
+                            }
+                        },
+                        { data: "BookingTime" },
+                        { data: "ServiceName" },
+                        { data: "FirstName" },
+                        { data: "LastName" },
+                        { data: "Email" },
+                        { data: "Mobile" },
+                        { 
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field                                
+                                var sentDatesStr = '';
+                                var sentDates = data.SMSSendDates;
+                                                      
+                                for (var i = 0, len = sentDates.length; i < len; i++) 
+                                {
+                                    if(sentDates[i] != '')
+                                    {
+                                        sentDatesStr += moment(sentDates[i].split(' ')[0]).format('D-M-YYYY') + ', ';
+                                    }
+                                }
+
+                                if( sentDatesStr == '' )
+                                {
+                                    sentDatesStr = '<span class="font-red">Not sent</span>';
+                                } 
+                                else 
+                                {
+                                    sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
+                                }
+                                //sent dates or status
+                                return sentDatesStr;
+                            }
+                        },
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                var action_buttons = "";
+                                action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+                                if(data.Mobile != '')
+                                {                                    
+                                    action_buttons += '<button class="btn btn-xs green remind-booking" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;                                    
+                                }
+                                return action_buttons;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }
+
+    
     var handleBookings = function () {
 
         var grid = new Datatable();
@@ -1346,6 +1455,7 @@ var TableDatatablesAjax = function () {
             handleQuestionLegalMatter();
             handleQuestionEligibility();
             handleUser();
+            handleBookingsAll();
             handleBookings();
             handleReferrals();
             handleOutboundReferrals();

@@ -200,6 +200,10 @@ Route::post('/question', 'QuestionController@store');
 //Booking
 Route::get('/booking', 'BookingController@index');
 
+Route::get('/booking/next_bookings', 'BookingController@nextBookings');
+
+Route::get('/booking/by_service_provider', 'BookingController@byServiceProvider');
+
 Route::get('/booking/show/{bk_id}', 'BookingController@show');
 
 Route::get('/booking/new', 'BookingController@create');
@@ -211,6 +215,8 @@ Route::get('/booking/listDatesByDate/{year}/{month}/{sv_id}', 'BookingController
 Route::get('/booking/list', 'BookingController@list');
 
 Route::get('/booking/listCalendar', 'BookingController@listCalendar');
+
+Route::get('/booking/listCalendarBySp', 'BookingController@listCalendarBySp');
 
 Route::get('/booking/listCalendarByUser', 'BookingController@listCalendarByUser');
 

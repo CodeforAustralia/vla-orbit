@@ -9,7 +9,7 @@ Class ServiceProvider
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
             
         $service_providers = json_decode($client->GetAllOrbitServiceProviderssasJSON()->GetAllOrbitServiceProviderssasJSONResult, true);
-
+        usort($service_providers, function($a, $b){ return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]); });
         return $service_providers;
 	}
 

@@ -1,7 +1,33 @@
 var currentEventInCalendar = [];
 var EventsInCalendar = [];
+var currentServiceProvider = 0;
 
 var AppCalendar = function() {
+
+    var getWsUrlParams = function()
+    {
+        var pathname = window.location.pathname;
+        var params = {
+                        url_calendar: '/booking/listCalendar',
+                        url_update_calendar: '/booking/updateBooking'
+                      };
+        if( pathname === '/booking/by_service_provider' )
+        {
+            params.url_calendar = '/booking/listCalendarBySp';
+        }
+
+        return params;
+    }
+
+    var onChangeSp = function()
+    {
+
+        $('#service_provider_id').on('change', function() 
+        {                  
+            currentServiceProvider = this.value;
+            AppCalendar.init();
+        });
+    }();
 
     return {
         //main function to initiate the module
@@ -15,6 +41,8 @@ var AppCalendar = function() {
             if (!jQuery().fullCalendar) {
                 return;
             }
+
+            var urlPrams = getWsUrlParams();
 
             var date = new Date();
             var d = date.getDate();
@@ -123,8 +151,11 @@ var AppCalendar = function() {
                 },
                 eventSources: [
                 {
-                    url: '/booking/listCalendar',
+                    url: urlPrams.url_calendar,
                     type: 'GET',
+                    data: {
+                        sp_id: currentServiceProvider
+                    },
                     beforeSend: function () {                        
                         $("#contentLoading").modal();
                     },
@@ -183,7 +214,17 @@ var AppCalendar = function() {
                         $("#bookingCIRNumber").text('N/P');
                     }
                     
-                    $("#bookingIntLanguage").text(calEvent.data.IntLanguage);
+
+                    if( calEvent.data.IntLanguage != '' )
+                    {
+                        $("#bookingIntLanguage").text(calEvent.data.IntLanguage);
+                        $("#bookingIntLanguage").removeClass('editable-empty');
+                    } 
+                    else
+                    {
+                        $("#bookingIntLanguage").text('N/P');
+                    }
+
                     $("#bookingIsSafe").text(calEvent.data.IsSafe);
 
                     
@@ -343,6 +384,21 @@ var AppCalendar = function() {
                         }
                     }
                 });
+                $('#bookingIntLanguage').editable({                                        
+                    source: '/json/languages.json',
+                    url: function(params) 
+                    {
+                        currentEventInCalendar.IntLanguage = params.value;
+                        saveBooking(currentEventInCalendar);
+                    },
+                    validate: function(value) 
+                    {
+                        if($.trim(value) == '') 
+                        {
+                            return 'This field is required';
+                        }
+                    }
+                });
                 $('#bookingLastName').editable({                    
                     url: function(params) 
                     {                        
@@ -425,7 +481,7 @@ var AppCalendar = function() {
                             'X-CSRF-TOKEN': csrf
                         },
                         method: "POST",
-                        url: "/booking/updateBooking",
+                        url: urlPrams.url_update_calendar,
                         data: 
                         {
                             booking: JSON.stringify(booking)
@@ -456,7 +512,14 @@ function deleteBookingDialog()
     });  
 }
 
+var selectDefaultSP = function()
+{
+    var sp_id = $(".sp_id").attr('id');
+    $('#service_provider_id option[value="'+ sp_id +'"]').prop("selected", true);
+    $("#service_provider_id").trigger('change');
+}
+
 jQuery(document).ready(function() {    
-   AppCalendar.init(); 
+   $.when(AppCalendar.init()).then(selectDefaultSP()); 
    deleteBookingDialog();
 });

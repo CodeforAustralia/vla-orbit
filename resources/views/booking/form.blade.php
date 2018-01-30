@@ -8,7 +8,7 @@
         <div class="col-xs-12 padding-bottom-20">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Service Provider:</label>
+                    <label>Office:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Office (note: ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
                 </div>
                 <div class="col-xs-8">
                     <select class="form-control" id="service_provider_id" name="service_provider_id" required>                                
@@ -49,7 +49,26 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-8 padding-bottom-10">
-                    <label>Interpreter:</label> <small>If required choose from list</small>
+                    <label>Is complex matter?</label>
+                    
+                    <div class="mt-radio-inline padding-left-20">
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="IsComplex" id="IsComplex" value="1">Yes<span></span>
+                        </label>
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="IsComplex" id="IsComplex" value="0">No<span></span>
+                        </label>
+                    </div>                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-8 padding-bottom-10">
+                    <label>Interpreter:</label> <small>if required choose <strong>language</strong> from list</small>
                     <select class="form-control" id="Language" name="Language">    
                         @include( 'booking.language' )
                     </select>                    
@@ -62,16 +81,20 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-8 padding-bottom-10">
-                    <label>Form Type:</label> <small>Select the appropriate e-referral template, or book the client directly (if available)</small>
-                    <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Direct bookings: please consider practical considerations. What service could the appointment provide that a duty lawyer can’t? Is the client far away from the service? Is the court date close to the date of the next available appointment? Have they got the charge sheet and brief? Advise them to bring this and any other supporting documents to the appointment"></i>
-
+                    <label>Form Type:</label> <small>if direct booking is not available, this service is not in ORBIT yet. Legal Help users can select an e-referral template here</small>
                     <select class="form-control" id="request_type" name="request_type">                                                    
                         <option value="direct_booking" id="direct_booking">Direct Booking</option>
+                        @if( \App\Http\helpers::getUSerServiceProviderId() === 112 || \App\Http\helpers::getUSerServiceProviderId() === 0 )
                         <option value="appointment_request">Appointment Request</option>
                         <option value="for_assessment">For Assessment</option>
                         <option value="phone_advice">Phone Advice</option>
                         <option value="duty_layer">Duty Lawyer</option>
+                        @endif
                     </select>                    
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <label>&nbsp</label>
+                    <button type="button" class="btn btn-block dark btn-outline" data-toggle="modal" data-target="#bookingTypeDescription">More info</button>
                 </div>
             </div>
         </div>
@@ -115,7 +138,7 @@
         <div class="col-xs-7">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Is it safe to contact this client by email? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client via email we will send a booking confirmation to the provided email with all of their booking details and may contact this client about changes to their booking. Select 'No' if it is unsafe to email this client and ensure you provide them with their booking details manually."></i></label>
+                    <label>Is it safe to contact this client by email? &nbsp; </label>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="emailpermission" id="emailpermission" value="Yes">Yes<span></span>
@@ -185,6 +208,8 @@
         </div>
     </div>
 </form>
+
+@include ('booking.booking_description')   
 
 @section('styles')    
     <!-- BEGIN PAGE LEVEL PLUGINS -->

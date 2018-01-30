@@ -38,11 +38,31 @@
                         @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp' , 'VLA']) )
 
                         <li class="nav-item">
-                            <a href="/booking" class="nav-link">
+                            <a href="/booking" class="nav-link nav-toggle">
                                 <i class="icon-calendar"></i>
                                 <span class="title">Bookings</span>
                                 <span class="arrow"></span>
                             </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item">
+                                    <a href="/booking" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">My Office Bookings</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a href="/booking/by_service_provider" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Other Office Bookings</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a href="/booking/next_bookings" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">All Bookings</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>        
 
                         <li class="nav-item start ">

@@ -23,6 +23,19 @@ class BookingController extends Controller
         $booking_obj = new Booking(); 
         return view("booking.index");
     }
+    
+    public function nextBookings()
+    {
+        return view("booking.next_bookings");
+    }
+
+    public function byServiceProvider()
+    {
+        $service_providers_obj  = new ServiceProvider();
+        $service_providers      = $service_providers_obj->getAllServiceProviders();
+
+        return view("booking.by_service_provider", compact( 'service_providers' ));
+    }
 
     public function show( $bk_id )
     {
@@ -93,7 +106,7 @@ class BookingController extends Controller
                             'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
                             'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
                             'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
-                            'IsComplex' => true,
+                            'IsComplex' => (is_null( request('IsComplex') ) ? 0 : request('IsComplex') ),
                         ];
             
 
@@ -138,13 +151,19 @@ class BookingController extends Controller
     public function list()
     {
         $booking_obj = new Booking(); 
-        return $booking_obj->getAllBookingsPerMonth("2017-07-01", "2017-07-31") ;
+        return $booking_obj->getAllBookingsNextMonthCalendar( date("Y-m-d"), date("Y-m-d", strtotime("+1 month")) );
     }
 
     public function listCalendar()
     {
         $booking_obj = new Booking(); 
         return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') ) ;
+    }
+
+    public function listCalendarBySp()
+    {
+        $booking_obj = new Booking(); 
+        return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') , request('sp_id') ) ;
     }
 
     public function listCalendarByUser()

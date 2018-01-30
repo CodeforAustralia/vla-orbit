@@ -22,7 +22,7 @@ function service_provicer_change()
 
 function service_change()
 {
-    $("#sp_services, #Language").on("change",function() {
+    $("#sp_services, #Language, #IsComplex").on("change",function() {
         var booking_id = $( "#sp_services" ).val().split('-')[0];
         var booking_interpreter_id = $( "#sp_services" ).val().split('-')[1];
         
@@ -36,12 +36,12 @@ function service_change()
             $("#time-options").html('');
             $("#booking-date").val('');
 
-            if( $("#Language" ).val() != '' ) // Requires interpreter
-            {
+            if( requireInterpreterOrComplex() ) // Requires interpreter or is complex matter
+            {                
                 getBookingsByService( booking_interpreter_id );
             } 
             else // Do not requires interpreter
-            {
+            {                
                 getBookingsByService(booking_id); 
             }
         }
@@ -87,7 +87,7 @@ function getBookingsByService(booking_id)
                     var current_month = new Date(e.date).getMonth() + 1;
                     
                     $("#booking-date").val('')
-                    if( $("#Language" ).val() != '' ) // Requires interpreter
+                    if( requireInterpreterOrComplex() ) // Requires interpreter or is complex matter
                     {
                         getServiceDatesByDate( current_year, current_month, current_service); //Init dates  
                     } 
@@ -189,7 +189,7 @@ function showTimes(day, month, year, current_service)
     var durations_by_service = getServiceByBookingId( services_by_sp_obj, current_service );
     var duration_slot = durations_by_service.length;
     
-    if( $("#Language" ).val() != '' ) // Requires interpreter
+    if( requireInterpreterOrComplex() ) // Requires interpreter or is complex matter
     {
         var duration_slot = durations_by_service.lengthInt;
     }
@@ -376,4 +376,9 @@ var setSubmitButtonText = function ( type )
         message = "Send e-Referral";
     }
     $('#submit-booking').text(message);
+}
+
+var requireInterpreterOrComplex = function()
+{
+    return ( $("#Language" ).val() != '' || $("#IsComplex:checked").val() == 1 ) ;
 }

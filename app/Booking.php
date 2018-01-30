@@ -28,10 +28,43 @@ Class Booking
 		{
 			$info['ServiceProviderId'] = $user->sp_id;
 			$bookings = $client->GetAllOrbitBookingsByServiceProvider( $info )->GetAllOrbitBookingsByServiceProviderResult;			
-		} else {
+		} 
+		else 
+		{
         	$bookings = $client->GetAllOrbitBookings( $info )->GetAllOrbitBookingsResult;
+        	$temp_bookings = [];    
+
+        	foreach ($bookings->Bookings as $booking) 
+        	{
+        		$booking_date = $booking->BookingDate;
+
+        		if(($booking_date >= $from) && ($booking_date <= $to))
+        		{
+        			$temp_bookings[] = $booking;
+        		}
+        	}
+        	if( sizeof( $temp_bookings ) == 1 )
+        	{
+        		 $temp_bookings =  $temp_bookings[0];
+        	}
+        	$bookings->Bookings = $temp_bookings;
 		}
 
+        return $bookings;
+	}
+
+	public function getAllBookingsBySP( $from, $to, $sp_id )
+	{		
+		// Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $info = [
+        			'FromDate'  => $from , 
+    				'ToDate'	=> $to ,
+    				'ServiceProviderId' => $sp_id
+				];
+
+		$bookings = $client->GetAllOrbitBookingsByServiceProvider( $info )->GetAllOrbitBookingsByServiceProviderResult;			
         return $bookings;
 	}
 
@@ -48,6 +81,7 @@ Class Booking
 
         return $bookings;
     }
+    
     public function getAllBookingsPerMonth( $from, $to )
     {       
         // Create Soap Object
@@ -67,11 +101,36 @@ Class Booking
         return ['data' => ''];
     }
 
-    public function getAllBookingsPerMonthCalendar( $from, $to )
+    public function getAllBookingsNextMonthCalendar( $from, $to, $sp_id = 0 )
+    {
+    	$bookings = self::getAllBookings( $from, $to );
+
+        if( isset( $bookings->Bookings))
+        {
+            if( sizeof( $bookings->Bookings ) == 1 )
+            {
+                $bookings->Bookings = [ $bookings->Bookings ];
+                return [ 'data' => $bookings->Bookings ];
+            } else {
+                return [ 'data' => $bookings->Bookings ];
+            }
+
+        }
+        return ['data' => ''];
+    }
+
+    public function getAllBookingsPerMonthCalendar( $from, $to, $sp_id = 0 )
     {       
         $user = new User();
         // Create Soap Object
-        $bookings = self::getAllBookings( $from, $to );
+        if( $sp_id != 0)
+        {
+        	$bookings = self::getAllBookingsBySP( $from, $to, $sp_id );
+        }
+        else 
+        {
+        	$bookings = self::getAllBookings( $from, $to );
+        }
         $output = [];
 
         $colors = [
