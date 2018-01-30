@@ -25,7 +25,9 @@
                             <select class="form-control" id="service_provider_id" name="service_provider_id"> 
                                     <option value="0"> Select Service Provider </option>                               
                                 @foreach($service_providers as $service_provider)
-                                    <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
+                                    @if( $service_provider['ServiceProviderTypeName'] == 'VLA'  )
+                                        <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
