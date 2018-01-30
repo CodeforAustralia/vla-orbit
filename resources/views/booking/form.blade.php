@@ -8,7 +8,7 @@
         <div class="col-xs-12 padding-bottom-20">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Office/program area:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Office (note: ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
+                    <label>Office/program area:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
                 </div>
                 <div class="col-xs-8">
                     <select class="form-control" id="service_provider_id" name="service_provider_id" required>                                
@@ -49,7 +49,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-8 padding-bottom-10">
-                    <label>Is complex matter?</label>
+                    <label>Does the client have complex needs?</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Eg barrier to comprehending advice such as an intellectual disability, ABI,cognitive or psychiatric disability. May result in longer appointments at some services."></i>
                     
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
@@ -92,7 +92,7 @@
                         @endif
                     </select>                    
                 </div>
-                <div class="col-xs-12 col-sm-4">
+                <div class="col-xs-12 col-sm-2">
                     <label>&nbsp</label>
                     <button type="button" class="btn btn-block dark btn-outline" data-toggle="modal" data-target="#bookingTypeDescription">More info</button>
                 </div>
@@ -138,7 +138,7 @@
         <div class="col-xs-7">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Is it safe to contact this client by email? &nbsp; </label>
+                    <label>Is it safe to contact this client by email? &nbsp; </label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Optional, and for recording in the booking only. Clients do not receive emailed booking confirmations."></i>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="emailpermission" id="emailpermission" value="Yes">Yes<span></span>
