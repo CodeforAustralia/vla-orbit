@@ -1,3 +1,7 @@
+@php    
+    $sp_arr = [ 98, 99, 106, 119 ];        
+    $is_lh  = \App\Http\helpers::getUSerServiceProviderId() === 112;
+@endphp
 <form role="form" method="POST" action="/booking" enctype="multipart/form-data" id="bookingForm">
 
     {{ csrf_field() }}
@@ -15,7 +19,7 @@
                         <option selected=""> </option>
                         
                         @foreach($service_providers as $service_provider)
-                            @if( $service_provider['ServiceProviderTypeName'] == 'VLA' )
+                            @if( (in_array( $service_provider['ServiceProviderId'], $sp_arr ) && !$is_lh) ||  ($service_provider['ServiceProviderTypeName'] == 'VLA' && $is_lh) )
                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
                             @endif
                         @endforeach

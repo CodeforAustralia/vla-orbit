@@ -220,15 +220,25 @@ function getServicesBySP(sp_id){
       .done(function( services_by_sp ) {
         services_by_sp_obj = services_by_sp;        
         $("#sp_services").html('<option> </option>');
+        var user_sp_id = $(".sp_id").attr('id');
+
         for (index = 0; index < services_by_sp.length; ++index) {
             service_id = services_by_sp[index].ServiceId;
             booking_id = services_by_sp[index].BookingServiceId;
             booking_interpreter_id = services_by_sp[index].BookingInterpritterServiceId;
             service_name = services_by_sp[index].ServiceName;
-
-            var option = '<option value="' + booking_id + '-' + booking_interpreter_id + '-' + service_id + '"> ' + service_name + ' </option>';            
+            var option = '';
+            if( user_sp_id != 112 && (booking_id != '' || booking_interpreter_id != '') )
+            {
+                option = '<option value="' + booking_id + '-' + booking_interpreter_id + '-' + service_id + '"> ' + service_name + ' </option>';            
+            }
+            else if( user_sp_id == 112)
+            {
+                option = '<option value="' + booking_id + '-' + booking_interpreter_id + '-' + service_id + '"> ' + service_name + ' </option>';            
+            }
             $("#sp_services").append(option);
-        }        
+        }   
+
         if( $("#sp_services option")[0] )
         {
             var booking_id = $( $("#sp_services option")[0] ).val();
