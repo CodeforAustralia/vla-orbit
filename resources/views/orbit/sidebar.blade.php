@@ -190,6 +190,14 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link">
+                                <i class="fa fa-desktop"></i>
+                                <span class="title">Dashboard wall</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
                         @endif
                     </ul>
                     <!-- END SIDEBAR MENU -->

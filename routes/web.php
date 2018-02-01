@@ -322,3 +322,20 @@ Route::get('/no_reply_emails/listAllMailBoxes', 'NoReplyEmailController@listAllM
 Route::post('/no_reply_emails', 'NoReplyEmailController@sendEmail');
 
 Route::post('/no_reply_emails/templates', 'NoReplyEmailController@saveTemplate');
+
+// Dashboard admin
+
+Route::get('/dashboard', 'DashboardController@index');
+
+Route::get('/dashboard/new', 'DashboardController@create');
+
+Route::get('/dashboard/show/{id}', 'DashboardController@show');
+
+Route::get('/dashboard/delete/{id}', 'DashboardController@destroy');
+
+Route::delete('/dashboard/{id}', 'DashboardController@destroy');
+
+Route::post('/dashboard', 'DashboardController@store');
+
+Route::post('/dashboard/updatePositions', 'DashboardController@updatePositions');
+

@@ -63,6 +63,7 @@
             <!-- END PAGE LEVEL PLUGINS -->
             <!-- BEGIN THEME GLOBAL SCRIPTS -->
             <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
+            <script src="/js/core.js" type="text/javascript"></script> 
             <!-- END THEME GLOBAL SCRIPTS -->
             <!-- BEGIN PAGE LEVEL SCRIPTS -->            
             <script src="/js/matter_type.js?id={{ str_random(6) }}" type="text/javascript"></script>

@@ -46,7 +46,8 @@ class RegistrationController extends Controller
                                 ->count();        
         }
         
-        return view("orbit.index", compact( 'stats', 'stats_today', 'stats_month', 'stats_week', 'referrals_made' ));
+        $dashboards = \App\Dashboard::all()->sortBy('position');
+        return view("orbit.index", compact( 'stats', 'stats_today', 'stats_month', 'stats_week', 'referrals_made', 'dashboards' ));
     }
     
     public function create()
