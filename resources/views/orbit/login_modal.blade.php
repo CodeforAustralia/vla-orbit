@@ -14,7 +14,7 @@
                                 <div class="col-sm-6 innerLink">
                                     <div class="mt-widget-4">
                                         <div class="mt-img-container">
-                                            <img src="/assets/pages/img/background/34.jpg"> </div>
+                                            <img src="/assets/global/img/vla_sign.jpg"> </div>
                                         <div class="mt-container bg-purple-opacity">
                                             <br>
                                             <div class="mt-head-title"> Login using VLA credentials </div>
@@ -31,7 +31,7 @@
                                 <div class="col-sm-6 innerLink">
                                     <div class="mt-widget-4">
                                         <div class="mt-img-container">
-                                            <img src="/assets/pages/img/background/46.jpg"> </div>
+                                            <img src="/assets/global/img/dashboard.png"> </div>
                                         <div class="mt-container bg-yellow-opacity">
                                             <br>
                                             <div class="mt-head-title"> Login with user and password </div>
