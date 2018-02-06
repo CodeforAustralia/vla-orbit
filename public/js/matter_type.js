@@ -782,7 +782,7 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [1, "desc"], [2, "asc"]
+                    [1, "asc"], [2, "asc"]
                 ],// set first column as a default sort by asc,
                 
                 "serverSide": false,
