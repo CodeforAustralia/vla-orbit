@@ -814,15 +814,24 @@ var TableDatatablesAjax = function () {
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field                                
                                 var sentDatesStr = '';
-                                var sentDates = data.SMSSendDates;
-                                                      
-                                for (var i = 0, len = sentDates.length; i < len; i++) 
-                                {
-                                    if(sentDates[i] != '')
+                                var sentDates = data.SMSSendDates.string;
+
+                                if( sentDates instanceof Array)
+                                {                
+                                    for (var i = 0, len = sentDates.length; i < len; i++) 
                                     {
-                                        sentDatesStr += moment(sentDates[i].split(' ')[0]).format('D-M-YYYY') + ', ';
+                                        if(sentDates[i] != '')
+                                        {
+                                            sentDatesStr += moment(sentDates[i].split(' ')[0]).format('DD/MM/YYYY') + ', ';
+                                        }
                                     }
+
+                                } 
+                                else if( sentDates != '')
+                                {
+                                    sentDatesStr += moment(sentDates.split(' ')[0]).format('DD/MM/YYYY') + ', ';
                                 }
+                                      
 
                                 if( sentDatesStr == '' )
                                 {
