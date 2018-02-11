@@ -202,6 +202,7 @@ class NoReplyEmail
 								'CreatedBy' 	=> auth()->user()->id,
 								'Name' 			=> $data['name'],
 								'Section' 		=> $section,
+								'Subject' 		=> $data['subject'],
 								'TemplateText' 	=> $data['template'],
 								'Updated' 		=> $date_time,
 								'UpdatedBy' 	=> auth()->user()->id,

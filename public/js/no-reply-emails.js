@@ -28,7 +28,7 @@ var noReplyEmails = function()
         .done(function( template ) {
             if( Object.keys(template).length > 1)
             {
-                console.log(template);
+        		$('#subject').attr('value', template.Subject);
         		$('#message').summernote('code', template.TemplateText);
             } 
         });
