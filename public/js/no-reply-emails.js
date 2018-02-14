@@ -6,15 +6,15 @@ var noReplyEmails = function()
 		$('#message').summernote({
 			toolbar: [
 			    // [groupName, [list of button]]
-			    ['style', ['bold', 'italic', 'underline', 'color']],
+			    ['style', ['style']],
+			    ['font', ['italic', 'underline', 'color']],
 			    ['fontsize', ['fontname','fontsize']],
 			    ['para', ['ul', 'ol', 'paragraph']],          
 			    ['link', ['linkDialogShow', 'unlink']],
-    			['height', ['height']]              
+    			['height', ['height']]
 			],
         	height: 500
 		});
-
 	}
 
 	var getTemplateById = function ( template_id )

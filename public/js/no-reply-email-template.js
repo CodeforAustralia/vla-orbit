@@ -1,20 +1,19 @@
 var noReplyEmailTemplate = function()
 {
-
 	var enableSummernote = function ()
 	{
 		$('#template').summernote({
 			toolbar: [
 			    // [groupName, [list of button]]
-			    ['style', ['bold', 'italic', 'underline', 'color']],
+			    ['style', ['style']],
+			    ['font', ['italic', 'underline', 'color']],
 			    ['fontsize', ['fontname','fontsize']],
 			    ['para', ['ul', 'ol', 'paragraph']],          
 			    ['link', ['linkDialogShow', 'unlink']],
-    			['height', ['height']]          
+    			['height', ['height']]
 			],
         	height: 500
 		});
-
 	}
 
 	var form_validate = function()
