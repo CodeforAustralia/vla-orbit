@@ -1349,71 +1349,83 @@ var TableDatatablesAjax = function () {
      
     var getButtons = function (controller, id, data) {
 
-        var edit_btn = '';
-        var delete_btn = '';
-        
         var role = $(".role").attr("id");
         var sp_id = $(".sp_id").attr("id");
 
-        if( role == "CLC" || role == "VLA" ) 
-        {                
-            if( controller == 'no_reply_emails/templates' && data.Section != 'All')
-            {
-                edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';                
-            }
-            //edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
-        } 
-        else 
-        {       
-            edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
-            switch(controller) 
-            {
-                case 'service':
-                    if( data.ServiceProviderId == sp_id || sp_id == 0 )
-                    {
-                        edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
-                        delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
-                    } else {
-                        edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn blue edit-content btn-xs">View</a>';
-                    }
-                    break;
-                case 'service_provider':
-                    if( data.ServiceProviderId == sp_id || sp_id == 0 )
-                    {
-                        edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
-                        if( sp_id == 0 )
-                        {
-                            delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
-                        }
-                    }
-                    break;
-                case 'question':
-                case 'matter':
-                case 'user':
-                case 'sms_template':                    
-                case 'no_reply_emails/templates':                    
-                    delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
-                    break;
-                default:                    
-            }
+        var can_edit    = false;
+        var can_delete  = false;
+        var can_view    = false;
 
-            if( role == "AdminSp" || role == "AdminSpClc" ) 
-            {                
+        switch( role )
+        {            
+            case 'CLC':                    
+            case 'VLA':
+
+                if(controller == 'service')
+                {
+                    can_view = true;
+                }
+
                 if( controller == 'no_reply_emails/templates' && data.Section != 'All')
                 {
-                    edit_btn = '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
-                    delete_btn = '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';                    
-                }
-                else
+                    can_edit = true;
+                }                      
+                break;
+            case 'AdminSp':                    
+            case 'AdminSpClc':
+                
+                switch(controller) 
                 {
-                    delete_btn = '';
-                    edit_btn = '';
+                    case 'service':                        
+                        if( data.ServiceProviderId == sp_id)
+                        {
+                            can_edit = true;
+                            can_delete = true;
+                        } 
+                        else
+                        {
+                            can_view = true;
+                        }
+                        break;
+                    case 'service_provider':
+                        if( data.ServiceProviderId == sp_id)
+                        {
+                            can_edit = true;
+                        }
+                        break;
+                    case 'question':
+                        can_edit = true;
+                    case 'matter':                    
+                    case 'sms_template':                    
+                    case 'no_reply_emails/templates':                    
+                        can_edit = true;
+                        //can_delete = true;
+                        break;
+                    default:  
                 }
-            } 
-
+                break;
+            case 'Administrator':
+                can_edit   = true;
+                can_delete = true;
+                break;
+            default:  
         }
 
-        return edit_btn + delete_btn;   	
+        var actions_buttons = '';
+        if(can_edit)
+        {
+            actions_buttons += '<a href="/' + controller + '/show/' + id  +  '" class="btn btn-warning edit-content btn-xs">Edit</a>';
+        }
+        if(can_delete)
+        {
+            actions_buttons += '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+        }
+        if(can_view)
+        {
+            actions_buttons += '<a href="javascript:;" id="' + id + '" class="btn blue view-content btn-xs">View</a>';
+        }
+
+        return actions_buttons;   	
 
     }
 
