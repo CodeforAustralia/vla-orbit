@@ -1379,8 +1379,7 @@ var TableDatatablesAjax = function () {
                     case 'service':                        
                         if( data.ServiceProviderId == sp_id)
                         {
-                            can_edit = true;
-                            can_delete = true;
+                            can_edit = true;                            
                         } 
                         else
                         {
