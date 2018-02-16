@@ -6,8 +6,7 @@ var viewService = function()
           method: "GET",
           url: "/service/list_service_by_id/" + sv_id
         })
-		.done(function( service ) {
-			console.log( service );              
+		.done(function( service ) {             
 			$("#contentLoading").modal("hide");
 			$('#viewService').modal('show')
 			setServiceInformation(service);
@@ -54,7 +53,6 @@ var viewService = function()
 		$('#catchment_area').html('');
 		for( var i = 0 ; i < service.catchments.length ; i++ )
 		{
-			console.log(service.catchments[i]);
 			var catchments = '<span class="badge badge-primary badge-roundless">' + service.catchments[i] + '</span> ';
 			$('#catchment_area').append( catchments );
 		}

@@ -212,7 +212,7 @@ class ServiceController extends Controller
             $service_vulnerabilities[] = $vulnertability_questions[$vul_pos]['QuestionLabel'];
         }
         asort($service_vulnerabilities);
-        $service->vulnerabilities = $service_vulnerabilities;
+        $service->vulnerabilities =  empty($service_vulnerabilities) ? ['None'] : array_values( $service_vulnerabilities );
 
         $service_catchments = [];
         foreach ( $serv_vuln->ServiceCatchments as $catchments) {
