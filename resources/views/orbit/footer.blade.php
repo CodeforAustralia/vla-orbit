@@ -91,9 +91,6 @@
             <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
             <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
             <!-- END multiselect PLUGIN -->
-            <!--Start of Tawk.to Script-->
-            <script src="/js/tawk.js" type="text/javascript"></script>
-            <!--End of Tawk.to Script-->
             
             <!--Start of HotJar to Script-->
             <script src="/js/hotjar.js" type="text/javascript"></script>
