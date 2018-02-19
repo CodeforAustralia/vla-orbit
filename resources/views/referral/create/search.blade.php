@@ -40,14 +40,14 @@
       <div class="portlet-body">
         <div class="row">
           <div class="col-xs-12">
-              <p>Find a service by selecting the legal issue that best matches the client’s situation.</p>
-              <p>Service providers may limit services based on where a client lives, works or studies. Add client’s location to specify search.</p>
+              <p>Find a service by selecting the legal issue that best matches the client’s situation and put in the location of where the client lives.</p>              
           </div>
           <div class="col-xs-12">
-            <div class="form-group">
+              
+              <div class="form-group">
 
                 <div class="input-group select2-bootstrap col-xs-6 legal_issue">
-                  <select id="single" class="form-control select2">
+                  <select id="single" class="form-control select2" name="legal_issue">
                       <option> </option>
                   </select>
                 </div>
@@ -60,7 +60,8 @@
                     </select>                      
                 </div>
 
-            </div>
+              </div>
+
             <br>
             <br>
           </div>

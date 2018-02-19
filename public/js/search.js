@@ -9,8 +9,13 @@ var searchPage = function()
 	        $("#single-prepend-text").select2({
 	            data: data,
 	            width: '100%',
-	            placeholder: "Location ( suburb, postcode or council )"
+	            placeholder: "Location ( suburb, postcode or council )",
+	            selectOnClose: true
 	        });
+	        //Opens options when the field is focused - Select2 field
+			$("#single-prepend-text").next('.select2').find('.select2-selection').one('focus', select2Focus).on('blur', function () {
+			    $(this).one('focus', select2Focus)
+			});
 	    }).done(function(){	    	
 	        $("#contentLoading").modal("hide");
             setSelectedValues();
@@ -23,9 +28,14 @@ var searchPage = function()
 	        $(".legal_issue #single").select2({
 	            data: data,
 	            width: '100%',
-	            placeholder: "Legal issue ( e.g. overdue fines, insurance )",
-	            matcher: matchCustom
+	            placeholder: "Legal matter ( e.g. overdue fines, insurance )",
+	            matcher: matchCustom,
+	            selectOnClose: true
 	        });
+			//Opens options when the field is focused - Select2 field
+	        $(".legal_issue #single").next('.select2').find('.select2-selection').one('focus', select2Focus).on('blur', function () {
+			    $(this).one('focus', select2Focus)
+			})
 	    }).done(function(){
 	        $("#contentLoading").modal("hide");
 	    	setSelectedValues();
@@ -65,7 +75,7 @@ var searchPage = function()
 	        }
 	        else
 	        {        	
-	            swal("Alert", "Please Select a Legal Issue and catchment", "error");  
+	            swal("Alert", "Please Select a Legal Matter and catchment", "warning");  
 	        }
 	    });
 	}
@@ -103,7 +113,7 @@ var searchPage = function()
 	    }
 	};
 
-    var matchCustom = function (params, data) 
+	var matchCustom = function (params, data) 
     {
       	// If there are no search terms, return all of the data
       	if ($.trim(params.term) === '') {
@@ -143,6 +153,11 @@ var searchPage = function()
 	{
 		$("#contentLoading").modal("show");    	
 	    window.location.href = "/referral/create/details/?ca_id=" + ca_id + "&mt_id=" + mt_id;
+	}
+
+	var select2Focus = function () 
+	{
+	    $(this).closest('.select2').prev('select').select2('open');  
 	}
     return {
         //main function to initiate the module
