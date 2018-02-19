@@ -97,8 +97,8 @@
             <!--End of HotJar to Script-->
 
             <!--Start of Survey Monkey Script-->
-            @if( isset($referrals_made) && $referrals_made > 5)
-            <script src="/js/survey-monkey.js" type="text/javascript"></script>
+            @if( isset($referrals_made) && $referrals_made > 10)
+            	<script src="/js/net-promoter.js"></script>                        
             @endif
             <!--End of Survey Monkey Script-->
             

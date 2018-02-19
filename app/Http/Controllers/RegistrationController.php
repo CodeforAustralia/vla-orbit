@@ -38,12 +38,15 @@ class RegistrationController extends Controller
         $referrals_made = 0;
         if( isset($user->id) )
         {
-            $referrals_made = DB::table('logs')
-                                ->where([
-                                            ['object_type', 'referral'],
-                                            ['user_id', $user->id]
-                                        ])
-                                ->count();        
+           $referrals_made = DB::table('logs')
+                                              ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as referrals'))
+                                              ->where([
+                                                        ['object_type', 'referral'],
+                                                        ['user_id', $user->id]
+                                                    ])
+                                              ->groupBy('date')
+                                              ->get()
+                                              ->count();
         }
         
         $dashboards = \App\Dashboard::all()->sortBy('position');
