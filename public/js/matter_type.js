@@ -1272,7 +1272,9 @@ var TableDatatablesAjax = function () {
                 "pageLength": 1000,
                 "bInfo": false,
                 "columns": [
-                        { data: "Name", "orderable": true },                             
+                        { data: "RefNo", "orderable": true },
+                        { data: "Name"},
+                        { data: "Subject" },                             
                         { data: "Section" },                             
                         {
                             data: null,

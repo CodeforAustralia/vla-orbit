@@ -20,9 +20,11 @@
                 <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_nre_templates">
                     <thead>
                         <tr role="row" class="heading">
-                            <th width="10%"> Name </th>
+                            <th width="2%"> Id </th>
+                            <th width="10%"> Template Name </th>
+                            <th width="10%"> Subject </th>
                             <th width="10%"> Available for </th>
-                            <th width="10%">  </th>
+                            <th width="3%">  </th>
                         </tr>
                     </thead>
                     <tbody> </tbody>
