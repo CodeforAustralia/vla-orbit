@@ -190,6 +190,14 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
+
+                        <li class="nav-item {{ Request::is('service_booking') ? 'active' : null }}">
+                            <a href="/service_booking" class="nav-link">
+                                <i class="fa fa-book"></i>
+                                <span class="title">Service Booking</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>                        
                         @endif
                     </ul>
                     <!-- END SIDEBAR MENU -->

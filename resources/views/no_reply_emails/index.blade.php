@@ -19,6 +19,7 @@
                 <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_nre_log">
                     <thead>
                         <tr role="row" class="heading">
+                            <th width="20%"> Sent by</th>
                             <th width="15%"> To </th>
                             <th width="15%"> Subject </th>
                             <th width="10%"> Service Provider </th>

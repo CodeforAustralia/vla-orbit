@@ -124,6 +124,8 @@ Route::get('/service_provider', 'ServiceProvidersController@index');
 
 Route::get('/service_provider/list', 'ServiceProvidersController@list');
 
+Route::post('/service_provider/listFormated', 'ServiceProvidersController@listFormated');
+
 Route::get('/service_provider/show/{sp_id}', 'ServiceProvidersController@show');
 
 Route::get('/service_provider/delete/{sp_id}', 'ServiceProvidersController@destroy');
@@ -341,3 +343,16 @@ Route::post('/dashboard', 'DashboardController@store');
 
 Route::post('/dashboard/updatePositions', 'DashboardController@updatePositions');
 
+// Service Booking
+
+Route::get('/service_booking','ServiceBookingController@index');
+
+Route::get('/service_booking/list','ServiceBookingController@list');
+
+Route::get('/service_booking/show/{sb_id}','ServiceBookingController@show');
+
+Route::get('/service_booking/new','ServiceBookingController@create');
+
+Route::post('/service_booking','ServiceBookingController@store');
+
+Route::get('/service_booking/delete/{sb_id}', 'ServiceBookingController@destroy');
