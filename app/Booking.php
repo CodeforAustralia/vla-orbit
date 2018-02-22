@@ -8,6 +8,7 @@ use App\Mail\BookingRequestEmail;
 use App\Mail\BookingSms;
 use App\SentSms;
 use App\Service;
+use App\ServiceBooking;
 use App\User;
 use Auth;
 
@@ -153,17 +154,28 @@ Class Booking
 
         if( isset( $bookings->Bookings))
         {
+            $service_booking = new ServiceBooking();
+            $all_service_bookings = $service_booking->getAllServiceBookings();            
+
             if( sizeof( $bookings->Bookings ) == 1 )
             {
                 $event = $bookings->Bookings ;
-	        	$time = strtotime( $event->BookingTime );
-				$endTime = date("H:i", strtotime('+30 minutes', $time));
 
+                $pos_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'BookingServiceId' ) );
+                $pos_int_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'InternalBookingServId' ) );
 
-				if( $event->IntLanguage != '')
-				{
-					$endTime = date("H:i", strtotime('+60 minutes', $time));
-				}
+                $length = 30;
+                if( $pos_bs_id )
+                {
+                    $length = $all_service_bookings[ $pos_bs_id ]['ServiceLength'];
+                }
+                else if( $pos_int_bs_id )
+                {
+                    $length = $all_service_bookings[ $pos_int_bs_id ]['IntServiceLength'];
+                }
+
+                $time = strtotime( $event->BookingTime );
+				$endTime = date("H:i", strtotime('+' . $length . ' minutes', $time));
 
                 $uid = $bookings->Bookings->CreatedBy;                
   
@@ -182,13 +194,22 @@ Class Booking
             	$calendars = [];
                 foreach ( $bookings->Bookings as $event ) 
                 {
-		        	$time = strtotime( $event->BookingTime );
-					$endTime = date("H:i", strtotime('+30 minutes', $time));
 
-					if( $event->IntLanguage != '')
-					{
-						$endTime = date("H:i", strtotime('+60 minutes', $time));
-					}
+                    $pos_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'BookingServiceId' ) );
+                    $pos_int_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'InternalBookingServId' ) );
+
+                    $length = 30;
+                    if( $pos_bs_id )
+                    {
+                        $length = $all_service_bookings[ $pos_bs_id ]['ServiceLength'];
+                    }
+                    else if( $pos_int_bs_id )
+                    {
+                        $length = $all_service_bookings[ $pos_int_bs_id ]['IntServiceLength'];
+                    }
+
+                    $time = strtotime( $event->BookingTime );					
+                    $endTime = date("H:i", strtotime('+' . $length . ' minutes', $time));
 
 					if( !in_array( $event->ServiceName, $calendars) )
 					{
