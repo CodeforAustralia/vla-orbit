@@ -1,28 +1,36 @@
 var sendReminderWithParams = function(refNo)
 {
-    for (let index = 0; index < EventsInCalendar.length; index++) 
-    {
-        const element = EventsInCalendar[index].data;        
-        if(element.RefNo === refNo )
-        {            
-            var reminder = {
-                client_phone:  element.Mobile,
-                client_name:   element.FirstName,
-                bb_service_id: element.ServiceId,
-                date:          element.BookingDate,
-                time:          element.BookingTime
-            }
+    $.ajax({
+        method: "GET",
+        url: "/booking/listCalendarByUser",
+        data: {}
+    })
+    .done(function( msg ) {  
+        let Bookings = msg.data;
+        for (let index = 0; index < Bookings.length; index++) 
+        {
+            const element = Bookings[index];        
+            if(element.RefNo === refNo )
+            {            
+                let reminder = {
+                    client_phone:  element.Mobile,
+                    client_name:   element.FirstName,
+                    bb_service_id: element.ServiceId,
+                    date:          element.BookingDate,
+                    time:          element.BookingTime
+                }
 
-            $.ajax({
-                method: "GET",
-                url: "/booking/sendSmsReminder",
-                data: { reminder: reminder, booking: element }
-            })
-            .done(function( msg ) {                    
-                swal( msg, "" , "success" );
-            });
+                $.ajax({
+                    method: "GET",
+                    url: "/booking/sendSmsReminder",
+                    data: { reminder: reminder, booking: element }
+                })
+                .done(function( msg ) {                    
+                    swal( msg, "" , "success" );
+                });
+            }
         }
-    }
+    });
 }
 
 var RemindBooking = function () {
