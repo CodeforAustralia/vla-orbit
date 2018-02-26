@@ -214,16 +214,7 @@ var AppCalendar = function() {
                         $("#bookingCIRNumber").text('N/P');
                     }
                     
-
-                    if( calEvent.data.IntLanguage != '' )
-                    {
-                        $("#bookingIntLanguage").text(calEvent.data.IntLanguage);
-                        $("#bookingIntLanguage").removeClass('editable-empty');
-                    } 
-                    else
-                    {
-                        $("#bookingIntLanguage").text('N/P');
-                    }
+                    $("#bookingIntLanguage").text(calEvent.data.IntLanguage);
 
                     $("#bookingIsSafe").text(calEvent.data.IsSafe);
 
@@ -384,21 +375,6 @@ var AppCalendar = function() {
                         }
                     }
                 });
-                $('#bookingIntLanguage').editable({                                        
-                    source: '/json/languages.json',
-                    url: function(params) 
-                    {
-                        currentEventInCalendar.IntLanguage = params.value;
-                        saveBooking(currentEventInCalendar);
-                    },
-                    validate: function(value) 
-                    {
-                        if($.trim(value) == '') 
-                        {
-                            return 'This field is required';
-                        }
-                    }
-                });
                 $('#bookingLastName').editable({                    
                     url: function(params) 
                     {                        
@@ -496,6 +472,19 @@ var AppCalendar = function() {
 
     };
 
+}();
+
+var setDefaultValuesOnClick = function()
+{    
+    let elements = ['#bookingDescription', '#bookingFirstName', '#bookingLastName', '#bookingPhone', '#bookingEmail','#bookingCIRNumber'];
+    for (let i = elements.length - 1; i >= 0; i--) 
+    {           
+        let current_element = $(elements[i]);
+        $( current_element ).on( "click", function(e) 
+        {
+            current_element.editable('setValue', current_element.html());
+        }); 
+    }
 }();
 
 function deleteBookingDialog() 
