@@ -3,14 +3,18 @@ var noReplyEmailTemplate = function()
 	var enableSummernote = function ()
 	{
 		$('#template').summernote({
+		    addclass: {
+		        debug: false,
+		        classTags: ["table-bordered", "text-primary", "text-warning", "text-danger", "text-success", "alert alert-success", "alert alert-info", "alert alert-warning", "alert alert-danger"]
+		    },			
 			toolbar: [
 			    // [groupName, [list of button]]
-			    ['style', ['style']],
-			    ['font', ['italic', 'underline', 'color']],
+			    ['style', ['style','addclass','bold']],			    
 			    ['fontsize', ['fontname','fontsize']],
-			    ['para', ['ul', 'ol', 'paragraph']],          
+    			['color', ['color']],
+			    ['para', ['ul']],          
 			    ['link', ['linkDialogShow', 'unlink']],
-    			['height', ['height']]
+    			//['height', ['height']]
 			],
         	height: 500
 		});

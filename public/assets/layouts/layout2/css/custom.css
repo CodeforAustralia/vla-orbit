@@ -577,3 +577,15 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 {
     margin-top: 12px;
 }
+
+.note-editor a{
+    text-decoration: underline;
+}
+
+.note-editor .table-bordered{
+    border:2px solid #000408;
+}
+
+.note-editor p.text-danger{
+    font-size:large
+}
