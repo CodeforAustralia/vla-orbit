@@ -61,7 +61,7 @@ var initFilters = function ()
 {
   const filter_level   = ['information', 'advice', 'representation'];
   const filter_type    = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop'];
-  const filter_sp_type = ['non-legal-provider', 'clc', 'vla', 'legal-help'];
+  const filter_sp_type = ['non-legal-provider', 'clc', 'vla', 'legal-help', 'private-practitioners'];
 	
   setFilterOnElement( $('#filter-type'), 'Select Type',filter_type);
   setFilterOnElement( $('#filter-level'), 'Select Level',filter_level);
