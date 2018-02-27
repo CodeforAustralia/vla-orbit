@@ -38,14 +38,14 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Template name:</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="name" name="name" value="{{ ( isset($template['Name']) ? $template['Name'] : '' ) }}" maxlength="50" required>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ ( isset($template['Name']) ? $template['Name'] : '' ) }}" maxlength="255" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Subject:</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="subject" name="subject" value="{{ ( isset($template['Subject']) ? $template['Subject'] : '' ) }}" maxlength="80" required>
+                            <input type="text" class="form-control" id="subject" name="subject" value="{{ ( isset($template['Subject']) ? $template['Subject'] : '' ) }}" maxlength="255" required>
                         </div>
                     </div>
 
