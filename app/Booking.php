@@ -14,7 +14,31 @@ use Auth;
 
 Class Booking
 {
-	public function getAllBookings( $from, $to )
+    public function getAllBookings( $from, $to )
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $info = [
+                    'FromDate'  => $from , 
+                    'ToDate'    => $to 
+                ];
+
+        $user = Auth::user();
+        if( isset($user) && $user->sp_id != 0 )
+        {
+            $info['ServiceProviderId'] = $user->sp_id;
+            $bookings = $client->GetAllOrbitBookingsByServiceProvider( $info )->GetAllOrbitBookingsByServiceProviderResult;         
+        } 
+        else 
+        {
+            $bookings = self::getFutureBookings( $from, $to );
+        }
+
+        return $bookings;
+    }
+
+	public function getFutureBookings( $from, $to )
 	{		
 		// Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
@@ -24,32 +48,24 @@ Class Booking
     				'ToDate'	=> $to 
 				];
 
-		$user = Auth::user();
-		if( isset($user) && $user->sp_id != 0 )
-		{
-			$info['ServiceProviderId'] = $user->sp_id;
-			$bookings = $client->GetAllOrbitBookingsByServiceProvider( $info )->GetAllOrbitBookingsByServiceProviderResult;			
-		} 
-		else 
-		{
-        	$bookings = $client->GetAllOrbitBookings( $info )->GetAllOrbitBookingsResult;
-        	$temp_bookings = [];    
+    	$bookings = $client->GetAllOrbitBookings( $info )->GetAllOrbitBookingsResult;
+    	$temp_bookings = [];    
 
-        	foreach ($bookings->Bookings as $booking) 
-        	{
-        		$booking_date = $booking->BookingDate;
+    	foreach ($bookings->Bookings as $booking) 
+    	{
+    		$booking_date = $booking->BookingDate;
 
-        		if(($booking_date >= $from) && ($booking_date <= $to))
-        		{
-        			$temp_bookings[] = $booking;
-        		}
-        	}
-        	if( sizeof( $temp_bookings ) == 1 )
-        	{
-        		 $temp_bookings =  $temp_bookings[0];
-        	}
-        	$bookings->Bookings = $temp_bookings;
-		}
+    		if(($booking_date >= $from) && ($booking_date <= $to))
+    		{
+    			$temp_bookings[] = $booking;
+    		}
+    	}
+    	if( sizeof( $temp_bookings ) == 1 )
+    	{
+    		 $temp_bookings =  $temp_bookings[0];
+    	}
+    	$bookings->Bookings = $temp_bookings;
+		
 
         return $bookings;
 	}
@@ -104,7 +120,7 @@ Class Booking
 
     public function getAllBookingsNextMonthCalendar( $from, $to, $sp_id = 0 )
     {
-    	$bookings = self::getAllBookings( $from, $to );
+    	$bookings = self::getFutureBookings( $from, $to );
 
         if( isset( $bookings->Bookings))
         {
