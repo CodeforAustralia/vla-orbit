@@ -236,7 +236,12 @@ var AppCalendar = function() {
                     $(this).css('border-color', 'red');                    
                     $("#bookingInfo").modal();
 
-                    if( calEvent.data.Mobile != '') {
+                    
+                    const booking_date = new Date(calEvent.data.BookingDate);                               
+                    let day_before = new Date(); 
+                    day_before.setDate(day_before.getDate()-1);
+                                        
+                    if( booking_date > day_before && calEvent.data.Mobile != '') {
                         $('.remind-booking').show();
                     } else {
                         $('.remind-booking').hide();

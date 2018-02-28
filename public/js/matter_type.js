@@ -910,10 +910,14 @@ var TableDatatablesAjax = function () {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
+                                const booking_date = new Date(moment(data.BookingDate).toDate());                               
+                                let day_before = new Date(); 
+                                day_before.setDate(day_before.getDate()-1);
+
                                 // Combine the first and last names into a single table field
-                                var action_buttons = "";
+                                let action_buttons = "";
                                 action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs col-xs-12">Delete</a>';
-                                if(data.Mobile != '')
+                                if( booking_date > day_before && data.Mobile != '' )
                                 {                                    
                                     action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;                                    
                                 }
@@ -1019,10 +1023,15 @@ var TableDatatablesAjax = function () {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
+
+                                const booking_date = new Date(moment(data.BookingDate).toDate());                               
+                                let day_before = new Date(); 
+                                day_before.setDate(day_before.getDate()-1);
+
                                 // Combine the first and last names into a single table field
-                                var action_buttons = "";
+                                let action_buttons = "";
                                 action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs col-xs-12">Delete</a>';
-                                if(data.Mobile != '')
+                                if( booking_date > day_before && data.Mobile != '' )
                                 {                                    
                                     action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;                                    
                                 }
