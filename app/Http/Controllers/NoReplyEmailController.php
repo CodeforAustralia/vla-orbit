@@ -111,9 +111,8 @@ class NoReplyEmailController extends Controller
 
     public function saveTemplate()
     {
-        $nre_obj = new NoReplyEmail(); 
+        $nre_obj = new NoReplyEmail();
         $response = $nre_obj->saveEmailTemplate( request()->all() );
-
         return redirect('/no_reply_emails/templates')->with($response['success'], $response['message']);    
     }
 }
