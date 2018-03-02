@@ -12,10 +12,6 @@ var searchPage = function()
 	            placeholder: "Location ( suburb, postcode or council )",
 	            selectOnClose: true
 	        });
-	        //Opens options when the field is focused - Select2 field
-			$("#single-prepend-text").next('.select2').find('.select2-selection').one('focus', select2Focus).on('blur', function () {
-			    $(this).one('focus', select2Focus)
-			});
 	    }).done(function(){	    	
 	        $("#contentLoading").modal("hide");
             setSelectedValues();
@@ -32,10 +28,6 @@ var searchPage = function()
 	            matcher: matchCustom,
 	            selectOnClose: true
 	        });
-			//Opens options when the field is focused - Select2 field
-	        $(".legal_issue #single").next('.select2').find('.select2-selection').one('focus', select2Focus).on('blur', function () {
-			    $(this).one('focus', select2Focus)
-			})
 	    }).done(function(){
 	        $("#contentLoading").modal("hide");
 	    	setSelectedValues();
@@ -154,11 +146,7 @@ var searchPage = function()
 		$("#contentLoading").modal("show");    	
 	    window.location.href = "/referral/create/details/?ca_id=" + ca_id + "&mt_id=" + mt_id;
 	}
-
-	var select2Focus = function () 
-	{
-	    $(this).closest('.select2').prev('select').select2('open');  
-	}
+	
     return {
         //main function to initiate the module
         init: function () 
