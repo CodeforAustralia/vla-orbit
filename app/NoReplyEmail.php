@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Auth;
 use App\ServiceProvider;
 use App\Mail\NoReplyEmailMailable;
+use Helpers;
 
 class NoReplyEmail
 {
@@ -62,7 +63,7 @@ class NoReplyEmail
 				$section = self::getSection();			
 				$info = [ 'Section' => $section ];
 				$response = $this->client->GetTemplatesBySectionasJSON( $info );
-				$templates = json_decode( $response->GetTemplatesBySectionasJSONResult, true );
+				$templates = json_decode( $response->GetTemplatesBySectionasJSONResult, true );			
 
 				foreach ($templates as $template) 
 				{
@@ -122,9 +123,35 @@ class NoReplyEmail
 
 	       	$attachments = self::attachFiles( $files );
 
-	       	$prefix = '<p><span style="font-family:Arial,Helvetica,sans-serif"><em><em>This email was sent by Orbit to</em> ' . $email_data['to'] .  ' </em></span></p><p><span style="font-family:Arial,Helvetica,sans-serif"><em>Please do not reply to this email.</em>&nbsp;</span></p><hr>';
+		   	$sp_name = '';
+		   	$sp_contact = '';
+		   	$suffix = '<br><hr>';
+	   		if( auth()->user()->sp_id != 0)
+			{
+		   		$sp_obj = new ServiceProvider();
+		   		$service_provider = $sp_obj->getServiceProviderByID( auth()->user()->sp_id );
+		   		$service_provider = json_decode($sp_obj->getServiceProviderByID( auth()->user()->sp_id )['data'])[0];
+		   		$sp_name = $service_provider->ServiceProviderName;
+		   		$suffix .= '<em>If you wish to contact us, please do not reply to this message. Replies to this message will not be read or responded to.</em><br><br>';
+		   		$sp_contact .= 'To contact us:<br><br>';
+		   		$sp_contact .= $sp_name . '<br>';
+		   		if( $service_provider->ContactPhone != '#')
+		   		{
+		   			$sp_contact .= $service_provider->ContactPhone . '<br>';
+		   		}
+		   		if( $service_provider->ServiceProviderURL != '#')
+		   		{
+		   			$sp_contact .= $service_provider->ServiceProviderURL . '<br>';
+		   		}
+		   		$suffix .= $sp_contact;
+	   		}
 
-	       	$email_data['message'] = $prefix . $email_data['message'];
+	       	$prefix = '<em>This email was sent by ' . $sp_name . ' to ' . $email_data['to'] .  ' </em><br><em>Please do not reply to this email.</em><br><hr><br>';
+
+		   	$suffix .= '<br>Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.<br><br>';
+
+
+	       	$email_data['message'] = $prefix . $email_data['message'] . $suffix;
 
 			$info = [
 						'MessageObject' => [
@@ -313,5 +340,64 @@ class NoReplyEmail
         catch (\Exception $e) {            
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
-    }   
+    }
+    public function getAllTemplatesFormatedBySection(){
+    	$templates = self::getAllTemplatesBySection();    	
+    	$templates = \App\Http\helpers::array_sort($templates['data'], 'Section', SORT_DESC);    	
+    	$clean_templates = [];    	
+    	foreach ($templates as $template) {    		    		    		
+    		array_push($clean_templates, [ 
+    										'id'   		=> $template['RefNo'], 
+    										'text' 		=> $template['Name'],
+    										'section'	=> $template['Section'],
+    									]);    		
+    	}
+    	$firstGroup = 0;
+    	$group = '';
+    	$children = [];
+    	$templates = [];    	
+    	// Store and select the first section and compare with the next one in order to have the groups    	
+    	foreach ($clean_templates as $key => $value) {
+    		if($firstGroup == 0)
+    		{
+    			$group = $value['section'];
+    			array_push($children, [
+    									'id' 	=> $value['id'],
+    									'text' 	=> $value['text'],
+    								]);
+
+    			$firstGroup++;
+    		}
+    		elseif ($value['section']==$group)
+    		{
+    			array_push($children, [
+						'id' 	=> $value['id'],
+						'text' 	=> $value['text'],
+									]);
+    		}
+    		else
+    		{
+    			array_push($templates, [
+    									'text' => (strtoupper($group) == 'ALL')? 'General Templates':$group .' Templates',
+    									'children' => $children,
+    								]);
+    			$children = [];
+    			$group = $value['section'];
+    			array_push($children, [
+    									'id' 	=> $value['id'],
+    									'text' 	=> $value['text'],
+    								]);    			
+    		}
+    		if($value == end($clean_templates))
+    		{
+    			array_push($templates, [
+    									'text' => (strtoupper($group) == 'ALL')? 'General Templates':$group .' templates',
+    									'children' => $children,
+    								]);    		
+    		}   		
+    	}
+    	return $templates;
+
+    }
+
 }

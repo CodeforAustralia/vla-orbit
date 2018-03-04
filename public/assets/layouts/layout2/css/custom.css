@@ -582,3 +582,11 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     text-decoration: underline;
 }
 
+.modal-body  h4{
+    color:#3598dc;
+}
+
+.modal-body .toggle{
+    float: right ;
+}
+

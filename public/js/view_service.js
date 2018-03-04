@@ -24,6 +24,7 @@ var viewService = function()
 
 	var setServiceInformation = function( service )
 	{
+		
 		$('#serviceName').html( service.ServiceName );
 		$('#phoneNumber').html( service.Phone );
 		$('#email').html( service.Email );
@@ -34,7 +35,10 @@ var viewService = function()
 		$('#wait_time').html( service.Wait );
 		$('#opening_hours').html( service.OpenningHrs );
 		$('#service_level').html( service.ServiceLevelName );
-		$('#service_type').html( service.ServiceTypeName );
+		$('#service_type').html( service.ServiceTypeName );		
+		$('#status').prop('disabled',false);
+		$('#status').prop('checked',(service.Status!=0) ? true:false).change();
+		$('#status').prop('disabled',true);
 
 		$('#legal_matters').html('');
 		for( var i = 0 ; i < service.ServiceMatters.length ; i++ )
@@ -56,6 +60,14 @@ var viewService = function()
 			var catchments = '<span class="badge badge-primary badge-roundless">' + service.catchments[i] + '</span> ';
 			$('#catchment_area').append( catchments );
 		}
+
+		var lastUpdate = moment(service.UpdatedOn).toDate();		
+		lastUpdate = moment(lastUpdate).format('DD/MM/YYYY');
+		var updateByDate ='Last update ' + lastUpdate + ' by ' + service.UpdatedBy;
+		$('#updated-by-date').html( updateByDate );
+
+
+
 	}
 
 	return {

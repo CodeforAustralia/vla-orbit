@@ -39,7 +39,7 @@ class NoReplyEmailController extends Controller
         {
             $section = $nre_obj->getSection();
         } 
-        $templates = $nre_obj->getAllTemplatesBySection()['data'];
+        $templates = $nre_obj->getAllTemplatesBySection()['data'];                
         usort($templates, function($a, $b){ return strcasecmp($a["Name"], $b["Name"]); });
         return view( "no_reply_emails.create", compact('templates', 'section') );
     }
@@ -115,4 +115,10 @@ class NoReplyEmailController extends Controller
         $response = $nre_obj->saveEmailTemplate( request()->all() );
         return redirect('/no_reply_emails/templates')->with($response['success'], $response['message']);    
     }
+    public function listAllTemplatesFormated()
+    {
+        $nre_obj = new NoReplyEmail();        
+        $result = $nre_obj->getAllTemplatesFormatedBySection();            
+        return $result;
+    }    
 }

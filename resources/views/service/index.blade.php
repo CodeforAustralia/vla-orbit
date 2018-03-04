@@ -43,7 +43,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title bold" id="serviceName" ></h4>
+          <h4 class="modal-title bold" id="serviceName" ></h4>           
         </div>
         <!-- Modal Body -->
         <div class="modal-body">
@@ -57,7 +57,15 @@
     </div><!-- Modal Dialogue Close-->
   </div><!-- Modal Fade Close-->
 @endsection
-
+@section('styles')    
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<!-- Bootstrap toogle CSS -->
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<!-- END Bootstrap toogle CSS -->
+@endsection
 @section('scripts')
     <script src="/js/view_service.js?id={{ str_random(6) }}"></script>
+    <!-- Bootstrap toogle JS -->
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <!-- END Bootstrap toogle JS -->
 @endsection

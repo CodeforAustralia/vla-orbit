@@ -56,6 +56,17 @@ var noReplyEmails = function()
 	    });
 	}
 
+	var setTemplate = function(){
+		$.get("/no_reply_emails/listTemplatesBySectionFormated", function(data, status){			
+			$('#template_id').select2({
+				data:data,
+				placeholder:'Select from list',
+			});
+
+		});
+		
+	};
+
     return {
         //main function to initiate the module
         init: function () 
@@ -63,6 +74,7 @@ var noReplyEmails = function()
         	enableSummernote();
         	onChangeTemplate();
         	form_validate();
+        	setTemplate();
         }
 
     }

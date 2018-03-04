@@ -13,6 +13,34 @@ Class ServiceProvider
         return $service_providers;
 	}
 
+    public function getAllServiceProvidersFormated( $scope )
+    {
+        $service_providers = self::getAllServiceProviders();
+
+        $output = [];
+
+        foreach ($service_providers as $service_provider) 
+        {
+            if( $scope === "All" )
+            {            
+                $output[] = [
+                            'id'    => $service_provider['ServiceProviderId'],
+                            'text'  => $service_provider['ServiceProviderName']
+                            ];
+            } 
+            else if( $service_provider['ServiceProviderTypeName'] === $scope && $scope === "VLA" ) //Restrict list just to VLA
+            {                
+                $output[] = [
+                            'id'    => $service_provider['ServiceProviderId'],
+                            'text'  => $service_provider['ServiceProviderName']
+                            ];
+            }
+
+        }
+
+        return $output;
+    }
+
     public function saveServiceProvider( $sp_params ) 
     {
 

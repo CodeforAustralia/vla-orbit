@@ -83,8 +83,15 @@ class ServiceProvidersController extends Controller
 
     public function list()
     {
-        $ServiceProvider = new ServiceProvider();
-        $result = $ServiceProvider->getAllServiceProviders();
+        $service_provider = new ServiceProvider();
+        $result = $service_provider->getAllServiceProviders();
         return array( 'data' => $result );
+    }
+    
+    public function listFormated()
+    {
+        $service_provider = new ServiceProvider();
+        $result = $service_provider->getAllServiceProvidersFormated( request('scope') );
+        return $result;
     }
 }

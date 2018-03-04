@@ -323,6 +323,8 @@ Route::get('/no_reply_emails/listAllTemplatesBySection', 'NoReplyEmailController
 
 Route::get('/no_reply_emails/listAllMailBoxes', 'NoReplyEmailController@listAllMailBoxes');
 
+Route::get('/no_reply_emails/listTemplatesBySectionFormated', 'NoReplyEmailController@listAllTemplatesFormated');
+
 Route::post('/no_reply_emails', 'NoReplyEmailController@sendEmail');
 
 Route::post('/no_reply_emails/templates', 'NoReplyEmailController@saveTemplate');

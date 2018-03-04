@@ -12,12 +12,9 @@
                     
                     <div class="form-group ">
                         <label class="col-md-3 control-label">Template:</label>
-                        <div class="col-md-4">
-                            <select class="form-control" id="template_id" name="template_id" required>
-                                <option value=""> - Select from list - </option>
-                                @foreach( $templates as $template)
-                                <option value="{{ $template['RefNo'] }}"> {{ $template['Name'] }} </option>
-                                @endforeach
+                        <div class="select2-bootstrap col-md-4">
+                            <select class="form-control select2" id="template_id" name="template_id" required>
+                                <option></option>
                             </select>
                         </div>
                     </div>
