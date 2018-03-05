@@ -1,11 +1,9 @@
-<div class="booking-area">
-    <hr>  
-    <h4 class="padding-top-10 padding-bottom-10">Appointment</h4>
+<div class="booking-area">        
     <div class="row availability hidden">
         <div class="col-xs-12 padding-bottom-20">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Date:</label>                
+                    <label>Date of appointment: choose from dates marked green</label>                
                     <input type="text" class="form-control input-medium" id="booking-date" name="booking-date" required>
                 </div>
             </div>
@@ -16,7 +14,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Available Times:</label>
+                    <label>Available Times: <small>choose from dates marked green</small></labe>
                     <div class="mt-radio-list" id="time-options">
                     </div>
                 </div>
