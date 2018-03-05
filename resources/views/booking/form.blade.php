@@ -88,7 +88,7 @@
     </div>    
 
     <hr>
-    <h4 class="padding-top-10 padding-bottom-10">Appointment details Details</h4>
+    <h4 class="padding-top-10 padding-bottom-10">Appointment Details</h4>
 
     <div class="row">
         <div class="col-xs-12 ">
@@ -157,7 +157,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
-                    <label>CIR Number (if legal advice is given):</label>
+                    <label>CIR Number: <small>if known / required if legal advice is given</small></label>
                     <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" id="CIRNumber">                 
                 </div>
             </div>
