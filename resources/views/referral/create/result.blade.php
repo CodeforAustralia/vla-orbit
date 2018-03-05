@@ -75,7 +75,8 @@
                     <!-- Email Address -->
                     <div class="form-group">
                       <label>
-                        <input type="checkbox" id="safeEmail"> It is safe to contact client by email
+                        <input type="checkbox" id="safeEmail"> It is safe to send an email to this address                        
+                        <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Please be mindful of any family violence risks; eg if this email account is accessible by others."></i>
                       </label> 
                       <label class="sr-only" for="Email">Email Address</label>
                       <input type="email" class="form-control" id="Email" placeholder="Client email address">                        
@@ -90,7 +91,8 @@
                     <!-- Phone Number -->
                     <div class="form-group">
                       <label>
-                        <input type="checkbox" id="safePhone"> It is safe to contact client by SMS
+                        <input type="checkbox" id="safePhone"> It is safe to send an SMS to this number
+                        <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Please be mindful of any family violence risks; eg if the SMS or an SMS notification can be viewed by others."></i>
                       </label>
                       <label class="sr-only" for="Phone">Phone Number</label>
                       <input type="number" class="form-control" id="Phone" placeholder="Client mobile number">
