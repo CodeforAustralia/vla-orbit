@@ -459,6 +459,10 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     background-color: #26c281;
 }
 
+.datepicker table tr td.day.disabled.active {    
+    background-color: white !important;
+    color: #999;
+}
 
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
