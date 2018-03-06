@@ -464,6 +464,11 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     color: #999;
 }
 
+.datepicker table tr td.day.new,td.day.old {    
+  pointer-events: none;
+  cursor: default;
+}
+
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
     cursor: default;
