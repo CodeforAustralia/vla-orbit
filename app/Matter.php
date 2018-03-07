@@ -106,6 +106,7 @@ Class Matter
                         $parent_post = $pos;
                         $dataset[$key]['children'][$pos] = $fc_copy;
 
+                        $current_child_tags = explode(',', $dataset[$key]['children'][$parent_post]['Tag']);                        
                         foreach( $first_child['children'] as $second_child ):
                             //Each specific matter should be under each sub group title in the options with their own tag
                             $pos++;
@@ -114,9 +115,11 @@ Class Matter
                                 $dataset[$key]['children'][$pos] = $second_child;
                             endif;
                             //Add all specific matters to the parent sub group tags/keywords
-                            $dataset[$key]['children'][$parent_post]['Tag'] .= ', ' . $second_child['text'];
+                            $second_child_tags = explode(',', $second_child['Tag'] . ', ' . $second_child['text'] );
+                            $current_child_tags = array_unique (array_merge ($current_child_tags, $second_child_tags));
 
                         endforeach;
+                        $dataset[$key]['children'][$parent_post]['Tag'] =  implode(',', $current_child_tags);
 
                     else:
                         $dataset[$key]['children'][$pos] = $first_child;
