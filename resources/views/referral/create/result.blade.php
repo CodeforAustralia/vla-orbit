@@ -3,7 +3,7 @@
 @section ('content')
 
   <!-- Steps -->
-  <div class="mt-element-step margin-bottom-20">
+  <div class="mt-element-step margin-bottom-0">
     <div class="row step-line">
       <a class="col-xs-3 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location/{{ '?ca_id=' . session('ca_id') . '&mt_id=' . session('mt_id') }}">
         <div class="mt-step-number bg-white">
@@ -70,8 +70,6 @@
                   
                   <!-- Send to Client form -->
                   <form>
-                    <!-- Client Name -->
-                    <div class="form-group">
                     <!-- Email Address -->
                     <div class="form-group">
                       <label>
@@ -159,11 +157,37 @@
       </div><!-- Modal Content Close-->
     </div><!-- Modal Dialogue Close-->
   </div><!-- Modal Fade Close-->
+
+
+  <!-- NRE Modal Start -->    
+
+<!-- Confirm Eligibility Modal -->                                        
+    <div class="modal fade in bs-modal-lg" id="sendNRE" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">                  
+                  <h4 class="modal-title">Send No Reply Email</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="container-fluid">
+                      @include ('no_reply_emails.form')
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+<!-- Modal Fade Close-->
 @endsection
 
 @section('scripts-extra')
     <script src="/assets/global/plugins/readmore/readmore.min.js" type="text/javascript"></script>
     <script src="/js/referral-result-page.js?id={{ str_random(6) }}" type="text/javascript"></script>
+
+
+    <script src="/js/no-reply-emails.js?id=1" type="text/javascript"></script>    
+    <script src="/assets/global/plugins/jquery-repeater/jquery.repeater.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/form-repeater.min.js" type="text/javascript"></script>
 @endsection
 
 @section('inline-scripts')  
