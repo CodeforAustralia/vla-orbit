@@ -21,6 +21,7 @@ Class ServiceProvider
 
         foreach ($service_providers as $service_provider) 
         {
+            $sp_type = $service_provider['ServiceProviderTypeName'];
             if( $scope === "All" )
             {            
                 $output[] = [
@@ -28,7 +29,7 @@ Class ServiceProvider
                             'text'  => $service_provider['ServiceProviderName']
                             ];
             } 
-            else if( $service_provider['ServiceProviderTypeName'] === $scope && $scope === "VLA" ) //Restrict list just to VLA
+            else if( ($sp_type === "VLA" || $sp_type === "Legal Help") && $scope === "VLA"  ) //Restrict list just to VLA
             {                
                 $output[] = [
                             'id'    => $service_provider['ServiceProviderId'],
