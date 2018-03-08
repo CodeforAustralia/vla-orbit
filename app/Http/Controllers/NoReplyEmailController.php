@@ -115,10 +115,14 @@ class NoReplyEmailController extends Controller
         $response = $nre_obj->saveEmailTemplate( request()->all() );
         return redirect('/no_reply_emails/templates')->with($response['success'], $response['message']);    
     }
+    /**
+     * List all templates formated for select2
+     * @return array array of all templates formated
+     */
     public function listAllTemplatesFormated()
     {
         $nre_obj = new NoReplyEmail();        
-        $result = $nre_obj->getAllTemplatesFormatedBySection();            
+        $result = $nre_obj->getAllTemplatesFormatedBySection();
         return $result;
     }    
 }

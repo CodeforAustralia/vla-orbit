@@ -37,6 +37,13 @@ class ReferralSms extends Mailable
      */
     public function build()
     {
+        $is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
+        if( $is_clc )
+        {
+            $address = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
+            $name = env('APP_NAME', 'Orbit');
+            return $this->from( $address, $name )->subject(' ')->markdown('emails.referral.sms')->with($this->args);
+        }
         return $this->subject(' ')->markdown('emails.referral.sms')->with($this->args);
     }
 }

@@ -76,7 +76,6 @@ class Helpers
         }
 
         return $new_array;
-    }       
-
+    } 
     
 }

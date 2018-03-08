@@ -1390,7 +1390,7 @@ var TableDatatablesAjax = function () {
 
                 "ajax": {
                     "url": "/no_reply_emails/listAllLogRecords", // ajax source
-                    "type": "get"
+                    "type": "get",
                 },
                 "order": [
                     [3, "desc"]

@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="col-sm-12">
-		<label class="col-sm-5 bold">URL </label>
+		<label class="col-sm-5 bold">Website </label>
     	<span id="url"></span>
 	</div>
 

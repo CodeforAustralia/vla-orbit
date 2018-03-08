@@ -103,7 +103,8 @@
             <!--End of Survey Monkey Script-->
             
             <!-- include summernote js-->
-            <script src="/js/summernote.js"></script>          
+            <script src="/js/summernote.js"></script>
+            <script src="/js/summernote-cleaner.js"></script>
             <!-- end include summernote js-->
             
             <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>

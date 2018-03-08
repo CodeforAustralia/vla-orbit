@@ -79,6 +79,7 @@ class NoReplyEmail
 				array_shift( $templates ); // Remove first element of array as it is returning an empty element
 				$data = $templates;
 			}
+			usort($data, function($a, $b){ return strcasecmp($b["Section"], $a["Section"]); });
 			return ['data' => $data ];
 		} 
 		catch (Exception $e) 
@@ -121,8 +122,7 @@ class NoReplyEmail
 	       		$files[]['files'] = $email_data['main_attachment'];
 	       	}
 
-	       	$attachments = self::attachFiles( $files );
-
+	       	$attachments = self::attachFiles( $files );	   	
 		   	$sp_name = '';
 		   	$sp_contact = '';
 		   	$suffix = '<br><hr>';
@@ -169,7 +169,7 @@ class NoReplyEmail
 											],
 						'IsHTML'		=> true,
 					];
-			
+			$email_data['attachments'] = $attachments;
 			$response = $this->client->SendEmailasJSON($info);
 			Mail::to( auth()->user()->email )->send( new NoReplyEmailMailable( $email_data ) );
 			//return json_decode( $response->SendEmailasJSONResult, true );
@@ -341,9 +341,12 @@ class NoReplyEmail
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
         }
     }
+    /**
+     * Sort the templates by section and group the templates.
+     * @return Array Templates in select2 format
+     */
     public function getAllTemplatesFormatedBySection(){
-    	$templates = self::getAllTemplatesBySection();    	
-    	$templates = \App\Http\helpers::array_sort($templates['data'], 'Section', SORT_DESC);    	
+    	$templates = self::getAllTemplatesBySection()['data'];    	    	
     	$clean_templates = [];    	
     	foreach ($templates as $template) {    		    		    		
     		array_push($clean_templates, [ 
@@ -352,52 +355,22 @@ class NoReplyEmail
     										'section'	=> $template['Section'],
     									]);    		
     	}
-    	$firstGroup = 0;
-    	$group = '';
-    	$children = [];
     	$templates = [];    	
-    	// Store and select the first section and compare with the next one in order to have the groups    	
-    	foreach ($clean_templates as $key => $value) {
-    		if($firstGroup == 0)
-    		{
-    			$group = $value['section'];
-    			array_push($children, [
+    	foreach ($clean_templates as $key => $value) {	
+    		$templates[ $value['section'] ][]		 = [
     									'id' 	=> $value['id'],
     									'text' 	=> $value['text'],
-    								]);
-
-    			$firstGroup++;
-    		}
-    		elseif ($value['section']==$group)
-    		{
-    			array_push($children, [
-						'id' 	=> $value['id'],
-						'text' 	=> $value['text'],
-									]);
-    		}
-    		else
-    		{
-    			array_push($templates, [
-    									'text' => (strtoupper($group) == 'ALL')? 'General Templates':$group .' Templates',
-    									'children' => $children,
-    								]);
-    			$children = [];
-    			$group = $value['section'];
-    			array_push($children, [
-    									'id' 	=> $value['id'],
-    									'text' 	=> $value['text'],
-    								]);    			
-    		}
-    		if($value == end($clean_templates))
-    		{
-    			array_push($templates, [
-    									'text' => (strtoupper($group) == 'ALL')? 'General Templates':$group .' templates',
-    									'children' => $children,
-    								]);    		
-    		}   		
+    								];
     	}
-    	return $templates;
+    	$output = [];
+    	foreach ($templates as $key => $value) {
+    		$text = (strtoupper($key) == 'ALL' ? 'General Templates':$key .' Templates' ) ;
+    		usort($value, function($a, $b){ return strcasecmp(strtoupper($a["text"]), strtoupper($b["text"])); });
+    		$output[] = ['text' => $text, 'children' => $value];
+    	}
+    	
+    	return $output;
 
-    }
+    }    
 
 }

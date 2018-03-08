@@ -1,7 +1,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>No-Reply Email
+                <i class="fa fa-envelope"></i>No-Reply Email
             </div>
         </div>
         <div class="portlet-body form">
@@ -12,7 +12,7 @@
                     
                     <div class="form-group ">
                         <label class="col-md-3 control-label">Template:</label>
-                        <div class="select2-bootstrap col-md-4">
+                        <div class="select2-bootstrap col-md-8 col-lg-4">
                             <select class="form-control select2" id="template_id" name="template_id" required>
                                 <option></option>
                             </select>
@@ -21,14 +21,14 @@
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">To:</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8 col-lg-4">
                             <input type="email" class="form-control" id="to" name="to"  value="" placeholder="Client email" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Subject:</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8 col-lg-4">
                             <input type="text" class="form-control" id="subject" name="subject"  value="" placeholder="Subject of the message" required>
                         </div>
                     </div>

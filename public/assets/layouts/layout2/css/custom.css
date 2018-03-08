@@ -580,6 +580,10 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     }
 }
 
+.page-bar {
+    background: initial;
+}
+
 /***************** No Reply Emails ***********************/
 
 .nre_template_form .checkbox_all
@@ -597,5 +601,9 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 
 .modal-body .toggle{
     float: right ;
+}
+
+.checkbox #sn-checkbox-open-in-new-window{
+        margin-left: -13px;
 }
 

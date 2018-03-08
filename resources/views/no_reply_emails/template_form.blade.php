@@ -1,7 +1,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>No-Reply Email</div>
+                <i class="fa fa-envelope"></i>No-Reply Email</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
@@ -18,7 +18,7 @@
                     @if( \App\Http\helpers::getRole() === 'Administrator' )
                     <div class="form-group">
                         <label class="col-md-3 control-label">Service Provider:</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8 col-lg-4">
                             <select class="form-control" id="Section" name="Section"> 
                                 <option></option>
                                 @foreach( $service_providers as $service_provider )
@@ -29,7 +29,7 @@
                     </div>
                     @else
                     <div class="form-group">
-                        <div class="col-md-4">
+                        <div class="ccol-md-8 col-lg-4">
                             <input type="text" class="form-control hidden" id="Section" name="Section" value="{{ ( isset($template['Section']) ? $template['Section'] : '' ) }}">
                         </div>
                     </div>
@@ -37,21 +37,21 @@
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Template name:</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8 col-lg-4">
                             <input type="text" class="form-control" id="name" name="name" value="{{ ( isset($template['Name']) ? $template['Name'] : '' ) }}" maxlength="255" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Subject:</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8 col-lg-4">
                             <input type="text" class="form-control" id="subject" name="subject" value="{{ ( isset($template['Subject']) ? $template['Subject'] : '' ) }}" maxlength="255" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Make template available for everyone?:</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8 col-lg-4">
                             <input type="checkbox" class="checkbox_all" id="all" name="all" {{ ( isset($template['Section']) && $template['Section'] == 'All' ? 'checked' : '' ) }}>
                         </div>
                     </div>

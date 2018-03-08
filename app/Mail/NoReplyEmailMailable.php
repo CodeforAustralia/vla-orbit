@@ -28,7 +28,12 @@ class NoReplyEmailMailable extends Mailable
      * @return $this
      */
     public function build()
-    {        
-        return $this->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )->view('emails.noReplyEmail.email')->with($this->args);
+    {
+        $attachments = $this->args['attachments'];
+        $message =$this->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )->view('emails.noReplyEmail.email')->with($this->args);
+        foreach ($attachments as $index => $attachment) {
+            $message->attachData($attachment['AttachmentBytes'], $attachment['FileName']);           
+        }        
+        return $message;
     }
 }
