@@ -25,29 +25,7 @@
     </div>
 </div>
     <!-- END PAGE HEADER-->        
-                                    
-<!-- Confirm Eligibility Modal -->                                        
-    <div class="modal fade in" id="EligibilityConfirm" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="false" role="dialog" aria-labelledby="EligibilityConfirm">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    
-                    <h4 class="modal-title" id="SelectMatchLabel">Confirm Service Eligibility</h4>
-                </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <p>Service Guidelines Not Available</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="col-sm-6">
-                    <button type="button" data-dismiss="modal" class="btn btn-block btn-outline dark">Cancel</button>
-                </div>
-                <div class="col-sm-6">
-                    <button type="button" data-dismiss="modal" class="btn btn-block disabled green-jungle">Confirm Client Eligibility</button>
-                </div>
-        </div>
-    </div>
+                           
     
 @endsection
 
