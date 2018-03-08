@@ -20,11 +20,30 @@ function service_provicer_change()
 
 }
 
+function check_if_can_book( sv_id )
+{
+    for (let i = services_by_sp_obj.length - 1; i >= 0; i--) 
+    {        
+        if( services_by_sp_obj[i].ServiceId === sv_id )
+        {
+            let serviceActions = services_by_sp_obj[i].ServiceActions;
+            for (let j = serviceActions.length - 1; j >= 0; j--) 
+            {                
+                if(serviceActions[j].Action === 'ALL' || serviceActions[j].Action === 'BOOK' )
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 function service_change()
 {
     $("#sp_services, #Language, #IsComplex").on("change",function() {
-        var booking_id = $( "#sp_services" ).val().split('-')[0];
-        var booking_interpreter_id = $( "#sp_services" ).val().split('-')[1];
+        let booking_id = $( "#sp_services" ).val().split('-')[0];
+        let booking_interpreter_id = $( "#sp_services" ).val().split('-')[1];
         
         if( booking_id !== '' || booking_interpreter_id !== '' ) //Direct booking is available
         {
@@ -220,28 +239,39 @@ function getServicesBySP(sp_id){
       .done(function( services_by_sp ) {
         services_by_sp_obj = services_by_sp;        
         $("#sp_services").html('<option> </option>');
-        var user_sp_id = $(".sp_id").attr('id');
+        let user_sp_id = $(".sp_id").attr('id');
 
         for (index = 0; index < services_by_sp.length; ++index) {
-            service_id = services_by_sp[index].ServiceId;
-            booking_id = services_by_sp[index].BookingServiceId;
-            booking_interpreter_id = services_by_sp[index].BookingInterpritterServiceId;
-            service_name = services_by_sp[index].ServiceName;
-            var option = '';
-            if( user_sp_id != 112 && (booking_id != '' || booking_interpreter_id != '') )
+            let service_id = services_by_sp[index].ServiceId;
+            let booking_id = services_by_sp[index].BookingServiceId;
+            let booking_interpreter_id = services_by_sp[index].BookingInterpritterServiceId;
+            let service_name = services_by_sp[index].ServiceName;
+            let is_user_sp = sp_id === user_sp_id ;
+
+            let option = '';
+            //If the service is linked to booking bug and the user do not belong to legal help and can book OR is the same users office
+            if( user_sp_id != 112 && (booking_id != '' || booking_interpreter_id != '') 
+                    && ( check_if_can_book( service_id ) || is_user_sp ) )
             {
                 option = '<option value="' + booking_id + '-' + booking_interpreter_id + '-' + service_id + '"> ' + service_name + ' </option>';            
             }
-            else if( user_sp_id == 112)
+            else if( user_sp_id == 112 )
             {
-                option = '<option value="' + booking_id + '-' + booking_interpreter_id + '-' + service_id + '"> ' + service_name + ' </option>';            
+                if( check_if_can_book( service_id ))
+                {
+                    option = '<option value="' + booking_id + '-' + booking_interpreter_id + '-' + service_id + '"> ' + service_name + ' </option>';            
+                } 
+                else
+                {
+                    option = '<option value="--' + service_id + '"> ' + service_name + ' </option>';            
+                }
             }
             $("#sp_services").append(option);
         }   
 
         if( $("#sp_services option")[0] )
         {
-            var booking_id = $( $("#sp_services option")[0] ).val();
+            let booking_id = $( $("#sp_services option")[0] ).val();
             getBookingsByService(booking_id);
         } else {
             hiddeAvailability();

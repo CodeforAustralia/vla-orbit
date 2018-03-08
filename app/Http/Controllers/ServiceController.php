@@ -64,9 +64,23 @@ class ServiceController extends Controller
             $catchment = new Catchment();
             $catchments = $catchment->sortCatchments( $current_service->ServiceCatchments );
 
+            $referral_conditions = [];
+            $booking_conditions = [];
+            foreach($current_service->ServiceActions as $action)
+            {
+                if( $action->Action === 'REFER' )
+                {
+                    $referral_conditions[] = $action->ServiceProviderId;
+                }
+                if( $action->Action === 'BOOK' )
+                {
+                    $booking_conditions[] = $action->ServiceProviderId;
+                }
+            }
+
             if( $user->sp_id == $current_service->ServiceProviderId || $user->roles()->first()->name == 'Administrator' ) //Same service provider or admin
             {
-                return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities' ) ); 
+                return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities', 'referral_conditions', 'booking_conditions' ) ); 
             }
             else
             {                
@@ -137,6 +151,11 @@ class ServiceController extends Controller
                 $matter_service_answer->processMatterServiceAnswer( request('question'), $sv_id ); 
                 $matter_service_answer->processVulnerabilityMatterServiceAnswer( request('vulnerability_matter'), $sv_id );
             }
+
+            $service_action = new ServiceAction();
+            $service_action->deleteAllActionsByService( $sv_id ) ;
+            $service_action->saveServiceAction( 'REFER', $sv_id, request('referral_conditions') ) ;
+            $service_action->saveServiceAction( 'BOOK', $sv_id, request('booking_conditions') ) ;
         }
         
         return redirect('/service')->with( $response['success'], $response['message'] );
@@ -189,8 +208,11 @@ class ServiceController extends Controller
 
     public function listServicesSP( $sp_id )
     {
-        $service = new Service();
-        $result  = $service->getAllServicesByServiceProvider( $sp_id );
+        $user = Auth::user();
+        
+        $service = new Service();        
+        $result  = $service->getAllServicesByServiceProviderAndUSerSP( $sp_id, $user->sp_id );
+        
         return $result;
     }
 

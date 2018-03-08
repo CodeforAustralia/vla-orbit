@@ -4,13 +4,52 @@ namespace App;
 Class Service
 {
 
-	public function getAllServices()
+    public function getAllServices()
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $services = json_decode($client->GetAllOrbitServicesasJSON()->GetAllOrbitServicesasJSONResult, true);
+
+        //Sort by key on a multidimentional array
+        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+
+        return $services;
+
+    }
+
+    public function getAllServicesBySP( $sp_id )
+    {       
+        // Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $info = [
+                    'ServiceProviderId'    => $sp_id 
+                ];
+
+        $services = json_decode($client->GetAllOrbitServicesByServiceProviderasJSON( $info )->GetAllOrbitServicesByServiceProviderasJSONResult, true);
+
+        //Sort by key on a multidimentional array
+        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+
+        return $services;
+
+    }
+
+	public function getAllServicesBySPAndUserSP( $sp_id, $user_sp_id )
 	{		
 		// Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
 
-        //GetAllOrbitServices
-        $services = json_decode($client->GetAllOrbitServicesasJSON()->GetAllOrbitServicesasJSONResult, true);
+        $info = [
+                    'OwnerProviderId'  => $sp_id , 
+                    'ServiceProviderId'    => $user_sp_id 
+                ];
+
+        $services = json_decode($client->GetAllEligibleOrbitServicesByProviderasJSON( $info )->GetAllEligibleOrbitServicesByProviderasJSONResult, true);
+
+        //Sort by key on a multidimentional array
+        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
 
         return $services;
 
@@ -104,10 +143,36 @@ Class Service
             }
         }
 
-        //Sort by key on a multidimentional array
-        usort($sp_services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
-
         return $sp_services;
+    }
+
+    public function getAllServicesByServiceProviderAndUSerSP( $sp_id, $user_sp_id )
+    {
+        $services = self::getAllServicesBySP( $sp_id );
+
+        $services_with_actions = self::getAllServicesBySPAndUserSP( $sp_id, $user_sp_id );
+
+        $filtered_services = [];
+
+        foreach ($services as $service) 
+        {
+            $service_position = array_search( $service['ServiceId'],  array_column( $services_with_actions, 'ServiceId' ) );            
+            if($service_position === false)
+            { //The user has an action in the serice
+                $service['ServiceActions'] = [];
+                if( auth()->user()->sp_id === 0 )
+                {
+                    $service['ServiceActions'] = array(["Action" => "ALL"]);
+                }           
+                $filtered_services[] = $service;    
+            }
+            else
+            {
+                $filtered_services[] = $services_with_actions[$service_position]; 
+            }
+        }
+
+        return $filtered_services;
     }
 }
 

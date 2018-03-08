@@ -190,19 +190,47 @@ class Referral
     }
 
     public function getServicesByCatchmentId( $ca_id, $mt_id )
-    {		
-    	// Create Soap Object
+    {       
+        // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
 
         $info = [ 'CatchmentId' => $ca_id, 'MatterId' => $mt_id ];
 
+        /**
+         * PREVIOUS FUNCTION
+         */
+        $services = json_decode( 
+                                    $client
+                                    ->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSON( $info )
+                                    ->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSONResult, 
+                                    true 
+                                );       
+        return $services;
+    }
+
+    public function getServicesByCatchmentIdAndSpId( $ca_id, $mt_id, $sp_id )
+    {		
+    	// Create Soap Object
+        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
+        $info = [ 'CatchmentId' => $ca_id, 'MatterId' => $mt_id, 'ServiceProvderId' => $sp_id ];
+
         $services = json_decode( 
             						$client
-            						->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSON( $info )
-            						->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSONResult, 
+            						->GetOrbitServicesWithMattersByCatchmentandMatterIdandSpIdasJSON( $info )
+            						->GetOrbitServicesWithMattersByCatchmentandMatterIdandSpIdasJSONResult, 
             						true 
-        						);        
-        return $services;
+        						);
+        $output_services = [];
+
+        foreach ($services as $service) 
+        {
+            if( !empty($service['ServiceActions']) )
+            {            
+                $output_services[] = $service;
+            }
+        }
+        return $output_services;
     }
 
     public function getVulnerabilityByServices( $ca_id, $mt_id )
@@ -210,7 +238,15 @@ class Referral
         $vulnerability_obj = new Vulnerability();
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
 
-        $services = self::getServicesByCatchmentId( $ca_id, $mt_id );        
+        $user = Auth::user();
+        if( $user->sp_id > 0)
+        {
+            $services = self::getServicesByCatchmentIdAndSpId( $ca_id, $mt_id, $user->sp_id );  
+        } else
+        {
+            $services = self::getServicesByCatchmentId( $ca_id, $mt_id );
+        }
+        
         $qu_id = [];
         $question_list = [];
 
@@ -241,7 +277,17 @@ class Referral
 
     public function filterServices( $ca_id, $mt_id, $vuln_list )
     {
-        $services = self::getServicesByCatchmentId( $ca_id, $mt_id );
+        $user = Auth::user();   
+        
+        $user = Auth::user();
+        if( $user->sp_id > 0)
+        {
+            $services = self::getServicesByCatchmentIdAndSpId( $ca_id, $mt_id, $user->sp_id );  
+        } else
+        {
+            $services = self::getServicesByCatchmentId( $ca_id, $mt_id );
+        }
+        
 
         $service_match = false;
         $matches = [];

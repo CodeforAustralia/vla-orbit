@@ -2,35 +2,38 @@
   $filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
   $filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );
   $filter_sp_type = array_unique( array_column( $matches, 'ServiceProviderTypeName' ) );
+  $is_admin = \App\Http\helpers::getRole() === 'Administrator';
 ?>
 <div class="page-bar">
-    <ul class="page-breadcrumb">
-        <li>
-            <span>Filter By:</span>
-        </li>
-    </ul>
     <div class="page-toolbar">
         
         <div class="filter">
-            
-            <select class="mt-multiselect btn btn-default" id="filter-sp-type" multiple="multiple">                
-                @foreach( $filter_sp_type as $filter )
-                    @if( $filter!= '' )
-                        <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
-                    @endif
-                @endforeach
+
+            <button type="button" class="btn bg-green bg-font-green hidden sendNRE" data-toggle="modal" data-target="#sendNRE">Send No Reply Email</button>  
+
+            <select class="mt-multiselect btn btn-default" id="filter-group" multiple="multiple">  
+                <optgroup label="Service Prov. Type" class="filter_sp_type">              
+                    @foreach( $filter_sp_type as $filter )
+                        @if( $filter!= '' )
+                            <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
+                        @endif
+                    @endforeach
+                </optgroup>
+                <optgroup label="Service Type" class="filter_type">              
+                    @foreach( $filter_type as $filter )
+                        @if( $filter!= '' )
+                            <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
+                        @endif
+                    @endforeach
+                </optgroup>
+                <optgroup label="Service Level" class="filter_level">              
+                    @foreach( $filter_level as $filter )
+                        @if( $filter!= '' )
+                            <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
+                        @endif
+                    @endforeach
+                </optgroup>
             </select>
-            <select class="mt-multiselect btn btn-default" id="filter-type" multiple="multiple">                
-                @foreach( $filter_type as $filter )
-                    <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
-                @endforeach
-            </select>
-            <select class="mt-multiselect btn btn-default" id="filter-level" multiple="multiple">                
-                @foreach( $filter_level as $filter )
-                    <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
-                @endforeach
-            </select>
-        
         </div>
 
     </div>
@@ -38,10 +41,13 @@
 
 @foreach( $matches as $match )
 
-    <?php
+    <?php    
+    
+      $service_actions = array_column( $match['ServiceActions'], 'Action' );
       $current_sp_pos  = array_search( $match['ServiceProviderId'],  array_column( $service_providers, 'ServiceProviderId' ) );
       $current_sp_logo = $service_providers[ $current_sp_pos ]['ServiceProviderLogo'];
       $filters_class   = str_replace( ' ', '-', strtolower( $match['ServiceLevelName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceTypeName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceProviderTypeName'] ) ) ;
+      $allows_book_and_refer = empty( array_diff( ['BOOK', 'REFER'], $service_actions) );
     ?>
 
     <div class="card-container col-xs-12 col-sm-6 col-xl-4 {{ $filters_class }}" id="{{ $match['ServiceId'] }}">
@@ -105,24 +111,20 @@
             </div>
 
             <div class="row bottom-buttons margin-0">
-                @if ( in_array( Auth::user()->roles()->first()->name, [ 'Administrator', 'VLA', 'AdminSp' ] ) && $match['BookingServiceId'] != '' )
 
-                <div class="col-xs-6 padding-0 book-button bg-blue">    
+                @if( (in_array('BOOK', $service_actions) || $is_admin ) && $match['BookingServiceId'] != '' )
+
+                <div class="col-xs-{{ ( $allows_book_and_refer || $is_admin ? '6' : '12' )  }} padding-0 book-button bg-blue">    
 
                     <button type="button" class="btn bg-blue bg-font-blue open-booking" data-toggle="modal" data-target="#SelectBooking" id="{{ $match['BookingServiceId']}}-{{ $match['BookingInterpritterServiceId']}}-{{ $match['ServiceProviderId']}}">Make booking</button>                 
 
                 </div>
 
-                <div class="col-xs-6 padding-0 refer-button bg-green-jungle"> 
+                @endif
 
-                    <button type="button" class="btn bg-green-jungle bg-font-green-jungle open-modal" data-toggle="modal" data-target="#SelectMatch">Send to client</button>
+                @if( in_array('REFER', $service_actions) || $is_admin )
 
-                </div>
-
-
-                @else
-
-                <div class="col-xs-12 padding-0 refer-button bg-green-jungle"> 
+                <div class="col-xs-{{ ( ($allows_book_and_refer || $is_admin) && $match['BookingServiceId'] != '' ? '6' : '12' )  }} padding-0 refer-button bg-green-jungle"> 
 
                     <button type="button" class="btn bg-green-jungle bg-font-green-jungle open-modal" data-toggle="modal" data-target="#SelectMatch">Send to client</button>
 

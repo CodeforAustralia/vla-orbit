@@ -11,121 +11,184 @@
 
                     <div class="form-group hidden">
                         <input type="text" class="form-control" id="sv_id" name="sv_id" value="{{ isset($current_service) ? $current_service->ServiceId : 0 }}" required>
-                    </div>                    
+                    </div>              
 
-                    <div class="form-group pull-right">   
-                        <label for="Status">Show this service in results?</label>                      
-                        <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" name="Status" id="Status" {{ ( isset( $current_service ) && $current_service->Status == 0 ) ? '' : 'checked' }}>
+                    <div class="form-group">
+
+                        <div class="col-xs-5">
+                            <p class="caption-subject font-purple-soft bold uppercase">Service Details</p>                            
+                        </div>
+
+                        <div class="col-xs-7 text-right">                              
+                            <label for="Status">Show this service in results?</label>                      
+                            <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" name="Status" id="Status" {{ ( isset( $current_service ) && $current_service->Status == 0 ) ? '' : 'checked' }}>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label for="service_provider_id">Service Provider: <small>if not listed go to the Service Provider tab in left sidebar to create new</small></label>
+                        </div>
+                        <div class="col-sm-7">
+                            <select class="form-control col-sm-7" id="service_provider_id" name="service_provider_id">                                
+                                @foreach($service_providers as $service_provider)
+                                    <option value="{{ $service_provider['ServiceProviderId'] }}" {{ (isset($current_service) && $service_provider['ServiceProviderId'] ==  $current_service->ServiceProviderId ) ? 'selected' : '' }} > {{ $service_provider['ServiceProviderName'] }} </option>
+                                @endforeach
+                            </select>                                
+                        </div>
+
+                    </div>  
+
+                    <div class="form-group">
+                                             
+                        <div class="col-sm-12"> 
+                            <label for="name">Service Name: <small>eg. Fines Drop-in Clinic</small></label>
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="name" name="name" value="{{ isset($current_service) ? $current_service->ServiceName : '' }}" required>
+                        </div>
+                        
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Service Name (EG: Fines Drop In Clinic):</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ isset($current_service) ? $current_service->ServiceName : '' }}" required>
+                        <div class="col-sm-12"> 
+                            <label for="service_type_id">Service Type:</label>    
+                        </div>
+                        <div class="col-sm-7">  
+                            <select class="form-control" id="service_type_id" name="service_type_id">                                
+                                @foreach($service_types as $service_type)
+                                    <option value="{{ $service_type['ServiceTypelId'] }}" {{ (isset($current_service) && $service_type['ServiceTypelId'] ==  $current_service->ServiceTypeId) ? 'selected' : '' }} > {{ $service_type['ServiceTypeName'] }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12"> 
+                            <label for="service_level_id">Service Level:</label>     
+                        </div>
+                        <div class="col-sm-7">                       
+                            <select class="form-control" id="service_level_id" name="service_level_id">                                
+                                @foreach($service_levels as $service_level)
+                                    <option value="{{ $service_level['ServiceLevelId'] }}" {{ (isset($current_service) && $service_level['ServiceLevelId'] ==  $current_service->ServiceLevelId ) ? 'selected' : '' }} > {{ $service_level['ServiceLevelName'] }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12"> 
+                            <label for="wait">Wait Time: <small>eg. 2 weeks for an appointment or 20 min. wait for a phone service</small></label>     
+                        </div>
+                        <div class="col-sm-7">       
+                            <input type="text" class="form-control" id="wait" name="wait" value="{{ isset($current_service) ? $current_service->Wait : '' }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="description">Description: <small>incl. info on how to proceed, what to expect and what to prepare ahead of making contact</small></label>
+                            <textarea class="form-control" rows="5" class="form-control" id="description" name="description" required>{{ isset($current_service) ? $current_service->Description : '' }}</textarea>
+                        </div>
+                    </div>
+
+                        
+                    <div class="form-group">
+                        <div class="col-xs-5">
+                            <p class="caption-subject font-purple-soft bold uppercase">Contact Details</p>
+                        </div>
+                        <div class="col-sm-12"> 
+                            <label for="location">Location: <small>eg. 123 Fitzroy St, Brunswick 3056. If none put #</small></label>
+                        </div>
+                        <div class="col-sm-7">   
+                            <input type="location" class="form-control" id="location" name="location" value="{{ isset($current_service) ? $current_service->Location : '' }}" required>
+                        </div>
                     </div>
 
 	                <div class="form-group">
-	                  	<label for="phone">Phone Number (No spaces EG: 0390001000 or 0400100200):</label>
-	                  	<input type="phone" class="form-control" id="phone" name="phone" value="{{ isset($current_service) ? $current_service->Phone : '' }}" required>
+                        <div class="col-sm-12"> 
+	                  	    <label for="phone">Phone Number: <small>eg. 0444 333 222 The number is for clients to contact the service. If none put #</small></label>
+                        </div>
+                        <div class="col-sm-7">   
+    	                  	<input type="phone" class="form-control" id="phone" name="phone" value="{{ isset($current_service) ? $current_service->Phone : '' }}" required>
+                        </div>
 	                </div>
 
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ isset($current_service) ? $current_service->Email : '' }}" required>
+                        <div class="col-sm-12">
+                            <label for="email">Email: <small>if none put orbitteam@vla.vic.gov.au</small></label>
+                        </div>
+                        <div class="col-sm-7">  
+                            <input type="email" class="form-control" id="email" name="email" value="{{ isset($current_service) ? $current_service->Email : '' }}" required>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="location">Location: (EG: 570 Bourke Street, Melbourne 3000)</label>
-                        <input type="location" class="form-control" id="location" name="location" value="{{ isset($current_service) ? $current_service->Location : '' }}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="URL">URL: (EG: www.codeforaustralia.org with no http:// beforehand)</label>
-                        <input type="text" class="form-control" id="URL" name="URL" value="{{ isset($current_service) ? $current_service->URL : '' }}" required>
-                    </div>
-
-	                <div class="form-group">
-	                  	<label for="description">Description:</label>
-                        <textarea class="form-control" rows="5" class="form-control" id="description" name="description" required>{{ isset($current_service) ? $current_service->Description : '' }}</textarea>
-	                </div>
-
-	                <div class="form-group">
-	                  	<label for="service_provider_id">Service Provider:</label>	                  	
-                        <select class="form-control" id="service_provider_id" name="service_provider_id">                                
-                            @foreach($service_providers as $service_provider)
-                                <option value="{{ $service_provider['ServiceProviderId'] }}" {{ (isset($current_service) && $service_provider['ServiceProviderId'] ==  $current_service->ServiceProviderId ) ? 'selected' : '' }} > {{ $service_provider['ServiceProviderName'] }} </option>
-                            @endforeach
-                        </select>
-	                </div>
-
-                    <div class="form-group">
-                        <label for="wait">Wait Time (EG: 1 week, 7 weeks, 22 weeks):</label>
-                        <input type="text" class="form-control" id="wait" name="wait" value="{{ isset($current_service) ? $current_service->Wait : '' }}" required>
+                        <div class="col-sm-12">
+                            <label for="URL">Website: <small>eg. www.codeforaustralia.org. Do not include http://</small></label>
+                        </div>
+                        <div class="col-sm-7"> 
+                            <input type="text" class="form-control" id="URL" name="URL" value="{{ isset($current_service) ? $current_service->URL : '' }}" required>
+                        </div>
                     </div>
 
 	                <div class="form-group">
-	                  	<label for="OpenningHrs">Opening Hours:</label>
-	                  	<input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs" value="{{ isset($current_service) ? $current_service->OpenningHrs : '' }}" required>
+                        <div class="col-sm-12">
+	                  	    <label for="OpenningHrs">Opening Hours: <small>eg. Wednesdays 2-4pm or Weekdays 9am - 5pm</small></label>
+                        </div>
+                        <div class="col-sm-7"> 
+    	                  	<input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs" value="{{ isset($current_service) ? $current_service->OpenningHrs : '' }}" required>
+                        </div>
 	                </div>
 
-	                <div class="form-group">
-	                  	<label for="service_level_id">Service Level:</label>	                  	
-                        <select class="form-control" id="service_level_id" name="service_level_id">                                
-                            @foreach($service_levels as $service_level)
-                                <option value="{{ $service_level['ServiceLevelId'] }}" {{ (isset($current_service) && $service_level['ServiceLevelId'] ==  $current_service->ServiceLevelId ) ? 'selected' : '' }} > {{ $service_level['ServiceLevelName'] }} </option>
-                            @endforeach
-                        </select>
-	                </div>
-
-	                <div class="form-group">
-	                  	<label for="service_type_id">Service Type:</label>     	
-                        <select class="form-control" id="service_type_id" name="service_type_id">                                
-                            @foreach($service_types as $service_type)
-                                <option value="{{ $service_type['ServiceTypelId'] }}" {{ (isset($current_service) && $service_type['ServiceTypelId'] ==  $current_service->ServiceTypeId) ? 'selected' : '' }} > {{ $service_type['ServiceTypeName'] }} </option>
-                            @endforeach
-                        </select>
-	                </div>
 
                     <div class="form-group">
-                        <label for="matters">Legal Matters (Make sure you are ONLY adding Specific Issues):</label>
-                         <select multiple class="form-control" id="matters" name="matters[]"></select>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="portlet light bordered">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <span class="caption-subject font-purple-soft bold uppercase">Catchment Area</span>
+                        <div class="col-xs-5">                            
+                            <p class="caption-subject font-purple-soft bold uppercase">Catchment Area</p>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <p><small>If the service has a catchment add the local government areas or suburbs here. If no catchment leave blank</small></p>
+
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab_lga" data-toggle="tab"> LGA </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_suburb" data-toggle="tab"> Suburb </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_postcode" data-toggle="tab"> Postcode </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+
+                                <div class="tab-pane fade active in" id="tab_lga">  
+                                    <select multiple class="form-control" id="lga" name="lga[]"></select>
+
                                 </div>
-                            </div>
-                            <div class="portlet-body">
-                                <ul class="nav nav-tabs">
-                                    <li class="active">
-                                        <a href="#tab_lga" data-toggle="tab"> LGA </a>
-                                    </li>
-                                    <li>
-                                        <a href="#tab_suburb" data-toggle="tab"> Suburb </a>
-                                    </li>
-                                    <li>
-                                        <a href="#tab_postcode" data-toggle="tab"> Postcode </a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
 
-                                    <div class="tab-pane fade active in" id="tab_lga">  
-                                        <select multiple class="form-control" id="lga" name="lga[]"></select>
-
-                                    </div>
-
-                                    <div class="tab-pane fade" id="tab_suburb">
-                                        <select multiple class="form-control col-xs-9" id="suburbs" name="suburbs[]"></select>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="tab_postcode">
-                                        <input type="postcodes" class="form-control" id="postcodes" name="postcodes" value="">
-                                    </div>
-
+                                <div class="tab-pane fade" id="tab_suburb">
+                                    <select multiple class="form-control col-xs-9" id="suburbs" name="suburbs[]"></select>
                                 </div>
+
+                                <div class="tab-pane fade" id="tab_postcode">
+                                    <input type="postcodes" class="form-control" id="postcodes" name="postcodes" value="">
+                                </div>
+
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-xs-5">                                                        
+                            <p class="caption-subject font-purple-soft bold uppercase">Legal Matters</p>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <p><small>Choose the legal matters covered by the service</small></p>
+                            <select multiple class="form-control" id="matters" name="matters[]"></select>
+
                         </div>
                     </div>
 
@@ -134,8 +197,57 @@
                     @if( isset($current_service) )
                         @include ('service.questions')
                     @else
-                        <p>To narrow down Legal Matters or override Eligibility Criteria per Legal Matter you must save this service first.</p>
+	                    <div class="form-group">
+                            <div class="col-sm-12">
+    	                        <p><small>To narrow down Legal Matters or override Eligibility Criteria per Legal Matter you must save this service first.</small></p>
+                            </div>
+	                    </div>
                     @endif
+
+                    <div class="panel-group accordion" id="accordion1">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title font-purple-soft bold uppercase">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse_1"> Referral Settings </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_1" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    
+                                    <div class="form-group col-sm-12">
+                                        <p class="margin-0">Referrals conditions:</p>
+                                        <p class="font-grey-silver margin-bottom-10">Enable Referrals to specific Service Providers by adding them here. <span id="count_referral_conditions">({{ isset($referral_conditions) ? count( $referral_conditions ) : '0' }}) </span> &nbsp;<a href="javascript:;" class="btn btn-xs green" select-all-sp="referral">Select All</a> &nbsp; 
+                                          <a href="javascript:;" class="btn btn-xs red" clear-all-sp="referral">Clear</a></p>
+                                        <select multiple class="form-control" id="referral_conditions" name="referral_conditions[]"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title font-purple-soft bold uppercase">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_2"> Booking Settings </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    
+                                    <div class="form-group col-sm-12">
+                                        <p class="margin-0">Bookings conditions:</p>
+                                        <p class="font-grey-silver margin-bottom-10">Enable bookings to specific Service Providers by adding them here. <span id="count_booking_conditions">({{ isset($booking_conditions) ? count( $booking_conditions) : '0'  }}) </span>  &nbsp;<a href="javascript:;" class="btn btn-xs green" select-all-sp="booking">Select All</a> &nbsp; <a href="javascript:;" class="btn btn-xs red" clear-all-sp="booking">Clear</a></p>
+                                        <select multiple class="form-control" id="booking_conditions" name="booking_conditions[]"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
 
                 </div>
                 <div class="form-actions">
@@ -172,7 +284,7 @@
 @endsection
 
 @section('inline-scripts')
-
+    //init_select2.js is loading information by ajx for each select2 field in this page
     function loadServiceMatters()            
     {
         $("#matters").select2({width: '100%'}).val( {{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }} ).trigger("change");        
@@ -185,6 +297,20 @@
             $("#suburbs").select2({width: '100%'}).val(  {{ json_encode( $catchments['Suburbs'] ) }} ).trigger("change");
             $("#postcodes").val( '{{ $catchments['Postcode'] }}' );
         @endif
+    }
+
+    function loadReferralConditions()
+    {       
+        $("#referral_conditions").select2({width: '100%'}).val(  {{ isset($referral_conditions) ? json_encode( $referral_conditions ) : '[]' }} ).trigger("change").on("change", function(e) {          
+          $('#count_referral_conditions').text('(' + $(this).next().find('.select2-selection__choice').length + ')');
+        });      
+    }
+
+    function loadBookingConditions()
+    {       
+        $("#booking_conditions").select2({width: '100%'}).val(  {{ isset($booking_conditions) ? json_encode( $booking_conditions) : '[]'  }} ).trigger("change").on("change", function(e) {          
+          $('#count_booking_conditions').text('(' + $(this).next().find('.select2-selection__choice').length + ')');
+        });        
     }
 
     $('#description').summernote({
