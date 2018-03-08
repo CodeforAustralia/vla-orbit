@@ -16,7 +16,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Add Conditions per Legal Matter</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="display: grid;">
                     <p>Use the tabs below to add Conditions to a specific legal matter or override the service-wide eligibility criteria for each Legal Matter </p>
                     <ul class="nav nav-tabs">
                     @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )                                            
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn dark btn-outline">Save</button>
+                    <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
                 </div>
             </div>
         </div>
