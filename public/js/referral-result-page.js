@@ -45,8 +45,9 @@ var setFilterOnElement = function (element, nonSelectedText,filter) {
   
     element.multiselect({
                     nonSelectedText: nonSelectedText,
+                    buttonWidth: '175px',
                     onChange: function(option, checked) 
-                    {
+                    {                      
                       filterElements( element.val(), filter); //Selected values and filter
                     },
                     includeSelectAllOption: true,
@@ -62,10 +63,11 @@ var initFilters = function ()
   const filter_level   = ['information', 'advice', 'representation'];
   const filter_type    = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop'];
   const filter_sp_type = ['non-legal-provider', 'clc', 'vla', 'legal-help', 'private-practitioners'];
-	
-  setFilterOnElement( $('#filter-type'), 'Select Type',filter_type);
-  setFilterOnElement( $('#filter-level'), 'Select Level',filter_level);
-  setFilterOnElement( $('#filter-sp-type'), 'SP Type',filter_sp_type);
+  let filter_group   = [];
+
+  filter_group = filter_type.concat(filter_level).concat(filter_sp_type);
+
+  setFilterOnElement( $('#filter-group'), 'Filter By:', filter_group );
 
 }();
 
