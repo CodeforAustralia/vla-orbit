@@ -363,12 +363,21 @@ class NoReplyEmail
     								];
     	}
     	$output = [];
+    	$generalTemplates = [];
     	foreach ($templates as $key => $value) {
     		$text = (strtoupper($key) == 'ALL' ? 'General Templates':$key .' Templates' ) ;
     		usort($value, function($a, $b){ return strcasecmp(strtoupper($a["text"]), strtoupper($b["text"])); });
-    		$output[] = ['text' => $text, 'children' => $value];
+    		if(strtoupper($key) != 'ALL')
+    		{
+    			$output[] = ['text' => $text, 'children' => $value];	
+    		}    		    		
+    		else
+    		{
+    			$generalTemplates = ['text' => $text, 'children' => $value];
+    		}			
     	}
-    	
+
+    	$output[] = $generalTemplates;
     	return $output;
 
     }    
