@@ -40,24 +40,23 @@
     <!-- End: Datatable services -->
     
   <!-- Modal Start -->     
-  <div class="modal fade" id="viewService" tabindex="-1" role="dialog" aria-labelledby="viewService">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title bold" id="serviceName" ></h4>           
-        </div>
-        <!-- Modal Body -->
-        <div class="modal-body">
-          <div class="container-fluid">
-          <!-- Top -->
-            
-            @include('service.view_service_modal')
-
-        </div> <!-- Modal Body Close-->
-      </div><!-- Modal Content Close-->
-    </div><!-- Modal Dialogue Close-->
-  </div><!-- Modal Fade Close-->
+    <div class="modal fade" id="viewService" tabindex="-1" role="dialog" aria-labelledby="viewService">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title bold" id="serviceName" ></h4>           
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="container-fluid">
+                    <!-- Top -->            
+                        @include('service.view_service_modal')
+                    </div> <!-- Modal Body Close-->
+                </div><!-- Modal Content Close-->
+            </div><!-- Modal Dialogue Close-->
+        </div><!-- Modal Fade Close-->
+    </div>
 @endsection
 @section('styles')    
 <!-- BEGIN PAGE LEVEL PLUGINS -->
