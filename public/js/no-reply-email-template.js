@@ -227,12 +227,25 @@ var noReplyEmailTemplate = function()
 	    });
 	};
 
+	var disable_service_provider = function()
+	{
+		if($('#all').is(":checked"))
+		{
+			$('#Section').attr('disabled',true);			
+		}
+
+		$('#all').click(function() {
+    		$('#Section').attr('disabled',this.checked).val([])
+			});
+	};
+
     return {
         //main function to initiate the module
         init: function () 
         {
         	enableSummernote();
         	form_validate();
+        	disable_service_provider();
         }
 
     }

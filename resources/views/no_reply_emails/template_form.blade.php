@@ -15,9 +15,16 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Available for all:</label>
+                        <div class="col-md-8 col-lg-4">
+                            <input type="checkbox" class="checkbox_all" id="all" name="all" {{ ( isset($template['Section']) && $template['Section'] == 'All' ? 'checked' : '' ) }}>
+                        </div>
+                    </div>                    
+
                     @if( \App\Http\helpers::getRole() === 'Administrator' )
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Service Provider:</label>
+                        <label class="col-md-3 control-label">Available for specific service provider:</label>
                         <div class="col-md-8 col-lg-4">
                             <select class="form-control" id="Section" name="Section"> 
                                 <option></option>
@@ -48,14 +55,6 @@
                             <input type="text" class="form-control" id="subject" name="subject" value="{{ ( isset($template['Subject']) ? $template['Subject'] : '' ) }}" maxlength="255" required>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Make template available for everyone?:</label>
-                        <div class="col-md-8 col-lg-4">
-                            <input type="checkbox" class="checkbox_all" id="all" name="all" {{ ( isset($template['Section']) && $template['Section'] == 'All' ? 'checked' : '' ) }}>
-                        </div>
-                    </div>
-                    
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Template:</label>
