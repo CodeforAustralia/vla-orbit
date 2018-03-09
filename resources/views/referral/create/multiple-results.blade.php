@@ -12,7 +12,7 @@
             <button type="button" class="btn bg-green bg-font-green hidden sendNRE" data-toggle="modal" data-target="#sendNRE">Send No Reply Email</button>  
 
             <select class="mt-multiselect btn btn-default" id="filter-group" multiple="multiple">  
-                <optgroup label="Service Prov. Type" class="filter_sp_type">              
+                <optgroup label="Service Provider" class="filter_sp_type">              
                     @foreach( $filter_sp_type as $filter )
                         @if( $filter!= '' )
                             <option value="{{ str_replace( ' ', '-', strtolower( $filter ) ) }}"> {{ $filter }} </option>
