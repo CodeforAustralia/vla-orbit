@@ -1,7 +1,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-envelope"></i>No-Reply Email</div>
+                <i class="fa fa-envelope"></i>No-Reply Template</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
