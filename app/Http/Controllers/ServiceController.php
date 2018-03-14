@@ -163,7 +163,7 @@ class ServiceController extends Controller
     
     public function create()
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
 
         $service_type_obj   = new ServiceType();
         $service_types      = $service_type_obj->getAllServiceTypes();
