@@ -77,6 +77,8 @@
                         <option value="for_assessment">For Assessment</option>
                         <option value="phone_advice">Phone Advice</option>
                         <option value="duty_layer">Duty Lawyer</option>
+                        <option value="child_protection">Child Protection</option>
+                        <option value="child_support">Child Support</option>
                         @endif
                     </select>                    
                 </div>
@@ -138,7 +140,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>First Name:</label>
-                    <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" required> 
+                    <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" required> 
                 </div>
             </div>
         </div>
@@ -147,7 +149,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Last Name:</label>
-                    <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" required> 
+                    <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName" required> 
                 </div>
             </div>
         </div>
@@ -168,6 +170,28 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
+                    <label>Date of Birth</label>
+                    <input type="text" class="form-control input-large" name="dob" id="dob">                 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-20">
+                    <label>Suburb town of caller</label>
+                    <input type="text" class="form-control input-large" name="suburb" id="suburb">                 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-20">
 	    			<strong>Contact Information</strong>
 	            </div>
             </div>
@@ -178,26 +202,8 @@
         <div class="col-xs-5 col-md-6 col-lg-5">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
-                    <label>Phone Number:</label>
-                    <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile"> 
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">                            
-            <div class="form-group">
-                <div class="col-xs-12">
-                    <label>Is it safe to contact this client by phone call and SMS? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
-                    <div class="mt-radio-inline padding-left-20">
-                        <label class="mt-radio mt-radio-outline">
-                            <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
-                        </label>
-                        <label class="mt-radio mt-radio-outline">
-                            <input type="radio" name="phonepermission" id="phonepermission" value="No">No<span></span>
-                        </label>
-                    </div>
+                    <label>Postal Address:</label>
+                    <input type="text" class="form-control input-large" name="postal_address" id="postal_address"> 
                 </div>
             </div>
         </div>
@@ -229,6 +235,83 @@
                     </div>
                 </div>
             </div>  
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-5 col-md-6 col-lg-5">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-20">
+                    <label>Phone Number:</label>
+                    <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">                            
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <label>Is it safe to contact this client by SMS? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
+                    <div class="mt-radio-inline padding-left-20">
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
+                        </label>
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="phonepermission" id="phonepermission" value="No">No<span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">                            
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <label>Is it safe to contact this client by phone call? &nbsp; </label>
+                    <div class="mt-radio-inline padding-left-20">
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="phonepermission" id="phoneCallPermission" value="Yes">Yes<span></span>
+                        </label>
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="phonepermission" id="phoneCallPermission" value="No">No<span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">                            
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <label>Is it safe to leave a message? &nbsp; </label>
+                    <div class="mt-radio-inline padding-left-20">
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="phonepermission" id="phoneMessagePermission" value="Yes">Yes<span></span>
+                        </label>
+                        <label class="mt-radio mt-radio-outline">
+                            <input type="radio" name="phonepermission" id="phoneMessagePermission" value="No">No<span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-5 col-md-6 col-lg-5">
+            <div class="form-group">
+                <div class="col-xs-12 padding-bottom-20">
+                    <label>Any unavailable times or instructions re contact?:</label>
+                    <input type="text" class="form-control input-large" name="reContact" id="reContact"> 
+                </div>
+            </div>
         </div>
     </div>
 
@@ -273,6 +356,7 @@
     <script src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/clockface/js/clockface.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
 
     <!-- END PAGE LEVEL SCRIPTS -->
     <script src="/js/booking.js?id={{ str_random(6) }}" type="text/javascript"></script>

@@ -322,12 +322,12 @@ var changeRequestType = function()
         hide_direct_booking_elements();            
         setSubmitButtonText('is_request');
         if( this.value === 'appointment_request' )
-        {
+        {            
             template += 'Safe to SMS? <br><br>';
             template += 'Safe to call? <br><br>';
             template += 'Safe to leave a message? <br><br>';
             template += 'Any unavailable times or instructions re contact? <br><br>';
-            template += 'This call was supervised by (if relevant):  <br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';            
         }
         else if ( this.value === 'for_assessment' ) 
         {
@@ -341,7 +341,7 @@ var changeRequestType = function()
             template += 'Client ID (if known): <br> <br>';            
             template += 'Brief outline of matter: <br><br><br>';
             template += 'Notes (special needs, urgency, time limits, tribunal/court hearing dates and location if the caller is in custody/detention):<br><br>';
-            template += 'This call was supervised by (if relevant):  <br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';            
         } 
         else if ( this.value === 'phone_advice' ) 
         {
@@ -360,12 +360,39 @@ var changeRequestType = function()
             template += 'Upcoming court date: <br><br>';
             template += 'Court location: <br><br>';
             template += 'This call was supervised by (if relevant):  <br><br>';    
+        }    
+        else if ( this.value === 'child_support' ) 
+        {
+            template += 'Brief outline of matter: <br><br>';
+            template += 'Before completing this booking, ensure conflicts enquiry is completed. Please list names and DOB of other parties (including children): <br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';    
+        } 
+        else if ( this.value === 'child_protection' ) 
+        {
+            template += 'Urgent: Y/N <br><br><br>';
+            template += '<strong>Conflict Check All Parties</strong> <br><br>';
+            template += 'Mother: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
+            template += 'Mother\'s spouse/ domestic partner: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
+            template += 'Father: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
+            template += 'Father\'s spouse/domestic partner: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
+            template += 'Children (inc step): DOB,  ATSI Y/N, Conflict Y/N <br><br><hr>';    
+            template += 'Upcoming Court date: Y/N <br><br>';
+            template += 'Court location: <br><br>';
+            template += 'Are there orders in place? Y/N Details <br><br>';
+            template += 'Date orders made? <br><br>';
+            template += 'Upcoming appointment with DHHS?  Y/N  When? <br><br>';
+            template += 'Has the client signed an agreement with DHHS in relation to the child? Y/N Details <br><br>';
+            template += 'Are they asking the client to sign something? Details <br><br>';
+            template += 'Has DHHS indicated they are thing of removing the child from the client\'s care or change the living arrangements? Details <br><br>';
+            template += 'What has prompted the call to VLA today? Details <br><br>';
         } 
         else if ( this.value === 'direct_booking' ) 
         {
             show_direct_booking_elements();
             setSubmitButtonText( 'direct' );
-        } 
+        }
+
+        displayFieldsByForm(this.value);
         $('#Desc').summernote('code', template);
     });
 }();
@@ -410,7 +437,7 @@ var removeDisabledAttribute = function ()
 
 var setSubmitButtonText = function ( type )
 {
-    var message = "Make booking";
+    let message = "Make booking";
     if( type === 'is_request' )
     {
         message = "Send e-Referral";
@@ -421,4 +448,76 @@ var setSubmitButtonText = function ( type )
 var requireInterpreterOrComplex = function()
 {
     return ( $("#Language" ).val() != '' || $("#IsComplex:checked").val() == 1 ) ;
+}
+
+var setDOBMask = function () {
+    $("#dob").inputmask("d/m/y", {
+        "placeholder": "dd/mm/yyyy"
+    }); 
+}();
+
+var hideFields = function () 
+{
+    const fields = getFields();
+    hideExtraFormFields(fields);
+}();
+
+function getFormTypes() 
+{
+    return  {
+                appointment_request: { fields: [] },
+                child_protection:    { fields: [] },
+                child_support:       { fields: ['child_support'] },
+                direct_booking:      { fields: ['direct_booking'] },
+                duty_layer:          { fields: ['direct_booking'] },
+                for_assessment:      { fields: ['for_assessment'] },
+                phone_advice:        { fields: ['phone_advice'] }
+            };
+}
+
+function getFields() 
+{
+    return {        
+                basic: [
+                            'CIRNumber',
+                            'FirstName',
+                            'LastName',
+                            'mobile',
+                            'phonepermission',
+                            'phoneCallPermission',
+                            'phoneMessagePermission',
+                            'reContact'
+                        ],
+                for_assessment: ['suburb', 'dob'],        
+                direct_booking: ['postal_address', 'email', 'emailpermission'],
+                child_support:  ['postal_address', 'email', 'emailpermission']                
+            };
+}
+
+var displayFieldsByForm = function (current_form) 
+{
+    const form_type = getFormTypes();
+    const fields = getFields();
+    hideExtraFormFields(fields);
+ 
+    const form_fields =  form_type[current_form].fields;
+    
+    for (let i = form_fields.length - 1; i >= 0; i--) 
+    {
+        const fields_in_group = form_fields[i];
+        if( fields.hasOwnProperty(fields_in_group) )
+            for (let j = fields[fields_in_group].length - 1; j >= 0; j--) 
+                $('#' + fields[fields_in_group][j]).closest('.row').show();
+    }
+}
+
+function hideExtraFormFields(fields) 
+{
+    Object.keys(fields).map(function (item) 
+    {         
+        const fields_in_group = fields[item] ;
+        if( item !== 'basic')                   
+            for (let i = fields_in_group.length - 1; i >= 0; i--) 
+                $('#' + fields_in_group[i]).closest('.row').hide();        
+    });
 }
