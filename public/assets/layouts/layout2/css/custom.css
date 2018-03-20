@@ -595,6 +595,10 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     text-decoration: underline;
 }
 
+.note-editor .modal-body{
+    padding: 23px;
+}
+
 .modal-body  h4{
     color:#3598dc;
 }
@@ -607,3 +611,22 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
         margin-left: -13px;
 }
 
+/************************ WCAG Compliance ***********************/
+
+.btn-danger{
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.btn-warning {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+.btn.blue:not(.btn-outline) {
+    color: #FFF;
+    background-color: #286090;
+    border-color: #204d74;
+}

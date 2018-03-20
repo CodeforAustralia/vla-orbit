@@ -21,8 +21,7 @@ class NoReplyEmail
 	{
 		try 
 		{
-			$user = auth()->user();
-			//dd(session('login_vla_attributes'));
+			$user = auth()->user();			
 			$response =  $this->client->GetAllTemplatesasJSON() ;			
 			return json_decode( $response->GetAllTemplatesasJSONResult, true );
 		} 
@@ -109,19 +108,18 @@ class NoReplyEmail
 	        $date_now  = date("Y-m-d");
 	        $time_now  = date("H:i:s");
 	        $date_time = $date_now . "T" . $time_now;
-
 	       	$files = array();
 
-	       	if ( isset($email_data['attachments']) )
-	       	{
-	       		$files = $email_data['attachments'];
-	       	}
-
-	       	if( isset($email_data['main_attachment']) )
-	       	{
-	       		$files[]['files'] = $email_data['main_attachment'];
-	       	}
-
+	       	$attachment_index = 0;	       	
+	       	while(isset($email_data['attachment'.$attachment_index]))
+	       	{	       		
+	       		$files[] = $email_data['attachment'.$attachment_index];
+	       		$attachment_index++;
+	       	}	       			
+	       	if( isset($email_data['mainAttachment']) )
+	       	{	       		       		
+	       		$files[] = $email_data['mainAttachment'];
+	       	}	       		       	
 	       	$attachments = self::attachFiles( $files );	   	
 		   	$sp_name = '';
 		   	$sp_contact = '';
@@ -148,12 +146,11 @@ class NoReplyEmail
 
 	       	$prefix = '<em>This email was sent by ' . $sp_name . ' to ' . $email_data['to'] .  ' </em><br><em>Please do not reply to this email.</em><br><hr><br>';
 
-		   	$suffix .= '<br>Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.<br><br>';
+		   	$suffix .= '<br><p classname = \'orbitprefix\' style=\'background: #f5f8fa; padding-top: 15px;box-sizing: border-box;background-color: #f5f8fa;color: #aeaeae; height: 100%;line-height: 1.4; width: 100%;padding-bottom: 15px;font-size: smaller; text-align: center; margin:0px\'>© 2018 Orbit. All rights reserved.</p><p classname = \'emailprefix\' style=\' background: #f5f8fa; padding-top: 15px;box-sizing: border-box;background-color: #f5f8fa;color: #74787e; height: 100%;line-height: 1.4; width: 100%; margin: 1px;padding-bottom: 15px;font-size: small;\'>Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
 
 
 	       	$email_data['message'] = $prefix . $email_data['message'] . $suffix;
-
-			$info = [
+	       	$info = [
 						'MessageObject' => [
 												'Attachments' 	=> $attachments,
 												'Body' 			=> $email_data['message'],
@@ -185,8 +182,8 @@ class NoReplyEmail
     {
     	$attachments = [];
 
-    	foreach ($files as $current_file) {
-    		$file = $current_file['files'];
+    	foreach ($files as $file) {
+    		//$file = $current_file['files'];
     		$handle = fopen($file->getPathName(), "rb");                  // Open the temp file
 
 	       	$content = fread( $handle, filesize($file->getPathName()) );  // Read the temp file
@@ -315,7 +312,17 @@ class NoReplyEmail
 		{
 			$response = $this->client->GetAllLogRecordsasJSON( );
 			$logs = json_decode( $response->GetAllLogRecordsasJSONResult, true );
+			foreach ($logs as $key => $log) 
+			{
+				$user = User::find($log['PersonID']);			
+				
+				if(isset($user->name))
+				{
+					$tempLog = array('PersonName'=>$user->name);					
+					$logs[$key] = array_merge($log, $tempLog);		
+				}	
 
+			}
 			return ['data' => $logs ];
 		} 
 		catch (Exception $e) 
@@ -376,7 +383,7 @@ class NoReplyEmail
     			$generalTemplates = ['text' => $text, 'children' => $value];
     		}			
     	}
-
+    	// insert General Templates at the end of the output array
     	$output[] = $generalTemplates;
     	return $output;
 

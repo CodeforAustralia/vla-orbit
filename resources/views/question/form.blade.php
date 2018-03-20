@@ -15,14 +15,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Label:</label>
+                        <label class="col-md-3 control-label" for="QuestionLabel">Label:</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="QuestionLabel" name="QuestionLabel"  value="{{ isset($current_question) ? $current_question->QuestionLabel : '' }}" required>
                         </div>
                     </div>
 
 	                <div class="form-group">
-	                  	<label class="col-md-3 control-label">Question/Tooltip:</label>
+	                  	<label class="col-md-3 control-label" for="QuestionName">Question/Tooltip:</label>
 	                  	<div class="col-md-4">
 		                  	<input type="text" class="form-control" id="QuestionName" name="QuestionName"  value="{{ isset($current_question) ? $current_question->QuestionName : '' }}" required>
 		                </div>

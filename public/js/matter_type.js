@@ -1001,19 +1001,19 @@ var TableDatatablesAjax = function () {
                                                       
                                 for (var i = 0, len = sentDates.length; i < len; i++) 
                                 {
-                                	if(sentDates[i] != '')
-                                	{
-                                    	sentDatesStr += moment(sentDates[i].split(' ')[0]).format('D-M-YYYY') + ', ';
-                                	}
+                                    if(sentDates[i] != '')
+                                    {
+                                        sentDatesStr += moment(sentDates[i].split(' ')[0]).format('D-M-YYYY') + ', ';
+                                    }
                                 }
 
                                 if( sentDatesStr == '' )
                                 {
-                                	sentDatesStr = '<span class="font-red">Not sent</span>';
+                                    sentDatesStr = '<span class="font-red">Not sent</span>';
                                 } 
                                 else 
                                 {
-                                	sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
+                                    sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
                                 }
                                 //sent dates or status
                                 return sentDatesStr;
@@ -1393,24 +1393,24 @@ var TableDatatablesAjax = function () {
                     "type": "get",
                 },
                 "order": [
-                    [3, "desc"]
+                    [4, "desc"]
                 ],// set first column as a default sort by asc,
                 
                 "serverSide": false,
                 "pageLength": 1000,
                 "bInfo": false,
                 "columns": [
+                        { data: "RefNo"},
                         {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                return data.FromAddress + ' , ' + data.Section;
+                                return data.PersonName + ' , ' + data.Section;
                             }
                         },
                         { data: "ToAddress", "orderable": true },                             
                         { data: "Subject" },
-                        { data: "Section" }, 
                         { 
                             data: null,
                             type: 'date-uk',
@@ -1505,7 +1505,7 @@ var TableDatatablesAjax = function () {
             actions_buttons += '<a href="javascript:;" id="' + id + '" class="btn blue view-content btn-xs">View</a>';
         }
 
-        return actions_buttons;   	
+        return actions_buttons;     
 
     }
 

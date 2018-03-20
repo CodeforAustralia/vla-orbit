@@ -181,7 +181,7 @@ var noReplyEmails = function()
 		$('#message').summernote({
 			styleTags: ['p', 'blockquote','h1', 'h2','h3'],
 			toolbar: [
-			    ['style', ['style','bold','borderText','alertText','alertTextBold','headingAlert']],
+			    ['style', ['style','bold','italic', 'underline','borderText','alertText','alertTextBold','headingAlert']],
 			    ['para', ['ul']], 
 			    ['link', ['linkDialogShow', 'unlink']],
 			    ['misc',['undo','codeview']], 
@@ -224,7 +224,7 @@ var noReplyEmails = function()
         .done(function( template ) {
             if( Object.keys(template).length > 1)
             {
-        		$('#subject').attr('value', template.Subject);
+        		$('#subject').val(template.Subject);
         		$('#message').summernote('code', template.TemplateText);
             } 
         });
@@ -236,7 +236,10 @@ var noReplyEmails = function()
 	        submitHandler: function(form, event) 
 	        {
 	        	event.preventDefault();
-	        	form.submit();
+	        	//form.submit();
+	        	//
+        		sendEmail();
+	        	return false;
 	        }
 	    });
 	};
@@ -264,6 +267,79 @@ var noReplyEmails = function()
 		
 	};
 
+//  Start modal functions  //
+
+	var sendEmail = function()
+	{
+		$("#contentLoading").modal("show");		
+		const csrf 				= $('meta[name=_token]').attr('content');
+		const templateId 		= $("#template_id").val();
+		const to 				= $("#to").val();
+		const subject 			= $("#subject").val();
+		const message			= $("#message").val();		
+		const mainAttachment 	= $("#main_attachment").prop('files')[0];
+		const attachments 		= $("[name^='attachments']");
+		let attachments_files 	= [];
+		for (let i = attachments.length - 1; i >= 0; i--) {
+			if(attachments[i].files[0]!=null)
+			{			
+				attachments_files.push( attachments[i].files[0] );
+			}
+		}
+		var formData = new FormData();
+		formData.append('templateId', templateId);
+		formData.append('to', to);
+		formData.append('subject', subject);
+		formData.append('message', message);		
+		if(mainAttachment != null)
+		{
+			formData.append('mainAttachment', mainAttachment);
+		}
+		attachments_files.forEach(function(attachment_file,i){
+			formData.append('attachment'+i, attachment_file);
+		});	
+	    
+	    $.ajax({
+	    	headers: {
+	        'X-CSRF-TOKEN': csrf
+	      	},
+	      	method: "POST",
+	        url: "/no_reply_emails",
+	        processData: false,
+	        contentType: false,
+            //mimeType: "multipart/form-data",
+	        data: formData
+	      })			
+        .done(function( msg ) { 
+        	$("#contentLoading").modal("hide");       		        	
+	        $("#sendEmail").modal("show");
+
+	        
+        });
+     	
+	};
+
+
+	var sendAnother = function()
+	{
+		$("#send_another").click(function(){
+			clearFields();
+    	});
+		$("#start_over").click(function(){
+			$("#to").val('');
+			clearFields();
+
+    	});     	 
+	};
+	var clearFields = function()
+	{
+		$("#template_id").val([]).change();
+    	$("#subject").val('');
+    	$("#message").summernote("reset");
+    	$("#main_attachment").val('');
+    	$("[name^='attachments']").val('');
+    	$("#sendEmail").modal("hide");
+	};
     return {
         //main function to initiate the module
         init: function () 
@@ -272,6 +348,7 @@ var noReplyEmails = function()
         	onChangeTemplate();
         	form_validate();
         	setTemplate();
+        	sendAnother();
         }
 
     }

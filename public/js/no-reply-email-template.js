@@ -181,7 +181,7 @@ var noReplyEmailTemplate = function()
 		$('#template').summernote({
 			styleTags: ['p', 'blockquote','h1', 'h2','h3'],
 			toolbar: [
-			    ['style', ['style','bold','borderText','alertText','alertTextBold','headingAlert']],
+			    ['style', ['style','bold','italic','underline','borderText','alertText','alertTextBold','headingAlert']],
 			    ['para', ['ul']], 
 			    ['link', ['linkDialogShow', 'unlink']],
 			    ['misc',['undo','codeview']],

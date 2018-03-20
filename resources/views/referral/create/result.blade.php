@@ -108,18 +108,19 @@
                       <label for="Notes">Referral reason <small>(information is <strong><u>not</u></strong> shared with client)</small></label>                      
                       <select class="form-control" id="Notes" name="Notes">                                
                                 <option></option>
-                                <option>Already instructing a private solicitor</option>
-                                <option>Centre does not have capacity to deliver service</option>
-                                <option>Centre does not offer service required</option>
-                                <option>Conflict of Interest</option>
-                                <option>Eligible for Legal Aid</option>
-                                <option>Internal referrals to programs run by the centre</option>
-                                <option>Not in catchment area</option>
-                                <option>Other</option>
-                                <option>Person could not be assisted within time frame needed or wanted by them</option>
-                                <option>Referred to funded agency (ie. Welfare rights)</option>
+                                <option>Not eligible - Already has solicitor</option>
+                                <option>Not eligible - Catchment</option>
+                                <option>Not eligible - Client circumstances</option>
+                                <option>Not eligible - Conflict of interest</option>
+                                <option>Not eligible - Income/means</option>
+                                <option>Not eligible - Insufficient merit/impact</option>
+                                <option>Not eligible - Legal matter</option>
+                                <option>Internal referral</option>
+                                <option>No capacity in-house</option>
+                                <option>Non-legal referral</option>
                                 <option>Specialist service available</option>
-                                <option>Wanted guaranteed Court representation</option>
+                                <option>Wanted guaranteed court representation</option>
+                                <option>Other</option>
                         </select>
                     </div>
                     
@@ -142,8 +143,7 @@
             </div>
           </div> 
           
-          <!-- Modal Container -->
-            
+          <!-- Modal Container -->            
             <div class="row" id="result-step-2" style="display:none">
               <div class="col-xs-12 text-center">
                 <p style="font-size: 126px;"><i class="fa fa-check-circle" style="color: #5cb85c;background-color: #fff;"></i></p>
@@ -170,7 +170,7 @@
               </div>
               <div class="modal-body">
                   <div class="container-fluid">
-                      @include ('no_reply_emails.form')
+                      @includeIf ('no_reply_emails.form')
                   </div>
               </div>
           </div>

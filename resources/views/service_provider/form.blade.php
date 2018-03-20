@@ -14,45 +14,45 @@
                         <input type="text" class="form-control" id="sp_id" name="sp_id" value="{{ isset($current_sp) ? $current_sp->ServiceProviderId : 0 }}" required>
                     </div>
 
-	                <div class="form-group">
-	                  	<label for="some">Name:</label>
-	                  	<input type="text" class="form-control" id="name" name="name"  value="{{ isset($current_sp) ? $current_sp->ServiceProviderName : '' }}" required>
-	                </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name"  value="{{ isset($current_sp) ? $current_sp->ServiceProviderName : '' }}" required>
+                    </div>
 
-	                <div class="form-group">
-	                  	<label for="some">About:</label>
-	                  	<textarea class="form-control" rows="5" class="form-control" id="about" name="about" required>{{ isset($current_sp) ? $current_sp->ServiceProviderAbout : '' }}</textarea>
-	                </div>
+                    <div class="form-group">
+                        <label for="about">About:</label>
+                        <textarea class="form-control" rows="5" class="form-control" id="about" name="about" required>{{ isset($current_sp) ? $current_sp->ServiceProviderAbout : '' }}</textarea>
+                    </div>
 
-	                <div class="form-group">
-	                  	<label for="some">Url:</label>
-	                  	<input type="text" class="form-control" id="url" name="url" value="{{ isset($current_sp) ? $current_sp->ServiceProviderURL : '' }}" required>
-	                </div>
+                    <div class="form-group">
+                        <label for="url">Url:</label>
+                        <input type="text" class="form-control" id="url" name="url" value="{{ isset($current_sp) ? $current_sp->ServiceProviderURL : '' }}" required>
+                    </div>
 
-	                <div class="form-group">
-	                  	<label for="some">Address:</label>
-	                  	<input type="text" class="form-control" id="address" name="address" value="{{ isset($current_sp) ? $current_sp->ServiceProviderAddress : '' }}" 	required>
-	                </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ isset($current_sp) ? $current_sp->ServiceProviderAddress : '' }}"     required>
+                    </div>
 
-	                <div class="form-group">
-	                  	<label for="some">Logo:</label>
-	                  	<input type="text" class="form-control" id="logo" name="logo" value="{{ isset($current_sp) ? $current_sp->ServiceProviderLogo : '' }}" required>
-	                </div>
+                    <div class="form-group">
+                        <label for="logo">Logo:</label>
+                        <input type="text" class="form-control" id="logo" name="logo" value="{{ isset($current_sp) ? $current_sp->ServiceProviderLogo : '' }}" required>
+                    </div>
 
-	                <div class="form-group">
-	                  	<label for="some">Contact Name:</label>
-	                  	<input type="text" class="form-control" id="contact_name" name="contact_name" value="{{ isset($current_sp) ? $current_sp->ContactName : '' }}" required>
-	                </div>
+                    <div class="form-group">
+                        <label for="contact_name">Contact Name:</label>
+                        <input type="text" class="form-control" id="contact_name" name="contact_name" value="{{ isset($current_sp) ? $current_sp->ContactName : '' }}" required>
+                    </div>
 
-	                <div class="form-group">
-	                  	<label for="some">Contact Phone:</label>
-	                  	<input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ isset($current_sp) ? $current_sp->ContactPhone : '' }}" required>
-	                </div>
+                    <div class="form-group">
+                        <label for="contact_phone">Contact Phone:</label>
+                        <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ isset($current_sp) ? $current_sp->ContactPhone : '' }}" required>
+                    </div>
 
-	                <div class="form-group">
-	                  	<label for="some">Contact Email:</label>
-	                  	<input type="text" class="form-control" id="contact_email" name="contact_email" value="{{ isset($current_sp) ? $current_sp->ContactEmail : '' }}" required>
-	                </div>
+                    <div class="form-group">
+                        <label for="contact_email">Contact Email:</label>
+                        <input type="text" class="form-control" id="contact_email" name="contact_email" value="{{ isset($current_sp) ? $current_sp->ContactEmail : '' }}" required>
+                    </div>
 
                     <div class="form-group">
                         <label for="spt_id">Service Provider:</label>                        

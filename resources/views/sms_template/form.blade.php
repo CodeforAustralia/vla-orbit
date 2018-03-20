@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Template:</label>
+                        <label class="col-md-3 control-label" for="template">Template:</label>
                         <div class="col-sm-4 col-md-7">
                             <textarea rows="5" class="form-control" id="template" name="template" required>{{ isset($current_sms_template) ? $current_sms_template['Template'] : '' }}</textarea>
 

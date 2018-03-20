@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Available for all:</label>
+                        <label class="col-md-3 control-label" for="all">Available for all:</label>
                         <div class="col-md-8 col-lg-4">
                             <input type="checkbox" class="checkbox_all" id="all" name="all" {{ ( isset($template['Section']) && $template['Section'] == 'All' ? 'checked' : '' ) }}>
                         </div>
@@ -43,14 +43,14 @@
                     @endif
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Template name:</label>
+                        <label class="col-md-3 control-label" for="name">Template name:</label>
                         <div class="col-md-8 col-lg-4">
                             <input type="text" class="form-control" id="name" name="name" value="{{ ( isset($template['Name']) ? $template['Name'] : '' ) }}" maxlength="255" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Subject:</label>
+                        <label class="col-md-3 control-label" for="subject">Subject:</label>
                         <div class="col-md-8 col-lg-4">
                             <input type="text" class="form-control" id="subject" name="subject" value="{{ ( isset($template['Subject']) ? $template['Subject'] : '' ) }}" maxlength="255" required>
                         </div>
