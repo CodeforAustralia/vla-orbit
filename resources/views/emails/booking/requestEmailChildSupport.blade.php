@@ -1,6 +1,6 @@
 @component('mail::message')
 
-<p>The following client has been assessed as eligible to receive advice and/or in-court advocacy from the Duty Lawyer service.</p>
+<p>Please contact this person for further assessment and assistance.</p>
 
 ___
 
@@ -10,15 +10,18 @@ ___
 <p>Client Intake Record - Legal Advice ID:  {{ ( isset($args['CIRNumber']) && $args['CIRNumber'] != '' ? $args['CIRNumber'] : 'N/A') }}</p>
 
 @if( isset($args['client']['ClientEmail']) && $args['client']['ClientEmail'] != '')
-
 <p>Email: {{ $args['client']['ClientEmail'] }}</p>
 <p>Email contact OK? Yes</p>
 @endif
-@if( isset($args['client']['Mobile']) && $args['client']['Mobile'] != '')
 
+
+@if( isset($args['postal_address']) && $args['postal_address'] != '')
+<p>Postal Address: {{ $args['postal_address'] }}</p>
+@endif
+@if( isset($args['client']['Mobile']) && $args['client']['Mobile'] != '')
 <p>Contact number: {{ $args['client']['Mobile'] }}</p>
 @endif
-
+ 
 @if( isset($args['phonepermission']) && $args['phonepermission'] != '')
 <p>Is it safe to contact this client by SMS?: {{ $args['phonepermission'] }}</p>
 @endif
@@ -33,8 +36,6 @@ ___
 @endif
 
 {!! $args['Desc'] !!}
-
-<p>Please ensure that the Client Intake Record and Client information are printed and provided to the lawyer for this appointment.</p>
 
 <p>Thank you.</p>
 

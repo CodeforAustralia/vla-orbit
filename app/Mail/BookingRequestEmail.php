@@ -47,6 +47,14 @@ class BookingRequestEmail extends Mailable
             case 'duty_layer':
                 $view_path = 'emails.booking.requestEmailDuttyLaw';
                 break;
+
+            case 'child_support':
+                $view_path = 'emails.booking.requestEmailChildSupport';
+                break;
+
+            case 'child_protection':
+                $view_path = 'emails.booking.requestEmailChildProtection';
+                break;
         }
         
         return $this->from( auth()->user()->email )

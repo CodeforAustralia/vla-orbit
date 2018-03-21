@@ -274,10 +274,10 @@
                     <label>Is it safe to contact this client by phone call? &nbsp; </label>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
-                            <input type="radio" name="phonepermission" id="phoneCallPermission" value="Yes">Yes<span></span>
+                            <input type="radio" name="phoneCallPermission" id="phoneCallPermission" value="Yes">Yes<span></span>
                         </label>
                         <label class="mt-radio mt-radio-outline">
-                            <input type="radio" name="phonepermission" id="phoneCallPermission" value="No">No<span></span>
+                            <input type="radio" name="phoneCallPermission" id="phoneCallPermission" value="No">No<span></span>
                         </label>
                     </div>
                 </div>
@@ -293,10 +293,10 @@
                     <label>Is it safe to leave a message? &nbsp; </label>
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
-                            <input type="radio" name="phonepermission" id="phoneMessagePermission" value="Yes">Yes<span></span>
+                            <input type="radio" name="phoneMessagePermission" id="phoneMessagePermission" value="Yes">Yes<span></span>
                         </label>
                         <label class="mt-radio mt-radio-outline">
-                            <input type="radio" name="phonepermission" id="phoneMessagePermission" value="No">No<span></span>
+                            <input type="radio" name="phoneMessagePermission" id="phoneMessagePermission" value="No">No<span></span>
                         </label>
                     </div>
                 </div>

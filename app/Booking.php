@@ -527,6 +527,14 @@ Class Booking
                 case 'duty_layer':                
                     $booking_request['subject'] = 'Duty Lawyer - ';
                     break;
+
+                case 'child_support':                
+                    $booking_request['subject'] = 'Child Support - ';
+                    break;
+
+                case 'child_protection':                
+                    $booking_request['subject'] = 'Child Protection - ';
+                    break;
             }
 
             $booking_request['subject'] .=  $booking_request['ServiceProviderName'] . ', ' . 

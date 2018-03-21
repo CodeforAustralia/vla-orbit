@@ -323,42 +323,25 @@ var changeRequestType = function()
         setSubmitButtonText('is_request');
         if( this.value === 'appointment_request' )
         {            
-            template += 'Safe to SMS? <br><br>';
-            template += 'Safe to call? <br><br>';
-            template += 'Safe to leave a message? <br><br>';
-            template += 'Any unavailable times or instructions re contact? <br><br>';
             template += 'This call was supervised by (if relevant):  <br><br>';            
         }
         else if ( this.value === 'for_assessment' ) 
         {
-            template += 'Safe to SMS? <br><br>';
-            template += 'Safe to call? <br><br>';
-            template += 'Safe to leave a message? <br><br>';
-            template += 'Any unavailable times or instructions re contact? <br><br>';
-
-            template += 'Suburb/town of caller: <br> <br>';            
-            template += 'Date of birth: <br> <br>';
+            template += 'Brief outline of matter: <br> <br>';            
+            template += 'Notes (special needs, urgency, time limits, tribunal/court hearing dates and location if the caller is in custody/detention):<br><br>';
+            template += 'This call was supervised by (if relevant):  <br><br>';            
+        }  
+        else if ( this.value === 'phone_advice' ) 
+        {
             template += 'Client ID (if known): <br> <br>';            
             template += 'Brief outline of matter: <br><br><br>';
             template += 'Notes (special needs, urgency, time limits, tribunal/court hearing dates and location if the caller is in custody/detention):<br><br>';
             template += 'This call was supervised by (if relevant):  <br><br>';            
-        } 
-        else if ( this.value === 'phone_advice' ) 
-        {
-            template += 'Safe to SMS? <br><br>';
-            template += 'Safe to call? <br><br>';
-            template += 'Safe to leave a message? <br><br>';
-            template += 'Any unavailable times or instructions re contact? <br><br>';
-            template += 'This call was supervised by (if relevant):  <br><br>';
-        }        
+        }     
         else if ( this.value === 'duty_layer' ) 
         {
-            template += 'Safe to SMS? <br><br>';
-            template += 'Safe to call? <br><br>';
-            template += 'Safe to leave a message? <br><br>';
-            template += 'Any unavailable times or instructions re contact? <br><br>';
-            template += 'Upcoming court date: <br><br>';
-            template += 'Court location: <br><br>';
+            template += 'Brief outline of matter: <br><br>';
+            template += 'Court Date: <br><br>';
             template += 'This call was supervised by (if relevant):  <br><br>';    
         }    
         else if ( this.value === 'child_support' ) 
