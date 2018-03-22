@@ -169,25 +169,20 @@ Class Booking
                   ];
 
         if( isset( $bookings->Bookings))
-        {
-            $service_booking = new ServiceBooking();
-            $all_service_bookings = $service_booking->getAllServiceBookings();            
+        {       
 
             if( sizeof( $bookings->Bookings ) == 1 )
             {
                 $event = $bookings->Bookings ;
 
-                $pos_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'BookingServiceId' ) );
-                $pos_int_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'InternalBookingServId' ) );
-
                 $length = 30;
-                if( $pos_bs_id )
+                if( $event->ServiceId == $event->BookingBugInternalServiceId )
                 {
-                    $length = $all_service_bookings[ $pos_bs_id ]['ServiceLength'];
+                    $length = $event->BookingBugInternalServiceId;
                 }
-                else if( $pos_int_bs_id )
+                else if( $event->ServiceId == $event->BookingBugServiceId )
                 {
-                    $length = $all_service_bookings[ $pos_int_bs_id ]['IntServiceLength'];
+                    $length = $event->BookingBugServiceLength;
                 }
 
                 $time = strtotime( $event->BookingTime );
@@ -210,18 +205,14 @@ Class Booking
             	$calendars = [];
                 foreach ( $bookings->Bookings as $event ) 
                 {
-
-                    $pos_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'BookingServiceId' ) );
-                    $pos_int_bs_id = array_search( $event->ServiceId,  array_column( $all_service_bookings, 'InternalBookingServId' ) );
-
                     $length = 30;
-                    if( $pos_bs_id )
+                    if( $event->ServiceId == $event->BookingBugInternalServiceId )
                     {
-                        $length = $all_service_bookings[ $pos_bs_id ]['ServiceLength'];
+                        $length = $event->BookingBugInternalServiceId;
                     }
-                    else if( $pos_int_bs_id )
+                    else if( $event->ServiceId == $event->BookingBugServiceId )
                     {
-                        $length = $all_service_bookings[ $pos_int_bs_id ]['IntServiceLength'];
+                        $length = $event->BookingBugServiceLength;
                     }
 
                     $time = strtotime( $event->BookingTime );					
