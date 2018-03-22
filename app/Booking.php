@@ -166,6 +166,22 @@ Class Booking
                     '#2AAA91',
                     '#AD6465', 
                     '#8C8748',
+                    //Repeating to avoid error on huge amount of calendars
+                    '#31A500',
+                    '#AF3600',
+                    '#136E00',
+                    '#625700',
+                    '#722F00',
+                    '#008011',
+                    '#2F3500',
+                    '#F3C211',
+                    '#2C3E01',
+                    '#24A300',
+                    '#7C7C00',
+                    '#249601',
+                    '#2AAA00',
+                    '#AD6400',
+                    '#8C8700',
                   ];
 
         if( isset( $bookings->Bookings))
@@ -178,7 +194,7 @@ Class Booking
                 $length = 30;
                 if( $event->ServiceId == $event->BookingBugInternalServiceId )
                 {
-                    $length = $event->BookingBugInternalServiceId;
+                    $length = $event->BookingBugInternalServiceLength;
                 }
                 else if( $event->ServiceId == $event->BookingBugServiceId )
                 {
@@ -187,7 +203,7 @@ Class Booking
 
                 $time = strtotime( $event->BookingTime );
 				$endTime = date("H:i", strtotime('+' . $length . ' minutes', $time));
-
+                
                 $uid = $bookings->Bookings->CreatedBy;                
   
                 $output[] =  [
@@ -208,7 +224,7 @@ Class Booking
                     $length = 30;
                     if( $event->ServiceId == $event->BookingBugInternalServiceId )
                     {
-                        $length = $event->BookingBugInternalServiceId;
+                        $length = $event->BookingBugInternalServiceLength;
                     }
                     else if( $event->ServiceId == $event->BookingBugServiceId )
                     {
