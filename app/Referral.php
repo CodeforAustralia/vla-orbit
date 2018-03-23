@@ -10,6 +10,8 @@ use Auth;
 
 class Referral
 {
+    const REFERRAL_LIMIT = 2000;
+
     public function getAllReferrals()
     {       
         // Create Soap Object
@@ -35,7 +37,7 @@ class Referral
                                 );
         }
 
-        return $referrals;
+        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
     }
 
     public function getAllOutboundReferrals()
@@ -63,7 +65,7 @@ class Referral
                                 );
         }
 
-        return $referrals;
+        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
     }
 
     public function getAllReferralsBySP( $sp_id )
@@ -79,7 +81,7 @@ class Referral
                                     ->GetAllReferralsByServiceProviderasJSONResult, 
                                     true 
                                 );
-        return $referrals;
+        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
     }
 
     public function saveReferral( $referral, $service_provider )
