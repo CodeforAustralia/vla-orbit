@@ -9,6 +9,7 @@ use App\Mail\BookingSms;
 use App\SentSms;
 use App\Service;
 use App\ServiceBooking;
+use App\ServiceProvider;
 use App\User;
 use Auth;
 
@@ -562,5 +563,28 @@ Class Booking
         {
             return false;
         }
+    }
+
+    public function legalHelpBookings()
+    {
+        $legal_help_id = 112;
+        $user = new User();
+        $bookings = self::getAllBookings( '2017-08-01', date("Y-m-d", strtotime("+3 months")) );
+        $service_provider_obj = new ServiceProvider();
+        $service_providers = $service_provider_obj->getAllServiceProviders();
+        $legal_help_bookings = array();
+
+
+        foreach ($bookings->Bookings as $booking)
+        {
+            $user_id = $booking->CreatedBy;
+            $user_info = $user->find($user_id);
+            if($user_info && $user_info->sp_id == $legal_help_id)
+            {
+                $booking->CreatedBy = $user_info->name;
+                $legal_help_bookings[] = $booking;
+            }
+        }
+        return $legal_help_bookings;
     }
 }

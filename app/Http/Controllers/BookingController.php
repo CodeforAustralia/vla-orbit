@@ -20,7 +20,6 @@ class BookingController extends Controller
     
     public function index()
     {       
-        $booking_obj = new Booking(); 
         return view("booking.index");
     }
     
@@ -203,5 +202,16 @@ class BookingController extends Controller
         $sent_sms_obj = new SentSms();
         $result = $sent_sms_obj->sendReminder( $booking );
         return $result;
+    }
+
+    public function listLegalHelpBookings()
+    {
+        $booking_obj = new Booking();
+        return array( 'data' => $booking_obj->legalHelpBookings() );
+    }
+
+    public function legalHelp()
+    {
+        return view("booking.legal_help");
     }
 }

@@ -232,6 +232,10 @@ Route::post('/booking', 'BookingController@store');
 
 Route::get('/booking/sendSmsReminder', 'BookingController@sendSmsReminder');
 
+Route::get('/booking/listLegalHelpBookings', 'BookingController@listLegalHelpBookings');
+
+Route::get('/booking/legalHelp', 'BookingController@legalHelp');
+
 //Referral
 Route::get('/referral', 'ReferralController@index');
 
