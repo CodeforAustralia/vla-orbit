@@ -282,6 +282,33 @@ var AppCalendar = function() {
                 },
                 columnFormat: {
                     week: 'ddd D/M'
+                },
+
+                eventMouseover: function (data, event, view) {
+                    const booking = data.data;
+                    let tooltip = '<div class="tooltiptopicevent" style="width:auto;height:auto;color:white;background:#17C4BB;position:absolute;z-index:10001;padding:10px 10px 10px 10px ;  line-height: 200%;">';
+                    tooltip += booking.ServiceName + '<br>';
+                    tooltip += data.start._i.split(' ')[1]  + ' - ';
+                    tooltip += data.end._i.split(' ')[1]  + '<br>';                    
+                    tooltip += '</div>';
+
+                    $("body").append(tooltip);
+                    $(this).mouseover(function (e) {
+                        $(this).css('z-index', 10000);
+                        $('.tooltiptopicevent').fadeIn('500');
+                        $('.tooltiptopicevent').fadeTo('10', 1.9);
+                    }).mousemove(function (e) {
+                        $('.tooltiptopicevent').css('top', e.pageY + 10);
+                        $('.tooltiptopicevent').css('left', e.pageX + 20);
+                    });
+
+
+                },
+                eventMouseout: function (data, event, view) {
+                    $(this).css('z-index', 8);
+
+                    $('.tooltiptopicevent').remove();
+
                 }
             });
 
