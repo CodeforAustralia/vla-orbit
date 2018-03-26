@@ -2,43 +2,43 @@ var service_id = 0;
 
 function isEmail(email) 
 {
-  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
 
 /** rewrite module */
 var initReadmore = function()
 {
-	$('.description').readmore({
-	    collapsedHeight: 56,
-	    speed: 1000,    
-	    lessLink: '<a href="#">Read less</a>'
-	});
+  $('.description').readmore({
+      collapsedHeight: 56,
+      speed: 1000,    
+      lessLink: '<a href="#">Read less</a>'
+  });
 }();
 
 var showCard = function (element_class, show) 
 {
-	if( show )
-	{		
-		$("." + element_class ).fadeIn("slow");
-	} else 
-	{
-		$("." + element_class ).fadeOut("slow");
-	}	
+  if( show )
+  {   
+    $("." + element_class ).fadeIn("slow");
+  } else 
+  {
+    $("." + element_class ).fadeOut("slow");
+  } 
 }
 
 var filterElements = function (checked_values, filter_arr) {
-		
-	if( checked_values )
-	{
-		var off_values = filter_arr.filter( function(x) { return checked_values.indexOf(x) === -1 }); // Substract checked values from filters										
-		off_values.map( function(current_value) { return showCard(current_value, false) }); // Hide substracted values
-		checked_values.map( function(current_value) { return showCard(current_value, true) });	// Show checked elements
-	}
-	else 
-	{
-		filter_arr.map( function(current_value) { return showCard(current_value, true) }); // Show all elements if checked values is null
-	}
+    
+  if( checked_values )
+  {
+    let off_values = filter_arr.filter( function(x) { return checked_values.indexOf(x) === -1 }); // Substract checked values from filters                    
+    off_values.map( function(current_value) { return showCard(current_value, false) }); // Hide substracted values
+    checked_values.map( function(current_value) { return showCard(current_value, true) });  // Show checked elements
+  }
+  else 
+  {
+    filter_arr.map( function(current_value) { return showCard(current_value, true) }); // Show all elements if checked values is null
+  }
 }
 
 var setFilterOnElement = function (element, nonSelectedText,filter) {
@@ -76,12 +76,12 @@ var openBooking = function ()
   $('.open-booking').on( "click", function()
   {
     $("#contentLoading").modal("show");
-    var service_card = $( this ).closest(".card-container");
-    var sv_id = $( service_card ).attr("id");
-    var booking_ids = $( this ).attr("id").split('-');
-    var sp_id = booking_ids[2];
-    var booking_id = booking_ids[0];
-    var booking_interpretor_id = booking_ids[1];    
+    const service_card = $( this ).closest(".card-container");
+    const sv_id = $( service_card ).attr("id");
+    const booking_ids = $( this ).attr("id").split('-');
+    const sp_id = booking_ids[2];
+    const booking_id = booking_ids[0];
+    const booking_interpretor_id = booking_ids[1];    
     
     $('#service_provider_id').attr("disabled", "disabled");
     $('#service_provider_id option[value="' + sp_id + '"]').prop("selected", "selected").change();
@@ -101,13 +101,13 @@ var openBooking = function ()
 var openModal = function () 
 {
   $('.open-modal').on( "click", function(){    
-    var service_card = $( this ).closest(".card-container");
-    var service_provider_name = $(service_card).find(".service-provider-name").text();
-    var service_name = $(service_card).find(".service-name").text();
-    var image_path = $(service_card).find("img").attr("src");
+    const service_card = $( this ).closest(".card-container");
+    const service_provider_name = $(service_card).find(".service-provider-name").text();
+    const service_name = $(service_card).find(".service-name").text();
+    const image_path = $(service_card).find("img").attr("src");
     service_id = $( service_card ).attr('id');
 
-    var modal = $("#SelectMatch");
+    const modal = $("#SelectMatch");
     $(modal).find(".service-provider-name").text(service_provider_name);
     $(modal).find(".service-name").text(service_name);
     $(modal).find("img").attr("src", image_path);
@@ -127,15 +127,16 @@ var closeModal = function ()
 var sendToClient = function () {
   
   $('#send-client').on( "click", function(){
-    var phone = $("#Phone").val();
-    var email = $("#Email").val();
-    var OutboundServiceProviderId = $("#OutboundServiceProviderId").val();
-    var UserID = $("#UserID").val();
-    var MatterId = $("#MatterId").val();
-    var Notes = $("#Notes option:selected").text();
-    var CatchmentId = $("#CatchmentId").val();
-    var safe_phone = 0;
-    var safe_to_email = 0;
+    const phone = $("#Phone").val();
+    const email = $("#Email").val();
+    const OutboundServiceProviderId = $("#OutboundServiceProviderId").val();
+    const UserID = $("#UserID").val();
+    const MatterId = $("#MatterId").val();
+    const Notes = $("#Notes option:selected").text();
+    const CatchmentId = $("#CatchmentId").val();
+    let safe_phone = 0;
+    let safe_to_email = 0;
+
     if( $("#safeEmail").is(':checked') )
     {
       safe_email = 1;
@@ -175,7 +176,7 @@ var sendToClient = function () {
     else if( ( isEmail( email ) && safe_email == 1 ) || ( phone != '' && safe_phone ) )
     {
       $("#contentLoading").modal("show");
-      var csrf = $('meta[name=_token]').attr('content');
+      const csrf = $('meta[name=_token]').attr('content');
       $.ajax({
         headers: {
             'X-CSRF-TOKEN': csrf
@@ -200,7 +201,8 @@ var sendToClient = function () {
           $("#SelectMatchLabel").text("Referral Sent");
           $("#result-step-1").hide();
           $("#result-step-2").show();
-          $("#contentLoading").modal("hide")
+          $("#contentLoading").modal("hide");
+          disableReferralButton(service_id);
         });
     } 
     else {
@@ -209,6 +211,15 @@ var sendToClient = function () {
 
   });
 }();
+
+var disableReferralButton =  function( id )
+{
+  $("#" + id + " .refer-button").removeClass('bg-green-jungle bg-font-green-jungle');
+  $("#" + id + " .refer-button").addClass('bg-grey-silver bg-font-grey-silver');
+  $("#" + id + " .refer-button button").removeClass('bg-green-jungle bg-font-green-jungle');
+  $("#" + id + " .refer-button button").addClass('bg-grey-silver bg-font-grey-silver');  
+  $("#" + id + " .refer-button button").text('Referral Sent');
+}
 
 var enableSummernote = function () 
 {  
