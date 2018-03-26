@@ -63,8 +63,8 @@
                                     </a>
                                 </li>
                                 @if( \App\Http\helpers::getUSerServiceProviderId() === 112 || \App\Http\helpers::getRole() === 'Administrator' )
-                                <li class="nav-item {{ Request::is('booking/next_bookings') ? 'active' : null }}">
-                                    <a href="/booking/next_bookings" class="nav-link ">
+                                <li class="nav-item {{ Request::is('booking/legalHelp') ? 'active' : null }}">
+                                    <a href="/booking/legalHelp" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Legal Help Bookings</span>
                                     </a>
