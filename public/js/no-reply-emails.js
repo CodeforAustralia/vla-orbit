@@ -310,17 +310,18 @@ var noReplyEmails = function()
             //mimeType: "multipart/form-data",
 	        data: formData
 	      })			
-        .done(function( msg ) { 
-        	$("#contentLoading").modal("hide");       		        	
+        .done(function( msg ) {         	
+        	$("#contentLoading").modal("hide");        	       		        	
 	        $("#sendEmail").modal("show");
-
-	        
+			$('#sendEmail').on('shown.bs.modal', function () {
+			    $('#sendNRE').animate({ scrollTop: 0 }, 'slow');
+			});	        	        
         });
      	
 	};
 
 
-	var sendAnother = function()
+	var modal_functions = function()
 	{
 		$("#send_another").click(function(){
 			clearFields();
@@ -328,9 +329,17 @@ var noReplyEmails = function()
 		$("#start_over").click(function(){
 			$("#to").val('');
 			clearFields();
+    	});
 
-    	});     	 
+		$("#return").click(function(){
+			$("#to").val('');
+			clearFields();
+			$("#sendNRE").removeClass("in");
+			$(".modal-backdrop").remove();			
+			$("#sendNRE").modal("hide");					
+    	});    	     	 
 	};
+			
 	var clearFields = function()
 	{
 		$("#template_id").val([]).change();
@@ -348,7 +357,7 @@ var noReplyEmails = function()
         	onChangeTemplate();
         	form_validate();
         	setTemplate();
-        	sendAnother();
+        	modal_functions();
         }
 
     }

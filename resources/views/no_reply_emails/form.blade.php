@@ -64,10 +64,11 @@
                         </div>
                     </div>                            
                 </div>
+
                 <div class="form-actions">
                     <div class="row">
-                        <div class="col-md-offset-3 col-md-9">
-                            <button type="submit" id="sent_email" class="btn btn-circle green">Send</button>
+                        <div class="col-md-offset-3 col-md-9">                        
+                            <button type="submit" id="sent_email" class="btn green-jungle btn-lg">Send email</button>
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
   <!-- Modal Start -->     
     <div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmail">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" id="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title bold">No-reply email sent</h4>           
@@ -87,12 +88,12 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                     <!-- Top -->            
-                        @include('no_reply_emails.sent_modal')
+                        @includeIf('no_reply_emails.sent_modal')
                     </div> <!-- Modal Body Close-->
                 </div><!-- Modal Content Close-->
             </div><!-- Modal Dialogue Close-->
         </div><!-- Modal Fade Close-->
-    </div>
+    </div><!-- Modal Close-->
 
 @section('styles')    
 
