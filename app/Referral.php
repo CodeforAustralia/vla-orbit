@@ -21,20 +21,16 @@ class Referral
         if( $user->sp_id != 0 )
         {
             $info['ServiceProviderId'] = $user->sp_id;
-            $referrals = json_decode( 
-                                        $client
-                                        ->GetAllReferralsByServiceProviderasJSON( $info )
-                                        ->GetAllReferralsByServiceProviderasJSONResult, 
-                                        true
-                                    );
+            $referrals = $client
+                         ->GetAllReferralsByServiceProvider( $info )
+                         ->GetAllReferralsByServiceProviderResult
+                         ->Referral;
         } 
         else {
-            $referrals = json_decode( 
-                                    $client
-                                    ->GetAllReferralsasJSON()
-                                    ->GetAllReferralsasJSONResult, 
-                                    true 
-                                );
+            $referrals = $client
+                         ->GetAllReferrals()
+                         ->GetAllReferralsResult
+                         ->Referral;
         }
 
         return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
@@ -49,20 +45,19 @@ class Referral
         if( $user->sp_id != 0 )
         {
             $info['OutServiceProviderId'] = $user->sp_id;
-            $referrals = json_decode( 
-                                        $client
-                                        ->GetAllReferralsByOutServiceProviderasJSON( $info )
-                                        ->GetAllReferralsByOutServiceProviderasJSONResult, 
-                                        true
-                                    );
+            $referrals = $client
+                         ->GetAllReferralsByOutServiceProvider( $info )
+                         ->GetAllReferralsByOutServiceProviderResult
+                         ->Referral;
         } 
         else {
-            $referrals = json_decode( 
+            /*$referrals = json_decode( 
                                     $client
                                     ->GetAllReferralsasJSON()
                                     ->GetAllReferralsasJSONResult, 
                                     true 
-                                );
+                                );*/
+            $referrals = $client->GetAllReferrals()->GetAllReferralsResult->Referral;
         }
 
         return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
