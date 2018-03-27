@@ -46,27 +46,27 @@
                             <ul class="sub-menu">
                                 <li class="nav-item {{ Request::is('booking') ? 'active' : null }}">
                                     <a href="/booking" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">My Office Bookings</span>
+                                        <i class="icon-calendar"></i>
+                                        <span class="title">My Office</span>
                                     </a>
                                 </li>
                                 <li class="nav-item {{ Request::is('booking/by_service_provider') ? 'active' : null }}">
                                     <a href="/booking/by_service_provider" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Other Office Bookings</span>
+                                        <i class="icon-calendar"></i>
+                                        <span class="title">Other Offices</span>
                                     </a>
                                 </li>
                                 <li class="nav-item {{ Request::is('booking/next_bookings') ? 'active' : null }}">
                                     <a href="/booking/next_bookings" class="nav-link ">
                                         <i class="fa fa-list"></i>
-                                        <span class="title">All Bookings</span>
+                                        <span class="title">Upcoming</span>
                                     </a>
                                 </li>
-                                @if( \App\Http\helpers::getUSerServiceProviderId() === 112 || \App\Http\helpers::getRole() === 'Administrator' )
+                                @if( in_array(\App\Http\helpers::getUSerServiceProviderId(), [0,112]) && in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp']) )
                                 <li class="nav-item {{ Request::is('booking/legalHelp') ? 'active' : null }}">
                                     <a href="/booking/legalHelp" class="nav-link ">
                                         <i class="fa fa-list"></i>
-                                        <span class="title">Legal Help Bookings</span>
+                                        <span class="title">Legal Help</span>
                                     </a>
                                 </li>
                                 @endif
