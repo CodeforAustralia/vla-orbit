@@ -60,19 +60,18 @@
         </div>
     </div>
     <!-- Calendar End -->  
-
     <!-- Modal Start -->     
     <div class="modal fade" id="bookingInfo" tabindex="-1" role="dialog" aria-labelledby="bookingInfo" data-backdrop="static" data-keyboard="false" aria-hidden="false" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">                
+                <div class="modal-header">                    
                     <button type="button" class="close close-booking-edit" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h5 class="modal-title" id="SelectMatchLabel"><strong>Booking #<span id="bookingRef"></span></strong></h5>
                 </div>
 
                 <div class="modal-body">
                     <div class="container-fluid booking-information">
-                        <div class="row">
+                        <div class="row" id='clientInformation'>
                             <div class="col-sm-6">
                                 <h4><strong> Client Information </strong></h4>
                             </div>
@@ -103,7 +102,7 @@
                             </div>                      
                         </div>
                         <hr>
-                        <div class="row">
+                        <div class="row" id="bookingInformation">
                             <div class="col-sm-6">
                                 <h4><strong> Booking Information </strong></h4>
                             </div>
@@ -153,13 +152,13 @@
                                             </div>
                                         </div>
                             </div>
-
-                            <input type="text" name="csrf" id="csrf" value="{{ csrf_token() }}" class="hidden">
                         </div>
+                        <input type="text" name="csrf" id="csrf" value="{{ csrf_token() }}" class="hidden">
                         <br>
                         <div class="row pull-right">
                             <a href="#" class="btn btn-xs green remind-booking">Send Reminder</a>                            
                             <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
+                            <a href="#" class="btn btn-xs btn-default " id="printBooking" >Print</a>                
                             <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                         </div>
                     </div>
@@ -211,8 +210,7 @@
                 </div>
             </div>
         </div><!-- Modal Dialogue Close-->
-    </div><!-- Modal Fade Close-->
-                
+    </div><!-- Modal Fade Close-->                   
 @endsection
 
 @section('styles')

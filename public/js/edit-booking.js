@@ -8,6 +8,7 @@ $(document).ready(function() {
     openEditBooking();
     closeEditBooking();
     updateBooking();
+    printBooking();
 });  
 
 function updateBooking()
@@ -171,4 +172,29 @@ function closeEditBooking()
         $(".booking-information").hide().removeClass("hidden").fadeIn(); 
         AppCalendar.init();
     }); 
+}
+
+function printBooking(){
+    $( "#printBooking" ).click(function() {
+
+        var printFrame = document.createElement('iframe');
+        printFrame.name = "printFrame";
+        printFrame.style.position = "absolute";
+        printFrame.style.top = "-1000000px";
+        document.body.appendChild(printFrame);            
+        var frameDoc = (printFrame.contentWindow) ? printFrame.contentWindow : (printFrame.contentDocument.document) ? printFrame.contentDocument.document : printFrame.contentDocument;        
+        frameDoc.document.open();
+        frameDoc.document.write('<html><body>'+
+                                $('#SelectMatchLabel').html()+'<br>' +
+                                $('#clientInformation').html()+ '<br>' +
+                                $('#bookingInformation').html()+    
+                                '</body></html>');
+        frameDoc.document.close();
+        setTimeout(function () {
+            window.frames["printFrame"].focus();
+            window.frames["printFrame"].print();
+            document.body.removeChild(printFrame);
+        }, 500);
+    return false;               
+    });    
 }
