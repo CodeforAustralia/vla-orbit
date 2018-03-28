@@ -17,8 +17,7 @@
                                             <img src="/assets/global/img/vla_sign.jpg"> </div>
                                         <div class="mt-container bg-purple-opacity">
                                             <br>
-                                            <div class="mt-head-title"> Login using VLA credentials </div>
-                                            <br>
+                                            <div class="mt-head-title"> VLA users <br><br> click here to login </div>
                                             <br>
                                             <br>
                                             <div class="mt-footer-button">
