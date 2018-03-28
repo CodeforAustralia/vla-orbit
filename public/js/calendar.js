@@ -216,9 +216,7 @@ var AppCalendar = function() {
                     
                     $("#bookingIntLanguage").text(calEvent.data.IntLanguage);
 
-                    $("#bookingIsSafe").text(calEvent.data.IsSafe);
-
-                    
+                    $("#bookingIsSafe").text(calEvent.data.IsSafe);                    
 
                     if( calEvent.data.Description != '' )
                     {
@@ -237,7 +235,9 @@ var AppCalendar = function() {
                     $("#bookingInfo").modal();
 
                     
-                    const booking_date = new Date(calEvent.data.BookingDate);                               
+                    const booking_date = new Date(calEvent.data.BookingDate);
+                    const booking_time = calEvent.data.BookingTime;
+
                     let day_before = new Date(); 
                     day_before.setDate(day_before.getDate()-1);
                                         
@@ -253,10 +253,15 @@ var AppCalendar = function() {
                     if( typeof sentDates === 'string' ) {
                         sentDatesStr = sentDates.split(' ')[0];
                     } else {                        
-                        for (var i = 0, len = sentDates.length; i < len; i++) {                          
+                        for (let i = 0, len = sentDates.length; i < len; i++) {                          
                             sentDatesStr += sentDates[i].split(' ')[0] + ', ';
                         }
                     }
+
+                    let booking_date_moment = moment(booking_date).toDate();
+                    $("#" + calEvent.data.ServiceId).text(moment(booking_date_moment).format('DD/MM/YYYY') + 
+                        ' ' + booking_time );
+
                     //sentStatus
                     $("#sentStatus").text(sentDatesStr.replace(/,\s*$/, ''));
 
@@ -265,7 +270,7 @@ var AppCalendar = function() {
 
                     if( Object.keys(calEvent.data.BookingDocuments).length > 0)
                     {                        
-                        var BookingRef = calEvent.data.BookingRef;
+                        let BookingRef = calEvent.data.BookingRef;
                         showBookingDocuments(calEvent.data.BookingDocuments, BookingRef);
                     } 
                     else 
@@ -275,7 +280,7 @@ var AppCalendar = function() {
                     }
                 },
                 eventAfterRender: function (event, element, view) {
-                    var today = new Date();
+                    let today = new Date();
                     if (event.start < today && event.end < today) {                     
                         element.css('background-color', '#77DD77');
                     }                    
