@@ -291,13 +291,10 @@ var AppCalendar = function() {
 
                 eventMouseover: function (data, event, view) {
                     const booking = data.data;
-                    const service_provider = data.service_provider;
                     let tooltip = '<div class="tooltiptopicevent" style="width:auto;height:auto;color:white;background:#17C4BB;position:absolute;z-index:10001;padding:10px 10px 10px 10px ;  line-height: 200%;">';
+                    
                     tooltip += booking.ServiceName + '<br>';                    
-                    if( service_provider.length > 0 )
-                    {
-                        tooltip += service_provider[0].ServiceProviderName + '<br>';
-                    }
+                    tooltip += booking.ServiceProviderName + '<br>';                    
                     tooltip += data.start._i.split(' ')[1]  + ' - ';
                     tooltip += data.end._i.split(' ')[1]  + '<br>';                    
                     tooltip += '</div>';

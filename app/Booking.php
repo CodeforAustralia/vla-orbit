@@ -140,21 +140,14 @@ Class Booking
     public function getAllBookingsPerMonthCalendar( $from, $to, $sp_id = 0 )
     {       
         $user = new User();
-        $service_provider_obj = new ServiceProvider();
-        $service_provider = array();
-
-        $current_user = Auth::user();
 
         if( $sp_id != 0)
         {
         	$bookings = self::getAllBookingsBySP( $from, $to, $sp_id );
-            //dd($service_provider_obj->getServiceProviderByID($sp_id));
-            $service_provider = json_decode($service_provider_obj->getServiceProviderByID($sp_id)['data'], true);
         }
         else 
         {
-        	$bookings = self::getAllBookings( $from, $to );
-            $service_provider = json_decode($service_provider_obj->getServiceProviderByID($current_user->sp_id)['data'], true);
+        	$bookings = self::getAllBookings( $from, $to );            
         }
         $output = [];
 
@@ -221,8 +214,7 @@ Class Booking
                                 'backgroundColor' => '#17C4BB',
                                 'allDay' => false,
                                 'data'   => $event,
-                                'user'   => $user->find($uid),
-                                'service_provider' => $service_provider
+                                'user'   => $user->find($uid)
                               ];
             } 
             elseif( sizeof( $bookings->Bookings ) > 1 ) 
@@ -259,8 +251,7 @@ Class Booking
                                     'backgroundColor' => $colors[ $calendar_pos ],
                                     'allDay' => false,
                                     'data'   => $event,
-                                    'user'   => $user->find($uid),
-                                    'service_provider' => $service_provider
+                                    'user'   => $user->find($uid)
                                   ];
                 }
             }
