@@ -39,7 +39,7 @@
                             <textarea class="form-control" rows="15" class="form-control" id="message" name="message" placeholder="Client requirements, special needs, difficulties experienced with client, time limits, instructions for contact or any other information that may be useful for the service provider to know beforehand."  required></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" hidden>
                         <div class="col-md-3"></div>
                         <div class="col-md-8 col-lg-7">                                
                             <div class="form-group mt-repeater">
