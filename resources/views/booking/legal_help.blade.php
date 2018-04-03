@@ -17,10 +17,11 @@
                 <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_bookings_legal_help">
                     <thead>
                         <tr role="row" class="heading">
-                            <th width="5%" > Id </th>
-                            <th width="10%" > Date </th>
-                            <th width="10%" > Time </th>
+                            <th width="5%"> Id </th>
+                            <th width="10%"> Date </th>
+                            <th width="5%"> Time </th>
                             <th width="10%"> Service </th>
+                            <th width="10%"> Service Provider </th>
                             <th width="10%"> First Name </th>
                             <th width="10%"> Last Name </th>
                             <th width="10%"> Email </th>
