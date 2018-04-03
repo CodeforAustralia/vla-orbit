@@ -177,6 +177,5 @@ Class SentSms
                                 'TemplateId' => $sms_template['TemplateId']
                               );
         $response = self::saveSmSSent( $sent_sms_info );
-        echo $response['message'];
     }
 }

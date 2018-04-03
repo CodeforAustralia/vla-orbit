@@ -26,7 +26,7 @@ class OutlookController extends Controller
                   ->setReturnType(Model\User::class)
                   ->execute();
   
-    echo 'User: '.$user->getDisplayName().' - '.$user->getMail().'<br/>';
+    //echo 'User: '.$user->getDisplayName().' - '.$user->getMail().'<br/>';
   
     $messageQueryParams = array (
       // Only return Subject, ReceivedDateTime, and From fields
@@ -42,9 +42,10 @@ class OutlookController extends Controller
                       ->addHeaders(array ('X-AnchorMailbox' => $user->getMail()))
                       ->setReturnType(Model\Message::class)
                       ->execute();
-  
+    /*
     foreach($messages as $msg) {
       echo 'Message: '.$msg->getSubject().'<br/>';
     }
+    */
   }
 }
