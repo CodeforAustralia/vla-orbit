@@ -50,13 +50,8 @@ class Referral
                          ->GetAllReferralsByOutServiceProviderResult
                          ->Referral;
         } 
-        else {
-            /*$referrals = json_decode( 
-                                    $client
-                                    ->GetAllReferralsasJSON()
-                                    ->GetAllReferralsasJSONResult, 
-                                    true 
-                                );*/
+        else 
+        {
             $referrals = $client->GetAllReferrals()->GetAllReferralsResult->Referral;
         }
 
