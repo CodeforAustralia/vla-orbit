@@ -32,7 +32,8 @@ class Referral
                          ->GetAllReferralsResult
                          ->Referral;
         }
-
+        
+        usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
         return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
     }
 
@@ -55,7 +56,8 @@ class Referral
             $referrals = $client->GetAllReferrals()->GetAllReferralsResult->Referral;
         }
         
-        return array_slice( array_reverse($referrals), 0,  self::REFERRAL_LIMIT );
+        usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
+        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
     }
 
     public function getAllReferralsBySP( $sp_id )
@@ -71,6 +73,8 @@ class Referral
                                     ->GetAllReferralsByServiceProviderasJSONResult, 
                                     true 
                                 );
+
+        usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
         return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
     }
 
