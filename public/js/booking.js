@@ -85,7 +85,7 @@ function getBookingsByService(booking_id)
     var dateInput = $('#booking-date');
     current_service = booking_id;
     dateInput.datepicker({
-                    format: "dd-mm-yyyy",
+                    format: "yyyy-mm-dd",
                     startDate: current_date.toISOString().split('T')[0],
                     daysOfWeekDisabled: [0,6],
                     todayHighlight: true
