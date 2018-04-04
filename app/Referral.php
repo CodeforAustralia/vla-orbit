@@ -54,8 +54,8 @@ class Referral
         {
             $referrals = $client->GetAllReferrals()->GetAllReferralsResult->Referral;
         }
-
-        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
+        
+        return array_slice( array_reverse($referrals), 0,  self::REFERRAL_LIMIT );
     }
 
     public function getAllReferralsBySP( $sp_id )
