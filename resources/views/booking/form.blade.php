@@ -362,3 +362,13 @@
     <script src="/js/booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <script src="/js/booking-dropzone.js" type="text/javascript"></script>
 @endsection
+@section('inline-scripts')
+$(document).ready(function() {
+    var spId = {{\App\Http\helpers::getUSerServiceProviderId()}};
+    $("#service_provider_id > option").each(function() {   
+        if(this.value == spId){
+            $("#service_provider_id").val(this.value).trigger( "change" );
+        }      
+    });
+});
+@endsection
