@@ -32,9 +32,18 @@ class Referral
                          ->GetAllReferralsResult
                          ->Referral;
         }
-        
-        usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
-        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
+
+        if( sizeof($referrals) > 1 ) 
+        {
+            usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
+            $referrals = array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
+        }
+        else
+        {
+            $referrals = array($referrals);
+        }
+
+        return $referrals;
     }
 
     public function getAllOutboundReferrals()
@@ -54,10 +63,19 @@ class Referral
         else 
         {
             $referrals = $client->GetAllReferrals()->GetAllReferralsResult->Referral;
+        }        
+
+        if( sizeof($referrals) > 1 ) 
+        {
+            usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
+            $referrals = array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
         }
-        
-        usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
-        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
+        else
+        {
+            $referrals = array($referrals);
+        }
+
+        return $referrals;
     }
 
     public function getAllReferralsBySP( $sp_id )
@@ -74,8 +92,17 @@ class Referral
                                     true 
                                 );
 
-        usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
-        return array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
+        if( sizeof($referrals) > 1 ) 
+        {
+            usort($referrals, function($a, $b){ return $a->RefNo < $b->RefNo; });
+            $referrals = array_slice( $referrals, 0,  self::REFERRAL_LIMIT );
+        }
+        else
+        {
+            $referrals = array($referrals);
+        }
+
+        return $referrals;
     }
 
     public function saveReferral( $referral, $service_provider )
