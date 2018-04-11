@@ -15,7 +15,7 @@ use Auth;
 
 Class Booking
 {
-    public function getAllBookings( $from, $to )
+    public function getAllBookings( $from, $to, $strict = true )
     {       
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
@@ -26,7 +26,7 @@ Class Booking
                 ];
 
         $user = Auth::user();
-        if( isset($user) && $user->sp_id != 0 )
+        if( isset($user) && $user->sp_id != 0 && $strict )
         {
             $info['ServiceProviderId'] = $user->sp_id;
             $bookings = $client->GetAllOrbitBookingsByServiceProvider( $info )->GetAllOrbitBookingsByServiceProviderResult;         
@@ -569,7 +569,7 @@ Class Booking
     {
         $legal_help_id = 112;
         $user = new User();
-        $bookings = self::getAllBookings( '2017-08-01', date("Y-m-d", strtotime("+3 months")) );
+        $bookings = self::getAllBookings( '2017-08-01', date("Y-m-d", strtotime("+3 months")), false );
         $service_provider_obj = new ServiceProvider();
         $service_providers = $service_provider_obj->getAllServiceProviders();
         $legal_help_bookings = array();
