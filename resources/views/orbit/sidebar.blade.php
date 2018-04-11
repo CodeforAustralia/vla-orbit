@@ -76,7 +76,7 @@
                         <li class="nav-item {{ Request::is('no_reply_emails','no_reply_emails/*') ? 'active' : null }}">
                             <a href="/no_reply_emails" class="nav-link nav-toggle">
                                 <i class="icon-envelope"></i>
-                                <span class="title">No Reply Emails</span>
+                                <span class="title">Info Emails</span>
                                 <span class="arrow {{ Request::is('no_reply_emails','no_reply_emails/*') ? 'open' : null }}"></span>
                             </a>
                             <ul class="sub-menu">

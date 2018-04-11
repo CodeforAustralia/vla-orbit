@@ -77,13 +77,13 @@
                         </a>
 
                         @if ( isset(Auth::user()->roles()->first()->name) && in_array( Auth::user()->roles()->first()->name, ['Administrator', 'AdminSp' , 'VLA']) )
-                                   
-                        <a href="/no_reply_emails/new" id='no-replay-email' class="btn btn-sm btn-default main-green ">
-                            No Reply Emails
-                        </a>
                         
                         <a href="/booking/new" class="btn btn-sm btn-default main-green ">
                             New Booking / Intake           
+                        </a>
+                                   
+                        <a href="/no_reply_emails/new" id='no-replay-email' class="btn btn-sm btn-default main-green ">
+                            New Info Emails
                         </a>
                         @endif
                     </div>
