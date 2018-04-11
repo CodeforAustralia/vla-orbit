@@ -28,18 +28,17 @@ Class Catchment
         $catchments = self::getAllCatchments();
 
         $output = [];
-
         foreach ($catchments as $catchment) 
         {            
-            $output[] = [
+            $output[ $catchment['LGC'] ]['text'] = $catchment['LGC'];
+            $output[ $catchment['LGC'] ]['children'][] = [
                         'id'    => $catchment['CatchmentId'],
                         'text'  => $catchment['Suburb'] . 
-                                    ', ' . $catchment['PostCode'] .
-                                    ', ' . $catchment['LGC'] 
+                                    ', ' . $catchment['PostCode']
                         ];
         }
 
-        return $output;
+        return array_values($output);
     }
 
     public function getDistinctLGC()

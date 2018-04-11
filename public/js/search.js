@@ -9,7 +9,7 @@ var searchPage = function()
 	        $("#single-prepend-text").select2({
 	            data: data,
 	            width: '100%',
-	            placeholder: "Location ( suburb, postcode or council )",
+	            placeholder: "Location ( suburb or postcode )",
 	            selectOnClose: true
 	        });
 	    }).done(function(){	    	
