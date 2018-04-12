@@ -62,7 +62,7 @@ var initFilters = function ()
 {
   const filter_level   = ['information', 'advice', 'representation'];
   const filter_type    = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop'];
-  const filter_sp_type = ['non-legal-provider', 'clc', 'vla', 'legal-help', 'private-practitioners'];
+  const filter_sp_type = ['non-legal-provider', 'clc', 'vla', 'legal-help', 'private-practitioners', 'panel-lawyer'];
   let filter_group   = [];
 
   filter_group = filter_type.concat(filter_level).concat(filter_sp_type);
@@ -111,6 +111,16 @@ var openModal = function ()
     $(modal).find(".service-provider-name").text(service_provider_name);
     $(modal).find(".service-name").text(service_name);
     $(modal).find("img").attr("src", image_path);
+
+    if(service_card.hasClass('panel-lawyer'))
+    {
+      $('.map-box').show();
+    }
+    else
+    {
+      $('.map-box').hide();
+    }
+
   });  
 }();
 
@@ -121,6 +131,8 @@ var closeModal = function ()
     $("#result-step-2").hide();
     $("#service_provider_id option").prop("selected", false);
     $("#SelectMatchLabel").text("Send Referral");
+    $('#map').hide();
+    $('#nearest').val('');
   });
 }();
 
@@ -134,6 +146,7 @@ var sendToClient = function () {
     const MatterId = $("#MatterId").val();
     const Notes = $("#Notes option:selected").text();
     const CatchmentId = $("#CatchmentId").val();
+    const nearest = $("#nearest").val();
     let safe_phone = 0;
     let safe_to_email = 0;
 
@@ -153,7 +166,11 @@ var sendToClient = function () {
       safe_phone = 0;
     }
 
-    if( safe_phone == 0 && safe_email == 0 ) // Not safe to contact
+    if( $('.map-box').is(":visible") && !$('#map').is(":visible") )
+    {
+      swal("Alert", "Please provide an address and get nearest panel lawyers", "warning");
+    }
+    else if( safe_phone == 0 && safe_email == 0 ) // Not safe to contact
     {
       swal("Alert", "SMS or email can’t be send if it’s not safe to contact client. Please tick box if it is safe", "warning");
     } 
@@ -193,7 +210,7 @@ var sendToClient = function () {
                 MatterId: MatterId,
                 UserID: UserID,
                 OutboundServiceProviderId: OutboundServiceProviderId,
-                Notes: Notes
+                Nearest: nearest
               }
       })
         .done(function( msg ) {          

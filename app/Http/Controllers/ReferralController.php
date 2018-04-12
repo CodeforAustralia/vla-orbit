@@ -134,6 +134,14 @@ class ReferralController extends Controller
         $service_providers_obj  = new ServiceProvider();
         $service_providers      = $service_providers_obj->getAllServiceProviders();
 
+        $arrContextOptions = array(
+                                    "ssl"=>array(
+                                        "verify_peer"=>false,
+                                        "verify_peer_name"=>false,
+                                    ),
+                                  );
+        $google_maps_script = file_get_contents("https://maps.googleapis.com/maps/api/js?key=" . env('GOOGLE_MAPS_KEY') . '&libraries=places', false, stream_context_create($arrContextOptions) );
+
         if( $request->has('answers')  ) 
         {
             session( ['answers' => request('answers')] );
@@ -146,7 +154,7 @@ class ReferralController extends Controller
 
             if( sizeof($matches) > 0 )
             {
-                return view( 'referral.create.result', compact( 'matches','service_providers' ) );
+                return view( 'referral.create.result', compact( 'matches','service_providers', 'google_maps_script' ) );
             }
         } 
         else {
@@ -156,7 +164,7 @@ class ReferralController extends Controller
                 $matches = session('matches');
                 $referral = new Referral();
                 $matches  = $referral->sortMatches( $matches );               // Sort matches
-                return view( 'referral.create.result', compact( 'matches','service_providers' ) );
+                return view( 'referral.create.result', compact( 'matches','service_providers', 'google_maps_script' ) );
             }
                
         }

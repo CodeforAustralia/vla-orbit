@@ -63,6 +63,7 @@
                             <option value="3" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 3 ) ? 'selected' : '' ?>>VLA</option>
                             <option value="4" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 4 ) ? 'selected' : '' ?>>Legal Help</option>
                             <option value="5" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 5 ) ? 'selected' : '' ?>>Private Practitioner</option>
+                            <option value="6" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 6 ) ? 'selected' : '' ?>>Panel Lawyer</option>
                         </select>
                         
                     </div>

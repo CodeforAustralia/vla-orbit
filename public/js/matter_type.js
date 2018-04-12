@@ -1531,7 +1531,67 @@ var TableDatatablesAjax = function () {
             }
         });
     }
+
+    var handlePanelLawyers = function () {
+
+        var grid = new Datatable();
+
+        grid.init({
+            src: $("#datatable_ajax_panel_lawyers"),
+            onSuccess: function (grid, response) {
+                // grid:        grid object
+                // response:    json object of server side ajax response
+                // execute some code after table records loaded                                
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            onDataLoad: function(grid) {
+                // execute some code on ajax data load
+                confirmDialog();
+            },
+
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+
+                // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
+                // So when dropdowns used the scrollable div should be removed. 
+                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
+               
+                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
+
+                "ajax": {
+                    "url": "/panel_lawyers/list", // ajax source
+                    "type": "get"
+                },
+                "order": [
+                    [1, "asc"]
+                ],// set first column as a default sort by asc,
+                
+                "serverSide": false,
+                "pageLength": 1000,
+                
+                "bInfo": false,
+                "columns": [
+                        { data: "id" },
+                        { data: "firm_name" },                             
+                        { data: "address" },                             
+                        { data: "phone" },                             
+                        {
+                            data: null,
+                            className: "center",
+                            render: function ( data, type, row ) {
+                                // Combine the first and last names into a single table field
+                                return getButtons('panel_lawyers', data.id, data) ;
+                            }
+                        }
+                ],
+
+            }
+        });
+    }    
      
+
     var getButtons = function (controller, id, data) {
 
         var role = $(".role").attr("id");
@@ -1670,6 +1730,7 @@ var TableDatatablesAjax = function () {
             handleSmsTemplates();
             handleNreTemplates();
             handleNreLog();
+            handlePanelLawyers();
             initSearchBox();
         }
 

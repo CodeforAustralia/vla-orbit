@@ -69,8 +69,23 @@
                 <div class="col-xs-12">
                   
                   <!-- Send to Client form -->
-                  <form>
+                  <form autocomplete="off">
                     <!-- Email Address -->
+                    <div class="form-group margin-bottom-10 map-box collapse">
+                      <div class="col-xs-12 padding-0 ">
+                        <p class=" margin-top-10 margin-bottom-10">Add client's address to share contact details of 5 nearest panel lawyers.</p>
+                      </div>
+                      <div class="col-xs-9 padding-0">
+                        <input type="text" name="address" id="address" class="form-control">
+                      </div>
+                      <div class="col-xs-3 padding-0 margin-bottom-10">
+                        <button onclick="getAddress()" class="form-control padding-0 btn grey" type="button">Update Map</button>
+                      </div>
+                      <div class="col-xs-12 padding-0 margin-bottom-10">
+                        <div id="map"></div>                    
+                        <input type="text" name="nearest" id="nearest" class="hidden">
+                      </div>
+                    </div>
                     <div class="form-group">
                       <label>
                         <input type="checkbox" id="safeEmail"> It is safe to send an email to this address                        
@@ -185,9 +200,14 @@
     <script src="/js/referral-result-page.js?id={{ str_random(6) }}" type="text/javascript"></script>
 
 
-    <script src="/js/no-reply-emails.js?id=1" type="text/javascript"></script>    
+    <script src="/js/no-reply-emails.js?id={{ str_random(6) }}" type="text/javascript"></script>    
     <script src="/assets/global/plugins/jquery-repeater/jquery.repeater.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/form-repeater.min.js" type="text/javascript"></script>
+
+    <script async defer>
+        {!! $google_maps_script !!}
+    </script>  
+    <script src="/js/panel-lawyers.js?id={{ str_random(6) }}" type="text/javascript"></script>
 @endsection
 
 @section('inline-scripts')  

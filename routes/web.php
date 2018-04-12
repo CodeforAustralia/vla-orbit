@@ -357,3 +357,23 @@ Route::get('/service_booking/new','ServiceBookingController@create');
 Route::post('/service_booking','ServiceBookingController@store');
 
 Route::get('/service_booking/delete/{sb_id}', 'ServiceBookingController@destroy');
+
+// Panel Lawyers
+
+Route::get('/panel_lawyers', 'PanelLawyersController@index');
+
+Route::get('/panel_lawyers/list', 'PanelLawyersController@list');
+
+Route::get('/panel_lawyers/new', 'PanelLawyersController@create');
+
+Route::get('/panel_lawyers/show/{pl_id}', 'PanelLawyersController@show');
+
+Route::post('/panel_lawyers/get_lat_lng', 'PanelLawyersController@getLatLngByAddress');
+
+Route::get('/panel_lawyers/delete/{pl_id}', 'PanelLawyersController@destroy');
+
+Route::post('/panel_lawyers', 'PanelLawyersController@store');
+
+Route::post('/panel_lawyers/update', 'PanelLawyersController@update');
+
+Route::post('/panel_lawyers/get_closet_by_address', 'PanelLawyersController@getClosestByAddress');

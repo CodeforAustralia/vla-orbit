@@ -205,7 +205,15 @@
                                 <span class="title">Service Booking</span>
                                 <span class="arrow"></span>
                             </a>
-                        </li>                        
+                        </li>
+
+                        <li class="nav-item {{ Request::is('panel_lawyers') ? 'active' : null }}">
+                            <a href="/panel_lawyers" class="nav-link">
+                                <i class="fa fa-gavel"></i>
+                                <span class="title">Panel Lawyer</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>                   
                         @endif
                     </ul>
                     <!-- END SIDEBAR MENU -->

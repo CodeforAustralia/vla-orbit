@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Log;
 use App\Mail\ReferralEmail;
 use App\Mail\ReferralSms;
+use App\Mail\ReferralPanelLawyerEmail;
+use App\Mail\ReferralPanelLawyerSms;
 use App\Vulnerability;
 use Auth;
 
@@ -130,6 +132,7 @@ class Referral
         $services = session('matches');
         $service = $services[ $referral['ServiceId'] ];
         $service['sendingServiceProvider'] = $service_provider;        
+        $service['Nearest'] = $referral['Nearest'];        
             
         if( $referral['Email'] != 'N/P' && $referral['SafeEmail'] != 0 )
         {
@@ -151,12 +154,26 @@ class Referral
                 $service['RefNo'] = $response->SaveReferralResult;
                 if( $referral['Email'] != 'N/P' && $referral['SafeEmail'] != 0 )
                 {
-                    Mail::to( $referral['Email'] )->send( new ReferralEmail( $service ) );
+                    if( $referral['Nearest'] != '' )
+                    {
+                        Mail::to( $referral['Email'] )->send( new ReferralPanelLawyerEmail( $service ) );
+                    }
+                    else
+                    {
+                        Mail::to( $referral['Email'] )->send( new ReferralEmail( $service ) );
+                    }
                 }
 
                 if( $referral['Mobile'] != '' && $referral['SafeMobile'] != 0 )
-                {                        
-                    Mail::to( $referral['Mobile'] . "@e2s.pcsms.com.au"  )->send( new ReferralSms( $service ) );
+                {         
+                    if( $referral['Nearest'] != '' )
+                    {
+                        Mail::to( $referral['Mobile'] . "@e2s.pcsms.com.au"  )->send( new ReferralPanelLawyerSms( $service ) );
+                    }
+                    else
+                    {               
+                        Mail::to( $referral['Mobile'] . "@e2s.pcsms.com.au"  )->send( new ReferralSms( $service ) );
+                    }
                 }
 
                 $log = new Log();
