@@ -599,6 +599,18 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     padding: 23px;
 }
 
+.note-editor h1{
+    font-size: 28px;
+}
+
+.note-editor h2{
+    font-size: 24px;
+}
+
+.note-editor h3{
+    font-size: 20px;
+}
+
 .modal-body  h4{
     color:#3598dc;
 }
