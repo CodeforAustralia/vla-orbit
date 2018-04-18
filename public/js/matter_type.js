@@ -1494,7 +1494,7 @@ var TableDatatablesAjax = function () {
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
-                    "url": "/no_reply_emails/listAllLogRecords", // ajax source
+                    "url": "/no_reply_emails/listAllLogRecordBySection", // ajax source
                     "type": "get",
                 },
                 "order": [
@@ -1603,7 +1603,12 @@ var TableDatatablesAjax = function () {
 
         switch( role )
         {            
-            case 'CLC':                    
+            case 'CLC':
+                if( controller == 'no_reply_emails/templates' &&  data.Section != 'All')
+                {
+                    can_edit = true;
+                }                      
+                break;                                    
             case 'VLA':
 
                 if(controller == 'service')
@@ -1616,7 +1621,16 @@ var TableDatatablesAjax = function () {
                     can_edit = true;
                 }                      
                 break;
-            case 'AdminSp':                    
+            case 'AdminSp':
+                if(controller == 'no_reply_emails/templates')
+                {
+                    can_edit=true;
+                        if(data.Section != 'All')
+                        {
+                            can_delete = true;    
+                        }
+                }
+                break;                                  
             case 'AdminSpClc':
                 
                 switch(controller) 
@@ -1640,11 +1654,17 @@ var TableDatatablesAjax = function () {
                         break;
                     case 'question':
                         can_edit = true;
-                    case 'matter':                    
-                    case 'sms_template':                    
+                    case 'matter':
+                        break;                      
+                    case 'sms_template':
+                        break;  
                     case 'no_reply_emails/templates':                    
                         can_edit = true;
-                        //can_delete = true;
+                        if(data.Section != 'All')
+                        {
+                            can_delete = true;    
+                        }
+                        
                         break;
                     default:  
                 }

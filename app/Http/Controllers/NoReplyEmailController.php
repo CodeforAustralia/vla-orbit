@@ -124,5 +124,16 @@ class NoReplyEmailController extends Controller
         $nre_obj = new NoReplyEmail();        
         $result = $nre_obj->getAllTemplatesFormatedBySection();
         return $result;
-    }    
+    } 
+
+    /**
+     * Get All Send Emails by section
+     * @return Array send emails filtered by section
+     */
+    public function getAllLogRecordBySection()
+    {
+        $nre_obj = new NoReplyEmail();
+        $result = $nre_obj->getAllLogRecordBySection();
+        return $result; 
+    }
 }

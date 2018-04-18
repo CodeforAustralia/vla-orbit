@@ -328,6 +328,8 @@ Route::post('/no_reply_emails', 'NoReplyEmailController@sendEmail');
 
 Route::post('/no_reply_emails/templates', 'NoReplyEmailController@saveTemplate');
 
+Route::get('/no_reply_emails/listAllLogRecordBySection', 'NoReplyEmailController@getAllLogRecordBySection');
+
 // Dashboard admin
 
 Route::get('/dashboard', 'DashboardController@index');

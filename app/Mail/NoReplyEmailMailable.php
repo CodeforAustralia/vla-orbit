@@ -29,11 +29,18 @@ class NoReplyEmailMailable extends Mailable
      */
     public function build()
     {
+        $is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
         $attachments = $this->args['attachments'];
         $message =$this->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )->view('emails.noReplyEmail.email')->with($this->args);
+        if( $is_clc )
+        {
+            $address = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
+            $name = env('APP_NAME', 'Orbit');
+            $message->from( $address, $name ); 
+        }
         foreach ($attachments as $index => $attachment) {
             $message->attachData($attachment['AttachmentBytes'], $attachment['FileName']);           
         }        
         return $message;
     }
-}
+}   
