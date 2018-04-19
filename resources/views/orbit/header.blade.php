@@ -83,7 +83,7 @@
                         </a>
                         @endif           
                         <a href="/no_reply_emails/new" id='no-replay-email' class="btn btn-sm btn-default main-green ">
-                            New Info Emails
+                            New Info Email
                         </a>
                         
                     </div>
