@@ -1603,12 +1603,7 @@ var TableDatatablesAjax = function () {
 
         switch( role )
         {            
-            case 'CLC':
-                if( controller == 'no_reply_emails/templates' &&  data.Section != 'All')
-                {
-                    can_edit = true;
-                }                      
-                break;                                    
+            case 'CLC':               
             case 'VLA':
 
                 if(controller == 'service')
@@ -1621,18 +1616,8 @@ var TableDatatablesAjax = function () {
                     can_edit = true;
                 }                      
                 break;
-            case 'AdminSp':
-                if(controller == 'no_reply_emails/templates')
-                {
-                    can_edit=true;
-                        if(data.Section != 'All')
-                        {
-                            can_delete = true;    
-                        }
-                }
-                break;                                  
+            case 'AdminSp':              
             case 'AdminSpClc':
-                
                 switch(controller) 
                 {
                     case 'service':                        
@@ -1652,30 +1637,28 @@ var TableDatatablesAjax = function () {
                             can_edit = true;
                         }
                         break;
-                    case 'question':
-                        can_edit = true;
-                    case 'matter':
-                        break;                      
-                    case 'sms_template':
-                        break;  
                     case 'no_reply_emails/templates':                    
                         can_edit = true;
                         if(data.Section != 'All')
                         {
                             can_delete = true;    
-                        }
-                        
-                        break;
+                        }                        
+                        break;                        
+                    case 'question':
+                        can_edit = true;
+                    case 'matter':                    
+                    case 'sms_template':                    
                     default:  
                 }
-                break;
+                break;        
             case 'Administrator':
                 can_edit   = true;
                 can_delete = true;
                 break;
-            default:  
+            default:
+                break;  
         }
-
+        
         var actions_buttons = '';
         if(can_edit)
         {
