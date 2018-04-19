@@ -81,11 +81,11 @@
                         <a href="/booking/new" class="btn btn-sm btn-default main-green ">
                             New Booking / Intake           
                         </a>
-                                   
+                        @endif           
                         <a href="/no_reply_emails/new" id='no-replay-email' class="btn btn-sm btn-default main-green ">
                             New Info Emails
                         </a>
-                        @endif
+                        
                     </div>
                     @endif
 

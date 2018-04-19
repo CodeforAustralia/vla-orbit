@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\NoReplyEmail;
 use App\ServiceProvider;
+use Auth;
 
 class NoReplyEmailController extends Controller
 {    
@@ -46,7 +47,7 @@ class NoReplyEmailController extends Controller
     
     public function destroyTemplate( Request $request, $te_id )
     {        
-        $request->user()->authorizeRoles('Administrator');
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
 
         $nre_obj = new NoReplyEmail(); 
         $response = $nre_obj->deleteTemplate( $te_id );

@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Message:</label>
+                        <label class="col-md-3 control-label">Message: <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Legal Help users, if you want to edit an email, please consult with the Senior Team first."></i></label>
                         <div class="col-md-8 col-lg-7">                            
                             <textarea class="form-control" rows="15" class="form-control" id="message" name="message" placeholder="Client requirements, special needs, difficulties experienced with client, time limits, instructions for contact or any other information that may be useful for the service provider to know beforehand."  required></textarea>
                         </div>
