@@ -72,7 +72,7 @@
                                 @endif
                             </ul>
                         </li>        
-
+                        @endif
                         <li class="nav-item {{ Request::is('no_reply_emails','no_reply_emails/*') ? 'active' : null }}">
                             <a href="/no_reply_emails" class="nav-link nav-toggle">
                                 <i class="icon-envelope"></i>
@@ -95,7 +95,7 @@
                             </ul>
                         </li>                
 
-                        @endif
+                        
 
                         <li class="nav-item {{ Request::is('service','service/*') ? 'active' : null }}">
                             <a href="/service" class="nav-link">

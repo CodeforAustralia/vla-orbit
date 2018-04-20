@@ -9,7 +9,7 @@
         
         <div class="filter">
 
-            <button type="button" class="btn bg-green bg-font-green hidden sendNRE" data-toggle="modal" data-target="#sendNRE">Send No Reply Email</button>  
+            <button type="button" class="btn bg-green bg-font-green sendNRE" data-toggle="modal" data-target="#sendNRE">Send Info Email</button>  
 
             <select class="mt-multiselect btn btn-default" id="filter-group" multiple="multiple">  
                 <optgroup label="Service Provider" class="filter_sp_type">              

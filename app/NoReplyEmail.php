@@ -150,7 +150,13 @@ class NoReplyEmail
 	       	$prefix = '<em>This email was sent by ' . $sp_name . ' to ' . $email_data['to'] .  ' </em><br><em>Please do not reply to this email.</em><br><hr><br>';
 
 		   	$suffix .= '<br><p classname = "orbitprefix" style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">© 2018 Orbit. All rights reserved.</p><p classname = "emailprefix" style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;">Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
-
+		   	
+		   	$is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
+		   	$fromAddress = env('MAIL_FROM_ADDRESS', 'hello@example.com'); 
+        	if( $is_clc )
+        	{
+        		$fromAddress = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
+        	}
 
 	       	$email_data['message'] = $prefix . $email_data['message'] . $suffix;
 	       	$info = [
@@ -159,7 +165,7 @@ class NoReplyEmail
 												'Body' 			=> $email_data['message'],
 												'Deliverd' 		=> 1,
 												'Error' 		=> 0,
-												'FromAddress' 	=> 'noreply@vla.vic.gov.au',
+												'FromAddress' 	=> $fromAddress,
 												'PersonID' 		=> auth()->user()->id,
 												'RefNo' 		=> 0,
 												'Section' 		=> self::getSection(),
@@ -391,6 +397,49 @@ class NoReplyEmail
     	return $output;
 
     }
+    
+    /**
+     * Get All Send Emails by section
+     * @return Array send emails filtered by section
+     */
+	public function getAllLogRecordBySection()
+	{
+		try 
+		{
+			$section = self::getSection();
+			$response =		$this
+							->client							
+							->GetAllLogRecordsasJSON( );
+			$logs = json_decode( $response->GetAllLogRecordsasJSONResult, true );
+			$result = [];
+			$is_admin = in_array( \App\Http\helpers::getRole(), ['Administrator']);
+			foreach ($logs as $key => $log) 
+			{
+				$user = User::find($log['PersonID']);													
+				if(isset($user->name))
+				{
+					$tempLog = array('PersonName'=>$user->name);					
+					$logs[$key] = array_merge($log, $tempLog);		
+				}
+				if($is_admin)
+				{
+					$result[] = $logs[$key];
+				}	
+				elseif(  $log['Section'] == $section )
+				{										
+					$result[] = $logs[$key];
+				}
+
+
+			}
+			return ['data' => $result ];
+		} 
+		catch (Exception $e) 
+		{
+			return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );		
+		}	
+
+	}    
     
 
 }
