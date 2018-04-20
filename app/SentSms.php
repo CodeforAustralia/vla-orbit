@@ -168,14 +168,18 @@ Class SentSms
         $template = self::replaceTemplateTags($args);
 
         //send sms
-        Mail::to( $args['client_phone'] . '@e2s.pcsms.com.au'  )->send( new ReminderSms( $template ) );
+        $client_phone = preg_replace("/\D/", "", $args['client_phone']) ;
         
-        //store log information
-        $sent_sms_info = array(
-                                'BookingRef' => $booking->RefNo,
-                                'SentDate'   => date('Y-m-d') . 'T' . date('H:i:s'),
-                                'TemplateId' => $sms_template['TemplateId']
-                              );
-        $response = self::saveSmSSent( $sent_sms_info );
+        if( is_numeric($client_phone) )
+        {
+            Mail::to( $args['client_phone'] . '@e2s.pcsms.com.au'  )->send( new ReminderSms( $template ) );
+            //store log information
+            $sent_sms_info = array(
+                                    'BookingRef' => $booking->RefNo,
+                                    'SentDate'   => date('Y-m-d') . 'T' . date('H:i:s'),
+                                    'TemplateId' => $sms_template['TemplateId']
+                                );
+            $response = self::saveSmSSent( $sent_sms_info ); 
+        }
     }
 }
