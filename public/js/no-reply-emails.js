@@ -314,8 +314,9 @@ var noReplyEmails = function()
         	$("#contentLoading").modal("hide");        	       		        	
 	        $("#sendEmail").modal("show");
 			$('#sendEmail').on('shown.bs.modal', function () {
-			    $('#sendNRE').animate({ scrollTop: 0 }, 'slow');
-			});	        	        
+			    $('#sendNRE').animate({ scrollTop: 0 }, 'slow');			    
+			});
+			$("#Email").val(to);
         });
      	
 	};
