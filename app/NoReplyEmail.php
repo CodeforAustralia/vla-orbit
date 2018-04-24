@@ -324,8 +324,8 @@ class NoReplyEmail
 	{
 		try 
 		{
-			$response = $this->client->GetAllLogRecordsasJSON( );
-			$logs = json_decode( $response->GetAllLogRecordsasJSONResult, true );
+			$response = $this->client->GetAllLogRecords( );
+			$logs = json_decode( json_encode( $response->GetAllLogRecordsResult->MailMessage ), true );
 			foreach ($logs as $key => $log) 
 			{
 				$user = User::find($log['PersonID']);			
@@ -412,10 +412,8 @@ class NoReplyEmail
 		try 
 		{
 			$section = self::getSection();
-			$response =		$this
-							->client							
-							->GetAllLogRecordsasJSON( );
-			$logs = json_decode( $response->GetAllLogRecordsasJSONResult, true );
+			$response = $this->client->GetAllLogRecords( );
+			$logs = json_decode( json_encode( $response->GetAllLogRecordsResult->MailMessage ), true );
 			$result = [];
 			$is_admin = in_array( \App\Http\helpers::getRole(), ['Administrator']);
 			foreach ($logs as $key => $log) 
