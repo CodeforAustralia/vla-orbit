@@ -11,20 +11,6 @@
 |
 */
 
-Route::get('/', 'RegistrationController@index')->name('home');
-
-Route::get('/register', 'RegistrationController@create');
-
-Route::post('/register', 'RegistrationController@store');
-
-Route::get('/login_vla', 'SessionController@create')->name('login_vla');
-
-Route::get('/login', 'SessionController@create')->name('login');
-
-Route::post('/login', 'SessionController@store');
-
-Route::get('/logout', 'SessionController@destroy');
-
 Route::get('/soap/types', 'MasterController@_types');
 
 Route::get('/soap/functions', 'MasterController@_functions');
@@ -379,3 +365,21 @@ Route::post('/panel_lawyers', 'PanelLawyersController@store');
 Route::post('/panel_lawyers/update', 'PanelLawyersController@update');
 
 Route::post('/panel_lawyers/get_closet_by_address', 'PanelLawyersController@getClosestByAddress');
+
+// Login && Auth routes
+
+Route::get('/', 'RegistrationController@index')->name('home');
+
+Route::get('/register', 'RegistrationController@create');
+
+Route::post('/register', 'RegistrationController@store');
+
+Route::post('/login', 'SessionController@store');
+
+Route::get('/logout', 'SessionController@destroy');
+
+Auth::routes();
+
+Route::get('/login_vla', 'SessionController@create')->name('login_vla');
+
+Route::get('/login', 'SessionController@create')->name('login');

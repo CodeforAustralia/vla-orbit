@@ -31,7 +31,8 @@
                             </div>
                             <div class="col-sm-8 text-right">
                                 <div class="forgot-password">
-                                    <a href="/login_vla" class="forget-password font-red-soft">Login with VLA credentials</a>
+                                    <a href="/login_vla" class="forget-password font-red-soft">Login with VLA credentials</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/password/reset" class="forget-password font-green-soft">Forgot your password?</a>
                                 </div>
                                 <button class="btn blue" type="submit">Sign In</button>
                             </div>
