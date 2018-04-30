@@ -57,19 +57,24 @@ class NoReplyEmail
 	{
 		try 
 		{
-			$data = [];
+			$data = [];			
 			if( auth()->user()->sp_id != 0)
 			{				
 				$section = self::getSection();			
 				$info = [ 'Section' => $section ];
 				$response = $this->client->GetTemplatesBySection( $info );
 				$templates = json_decode(json_encode($response->GetTemplatesBySectionResult->EmailTemplates),true);
-
 				foreach ($templates as $template) 
 				{
-					if($template['RefNo'] > 0)
+					$user = User::find($template['CreatedBy']);					
+					if($template['RefNo'] > 0 )
 					{
-						$data[] = $template;
+						if(isset($user))
+						{
+							$tempLog = array('UserSp'=>$user->sp_id);					
+							$template = array_merge($template, $tempLog);	
+						}
+						$data[] = $template;						
 					}
 				}
 			}
@@ -319,8 +324,8 @@ class NoReplyEmail
 	{
 		try 
 		{
-			$response = $this->client->GetAllLogRecordsasJSON( );
-			$logs = json_decode( $response->GetAllLogRecordsasJSONResult, true );
+			$response = $this->client->GetAllLogRecords( );
+			$logs = json_decode( json_encode( $response->GetAllLogRecordsResult->MailMessage ), true );
 			foreach ($logs as $key => $log) 
 			{
 				$user = User::find($log['PersonID']);			
@@ -362,7 +367,7 @@ class NoReplyEmail
      * @return Array Templates in select2 format
      */
     public function getAllTemplatesFormatedBySection(){
-    	$templates = self::getAllTemplatesBySection()['data'];    	    	
+    	$templates = self::getAllTemplatesBySection()['data'];
     	$clean_templates = [];    	
     	foreach ($templates as $template) {    		    		    		
     		array_push($clean_templates, [ 
@@ -407,15 +412,13 @@ class NoReplyEmail
 		try 
 		{
 			$section = self::getSection();
-			$response =		$this
-							->client							
-							->GetAllLogRecordsasJSON( );
-			$logs = json_decode( $response->GetAllLogRecordsasJSONResult, true );
+			$response = $this->client->GetAllLogRecords( );
+			$logs = json_decode( json_encode( $response->GetAllLogRecordsResult->MailMessage ), true );
 			$result = [];
 			$is_admin = in_array( \App\Http\helpers::getRole(), ['Administrator']);
 			foreach ($logs as $key => $log) 
 			{
-				$user = User::find($log['PersonID']);													
+				$user = User::find($log['PersonID']);
 				if(isset($user->name))
 				{
 					$tempLog = array('PersonName'=>$user->name);					

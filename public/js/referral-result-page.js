@@ -220,6 +220,7 @@ var sendToClient = function () {
           $("#result-step-2").show();
           $("#contentLoading").modal("hide");
           disableReferralButton(service_id);
+          $("#to").val(email);
         });
     } 
     else {

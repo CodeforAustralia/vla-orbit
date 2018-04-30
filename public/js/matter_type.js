@@ -1609,14 +1609,47 @@ var TableDatatablesAjax = function () {
                 if(controller == 'service')
                 {
                     can_view = true;
-                }
-
-                if( controller == 'no_reply_emails/templates' && data.Section != 'All')
-                {
-                    can_edit = true;
-                }                      
+                }                 
                 break;
-            case 'AdminSp':              
+            case 'AdminSp':
+                switch(controller) 
+                {
+                    case 'service':                        
+                        if( data.ServiceProviderId == sp_id)
+                        {
+                            can_edit = true;
+                            can_view = true;                            
+                        } 
+                        else
+                        {
+                            can_view = true;
+                        }
+                        break;
+                    case 'service_provider':
+                        if( data.ServiceProviderId == sp_id)
+                        {
+                            can_edit = true;
+                        }
+                        break;
+                    case 'no_reply_emails/templates':                                            
+                        if(data.Section != 'All')
+                        {
+                            can_edit = true;
+                            can_delete = true;    
+                        }
+                        else if(data.UserSp == sp_id)
+                        {
+                            can_edit = true;
+                            can_delete = true;
+                        }
+                        break;                        
+                    case 'question':
+                        can_edit = true;
+                    case 'matter':                    
+                    case 'sms_template':                    
+                    default:                      
+                }
+                break;            
             case 'AdminSpClc':
                 switch(controller) 
                 {
@@ -1637,12 +1670,12 @@ var TableDatatablesAjax = function () {
                             can_edit = true;
                         }
                         break;
-                    case 'no_reply_emails/templates':                    
-                        can_edit = true;
+                    case 'no_reply_emails/templates':                                            
                         if(data.Section != 'All')
                         {
+                            can_edit = true;
                             can_delete = true;    
-                        }                        
+                        }
                         break;                        
                     case 'question':
                         can_edit = true;
