@@ -86,13 +86,20 @@ class ReferralController extends Controller
         $vulnertability_info = $referral->getVulnerabilityByServices( $ca_id, $mt_id );
 
         $vulnertability_questions = $vulnertability_info['vulnertability_questions'];
-        $service_qty = $vulnertability_info['service_qty'];
 
-        if( $service_qty > 0)
+        $service_qty = $vulnertability_info['service_qty'];        
+
+        if( $service_qty > 0 && count($vulnertability_questions) > 0 )
         {
             return view( 'referral.create.details', compact( 'vulnertability_questions', 'service_qty' ) );
         }
-        else{
+        else if($service_qty > 0 && count($vulnertability_questions) == 0)
+        {
+            // This line populate the 'matches' session variable
+            $referral->filterServices( $ca_id, $mt_id,'');                                   
+            return redirect('referral/create/result');
+        }
+        else{   
             return view( 'referral.create.no-results' );
         }
 
