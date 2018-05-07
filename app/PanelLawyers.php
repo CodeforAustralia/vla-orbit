@@ -7,90 +7,96 @@ use Illuminate\Database\Eloquent\Model;
 
 class PanelLawyers extends Model
 {
+    public $client;
 
-    protected $table ='panel_lawyers';
-     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'id', 
-        'firm_name', 
-        'address', 
-        'lat', 
-        'lng', 
-        'phone', 
-        'created_at', 
-        'updated_at', 
-    ];
-    /**
-     * Delete Panel Lawyer
-     * @param  Integer $pid panel lawyer id
-     * @return Array      Success message
-     */
-    public static function deletePanelLawyer($pid)
+    function __construct() 
     {
-      $panelLawyer = PanelLawyers::find($pid);
-      
-      if( $pid )
-      {
-        $panelLawyer->delete();
-        return array( 'success' => 'success' , 'message' => 'Panel Lawyer has been deleted.' );
-      }
-      return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+           $this->client = (new \App\Repositories\VlaSoap)->ws_init();
     }
 
     /**
-     * Update Panel Lawyer
-     * @param  Request $panel_lawyer_info Panel Lawyer info
-     * @return Array                    Success Message
+     * Get all Panel Lawyers 
+     * @return Object list of all service bookings
      */
-    public static function updatePanelLawyer( $panel_lawyer_info )
+    public function getAllPanelLawyers()
     {
- 
-      $panel_lawyers = PanelLawyers::find($panel_lawyer_info->id);
-
-       
-        $panel_lawyers->firm_name       = $panel_lawyer_info->firm_name;
-        $panel_lawyers->address         = $panel_lawyer_info->address;  
-        $panel_lawyers->lat             = $panel_lawyer_info->lat;
-        $panel_lawyers->lng             = $panel_lawyer_info->lng;
-        $panel_lawyers->phone           = $panel_lawyer_info->phone;
-        
-        $panel_lawyers->save();
-        
-        return array( 'success' => 'success' , 'message' => 'PanelLawyer has been updated.' );
-      
+        // Return the panel lawyers by subtype of law
+        $panelLawyers = [];
+        $subtypes = ['CHILD PROTECTION', 'FAMILY LAW', 'FAMILY VIOLENCE 29A','INDICTABLE CRIME', 'SUMMARY CRIME'];
+        foreach ($subtypes as $subtype) {
+            //dd($subtype);
+            $info = [ 'SubType' => $subtype ];            
+            $panelLawyers = array_merge($panelLawyers,json_decode($this->client->GetPractitionersByPanelSubTypeasJSON($info)->GetPractitionersByPanelSubTypeasJSONResult,true));
+         }         
+         //Eliminate duplicates
+         $cleanArray=array();
+         foreach ($panelLawyers as $key => $panelLawyer) {
+            $cleanArray[] = ["OfficeId"   => $panelLawyer["OfficeId"], 
+                             "OfficeName" => $panelLawyer["OfficeName"],
+                             "SpSubType"  => $panelLawyer["SpSubType"],
+                             "LawType"    => $panelLawyer["LawType"],
+                             "OfficePhone"=> $panelLawyer["OfficePhone"],
+                             "FullAddress"=> $panelLawyer["FullAddress"],
+                             "Website"    => $panelLawyer["Website"],
+                             "lat"        => $panelLawyer["LAT"],
+                             "lng"        => $panelLawyer["LONG"]];                           
+         }       
+        return $cleanArray;
+    }
+    /**
+     * getPanelLawyersGEOByPractitionerId Get practioner GEO by practitioner Id
+     * @param  Integer $pGeo_Id Practitioner ID
+     * @return practitioner          PractitionerGEO object
+     */
+    public function getPanelLawyersGEOByPractitionerId($pGeo_Id)
+    {
+        $info = [
+            'PractitionerId'  => $pGeo_Id 
+        ];
+        $practitioner = json_decode($this->client->GetPractitonerLGOByPractitonerIdasJSON( $info )->GetPractitonerLGOByPractitonerIdasJSONResult, true);
+        return $practitioner;
+    }
+    /**
+     * Create or Update Geographical information for practitioner
+     * @param  array $info practitioner parameters
+     * @return array      operation message
+     */
+    public function savePractitionerLatLng($info)
+    { 
+        $info = [ 'ObjectInstance' => $info ];
+        try 
+        {
+            $response = $this->client->SavPractitonerLGO( $info );            
+            // Redirect to index        
+            if( $response->SavPractitonerLGOResult >= 0 ){
+                return array( 'success' => 'success' , 'message' => 'Practitioner GEO saved.', 'data' => $response->SavPractitonerLGOResult );
+            } else {
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+            }
+        }
+        catch (\Exception $e) {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        }        
+    }
+    /**
+     * Delete Geografical information for a specific pratitioner
+     * @param  Integer $pl_id Practitioner Id
+     * @return array        operation message
+     */
+    public function deletePractitionerLatLng($pl_id)
+    {
+        $info = ['RefId' => $pl_id];
+        try {
+            $response = $this->client->DeletePractitonerLGO( $info );
+            if( $response->DeletePractitonerLGOResult ){
+                return array( 'success' => 'success' , 'message' => 'Practitioner GEO deleted.' );
+            } else {
+                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+            }
+        }
+        catch (\Exception $e) {            
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        }        
     }
 
-   public static function createPanelLawyer( $panel_lawyer_info )
-   {
-        PanelLawyers::create([
-        'firm_name'     => $panel_lawyer_info->firm_name,
-        'address'       => $panel_lawyer_info->address,
-        'lat'           => $panel_lawyer_info->lat,
-        'lng'           => $panel_lawyer_info->lng,
-        'phone'         => $panel_lawyer_info->phone                
-    ]);
-
-    return array( 'success' => 'success' , 'message' => 'PanelLawyer has been created.' );
-
-   }
- 
-
-
-/*
-    public static function record( $event, $object_type, $object_id, $object)
-    {     
-      $user = Auth::user();
-
-        $log = new Log();
-        $log->event = $event;
-        $log->object_type = $object_type;
-        $log->object_id = $object_id;
-        $log->user_id = $user->id;
-        $log->data = json_encode($object);
-        return $log->save();
-    }*/
 }

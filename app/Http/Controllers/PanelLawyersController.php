@@ -25,102 +25,112 @@ class PanelLawyersController extends Controller
      * @return array list of panel lawyers
      */
     public function list()
-    {        
-        $panelLawyers = PanelLawyers::all();     
-        return [ 'data' => $panelLawyers ];
+    {
+        $panelLawyers = new PanelLawyers();
+        $result = $panelLawyers->getAllPanelLawyers();        
+        usort($result, function($a, $b){ return strcasecmp($a["OfficeId"], $b["OfficeId"]); });
+        $panelLawyers = array_map("unserialize", array_unique(array_map("serialize", $result)));
+        $result= [];
+        foreach ($panelLawyers as $key => $panelLawyer) {
+         $result[]=$panelLawyer;
+        }
+
+        return [ 'data' => $result ];
 
     }
     /**
-     * Open the view to create a new Panel Lawyers entry
-     * @return View service booking create form
+     * storeLatLng Save latitude and longitude for panel lawyers
+     * @return array Success Message
      */
-    public function create()
+    public function storeLatLng()
     {
-        Auth::user()->authorizeRoles('Administrator');
-        return view('panel_lawyers.create');
-    }
+      ini_set('max_execution_time', 300);
+      $panelLawyers = self::list();
+      $counter = 0;
+      $panelLawyerObj = new PanelLawyers();
+      $panelLawyersRC= []; 
+      foreach ($panelLawyers['data'] as $key => $panelLawyer) 
+      {                      
 
-    /**
-     * Show a selected panel lowyer to edit
-     * @param  Integer $pl_id panel lawyer id
-     * @return View        confirmation message with success or redirection otherwise
-     */
-    public function show( $pn_id )
-    {
-        Auth::user()->authorizeRoles('Administrator');
-        $panelLawyers = PanelLawyers::find($pn_id);
-        if(isset($panelLawyers)) 
-        {
-            $current_panel_lawyers = $panelLawyers;//json_decode( $result['data'] )[0];                
-            return view( "panel_lawyers.show", compact( 'current_panel_lawyers') );         
+        $panelLawyersRC[$panelLawyer["OfficeId"]]= [
+                                      'FullAddress' => $panelLawyer["FullAddress"]
+                                   ];
+      }             
+      foreach ($panelLawyersRC as $practitionerId => $panelLawyerRC) 
+      {
+        $panelLawyerGEO = [];
+        $info=[];
+        $counter++;
+        $panelLawyerGEO = $panelLawyerObj->getPanelLawyersGEOByPractitionerId($practitionerId);
+        $coordinates = self::getLatLngByAddress($panelLawyerRC['FullAddress']);        
+        if($counter % 100 == 0)
+        {          
+          sleep(1);          
         } 
-        else 
+        $info['PractitionerId'] = $practitionerId;
+        $info['LAT'] = $coordinates['lat'];
+        $info['LONG'] = $coordinates['lng'];
+        if(empty($panelLawyerGEO))
+        {                                        
+          $info['RefId'] = 0;          
+          $panelLawyerObj->savePractitionerLatLng($info);         
+                   
+        }
+        else
         {
-            return redirect('/panel_lawyers')->with( $response['success'], $response['message'] );
-        }  
+          foreach ($panelLawyerGEO as $key => $panlawyer) {                        
+            if(strcmp( $panlawyer['LAT'] , $info['LAT'] ) != 0  || strcmp ( $panlawyer['LONG'] , $info['LONG']) != 0 )
+            {
+              $info['RefId'] = $panlawyer['RefId'];              
+              $panelLawyerObj->savePractitionerLatLng($info);                                                      
+            }
+            break;
+          }
+          
+        }         
+      }        
+      
+      return array( 'success' => 'success' , 'message' => 'The geolocation information was saved.', 'data' =>  $counter);                
+    }
+    /**
+     * Update panel lawyer geographical information according to the address
+     * @param  integer $pl_id      panel lawyer id
+     * @param  string $pl_address new panel lawyer address
+     * @return array             operation message
+     */
+    public function updateLatLng($pl_id, $pl_address)
+    {
+      $panelLawyerObj = new PanelLawyers();
+      $result = [];
+      $info = $panelLawyerObj->getPanelLawyersGEOByPractitionerId($panelLawyer["OfficeId"]);
+      if(!empty($info))
+      {
+        foreach ($info as $key => $inf) {
+          $info['RefId'] = $inf['RefId'];
+          $info['PractitionerId'] = $inf["PractitionerId"];                        
+        }
+        $coordinates = self::getLatLngByAddress($panelLawyerRC['FullAddress']);
+        $info['LAT'] = $coordinates['lat'];
+        $info['LONG'] = $coordinates['lng'];          
+        $result=$panelLawyerObj->savePractitionerLatLng($info);              
+      }
+      return array( 'success' => 'success' , 'message' => 'The geolocation information was saved.', 'data' =>  $result);   
 
     }
 
     /**
-     * Create a panel lawer
-     * @return View panel lawyers view
+     * Delete panel lawyer geographical information
+     * @param  Integer $pl_id panel lawyer id id
+     * @return View        redirect to the service booking view with delete message
      */
-    public function store(Request $request)
-    {
-        $request->user()->authorizeRoles('Administrator');
+    public function destroyLatLng($pl_id)
+    {        
+        $panelLawyerObj = new PanelLawyers();
+        $response = $panelLawyerObj->deletePractitionerLatLng($pl_id);
         
-        //Validations
-        $this->validate(request(), [            
-            'firm_name' => 'required|max:511',
-            'address'   => 'required|max:511',
-            'lat'       => 'numeric|required',
-            'lng'       => 'numeric|required',
-            'phone'     => 'required|numeric'
-            
-        ]);
+        return array( 'success' => 'success' , 'message' => 'The geolocation information was deleted.', 'data' =>  $response );
+    }        
 
-        $response = PanelLawyers::createPanelLawyer( request() );
-
-        return redirect('/panel_lawyers')->with($response['success'], $response['message']);    
-    }
-    /**
-     * Update a panel lawer
-     * @param  Request $request request to validate privileges
-     * @return View panel lawyers view
-     */
-    public function update( Request $request)
-    {
-        $request->user()->authorizeRoles('Administrator');
-        
-        //Validations
-        $this->validate(request(), [            
-            'firm_name' => 'required|max:511',
-            'address'   => 'required|max:511',
-            'lat'       => 'numeric|required',
-            'lng'       => 'numeric|required',
-            'phone'     => 'required|numeric'
-            
-        ]);      
-
-        $response = PanelLawyers::updatePanelLawyer( request() );
-        
-        return redirect('/panel_lawyers')->with($response['success'], $response['message']);    
-    }
-
-    /**
-     * Delete Panel Lawyer
-     * @param  Request $request request to validate privileges
-     * @param  Integer  $pid     Panel Lawyer id
-     * @return View panel lawyers view
-     */
-    public function destroy( Request $request, $pid )
-    {
-        $request->user()->authorizeRoles('Administrator');
-
-        $response = PanelLawyers::deletePanelLawyer($pid);
-
-        return redirect('/panel_lawyers')->with($response['success'], $response['message']);        
-    }
     public function getClosestByAddress()
     {
         //dd(request('address'));
@@ -159,7 +169,7 @@ class PanelLawyersController extends Controller
      * @param  string $address Address to get geolocation
      * @return array          Google geo location array
      */
-    public function getLatLngByAddress( $address = NULL )
+    public function getLatLngByAddress( $address)
     {     
         $arrContextOptions=array(
             "ssl"=>array(
@@ -167,17 +177,13 @@ class PanelLawyersController extends Controller
                 "verify_peer_name"=>false,
             ),
         );
-        if(is_null($address))
-        {
-          $address =  request('address');
-        }
+
         $address = urlencode($address);
 
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&components=locality:victoria|country:AU&key=AIzaSyAJi9SNu8Nye5MDdZcB5DfcgsZjXgJk6cc';
 
         $string = file_get_contents($url, false, stream_context_create($arrContextOptions)); // get json content
-        $json_a = json_decode($string, true); //json decoder
-
+        $json_a = json_decode($string, true); //json decoder        
         if($json_a["status"] === "OK")
         {
             return $json_a["results"][0]["geometry"]["location"];

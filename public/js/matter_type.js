@@ -1573,18 +1573,11 @@ var TableDatatablesAjax = function () {
                 
                 "bInfo": false,
                 "columns": [
-                        { data: "id" },
-                        { data: "firm_name" },                             
-                        { data: "address" },                             
-                        { data: "phone" },                             
-                        {
-                            data: null,
-                            className: "center",
-                            render: function ( data, type, row ) {
-                                // Combine the first and last names into a single table field
-                                return getButtons('panel_lawyers', data.id, data) ;
-                            }
-                        }
+                        { data: "OfficeId" },
+                        { data: "OfficeName" },                             
+                        { data: "FullAddress" },                             
+                        { data: "OfficePhone" },                        
+                        {data: "SpSubType" }
                 ],
 
             }

@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\SendReminders::class
+        Commands\SendReminders::class,
+        Commands\UpdatePanelLawyersGEO::class
     ];
 
     /**
@@ -30,6 +31,13 @@ class Kernel extends ConsoleKernel
          ->dailyAt('09:00')         
          ->timezone('Australia/Melbourne')
          ->emailOutputTo('christian@codeforaustralia.org');
+
+         $schedule ->command('panelLawyers:updateGEO')
+         ->weekly()
+         ->saturdays()
+         ->at('09:00')
+         ->timezone('Australia/Melbourne')
+         ->emailOutputTo('sebastian.currea@vla.vic.gov.au');
     }
 
     /**
