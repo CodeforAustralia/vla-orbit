@@ -78,10 +78,10 @@ class BookingController extends Controller
     }
 
     public function store()
-    {
+    {        
         $booking_obj = new Booking();
         $request_type = request('request_type');
-        if( $request_type == 'direct_booking' ) //Booking Bug integration
+        if( $request_type == 0 ) //Direct booking - Booking Bug integration
         {
             $service_name = request('ServiceName');
             $client_details = request('client');
@@ -101,12 +101,19 @@ class BookingController extends Controller
                             'Date' => $service_time[0],
                             'Time' => $service_time[1],
                             'ServiceId' => (is_null( request('Language') ) ? $serviceId[0] : $serviceId[1] ),
-                            'Desc'      => (is_null( request('Desc') ) ? '' : request('Desc') ),
-                            'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
-                            'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
-                            'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
-                            'IsComplex' => (is_null( request('IsComplex') ) ? 0 : request('IsComplex') ),
                         ];
+                        
+            $booking['ClientBooking'] = [
+                                            'Description' => (is_null( request('Desc') ) ? '' : request('Desc') ),
+                                            'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
+                                            'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
+                                            'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
+                                            'IsComplex' => (is_null( request('IsComplex') ) ? 0 : request('IsComplex') ),
+                                            'IsSafeSMS' => (is_null( request('phonepermission') ) ? 0 : ( request('phonepermission') == 'Yes' ? 1 : 0 ) ),//phonepermission
+                                            'IsSafeCall' => (is_null( request('phoneCallPermission') ) ? 0 : ( request('phoneCallPermission') == 'Yes' ? 1 : 0 ) ),//phoneCallPermission
+                                            'IsSafeLeaveMessage'  => (is_null( request('phoneMessagePermission') ) ? 0 : ( request('phoneMessagePermission') == 'Yes' ? 1 : 0 ) ),//phoneMessagePermission
+                                            'ContactInstructions' => (is_null( request('reContact') ) ? '' : request('reContact') ),//reContact
+                                        ];
             
 
             $sp_id = request('service_provider_id');
@@ -177,10 +184,10 @@ class BookingController extends Controller
         return view("booking.calendar");
     }
 
-    public function updateBooking( $booking_ref, $date_time )
+    public function updateBooking()
     {
-        $booking_obj = new Booking(); 
-        $result = $booking_obj->updateBooking( $booking_ref, $date_time ) ;
+        $booking_obj = new Booking();
+        $result = $booking_obj->updateBooking( request()->all() ) ;
 
         return $result;
     }

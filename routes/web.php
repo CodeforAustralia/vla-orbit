@@ -207,6 +207,8 @@ Route::get('/booking/listCalendarByUser', 'BookingController@listCalendarByUser'
 
 Route::get('/booking/updateBooking/{booking_ref}/{date_time}', 'BookingController@updateBooking');
 
+Route::post('/booking/updateBookingByRef', 'BookingController@updateBooking');
+
 Route::post('/booking/updateBooking', 'BookingController@updateBookingDetails');
 
 Route::post('/booking', 'BookingController@store');
@@ -365,6 +367,24 @@ Route::post('/panel_lawyers', 'PanelLawyersController@store');
 Route::post('/panel_lawyers/update', 'PanelLawyersController@update');
 
 Route::post('/panel_lawyers/get_closet_by_address', 'PanelLawyersController@getClosestByAddress');
+
+// E-Referral
+
+Route::get('/e_referral', 'EReferralController@index');
+
+Route::get('/e_referral/list', 'EReferralController@list');
+
+Route::get('/e_referral/new', 'EReferralController@create');
+
+Route::get('/e_referral/show/{erf_id}', 'EReferralController@show');
+
+Route::get('/e_referral/delete/{erf_id}', 'EReferralController@destroy');
+
+Route::get('/e_referral/list', 'EReferralController@list');
+
+Route::get('/e_referral/listFormsFormated', 'EReferralController@listFormsFormated');
+
+Route::post('/e_referral', 'EReferralController@store');
 
 // Login && Auth routes
 
