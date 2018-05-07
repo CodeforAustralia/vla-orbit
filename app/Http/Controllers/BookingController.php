@@ -97,10 +97,18 @@ class BookingController extends Controller
             								  );
             $service_time = explode( 'T', request('serviceTime') );
             $serviceId = explode( '-', request('ServiceId') );
+            
+            $service_booking_id = $serviceId[0];
+
+            if( !is_null( request('Language') ) || ( !is_null( request('IsComplex') ) && request('IsComplex') == 1 ) )
+            {
+                $service_booking_id = $serviceId[1];
+            }
+
             $booking = [
                             'Date' => $service_time[0],
                             'Time' => $service_time[1],
-                            'ServiceId' => (is_null( request('Language') ) ? $serviceId[0] : $serviceId[1] ),
+                            'ServiceId' => $service_booking_id,
                         ];
                         
             $booking['ClientBooking'] = [
