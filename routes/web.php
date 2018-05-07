@@ -354,9 +354,9 @@ Route::get('/panel_lawyers', 'PanelLawyersController@index');
 
 Route::get('/panel_lawyers/list', 'PanelLawyersController@list');
 
-Route::post('/panel_lawyers/get_lat_lng', 'PanelLawyersController@getLatLngByAddress');
-
 Route::post('/panel_lawyers/get_closet_by_address', 'PanelLawyersController@getClosestByAddress');	
+
+Route::post('/panel_lawyers/get_lat_lng', 'PanelLawyersController@getLatLngByAddress');	
 
 // E-Referral
 

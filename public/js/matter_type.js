@@ -1577,7 +1577,7 @@ var TableDatatablesAjax = function () {
                         { data: "OfficeName" },                             
                         { data: "FullAddress" },                             
                         { data: "OfficePhone" },                        
-                        {data: "SpSubType" }
+                        { data: "SpSubType" }
                 ],
 
             }
