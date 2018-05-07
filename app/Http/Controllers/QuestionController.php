@@ -75,10 +75,10 @@ class QuestionController extends Controller
 
         $question_params =    array(
         						'QuestionId'			=> request('qu_id'),
-                                'QuestionLabel'         => request('QuestionLabel'),
-                                'QuestionName'         	=> request('QuestionName'),
+                                'QuestionLabel'         => filter_var(request('QuestionLabel'), FILTER_SANITIZE_STRING),
+                                'QuestionName'         	=> filter_var(request('QuestionName'), FILTER_SANITIZE_STRING),
                                 'QuestionTypeId'   		=> request('QuestionTypeId'),
-                                'QuestionCategoryId'    => request('QuestionCategoryId'),
+                                'QuestionCategoryId'    => request('QuestionCategoryId')
                             );
         
         $question       = new Question();

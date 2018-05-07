@@ -69,8 +69,8 @@ class UserController extends Controller
         //create and save the user
         
         $user = User::create([
-            'name' => request('name'),
-            'email' => request('email'),
+            'name' => filter_var(request('name'), FILTER_SANITIZE_STRING),
+            'email' => filter_var(request('email'), FILTER_VALIDATE_EMAIL),
             'password' => bcrypt(request('password'))
         ]);
         

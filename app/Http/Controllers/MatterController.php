@@ -44,10 +44,10 @@ class MatterController extends Controller
         
         $matter_params =    array(
                                 'MatterID'     => request('MatterID'),
-                                'MatterName'   => request('title'),
-                                'Description'  => request('description'),
+                                'MatterName'   => filter_var(request('title'), FILTER_SANITIZE_STRING),
+                                'Description'  => filter_var(request('description'), FILTER_SANITIZE_STRING),
                                 'ParentId'     => request('parent_id'),
-                                'Tag'          => request('tag'),
+                                'Tag'          => filter_var(request('tag'), FILTER_SANITIZE_STRING),
                                 'TypeId'       => request('lmt_id')
                             );
         

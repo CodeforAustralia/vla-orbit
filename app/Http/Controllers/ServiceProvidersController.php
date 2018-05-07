@@ -47,14 +47,14 @@ class ServiceProvidersController extends Controller
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
         $sp_params = array(                    
                             'ServiceProviderId'     => request('sp_id'),
-                            'ServiceProviderName'   => request('name'),
-                            'ContactEmail'          => request('contact_email'),
-                            'ContactName'           => request('contact_name'),
-                            'ContactPhone'          => request('contact_phone'),
-                            'ServiceProviderAbout'  => request('about'),
-                            'ServiceProviderLogo'   => request('logo'),
-                            'ServiceProviderURL'    => request('url'),
-                            'ServiceProviderAddress' => request('address'),
+                            'ServiceProviderName'   => filter_var(request('name'), FILTER_SANITIZE_STRING),
+                            'ContactEmail'          => filter_var(request('contact_email'), FILTER_VALIDATE_EMAIL),
+                            'ContactName'           => filter_var(request('contact_name'), FILTER_SANITIZE_STRING),
+                            'ContactPhone'          => filter_var(request('contact_phone'), FILTER_SANITIZE_STRING),
+                            'ServiceProviderAbout'  => filter_var(request('about'), FILTER_SANITIZE_STRING),
+                            'ServiceProviderLogo'   => filter_var(request('logo'), FILTER_SANITIZE_STRING),
+                            'ServiceProviderURL'    => filter_var(request('url'), FILTER_SANITIZE_URL),
+                            'ServiceProviderAddress' => filter_var(request('address'), FILTER_SANITIZE_STRING),
                             'ServiceProviderTypeId' => request('spt_id')
                             );
         

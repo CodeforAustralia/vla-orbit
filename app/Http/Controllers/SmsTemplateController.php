@@ -50,7 +50,7 @@ class SmsTemplateController extends Controller
         					'CreatedBy' => $user->id,
         					'CreatedOn' => date("Y-m-d"),
         					'ServieId'  => request('sv_id'),
-        					'Template'  => request('template'),
+        					'Template'  => filter_var(request('template'), FILTER_SANITIZE_STRING),
         					'TemplateId'=> request('st_id')
         				  );
 

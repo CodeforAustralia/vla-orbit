@@ -82,7 +82,11 @@ class NoReplyEmail
 			{
 				$templates = self::getAllTemplates();
 				array_shift( $templates ); // Remove first element of array as it is returning an empty element
-				$data = $templates;
+				foreach ($templates as $template) 
+				{
+					unset($template['TemplateText']);
+					$data[] = $template;
+				}
 			}
 			usort($data, function($a, $b){ return strcasecmp($b["Section"], $a["Section"]); });
 			return ['data' => $data ];
@@ -175,8 +179,8 @@ class NoReplyEmail
 												'RefNo' 		=> 0,
 												'Section' 		=> self::getSection(),
 												'SentOn' 		=> $date_time,
-												'Subject' 		=> $email_data['subject'],
-												'ToAddress' 	=> $email_data['to'],
+												'Subject' 		=> filter_var($email_data['subject'], FILTER_SANITIZE_STRING),
+												'ToAddress' 	=> filter_var($email_data['to'], FILTER_VALIDATE_EMAIL),
 											],
 						'IsHTML'		=> true,
 					];
