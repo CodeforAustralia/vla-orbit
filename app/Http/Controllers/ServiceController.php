@@ -13,6 +13,7 @@ use App\MatterService;
 use App\Catchment;
 use App\Vulnerability;
 use App\MatterServiceAnswer;
+use App\EReferral;
 use Auth;
 
 class ServiceController extends Controller
@@ -66,6 +67,7 @@ class ServiceController extends Controller
 
             $referral_conditions = [];
             $booking_conditions = [];
+            $e_referral_conditions = [];
             foreach($current_service->ServiceActions as $action)
             {
                 if( $action->Action === 'REFER' )
@@ -76,11 +78,22 @@ class ServiceController extends Controller
                 {
                     $booking_conditions[] = $action->ServiceProviderId;
                 }
+                if( $action->Action === 'E_REFER' )
+                {
+                    $e_referral_conditions[] = $action->ServiceProviderId;
+                }
             }
+
+            $e_referral_forms = array_column($current_service->ReferralFormServices, 'ReferralFormID'); // All the referral forms associated to this service
 
             if( $user->sp_id == $current_service->ServiceProviderId || $user->roles()->first()->name == 'Administrator' ) //Same service provider or admin
             {
-                return view( "service.show", compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities', 'referral_conditions', 'booking_conditions' ) ); 
+                return view( 
+                                "service.show", 
+                                compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters', 
+                                         'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities', 
+                                         'referral_conditions', 'booking_conditions', 'e_referral_conditions', 'e_referral_forms')
+                            ); 
             }
             else
             {                
@@ -156,6 +169,11 @@ class ServiceController extends Controller
             $service_action->deleteAllActionsByService( $sv_id ) ;
             $service_action->saveServiceAction( 'REFER', $sv_id, request('referral_conditions') ) ;
             $service_action->saveServiceAction( 'BOOK', $sv_id, request('booking_conditions') ) ;
+            $service_action->saveServiceAction( 'E_REFER', $sv_id, request('e_referral_conditions') ) ;
+
+            $e_referral_obj = new EReferral();
+            $e_referral_obj->deleteAllEReferralByServiceId( $sv_id );
+            $e_referral_obj->saveAllFormsInService( $sv_id, request('e_referral_forms') );
         }
         
         return redirect('/service')->with( $response['success'], $response['message'] );
@@ -179,6 +197,8 @@ class ServiceController extends Controller
 
         $vulnerability_obj = new Vulnerability();
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
+
+        $e_referral_obj = new EReferral();
 
         $user = Auth::user();
         if($user->sp_id != 0) //Just return current service provider

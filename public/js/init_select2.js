@@ -67,8 +67,39 @@ var initSelect2Fields = function()
                 data: data,
                 width: '100%'
             });
-            loadBookingConditions();
+            loadBookingConditions();    
         });
+    }
+
+    var loadEReferrals = function()
+    {
+        var csrf = $('meta[name=_token]').attr('content');
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': csrf
+            },
+            method: "POST",
+            url: "/service_provider/listFormated",
+            data: {
+                scope: 'All'
+            }
+        })
+        .done(function (data) {
+            $("#e_referral_conditions").select2({
+                data: data,
+                width: '100%'
+            });
+            loadEReferralConditions();
+        });
+
+        $.get("/e_referral/listFormsFormated", function (data, status) {
+            $("#e_referral_forms").select2({
+                data: data.data,
+                width: '100%'
+            });            
+            loadEReferralForms();
+        });
+        
     }
 
     var enableSelectAllOptions = function()
@@ -95,6 +126,7 @@ var initSelect2Fields = function()
             loadMatters();
             loadLGC();
             loadServiceProviders();
+            loadEReferrals();
             enableSelectAllOptions();
             enableClearAllOptions();
         }

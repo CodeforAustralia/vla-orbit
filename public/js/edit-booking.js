@@ -17,11 +17,23 @@ function updateBooking()
         if( typeof $("#time-options input:checked").val() != 'undefined' )
         {
             showLoading();
+            let obj = {
+                booking_ref: $("#bookingRef").text(),
+                date_time: $("#time-options input:checked").val(),
+                ClientBooking: currentEventInCalendar
+            };
+            
             var booking_ref = $("#bookingRef").text();
             var date_time = $("#time-options input:checked").val();
+            var csrf = $("#csrf").val();
             $.ajax({
-              method: "GET",
-              url: "/booking/updateBooking/" + booking_ref + "/" + date_time
+                headers: 
+                {
+                    'X-CSRF-TOKEN': csrf
+                },
+                method: "POST",
+                url: "/booking/updateBookingByRef",
+                data: obj
             })
               .done(function( msg ) {
                 swal( "Booking Updated", "Booking #" + booking_ref + " has been updated", "success" );

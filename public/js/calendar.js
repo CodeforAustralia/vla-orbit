@@ -217,7 +217,16 @@ var AppCalendar = function() {
                     
                     $("#bookingIntLanguage").text(calEvent.data.IntLanguage);
 
-                    $("#bookingIsSafe").text(calEvent.data.IsSafe);                    
+                    $("#bookingIsSafe").text(calEvent.data.IsSafe);   
+
+                    let IsSafeSMS = ( calEvent.data.IsSafeSMS ) ? 'Yes' : 'No';
+                    let IsSafeCall = ( calEvent.data.IsSafeCall ) ? 'Yes' : 'No';
+                    let IsSafeLeaveMessage = ( calEvent.data.IsSafeLeaveMessage ) ? 'Yes' : 'No';
+
+                    $("#IsSafeSMS").text(IsSafeSMS);                    
+                    $("#IsSafeCall").text(IsSafeCall);
+                    $("#IsSafeLeaveMessage").text(IsSafeLeaveMessage);                    
+                    $("#ContactInstructions").text(calEvent.data.ContactInstructions);
 
                     if( calEvent.data.Description != '' )
                     {
@@ -241,8 +250,8 @@ var AppCalendar = function() {
 
                     let day_before = new Date(); 
                     day_before.setDate(day_before.getDate()-1);
-                                        
-                    if( booking_date > day_before && calEvent.data.Mobile != '') {
+                    
+                    if ( booking_date > day_before && calEvent.data.Mobile != '' && calEvent.data.IsSafeSMS ) {
                         $('.remind-booking').show();
                     } else {
                         $('.remind-booking').hide();

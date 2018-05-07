@@ -224,8 +224,7 @@
 
                                 </div>
                             </div>
-                        </div>
-                        
+                        </div>                        
                         
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -245,6 +244,30 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title font-purple-soft bold uppercase">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3"> E-Referral Settings </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_3" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    
+                                    <div class="form-group col-sm-12">
+                                        <p class="margin-0"> E-Referral conditions:</p>
+                                        <p class="font-grey-silver margin-bottom-10">Enable E-Referreal to specific Service Providers by adding them here. <span id="count_e_referral_conditions">({{ isset($e_referral_conditions) ? count( $e_referral_conditions) : '0'  }}) </span>  &nbsp;<a href="javascript:;" class="btn btn-xs green" select-all-sp="e_referral">Select All</a> &nbsp; <a href="javascript:;" class="btn btn-xs red" clear-all-sp="e_referral">Clear</a></p>
+                                        <select multiple class="form-control" id="e_referral_conditions" name="e_referral_conditions[]"></select>
+                                    </div>
+                                    
+                                    <div class="form-group col-sm-12">
+                                        <p class="font-grey-silver margin-bottom-10">Choose e-referral template available for ths service. Template chosen here are for all added service providers.</p>
+                                        <select multiple class="form-control" id="e_referral_forms" name="e_referral_forms[]"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -253,7 +276,7 @@
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-lg green">Save Service</button>
+                            <button type="submit" class="btn btn-lg green" onclick="showLoader()">Save Service</button>
                         </div>
                     </div>
                 </div>
@@ -311,6 +334,23 @@
         $("#booking_conditions").select2({width: '100%'}).val(  {{ isset($booking_conditions) ? json_encode( $booking_conditions) : '[]'  }} ).trigger("change").on("change", function(e) {          
           $('#count_booking_conditions').text('(' + $(this).next().find('.select2-selection__choice').length + ')');
         });        
+    }
+
+    function loadEReferralConditions()
+    {       
+        $("#e_referral_conditions").select2({width: '100%'}).val(  {{ isset($e_referral_conditions) ? json_encode( $e_referral_conditions) : '[]'  }} ).trigger("change").on("change", function(e) {          
+          $('#count_e_referral_conditions').text('(' + $(this).next().find('.select2-selection__choice').length + ')');
+        });        
+    }
+
+    function loadEReferralForms()
+    {       
+        $("#e_referral_forms").select2({width: '100%'}).val(  {{ isset($e_referral_forms) ? json_encode( $e_referral_forms) : '[]'  }} ).trigger("change");        
+    }
+
+    function showLoader()
+    {
+        $("#contentLoading").modal("show");
     }
 
     $('#description').summernote({

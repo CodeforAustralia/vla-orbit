@@ -403,14 +403,27 @@ Class Booking
         return [ 'cient' => $client, 'reservation' => $reservation ];
     }
 
-    public function updateBooking( $booking_ref, $date_time )
+    public function updateBooking( $data )
     {
-        $date_time = explode("T", $date_time);
+        $user = Auth::user();
+        $booking_ref    = $data['booking_ref'];
+        $date_time      = $data['date_time'];
+        $data['ClientBooking']['UpdatedBy'] = $user->id;
 
+        $data['ClientBooking']['IsComplex'] = ( $data['ClientBooking']['IsComplex'] == "true" ? 1 : 0);
+        $data['ClientBooking']['IsSafe']    = ( $data['ClientBooking']['IsSafe'] == "true" ? 1 : 0);
+        $data['ClientBooking']['IsSafeSMS'] = ( $data['ClientBooking']['IsSafeSMS'] == "true" ? 1 : 0);
+        $data['ClientBooking']['IsSafeCall'] = ( $data['ClientBooking']['IsSafeCall'] == "true" ? 1 : 0);
+        $data['ClientBooking']['IsSafeLeaveMessage'] = ( $data['ClientBooking']['IsSafeLeaveMessage'] == "true" ? 1 : 0);
+
+        $ClientBooking  = $data['ClientBooking'];
+        $date_time = explode("T", $date_time);
+        
         $info =     [
                             'BookingRef'=> $booking_ref ,
                             'NewDate'   => $date_time[0] ,
-                            'NewTime'   => $date_time[1]
+                            'NewTime'   => $date_time[1],
+                            'ClientBooking' => $ClientBooking
                         ];
         
         $client =  (new \App\Repositories\VlaSoap)->ws_booking_init();
@@ -492,11 +505,11 @@ Class Booking
         }
 
         //If an interpreter required in a booking, send a copy of the booking details to the Service email address
-        if( $booking['Language'] != '' )
+        if( $booking['ClientBooking']['Language'] != '' )
         {
             $sp_email = $service_provider->ContactEmail;
 
-            $subject  = 'ORBIT booking notification - ' . $booking['Language'] . 
+            $subject  = 'ORBIT booking notification - ' . $booking['ClientBooking']['Language'] . 
                         ' interpreter required on ' . $booking['Date'] . ' ' . $booking['Time'];
 
             $args = [
@@ -520,31 +533,31 @@ Class Booking
             $sp_email = $service->Email;            
             switch ( $booking_request["request_type"] ) 
             {
-                case 'appointment_request':
+                case 1: //'appointment_request':
                     $booking_request['subject'] = 'Appointment request - ';                    
                     break;
                 
-                case 'for_assessment':
+                case 2: //'for_assessment':
                     $booking_request['subject'] =  'For Assessment - ';               
                     break;
                 
-                case 'phone_advice':
+                case 3: //'phone_advice':
                     $booking_request['subject'] = 'Phone advice - ' ;
                     break;
 
-                case 'duty_layer':                
+                case 4: //'duty_layer':                
                     $booking_request['subject'] = 'Duty Lawyer - ';
                     break;
 
-                case 'child_support':                
+                case 5: //'child_support':                
                     $booking_request['subject'] = 'Child Support - ';
                     break;
 
-                case 'child_protection':                
+                case 6: //'child_protection':                
                     $booking_request['subject'] = 'Child Protection - ';
                     break;
             }
-
+            
             $booking_request['subject'] .=  $booking_request['ServiceProviderName'] . ', ' . 
                                             $booking_request['ServiceName'] . ': ' . 
                                             $booking_request['client']['LastName'] . ', ' . 

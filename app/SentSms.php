@@ -170,7 +170,7 @@ Class SentSms
         //send sms
         $client_phone = preg_replace("/\D/", "", $args['client_phone']) ;
         
-        if( is_numeric($client_phone) )
+        if( is_numeric($client_phone) && $booking->IsSafeSMS )
         {
             Mail::to( $args['client_phone'] . '@e2s.pcsms.com.au'  )->send( new ReminderSms( $template ) );
             //store log information

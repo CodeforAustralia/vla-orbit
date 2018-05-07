@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @include("booking.form")
+                @include("booking.form_vue")
             </div>
         </div>
     </div>

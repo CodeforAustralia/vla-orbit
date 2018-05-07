@@ -101,6 +101,22 @@
                                 <span id="createdBy"></span>
                             </div>
                             <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Safe to call?: </strong></label>
+                                <span id="IsSafeCall"></span>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Safe to leave a message?: </strong></label>
+                                <span id="IsSafeLeaveMessage"></span>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Instructions to re contact: </strong></label>
+                                <span id="ContactInstructions"></span>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Is Safe to contact by SMS?: </strong></label>
+                                <span id="IsSafeSMS"></span>
+                            </div>
+                            <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Sent status: </strong></label>
                                 <span id="sentStatus"></span>
                             </div>
@@ -117,13 +133,13 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5">&nbsp;</label>
                                 
-                                        <div class="tab-pane" id="booking_document_tab">
-                                            <div class="scroller" style="height: auto;" data-always-visible="1" data-rail-visible1="1">
-                                                <ul class="feeds">
-                                                    
-                                                </ul>
-                                            </div>
+                                    <div class="tab-pane" id="booking_document_tab">
+                                        <div class="scroller" style="height: auto;" data-always-visible="1" data-rail-visible1="1">
+                                            <ul class="feeds">
+                                                
+                                            </ul>
                                         </div>
+                                    </div>
                             </div>
 
                         </div>
