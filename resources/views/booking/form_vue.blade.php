@@ -18,7 +18,7 @@
                         <label>Office/program area:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
                     </div>
                     <div class="col-xs-12 col-md-6">
-                        <select class="form-control" v-on:change="onChangeSP" name="service_provider_id" required>
+                        <select class="form-control" v-on:change="onChangeSP" name="service_provider_id" v-model="user_sp_id" required>
                             <option :value="null"></option>
                             <option v-for="service_provider in service_providers" :value="service_provider.id" v-text="service_provider.text"></option>
                         </select>
@@ -376,6 +376,7 @@
     <!-- END PAGE LEVEL SCRIPTS -->
 
     <!-- END PAGE LEVEL SCRIPTS -->
+    
     <script src="/js/bookings_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>
 @endsection
 

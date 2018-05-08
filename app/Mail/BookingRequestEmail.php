@@ -32,27 +32,27 @@ class BookingRequestEmail extends Mailable
         $view_path = '';
         switch ( $this->args['request_type'] ) 
         {
-            case 'appointment_request':
+            case 1: //'appointment_request':      'appointment_request':
                 $view_path = 'emails.booking.requestEmailApptReq';
                 break;
             
-            case 'for_assessment':
+            case 2: //'for_assessment':      'for_assessment':
                 $view_path = 'emails.booking.requestEmailForAssess';
                 break;
             
-            case 'phone_advice':
+            case 3: //'phone_advice':      'phone_advice':
                 $view_path = 'emails.booking.requestEmailPhAdv';
                 break;
 
-            case 'duty_layer':
+            case 4: //'duty_layer':                      'duty_layer':
                 $view_path = 'emails.booking.requestEmailDuttyLaw';
                 break;
 
-            case 'child_support':
+            case 5: //'child_support':                      'child_support':
                 $view_path = 'emails.booking.requestEmailChildSupport';
                 break;
 
-            case 'child_protection':
+            case 6: //'child_protection':                      'child_protection':
                 $view_path = 'emails.booking.requestEmailChildProtection';
                 break;
         }
