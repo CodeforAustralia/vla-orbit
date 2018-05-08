@@ -3,7 +3,9 @@
 
     <div>
         <br>    
-        <small>Book a client in for an appointment using the form type Direct Booking. The office providing the service will be see the booking in Orbit. Send an e-referral to the office providing the service by choosing any of the other form types. A copy of the email sent is bcc’d to the LegalInfoCallBack mailbox.</small>
+        <small>Book a client into an appointment by using the Direct Booking form below. The office/program area providing the service will be able to see the booking in ORBIT. </small>
+        <br>    
+        <small>Legal Help: as an alternative to Direct Bookings you can send an e-referral to the office/program area by choosing any of the other form types. A copy of this email is bcc’d to the LegalInfoCallBack mailbox.</small>
     </div>
     <hr>    
 
