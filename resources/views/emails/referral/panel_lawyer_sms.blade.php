@@ -4,8 +4,8 @@
 @endphp
 Hi, here are the details to contact\n\n
 @foreach( $nearest as $near )
-{{ strtoupper(strtolower($near['office']['firm_name']) ) }}\n
-{{ $near['office']['address'] }}\n
-{{ $near['office']['phone'] or '' }}\n\n
+{{ strtoupper(strtolower($near['office']['OfficeName']) ) }}\n
+{{ $near['office']['FullAddress'] }}\n
+{{ $near['office']['OfficePhone'] or '' }}\n\n
 @endforeach
 Once you make contact they will assess whether they can help you or not.

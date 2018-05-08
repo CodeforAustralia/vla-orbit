@@ -16,9 +16,9 @@ If you are eligible for a grant of aid, these lawyers may be able to run your ca
 <ul>
 @foreach( $nearest as $near )
 	<li>
-		{{ strtoupper(strtolower($near['office']['firm_name'])) }}<br>
-		{{ $near['office']['address'] }}<br>
-		{{ $near['office']['phone'] or '' }}<br>
+		{{ strtoupper(strtolower($near['office']['OfficeName'])) }}<br>
+		{{ $near['office']['FullAddress'] }}<br>
+		{{ $near['office']['OfficePhone'] or '' }}<br>
 	</li>
 	<br>
 @endforeach
