@@ -271,7 +271,7 @@
             <div class="col-xs-12">                            
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label>Is it safe to contact this client by SMS? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
+                        <label>Is it safe to send an SMS reminder the day before appointment?? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
                         <div class="mt-radio-inline padding-left-20">
                             <label class="mt-radio mt-radio-outline">
                                 <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
