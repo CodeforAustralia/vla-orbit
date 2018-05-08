@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Auth;
 use App\ServiceProvider;
 use App\Mail\NoReplyEmailMailable;
+use App\Log;
 use Helpers;
 
 class NoReplyEmail
@@ -252,7 +253,9 @@ class NoReplyEmail
 
        		$info = [ 'ObjectInstance' => $template ];
        		$response = $this->client->SaveEmailTemplate( $info );
-
+ 			// Save log
+ 			$log = new Log(); 			
+        	$log::record('SAVE', 'nre template', $data['RefNo'], $template);
 			return array( 'success' => 'success' , 'message' => 'The template was saved.', 'data' => $response );
 			
 		} 
@@ -353,10 +356,13 @@ class NoReplyEmail
     {
         // Create call request        
         $info = [ 'RefNumber' => $te_id];
-
+        $template_obj = self::getTemplateById($te_id);
         try {
             $response = $this->client->DeleteTemplate($info);
             if($response->DeleteTemplateResult){
+            	// Save log
+            	$log = new Log(); 			
+        		$log::record('DELETE', 'nre template', $te_id, $template_obj);
                 return array( 'success' => 'success' , 'message' => 'NRE Template deleted.' );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
