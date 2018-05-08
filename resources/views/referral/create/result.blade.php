@@ -58,7 +58,7 @@
                 </div>
                 <!-- Service & SP -->
                 <div class="col-xs-6 col-sm-8">
-                  <h3 class="service-name"><strong>Homeless Law Service</strong></h3>
+                  <h3 class="service-name" id='serviceName'><strong>Homeless Law Service</strong></h3>
                   <h4 class="service-provider-name">Justice Connect</h4>
                   <p>Send referral details to the client by Email, SMS or both with the form below.</p>
                 </div>

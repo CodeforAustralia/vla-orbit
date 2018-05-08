@@ -12,6 +12,7 @@ function getAddress()
 {
 	const csrf  = document.getElementsByName("_token")[0].content;
 	let address = document.querySelector('#address').value;
+	let serviceName = document.getElementById("serviceName").innerText;
 	if ( address != '') {
 
 		$.ajax({
@@ -19,12 +20,13 @@ function getAddress()
 			{
 			  'X-CSRF-TOKEN': csrf
 			},
-			method: 'GET',
+			method: 'POST',
 			url: '/panel_lawyers/get_closet_by_address',
-			data: { address }
+			data: { address,
+					serviceName }
 		})
 		.done(function( msg ) 
-		{
+		{							
 			if ( msg.hasOwnProperty("client_address") && msg.hasOwnProperty("closest") ) 
 			{			
 			    const client_address =  JSON.parse(msg.client_address);
@@ -56,21 +58,20 @@ function createPoint(client_address, closest)
 	});
 
 	//Set Client Marker
-	setMarker( map, client_address );
-
+	setMarker( map, client_address, 0 );
 	for (let i = closest.length - 1; i >= 0; i--) 
 	{          
-	  let office = closest[i].office;          
+	  let office = closest[i].office;
 	  let lat = parseInt(office.lat);
 	  let lng = parseInt(office.lng);
 	  //Set CLosest offices marker
-	  setMarker( map, office );
+	  setMarker( map, office,i+1 );
 	}
 	map.fitBounds(bounds);       // auto-zoom
 	map.panToBounds(bounds);     // auto-center
 }
 
-function setMarker( map, office )
+function setMarker( map, office,number)
 {
 	let contentString = "Client's house";
 	let title = "Client's house";
@@ -83,14 +84,15 @@ function setMarker( map, office )
 	  //icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 	  //icon: 'https://findicons.com/files/icons/1580/devine_icons_part_2/128/home.png'
 	};
-	if( office.hasOwnProperty("firm_name"))
+	if( office.hasOwnProperty("OfficeName"))
 	{
-	  options.title = office.firm_name;
+	  options.title = office.OfficeName;
 	  contentString = '<div id="content" style = "width:200px;min-height:40px">'+              
-	      '<h4>' + office.firm_name + '</h4>'+              
-	      '<p><strong>Address: </strong>' + office.address + '</p>'+
-	      '<p><strong>Phone: </strong>' + office.phone + '</p>'+              
+	      '<h4>' + office.OfficeName + '</h4>'+              
+	      '<p><strong>Address: </strong>' + office.FullAddress + '</p>'+
+	      '<p><strong>Phone: </strong>' + office.OfficePhone + '</p>'+              
 	      '</div>';
+	      options.icon = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+number+'|FF0000|000000';
 	}
 	else
 	{

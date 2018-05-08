@@ -134,24 +134,30 @@ class PanelLawyersController extends Controller
     public function getClosestByAddress()
     {
         //dd(request('address'));
-        $panel_obj = new PanelLawyers();
-        $all = $panel_obj->all();
+        //$panel_obj = new PanelLawyers();
+        //$all = $panel_obj->all();
+        $all = self::list();        
         $address = request('address');
+        $service_name = trim(request('serviceName'));
         $client_address = self::getLatLngByAddress( $address );
 
         //dump($client_address);
-
+        if( strcmp(strtolower($service_name),"family violence") == 0)
+        {
+          $service_name = "FAMILY VIOLENCE 29A";
+        }
+        $service_name = strtolower($service_name);
         if($client_address)
         {
             $distance = array();
-            foreach ($all as $key => $panel) 
-            {
-                if( $panel->lat !== 0)
+            foreach ($all['data'] as $key => $panel) 
+            {                
+                if( $panel['lat'] !== 0 && strcmp(strtolower($panel['SpSubType']), $service_name)== 0 )
                 {   
-                    $office = array('lat' => $panel->lat, 'lng' => $panel->lng);                    
+                    $office = array('lat' => $panel['lat'], 'lng' => $panel['lng']);
                     $distance[] = [ 
                                     'distance' => self::distanceBetweenClientAndOffices( $client_address, $office),
-                                    'office' => $panel->toArray()
+                                    'office' => $panel
                                   ];
                 }
             }
@@ -201,8 +207,8 @@ class PanelLawyersController extends Controller
      * @return float         measure of distance btw two points in kms
      */
     public function distanceBetweenClientAndOffices( $client, $office)
-    {
-        return self::distance($client['lat'], $client['lng'], $office['lat'], $office['lng'], 'K') ;
+    {        
+        return self::distance($client['lat'], $client['lng'], floatval($office['lat']), floatval($office['lng']), 'K');
     }
    
    /**
