@@ -1,5 +1,5 @@
 @php    
-    $sp_arr = [ 98, 99, 106, 119, 160 ];        
+    $sp_arr = [ 98, 99, 106, 109, 119, 121, 160 ];        
     $is_lh  = \App\Http\helpers::getUSerServiceProviderId() === 112;    
 @endphp
 <div>
@@ -24,8 +24,12 @@
                         <option selected=""> </option>
                         
                         @foreach($service_providers as $service_provider)
-                            @if( (in_array( $service_provider['ServiceProviderId'], $sp_arr ) && !$is_lh) ||  ($service_provider['ServiceProviderTypeName'] == 'VLA' && $is_lh) )
+                            @if( (in_array( $service_provider['ServiceProviderId'], $sp_arr ) && !$is_lh) ||  ($service_provider['ServiceProviderTypeName'] == 'VLA' && $is_lh) && $service_provider['ServiceProviderId'] != 166 )
                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
+                            @endif
+
+                            @if( $service_provider['ServiceProviderId'] == 166 && \App\Http\helpers::getRole() =='Administrator' )
+                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
                             @endif
                         @endforeach
                     </select>
@@ -38,10 +42,10 @@
     <div class="row">
         <div class="col-xs-12 ">
             <div class="form-group">
-			    <div class="col-xs-12">
-			        <label>Service: <small>if unsure if client qualifies for service find the VLA service guidelines <a href="https://viclegalaid.sharepoint.com/sites/intranet/practiceresources/Pages/default.aspx" target="_blank">here</a></small></label>  
-			    </div>
-		    </div>
+                <div class="col-xs-12">
+                    <label>Service: <small>if unsure if client qualifies for service find the VLA service guidelines <a href="https://viclegalaid.sharepoint.com/sites/intranet/practiceresources/Pages/default.aspx" target="_blank">here</a></small></label>  
+                </div>
+            </div>
         </div>
         <div class="col-xs-12 col-md-12 padding-bottom-20">
             <div class="form-group">
@@ -62,10 +66,10 @@
     <div class="row">
         <div class="col-xs-12 ">
             <div class="form-group">
-			    <div class="col-xs-12">
-			        <label>Form Type:</label> <small>if direct booking is not available, this service is not in ORBIT yet. Legal Help users can select an e-referral template here</small>
-			    </div>
-		    </div>
+                <div class="col-xs-12">
+                    <label>Form Type:</label> <small>if direct booking is not available, this service is not in ORBIT yet. Legal Help users can select an e-referral template here</small>
+                </div>
+            </div>
         </div>
         <div class="col-xs-12 col-md-12 ">
             <div class="form-group">
@@ -77,7 +81,7 @@
                         <option value="for_assessment">For Assessment</option>
                         <option value="phone_advice">Phone Advice</option>
                         <option value="duty_layer">Duty Lawyer</option>
-                        <option value="child_protection">Child Protection</option>
+                        <option value="child_protection" class="hidden">Child Protection</option>
                         <option value="child_support">Child Support</option>
                         @endif
                     </select>                    
@@ -95,10 +99,10 @@
     <div class="row">
         <div class="col-xs-12 ">
             <div class="form-group">
-			    <div class="col-xs-12">
-            		<label>Interpreter required?</label> <small>choose language from list. May result in longer appointment</small>
-			    </div>
-		    </div>
+                <div class="col-xs-12">
+                    <label>Interpreter required?</label> <small>choose language from list. May result in longer appointment</small>
+                </div>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12">
             <div class="form-group">
@@ -192,8 +196,8 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
-	    			<strong>Contact Information</strong>
-	            </div>
+                    <strong>Contact Information</strong>
+                </div>
             </div>
         </div>
     </div>
@@ -243,7 +247,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Phone Number:</label>
-                    <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile"> 
+                    <input type="number" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile"> 
                 </div>
             </div>
         </div>
