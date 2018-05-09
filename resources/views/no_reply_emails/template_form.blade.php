@@ -14,7 +14,7 @@
                             <input type="text" class="form-control hidden" id="RefNo" name="RefNo" value="{{ ( isset($template['RefNo']) ? $template['RefNo'] : 0 ) }}">
                         </div>
                     </div>
-
+                    @if( \App\Http\helpers::getRole() === 'Administrator' )
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="all">Available for all:</label>
                         <div class="col-md-8 col-lg-4">
@@ -22,7 +22,7 @@
                         </div>
                     </div>                    
 
-                    @if( \App\Http\helpers::getRole() === 'Administrator' )
+
                     <div class="form-group">
                         <label class="col-md-3 control-label">Available for specific service provider:</label>
                         <div class="col-md-8 col-lg-4">
