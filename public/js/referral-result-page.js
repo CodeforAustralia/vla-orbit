@@ -61,7 +61,7 @@ var setFilterOnElement = function (element, nonSelectedText,filter) {
 var initFilters = function () 
 {
   const filter_level   = ['information', 'advice', 'representation'];
-  const filter_type    = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop'];
+  const filter_type    = ['phone-line', 'phone-appointments', 'appointment', 'duty-lawyer', 'outreach', 'drop-in', 'workshop', 'online'];
   const filter_sp_type = ['non-legal-provider', 'clc', 'vla', 'legal-help', 'private-practitioners', 'panel-lawyer'];
   let filter_group   = [];
 
