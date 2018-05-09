@@ -69,7 +69,7 @@
                         <select class="form-control" v-on:change="onChangeFormType" name="request_type" id="request_type" required>
                             <option :value="null"></option>
                             <option value="0" v-if="can_book">Direct Booking</option>
-                            <option v-for="form in e_referral_forms" :value="form.ReferralFormID" v-text="form.ReferralFromName"></option>
+                            <option v-for="form in e_referral_forms" :value="form.ReferralFormID" v-text="form.ReferralFromName" v-if="can_e_referr"></option>
                         </select>                  
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
