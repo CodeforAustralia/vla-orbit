@@ -415,6 +415,7 @@ Class Booking
         $data['ClientBooking']['IsSafeSMS'] = ( $data['ClientBooking']['IsSafeSMS'] == "true" ? 1 : 0);
         $data['ClientBooking']['IsSafeCall'] = ( $data['ClientBooking']['IsSafeCall'] == "true" ? 1 : 0);
         $data['ClientBooking']['IsSafeLeaveMessage'] = ( $data['ClientBooking']['IsSafeLeaveMessage'] == "true" ? 1 : 0);
+        $data['ClientBooking']['ContactInstructions'] = ( $data['ClientBooking']['ContactInstructions'] == "" ? 'N/P' : $data['ClientBooking']['ContactInstructions']);
 
         $ClientBooking  = $data['ClientBooking'];
         $date_time = explode("T", $date_time);
