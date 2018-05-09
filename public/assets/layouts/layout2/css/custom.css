@@ -642,3 +642,40 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     background-color: #286090;
     border-color: #204d74;
 }
+
+/************************ general colors **************************/
+body {
+    color: black;
+    font-weight: normal;
+}
+.btn.btn-outline.dark {
+    color: black;
+}
+
+.portlet.calendar .fc-event .fc-title {
+    font-weight: normal;
+}
+
+.portlet.calendar .fc-event .fc-time {
+    font-weight: normal;
+}
+
+.page-sidebar .page-sidebar-menu>li.active>a,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.active>a,
+.page-sidebar .page-sidebar-menu.page-sidebar-menu-compact>li>a>.title,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu.page-sidebar-menu-compact>li>a>.title {
+    font-size: 14px;
+    font-weight: normal;
+}
+.page-sidebar .page-sidebar-menu .sub-menu>li>a,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu>li>a {
+    font-weight: normal;
+}
+
+h4 {
+    font-weight: normal;
+}
+
+.mt-checkbox, .mt-radio {
+    font-weight: normal;
+}
