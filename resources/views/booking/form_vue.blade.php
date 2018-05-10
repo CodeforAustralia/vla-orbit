@@ -125,7 +125,7 @@
                 <div class="col-xs-12 padding-bottom-20">
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <label>Date of appointment: choose from dates marked green</label>                
+                            <label>Date of appointment: <small>choose from dates marked green</small></label>                
                             <input type="text" class="form-control input-medium" id="booking-date" name="booking-date" required>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                 <div class="col-xs-12">
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <label>Available Times: <small>choose from dates marked green</small></label>
+                            <label>Available Times:</label>
                             <div class="mt-radio-list">
                                 <label class="mt-radio mt-radio-outline"  v-for="time in available_times">
                                     <input type="radio" name="serviceTime" 
