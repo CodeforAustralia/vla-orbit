@@ -119,8 +119,8 @@ Class EReferral
 
         try 
         {
-            $response = $client->DeleteReferralFormServiceByServiceIdResult($info);
-            if($response->DeleteReferralFormResult)
+            $response = $client->DeleteReferralFormServiceByServiceId($info);
+            if($response->DeleteReferralFormServiceByServiceIdResult)
             {
                 return array( 'success' => 'success' , 'message' => 'E-Referrals deleted from service.' );
             } else {
@@ -136,17 +136,16 @@ Class EReferral
     {
         // Create Soap Object
         $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        $info = [];        
+        $info = [];
         try 
         {
             foreach ($form_ids as $form_id) 
             {
-                $info[] = array( 'ReferralFormService' => [
-                                                            'RefNo'=> 0,
-                                                            'ReferralFormID'=> $form_id,
-                                                            'ServiceId'=> $sv_id,
-                                                            ]
-                                );
+                $info[] = [
+                            'RefNo'=> 0,
+                            'ReferralFormID'=> $form_id,
+                            'ServiceId'=> $sv_id,
+                          ];
                 
             }  
             $response = $client->SaveAllReferralFormService( ['ObjectInstance'  => $info ] );
