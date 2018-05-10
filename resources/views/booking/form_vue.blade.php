@@ -227,7 +227,7 @@
             </div>
         </div>
 
-        <div class="row" v-if="booking_template_id == 0 || booking_template_id == 4 || booking_template_id == 5">
+        <div class="row" v-if="booking_template_id == 5">
             <div class="col-xs-5 col-md-6 col-lg-5">                            
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
@@ -238,7 +238,7 @@
             </div>
         </div>
 
-        <div class="row" v-if="booking_template_id == 0 || booking_template_id == 4 || booking_template_id == 5">
+        <div class="row" v-if="booking_template_id == 5">
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12">
