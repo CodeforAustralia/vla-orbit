@@ -127,10 +127,10 @@ function showTimes(day, month, year)
 
     $("#time-options").html('');
 
-    var duration_slot = 30;
-    if( $("#bookingIntLanguage" ).text() != '' ) // Requires interpreter
+    var duration_slot = currentEventInCalendar.BookingBugServiceLength;
+    if ($(".edit-booking").attr("id") == currentEventInCalendar.BookingBugInternalServiceId)
     {
-        var duration_slot = 60;
+        duration_slot = currentEventInCalendar.BookingBugInternalServiceLength;
     }
 
     for (index = 0; index < times.length; ++index) {
