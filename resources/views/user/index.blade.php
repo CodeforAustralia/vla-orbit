@@ -4,7 +4,7 @@
 
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet ">
-        <h1 class="page-title col-xs-10"> All Users </h1>
+        <h1 class="page-title col-xs-10"> All Users ({{ $total_users }})</h1>
         <a role="button" class="btn main-green col-xs-2 pull-right" href="/user/new">New User</a>
         <br>
     </div>

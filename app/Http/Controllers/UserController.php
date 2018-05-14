@@ -24,7 +24,8 @@ class UserController extends Controller
     	$request->user()->roles()->first()->name;
     	User::where('sp_id', '=', 0)->get();
 */    	
-        return view("user.index");
+        $total_users = User::count();        
+        return view("user.index", compact('total_users'));
     }
 
     public function create( Request $request )
