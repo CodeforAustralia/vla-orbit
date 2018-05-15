@@ -26,9 +26,47 @@ In order to keep configuration values centralized all of those values should be 
 
 The values that are relevant for us are:
 
-* Variable and meaning 1
-* Variable and meaning 2
-* Variable and meaning 3
+*Basic Laravel settings*
+
+* `APP_NAME=Orbit`
+* `APP_ENV=local`
+* `APP_KEY=` Your own laravel application key here is an example on how to get it https://laravel.com/docs/5.4/encryption#configuration
+* `APP_DEBUG=` This should be only true when you are debuggin your application ie. your development server.
+* `APP_LOG_LEVEL=` Log Severity Levels one of [debug, info, notice, warning, error, critical, alert, emergency]
+* `APP_URL=http://localhost`
+
+* `DB_CONNECTION=` Type of connection that you will use with your database ie. mysql
+* `DB_HOST=` Address that will be used to connect with your database ie. 127.0.0.1
+* `DB_PORT=` Port that will be used to connect with your database ie. 3306
+* `DB_DATABASE=` Database name
+* `DB_USERNAME=` User with privilege to access your database
+* `DB_PASSWORD=` User's password to access your database
+
+*SMTP settings*
+
+* `MAIL_FROM_ADDRESS_CLC=` Email address to send emails to CLC users
+* `MAIL_FROM_ADDRESS=`  Email address to send emails to VLA users
+* `MAIL_FROM_NAME='Orbit'`
+* `MAIL_DRIVER=smtp`
+* `MAIL_HOST=` Address of your smtp server
+* `MAIL_PORT=` Port of your smtp server
+* `MAIL_USERNAME=` User of your smtp server
+* `MAIL_PASSWORD=` Password of your smtp server
+* `MAIL_ENCRYPTION=` Encryption used by your smtp server
+
+*Simple SAML settings, to authenticate users using VLA's Active Directory*
+
+* `SIMPLESML_SP=` Simple SAML identifier
+
+*Web Services settings, this web services are hosted in a different server and each WSDL is accessed by Laravel through SOAP*
+
+* `ORBIT_WDSL_URL=` Core SOAP address 
+* `ORBIT_BOOKING_WDSL_URL=` Bookings SOAP address 
+* `ORBIT_NO_REPLY_EMAILS_WDSL_URL=` No Reply Emails SOAP address 
+
+*Other libraries*
+
+* `GOOGLE_MAPS_KEY=` Your own google maps API KEY with this liraries enabled [Places API, Geocoding API, Maps JavaScript API, Distance Matrix API]
 
 *As a good practice your .env file should not be committed to your application's source control*
 
