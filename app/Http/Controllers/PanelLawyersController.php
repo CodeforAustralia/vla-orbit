@@ -157,15 +157,18 @@ class PanelLawyersController extends Controller
                     $office = array('lat' => $panel['lat'], 'lng' => $panel['lng']);
                     $distance[] = [ 
                                     'distance' => self::distanceBetweenClientAndOffices( $client_address, $office),
+                                    'lat' => $panel['lat'],
+                                    'lng' => $panel['lng'],
                                     'office' => $panel
                                   ];
                 }
             }
 
             usort($distance, function($a, $b){ return $a["distance"] > $b["distance"]; });
+            $distance = self::travelDistance($client_address, array_slice($distance, 0, 20, true));            
+            usort($distance, function($a, $b){ return $a["distance"] > $b["distance"]; });          
             $client_address = json_encode( self::getLatLngByAddress( $address ) );
-            $closest = json_encode( array_slice($distance, 0, 5, true) );
-
+            $closest = json_encode( array_slice($distance, 0, 5, true) );            
             return compact('client_address', 'closest');
         }
     }
@@ -238,4 +241,37 @@ class PanelLawyersController extends Controller
           return $miles;
         }
     }
+
+    public function travelDistance($client_address, $distances)
+    {      
+      $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='.$client_address['lat'].'%2C'.$client_address['lng'].'&destinations=';
+      $numItems = count($distances);
+      $i = 0;
+      foreach ($distances as $key => $distance) {        
+        if(++$i === $numItems) {
+          $url.= $distance['lat'].'%2C'.$distance['lng'];
+        }
+        else
+        {
+          $url.= $distance['lat'].'%2C'.$distance['lng'].'%7C';  
+        }        
+      }
+      $url.='&key=AIzaSyAJi9SNu8Nye5MDdZcB5DfcgsZjXgJk6cc';      
+      $json_a = json_decode(file_get_contents($url), true);
+      if($json_a["status"] === "OK")
+      {        
+        $results = $json_a['rows'][0]['elements'];
+        foreach ($results as $key => $result) {
+          
+          $distances[$key]['distance']= $result['duration']['value'];
+          
+        }        
+        return $distances;
+      }      
+      else
+      {
+        return false;
+      }
+    }
+
 }

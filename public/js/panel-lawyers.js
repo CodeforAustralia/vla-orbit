@@ -91,8 +91,7 @@ function setMarker( map, office,number)
 	      '<h4>' + office.OfficeName + '</h4>'+              
 	      '<p><strong>Address: </strong>' + office.FullAddress + '</p>'+
 	      '<p><strong>Phone: </strong>' + office.OfficePhone + '</p>'+              
-	      '</div>';
-	      options.icon = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+number+'|FF0000|000000';
+	      '</div>';	      
 	}
 	else
 	{
