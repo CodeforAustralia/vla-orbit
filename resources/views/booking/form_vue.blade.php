@@ -267,7 +267,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" v-show="can_book && is_direct_booking">
             <div class="col-xs-12">                            
                 <div class="form-group">
                     <div class="col-xs-12">
@@ -285,7 +285,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" v-show="can_book && is_direct_booking">
             <div class="col-xs-12">                            
                 <div class="form-group">
                     <div class="col-xs-12">
@@ -304,7 +304,7 @@
         </div>
 
 
-        <div class="row">
+        <div class="row" v-show="can_book && is_direct_booking">
             <div class="col-xs-12">                            
                 <div class="form-group">
                     <div class="col-xs-12">
@@ -323,10 +323,10 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-5 col-md-6 col-lg-5">
+            <div class="col-xs-5 col-md-7 col-lg-8">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
-                        <label>Any unavailable times or instructions re contact?:</label>
+                        <label>Any unavailable times or instructions re contact?: <small  v-show="!is_direct_booking">e.g. SMS ok? Safe to call? Safe to leave message?</small></label>
                         <input type="text" class="form-control input-large" name="reContact" id="reContact"> 
                     </div>
                 </div>
