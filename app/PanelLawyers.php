@@ -23,12 +23,10 @@ class PanelLawyers extends Model
         // Return the panel lawyers by subtype of law
         $panelLawyers = [];
         $subtypes = ['CHILD PROTECTION', 'FAMILY LAW', 'FAMILY VIOLENCE 29A','INDICTABLE CRIME', 'SUMMARY CRIME'];
-        foreach ($subtypes as $subtype) {
-            //dd($subtype);
+        foreach ($subtypes as $subtype) {            
             $info = [ 'SubType' => $subtype ];            
             $panelLawyers = array_merge($panelLawyers,json_decode($this->client->GetPractitionersByPanelSubTypeasJSON($info)->GetPractitionersByPanelSubTypeasJSONResult,true));
-         }         
-         //Eliminate duplicates
+         }                   
          $cleanArray=array();
          foreach ($panelLawyers as $key => $panelLawyer) {
             $cleanArray[] = ["OfficeId"   => $panelLawyer["OfficeId"], 
