@@ -17,7 +17,7 @@
             <div class="col-xs-12 col-md-12 padding-bottom-20">
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label>Office/program area:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
+                        <label>Office/program area:</label>
                     </div>
                     <div class="col-xs-12 col-md-6">
                         <select class="form-control" v-on:change="onChangeSP" name="service_provider_id" v-model="user_sp_id" required>
