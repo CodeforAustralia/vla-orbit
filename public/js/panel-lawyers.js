@@ -56,22 +56,22 @@ function createPoint(client_address, closest)
 	  zoom: 12,
 	  center: {lat: client_address.lat, lng: client_address.lng}
 	});
-
+	markers = [];
 	//Set Client Marker
-	setMarker( map, client_address, 0 );
+	setMarker( map, client_address);
 	for (let i = closest.length - 1; i >= 0; i--) 
 	{          
 	  let office = closest[i].office;
 	  let lat = parseInt(office.lat);
 	  let lng = parseInt(office.lng);
 	  //Set CLosest offices marker
-	  setMarker( map, office,i+1 );
+	  setMarker( map, office);
 	}
 	map.fitBounds(bounds);       // auto-zoom
 	map.panToBounds(bounds);     // auto-center
 }
 
-function setMarker( map, office,number)
+function setMarker( map, office)
 {
 	let contentString = "Client's house";
 	let title = "Client's house";
@@ -98,6 +98,15 @@ function setMarker( map, office,number)
 	    options.icon = 'https://orbitdev.vla.vic.gov.au/assets/layouts/layout2/img/OrbitCasa_icon.png';
     	bounds  = new google.maps.LatLngBounds();
 	}
+	// Search for markers in the same position
+    markers.forEach(function(markerObject, index, markers){
+    	if(options.position.lat == markerObject.position.lat() && options.position.lng == markerObject.position.lng() && office.hasOwnProperty("OfficeName") )
+    	{	    		
+    		contentString += "<hr>"+ markerObject.infowindow.content;
+    		markerObject.infowindow.content = '';
+    	}
+    	
+    });	
 
 	var infowindow = new google.maps.InfoWindow({
           content: contentString
@@ -105,7 +114,7 @@ function setMarker( map, office,number)
 	options.infowindow = infowindow;
 
 	let marker = new google.maps.Marker(options);
-    
+
     markers.push(marker);
 
 	marker.addListener('click', function() {
