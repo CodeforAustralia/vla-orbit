@@ -158,7 +158,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>First Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" :value="client.FirstName" required> 
+                        <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" required> 
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Last Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName" :value="client.LastName"  required> 
+                        <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName"  required> 
                     </div>
                 </div>
             </div>
