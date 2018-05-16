@@ -44,7 +44,7 @@
                     <div class="col-xs-12 col-md-6">
                         <select class="form-control" v-on:change="onChangeService" name="ServiceId" required>
                             <option :value="null"></option>
-                            <option v-for="service in services" :value="service.BookingServiceId + '-'+ service.BookingInterpritterServiceId +'-' + service.ServiceId" v-text="service.ServiceName"></option>
+                            <option v-for="service in services" :value="service.BookingServiceId + '-'+ service.BookingInterpritterServiceId +'-' + service.ServiceId" v-html="service.ServiceName"></option>
                         </select>
                     </div>
                     <div class="col-xs-12 col-sm-4 hidden">
