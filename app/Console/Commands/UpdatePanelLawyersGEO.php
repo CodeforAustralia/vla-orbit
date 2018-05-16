@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
-use App\HTTP\Controllers\PanelLawyersController;
+use App\Http\Controllers\PanelLawyersController;
 use Illuminate\Console\Command;
 
 class UpdatePanelLawyersGEO extends Command

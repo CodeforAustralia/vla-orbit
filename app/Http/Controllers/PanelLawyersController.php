@@ -44,7 +44,7 @@ class PanelLawyersController extends Controller
      */
     public function storeLatLng()
     {
-      ini_set('max_execution_time', 300);
+      ini_set('max_execution_time', 400);
       $panelLawyers = self::list();
       $counter = 0;
       $panelLawyerObj = new PanelLawyers();
