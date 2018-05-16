@@ -362,6 +362,9 @@
         </div>
         
     </form>
+    
+    @include ('booking.booking_description')   
+    
 </div>
 
 
