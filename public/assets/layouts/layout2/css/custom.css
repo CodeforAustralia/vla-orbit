@@ -583,6 +583,50 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 .page-bar {
     background: initial;
 }
+/****************************** Login Page *******************/
+#email-login{
+    font-size: large; 
+}
+#password-login{
+    font-size: large;    
+}
+
+.vl {
+    border-left: 1px solid lightgrey;
+    height: 50%;
+    position: absolute;
+    left: 50%;
+    top: 24%;    
+}
+
+#vla-login{
+    top: 50%;
+    left:10%;
+}
+
+#login-content{
+    padding-left: 30%;
+}
+
+#login_hr{
+    margin-right: 10%;
+}
+#login-div{
+    outline: solid 0.5px lightgrey;    
+}
+
+/***************** Referral *******************************/
+#advance-options{
+    font-size: smaller;
+}
+#referral_panel{
+    border-color: #FFF;
+}
+#referral_panel_heading{
+    background-color: #ffff;
+    border-color: #ffff;
+    text-align: right;
+}
 
 /***************** No Reply Emails ***********************/
 

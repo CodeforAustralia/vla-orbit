@@ -388,6 +388,8 @@ Route::post('/login', 'SessionController@store');
 
 Route::get('/logout', 'SessionController@destroy');
 
+Route::get('/signup', 'SessionController@sendEmail');
+
 Auth::routes();
 
 Route::get('/login_vla', 'SessionController@create')->name('login_vla');
