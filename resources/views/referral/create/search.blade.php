@@ -46,13 +46,13 @@
               
               <div class="form-group">
 
-                <div class="input-group select2-bootstrap col-xs-6 legal_issue">
+                <div class="input-group select2-bootstrap col-xs-12 col-sm-6 legal_issue">
                   <select id="single" class="form-control select2" name="legal_issue">
                       <option> </option>
                   </select>
                 </div>
 
-                <div class="input-group select2-bootstrap-prepend col-xs-6 location">
+                <div class="input-group select2-bootstrap-prepend col-xs-12 col-sm-6 location">
                     
                     <select class="form-control" id="single-prepend-text" name="lga[]">   
                          <!-- option value="0" style="color: #999;">Search for suburbs, postcodes or councils</option --> 
