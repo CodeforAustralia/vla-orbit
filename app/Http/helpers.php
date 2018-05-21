@@ -37,6 +37,14 @@ class Helpers
     		return '';
     	}
     }
+    /**
+     * Retrieve the panel lawyers exluded
+     * @return array excluded panel lawyers.
+     */
+    public static function getPanelLawyersRemoveList()
+    {        
+        return ['29545', 'F4190', '28708', 'F6313', '28707', '3256', '26271', '26270', '26300', '2366'];
+    }
 /**
      * Function taken from [http://php.net/manual/en/function.sort.php]
      * @param  [array] $array  [array to be sorted]

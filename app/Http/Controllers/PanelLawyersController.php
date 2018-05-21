@@ -31,8 +31,14 @@ class PanelLawyersController extends Controller
         usort($result, function($a, $b){ return strcasecmp($a["OfficeId"], $b["OfficeId"]); });
         $panelLawyers = array_map("unserialize", array_unique(array_map("serialize", $result)));
         $result= [];
+        // Remove some specific panel Lawyers
+        $excludeList = \App\Http\helpers::getPanelLawyersRemoveList();        
         foreach ($panelLawyers as $key => $panelLawyer) {
-         $result[]=$panelLawyer;
+          if(!in_array($panelLawyer['OfficeId'],$excludeList))
+          {
+            $result[]=$panelLawyer;
+          }
+          
         }
 
         return [ 'data' => $result ];
