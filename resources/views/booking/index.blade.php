@@ -46,7 +46,7 @@
                     <div class="container-fluid booking-information">
                         <div class="row" id='clientInformation'>
                             <div class="col-sm-6">
-                                <h4><strong> Client Information </strong></h4>
+                                <h4><strong> Client </strong></h4>
                             </div>
 
                             <div class="col-sm-12">
@@ -58,15 +58,48 @@
                                 <label class="col-sm-5"><strong>Last name: </strong></label>                                
                                 <a href="javascript:;" id="bookingLastName" data-type="text" data-original-title="Enter Last name"></a>
                             </div>
+                            
+                            <div class="col-sm-12">
+                                &nbsp;
+                            </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Phone number: </strong></label>                                 
                                 <a href="javascript:;" id="bookingPhone" data-type="text" data-original-title="Enter Phone number"></a>
                             </div>
+                            
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Safe to call?: </strong></label>
+                                <span id="IsSafeCall"></span>
+                            </div>
 
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Email: </strong></label>                                
-                                <a href="javascript:;" id="bookingEmail" data-type="email" data-original-title="Enter Email"></a>
+                                <label class="col-sm-5"><strong>Safe to leave a message?: </strong></label>
+                                <span id="IsSafeLeaveMessage"></span>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Is Safe to contact by SMS?: </strong></label>
+                                <span id="IsSafeSMS"></span>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Instructions to re contact: </strong></label>
+                                <span id="ContactInstructions"></span>
+                            </div>
+                            
+                            <div class="col-sm-12">
+                                &nbsp;
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Interpreter Language: </strong></label>
+                                <span id="bookingIntLanguage"></span>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Complex needs: </strong></label>
+                                <span id="IsComplex"></span>
                             </div>
 
                             <div class="col-sm-12">
@@ -77,58 +110,24 @@
                         <hr>
                         <div class="row" id="bookingInformation">
                             <div class="col-sm-6">
-                                <h4><strong> Booking Information </strong></h4>
+                                <h4><strong> Appointment </strong></h4>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Service Provider: </strong></label>
+                                <span id="bookingSPName"></span>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Name: </strong></label>
                                 <span id="bookingTitle"></span>
                             </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Booking Time: </strong></label>
+                                <label class="col-sm-5"><strong>Time of appointment: </strong></label>
                                 <a id="bookingTime" class="editable editable-click edit-booking"></a>
                             </div>
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Interpreter Language: </strong></label>
-                                <span id="bookingIntLanguage"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Booking Description: </strong></label>
+                                <label class="col-sm-5"><strong>Appointment Description: </strong></label>
                                 <div id="bookingDescription" class="col-sm-7 padding-0" data-type="wysihtml5"></div>
-                            </div>
-                        
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Created By: </strong></label>
-                                <span id="createdBy"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Safe to call?: </strong></label>
-                                <span id="IsSafeCall"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Safe to leave a message?: </strong></label>
-                                <span id="IsSafeLeaveMessage"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Instructions to re contact: </strong></label>
-                                <span id="ContactInstructions"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Is Safe to contact by SMS?: </strong></label>
-                                <span id="IsSafeSMS"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Sent status: </strong></label>
-                                <span id="sentStatus"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Arrival status: </strong></label>
-                                
-                                <select class="form-control input-small booking-status input-sm">
-                                    <option value="1" class="bg-white bg-font-white">Pending</option>
-                                    <option value="2" class="bg-white font-green-jungle">Arrived</option>
-                                    <option value="3" class="bg-white font-red">No Show</option>
-                                </select>
-                            </div>
+                            </div>                        
                             <br>
                             <div class="col-sm-12">
                                 <label class="col-sm-5">&nbsp;</label>
@@ -143,10 +142,27 @@
                             </div>
 
                         </div>
+                        
+                        <hr>
+                        <div class="row" id="extraInformation">
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>SMS status: </strong></label>
+                                <span id="sentStatus"></span>
+                                <a href="#" class="btn btn-xs green remind-booking pull-right">Send Reminder</a>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5"><strong>Arrival status: </strong></label>
+                                
+                                <select class="form-control input-small booking-status input-sm">
+                                    <option value="1" class="bg-white bg-font-white">Pending</option>
+                                    <option value="2" class="bg-white font-green-jungle">Arrived</option>
+                                    <option value="3" class="bg-white font-red">No Show</option>
+                                </select>
+                            </div>
+                        </div>
                         <input type="text" name="csrf" id="csrf" value="{{ csrf_token() }}" class="hidden">
                         <br>
-                        <div class="row pull-right">
-                            <a href="#" class="btn btn-xs green remind-booking">Send Reminder</a>                            
+                        <div class="row pull-right">                            
                             <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
                             <a href="#" class="btn btn-xs btn-default " id="printBooking" >Print</a>                            
                             <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
@@ -196,6 +212,11 @@
                             </div>
                         </div>
                         <button id="update-booking" class="btn green">Update</button>
+                    </div>
+                </div>
+                <div class="modal-footer">                    
+                    <div class="col-sm-12 text-center">
+                        <small>Created By: <span id="createdBy"></span></small>
                     </div>
                 </div>
             </div>

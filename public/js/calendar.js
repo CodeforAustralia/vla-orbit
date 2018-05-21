@@ -177,6 +177,7 @@ var AppCalendar = function() {
                     //Booking info
                     $("#bookingRef").text(calEvent.data.BookingRef);
                     $("#bookingTitle").text(calEvent.data.ServiceName);
+                    $("#bookingSPName").text(calEvent.data.ServiceProviderName);
                     $("#bookingTime").text(calEvent.data.BookingDate + " " + calEvent.data.BookingTime);
 
                     $("#bookingFirstName").text(calEvent.data.FirstName);
@@ -219,10 +220,12 @@ var AppCalendar = function() {
 
                     $("#bookingIsSafe").text(calEvent.data.IsSafe);   
 
+                    let IsComplex = (calEvent.data.IsComplex) ? 'Yes' : 'No';
                     let IsSafeSMS = ( calEvent.data.IsSafeSMS ) ? 'Yes' : 'No';
                     let IsSafeCall = ( calEvent.data.IsSafeCall ) ? 'Yes' : 'No';
                     let IsSafeLeaveMessage = ( calEvent.data.IsSafeLeaveMessage ) ? 'Yes' : 'No';
 
+                    $("#IsComplex").text(IsComplex);                    
                     $("#IsSafeSMS").text(IsSafeSMS);                    
                     $("#IsSafeCall").text(IsSafeCall);
                     $("#IsSafeLeaveMessage").text(IsSafeLeaveMessage);                    
