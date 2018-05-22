@@ -48,6 +48,9 @@
                             <div class="col-sm-6">
                                 <h4><strong> Client </strong></h4>
                             </div>
+                            <div class="col-sm-6">
+                                <i class="fa fa-print pull-right" id="printBooking"></i>
+                            </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>First name: </strong></label>                                
@@ -69,17 +72,17 @@
                             </div>
                             
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Safe to call?: </strong></label>
+                                <label class="col-sm-5"><strong>Safe to call: </strong></label>
                                 <span id="IsSafeCall"></span>
                             </div>
 
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Safe to leave a message?: </strong></label>
+                                <label class="col-sm-5"><strong>Safe to leave a message: </strong></label>
                                 <span id="IsSafeLeaveMessage"></span>
                             </div>
 
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Is Safe to contact by SMS?: </strong></label>
+                                <label class="col-sm-5"><strong>Safe to contact by SMS: </strong></label>
                                 <span id="IsSafeSMS"></span>
                             </div>
 
@@ -160,12 +163,12 @@
                                 </select>
                             </div>
                         </div>
-                        <input type="text" name="csrf" id="csrf" value="{{ csrf_token() }}" class="hidden">
                         <br>
                         <div class="row pull-right">                            
-                            <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
-                            <a href="#" class="btn btn-xs btn-default " id="printBooking" >Print</a>                            
-                            <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
+                            <div class="col-sm-12">
+                                <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>                   
+                                <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
+                            </div>
                         </div>
                     </div>
                     <div class="hidden booking-edit">

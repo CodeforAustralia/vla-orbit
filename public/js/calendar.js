@@ -273,10 +273,14 @@ var AppCalendar = function() {
 
                     let booking_date_moment = moment(booking_date).toDate();
                     $("#" + calEvent.data.ServiceId).text(moment(booking_date_moment).format('DD/MM/YYYY') + 
-                        ' ' + booking_time );
+                        ' at ' + booking_time );
 
                     //sentStatus
                     $("#sentStatus").text(sentDatesStr.replace(/,\s*$/, ''));
+                    if ( sentDatesStr === "")
+                    {
+                        $("#sentStatus").html("<span class='font-red'>Not sent</span>");
+                    } 
 
                     setStatus(calEvent.data.BookingStatusId);
                     setColorStatus(calEvent.data.BookingStatusId);
@@ -501,7 +505,7 @@ var AppCalendar = function() {
 
             var saveBooking = function ( booking ) {
 
-                var csrf = $("#csrf").val();
+                var csrf = $('meta[name=_token]').attr('content');
                 $("#contentLoading").modal("show");
                     $.ajax({
                         headers: 
