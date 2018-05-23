@@ -393,9 +393,11 @@ Class Booking
                         ];
         $booking['UserObject'] = $UserObject;
         $reservation = self::createBookingService( $booking );
-
-        self::notifyBooking( $booking, $client_details, $service_provider, $service_name );
+        
         $reservation_details = json_decode( $reservation );
+        $booking['reservation'] = $reservation_details;
+//dd($reservation_details);
+        self::notifyBooking( $booking, $client_details, $service_provider, $service_name );
 
         $log = new Log();
         $log::record('CREATE', 'booking', $reservation_details->id, $booking);
@@ -520,6 +522,27 @@ Class Booking
 
             Mail::to( $sp_email )->send( new BookingEmail( $args ) );
         }       
+
+        if( $booking['ClientBooking']['RemindNow'] && $client['Mobile'] != '' ) 
+        {
+            $reservation = $booking['reservation'];
+            //dd($reservation);
+            $ref = explode( ' ', $reservation->client_name );
+            $args = [
+                        'FirstName'     => $client['FirstName'] . ' ' . $client['LastName'],
+                        'Mobile'        => $client['Mobile'] ,
+                        'BookingDate'   => $booking['Date'],
+                        'BookingTime'   => $booking['Time'],
+                        'ServiceId'     => $booking['ServiceId'],
+                        'RefNo'         => $ref[0],
+                        'IsSafeSMS'     => 1
+                    ];
+            $sent_sms_obj = New SentSms();
+            $sent_sms_obj->sendReminder( (object) $args );
+            
+            $log = new Log();
+            $log::record('CREATE', 'remind_booking', 0, $args);
+        }
     }
 
     public function requestBooking( $booking_request )

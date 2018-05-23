@@ -124,6 +124,7 @@ class BookingController extends Controller
                                             'IsSafeCall' => (is_null( request('phoneCallPermission') ) ? 0 : ( request('phoneCallPermission') == 'Yes' ? 1 : 0 ) ),//phoneCallPermission
                                             'IsSafeLeaveMessage'  => (is_null( request('phoneMessagePermission') ) ? 0 : ( request('phoneMessagePermission') == 'Yes' ? 1 : 0 ) ),//phoneMessagePermission
                                             'ContactInstructions' => (is_null( request('reContact') ) ? '' : request('reContact') ),//reContact
+                                            'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),//phonepermission
                                         ];
             
 

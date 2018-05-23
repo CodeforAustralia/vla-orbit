@@ -7,6 +7,7 @@ ___
 <p>First name: {{ $args['client']['FirstName'] }}</p>
 <p>Last  name: {{ $args['client']['LastName'] }}</p>
 <p>If interpreter is needed, what language?: {{ ( isset($args['Language']) && $args['Language'] != '' ? $args['Language'] : 'N/A') }}</p>
+<p>Complex needs? {{ ( isset($args['IsComplex']) && $args['IsComplex'] != '' ? $args['IsComplex'] : 'N/A') }}</p>
 <p>Client Intake Record - Legal Advice ID:  {{ ( isset($args['CIRNumber']) && $args['CIRNumber'] != '' ? $args['CIRNumber'] : 'N/A') }}</p>
 
 @if( isset($args['client']['ClientEmail']) && $args['client']['ClientEmail'] != '')
@@ -19,15 +20,6 @@ ___
 <p>Contact number: {{ $args['client']['Mobile'] }}</p>
 @endif
 
-@if( isset($args['phonepermission']) && $args['phonepermission'] != '')
-<p>Is it safe to contact this client by SMS?: {{ $args['phonepermission'] }}</p>
-@endif
-@if( isset($args['phoneCallPermission']) && $args['phoneCallPermission'] != '')
-<p>Is it safe to contact this client by phone call?: {{ $args['phoneCallPermission'] }}</p>
-@endif
-@if( isset($args['phoneMessagePermission']) && $args['phoneMessagePermission'] != '')
-<p>Is it safe to leave a message? : {{ $args['phoneMessagePermission'] }}</p>
-@endif
 @if( isset($args['reContact']) && $args['reContact'] != '')
 <p>Information to Recontact: {{ $args['reContact'] }}</p>
 @endif

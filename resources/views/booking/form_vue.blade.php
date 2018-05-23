@@ -271,7 +271,7 @@
             <div class="col-xs-12">                            
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label>Is it safe to send an SMS reminder the day before appointment?? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
+                        <label>SMS auto-confirmation? &nbsp; <small>This will send an appointment confirmation when this booking is saved.</small></label>
                         <div class="mt-radio-inline padding-left-20">
                             <label class="mt-radio mt-radio-outline">
                                 <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
@@ -289,32 +289,13 @@
             <div class="col-xs-12">                            
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label>Is it safe to contact this client by phone call? &nbsp; </label>
+                        <label>SMS auto-reminder? &nbsp; <small>This will send an appointment reminder one day before the appointment.</small></label>
                         <div class="mt-radio-inline padding-left-20">
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="phoneCallPermission" id="phoneCallPermission" value="Yes">Yes<span></span>
+                                <input type="radio" name="RemindNow" id="RemindNow" value="Yes">Yes<span></span>
                             </label>
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="phoneCallPermission" id="phoneCallPermission" value="No">No<span></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row" v-show="can_book && is_direct_booking">
-            <div class="col-xs-12">                            
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <label>Is it safe to leave a message? &nbsp; </label>
-                        <div class="mt-radio-inline padding-left-20">
-                            <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="phoneMessagePermission" id="phoneMessagePermission" value="Yes">Yes<span></span>
-                            </label>
-                            <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="phoneMessagePermission" id="phoneMessagePermission" value="No">No<span></span>
+                                <input type="radio" name="RemindNow" id="RemindNow" value="No">No<span></span>
                             </label>
                         </div>
                     </div>
