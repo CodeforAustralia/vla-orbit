@@ -523,7 +523,7 @@ Class Booking
             Mail::to( $sp_email )->send( new BookingEmail( $args ) );
         }       
 
-        if( $booking['ClientBooking']['RemindNow'] && $client['Mobile'] != '' ) 
+        if( $booking['ClientBooking']['RemindNow'] == 1 && $client['Mobile'] != '' ) 
         {
             $reservation = $booking['reservation'];
             //dd($reservation);
