@@ -274,10 +274,10 @@
                         <label>SMS auto-confirmation? &nbsp; <small>This will send an appointment confirmation when this booking is saved.</small></label>
                         <div class="mt-radio-inline padding-left-20">
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
+                                <input type="radio" name="RemindNow" id="RemindNow" value="Yes">Yes<span></span>
                             </label>
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="phonepermission" id="phonepermission" value="No">No<span></span>
+                                <input type="radio" name="RemindNow" id="RemindNow" value="No">No<span></span>
                             </label>
                         </div>
                     </div>
@@ -292,10 +292,10 @@
                         <label>SMS auto-reminder? &nbsp; <small>This will send an appointment reminder one day before the appointment.</small></label>
                         <div class="mt-radio-inline padding-left-20">
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="RemindNow" id="RemindNow" value="Yes">Yes<span></span>
+                                <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
                             </label>
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="RemindNow" id="RemindNow" value="No">No<span></span>
+                                <input type="radio" name="phonepermission" id="phonepermission" value="No">No<span></span>
                             </label>
                         </div>
                     </div>
