@@ -49,7 +49,7 @@
                                 <h4><strong> Client </strong></h4>
                             </div>
                             <div class="col-sm-6">
-                                <i class="fa fa-print pull-right" id="printBooking"></i>
+                                <i class="fa fa-print pull-right btn" id="printBooking"></i>
                             </div>
 
                             <div class="col-sm-12">
@@ -71,12 +71,12 @@
                                 <a href="javascript:;" id="bookingPhone" data-type="text" data-original-title="Enter Phone number"></a>
                             </div>
                             
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 hide">
                                 <label class="col-sm-5"><strong>Safe to call: </strong></label>
                                 <span id="IsSafeCall"></span>
                             </div>
 
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 hide">
                                 <label class="col-sm-5"><strong>Safe to leave a message: </strong></label>
                                 <span id="IsSafeLeaveMessage"></span>
                             </div>
