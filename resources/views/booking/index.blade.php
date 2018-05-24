@@ -82,7 +82,7 @@
                             </div>
 
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Safe to contact by SMS: </strong></label>
+                                <label class="col-sm-5"><strong>SMS Reminder: </strong></label>
                                 <span id="IsSafeSMS"></span>
                             </div>
 
