@@ -50,12 +50,24 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Question Group Parent</label>
+                        <div class="col-md-4">
+                            <select class="form-control" id="QuestionGroupId" name="QuestionGroupId">
+                                <option value="0"></option>                                
+                                <select class="form-control" id="QuestionGroupId" name="QuestionGroupId">                                   
+                                    <option> </option>
+                                </select>   
+                            </select>
+                            
+                        </div>
+                    </div>
+
                 </div>
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">
                             <button type="submit" class="btn btn-circle green">Submit</button>
-                            <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -63,3 +75,16 @@
             <!-- END FORM-->
         </div>
     </div>
+
+    
+@section('inline-scripts')
+(function() {
+   
+    $.get("/question_group/list_formated", function (data, status) {
+        $("#QuestionGroupId").select2({
+            data: data.data,
+            width: '100%'
+        }).val(  {{ isset($current_question) ? json_encode( $current_question->QuestionGroupId ) : '[]'  }} ).trigger("change");        
+    });
+})();
+@endsection

@@ -723,3 +723,39 @@ h4 {
 .mt-checkbox, .mt-radio {
     font-weight: normal;
 }
+/*********** Referral - details page ***************************************/
+
+.details-page h3,
+.details-page h4 {
+    font-weight: bold;
+}
+
+.details-page h3 {
+    font-size: 1.3em;
+    margin-top: 10px;
+}
+
+.details-page h4 {
+    font-size: 1em;
+}
+
+.details-page small.elibigility_label {
+    font-size: 80%;
+    color: #e2e2e2;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: -8px;
+    margin-left: 25px;
+}
+
+.details-page .mt-checkbox {
+    font-size: 13px;
+    margin-bottom: 10px;
+    padding-left: 25;
+}
+
+.details-page .mt-checkbox>span {
+    top: 3px;
+    height: 15px;
+    width: 15px;
+}

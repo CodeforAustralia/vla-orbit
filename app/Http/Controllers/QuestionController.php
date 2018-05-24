@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Question;
+use App\QuestionGroup;
 use App\QuestionType;
 use App\QuestionCategory;
 use Auth;
@@ -49,6 +50,9 @@ class QuestionController extends Controller
         $question = new Question();
         $current_question = $question->getAllQuestionById( $qu_id );
 
+        $question_group = new QuestionGroup();
+        $question_groups = $question_group->GetAllQuestionGroups();
+
         if(isset($current_question['data'])) {
             $current_question = $current_question['data'][0];
             $type_name = '';
@@ -63,7 +67,7 @@ class QuestionController extends Controller
             }
 
             $type_name = $current_question->QuestionCategoryName;
-            return view( "question.show", compact( 'current_question','question_types', 'question_categories', 'type_name' ) );         
+            return view( "question.show", compact( 'current_question','question_types', 'question_categories', 'type_name', 'question_groups' ) );         
         } else {
             return redirect('/question')->with( $response['success'], $response['message'] );
         }    
@@ -78,7 +82,8 @@ class QuestionController extends Controller
                                 'QuestionLabel'         => filter_var(request('QuestionLabel'), FILTER_SANITIZE_STRING),
                                 'QuestionName'         	=> filter_var(request('QuestionName'), FILTER_SANITIZE_STRING),
                                 'QuestionTypeId'   		=> request('QuestionTypeId'),
-                                'QuestionCategoryId'    => request('QuestionCategoryId')
+                                'QuestionCategoryId'    => request('QuestionCategoryId'),
+                                'QuestionGroupId'    => request('QuestionGroupId')
                             );
         
         $question       = new Question();

@@ -147,6 +147,20 @@ Route::get('/question_category/new', 'QuestionCategoryController@create');
 
 Route::post('/question_category', 'QuestionCategoryController@store');
 
+//Question Group
+Route::get('/question_group', 'QuestionGroupController@index');
+
+Route::get('/question_group/list', 'QuestionGroupController@list');
+
+Route::get('/question_group/list_formated', 'QuestionGroupController@listFormated');
+
+Route::get('/question_group/show/{qg_id}', 'QuestionGroupController@show');
+
+Route::get('/question_group/delete/{qg_id}', 'QuestionGroupController@destroy');
+
+Route::get('/question_group/new', 'QuestionGroupController@create');
+
+Route::post('/question_group', 'QuestionGroupController@store');
 
 //Question Type
 Route::get('/question_type', 'QuestionTypeController@index');

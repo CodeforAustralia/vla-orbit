@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Matter;
+use App\QuestionGroup;
 use App\Referral;
 use App\ServiceProvider;
 use App\Vulnerability;
@@ -91,7 +92,31 @@ class ReferralController extends Controller
 
         if( $service_qty > 0 && count($vulnertability_questions) > 0 )
         {
-            return view( 'referral.create.details', compact( 'vulnertability_questions', 'service_qty' ) );
+            $question_group_obj = new QuestionGroup();
+            $question_groups = $question_group_obj->GetAllQuestionGroupsTree();
+            $question_groups_in_questions = [];
+            foreach( $question_groups as $question_group )
+            {
+                $parent = $question_group;
+                unset($parent['children']);
+                foreach( $question_group['children'] as $question_group_children )
+                {
+                    $vg_in_question = array_keys(array_column($vulnertability_questions, 'QuestionGroupId'), $question_group_children['QuestionGroupId']);
+                    if( !empty( $vg_in_question ) )
+                    {
+                        $questions = [];
+                        foreach( $vg_in_question as $vq )
+                        {
+                            $questions[] = $vulnertability_questions[$vq];
+                        }
+                        $parent['children'][] = [ 'question_groups' => $question_group_children, 'questions' => $questions];
+                        $question_groups_in_questions[ $question_group['QuestionGroupId'] ] = $parent;
+                    }
+                }
+            }
+              
+            //dd($vulnertability_questions, $question_groups,  $question_groups_in_questions);
+            return view( 'referral.create.details2', compact( 'vulnertability_questions', 'service_qty', 'question_groups_in_questions' ) );
         }
         else if($service_qty > 0 && count($vulnertability_questions) == 0)
         {
