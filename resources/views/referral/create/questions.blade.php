@@ -37,7 +37,7 @@
             <span class="caption-subject font-green sbold"><i class="fa fa-check-square-o font-green"></i>&nbsp; Questions</span>
           </div>
           <div class="pull-right caption">
-              <small>{{ $service_qty }} Services Matched</small>       
+              <small><span class="hidden-xs">{{ $service_qty }} Services Matched</span><span class="visible-xs-block">{{ $service_qty }} Matches</span></small>
           </div>
         </div>
         <div class="portlet-body">
@@ -48,38 +48,46 @@
 
               @foreach( $question_list as $qu_id => $question ) 
               
-              <div class="form-group">
-                <label><h4> {{ $question['prop']['QuestionName'] }} </h4></label>
-                <div class="input-group input-xlarge margin-left-20">
+              <div class="row">
+                <div class="form-group">
+
+                  <div class="col-xs-12">
+                    <label><h4> {{ $question['prop']['QuestionName'] }} </h4></label>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
                   
-                  @if($question['prop']['QuestionTypeName'] == 'numeric') 
-                    <span class="input-group-addon"></span>
-                    <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]" required> 
-                  @endif
-                  @if($question['prop']['QuestionTypeName'] == 'boolean')
-                    <div class="mt-radio-inline">
-                          <label class="mt-radio">
-                              <input type="radio" name="answers[{{ $qu_id }}]" value="true"> Yes
-                              <span></span>
-                          </label>
-                          <label class="mt-radio">
-                              <input type="radio" name="answers[{{ $qu_id }}]" value="false" required> No
-                              <span></span>
-                          </label>
-                      </div>
-                  @endif
-                  @if( $question['prop']['QuestionTypeName'] == 'multiple' ) 
-                  <?php 
-                    $options = array_unique( $question['prop']['QuestionValue'] );
-                    sort($options);                    
-                  ?>
-                    <select  class="form-control" name="answers[{{ $qu_id }}]">                      
-                      <option> Not listed below / Not applicable </option> 
-                      @foreach ( $options as $option )
-                        <option value="{{ $option }}"> {{ $option }} </option>
-                      @endforeach
-                    </select>
-                  @endif
+                    @if($question['prop']['QuestionTypeName'] == 'numeric') 
+                      <span class="input-group-addon"></span>
+                      <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]" required> 
+                    @endif
+                    @if($question['prop']['QuestionTypeName'] == 'boolean')
+                      <div class="mt-radio-inline">
+                            <label class="mt-radio">
+                                <input type="radio" name="answers[{{ $qu_id }}]" value="true"> Yes
+                                <span></span>
+                            </label>
+                            <label class="mt-radio">
+                                <input type="radio" name="answers[{{ $qu_id }}]" value="false" required> No
+                                <span></span>
+                            </label>
+                        </div>
+                    @endif
+                    @if( $question['prop']['QuestionTypeName'] == 'multiple' ) 
+                    <?php 
+                      $options = array_unique( $question['prop']['QuestionValue'] );
+                      sort($options);                    
+                    ?>
+                      <select  class="form-control" name="answers[{{ $qu_id }}]">                      
+                        <option> Not listed below / Not applicable </option> 
+                        @foreach ( $options as $option )
+                          <option value="{{ $option }}"> {{ $option }} </option>
+                        @endforeach
+                      </select>
+                    @endif
+
+                  </div>
+
                 </div>
               </div>
 
@@ -91,11 +99,11 @@
       <!-- Navigation -->
       <div class="row">
           <br>
-          <div class="col-xs-4 col-lg-3 pull-left">
+          <div class="col-xs-6 col-sm-4 col-lg-3 pull-left">
             <a href="#" class="btn grey-mint btn-block btn-lg pull-left" id="back"><span><i class="fa fa-lg fa-angle-left"></i>&nbsp; Back</span></a>
           </div>
-          <div class="col-xs-4 col-lg-3 pull-right">
-            <button type="submit" class="btn green-jungle btn-block btn-lg pull-right">View Matches</button>
+          <div class="col-xs-6 col-sm-4 col-lg-3 pull-right">
+            <button type="submit" class="btn green-jungle btn-block btn-lg pull-right"><span class="hidden-xs">View Matches</span><span class="visible-xs-block">Matches</span></button>
           </div>
       </div>   
     </form>
