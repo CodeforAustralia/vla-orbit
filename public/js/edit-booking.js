@@ -25,7 +25,7 @@ function updateBooking()
             
             var booking_ref = $("#bookingRef").text();
             var date_time = $("#time-options input:checked").val();
-            var csrf = $("#csrf").val();
+            var csrf = document.getElementsByName("_token")[0].content;
             $.ajax({
                 headers: 
                 {

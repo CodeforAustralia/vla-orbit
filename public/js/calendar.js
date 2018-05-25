@@ -505,7 +505,7 @@ var AppCalendar = function() {
 
             var saveBooking = function ( booking ) {
 
-                var csrf = $('meta[name=_token]').attr('content');
+                var csrf = document.getElementsByName("_token")[0].content;                
                 $("#contentLoading").modal("show");
                     $.ajax({
                         headers: 
