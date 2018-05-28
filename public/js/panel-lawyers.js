@@ -95,7 +95,7 @@ function setMarker( map, office)
 	}
 	else
 	{
-	    options.icon = 'https://orbitdev.vla.vic.gov.au/assets/layouts/layout2/img/OrbitCasa_icon.png';
+	    options.icon = '/../../assets/layouts/layout2/img/OrbitCasa_icon.png';
     	bounds  = new google.maps.LatLngBounds();
 	}
 	// Search for markers in the same position
