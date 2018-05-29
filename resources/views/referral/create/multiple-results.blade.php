@@ -112,11 +112,14 @@
 
             <div class="row bottom-buttons margin-0">
 
-                @if( (in_array('BOOK', $service_actions) || $is_admin ) && $match['BookingServiceId'] != '' )
+                @if( ( (in_array('BOOK', $service_actions) || $is_admin ) && $match['BookingServiceId'] != '' ) || in_array('E_REFER', $service_actions) )
 
                 <div class="col-xs-{{ ( $allows_book_and_refer || $is_admin ? '6' : '12' )  }} padding-0 book-button bg-blue">    
 
-                    <button type="button" class="btn bg-blue bg-font-blue open-booking" data-toggle="modal" data-target="#SelectBooking" id="{{ $match['BookingServiceId']}}-{{ $match['BookingInterpritterServiceId']}}-{{ $match['ServiceProviderId']}}">Make booking</button>                 
+                    <button type="button" class="btn bg-blue bg-font-blue open-booking" data-toggle="modal" data-target="#SelectBooking" id="{{ $match['BookingServiceId']}}-{{ $match['BookingInterpritterServiceId']}}-{{ $match['ServiceProviderId']}}">
+                        Make booking
+                        {{ ( in_array('E_REFER', $service_actions) ? ' / Intake': '') }}
+                    </button>                 
 
                 </div>
 

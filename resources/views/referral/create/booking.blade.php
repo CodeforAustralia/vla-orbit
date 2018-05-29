@@ -10,7 +10,7 @@
         <!-- Modal Body -->
         <div class="modal-body">
           <div class="container-fluid">                
-                @include("booking.form")
+                @include("booking.form_vue")
           </div> <!-- Modal Container -->
             
         </div> <!-- Modal Body Close-->

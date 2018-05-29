@@ -71,33 +71,6 @@ var initFilters = function ()
 
 }();
 
-var openBooking = function () 
-{  
-  $('.open-booking').on( "click", function()
-  {
-    $("#contentLoading").modal("show");
-    const service_card = $( this ).closest(".card-container");
-    const sv_id = $( service_card ).attr("id");
-    const booking_ids = $( this ).attr("id").split('-');
-    const sp_id = booking_ids[2];
-    const booking_id = booking_ids[0];
-    const booking_interpretor_id = booking_ids[1];    
-    
-    $('#service_provider_id').attr("disabled", "disabled");
-    $('#service_provider_id option[value="' + sp_id + '"]').prop("selected", "selected").change();
-    $('#sp_services').attr("disabled", "disabled");
-    $('#request_type').attr("disabled", "disabled");
-    $('#booking-date').attr("required");
-
-    $(".booking-area").addClass("hidden");      
-    setTimeout(function(){      
-        $('#sp_services option[value="' + booking_id + '-' + booking_interpretor_id + '-' + sv_id + '"]').prop("selected", "selected").change();
-        $(".booking-area").hide().removeClass("hidden").fadeIn();
-        $("#contentLoading").modal("hide");
-    }, 2500);
-  });
-}();
-
 var openModal = function () 
 {
   $('.open-modal').on( "click", function(){    
