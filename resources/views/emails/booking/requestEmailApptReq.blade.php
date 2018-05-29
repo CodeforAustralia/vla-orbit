@@ -6,7 +6,7 @@ ___
 <p>First name: {{ $args['client']['FirstName'] }}</p>
 <p>Last  name: {{ $args['client']['LastName'] }}</p>
 <p>If interpreter is needed, what language?: {{ ( isset($args['Language']) && $args['Language'] != '' ? $args['Language'] : 'N/A') }}</p>
-<p>Complex needs? {{ ( isset($args['IsComplex']) && $args['IsComplex'] != '' ? $args['IsComplex'] : 'N/A') }}</p>
+<p>Complex needs? {{ ( isset($args['IsComplex']) && $args['IsComplex'] != '' ? ($args['IsComplex'] == 1 ? 'Yes' : 'No' ) : 'N/A') }}</p>
 <p>Client Intake Record - Legal Advice ID:  {{ ( isset($args['CIRNumber']) && $args['CIRNumber'] != '' ? $args['CIRNumber'] : 'N/A') }}</p>
 
 @if( isset($args['client']['ClientEmail']) && $args['client']['ClientEmail'] != '')
