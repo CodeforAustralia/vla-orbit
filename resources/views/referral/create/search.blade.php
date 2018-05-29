@@ -67,7 +67,7 @@
         <div class="panel panel-default" id="referral_panel">
           <div class="panel-heading" id="referral_panel_heading">
             <div class="tools">
-              <a class="accordion-toggle" id="advance-options" data-toggle="collapse" data-parent="#accordion1" href="#collapse"> Advance Search </a>
+              <a class="accordion-toggle" id="advance-options" data-toggle="collapse" data-parent="#accordion1" href="#collapse"> Advanced Search </a>
             </div>
           </div>          
           <div id="collapse" class="panel-collapse collapse">
