@@ -37,6 +37,18 @@ class Helpers
     		return '';
     	}
     }
+
+    public static function getUSerId()
+    {
+    	if( Auth::check() )
+    	{
+    		return Auth::user()->id ;
+    	} 
+    	else
+    	{
+    		return '';
+    	}
+    }
     /**
      * Retrieve the panel lawyers exluded
      * @return array excluded panel lawyers.

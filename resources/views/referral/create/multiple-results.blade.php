@@ -2,7 +2,8 @@
   $filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
   $filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );
   $filter_sp_type = array_unique( array_column( $matches, 'ServiceProviderTypeName' ) );
-  $is_admin = \App\Http\helpers::getRole() === 'Administrator';
+  $is_admin = \App\Http\helpers::getRole() === 'Administrator'; 
+  $user_sp_id = \App\Http\helpers::getUSerServiceProviderId();
 ?>
 <div class="page-bar">
     <div class="page-toolbar">
@@ -41,13 +42,15 @@
 
 @foreach( $matches as $match )
 
-    <?php    
-    
+    <?php        
       $service_actions = array_column( $match['ServiceActions'], 'Action' );
       $current_sp_pos  = array_search( $match['ServiceProviderId'],  array_column( $service_providers, 'ServiceProviderId' ) );
       $current_sp_logo = $service_providers[ $current_sp_pos ]['ServiceProviderLogo'];
       $filters_class   = str_replace( ' ', '-', strtolower( $match['ServiceLevelName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceTypeName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceProviderTypeName'] ) ) ;
       $allows_book_and_refer = empty( array_diff( ['BOOK', 'REFER'], $service_actions) );
+      $user_belong_to_office = $user_sp_id === $match['ServiceProviderId'];   
+      $is_vla = in_array( $match['ServiceProviderTypeId'], [3,4]);   
+      $can_e_refer = $is_vla && in_array('E_REFER', $service_actions);      
     ?>
 
     <div class="card-container col-xs-12 col-sm-6 col-xl-4 {{ $filters_class }}" id="{{ $match['ServiceId'] }}">
@@ -112,13 +115,13 @@
 
             <div class="row bottom-buttons margin-0">
 
-                @if( ( (in_array('BOOK', $service_actions) || $is_admin ) && $match['BookingServiceId'] != '' ) || in_array('E_REFER', $service_actions) )
+                @if( ( (in_array('BOOK', $service_actions) || $is_admin || $user_belong_to_office ) && $match['BookingServiceId'] != '' ) || $can_e_refer )
 
-                <div class="col-xs-{{ ( $allows_book_and_refer || $is_admin ? '6' : '12' )  }} padding-0 book-button bg-blue">    
+                <div class="col-xs-{{ ( $allows_book_and_refer || $is_admin || $user_belong_to_office || $can_e_refer ? '6' : '12' )  }} padding-0 book-button bg-blue">    
 
                     <button type="button" class="btn bg-blue bg-font-blue open-booking" data-toggle="modal" data-target="#SelectBooking" id="{{ $match['BookingServiceId']}}-{{ $match['BookingInterpritterServiceId']}}-{{ $match['ServiceProviderId']}}">
                         Make booking
-                        {{ ( in_array('E_REFER', $service_actions) ? ' / Intake': '') }}
+                        {{ ( $can_e_refer ? ' / Intake': '') }}
                     </button>                 
 
                 </div>
@@ -127,7 +130,7 @@
 
                 @if( in_array('REFER', $service_actions) || $is_admin )
 
-                <div class="col-xs-{{ ( ($allows_book_and_refer || $is_admin) && $match['BookingServiceId'] != '' ? '6' : '12' )  }} padding-0 refer-button bg-green-jungle"> 
+                <div class="col-xs-{{ ( ($allows_book_and_refer || $is_admin || $user_belong_to_office) && $match['BookingServiceId'] != '' || $can_e_refer ? '6' : '12' )  }} padding-0 refer-button bg-green-jungle"> 
 
                     <button type="button" class="btn bg-green-jungle bg-font-green-jungle open-modal" data-toggle="modal" data-target="#SelectMatch">Send to client</button>
 
