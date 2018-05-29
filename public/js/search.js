@@ -34,6 +34,28 @@ var searchPage = function()
 	    });
 	}
 
+	var fillFilters = function()
+	{
+		let filters = ''
+    	if ($('#referral_CLC').is(":checked"))
+		{
+		  filters += $('#referral_CLC').val() + ',';			  
+		}
+    	if ($('#referral_VLA').is(":checked"))
+		{
+		 filters +=  $('#referral_VLA').val()+ ',';
+		}
+    	if ($('#referral_NLP').is(":checked"))
+		{
+		  filters += $('#referral_NLP').val()+ ',';		  
+		}
+    	if ($('#referral_PP').is(":checked"))
+		{
+		  filters += $('#referral_PP').val()+ ',';		  
+		}	
+		return filters;
+	}
+
 	var nextPage = function () 
 	{
 	    $( "#next-page" ).on( "click", function(e) 
@@ -41,10 +63,14 @@ var searchPage = function()
 	        e.preventDefault();        
 
 	        var legal_issue = $('.legal_issue #single').select2('data');
-        	var catchment = $('.location #single-prepend-text').select2('data');
-
-	        if( legal_issue[0].id != '' && catchment[0].id != '')
-	        {
+        	var catchment = $('.location #single-prepend-text').select2('data');        	
+        	// get checkbox value 
+        	let filters = fillFilters();
+        	if(filters == ''){
+        		swal('Alert','Please Select a Service Provider Type', "warning");
+        	}
+        	else if( legal_issue[0].id != '' && catchment[0].id != '')
+        	{   
 	        	/*
 	        	if( catchment[0].id == ''  ) {	            	
 	        		
@@ -62,13 +88,14 @@ var searchPage = function()
 						    });
 						    
 	        	} 
-	        	*/
-			  	redirectStep( legal_issue[0].id, catchment[0].id );
+	        	*/	        	
+			  	redirectStep( legal_issue[0].id, catchment[0].id, filters );
 	        }
-	        else
-	        {        	
-	            swal("Alert", "Please Select a Legal Matter and catchment", "warning");  
-	        }
+		    else
+		    {        	
+		        swal("Alert", "Please Select a Legal Matter and catchment", "warning");  
+		    }
+	    	
 	    });
 	}
 
@@ -82,6 +109,46 @@ var searchPage = function()
 		if( getUrlParameter('ca_id') != null )
 		{
 			$('#single-prepend-text').val( getUrlParameter('ca_id') ).trigger('change');
+		}
+		// Filter set values
+		if(getUrlParameter('filters') != null)
+		{
+			count = 0;
+			$('#referral_CLC').prop('checked', false).trigger('change');
+			$('#referral_VLA').prop('checked', false).trigger('change');
+			$('#referral_NLP').prop('checked', false).trigger('change');
+			$('#referral_PP').prop('checked', false).trigger('change');
+			$('#referral_All').prop('checked', false).trigger('change');
+			let filters= getUrlParameter('filters').split(',');
+			if(filters.includes('2'))
+			{
+				$('#referral_CLC').prop('checked', true).trigger('change');
+				count++;
+			}
+			if(filters.includes('3'))
+			{
+				$('#referral_VLA').prop('checked', true).trigger('change');
+				count++;
+			}
+			if(filters.includes('1'))
+			{
+				$('#referral_NLP').prop('checked', true).trigger('change');
+				count++;
+			}
+			if(filters.includes('5'))
+			{
+				$('#referral_PP').prop('checked', true).trigger('change');
+				count++;
+			}
+			if(count == 4)
+			{
+				$('#referral_All').prop('checked', true).trigger('change');				
+			}
+			else if($('#collapse').hasClass('collapse'))
+			{				
+				$('#collapse').addClass('in');
+			}
+
 		}
 	}
 
@@ -141,10 +208,34 @@ var searchPage = function()
         return null;
     }
 
-	var redirectStep = function ( mt_id, ca_id ) 
+	var redirectStep = function ( mt_id, ca_id, filters ) 
 	{
 		$("#contentLoading").modal("show");    	
-	    window.location.href = "/referral/create/details/?ca_id=" + ca_id + "&mt_id=" + mt_id;
+	    window.location.href = "/referral/create/details/?ca_id=" + ca_id + "&mt_id=" + mt_id + "&filters=" + filters;
+	}
+	// Function taken from https://www.sanwebe.com/2014/01/how-to-select-all-deselect-checkboxes-jquery
+	var setServiceProviderSelect = function()
+	{
+				
+	
+	$("#select_all").change(function(){  
+	    $(".checkbox").prop('checked', $(this).prop("checked")); 
+	});
+
+	
+	$('.checkbox').change(function(){ 
+	    
+	    if(false == $(this).prop("checked")){ 
+	        $("#select_all").prop('checked', false); 
+	    }
+	    
+	    if ($('.checkbox:checked').length == $('.checkbox').length ){
+	        $("#select_all").prop('checked', true);
+	    }
+	});
+		
+	$("#select_all").prop('checked', true).trigger('change'); 
+
 	}
 	
     return {
@@ -154,6 +245,7 @@ var searchPage = function()
             getCatchments();
             setLegalIssue();
             nextPage();
+            setServiceProviderSelect();           
         }
 
     };

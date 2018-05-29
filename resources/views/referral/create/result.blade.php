@@ -5,14 +5,14 @@
   <!-- Steps -->
   <div class="mt-element-step margin-bottom-0">
     <div class="row step-line">
-      <a class="col-xs-3 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location/{{ '?ca_id=' . session('ca_id') . '&mt_id=' . session('mt_id') }}">
+      <a class="col-xs-3 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location/{{ '?ca_id=' . session('ca_id') . '&mt_id=' . session('mt_id') . '&filters=' . session('filters') }}">
         <div class="mt-step-number bg-white">
           <i class="fa fa-search"></i>
         </div>
         <div class="mt-step-title font-grey-cascade hidden-xs">Search</div>
         <div class="mt-step-content"></div>
       </a>
-      <a class="col-xs-3 mt-step-col done" style="text-decoration: none;" href="/referral/create/details/{{ '?ca_id=' . session('ca_id') . '&mt_id=' .  session('mt_id')  }}">
+      <a class="col-xs-3 mt-step-col done" style="text-decoration: none;" href="/referral/create/details/{{ '?ca_id=' . session('ca_id') . '&mt_id=' .  session('mt_id') . '&filters=' . session('filters') }}">
         <div class="mt-step-number bg-white">
           <i class="fa fa-check-square-o"></i>
         </div>

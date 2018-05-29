@@ -62,10 +62,29 @@
 
               </div>
 
-            <br>
-            <br>
           </div>
         </div>
+        <div class="panel panel-default" id="referral_panel">
+          <div class="panel-heading" id="referral_panel_heading">
+            <div class="tools">
+              <a class="accordion-toggle" id="advance-options" data-toggle="collapse" data-parent="#accordion1" href="#collapse"> Advance Search </a>
+            </div>
+          </div>          
+          <div id="collapse" class="panel-collapse collapse">
+              <div class="panel-body">                  
+                  <div class="form-group col-sm-12">
+                    <div class='mt-checkbox-inline'> 
+                        <label >Include in results:</label> &nbsp;&nbsp;                     
+                        <label class="mt-checkbox"> <input type="checkbox" id="select_all">All<span></span></label>
+                        <label class="mt-checkbox"><input id='referral_CLC' type="checkbox" name="check[]" class='checkbox' value="2"/>CLC<span></span></label>
+                        <label class="mt-checkbox"><input id='referral_VLA' type="checkbox" name="check[]" class='checkbox' value="3,4"/>VLA<span></span></label>
+                        <label class="mt-checkbox"><input id='referral_NLP' type="checkbox" name="check[]" class='checkbox' value="1"/>Non-legal<span></span></label>
+                        <label class="mt-checkbox"><input id='referral_PP' type="checkbox" name="check[]" class='checkbox' value="5,6"/>Private Practitioner<span></span></label>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>        
       </div>
     </div> 
   </div>
