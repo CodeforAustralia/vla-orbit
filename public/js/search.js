@@ -119,23 +119,23 @@ var searchPage = function()
 			$('#referral_NLP').prop('checked', false).trigger('change');
 			$('#referral_PP').prop('checked', false).trigger('change');
 			$('#referral_All').prop('checked', false).trigger('change');
-			let filters= getUrlParameter('filters').split(',');
-			if(filters.includes('2'))
+			let filters= getUrlParameter('filters');
+			if(filters.indexOf('2')>=0)
 			{
 				$('#referral_CLC').prop('checked', true).trigger('change');
 				count++;
 			}
-			if(filters.includes('3'))
+			if(filters.indexOf('3')>=0)
 			{
 				$('#referral_VLA').prop('checked', true).trigger('change');
 				count++;
 			}
-			if(filters.includes('1'))
+			if(filters.indexOf('1')>=0)
 			{
 				$('#referral_NLP').prop('checked', true).trigger('change');
 				count++;
 			}
-			if(filters.includes('5'))
+			if(filters.indexOf('5')>=0)
 			{
 				$('#referral_PP').prop('checked', true).trigger('change');
 				count++;
