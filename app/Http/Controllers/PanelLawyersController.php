@@ -17,6 +17,7 @@ class PanelLawyersController extends Controller
 
     public function index( Request $request )
     {
+        Auth::user()->authorizeRoles( ['Administrator']);
         return view("panel_lawyers.index");
      
     }

@@ -9,6 +9,7 @@ use App\Booking;
 use App\BookingDocument;
 use App\SentSms;
 use App\ServiceProvider;
+use Auth;
 
 class BookingController extends Controller
 {
@@ -19,17 +20,20 @@ class BookingController extends Controller
     }
     
     public function index()
-    {       
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);       
         return view("booking.index");
     }
     
     public function nextBookings()
     {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
         return view("booking.next_bookings");
     }
 
     public function byServiceProvider()
     {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
         $service_providers_obj  = new ServiceProvider();
         $service_providers      = $service_providers_obj->getAllServiceProviders();
 
@@ -38,6 +42,7 @@ class BookingController extends Controller
 
     public function show( $bk_id )
     {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);    
         $service_providers_obj  = new ServiceProvider();
         $service_providers      = $service_providers_obj->getAllServiceProviders();
 
@@ -46,6 +51,7 @@ class BookingController extends Controller
     
     public function create()
     {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
         $service_providers_obj  = new ServiceProvider();
         $service_providers      = $service_providers_obj->getAllServiceProviders();
 
@@ -54,6 +60,7 @@ class BookingController extends Controller
 
     public function destroy( $bo_id )
     {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
         $booking_obj = new Booking();
         $response = $booking_obj->deleteBooking( $bo_id );
 
