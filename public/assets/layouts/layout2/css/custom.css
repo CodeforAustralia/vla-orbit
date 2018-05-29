@@ -623,9 +623,10 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     border-color: #FFF;
 }
 #referral_panel_heading{
-    background-color: #ffff;
-    border-color: #ffff;
+    background-color: #fff;
+    border-color: #fff;
     text-align: right;
+    filter: none !important;
 }
 
 /***************** No Reply Emails ***********************/

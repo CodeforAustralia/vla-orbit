@@ -80,15 +80,16 @@ class ReferralController extends Controller
     {
         $ca_id  = isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : '';
         $mt_id  = isset( $_GET['mt_id'] )  ? $_GET['mt_id']  : '';
+        $filters  = isset( $_GET['filters'] )  ? $_GET['filters']  : '';
         
-        session( ['mt_id' => $mt_id, 'ca_id' => $ca_id] );
+        session( ['mt_id' => $mt_id, 'ca_id' => $ca_id, 'filters' => $filters] );
 
         $referral = new Referral();
-        $vulnertability_info = $referral->getVulnerabilityByServices( $ca_id, $mt_id );
+        $vulnertability_info = $referral->getVulnerabilityByServices( $ca_id, $mt_id, $filters ); 
 
         $vulnertability_questions = $vulnertability_info['vulnertability_questions'];
 
-        $service_qty = $vulnertability_info['service_qty'];        
+        $service_qty = $vulnertability_info['service_qty'];
 
         if( $service_qty > 0 && count($vulnertability_questions) > 0 )
         {
@@ -121,12 +122,22 @@ class ReferralController extends Controller
         else if($service_qty > 0 && count($vulnertability_questions) == 0)
         {
             // This line populate the 'matches' session variable
-            $referral->filterServices( $ca_id, $mt_id,'');                                   
-            return redirect('referral/create/result');
+            $question_list = $referral->filterServices( $ca_id, $mt_id,'',$filters);            
+
+            $service_qty = sizeof( session('matches') );        
+            if( empty( $question_list ) && $service_qty > 0)
+            {
+                return redirect('referral/create/result');
+            }
+            elseif( $service_qty > 0 )
+            {
+                return view( 'referral.create.questions', compact( 'question_list', 'service_qty' ) );
+            }
+
         }
-        else{   
-            return view( 'referral.create.no-results' );
-        }
+        // If no results
+        return view( 'referral.create.no-results' );
+
 
     }
     
@@ -135,11 +146,12 @@ class ReferralController extends Controller
         $ca_id  = isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : '';
         $mt_id  = isset( $_GET['mt_id'] )  ? $_GET['mt_id']  : '';
         $vls_id = isset( $_GET['vls_id'] ) ? $_GET['vls_id'] : '';
+        $filters= isset( $_GET['filters'] ) ? $_GET['filters'] : '';
         
         session( ['vls_id' => $vls_id] );
 
         $referral = new Referral();
-        $question_list = $referral->filterServices( $ca_id, $mt_id, $vls_id );
+        $question_list = $referral->filterServices( $ca_id, $mt_id, $vls_id,$filters );
         
         $service_qty = sizeof( session('matches') );        
         if( empty( $question_list ) && $service_qty > 0)

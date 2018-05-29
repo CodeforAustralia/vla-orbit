@@ -8,6 +8,7 @@ use App\Mail\ReferralSms;
 use App\Mail\ReferralPanelLawyerEmail;
 use App\Mail\ReferralPanelLawyerSms;
 use App\Vulnerability;
+use App\ServiceProviderType;
 use Auth;
 
 class Referral
@@ -273,7 +274,7 @@ class Referral
         return $output_services;
     }
 
-    public function getVulnerabilityByServices( $ca_id, $mt_id )
+    public function getVulnerabilityByServices( $ca_id, $mt_id, $filter )
     {
         $vulnerability_obj = new Vulnerability();
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
@@ -286,15 +287,16 @@ class Referral
         {
             $services = self::getServicesByCatchmentId( $ca_id, $mt_id );
         }
-        
+        // Filter Services        
+        $services = self::filterByServiceProviderType($services, $filter);                
         $qu_id = [];
         $question_list = [];
 
         foreach ($services as $service) 
         {            
-            foreach ($service['ServiceMatters'] as $erviceMatter) 
+            foreach ($service['ServiceMatters'] as $serviceMatter) 
             {
-                foreach ($erviceMatter['VulnerabilityMatterAnswers'] as $vulnerabilityMatterAnswer) 
+                foreach ($serviceMatter['VulnerabilityMatterAnswers'] as $vulnerabilityMatterAnswer) 
                 {
                     $qu_id[] = $vulnerabilityMatterAnswer['QuestionId'];
                 }
@@ -315,9 +317,8 @@ class Referral
         return ['vulnertability_questions' => $question_list, 'service_qty' => count( $services )];
     }
 
-    public function filterServices( $ca_id, $mt_id, $vuln_list )
+    public function filterServices( $ca_id, $mt_id, $vuln_list, $filter )
     {
-        $user = Auth::user();   
         
         $user = Auth::user();
         if( $user->sp_id > 0)
@@ -371,11 +372,28 @@ class Referral
             }            
         }
         //Get list of questions of a legal matter
-        $question_list = self::getMatterQuestions( $matches, $mt_id );
-        
-        session(['matches' => $matches ]);
-
+        $question_list = self::getMatterQuestions( $matches, $mt_id, $filter );
+        // Filter current matches
+        $matches = self::filterByServiceProviderType( $matches, $filter );
+        session(['matches' => $matches ]);        
         return $question_list;
+    }
+    /**
+     * Filter Services by VLA, CLC, Non-legal, Private Practitioner 
+     * @param  Object $services Services to filter
+     * @param  String $filter   Filter to apply 
+     * @return Object           Services filtered
+     */
+    public function filterByServiceProviderType($services, $filter)
+    {
+        $filters=explode(',', $filter);        
+        foreach ($services as $key => $service) {
+            if(!in_array($service["ServiceProviderTypeId"], $filters))
+            {
+                unset($services[$key]);
+            }
+        }        
+        return $services;
     }
 
     public function matchVulnerability( $vulnerability, $client_vuln_list )
@@ -402,47 +420,51 @@ class Referral
         return $match;
     }
 
-    public function getMatterQuestions( $services, $mt_id )
+    public function getMatterQuestions( $services, $mt_id, $filter)
     {        
         $question_list = [];
+        $filters=explode(',', $filter);
         foreach ( $services as $service ) 
         {
-            if( !empty( $service['ServiceMatters'] ) )
+            // Before get the questions, filter the services
+            if(in_array($service["ServiceProviderTypeId"], $filters))
             {
-                $matter_pos = array_search( $mt_id,  array_column( $service['ServiceMatters'], 'MatterID' ) );
-                $matter_questions = $service['ServiceMatters'][ $matter_pos ]['MatterQuestions'];
-                $matter_answers   = $service['ServiceMatters'][ $matter_pos ]['MatterAnswers'];
-                foreach ($matter_questions as $question) 
+                if( !empty( $service['ServiceMatters'] ) )
                 {
-                    $qu_id = $question['QuestionId'];
-                    $current_answers = self::getMultipleAnswers( $qu_id, $matter_answers );
-                    if( !empty($current_answers) )
+                    $matter_pos = array_search( $mt_id,  array_column( $service['ServiceMatters'], 'MatterID' ) );
+                    $matter_questions = $service['ServiceMatters'][ $matter_pos ]['MatterQuestions'];
+                    $matter_answers   = $service['ServiceMatters'][ $matter_pos ]['MatterAnswers'];
+                    foreach ($matter_questions as $question) 
                     {
-                        if( !isset( $question_list[ $qu_id ]['prop'] ) )
+                        $qu_id = $question['QuestionId'];
+                        $current_answers = self::getMultipleAnswers( $qu_id, $matter_answers );
+                        if( !empty($current_answers) )
                         {
-                            $question_list[ $qu_id ]['prop'] = [
-                                                                'Operator'      => $question['Operator'],
-                                                                'QuestionName'  => $question['QuestionName'] ,                      
-                                                                'QuestionTypeName'  => $question['QuestionTypeName']
-                                                                ] ;
-                        }
-                        if( $question['QuestionTypeName'] == 'multiple' )
-                        {
-                            if ( !isset( $question_list[ $qu_id ]['prop']['QuestionValue'] ) )
+                            if( !isset( $question_list[ $qu_id ]['prop'] ) )
                             {
-                                $question_list[ $qu_id ]['prop']['QuestionValue'] = $current_answers ;
+                                $question_list[ $qu_id ]['prop'] = [
+                                                                    'Operator'      => $question['Operator'],
+                                                                    'QuestionName'  => $question['QuestionName'] ,                      
+                                                                    'QuestionTypeName'  => $question['QuestionTypeName']
+                                                                    ] ;
                             }
-                            else {
-                                foreach ( $current_answers as $answer ) {                            
-                                    array_push( $question_list[ $qu_id ]['prop']['QuestionValue'], trim( $answer ) );
+                            if( $question['QuestionTypeName'] == 'multiple' )
+                            {
+                                if ( !isset( $question_list[ $qu_id ]['prop']['QuestionValue'] ) )
+                                {
+                                    $question_list[ $qu_id ]['prop']['QuestionValue'] = $current_answers ;
                                 }
-                            }                    
-                        }                                                                    
-                        $question_list[ $qu_id ]['services'][] = $service['ServiceId'];                
-                    }
-                }            
-            }
-                
+                                else {
+                                    foreach ( $current_answers as $answer ) {                            
+                                        array_push( $question_list[ $qu_id ]['prop']['QuestionValue'], trim( $answer ) );
+                                    }
+                                }                    
+                            }                                                                    
+                            $question_list[ $qu_id ]['services'][] = $service['ServiceId'];                
+                        }
+                    }            
+                }                
+            }   
         }
         return $question_list;
     }

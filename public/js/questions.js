@@ -15,8 +15,8 @@
     });
 
     $( "#back" ).on( "click", function(e) {
-        e.preventDefault();        
-        window.location.href = "/referral/create/details/?ca_id=" + getUrlParameter('ca_id') + "&mt_id=" + getUrlParameter('mt_id');
+        e.preventDefault();     
+        window.location.href = "/referral/create/details/?ca_id=" + getUrlParameter('ca_id') + "&mt_id=" + getUrlParameter('mt_id') + "&filters=" + getUrlParameter('filters');
     });
 });
 

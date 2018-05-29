@@ -14,10 +14,12 @@ $(document).ready(function() {
         if( Object.keys(eligibility.get()).length > 0 ) {
             window.location.href = "/referral/create/questions/?ca_id=" + getUrlParameter('ca_id') + 
                                     "&mt_id=" + getUrlParameter('mt_id') + 
-                                    "&vls_id=" + eligibility.get().toString();
+                                    "&vls_id=" + eligibility.get().toString() + 
+                                    '&filters=' + getUrlParameter('filters');
         } else {
             window.location.href = "/referral/create/questions/?ca_id=" + getUrlParameter('ca_id') + 
-                                    "&mt_id=" + getUrlParameter('mt_id')
+                                    "&mt_id=" + getUrlParameter('mt_id') +
+                                    '&filters=' + getUrlParameter('filters');
         }
     });
 
@@ -25,7 +27,7 @@ $(document).ready(function() {
         e.preventDefault();        
         $("#contentLoading").modal("show");
 
-        window.location.href = "/referral/create/location/?ca_id=" + getUrlParameter('ca_id') + '&mt_id=' + getUrlParameter('mt_id');
+        window.location.href = "/referral/create/location/?ca_id=" + getUrlParameter('ca_id') + '&mt_id=' + getUrlParameter('mt_id') + '&filters=' + getUrlParameter('filters');
     });
     
     $( "#show-help" ).on( "click", function(e) {

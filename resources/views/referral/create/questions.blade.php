@@ -4,7 +4,7 @@
 <!-- Steps -->
 <div class="mt-element-step margin-bottom-20">
   <div class="row step-line">
-    <a class="col-xs-3 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location/{{ '?ca_id=' . session('ca_id') . '&mt_id=' . session('mt_id') }}">
+    <a class="col-xs-3 col-xs-offset-1 mt-step-col first done" style="text-decoration: none;" href="/referral/create/location/{{ '?ca_id=' . session('ca_id') . '&mt_id=' . session('mt_id') . '&filters=' . session('filters') }}">
       <div class="mt-step-number bg-white">
         <i class="fa fa-search"></i>
       </div>
