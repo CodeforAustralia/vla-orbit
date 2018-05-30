@@ -383,50 +383,54 @@ new Vue({
         },
         openBookingInReferral: function () {
 
-            let open_booking = document.getElementsByClassName("open-booking")[0];
-            open_booking.addEventListener('click', () => {
+            let open_bookings = document.getElementsByClassName("open-booking");
 
-                $("#contentLoading").modal("show");
-                const service_card = $(open_booking).closest(".card-container");
-                const sv_id = $(service_card).attr("id");
-                const booking_ids = $(open_booking).attr("id").split('-');
-                const sp_id = booking_ids[2];
-                const booking_id = booking_ids[0];
-                const booking_interpretor_id = booking_ids[1];
+            for (let pos = 0; pos < open_bookings.length; pos++) {
+                let open_booking = open_bookings[pos];
+                open_booking.addEventListener('click', () => {
 
-                var self = this;
-                self.services = [];
-                self.current_service = [];
-                self.e_referral_forms = [];
-                self.can_book = false;
-                self.can_e_referr = false;
-                self.available_times = [];
+                    $("#contentLoading").modal("show");
+                    const service_card = $(open_booking).closest(".card-container");
+                    const sv_id = $(service_card).attr("id");
+                    const booking_ids = $(open_booking).attr("id").split('-');
+                    const sp_id = booking_ids[2];
+                    const booking_id = booking_ids[0];
+                    const booking_interpretor_id = booking_ids[1];
 
-                self.getServicesPromise(sp_id)
-                    .then(services => {
-                        let len = self.services.length;
-                        for (let i = 0; i < len; i++) {
-                            if (parseInt(self.services[i].ServiceId) === parseInt(sv_id)) {
-                                self.current_service = self.services[i];
-                                self.actions = self.services[i].ServiceActions;
-                                self.e_referral_forms = self.services[i].ReferralFormServices;
-                                self.updateServiceAvailability();
+                    var self = this;
+                    self.services = [];
+                    self.current_service = [];
+                    self.e_referral_forms = [];
+                    self.can_book = false;
+                    self.can_e_referr = false;
+                    self.available_times = [];
+
+                    self.getServicesPromise(sp_id)
+                        .then(services => {
+                            let len = self.services.length;
+                            for (let i = 0; i < len; i++) {
+                                if (parseInt(self.services[i].ServiceId) === parseInt(sv_id)) {
+                                    self.current_service = self.services[i];
+                                    self.actions = self.services[i].ServiceActions;
+                                    self.e_referral_forms = self.services[i].ReferralFormServices;
+                                    self.updateServiceAvailability();
+                                }
                             }
-                        }
-                        setTimeout(() => {
-                            document.getElementsByName("service_provider_id")[0].value = sp_id;
-                            document.getElementsByName("request_type")[0].removeAttribute('disabled');
-                            document.getElementsByName("service_provider_id")[0].setAttribute('disabled', 'disabled');
-                            document.getElementsByName("ServiceId")[0].setAttribute('disabled', 'disabled');
-                            document.getElementsByName("ServiceId")[0].value = booking_id + '-' + booking_interpretor_id + '-' + sv_id;
-                            $("#contentLoading").modal("hide");
-                        }, 1000);
+                            setTimeout(() => {
+                                document.getElementsByName("service_provider_id")[0].value = sp_id;
+                                document.getElementsByName("request_type")[0].removeAttribute('disabled');
+                                document.getElementsByName("service_provider_id")[0].setAttribute('disabled', 'disabled');
+                                document.getElementsByName("ServiceId")[0].setAttribute('disabled', 'disabled');
+                                document.getElementsByName("ServiceId")[0].value = booking_id + '-' + booking_interpretor_id + '-' + sv_id;
+                                $("#contentLoading").modal("hide");
+                            }, 1000);
 
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                });
+            }
         }
     },
 
