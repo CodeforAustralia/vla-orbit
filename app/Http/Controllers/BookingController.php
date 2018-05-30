@@ -145,12 +145,23 @@ class BookingController extends Controller
             $reservation_details = json_decode( $reservation['reservation'] );
 
             //Upload attached files
-            $files = request('files');
+            $files = request('files');            
             if( !empty( $files ) )
             {
                 $booking_document = new BookingDocument();
+                // Validate files
+                $validator = Validator::make(request()->all(),
+                    [
+                        'files' => 'mimes:pdf,png,jpeg,bmp,jpg,bmp|max:2048'
+                    ]
+                );
+                if($validator->fails())
+                {
+                    return redirect('/booking')->with('error', 'Failed to upload file(s), Check format or size. Formats accepted: pdf,png,jpeg,bmp,jpg,bmp. Max size: 2MB');                    
+                }
+
                 foreach ($files as $file) 
-                {                
+                { 
                     $fileName = $file->getClientOriginalName();
                     $file->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
                     //Get booking refer from clients name 
