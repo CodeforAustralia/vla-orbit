@@ -13,7 +13,7 @@ use Auth;
 
 class BookingController extends Controller
 {
-    
+
     public function __construct()
     {       
         $this->middleware('auth');
@@ -139,6 +139,17 @@ class BookingController extends Controller
             $service_providers_obj   = new ServiceProvider();
             $service_provider_result = $service_providers_obj->getServiceProviderByID( $sp_id );
             $service_provider = json_decode( $service_provider_result['data'] )[0];
+
+            // Validate files
+            $validator = Validator::make(request()->all(),
+                [
+                    'files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,bmp|max:2048'
+                ]
+            );
+            if($validator->fails())
+            {
+                return redirect('/booking')->with('error', 'Failed to upload file(s), Check format or size. Formats accepted: pdf,png,jpeg,bmp,jpg,bmp. Max size: 2MB');                    
+            }
             
             $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );        
 
@@ -149,16 +160,6 @@ class BookingController extends Controller
             if( !empty( $files ) )
             {
                 $booking_document = new BookingDocument();
-                // Validate files
-                $validator = Validator::make(request()->all(),
-                    [
-                        'files' => 'mimes:pdf,png,jpeg,bmp,jpg,bmp|max:2048'
-                    ]
-                );
-                if($validator->fails())
-                {
-                    return redirect('/booking')->with('error', 'Failed to upload file(s), Check format or size. Formats accepted: pdf,png,jpeg,bmp,jpg,bmp. Max size: 2MB');                    
-                }
 
                 foreach ($files as $file) 
                 { 
