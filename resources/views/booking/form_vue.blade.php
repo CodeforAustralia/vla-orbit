@@ -326,7 +326,7 @@
         </div>
 
         <hr>
-        <div class="row attached-files" v-show="can_book && is_direct_booking">
+        <!-- div >
             <h4 class="padding-top-10 padding-bottom-10">Attached Files</h4>
             <div class="col-xs-12">
                 <div class="form-group booking-form">
@@ -334,7 +334,31 @@
                     <p>Drag your files here or click in this area.</p>
                 </div>
             </div>
-        </div>
+        </div-->
+        
+        <div class="row attached-files" v-show="can_book && is_direct_booking">            
+            <div class="col-xs-12 col-md-6">                                
+                <div class="form-group mt-repeater">
+                    <div data-repeater-list="attachments">
+                        <div class="mt-repeater-item">
+                            <label class="control-label">Attachment</label>
+                            <input type="file" name="files" class="form-control" accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.xls,.xlsx,.msg"> 
+                        </div>
+                        <div data-repeater-item class="mt-repeater-item mt-overflow">
+                            <label class="control-label">Additional Attachment</label>
+                            <div class="mt-repeater-cell">
+                                <input type="file" name="files" class="form-control mt-repeater-input-inline" accept=".png,.jpg,.jpeg,.pdf" />
+                                <a href="javascript:;" data-repeater-delete class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline">
+                                    <i class="fa fa-close"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="javascript:;" data-repeater-create class="btn btn-success mt-repeater-add">
+                        <i class="fa fa-plus"></i> Add new Attachment</a>
+                </div>
+            </div>
+        </div>  
         
         <div class="row">
             <div class="col-xs-12 padding-top-10 padding-bottom-20">
@@ -359,8 +383,8 @@
     <script src="/assets/global/plugins/clockface/js/clockface.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
-    <!-- END PAGE LEVEL SCRIPTS -->
-
+    <script src="/assets/global/plugins/jquery-repeater/jquery.repeater.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/form-repeater.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
     
     <script src="/js/bookings_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>

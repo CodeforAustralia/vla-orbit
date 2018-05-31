@@ -89,8 +89,19 @@ class BookingController extends Controller
         $booking_obj = new Booking();
         $request_type = request('request_type');
         if( $request_type == 0 ) //Direct booking - Booking Bug integration
-        {
-            //dd(request()->all());
+        {         
+            // Validate files
+            $validator = Validator::make(request()->all(),
+                [
+                    'files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
+                    'attachments.*.files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096'
+                ]
+            );
+            if($validator->fails())
+            {
+                return redirect('/booking')->with('error', 'Failed to upload file(s), Check format or size. Formats accepted: pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg. and max size: 4MB');
+            }
+
             $service_name = request('ServiceName');
             $client_details = request('client');
             $client_details['ClientEmail']  = ( 
@@ -139,37 +150,41 @@ class BookingController extends Controller
             $service_providers_obj   = new ServiceProvider();
             $service_provider_result = $service_providers_obj->getServiceProviderByID( $sp_id );
             $service_provider = json_decode( $service_provider_result['data'] )[0];
-
-            // Validate files
-            $validator = Validator::make(request()->all(),
-                [
-                    'files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,bmp|max:2048'
-                ]
-            );
-            if($validator->fails())
-            {
-                return redirect('/booking')->with('error', 'Failed to upload file(s), Check format or size. Formats accepted: pdf,png,jpeg,bmp,jpg,bmp. Max size: 2MB');                    
-            }
             
             $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );        
 
             $reservation_details = json_decode( $reservation['reservation'] );
 
             //Upload attached files
-            $files = request('files');            
+            
+            $main_file['files'] = request('files');
+            $other_files = request('attachments');
+
+            if( !empty($main_file['files']) && !empty($other_files) )
+            {
+                $files = array_merge([$main_file], $other_files);
+            }
+            else if( !empty($main_file['files']) )
+            {
+                $files[] = $main_file;
+            }
+            else if( !empty($other_files) )
+            {
+                $files = $other_files;
+            }
+            
             if( !empty( $files ) )
             {
                 $booking_document = new BookingDocument();
-
                 foreach ($files as $file) 
-                { 
-                    $fileName = $file->getClientOriginalName();
-                    $file->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
+                {                
+                    $fileName = $file['files']->getClientOriginalName();
+                    $file['files']->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
                     //Get booking refer from clients name 
                     $clientBokingRefNo = explode(' ',  $reservation_details->client_name );
                     $booking_document->saveBookingDocument( $fileName , $clientBokingRefNo [0] );
                 }
-            }     
+            }        
 
             return redirect('/booking')->with('success', 'Booking saved.');
         } else {
