@@ -20,7 +20,7 @@
                         <label>Office/program area:</label>
                     </div>
                     <div class="col-xs-12 col-md-6">
-                        <select class="form-control" v-on:change="onChangeSP" name="service_provider_id" v-model="user_sp_id" required>
+                        <select class="form-control" v-on:change="onChangeSP" name="service_provider_id" v-model="selected_sp" required>
                             <option :value="null"></option>
                             <option v-for="service_provider in service_providers" :value="service_provider.id" v-text="service_provider.text"></option>
                         </select>
