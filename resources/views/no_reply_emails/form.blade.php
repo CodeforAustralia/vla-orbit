@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">To:</label>
                         <div class="col-md-8 col-lg-7">
-                            <input type="email" class="form-control" id="to" name="to"  value="" placeholder="Client email" required>
+                            <input type="email" class="form-control" id="to" name="to"  value="" placeholder="Client email" autocomplete="off" required>
                         </div>
                     </div>
 
