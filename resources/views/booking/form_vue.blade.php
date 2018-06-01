@@ -342,12 +342,14 @@
                     <div data-repeater-list="attachments">
                         <div class="mt-repeater-item">
                             <label class="control-label">Attachment</label>
-                            <input type="file" name="files" class="form-control" accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.xls,.xlsx,.msg"> 
+                            <input type="file" name="files" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+text/plain, application/pdf, image/*"> 
                         </div>
                         <div data-repeater-item class="mt-repeater-item mt-overflow">
                             <label class="control-label">Additional Attachment</label>
                             <div class="mt-repeater-cell">
-                                <input type="file" name="files" class="form-control mt-repeater-input-inline" accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.xls,.xlsx,.msg" />
+                                <input type="file" name="files" class="form-control mt-repeater-input-inline" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+text/plain, application/pdf, image/*" />
                                 <a href="javascript:;" data-repeater-delete class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline">
                                     <i class="fa fa-close"></i>
                                 </a>
