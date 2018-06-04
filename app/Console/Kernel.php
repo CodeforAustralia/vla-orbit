@@ -4,11 +4,17 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+/**
+ * Commands kernel.
+ * 
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  ConsoleKernel
+ */
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
+     * The Artisan commands provided by Orbit.
      *
      * @var array
      */

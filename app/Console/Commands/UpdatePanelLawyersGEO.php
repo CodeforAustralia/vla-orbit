@@ -3,7 +3,13 @@
 namespace App\Console\Commands;
 use App\Http\Controllers\PanelLawyersController;
 use Illuminate\Console\Command;
-
+/**
+ * Panel Lawyers updateservice.
+ * 
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  Command
+ */
 class UpdatePanelLawyersGEO extends Command
 {
     /**

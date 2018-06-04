@@ -5,7 +5,13 @@ namespace App\Console\Commands;
 
 use App\SentSms;
 use Illuminate\Console\Command;
-
+/**
+ * Reminders email service.
+ * 
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  Command
+ */
 class SendReminders extends Command
 {
     /**
