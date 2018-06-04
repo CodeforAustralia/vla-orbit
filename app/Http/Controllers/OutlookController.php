@@ -9,7 +9,14 @@ use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
 
 
-
+/**
+ * Outlook Controller.
+ * 
+ *   
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class OutlookController extends Controller
 {
   public function mail() {

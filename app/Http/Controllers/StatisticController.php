@@ -7,13 +7,26 @@ use App\Report;
 use App\Statistic;
 use Auth;
 
+/**
+ * Statistic Controller.
+ * Controller for the statistics functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class StatisticController extends Controller
 {
+    /**
+     * statistic contructor. Create a new instance
+     */    
     public function __construct()
     {       
         $this->middleware('auth');
     }
-    
+    /**
+     * Display an informatin page about ORBIT statistics
+     * @return view statistic information
+     */     
     public function index()
     {
 
@@ -40,7 +53,10 @@ class StatisticController extends Controller
                      ];         
         return view( "statistic.index", compact( 'bookings' ) );
     }
-
+    /**
+     * List all statistic
+     * @return array list of all statistic
+     */    
     public function listStatistics( )
     {
     	$statistic_obj = new Statistic();

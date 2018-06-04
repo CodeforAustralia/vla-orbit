@@ -7,13 +7,27 @@ use App\Role;
 use App\ServiceProvider;
 use App\User;
 
+/**
+ * User Controller.
+ * Controller for the user functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class UserController extends Controller
-{    
+{
+    /**
+     * user contructor. Create a new instance
+     */          
 	public function __construct()
 	{		
     	$this->middleware('auth');
 	}
-
+    /**
+     * Display a listing of users
+     * @param Request $request request
+     * @return view users information
+     */  
     public function index( Request $request )
     {
     	$request->user()->authorizeRoles('Administrator');
@@ -27,7 +41,11 @@ class UserController extends Controller
         $total_users = User::count();        
         return view("user.index", compact('total_users'));
     }
-
+   /**
+     * Show the form for creating a new user
+     * @param Request $request request
+     * @return view user creation page
+     */       
     public function create( Request $request )
     {
     	$request->user()->authorizeRoles('Administrator');
@@ -52,7 +70,10 @@ class UserController extends Controller
 
         return view("user.create", compact( 'service_providers', 'roles' ));
     }
-
+    /**
+     * Store a newly or updated user in the data base
+     * @return mixed user listing page with success/error message
+     */  
     public function store()
     {
         // Validate the form
@@ -94,7 +115,10 @@ class UserController extends Controller
 
         return redirect('/user');
     }
-
+    /**
+     * List all user
+     * @return array list of all user
+     */  
     public function list()
     {
     	$users = User::with('roles')->get();
@@ -104,7 +128,12 @@ class UserController extends Controller
     	}    	
     	return [ 'data' => $users ];
     }
-
+    /**
+     * Remove the specified user from data base.
+     * @param  int $uid user id
+     * @param  Request $request request
+     * @return mixed user listing page with success/error message
+     */
     public function destroy( Request $request, $uid )
     {
         $request->user()->authorizeRoles('Administrator');
@@ -113,7 +142,12 @@ class UserController extends Controller
 
         return redirect('/user')->with($response['success'], $response['message']);        
     }
-
+    /**
+     * Display a specific user
+     * @param  int $uid user id
+     * @param  Request $request request
+     * @return view single user information page
+     */
     public function show( Request $request, $uid)
     {
         $request->user()->authorizeRoles('Administrator');
@@ -141,7 +175,10 @@ class UserController extends Controller
 
         return view("user.show", compact( 'user' ,'service_providers', 'roles' ));
     }
-
+    /**
+     * Update an user in the data base
+     * @return mixed user listing page with success/error message
+     */    
     public function update( Request $request)
     {
         $request->user()->authorizeRoles('Administrator');

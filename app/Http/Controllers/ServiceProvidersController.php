@@ -7,18 +7,35 @@ use App\ServiceProvider;
 use Carbon\Carbon;
 use Auth;
 
+/**
+ * Service Provider Controller.
+ * Controller for the service provider functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class ServiceProvidersController extends Controller
 {
-        public function __construct()
+    /**
+     * Service provider contructor. Create a new instance
+     */         
+    public function __construct()
     {       
         $this->middleware('auth');
     }
-    
+    /**
+     * Display a listing of service provider
+     * @return view service provider information
+     */     
     public function index()
     {
         return view("service_provider.index");
     }
-
+    /**
+     * Display a specific service provider
+     * @param int $sp_id service provider id
+     * @return view single service provider information page
+     */
     public function show($sp_id)
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
@@ -41,7 +58,10 @@ class ServiceProvidersController extends Controller
             return redirect('/service_provider')->with( 'error', 'Not Authorized' );
         }
     }    
-
+    /**
+     * Store a newly or updated service provider in the data base
+     * @return mixed service provider listing page with success/error message
+     */
     public function store()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
@@ -63,14 +83,21 @@ class ServiceProvidersController extends Controller
         
         return redirect('/service_provider')->with( $response['success'], $response['message'] );
     }
-    
+   /**
+     * Show the form for creating a new service provider
+     * @return view service provider creation page
+     */          
     public function create()
     {
         Auth::user()->authorizeRoles('Administrator');
 
         return view("service_provider.create");
     }
-
+    /**
+     * Remove the specified service provider from data base.
+     * @param  int $sp_id service provider id
+     * @return mixed service provider listing page with success/error message
+     */
     public function destroy($sp_id)
     {
         Auth::user()->authorizeRoles('Administrator');
@@ -80,14 +107,20 @@ class ServiceProvidersController extends Controller
         
         return redirect('/service_provider')->with( $response['success'], $response['message'] );
     }
-
+    /**
+     * List all service provider
+     * @return array list of all service provider
+     */
     public function list()
     {
         $service_provider = new ServiceProvider();
         $result = $service_provider->getAllServiceProviders();
         return array( 'data' => $result );
     }
-    
+    /**
+     * List all service provider
+     * @return array list of all service provider
+     */    
     public function listFormated()
     {
         $service_provider = new ServiceProvider();

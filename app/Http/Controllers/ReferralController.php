@@ -10,30 +10,50 @@ use App\ServiceProvider;
 use App\Vulnerability;
 use Auth;
 
+/**
+ * Referral Controller.
+ * Controller for the referral functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class ReferralController extends Controller
 {
+    /**
+     * Referral contructor. Create a new instance
+     */
     public function __construct()
     {       
         $this->middleware('auth');
-    }
-    
-    //Inbound referrals
+    }    
+    /**
+     * Display a listing of inbound referral
+     * @return view inbound referral information
+     */
     public function index()
     {
         return view('referral.index');
-    }
-    
-    //Outbound referrals
+    }    
+   /**
+     * Display a listing of outbound referral
+     * @return view outbound referral information
+     */
     public function outbound()
     {
         return view('referral.outbound');
     }
-
+    /**
+     * Display a specific referral
+     * @return view single referral information page
+     */  
     public function show()
     {
         return view('referral.show');
     }
-    
+     /**
+     * Store a newly or updated referral in the data base
+     * @return array  referral listing page with success/error message
+     */
     public function store()
     {
         $request = request()->all();
@@ -53,12 +73,18 @@ class ReferralController extends Controller
         return $response;
 
     }
-
+    /**
+     * Show the form for creating a new referral NOT IN USE
+     * @return view referral creation page
+     */   
     public function create()
     {
         return view('referral.create');
     }
-
+    /**
+     * Show the form for creating a new referral
+     * @return view referral creation page
+     */    
     public function location()
     {
         $matter = new Matter();
@@ -67,15 +93,11 @@ class ReferralController extends Controller
         return view('referral.create.search', compact( 'matters' ));
     }
     
-    public function legal_issue()
-    {
-        session( ['ca_id' => isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : ''] );
-
-        $matter = new Matter();
-        $matters = $matter->getAllMattersParentChildrenList();
-        return view( 'referral.create.legal_issue', compact( 'matters' ) );
-    }
-    
+    /**
+     * Filter Services according the user criteria and
+     * show the form for legal matter, eligibility questions or referral matches
+     * @return view legal matter, eligibility or referral matches page.
+     */    
     public function details()
     {
         $ca_id  = isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : '';
@@ -140,7 +162,11 @@ class ReferralController extends Controller
 
 
     }
-    
+    /**
+     * Filter Services according the user criteria and
+     * eligibility questions or referral matches
+     * @return view eligibility or referral matches page.
+     */      
     public function questions()
     {
         $ca_id  = isset( $_GET['ca_id'] )  ? $_GET['ca_id']  : '';
@@ -167,12 +193,19 @@ class ReferralController extends Controller
         }        
 
     }
-    
+    /**
+    * Deprecated Show review for referral process
+    * @return view eligibility or referral matches page.
+    */     
     public function review()
     {
         return view('referral.create.review');
     }
-    
+    /**
+     * Show the referral results page
+     * @param  Request  $request
+     * @return view referral result
+     */      
     public function result( Request $request )
     {        
         $service_providers_obj  = new ServiceProvider();
@@ -214,14 +247,20 @@ class ReferralController extends Controller
         }
         return view( 'referral.create.no-results');
     }
-
+   /**
+     * List all inbound referral
+     * @return array list of all inbound referral
+     */
     public function list()
     {
         
         $referral_obj = new Referral();
         return ['data' => $referral_obj->getAllReferrals() ];
     }
-
+   /**
+     * List all outbound referral
+     * @return array list of all outbound referral
+     */
     public function listOutbound()
     {
         

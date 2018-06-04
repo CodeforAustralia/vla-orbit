@@ -9,34 +9,57 @@ use App\QuestionType;
 use App\QuestionCategory;
 use Auth;
 
+/**
+ * Question  Controller.
+ * Controller for the question functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class QuestionController extends Controller
 {
+    /**
+     * Question contructor. Create a new instance
+     */      
     public function __construct()
     {       
         $this->middleware('auth');
     }
-
+    /**
+     * Display a listing of question
+     * @return view question information
+     */ 
     public function index()
     {
         Auth::user()->authorizeRoles('Administrator');
 
         return view("question.index");
     }
-
+    /**
+     * Display a listing of legal matter questions
+     * @return view legal matter question information
+     */ 
     public function legalMatterQuestions()
     {
         Auth::user()->authorizeRoles('Administrator');
 
         return view("question.legal_matter_questions");
     }
-    
+    /**
+     * Display a listing of eligibility questions
+     * @return view eligibility question information
+     */         
     public function eligibilityCriteria()
     {
         Auth::user()->authorizeRoles('Administrator');
 
         return view("question.eligibility_criteria");
     }
-
+    /**
+     * Display a specific question
+     * @param  int  $qu_id    question Id
+     * @return view single question information page
+     */   
     public function show( $qu_id )
     {
         Auth::user()->authorizeRoles('Administrator');
@@ -72,7 +95,10 @@ class QuestionController extends Controller
             return redirect('/question')->with( $response['success'], $response['message'] );
         }    
     }
-
+    /**
+     * Store a newly or updated question in the data base
+     * @return mixed  legal matter question or eligibility question listing page with success/error message
+     */ 
     public function store()
     {        
         Auth::user()->authorizeRoles('Administrator');
@@ -91,7 +117,11 @@ class QuestionController extends Controller
         $redirect_path  = ( request('QuestionCategoryId') == 2 ? '/eligibility_criteria' : '/legal_matter_questions');
         return redirect( $redirect_path )->with( $response['success'], $response['message'] );
     }
-    
+     /**
+     * Show the form for creating a new question
+     * @param String $type question type
+     * @return view question creation page
+     */    
     public function create( $type = '' )
     {
         Auth::user()->authorizeRoles('Administrator');
@@ -125,7 +155,11 @@ class QuestionController extends Controller
 
         return view( "question.create", compact( 'question_types', 'question_categories', 'type_name' ) );
     }
-
+    /**
+     * Remove the specified question from data base.
+     * @param  int $qu_id question Id
+     * @return mixed question listing page with success/error message
+     */
     public function destroy( $qu_id )
     {        
         Auth::user()->authorizeRoles('Administrator');
@@ -135,21 +169,30 @@ class QuestionController extends Controller
         
         return redirect('/question')->with( $response['success'], $response['message'] );
     }
-
+    /**
+     * List all question 
+     * @return array list of all question
+     */
     public function list()
     {
         $question = new Question();
         $result = $question->getAllQuestions();
         return array( 'data' => $result );
     }
-
+    /**
+     * List all legal matter question
+     * @return array list of all question
+     */    
     public function listLegalMatterQuestions()
     {
         $question = new Question();
         $result = $question->getAllLegalMatterQuestions();
         return array( 'data' => $result );
     }
-
+    /**
+     * List all eligibility question
+     * @return array list of all eligibility question
+     */  
     public function listVulnerabilityQuestions()
     {
         $question = new Question();

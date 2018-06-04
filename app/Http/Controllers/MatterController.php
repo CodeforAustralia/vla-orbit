@@ -8,18 +8,38 @@ use App\MatterType;
 use App\Question;
 use App\MatterQuestion;
 
+/**
+ * Matter Controller.
+ * Controller for the legal matter functionalities
+ *   
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class MatterController extends Controller
-{    
+{   
+    /**
+     * Matter contructor. Create a new instance
+     */
     public function __construct()
     {       
         $this->middleware('auth');
     }
-
+    /**
+     * Display a listing of legal matter
+     * @return view legal matter information
+     */
     public function index()
     {
         return view("matter.index");
     }
 
+    /**
+     * Display a specific legal matter
+     * @param  Request $request 
+     * @param  int  $m_id    legal matter Id
+     * @return view single legal matter information page
+     */    
     public function show( Request $request, $m_id )
     {
         $request->user()->authorizeRoles('Administrator');
@@ -37,7 +57,11 @@ class MatterController extends Controller
 
         return view( "matter.show", compact( 'current_matter', 'matters', 'matter_types', 'questions' ) );
     }
-
+    /**
+     * Store a newly or updated legal matter in the data base
+     * @param  Request $request
+     * @return mixed  legal matter listing page with success/error message
+     */
     public function store( Request $request )
     {        
         $request->user()->authorizeRoles('Administrator');
@@ -62,7 +86,11 @@ class MatterController extends Controller
         
         return redirect('/matter')->with($response['success'], $response['message']);
     }
-    
+    /**
+     * Show the form for creating a new legal matter
+     * @param  Request $request
+     * @return view legal matter creation page
+     */      
     public function create( Request $request )
     {
         $request->user()->authorizeRoles('Administrator');
@@ -79,7 +107,12 @@ class MatterController extends Controller
 
         return view( "matter.create", compact( 'matter_types', 'matters', 'questions' ) );
     }
-
+    /**
+     * Remove the specified legal matter from data base.
+     * @param  int $m_id legal matter Id
+     * @param  Request $request
+     * @return mixed legal matter listing page with success/error message
+     */
     public function destroy( Request $request, $m_id )
     {        
         $request->user()->authorizeRoles('Administrator');
@@ -89,21 +122,30 @@ class MatterController extends Controller
         
         return redirect('/matter')->with( $response['success'], $response['message'] );
     }
-
+    /**
+     * List all legal matters
+     * @return array list of all legal matters
+     */
     public function list()
     {
         $matter = new Matter();
         $result = $matter->getAllMatters();
         return array( 'data' => $result );
     }
-
+    /**
+     * List all legal matters trimmed
+     * @return array list of all legal matters trimmed
+     */
     public function listFormatedTrimmed()
     {
         $matter = new Matter();
         $result = $matter->getMattersDatasetTrimmed();
         return $result;
     }
-
+    /**
+     * List all legal matters formated
+     * @return array list of all legal matters formated
+     */
     public function listFormated()
     {
         $matter = new Matter();

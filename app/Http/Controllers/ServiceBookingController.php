@@ -7,24 +7,34 @@ use App\ServiceBooking;
 use App\Service;
 use Auth;
 
+/**
+ * Service Booking  Controller.
+ * Controller for the service booking functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class ServiceBookingController extends Controller
 {
+    /**
+     * Question contructor. Create a new instance
+     */   
     public function __construct()
     {       
         $this->middleware('auth');
     }   
     /**
-     * 
-     * @return view index view
-     */
+     * Display a listing of service booking
+     * @return view service booking information
+     */ 
     public function index()
     {
         Auth::user()->authorizeRoles( ['Administrator']);
         return view("service_booking.index");    
     }
     /**
-     * Display all service bookings
-     * @return array list of service bookings
+     * List all service booking 
+     * @return array list of all service booking
      */
     public function list()
     {
@@ -34,10 +44,10 @@ class ServiceBookingController extends Controller
         
         return array( 'data' => $result );
     }
-    /**
-     * Open the view to create a new Service Booking
-     * @return View service booking create form
-     */
+     /**
+     * Show the form for creating a nee service booking
+     * @return view service booking creation page
+     */ 
     public function create()
     {
         Auth::user()->authorizeRoles( ['Administrator']);
@@ -49,8 +59,8 @@ class ServiceBookingController extends Controller
     	return view("service_booking.create", compact('services'));
     }
     /**
-     * Create or update a service booking
-     * @return View service bookling view
+     * Store a newly or updated service booking in the data base
+     * @return mixed service booking listing page with success/error message
      */
     public function store()
     {
@@ -69,9 +79,9 @@ class ServiceBookingController extends Controller
     	return redirect('/service_booking')->with( $response['success'], $response['message'] );
     }
     /**
-     * Show a selected service booking to edit
-     * @param  Integer $sb_id service booking id
-     * @return View        confirmation message with success or redirection otherwise
+     * Display a specific service booking
+     * @param  int $sb_id service booking id
+     * @return view single service booking information page
      */
     public function show( $sb_id )
     {
@@ -93,9 +103,9 @@ class ServiceBookingController extends Controller
 
     }
     /**
-     * Delete service booking
+     * Remove the specified service booking from data base.
      * @param  Integer $sb_id service booking id
-     * @return View        redirect to the service booking view with delete message
+     * @return mixed question listing page with success/error message
      */
     public function destroy($sb_id)
     {

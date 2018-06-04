@@ -10,16 +10,28 @@ use App\User;
 use Auth;
 use SimpleSAML_Auth_Simple;
 
+/**
+ * Registration Controller.
+ * Controller for the Orbit main page functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class RegistrationController extends Controller
 {
-
+    /**
+     * Registration contructor. Create a new instance
+     */  
     public function __construct()
     {   
         //$this->middleware('auth')->except(['create','show']);
         $this->middleware('guest', ['except' => ['index']]);
                 
     }
-    
+    /**
+     * Display a the orbit main page with the statistics
+     * @return view orbit main page
+     */ 
     public function index()
     {           
         $user = Auth::user();
@@ -57,7 +69,10 @@ class RegistrationController extends Controller
     {
         return view("registration.create");
     }
-    
+    /**
+     * Store a newly user in the data base
+     * @return view orbit main page
+     */
     public function store()
     {
         // Validate the form

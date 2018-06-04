@@ -6,18 +6,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupEmail;
 
+/**
+ * Session Controller.
+ * Controller for the user session functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class SessionController extends Controller
 {
-    
+    /**
+     * Session contructor. Create a new instance
+     */      
     public function __construct(){
         $this->middleware('guest', ['except' => 'destroy']);
     }
-    
+    /**
+     * Show the page for creating a session
+     * @return view session creation page
+     */          
     public function create()
     {
         return view("sessions.create");
     }
-    
+    /**
+     * Authorize a user to enter into the system
+     * @return view redirect home page if login successful
+     */    
     public function store()
     {
         
@@ -32,7 +47,10 @@ class SessionController extends Controller
         return redirect()->home();
         
     }
-    
+    /**
+     * Destroy the user session
+     * @return view redirect to login page
+     */     
     public function destroy()
     {
         auth()->logout();

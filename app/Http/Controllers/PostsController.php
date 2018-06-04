@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Post;
 
+/**
+ * Post Controller.
+ *   
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class PostsController extends Controller
 {
     public function __construct()

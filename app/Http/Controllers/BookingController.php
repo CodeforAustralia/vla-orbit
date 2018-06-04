@@ -11,26 +11,44 @@ use App\SentSms;
 use App\ServiceProvider;
 use Auth;
 
+/**
+ * Booking Controller.
+ * Controller for the booking functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class BookingController extends Controller
 {
-
+    /**
+     * Booking contructor. Create a new instance
+     */   
     public function __construct()
     {       
         $this->middleware('auth');
     }
-    
+    /**
+     * Display a listing of booking
+     * @return view booking information
+     */     
     public function index()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);       
         return view("booking.index");
     }
-    
+    /**
+     * Display a listing of the next booking
+     * @return view next bookiig information
+     */
     public function nextBookings()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
         return view("booking.next_bookings");
     }
-
+    /**
+     * Display a listing of booking by service provider
+     * @return view booking by service provider information
+     */  
     public function byServiceProvider()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
@@ -39,7 +57,11 @@ class BookingController extends Controller
 
         return view("booking.by_service_provider", compact( 'service_providers' ));
     }
-
+    /**
+     * Display a specific booking
+     * @param  int $bk_id booking id
+     * @return view single booking information page
+     */
     public function show( $bk_id )
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);    
@@ -48,7 +70,10 @@ class BookingController extends Controller
 
         return view( "booking.show", compact( 'service_providers' ) );
     }
-    
+     /**
+     * Show the form for creating a new service
+     * @return view service creation page
+     */       
     public function create()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
@@ -57,7 +82,11 @@ class BookingController extends Controller
 
         return view("booking.create", compact( 'service_providers' ) );
     }
-
+    /**
+     * Remove the specified booking from data base.
+     * @param  int $bo_id booking id
+     * @return mixed booking listing page with success/error message
+     */
     public function destroy( $bo_id )
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
@@ -66,7 +95,13 @@ class BookingController extends Controller
 
         return redirect('/booking')->with($response['success'], $response['message']);        
     }
-
+    /**
+     * Get bookable services by date
+     * @param  int      $year  year
+     * @param  int      $month month
+     * @param  int      $sv_id service id
+     * @return array           list of available services.
+     */
     public function getServiceDatesByDate( $year, $month, $sv_id )
     {
         $init_year = $finish_year = $year;
@@ -83,7 +118,10 @@ class BookingController extends Controller
         $booking_obj = new Booking(); 
         return $booking_obj->getBookableServiesByDayWithTime( $sv_id, $init_date, $finish_date);
     }
-
+    /**
+     * Store a newly or updated booking in the data base
+     * @return mixed booking listing page with success/error message
+     */
     public function store()
     {        
         $booking_obj = new Booking();
@@ -199,37 +237,55 @@ class BookingController extends Controller
             }
         }
     }
-
+    /**
+     * List all booking for the next month
+     * @return array list of all booking
+     */
     public function list()
     {
         $booking_obj = new Booking(); 
         return $booking_obj->getAllBookingsNextMonthCalendar( date("Y-m-d"), date("Y-m-d", strtotime("+1 month")) );
     }
-
+    /**
+     * List all booking by month
+     * @return array list of all booking filtered by month
+     */
     public function listCalendar()
     {
         $booking_obj = new Booking(); 
         return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') ) ;
     }
-
+    /**
+     * List all booking by month and service provider
+     * @return array list of all booking by month and service provider
+     */
     public function listCalendarBySp()
     {
         $booking_obj = new Booking(); 
         return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') , request('sp_id') ) ;
     }
-
+    /**
+     * List all booking by user
+     * @return array list of all booking by user
+     */
     public function listCalendarByUser()
     {
         $booking_obj = new Booking(); 
         $bookings = $booking_obj->getBookingsByUser() ;
         return array( 'data' => $bookings );
     }
-
+    /**
+     * Get calendar viw
+     * @return view calendar
+     */
     public function calendar()
     {
         return view("booking.calendar");
     }
-
+    /**
+     * Store a updated booking in the data base
+     * @return Object $result booking update result
+     */
     public function updateBooking()
     {
         $booking_obj = new Booking();
@@ -237,7 +293,10 @@ class BookingController extends Controller
 
         return $result;
     }
-
+    /**
+     * Store a updated booking details in the data base
+     * @return Object $result booking details update result
+     */
     public function updateBookingDetails()
     {
         $booking = request('booking');
@@ -247,7 +306,10 @@ class BookingController extends Controller
 
         return $result;
     }
-
+    /**
+     * Send booking SMS reminder
+     * @return Object $result SMS reminder result
+     */
     public function sendSmsReminder()
     {
         $reminder = request('reminder');
@@ -256,13 +318,19 @@ class BookingController extends Controller
         $result = $sent_sms_obj->sendReminder( $booking );
         return $result;
     }
-
+    /**
+     * List all Legal Help bookings
+     * @return array list of all Legal Help bookings
+     */
     public function listLegalHelpBookings()
     {
         $booking_obj = new Booking();
         return array( 'data' => $booking_obj->legalHelpBookings() );
     }
-
+    /**
+     * Display Legal Help booking
+     * @return view legal help booking information
+     */    
     public function legalHelp()
     {
         return view("booking.legal_help");

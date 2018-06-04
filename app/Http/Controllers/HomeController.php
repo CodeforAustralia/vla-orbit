@@ -4,6 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+/**
+ * Home Controller.
+ * Controller for the Home page
+ *   
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see Controller
+ */
 class HomeController extends Controller
 {
     /**

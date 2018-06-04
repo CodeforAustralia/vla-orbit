@@ -16,18 +16,35 @@ use App\MatterServiceAnswer;
 use App\EReferral;
 use Auth;
 
+/**
+ * Service Controller.
+ * Controller for the service functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class ServiceController extends Controller
-{    
+{
+    /**
+     * Service contructor. Create a new instance
+     */     
     public function __construct()
     {       
         $this->middleware('auth');
     }
-    
+    /**
+     * Display a listing of service
+     * @return view service information
+     */ 
     public function index()
     {
         return view("service.index");    
     }
-
+    /**
+     * Display a specific service
+     * @param  int $sv_id service id
+     * @return view single service information page
+     */
     public function show( $sv_id )
     {
         $user = Auth::user();
@@ -105,7 +122,10 @@ class ServiceController extends Controller
         }        
     }
     
-
+    /**
+     * Store a newly or updated service in the data base
+     * @return mixed service listing page with success/error message
+     */
     public function store()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
@@ -178,7 +198,10 @@ class ServiceController extends Controller
         
         return redirect('/service')->with( $response['success'], $response['message'] );
     }
-    
+     /**
+     * Show the form for creating a new service
+     * @return view service creation page
+     */     
     public function create()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
@@ -208,7 +231,11 @@ class ServiceController extends Controller
         }
         return view( "service.create", compact( 'service_types','service_levels','service_providers', 'matters', 'vulnertability_questions' ) );
     }
-
+    /**
+     * Remove the specified service from data base.
+     * @param  int $sv_id service id
+     * @return mixed service listing page with success/error message
+     */
     public function destroy($sv_id)
     {
         Auth::user()->authorizeRoles( 'Administrator' );
@@ -218,14 +245,20 @@ class ServiceController extends Controller
         
         return redirect('/service')->with( $response['success'], $response['message'] );
     }
-
+    /**
+     * List all service 
+     * @return array list of all service
+     */
     public function list()
     {
         $service = new Service();
         $result  = $service->getAllServices();
         return array( 'data' => $result );
     }
-
+    /**
+     * List all service by service provider and user service provider
+     * @return array list of all service filtered by service provider and user service provider 
+     */
     public function listServicesSP( $sp_id )
     {
         $user = Auth::user();
@@ -235,7 +268,10 @@ class ServiceController extends Controller
         
         return $result;
     }
-
+    /**
+     * Get service by id
+     * @return object service 
+     */
     public function listServiceById( $sv_id )
     {
         $service = new Service();

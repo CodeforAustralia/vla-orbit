@@ -7,18 +7,35 @@ use App\SmsTemplate;
 use App\Service;
 use Auth;
 
+/**
+ * SMS Template Controller.
+ * Controller for the sms template messages functionalities  
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class SmsTemplateController extends Controller
 {
+    /**
+     * SMS template contructor. Create a new instance
+     */     
     public function __construct()
     {       
         $this->middleware('auth');
     }
-    
+    /**
+     * Display a listing of SMS template
+     * @return view SMS template information
+     */     
     public function index()
     {
         return view("sms_template.index");
     }    
-
+    /**
+     * Display a specific SMS template
+     * @param int $st_id SMS template id
+     * @return view single SMS template information page
+     */
     public function show( $st_id )
     {
         $sms_template_obj = new SmsTemplate();
@@ -41,7 +58,10 @@ class SmsTemplateController extends Controller
 
         return view("sms_template.show", compact( 'current_sms_template', 'services' ) );
     }
-    
+    /**
+     * Store a newly or updated SMS template in the data base
+     * @return mixed SMS template listing page with success/error message
+     */    
     public function store()
     {
         $user = Auth::user();
@@ -60,6 +80,10 @@ class SmsTemplateController extends Controller
         return redirect('/sms_template')->with($response['success'], $response['message']);
 
     }
+   /**
+     * Show the form for creating a new SMS template
+     * @return view SMS template creation page
+     */         
     public function create()
     {
         $service_obj = new Service();
@@ -69,7 +93,11 @@ class SmsTemplateController extends Controller
 
         return view('sms_template.create', compact( 'services' ) );
     }
-
+    /**
+     * Remove the specified SMS template from data base.
+     * @param  int $st_id SMS template id
+     * @return mixed SMS template listing page with success/error message
+     */
     public function destroy( Request $request, $st_id )
     {        
         $sms_template_obj = new SmsTemplate();
@@ -77,7 +105,10 @@ class SmsTemplateController extends Controller
         
         return redirect('/sms_template')->with( $response['success'], $response['message'] );
     }
-
+    /**
+     * List all SMS template
+     * @return array list of all SMS template
+     */    
     public function list()
     {        
         $sms_template_obj = new SmsTemplate();

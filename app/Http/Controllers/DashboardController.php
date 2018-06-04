@@ -6,8 +6,19 @@ use Illuminate\Http\Request;
 
 use App\Dashboard;
 
+/**
+ * Dashboard Controller.
+ * Controller for the Dashboard functionalities
+ *   
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see Controller
+ */
 class DashboardController extends Controller
 {
+    /**
+     * Dashboard constructor. Create a new instance
+     */
     public function __construct()
     {       
         $this->middleware('auth');

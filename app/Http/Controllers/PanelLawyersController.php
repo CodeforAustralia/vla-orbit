@@ -8,14 +8,28 @@ use App\PanelLawyers;
 use App\User;
 use Auth;
 
+/**
+ * Panel Lawyers Controller.
+ * Controller for the private practitioners functionalities
+ *   
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see  Controller
+ */
 class PanelLawyersController extends Controller
-{    
-	public function __construct()
-	{		
-    	$this->middleware('auth');
-	}
-
-    public function index( Request $request )
+{
+    /**
+     * Panel Lawyers contructor. Create a new instance
+     */      
+  	public function __construct()
+  	{		
+      	$this->middleware('auth');
+  	}
+    /**
+     * Display a listing of panel lawyers
+     * @return view panel lawyers information
+     */  
+    public function index()
     {
         Auth::user()->authorizeRoles( ['Administrator']);
         return view("panel_lawyers.index");
@@ -46,7 +60,7 @@ class PanelLawyersController extends Controller
 
     }
     /**
-     * storeLatLng Save latitude and longitude for panel lawyers
+     * Save latitude and longitude for panel lawyers
      * @return array Success Message
      */
     public function storeLatLng()
@@ -127,8 +141,8 @@ class PanelLawyersController extends Controller
 
     /**
      * Delete panel lawyer geographical information
-     * @param  Integer $pl_id panel lawyer id id
-     * @return View        redirect to the service booking view with delete message
+     * @param  int $pl_id panel lawyer id 
+     * @return array  Success/Error message
      */
     public function destroyLatLng($pl_id)
     {        
@@ -137,7 +151,10 @@ class PanelLawyersController extends Controller
         
         return array( 'success' => 'success' , 'message' => 'The geolocation information was deleted.', 'data' =>  $response );
     }        
-
+    /**
+     * Get five closest panel lawyers according to client address
+     * @return array list of closest panel lawyers
+     */
     public function getClosestByAddress()
     {
         //dd(request('address'));
@@ -181,10 +198,10 @@ class PanelLawyersController extends Controller
     }
 
     /**
-     * Get geolocation by address
-     * @param  string $address Address to get geolocation
-     * @return array          Google geo location array
-     */
+    * Get geolocation by address
+    * @param  string $address Address to get latitude and longitude
+    * @return array          Google geo location array
+    */
     public function getLatLngByAddress( $address)
     {     
         $arrContextOptions=array(
@@ -211,7 +228,7 @@ class PanelLawyersController extends Controller
     }
 
     /**
-     * [distanceBetweenClientAndOffices description]
+     * Get the distance between the client and panel lawyer.
      * @param  array $client lat and lng array
      * @param  array $office lat and lng array
      * @return float         measure of distance btw two points in kms
@@ -223,12 +240,12 @@ class PanelLawyersController extends Controller
    
    /**
     * [distance description : https://stackoverflow.com/questions/10053358/measuring-the-distance-between-two-coordinates-in-php]
-    * @param  string $lat1 latitude
-    * @param  string $lon1 longitude
-    * @param  string $lat2 latitude
-    * @param  string $lon2 longitude
+    * @param  string $lat1 client latitude 
+    * @param  string $lon1 client longitude
+    * @param  string $lat2 panel lawyer latitude
+    * @param  string $lon2 panel lawyer longitude
     * @param  string $unit units of measure ie. kms (K),  nautic Miles (N), miles (default)
-    * @return float       measure of distance btw two points in specific measure
+    * @return float        measure of distance btw two points in specific measure
     */
     function distance($lat1, $lon1, $lat2, $lon2, $unit) 
     {
@@ -248,7 +265,12 @@ class PanelLawyersController extends Controller
           return $miles;
         }
     }
-
+    /**
+     * Calculate travel distance between client and closest panel lawyers
+     * @param  array $client_address client latitude and longitude
+     * @param  array $distances latitude and longitude of the closest panel lawyers      
+     * @return array            panel lawyers with travel distance information
+     */
     public function travelDistance($client_address, $distances)
     {      
       $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='.$client_address['lat'].'%2C'.$client_address['lng'].'&destinations=';

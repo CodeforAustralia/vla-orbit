@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+/**
+ * Master Controller.
+ * Controller for the home dashboard
+ *   
+ * @author VLA & Code for Australia
+ * @version 1.2.0
+ * @see Controller
+ */
 class MasterController extends Controller
 {
 	public function ws_init() 
