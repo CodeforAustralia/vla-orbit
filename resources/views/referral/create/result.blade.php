@@ -108,7 +108,7 @@
                         <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Please be mindful of any family violence risks; eg if the SMS or an SMS notification can be viewed by others."></i>
                       </label>
                       <label class="sr-only" for="Phone">Phone Number</label>
-                      <input type="number" class="form-control" id="Phone" placeholder="Client mobile number">
+                      <input type="tel" class="form-control" id="Phone" placeholder="Client mobile number">
 
                       <div class="col-xs-11 col-xs-offset-1">
                         <div class="form-group">
