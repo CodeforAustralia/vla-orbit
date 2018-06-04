@@ -5,15 +5,24 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
+/**
+ * Reminder SMS service. 
+ * 
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  Mailable
+ */
 class ReminderSms extends Mailable
 {
     use Queueable, SerializesModels;
-
+    /**
+     * Reminder sms arguments
+     * @var array
+     */
     public $args;
 
     /**
-     * Create a new message instance.
+     * Create a new reminder message instance.
      *
      * @return void
      */
@@ -23,7 +32,7 @@ class ReminderSms extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the reminder message.
      *
      * @return $this
      */

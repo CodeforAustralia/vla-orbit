@@ -6,14 +6,24 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Booking request email service.
+ * 
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  Mailable
+ */
 class BookingRequestEmail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    /**
+     * booking request email arguments
+     * @var array
+     */
     public $args;
 
     /**
-     * Create a new message instance.
+     * Create a new booking request message instance.
      *
      * @return void
      */
@@ -23,7 +33,7 @@ class BookingRequestEmail extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the booking request message.
      *
      * @return $this
      */

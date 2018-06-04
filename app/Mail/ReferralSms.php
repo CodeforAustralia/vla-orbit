@@ -6,7 +6,13 @@ use App\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
+/**
+ * Referral SMS service. 
+ * 
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  Mailable
+ */
 class ReferralSms extends Mailable
 {
     use Queueable, SerializesModels;
@@ -17,11 +23,14 @@ class ReferralSms extends Mailable
      * @var Order
      */
     public $order;
-
+    /**
+     * Referral sms arguments
+     * @var array
+     */
     public $args;
 
     /**
-     * Create a new message instance.
+     * Create a new referral sms message instance.
      *
      * @return void
      */
@@ -31,13 +40,14 @@ class ReferralSms extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the referral sms message.
      *
      * @return $this
      */
     public function build()
     {
         $is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
+        // if is CLC send message with different sender
         if( $is_clc )
         {
             $address = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');

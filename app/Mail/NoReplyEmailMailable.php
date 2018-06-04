@@ -6,14 +6,24 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * No reply email service.
+ * 
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  Mailable
+ */
 class NoReplyEmailMailable extends Mailable
 {
     use Queueable, SerializesModels;
-
+    /**
+     * no reply email arguments
+     * @var array
+     */
     public $args;
 
     /**
-     * Create a new message instance.
+     * Create a new no reply message instance.
      *
      * @return void
      */
@@ -23,15 +33,17 @@ class NoReplyEmailMailable extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the no reply email message.
      *
      * @return $this
      */
     public function build()
     {
+
         $is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
         $attachments = $this->args['attachments'];
         $message =$this->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )->view('emails.noReplyEmail.email')->with($this->args);
+        // if is CLC send message with different sender
         if( $is_clc )
         {
             $address = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');

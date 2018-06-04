@@ -6,7 +6,13 @@ use App\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
+/**
+ * Signup email service.
+ * Send email to request a new user in ORBIT
+ * @author VLA & Code for Australia
+ * @version 1.0.0
+ * @see  Mailable
+ */
 class SignupEmail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -17,11 +23,14 @@ class SignupEmail extends Mailable
      * @var Order
      */
     public $order;
-
+    /**
+     * Signup email arguments
+     * @var array
+     */
     public $args;
 
     /**
-     * Create a new message instance.
+     * Create a new signup request message instance.
      *
      * @return void
      */
@@ -31,7 +40,7 @@ class SignupEmail extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the signup request message.
      *
      * @return $this
      */
