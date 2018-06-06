@@ -1,15 +1,11 @@
  <?php
+/**
+ * Web routes for Orbit application
+ *
+ * @author Christian Arevalo and Sebastian Currea
+ * @version 1.2.0
+ */
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/soap/types', 'MasterController@_types');
 
@@ -244,8 +240,6 @@ Route::get('/referral/new', 'ReferralController@create');
 
 Route::get('/referral/create/location', 'ReferralController@location');
 
-Route::get('/referral/create/legal_issue', 'ReferralController@legal_issue');
-
 Route::get('/referral/create/details', 'ReferralController@details');
 
 Route::get('/referral/create/questions', 'ReferralController@questions');
@@ -368,9 +362,9 @@ Route::get('/panel_lawyers', 'PanelLawyersController@index');
 
 Route::get('/panel_lawyers/list', 'PanelLawyersController@list');
 
-Route::post('/panel_lawyers/get_closet_by_address', 'PanelLawyersController@getClosestByAddress');	
+Route::post('/panel_lawyers/get_closet_by_address', 'PanelLawyersController@getClosestByAddress');
 
-Route::post('/panel_lawyers/get_lat_lng', 'PanelLawyersController@getLatLngByAddress');	
+Route::post('/panel_lawyers/get_lat_lng', 'PanelLawyersController@getLatLngByAddress');
 
 // E-Referral
 

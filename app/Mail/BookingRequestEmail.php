@@ -8,8 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Booking request email service.
- * 
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.0.0
  * @see  Mailable
  */
@@ -40,16 +40,15 @@ class BookingRequestEmail extends Mailable
     public function build()
     {
         $view_path = '';
-        switch ( $this->args['request_type'] ) 
-        {
+        switch ( $this->args['request_type'] ) {
             case 1: //'appointment_request':      'appointment_request':
                 $view_path = 'emails.booking.requestEmailApptReq';
                 break;
-            
+
             case 2: //'for_assessment':      'for_assessment':
                 $view_path = 'emails.booking.requestEmailForAssess';
                 break;
-            
+
             case 3: //'phone_advice':      'phone_advice':
                 $view_path = 'emails.booking.requestEmailPhAdv';
                 break;
@@ -66,7 +65,7 @@ class BookingRequestEmail extends Mailable
                 $view_path = 'emails.booking.requestEmailChildProtection';
                 break;
         }
-        
+
         return $this->from( auth()->user()->email )
                     ->bcc( config('emails.booking_request_bcc') )
                     ->subject( $this->args['subject'] )

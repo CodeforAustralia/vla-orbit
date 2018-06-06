@@ -8,8 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Booking email service.
- * 
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.0.0
  * @see  Mailable
  */

@@ -6,9 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 /**
- * Reminder SMS service. 
- * 
- * @author VLA & Code for Australia
+ * Reminder SMS service.
+ *
+ * @author Christian Arevalo
  * @version 1.0.0
  * @see  Mailable
  */
@@ -38,6 +38,9 @@ class ReminderSms extends Mailable
      */
     public function build()
     {
-        return $this->subject( ' ' )->markdown('emails.reminders.sms')->with($this->args);
+        return  $this
+                ->subject( ' ' )
+                ->markdown('emails.reminders.sms')
+                ->with($this->args);
     }
 }

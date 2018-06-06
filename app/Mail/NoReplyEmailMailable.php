@@ -8,8 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * No reply email service.
- * 
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.0.0
  * @see  Mailable
  */
@@ -42,17 +42,18 @@ class NoReplyEmailMailable extends Mailable
 
         $is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
         $attachments = $this->args['attachments'];
-        $message =$this->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )->view('emails.noReplyEmail.email')->with($this->args);
+        $message =$this
+                 ->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )
+                 ->view('emails.noReplyEmail.email')->with($this->args);
         // if is CLC send message with different sender
-        if( $is_clc )
-        {
+        if ( $is_clc ) {
             $address = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
             $name = env('APP_NAME', 'Orbit');
-            $message->from( $address, $name ); 
+            $message->from( $address, $name );
         }
-        foreach ($attachments as $index => $attachment) {
-            $message->attachData($attachment['AttachmentBytes'], $attachment['FileName']);           
-        }        
+        foreach ( $attachments as $index => $attachment ) {
+            $message->attachData($attachment['AttachmentBytes'], $attachment['FileName']);
+        }
         return $message;
     }
-}   
+}

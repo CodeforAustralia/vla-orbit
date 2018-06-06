@@ -3,47 +3,66 @@ namespace App\Http;
 
 use Auth;
 
-class Helpers 
-{
+/**
+ * Common functionalities.
+ *
+ * @author Christian Arevalo and Sebastian Currea
+ * @version 1.0.0
 
-   public function VlaSimpleSAML()
-   {
+ */
+class Helpers
+{
+    /**
+     * Get simpleSAML attributes
+     * @return array attributes
+     */
+    public function VlaSimpleSAML()
+    {
         $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
         $as->requireAuth();
         $attributes = $as->getAttributes();
         return $attributes;
     }
-
+    /**
+     * Get session user role
+     * @return String role
+     */
     public static function getRole()
     {
     	if( Auth::check() )
     	{
     		return Auth::user()->roles()->first()->name ;
-    	} 
+    	}
     	else
     	{
     		return 'Anonymous';
     	}
     }
-
+    /**
+     * Get service provider from the user in session
+     * @return String service provider id
+     */
     public static function getUSerServiceProviderId()
     {
     	if( Auth::check() )
     	{
     		return Auth::user()->sp_id ;
-    	} 
+    	}
     	else
     	{
     		return '';
     	}
     }
-
+    /**
+     * Get session user id
+     * @return String user id
+     */
     public static function getUSerId()
     {
     	if( Auth::check() )
     	{
     		return Auth::user()->id ;
-    	} 
+    	}
     	else
     	{
     		return '';
@@ -54,7 +73,7 @@ class Helpers
      * @return array excluded panel lawyers.
      */
     public static function getPanelLawyersRemoveList()
-    {        
+    {
         return ['29545', 'F4190', '28708', 'F6313', '28707', '3256', '26271', '26270', '26300', '2366'];
     }
 /**
@@ -96,6 +115,6 @@ class Helpers
         }
 
         return $new_array;
-    } 
-    
+    }
+
 }

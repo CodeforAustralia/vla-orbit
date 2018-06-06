@@ -8,9 +8,9 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Referral Panel Lawyer SMS service. 
- * SMS service when a referral is send with a panel lawyers information. 
- * @author VLA & Code for Australia
+ * Referral Panel Lawyer SMS service.
+ * SMS service when a referral is send with a panel lawyers information.
+ * @author Christian Arevalo
  * @version 1.0.0
  * @see  Mailable
  */
@@ -49,12 +49,18 @@ class ReferralPanelLawyerSms extends Mailable
     {
         $is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
         // if is CLC send message with different sender
-        if( $is_clc )
-        {
+        if ( $is_clc ) {
             $address = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
             $name = env('APP_NAME', 'Orbit');
-            return $this->from( $address, $name )->subject(' ')->markdown('emails.referral.panel_lawyer_sms')->with($this->args);
+            return  $this
+                    ->from( $address, $name )
+                    ->subject(' ')
+                    ->markdown('emails.referral.panel_lawyer_sms')
+                    ->with($this->args);
         }
-        return $this->subject(' ')->markdown('emails.referral.panel_lawyer_sms')->with($this->args);
+        return $this
+               ->subject(' ')
+               ->markdown('emails.referral.panel_lawyer_sms')
+               ->with($this->args);
     }
 }
