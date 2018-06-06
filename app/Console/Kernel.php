@@ -6,9 +6,9 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 /**
  * Commands kernel.
- * 
+ *
  * @author VLA & Code for Australia
- * @version 1.0.0
+ * @version Christian Arevalo
  * @see  ConsoleKernel
  */
 class Kernel extends ConsoleKernel
@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('sms:reminders')
-         ->dailyAt('09:00')         
+         ->dailyAt('09:00')
          ->timezone('Australia/Melbourne')
          ->emailOutputTo('christian@codeforaustralia.org');
 

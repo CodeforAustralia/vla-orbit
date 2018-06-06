@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 use App\Http\Controllers\PanelLawyersController;
 use Illuminate\Console\Command;
 /**
- * Panel Lawyers updateservice.
- * 
- * @author VLA & Code for Australia
+ * Panel Lawyers update service.
+ *
+ * @author Sebastian Currea
  * @version 1.0.0
  * @see  Command
  */

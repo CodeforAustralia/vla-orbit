@@ -7,8 +7,8 @@ use App\SentSms;
 use Illuminate\Console\Command;
 /**
  * Reminders email service.
- * 
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.0.0
  * @see  Command
  */
@@ -48,6 +48,6 @@ class SendReminders extends Command
 
         $sent_sms = new SentSms();
         $sent_sms->sendMessages();
-        
+
     }
 }
