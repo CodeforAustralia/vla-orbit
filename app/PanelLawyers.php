@@ -9,13 +9,13 @@ class PanelLawyers extends Model
 {
     public $client;
 
-    function __construct() 
+    function __construct()
     {
            $this->client = (new \App\Repositories\VlaSoap)->ws_init();
     }
 
     /**
-     * Get all Panel Lawyers 
+     * Get all Panel Lawyers
      * @return Object list of all service bookings
      */
     public function getAllPanelLawyers()
@@ -23,13 +23,13 @@ class PanelLawyers extends Model
         // Return the panel lawyers by subtype of law
         $panelLawyers = [];
         $subtypes = ['CHILD PROTECTION', 'FAMILY LAW', 'FAMILY VIOLENCE 29A','INDICTABLE CRIME', 'SUMMARY CRIME'];
-        foreach ($subtypes as $subtype) {            
-            $info = [ 'SubType' => $subtype ];            
+        foreach ($subtypes as $subtype) {
+            $info = [ 'SubType' => $subtype ];
             $panelLawyers = array_merge($panelLawyers,json_decode($this->client->GetPractitionersByPanelSubTypeasJSON($info)->GetPractitionersByPanelSubTypeasJSONResult,true));
-         }                   
+         }
          $cleanArray=array();
          foreach ($panelLawyers as $key => $panelLawyer) {
-            $cleanArray[] = ["OfficeId"   => $panelLawyer["OfficeId"], 
+            $cleanArray[] = ["OfficeId"   => $panelLawyer["OfficeId"],
                              "OfficeName" => $panelLawyer["OfficeName"],
                              "SpSubType"  => $panelLawyer["SpSubType"],
                              "LawType"    => $panelLawyer["LawType"],
@@ -37,8 +37,8 @@ class PanelLawyers extends Model
                              "FullAddress"=> $panelLawyer["FullAddress"],
                              "Website"    => $panelLawyer["Website"],
                              "lat"        => $panelLawyer["LAT"],
-                             "lng"        => $panelLawyer["LONG"]];                           
-         }       
+                             "lng"        => $panelLawyer["LONG"]];
+         }
         return $cleanArray;
     }
     /**
@@ -49,7 +49,7 @@ class PanelLawyers extends Model
     public function getPanelLawyersGEOByPractitionerId($pGeo_Id)
     {
         $info = [
-            'PractitionerId'  => $pGeo_Id 
+            'PractitionerId'  => $pGeo_Id
         ];
         $practitioner = json_decode($this->client->GetPractitonerLGOByPractitonerIdasJSON( $info )->GetPractitonerLGOByPractitonerIdasJSONResult, true);
         return $practitioner;
@@ -60,21 +60,21 @@ class PanelLawyers extends Model
      * @return array      operation message
      */
     public function savePractitionerLatLng($info)
-    { 
+    {
         $info = [ 'ObjectInstance' => $info ];
-        try 
+        try
         {
-            $response = $this->client->SavPractitonerLGO( $info );            
-            // Redirect to index        
+            $response = $this->client->SavPractitonerLGO( $info );
+            // Redirect to index
             if( $response->SavPractitonerLGOResult >= 0 ){
                 return array( 'success' => 'success' , 'message' => 'Practitioner GEO saved.', 'data' => $response->SavPractitonerLGOResult );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
-        }        
+        catch (\Exception $e) {
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );
+        }
     }
     /**
      * Delete Geografical information for a specific pratitioner
@@ -92,9 +92,26 @@ class PanelLawyers extends Model
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
-        }        
+        catch (\Exception $e) {
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );
+        }
+    }
+
+    /**
+     *  Get all Panel Lawyers GEO
+     * @return array panel_lawyers_geo panel lawyers geo
+     */
+    public function getAllPanelLawyersGEO()
+    {
+        $panel_lawyers_geo = json_decode(
+                                            $this
+                                            ->client
+                                            ->GetAllPractitonerLGOasJSON()
+                                            ->GetAllPractitonerLGOasJSONResult
+                                            , true
+                                        );
+        return $panel_lawyers_geo;
+
     }
 
 }
