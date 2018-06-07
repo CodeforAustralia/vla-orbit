@@ -9,8 +9,8 @@ use Auth;
 
 /**
  * Service Booking  Controller.
- * Controller for the service booking functionalities  
- * @author VLA & Code for Australia
+ * Controller for the service booking functionalities
+ * @author Christian Arevalo and Sebastian Currea
  * @version 1.2.0
  * @see  Controller
  */
@@ -18,53 +18,57 @@ class ServiceBookingController extends Controller
 {
     /**
      * Question contructor. Create a new instance
-     */   
+     */
     public function __construct()
-    {       
+    {
         $this->middleware('auth');
-    }   
+    }
+
     /**
      * Display a listing of service booking
      * @return view service booking information
-     */ 
+     */
     public function index()
     {
-        Auth::user()->authorizeRoles( ['Administrator']);
-        return view("service_booking.index");    
+        Auth::user()->authorizeRoles( ['Administrator'] );
+        return view("service_booking.index");
     }
+
     /**
-     * List all service booking 
+     * List all service booking
      * @return array list of all service booking
      */
     public function list()
     {
-        Auth::user()->authorizeRoles( ['Administrator']);
-        $serviceBooking = new ServiceBooking();
-        $result  = $serviceBooking->getAllServiceBookings();
-        
-        return array( 'data' => $result );
+        Auth::user()->authorizeRoles( ['Administrator'] );
+        $service_booking = new ServiceBooking();
+        $result  = $service_booking->getAllServiceBookings();
+
+        return ['data' => $result];
     }
-     /**
+
+    /**
      * Show the form for creating a nee service booking
      * @return view service booking creation page
-     */ 
+     */
     public function create()
     {
-        Auth::user()->authorizeRoles( ['Administrator']);
+        Auth::user()->authorizeRoles( ['Administrator'] );
     	$service_obj = new Service();
-        $services = $service_obj->getAllServices(); 
-        
-		usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); }); 
+        $services = $service_obj->getAllServices();
+
+		usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
 
     	return view("service_booking.create", compact('services'));
     }
+
     /**
      * Store a newly or updated service booking in the data base
      * @return mixed service booking listing page with success/error message
      */
     public function store()
     {
-        Auth::user()->authorizeRoles( ['Administrator']);
+        Auth::user()->authorizeRoles( ['Administrator'] );
     	//Validations
     	$this->validate(request(), [
     		'ServiceId'=>'required',
@@ -74,46 +78,48 @@ class ServiceBookingController extends Controller
             'ServiceLength'=> 'required|numeric',
             'IntServiceLength' => 'numeric|nullable',
     	]);
-    	$serviceBooking = new ServiceBooking();
-    	$response = $serviceBooking->saveServiceBooking( request()->all() );
+    	$service_booking = new ServiceBooking();
+    	$response = $service_booking->saveServiceBooking( request()->all() );
     	return redirect('/service_booking')->with( $response['success'], $response['message'] );
     }
+
     /**
      * Display a specific service booking
-     * @param  int $sb_id service booking id
+     * @param  integer $sb_id service booking id
      * @return view single service booking information page
      */
     public function show( $sb_id )
     {
-        Auth::user()->authorizeRoles( ['Administrator']);
-        $serviceBooking = new ServiceBooking();
-        $result = $serviceBooking->getServiceBookingByID( $sb_id );
+        Auth::user()->authorizeRoles( ['Administrator'] );
+
+        $service_booking = new ServiceBooking();
+        $result = $service_booking->getServiceBookingByID( $sb_id );
+
         $service_obj = new Service();
-        $services = $service_obj->getAllServices();         
-        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); }); 
-        if(isset($result['data'])) 
-        {
-            $current_service_booking = json_decode( $result['data'] )[0];                
-            return view( "service_booking.show", compact( 'current_service_booking','services' ) );         
-        } 
-        else 
-        {
+        $services = $service_obj->getAllServices();
+
+        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+        if ( isset($result['data']) ) {
+            $current_service_booking = json_decode( $result['data'] )[0];
+            return view( "service_booking.show", compact( 'current_service_booking','services' ) );
+        } else {
             return redirect('/service_booking')->with( $response['success'], $response['message'] );
-        }  
+        }
 
     }
+
     /**
      * Remove the specified service booking from data base.
-     * @param  Integer $sb_id service booking id
+     * @param  integer $sb_id service booking id
      * @return mixed question listing page with success/error message
      */
     public function destroy($sb_id)
     {
-        Auth::user()->authorizeRoles( ['Administrator']);
+        Auth::user()->authorizeRoles( ['Administrator'] );
         $serviceBooking = new ServiceBooking();
         $response = $serviceBooking->deleteServiceBookingById($sb_id);
-        
+
         return redirect('/service_booking')->with( $response['success'], $response['message'] );
-    }    
+    }
 
 }

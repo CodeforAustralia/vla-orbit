@@ -13,8 +13,8 @@ use Auth;
 
 /**
  * Booking Controller.
- * Controller for the booking functionalities  
- * @author VLA & Code for Australia
+ * Controller for the booking functionalities
+ * @author Christian Arevalo
  * @version 1.2.0
  * @see  Controller
  */
@@ -22,18 +22,18 @@ class BookingController extends Controller
 {
     /**
      * Booking contructor. Create a new instance
-     */   
+     */
     public function __construct()
-    {       
+    {
         $this->middleware('auth');
     }
     /**
      * Display a listing of booking
      * @return view booking information
-     */     
+     */
     public function index()
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);       
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
         return view("booking.index");
     }
     /**
@@ -48,7 +48,7 @@ class BookingController extends Controller
     /**
      * Display a listing of booking by service provider
      * @return view booking by service provider information
-     */  
+     */
     public function byServiceProvider()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
@@ -64,7 +64,7 @@ class BookingController extends Controller
      */
     public function show( $bk_id )
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);    
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
         $service_providers_obj  = new ServiceProvider();
         $service_providers      = $service_providers_obj->getAllServiceProviders();
 
@@ -73,7 +73,7 @@ class BookingController extends Controller
      /**
      * Show the form for creating a new service
      * @return view service creation page
-     */       
+     */
     public function create()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
@@ -93,7 +93,7 @@ class BookingController extends Controller
         $booking_obj = new Booking();
         $response = $booking_obj->deleteBooking( $bo_id );
 
-        return redirect('/booking')->with($response['success'], $response['message']);        
+        return redirect('/booking')->with($response['success'], $response['message']);
     }
     /**
      * Get bookable services by date
@@ -107,7 +107,7 @@ class BookingController extends Controller
         $init_year = $finish_year = $year;
         $finish_month = $month + 1;
         $init_date   = $init_year . "-" . $month . "-01";
-        
+
         if( $month > 11 )
         {
             $finish_year += 1;
@@ -115,7 +115,7 @@ class BookingController extends Controller
         }
         $finish_date = $finish_year . "-" . $finish_month . "-01";
 
-        $booking_obj = new Booking(); 
+        $booking_obj = new Booking();
         return $booking_obj->getBookableServiesByDayWithTime( $sv_id, $init_date, $finish_date);
     }
     /**
@@ -123,11 +123,11 @@ class BookingController extends Controller
      * @return mixed booking listing page with success/error message
      */
     public function store()
-    {        
+    {
         $booking_obj = new Booking();
         $request_type = request('request_type');
         if( $request_type == 0 ) //Direct booking - Booking Bug integration
-        {         
+        {
             // Validate files
             $validator = Validator::make(request()->all(),
                 [
@@ -142,19 +142,19 @@ class BookingController extends Controller
 
             $service_name = request('ServiceName');
             $client_details = request('client');
-            $client_details['ClientEmail']  = ( 
-            									!isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ? 
-            										'' : 
-            										$client_details['ClientEmail'] 
-            								  );
-            $client_details['Mobile']       = ( 
-            									!isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ? 
+            $client_details['ClientEmail']  = (
+            									!isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ?
             										'' :
-            										str_replace(" ", "", $client_details['Mobile']) 
+            										$client_details['ClientEmail']
+            								  );
+            $client_details['Mobile']       = (
+            									!isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ?
+            										'' :
+            										str_replace(" ", "", $client_details['Mobile'])
             								  );
             $service_time = explode( 'T', request('serviceTime') );
             $serviceId = explode( '-', request('ServiceId') );
-            
+
             $service_booking_id = $serviceId[0];
 
             if( !is_null( request('Language') ) || ( !is_null( request('IsComplex') ) && request('IsComplex') == 1 ) )
@@ -167,12 +167,12 @@ class BookingController extends Controller
                             'Time' => $service_time[1],
                             'ServiceId' => $service_booking_id,
                         ];
-                        
+
             $booking['ClientBooking'] = [
                                             'Description' => (is_null( request('Desc') ) ? '' : request('Desc') ),
                                             'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
                                             //Modified without inform us so added just to make it work but emails are generated by Language not IntLanguage
-                                            'IntLanguage'  => (is_null( request('Language') ) ? '' : request('Language') ), 
+                                            'IntLanguage'  => (is_null( request('Language') ) ? '' : request('Language') ),
                                             'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
                                             'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
                                             'IsComplex' => (is_null( request('IsComplex') ) ? 0 : request('IsComplex') ),
@@ -182,19 +182,19 @@ class BookingController extends Controller
                                             'ContactInstructions' => (is_null( request('reContact') ) ? '' : request('reContact') ),//reContact
                                             'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),//phonepermission
                                         ];
-            
+
 
             $sp_id = request('service_provider_id');
             $service_providers_obj   = new ServiceProvider();
             $service_provider_result = $service_providers_obj->getServiceProviderByID( $sp_id );
             $service_provider = json_decode( $service_provider_result['data'] )[0];
-            
-            $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );        
+
+            $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );
 
             $reservation_details = json_decode( $reservation['reservation'] );
 
             //Upload attached files
-            
+
             $main_file['files'] = request('files');
             $other_files = request('attachments');
 
@@ -210,19 +210,19 @@ class BookingController extends Controller
             {
                 $files = $other_files;
             }
-            
+
             if( !empty( $files ) )
             {
                 $booking_document = new BookingDocument();
-                foreach ($files as $file) 
-                {                
+                foreach ($files as $file)
+                {
                     $fileName = $file['files']->getClientOriginalName();
                     $file['files']->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
-                    //Get booking refer from clients name 
+                    //Get booking refer from clients name
                     $clientBokingRefNo = explode(' ',  $reservation_details->client_name );
                     $booking_document->saveBookingDocument( $fileName , $clientBokingRefNo [0] );
                 }
-            }        
+            }
 
             return redirect('/booking')->with('success', 'Booking saved.');
         } else {
@@ -243,7 +243,7 @@ class BookingController extends Controller
      */
     public function list()
     {
-        $booking_obj = new Booking(); 
+        $booking_obj = new Booking();
         return $booking_obj->getAllBookingsNextMonthCalendar( date("Y-m-d"), date("Y-m-d", strtotime("+1 month")) );
     }
     /**
@@ -252,7 +252,7 @@ class BookingController extends Controller
      */
     public function listCalendar()
     {
-        $booking_obj = new Booking(); 
+        $booking_obj = new Booking();
         return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') ) ;
     }
     /**
@@ -261,7 +261,7 @@ class BookingController extends Controller
      */
     public function listCalendarBySp()
     {
-        $booking_obj = new Booking(); 
+        $booking_obj = new Booking();
         return $booking_obj->getAllBookingsPerMonthCalendar( request('start'), request('end') , request('sp_id') ) ;
     }
     /**
@@ -270,7 +270,7 @@ class BookingController extends Controller
      */
     public function listCalendarByUser()
     {
-        $booking_obj = new Booking(); 
+        $booking_obj = new Booking();
         $bookings = $booking_obj->getBookingsByUser() ;
         return array( 'data' => $bookings );
     }
@@ -301,7 +301,7 @@ class BookingController extends Controller
     {
         $booking = request('booking');
 
-        $booking_obj = new Booking(); 
+        $booking_obj = new Booking();
         $result = $booking_obj->updateBookingDetails( json_decode($booking) ) ;
 
         return $result;
@@ -330,7 +330,7 @@ class BookingController extends Controller
     /**
      * Display Legal Help booking
      * @return view legal help booking information
-     */    
+     */
     public function legalHelp()
     {
         return view("booking.legal_help");

@@ -11,55 +11,63 @@ use Auth;
 
 /**
  * Question  Controller.
- * Controller for the question functionalities  
- * @author VLA & Code for Australia
+ * Controller for the question functionalities
+ * @author Christian Arevalo
  * @version 1.2.0
  * @see  Controller
  */
+
+const LEGAL_MATTER_TYPE = 1;
+const ELEGIBILITY_TYPE = 2;
+
 class QuestionController extends Controller
 {
     /**
      * Question contructor. Create a new instance
-     */      
+     */
     public function __construct()
-    {       
+    {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of question
      * @return view question information
-     */ 
+     */
     public function index()
     {
         Auth::user()->authorizeRoles('Administrator');
 
         return view("question.index");
     }
+
     /**
      * Display a listing of legal matter questions
      * @return view legal matter question information
-     */ 
+     */
     public function legalMatterQuestions()
     {
         Auth::user()->authorizeRoles('Administrator');
 
         return view("question.legal_matter_questions");
     }
+
     /**
      * Display a listing of eligibility questions
      * @return view eligibility question information
-     */         
+     */
     public function eligibilityCriteria()
     {
         Auth::user()->authorizeRoles('Administrator');
 
         return view("question.eligibility_criteria");
     }
+
     /**
      * Display a specific question
      * @param  int  $qu_id    question Id
      * @return view single question information page
-     */   
+     */
     public function show( $qu_id )
     {
         Auth::user()->authorizeRoles('Administrator');
@@ -76,52 +84,55 @@ class QuestionController extends Controller
         $question_group = new QuestionGroup();
         $question_groups = $question_group->GetAllQuestionGroups();
 
-        if(isset($current_question['data'])) {
+        if (isset($current_question['data'])) {
             $current_question = $current_question['data'][0];
             $type_name = '';
-            if( $current_question->QuestionCategoryId == 2 ) //Eligibility type 
-            {
-                $question_types = [ $question_types[ array_search( 
-                                                                    1 , //Boolean type id
-                                                                    array_column( $question_types, 'QuestionTypeId' ) 
-                                                                  ) 
+            if ( $current_question->QuestionCategoryId == ELEGIBILITY_TYPE ) {
+                $question_types =  [
+                                        $question_types[
+                                                            array_search(
+                                                                    LEGAL_MATTER_TYPE ,
+                                                                    array_column( $question_types, 'QuestionTypeId' )
+                                                                  )
                                                        ]
-                                    ];                
+                                   ];
             }
 
             $type_name = $current_question->QuestionCategoryName;
-            return view( "question.show", compact( 'current_question','question_types', 'question_categories', 'type_name', 'question_groups' ) );         
+            return view( "question.show", compact( 'current_question','question_types', 'question_categories', 'type_name', 'question_groups' ) );
         } else {
             return redirect('/question')->with( $response['success'], $response['message'] );
-        }    
+        }
     }
+
     /**
      * Store a newly or updated question in the data base
      * @return mixed  legal matter question or eligibility question listing page with success/error message
-     */ 
+     */
     public function store()
-    {        
+    {
         Auth::user()->authorizeRoles('Administrator');
 
-        $question_params =    array(
+        $question_params =  [
         						'QuestionId'			=> request('qu_id'),
                                 'QuestionLabel'         => filter_var(request('QuestionLabel'), FILTER_SANITIZE_STRING),
                                 'QuestionName'         	=> filter_var(request('QuestionName'), FILTER_SANITIZE_STRING),
                                 'QuestionTypeId'   		=> request('QuestionTypeId'),
                                 'QuestionCategoryId'    => request('QuestionCategoryId'),
-                                'QuestionGroupId'    => request('QuestionGroupId')
-                            );
-        
+                                'QuestionGroupId'       => request('QuestionGroupId')
+                            ];
+
         $question       = new Question();
         $response       = $question->saveQuestion( $question_params );
-        $redirect_path  = ( request('QuestionCategoryId') == 2 ? '/eligibility_criteria' : '/legal_matter_questions');
+        $redirect_path  = ( request('QuestionCategoryId') == ELEGIBILITY_TYPE ? '/eligibility_criteria' : '/legal_matter_questions');
         return redirect( $redirect_path )->with( $response['success'], $response['message'] );
     }
+
      /**
      * Show the form for creating a new question
      * @param String $type question type
      * @return view question creation page
-     */    
+     */
     public function create( $type = '' )
     {
         Auth::user()->authorizeRoles('Administrator');
@@ -132,71 +143,78 @@ class QuestionController extends Controller
         $question_category_obj = new QuestionCategory();
         $question_categories = $question_category_obj->getAllQuestionCategories();
         $type_name = '';
-        if( $type != '' )
-        {
-            $question_categories = [ $question_categories[ array_search( 
-                                                                        $type , 
-                                                                        array_column( $question_categories, 'QuestionId' ) 
-                                                                      ) 
+        if ( $type != '' ) {
+            $question_categories = [
+                                        $question_categories[
+                                                                array_search(
+                                                                        $type ,
+                                                                        array_column( $question_categories, 'QuestionId' )
+                                                                )
                                                        ]
                                     ];
-            if( $type == 2 ) //Eligibility type 
-            {
-                $question_types = [ $question_types[ array_search( 
-                                                                    1 , //Boolean type id
-                                                                    array_column( $question_types, 'QuestionTypeId' ) 
-                                                                  ) 
+            //Double check this functionality
+            if ( $type == ELEGIBILITY_TYPE ) {
+                $question_types = [
+                                        $question_types[
+                                                            array_search(
+                                                                    LEGAL_MATTER_TYPE ,
+                                                                    array_column( $question_types, 'QuestionTypeId' )
+                                                                  )
                                                        ]
-                                    ];                
+                                    ];
             }
-                                    
+
             $type_name = $question_categories[0]["QuestionName"];
         }
 
         return view( "question.create", compact( 'question_types', 'question_categories', 'type_name' ) );
     }
+
     /**
      * Remove the specified question from data base.
      * @param  int $qu_id question Id
      * @return mixed question listing page with success/error message
      */
     public function destroy( $qu_id )
-    {        
+    {
         Auth::user()->authorizeRoles('Administrator');
-        
+
         $question = new Question();
         $response = $question->deleteQuestion( $qu_id );
-        
+
         return redirect('/question')->with( $response['success'], $response['message'] );
     }
+
     /**
-     * List all question 
+     * List all question
      * @return array list of all question
      */
     public function list()
     {
         $question = new Question();
         $result = $question->getAllQuestions();
-        return array( 'data' => $result );
+        return ['data' => $result];
     }
+
     /**
      * List all legal matter question
      * @return array list of all question
-     */    
+     */
     public function listLegalMatterQuestions()
     {
         $question = new Question();
         $result = $question->getAllLegalMatterQuestions();
-        return array( 'data' => $result );
+        return ['data' => $result];
     }
+
     /**
      * List all eligibility question
      * @return array list of all eligibility question
-     */  
+     */
     public function listVulnerabilityQuestions()
     {
         $question = new Question();
         $result = $question->getAllVulnerabilityQuestions();
-        return array( 'data' => $result );
+        return ['data' => $result];
     }
 }

@@ -9,8 +9,8 @@ use App\Dashboard;
 /**
  * Dashboard Controller.
  * Controller for the Dashboard functionalities
- *   
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.2.0
  * @see Controller
  */
@@ -20,7 +20,7 @@ class DashboardController extends Controller
      * Dashboard constructor. Create a new instance
      */
     public function __construct()
-    {       
+    {
         $this->middleware('auth');
     }
     /**
@@ -32,6 +32,7 @@ class DashboardController extends Controller
     {
         $request->user()->authorizeRoles('Administrator');
         $dashboards = Dashboard::all()->sortBy('position');
+
         return view('dashboard.index', compact('dashboards'));
     }
 
@@ -42,8 +43,8 @@ class DashboardController extends Controller
      */
     public function create( Request $request )
     {
-        $request->user()->authorizeRoles('Administrator');   
-        // page to create 
+        $request->user()->authorizeRoles('Administrator');
+
         return view('dashboard.create');
     }
 
@@ -58,12 +59,13 @@ class DashboardController extends Controller
         $request->user()->authorizeRoles('Administrator');
         // post to store
         // save it to the DB
-        
+
         $this->validate( request(),[
             'title' => 'required',
             'body' => 'required'
         ]);
         Dashboard::store( request()->all() );
+
         return redirect('/dashboard')->with( 'success', 'Saved' );
     }
 
@@ -77,7 +79,7 @@ class DashboardController extends Controller
     {
         $request->user()->authorizeRoles('Administrator');
         $dashboard = Dashboard::find($id);
-        //dd($dashboard);
+
         return view('dashboard.show', compact( 'dashboard' ));
     }
     /**
@@ -90,6 +92,7 @@ class DashboardController extends Controller
     {
         $request->user()->authorizeRoles('Administrator');
         Dashboard::destroy( $id );
+
         return redirect('/dashboard')->with( 'success', 'Message deleted' );
     }
 
@@ -97,6 +100,7 @@ class DashboardController extends Controller
     {
         $request->user()->authorizeRoles('Administrator');
         Dashboard::updatePositions( $request['positions'] );
+
         return 'done';
     }
 }

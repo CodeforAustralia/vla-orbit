@@ -9,18 +9,18 @@ use Auth;
 /**
  * EReferral Controller.
  * Controller for the EReferral process
- *   
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.2.0
  * @see Controller
  */
 class EReferralController extends Controller
-{ 
+{
     /**
      * EReferral constructor. Create a new instance
      */
     public function __construct()
-    {       
+    {
         $this->middleware('auth');
     }
     /**
@@ -30,6 +30,7 @@ class EReferralController extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles('Administrator');
+
         return view("e_referral.index");
     }
     /**
@@ -40,33 +41,34 @@ class EReferralController extends Controller
     {
         Auth::user()->authorizeRoles('Administrator');
         $e_referral_obj = new EReferral();
-        $e_referral = $e_referral_obj->getEReferralFormByID($erf_id)['data']->ReferralForm;        
+        $e_referral = $e_referral_obj->getEReferralFormByID($erf_id)['data']->ReferralForm;
+
         return view("e_referral.show", compact('e_referral'));
     }
     /**
      * Show the form for creating a new EReferral
      * @return view EReferral creation page
-     */        
+     */
     public function create()
     {
         Auth::user()->authorizeRoles('Administrator');
         return view("e_referral.create");
-    }    
+    }
     /**
-     * Store a newly or updated EReferral in the data base   
+     * Store a newly or updated EReferral in the data base
      * @return mixed  EReferal listing page with success/error message
      */
     public function store()
-    {        
+    {
         Auth::user()->authorizeRoles('Administrator');
-        $service_level_params =  array(
-                                        'title'         => request('title'),
-                                        'description'   => request('description'),
-                                    );
-        
+        $service_level_params = [
+                                    'title'         => request('title'),
+                                    'description'   => request('description'),
+                                ];
+
         $e_referral = new EReferral();
         $response = $e_referral->saveEReferralForm(request()->all());
-        
+
         return redirect('/e_referral')->with($response['success'], $response['message']);
     }
     /**
@@ -79,7 +81,7 @@ class EReferralController extends Controller
         Auth::user()->authorizeRoles('Administrator');
         $e_referral = new EReferral();
         $response = $e_referral->deleteEReferralForm($erf_id);
-        
+
         return redirect('/e_referral')->with($response['success'], $response['message']);
     }
     /**
@@ -90,6 +92,7 @@ class EReferralController extends Controller
     {
         $e_referral_obj = new EReferral();
         $forms = $e_referral_obj->getAllEReferralForms();
+
         return ['data' => $forms ];
     }
     /**
@@ -100,7 +103,8 @@ class EReferralController extends Controller
     {
         $e_referral_obj = new EReferral();
         $forms = $e_referral_obj->getAllEReferralFormsFormated();
+
         return ['data' => $forms ];
     }
-    
+
 }

@@ -9,18 +9,18 @@ use Auth;
 /**
  * Catchment Controller.
  * Controller for the catchment functionality
- *   
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.2.0
  * @see  Controller
  */
 class CatchmentController extends Controller
-{   
+{
     /**
      * Catchment Constructor. Create a new instance
      */
     public function __construct()
-    {       
+    {
         $this->middleware('auth');
     }
     /**
@@ -46,7 +46,7 @@ class CatchmentController extends Controller
 
     public function store()
     {
-        
+
     }
     /**
      * Show the form for creating a new Catchment
@@ -56,7 +56,7 @@ class CatchmentController extends Controller
     {
 
         Auth::user()->authorizeRoles('Administrator');
-        
+
         return view("catchment.create");
     }
     /**

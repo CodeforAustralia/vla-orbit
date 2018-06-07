@@ -4,19 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 
 /**
- * Master Controller.
+ * Master Controller used to test ORBIT Web services.
  * Controller for the home dashboard
- *   
- * @author VLA & Code for Australia
+ *
+ * @author Christian Arevalo
  * @version 1.2.0
  * @see Controller
  */
 class MasterController extends Controller
 {
-	public function ws_init() 
-	{		
+    /**
+     * Master contructor. Create a new instance
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Core Orbit Web Service client
+     *
+     * @return SoapClient
+     */
+	public function ws_init()
+	{
+        Auth::user()->authorizeRoles( ['Administrator']);
         // Create Soap Object
         $wsdl = env( 'ORBIT_WDSL_URL' );
         $client = new \SoapClient( $wsdl, array( 'cache_wsdl' => WSDL_CACHE_NONE ) );
@@ -24,14 +39,26 @@ class MasterController extends Controller
         return $client;
 	}
 
+    /**
+     * Orbit Web Service functions
+     *
+     * @return Dump Dump message on the browser
+     */
     public function _functions()
-    {        
+    {
+        Auth::user()->authorizeRoles( ['Administrator']);
     	$client = self::ws_init();
         dd( $client->__getFunctions() );
     }
 
+    /**
+     * Orbit Web Service types
+     *
+     * @return Dump Dump message on the browser
+     */
     public function _types()
     {
+        Auth::user()->authorizeRoles( ['Administrator']);
     	$client = self::ws_init();
         dd( $client->__getTypes() );
     }
