@@ -11,108 +11,111 @@ use Auth;
 /**
  * Panel Lawyers Controller.
  * Controller for the private practitioners functionalities
- *   
- * @author VLA & Code for Australia
- * @version 1.2.0
+ *
+ * @author Christian Arevalo, Sebastian Currea
+ * @version 1.1.0
  * @see  Controller
  */
 class PanelLawyersController extends Controller
 {
     /**
      * Panel Lawyers contructor. Create a new instance
-     */      
+     */
   	public function __construct()
-  	{		
+  	{
       	$this->middleware('auth');
-  	}
+    }
+
     /**
      * Display a listing of panel lawyers
      * @return view panel lawyers information
-     */  
+     */
     public function index()
     {
         Auth::user()->authorizeRoles( ['Administrator']);
         return view("panel_lawyers.index");
-     
+
     }
+
     /**
      * Display all panel laywers
      * @return array list of panel lawyers
      */
     public function list()
     {
-        $panelLawyers = new PanelLawyers();
-        $result = $panelLawyers->getAllPanelLawyers();        
+        $panel_lawyers = new PanelLawyers();
+        $result = $panel_lawyers->getAllPanelLawyers();
         usort($result, function($a, $b){ return strcasecmp($a["OfficeId"], $b["OfficeId"]); });
-        $panelLawyers = array_map("unserialize", array_unique(array_map("serialize", $result)));
+        $panel_lawyers = array_map("unserialize", array_unique(array_map("serialize", $result)));
         $result= [];
         // Remove some specific panel Lawyers
-        $excludeList = \App\Http\helpers::getPanelLawyersRemoveList();        
-        foreach ($panelLawyers as $key => $panelLawyer) {
-          if(!in_array($panelLawyer['OfficeId'],$excludeList))
-          {
-            $result[]=$panelLawyer;
+        $exclude_list = \App\Http\helpers::getPanelLawyersRemoveList();
+
+        foreach ($panel_lawyers as $key => $panel_lawyer) {
+          if ( !in_array($panel_lawyer['OfficeId'],$exclude_list)) {
+            $result[]=$panel_lawyer;
           }
-          
         }
 
         return [ 'data' => $result ];
-
     }
+
     /**
      * Save latitude and longitude for panel lawyers
      * @return array Success Message
      */
     public function storeLatLng()
     {
-      ini_set('max_execution_time', 400);
-      $panelLawyers = self::list();
-      $counter = 0;
-      $panelLawyerObj = new PanelLawyers();
-      $panelLawyersRC= []; 
-      foreach ($panelLawyers['data'] as $key => $panelLawyer) 
-      {                      
-
-        $panelLawyersRC[$panelLawyer["OfficeId"]]= [
-                                      'FullAddress' => $panelLawyer["FullAddress"]
-                                   ];
-      }             
-      foreach ($panelLawyersRC as $practitionerId => $panelLawyerRC) 
-      {
-        $panelLawyerGEO = [];
-        $info=[];
-        $counter++;
-        $panelLawyerGEO = $panelLawyerObj->getPanelLawyersGEOByPractitionerId($practitionerId);
-        $coordinates = self::getLatLngByAddress($panelLawyerRC['FullAddress']);        
-        if($counter % 100 == 0)
-        {          
-          sleep(1);          
-        } 
-        $info['PractitionerId'] = $practitionerId;
-        $info['LAT'] = $coordinates['lat'];
-        $info['LONG'] = $coordinates['lng'];
-        if(empty($panelLawyerGEO))
-        {                                        
-          $info['RefId'] = 0;          
-          $panelLawyerObj->savePractitionerLatLng($info);         
-                   
+        ini_set('max_execution_time', 400);
+        $panel_lawyers = self::list();
+        $counter = 0;
+        $panel_lawyer_obj = new PanelLawyers();
+        $panel_lawyers_rc= [];
+        // Get all panel Lawyers and format them in a new list with their address
+        foreach ($panel_lawyers['data'] as $key => $panel_lawyer) {
+            $panel_lawyers_rc[$panel_lawyer["OfficeId"]]= [
+                                                           'FullAddress' => $panel_lawyer["FullAddress"]
+                                                       ];
         }
-        else
-        {
-          foreach ($panelLawyerGEO as $key => $panlawyer) {                        
-            if(strcmp( $panlawyer['LAT'] , $info['LAT'] ) != 0  || strcmp ( $panlawyer['LONG'] , $info['LONG']) != 0 )
-            {
-              $info['RefId'] = $panlawyer['RefId'];              
-              $panelLawyerObj->savePractitionerLatLng($info);                                                      
+        // Create or update Panel Lawyers GEO according to the list
+        foreach ($panel_lawyers_rc as $practitioner_id => $panel_lawyer_rc) {
+            $panel_lawyers_geo = [];
+            $info=[];
+            $counter++;
+            $panel_lawyers_geo = $panel_lawyer_obj->getPanelLawyersGEOByPractitionerId($practitioner_id);
+            $coordinates = self::getLatLngByAddress($panel_lawyer_rc['FullAddress']);
+
+            //Sleep 1 second if the maximum number of petitons to the Google API have reached
+            if ($counter % 100 == 0) {
+                sleep(1);
             }
-            break;
-          }
-          
-        }         
-      }        
-      
-      return array( 'success' => 'success' , 'message' => 'The geolocation information was saved.', 'data' =>  $counter);                
+            $info['PractitionerId'] = $practitioner_id;
+            $info['LAT'] = $coordinates['lat'];
+            $info['LONG'] = $coordinates['lng'];
+            // If the panel lawyer does not exist create a new one
+            if (empty($panel_lawyers_geo)) {
+                $info['RefId'] = 0;
+                $panel_lawyer_obj->savePractitionerLatLng($info);
+            } elseif ( strcmp( array_values($panel_lawyers_geo)[0]['LAT'] , $info['LAT'] ) != 0
+                       || strcmp ( array_values($panel_lawyers_geo)[0]['LONG'] , $info['LONG']) != 0 ) {
+                // if exist and the lat or long are different update it.
+                $info['RefId'] = array_values($panel_lawyers_geo)[0]['RefId'];
+                $panel_lawyer_obj->savePractitionerLatLng($info);
+            }
+        }
+
+        // clean the panel lawyers geo removed from the panel lawyer list
+        $panel_lawyers_geo = $panel_lawyer_obj->getAllPanelLawyersGEO();
+        foreach ( $panel_lawyers_geo as $key => $panel_lawyer_geo ) {
+
+            if ( !in_array( $panel_lawyer_geo["PractitionerId"], array_keys( $panel_lawyers_rc ) ) ) {
+                self::destroyLatLng($panel_lawyer_geo["RefId"]);
+            }
+
+        }
+      return array( 'success' => 'success' , 'message' => 'The geolocation information was saved.', 'data' =>  $counter);
     }
+
     /**
      * Update panel lawyer geographical information according to the address
      * @param  integer $pl_id      panel lawyer id
@@ -121,65 +124,60 @@ class PanelLawyersController extends Controller
      */
     public function updateLatLng($pl_id, $pl_address)
     {
-      $panelLawyerObj = new PanelLawyers();
-      $result = [];
-      $info = $panelLawyerObj->getPanelLawyersGEOByPractitionerId($panelLawyer["OfficeId"]);
-      if(!empty($info))
-      {
-        foreach ($info as $key => $inf) {
-          $info['RefId'] = $inf['RefId'];
-          $info['PractitionerId'] = $inf["PractitionerId"];                        
+        $panel_lawyer_obj = new PanelLawyers();
+        $result = [];
+        $info = $panel_lawyer_obj->getPanelLawyersGEOByPractitionerId($pl_id);
+        if (!empty($info)) {
+
+            foreach ($info as $key => $inf) {
+                $info['RefId'] = $inf['RefId'];
+                $info['PractitionerId'] = $inf["PractitionerId"];
+            }
+
+            $coordinates = self::getLatLngByAddress($panelLawyerRC['FullAddress']);
+            $info['LAT'] = $coordinates['lat'];
+            $info['LONG'] = $coordinates['lng'];
+            $result = $panel_lawyer_obj->savePractitionerLatLng($info);
         }
-        $coordinates = self::getLatLngByAddress($panelLawyerRC['FullAddress']);
-        $info['LAT'] = $coordinates['lat'];
-        $info['LONG'] = $coordinates['lng'];          
-        $result=$panelLawyerObj->savePractitionerLatLng($info);              
-      }
-      return array( 'success' => 'success' , 'message' => 'The geolocation information was saved.', 'data' =>  $result);   
+        return array( 'success' => 'success' , 'message' => 'The geolocation information was saved.', 'data' =>  $result);
 
     }
 
     /**
      * Delete panel lawyer geographical information
-     * @param  int $pl_id panel lawyer id 
+     * @param  int $pl_id panel lawyer id
      * @return array  Success/Error message
      */
     public function destroyLatLng($pl_id)
-    {        
-        $panelLawyerObj = new PanelLawyers();
-        $response = $panelLawyerObj->deletePractitionerLatLng($pl_id);
-        
+    {
+        $panel_lawyer_obj = new PanelLawyers();
+        $response = $panel_lawyer_obj->deletePractitionerLatLng($pl_id);
+
         return array( 'success' => 'success' , 'message' => 'The geolocation information was deleted.', 'data' =>  $response );
-    }        
+    }
+
     /**
      * Get five closest panel lawyers according to client address
      * @return array list of closest panel lawyers
      */
     public function getClosestByAddress()
     {
-        //dd(request('address'));
-        //$panel_obj = new PanelLawyers();
-        //$all = $panel_obj->all();
-        $all = self::list();        
+        $all = self::list();
         $address = request('address');
         $service_name = trim(request('serviceName'));
         $client_address = self::getLatLngByAddress( $address );
-
-        //dump($client_address);
-        if( strcmp(strtolower($service_name),"family violence") == 0)
-        {
+        // Rename service family violence with FAMILY VIOLENCE 29A
+        if ( strcmp(strtolower($service_name),"family violence") == 0) {
           $service_name = "FAMILY VIOLENCE 29A";
         }
         $service_name = strtolower($service_name);
-        if($client_address)
-        {
+        if ($client_address) {
             $distance = array();
-            foreach ($all['data'] as $key => $panel) 
-            {                
-                if( $panel['lat'] !== 0 && strcmp(strtolower($panel['SpSubType']), $service_name)== 0 )
-                {   
+            foreach ($all['data'] as $key => $panel) {
+
+                if ( $panel['lat'] !== 0 && strcmp(strtolower($panel['SpSubType']), $service_name)== 0 ) {
                     $office = array('lat' => $panel['lat'], 'lng' => $panel['lng']);
-                    $distance[] = [ 
+                    $distance[] = [
                                     'distance' => self::distanceBetweenClientAndOffices( $client_address, $office),
                                     'lat' => $panel['lat'],
                                     'lng' => $panel['lng'],
@@ -187,12 +185,13 @@ class PanelLawyersController extends Controller
                                   ];
                 }
             }
-
             usort($distance, function($a, $b){ return $a["distance"] > $b["distance"]; });
-            $distance = self::travelDistance($client_address, array_slice($distance, 0, 20, true));            
-            usort($distance, function($a, $b){ return $a["distance"] > $b["distance"]; });          
+            // For the closest 20 get the shortest travel distance
+            $distance = self::travelDistance($client_address, array_slice($distance, 0, 20, true));
+            usort($distance, function($a, $b){ return $a["distance"] > $b["distance"]; });
             $client_address = json_encode( self::getLatLngByAddress( $address ) );
-            $closest = json_encode( array_slice($distance, 0, 5, true) );            
+            // Get the closest 5 by travel distance
+            $closest = json_encode( array_slice($distance, 0, 5, true) );
             return compact('client_address', 'closest');
         }
     }
@@ -203,8 +202,8 @@ class PanelLawyersController extends Controller
     * @return array          Google geo location array
     */
     public function getLatLngByAddress( $address)
-    {     
-        $arrContextOptions=array(
+    {
+        $arr_context_options=array(
             "ssl"=>array(
                 "verify_peer"=>false,
                 "verify_peer_name"=>false,
@@ -213,16 +212,16 @@ class PanelLawyersController extends Controller
 
         $address = urlencode($address);
 
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&components=locality:victoria|country:AU&key=AIzaSyAJi9SNu8Nye5MDdZcB5DfcgsZjXgJk6cc';
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+                . $address
+                . '&components=locality:victoria|country:AU&key='
+                . env('GOOGLE_MAPS_KEY');
 
-        $string = file_get_contents($url, false, stream_context_create($arrContextOptions)); // get json content
-        $json_a = json_decode($string, true); //json decoder        
-        if($json_a["status"] === "OK")
-        {
+        $string = file_get_contents($url, false, stream_context_create($arr_context_options)); // get json content
+        $json_a = json_decode($string, true); //json decoder
+        if ( $json_a["status"] === "OK" ) {
             return $json_a["results"][0]["geometry"]["location"];
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -234,22 +233,21 @@ class PanelLawyersController extends Controller
      * @return float         measure of distance btw two points in kms
      */
     public function distanceBetweenClientAndOffices( $client, $office)
-    {        
+    {
         return self::distance($client['lat'], $client['lng'], floatval($office['lat']), floatval($office['lng']), 'K');
     }
-   
+
    /**
     * [distance description : https://stackoverflow.com/questions/10053358/measuring-the-distance-between-two-coordinates-in-php]
-    * @param  string $lat1 client latitude 
+    * @param  string $lat1 client latitude
     * @param  string $lon1 client longitude
     * @param  string $lat2 panel lawyer latitude
     * @param  string $lon2 panel lawyer longitude
     * @param  string $unit units of measure ie. kms (K),  nautic Miles (N), miles (default)
     * @return float        measure of distance btw two points in specific measure
     */
-    function distance($lat1, $lon1, $lat2, $lon2, $unit) 
+    function distance( $lat1, $lon1, $lat2, $lon2, $unit )
     {
-
         $theta = $lon1 - $lon2;
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
         $dist = acos($dist);
@@ -257,50 +255,44 @@ class PanelLawyersController extends Controller
         $miles = $dist * 60 * 1.1515;
         $unit = strtoupper($unit);
 
-        if ($unit == "K") {
-          return ($miles * 1.609344);
-        } else if ($unit == "N") {
-          return ($miles * 0.8684);
+        if ( $unit == "K" ) {
+            return ($miles * 1.609344);
+        } elseif ( $unit == "N" ) {
+            return ($miles * 0.8684);
         } else {
-          return $miles;
+            return $miles;
         }
     }
+
     /**
      * Calculate travel distance between client and closest panel lawyers
      * @param  array $client_address client latitude and longitude
-     * @param  array $distances latitude and longitude of the closest panel lawyers      
+     * @param  array $distances latitude and longitude of the closest panel lawyers
      * @return array            panel lawyers with travel distance information
      */
     public function travelDistance($client_address, $distances)
-    {      
-      $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='.$client_address['lat'].'%2C'.$client_address['lng'].'&destinations=';
-      $numItems = count($distances);
-      $i = 0;
-      foreach ($distances as $key => $distance) {        
-        if(++$i === $numItems) {
-          $url.= $distance['lat'].'%2C'.$distance['lng'];
+    {
+        $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='.$client_address['lat'].'%2C'.$client_address['lng'].'&destinations=';
+        $numItems = count($distances);
+        $i = 0;
+        foreach ( $distances as $key => $distance ) {
+            if (++$i === $numItems) {
+                $url.= $distance['lat'].'%2C'.$distance['lng'];
+            } else {
+                $url.= $distance['lat'].'%2C'.$distance['lng'].'%7C';
+            }
         }
-        else
-        {
-          $url.= $distance['lat'].'%2C'.$distance['lng'].'%7C';  
-        }        
-      }
-      $url.='&key=AIzaSyAJi9SNu8Nye5MDdZcB5DfcgsZjXgJk6cc';      
-      $json_a = json_decode(file_get_contents($url), true);
-      if($json_a["status"] === "OK")
-      {        
-        $results = $json_a['rows'][0]['elements'];
-        foreach ($results as $key => $result) {
-          
-          $distances[$key]['distance']= $result['duration']['value'];
-          
-        }        
-        return $distances;
-      }      
-      else
-      {
-        return false;
-      }
+        $url.= '&key='. env('GOOGLE_MAPS_KEY') ;
+        $json_a = json_decode(file_get_contents($url), true);
+        if ( $json_a["status"] === "OK" ) {
+            $results = $json_a['rows'][0]['elements'];
+            foreach ( $results as $key => $result ) {
+                $distances[$key]['distance']= $result['duration']['value'];
+            }
+            return $distances;
+        } else {
+            return false;
+        }
     }
 
 }
