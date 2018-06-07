@@ -154,7 +154,7 @@ class ReferralController extends Controller
 
             $service_qty = sizeof( session('matches') );
             if ( empty( $question_list ) && $service_qty > 0) {
-                return redirect('referral.create.result');
+                return redirect('referral/create/result');
             } elseif ( $service_qty > 0 ) {
                 return view( 'referral.create.questions', compact( 'question_list', 'service_qty' ) );
             }
@@ -183,7 +183,7 @@ class ReferralController extends Controller
 
         $service_qty = sizeof( session('matches') );
         if ( empty( $question_list ) && $service_qty > 0) {
-            return redirect('referral.create.result');
+            return redirect('referral/create/result');
         } elseif ( $service_qty > 0 ) {
             return view( 'referral.create.questions', compact( 'question_list', 'service_qty' ) );
         } else {
