@@ -8,8 +8,10 @@
 
 <p> <strong>Client's email: </strong>{{ $args['client']['ClientEmail'] }} </p>
 
+@if( isset($args['booking']['ClientBooking']['CIRNumber']) )
 <p> <strong>Client's CIR number: </strong>{{ $args['booking']['ClientBooking']['CIRNumber'] }} </p>
 
+@endif
 <p> <strong>Service Name: </strong> {{ $args['service_name'] }} </p>
 
 <p> <strong>Booking Time: </strong>{{ $args['booking']['Date'] . ' ' . $args['booking']['Time'] }} </p>
