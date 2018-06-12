@@ -5,11 +5,13 @@
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet ">
         <h1 class="page-title col-xs-10"> All Service Providers </h1>
+        @if( \App\Http\helpers::getRole() === 'Administrator' )
         <a role="button" class="btn main-green col-xs-2 pull-right" href="/service_provider/new">New Service Providers</a>
+        @endif
         <br>
     </div>
     <!-- END PAGE HEADER-->
-    
+
     <!-- Begin: Demo Datatable services -->
     <div class="portlet light portlet-fit portlet-datatable ">
         <div class="portlet-body">

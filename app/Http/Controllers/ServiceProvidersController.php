@@ -40,7 +40,7 @@ class ServiceProvidersController extends Controller
      */
     public function show($sp_id)
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp','AdminSpClc'] );
 
         $is_admin = (new \App\Repositories\RolesCheck)->is_admin();
 
