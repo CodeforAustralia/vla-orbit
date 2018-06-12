@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="contact_email">Contact Email: <small>when an booking is made requiring an interpreter, an email notification will be automatically sent to this address</small></label>
+                        <label for="contact_email">Contact Email: <small>when a booking is made requiring an interpreter, an email notification will be automatically sent to this address</small></label>
                         <input type="text" class="form-control" id="contact_email" name="contact_email" value="{{ isset($current_sp) ? $current_sp->ContactEmail : '' }}" required>
                     </div>
 
