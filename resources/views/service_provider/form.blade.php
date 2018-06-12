@@ -50,12 +50,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="contact_email">Contact Email:</label>
+                        <label for="contact_email">Contact Email: <small>when an booking is made requiring an interpreter, an email notification will be automatically sent to this address</small></label>
                         <input type="text" class="form-control" id="contact_email" name="contact_email" value="{{ isset($current_sp) ? $current_sp->ContactEmail : '' }}" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="spt_id">Service Provider:</label>                        
+                        <label for="spt_id">Service Provider:</label>
                         <select class="form-control" id="spt_id" name="spt_id" required>
                             <option value=""></option>
                             <option value="1" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 1 ) ? 'selected' : '' ?> >Non Legal Provider</option>
@@ -65,7 +65,7 @@
                             <option value="5" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 5 ) ? 'selected' : '' ?>>Private Practitioner</option>
                             <option value="6" <?= ( isset($current_sp) && $current_sp->ServiceProviderTypeId == 6 ) ? 'selected' : '' ?>>Panel Lawyer</option>
                         </select>
-                        
+
                     </div>
 
                 </div>
