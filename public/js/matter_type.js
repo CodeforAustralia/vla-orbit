@@ -12,20 +12,20 @@ var TableDatatablesAjax = function () {
                 // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -70,20 +70,20 @@ var TableDatatablesAjax = function () {
                 // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -109,7 +109,7 @@ var TableDatatablesAjax = function () {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
-                                // Combine the first and last names into a single table field                                
+                                // Combine the first and last names into a single table field
                                 return getButtons('matter', data.MatterID, data) ;
                             }
                         }
@@ -133,20 +133,20 @@ var TableDatatablesAjax = function () {
                 // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -156,7 +156,7 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
 
@@ -195,20 +195,20 @@ var TableDatatablesAjax = function () {
                 console.log(response);
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -257,20 +257,20 @@ var TableDatatablesAjax = function () {
                 // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -292,7 +292,7 @@ var TableDatatablesAjax = function () {
                         { data: "InternalBookingServId" },
                         { data: "ResourceId" },
                         { data: "ServiceLength" },
-                        { data: "IntServiceLength" },                        
+                        { data: "IntServiceLength" },
                         {
                             data: null,
                             className: "center",
@@ -305,7 +305,7 @@ var TableDatatablesAjax = function () {
 
             }
         });
-    }    
+    }
 
     var handleServiceLevel = function () {
 
@@ -320,20 +320,20 @@ var TableDatatablesAjax = function () {
                 console.log(response);
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -343,7 +343,7 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "ServiceLevelId" },
@@ -376,20 +376,20 @@ var TableDatatablesAjax = function () {
                 console.log(response);
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -399,7 +399,7 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "ServiceTypelId" },
@@ -432,20 +432,20 @@ var TableDatatablesAjax = function () {
                 console.log(response);
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -455,7 +455,7 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
 
                 "columns": [
@@ -487,23 +487,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -513,13 +513,13 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "QuestionId" },
-                        { data: "QuestionName" },                        
-                        { data: "QuestionCategoryName" },                        
-                        { data: "QuestionTypeName" },                        
+                        { data: "QuestionName" },
+                        { data: "QuestionCategoryName" },
+                        { data: "QuestionTypeName" },
                         {
                             data: null,
                             className: "center",
@@ -543,23 +543,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -569,11 +569,11 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "QuestionTypeId" },
-                        { data: "QuestionTypeName" },                        
+                        { data: "QuestionTypeName" },
                         {
                             data: null,
                             className: "center",
@@ -587,7 +587,7 @@ var TableDatatablesAjax = function () {
             }
         });
     }
-        
+
     var handleQuestionGroup = function () {
 
         var grid = new Datatable();
@@ -597,21 +597,21 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function (grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
 
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
@@ -654,23 +654,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded   
-                confirmDialog();             
+                // execute some code after table records loaded
+                confirmDialog();
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -680,11 +680,11 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "QuestionId" },
-                        { data: "QuestionName" },                        
+                        { data: "QuestionName" },
                         {
                             data: null,
                             className: "center",
@@ -708,23 +708,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -734,11 +734,11 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "QuestionId" },
-                        { data: "QuestionName" },                             
+                        { data: "QuestionName" },
                         {
                             data: null,
                             className: "center",
@@ -762,23 +762,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                                
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -788,11 +788,11 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "QuestionId" },
-                        { data: "QuestionLabel" },                             
+                        { data: "QuestionLabel" },
                         {
                             data: null,
                             className: "center",
@@ -806,7 +806,7 @@ var TableDatatablesAjax = function () {
             }
         });
     }
-     
+
     var handleUser = function () {
 
         var grid = new Datatable();
@@ -816,23 +816,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                                
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -842,16 +842,16 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [2, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "name" },
-                        { data: "email" },                             
-                        { data: "role" },                             
-                        { data: "sp_id" },                             
+                        { data: "email" },
+                        { data: "role" },
+                        { data: "sp_id" },
                         {
                             data: null,
                             className: "center",
@@ -865,7 +865,7 @@ var TableDatatablesAjax = function () {
             }
         });
     }
-    
+
     var handleBookingsAll = function () {
 
         var grid = new Datatable();
@@ -875,24 +875,24 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded              
-                
+                // execute some code after table records loaded
+
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -902,20 +902,20 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"], [2, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
-                
+
                 "bInfo": false,
                 "columns": [
-                        { data: "BookingRef" },      
+                        { data: "BookingRef" },
                         //{ data: "BookingDate" },
-                        { 
+                        {
                             data: null,
                             type: 'date-uk',
                             className: "center" ,
                             render: function (data, type, row) {
-                                // body...    
+                                // body...
                                 var booking_date = moment(data.BookingDate).toDate();
                                 return moment(booking_date).format('DD/MM/YYYY');
                             }
@@ -927,17 +927,17 @@ var TableDatatablesAjax = function () {
                         { data: "LastName" },
                         { data: "Email" },
                         { data: "Mobile" },
-                        { 
+                        {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
-                                // Combine the first and last names into a single table field                                
+                                // Combine the first and last names into a single table field
                                 var sentDatesStr = '';
                                 var sentDates = data.SMSSendDates.string;
 
                                 if( sentDates instanceof Array)
-                                {                
-                                    for (var i = 0, len = sentDates.length; i < len; i++) 
+                                {
+                                    for (var i = 0, len = sentDates.length; i < len; i++)
                                     {
                                         if(sentDates[i] != '')
                                         {
@@ -945,18 +945,18 @@ var TableDatatablesAjax = function () {
                                         }
                                     }
 
-                                } 
+                                }
                                 else if( sentDates != '')
                                 {
                                     sentDatesStr += moment(sentDates.split(' ')[0]).format('DD/MM/YYYY') + ', ';
                                 }
-                                      
+
 
                                 if( sentDatesStr == '' )
                                 {
                                     sentDatesStr = '<span class="font-red">Not sent</span>';
-                                } 
-                                else 
+                                }
+                                else
                                 {
                                     sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
                                 }
@@ -968,16 +968,16 @@ var TableDatatablesAjax = function () {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
-                                const booking_date = new Date(moment(data.BookingDate).toDate());                               
-                                let day_before = new Date(); 
+                                const booking_date = new Date(moment(data.BookingDate).toDate());
+                                let day_before = new Date();
                                 day_before.setDate(day_before.getDate()-1);
 
                                 // Combine the first and last names into a single table field
                                 let action_buttons = "";
                                 action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs col-xs-12">Delete</a>';
                                 if( booking_date > day_before && data.Mobile != '' )
-                                {                                    
-                                    action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;                                    
+                                {
+                                    action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
                                 }
                                 return action_buttons;
                             }
@@ -988,7 +988,7 @@ var TableDatatablesAjax = function () {
         });
     }
 
-    
+
     var handleBookings = function () {
 
         var grid = new Datatable();
@@ -998,24 +998,24 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded              
-                
+                // execute some code after table records loaded
+
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -1025,20 +1025,20 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "desc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
-                
+
                 "bInfo": false,
                 "columns": [
-                        { data: "BookingRef" },      
+                        { data: "BookingRef" },
                         //{ data: "BookingDate" },
-                        { 
+                        {
                             data: null,
                             type: 'date-uk',
                             className: "center" ,
                             render: function (data, type, row) {
-                                // body...    
+                                // body...
                                 var booking_date = moment(data.BookingDate).toDate();
                                 return moment(booking_date).format('DD/MM/YYYY');
                             }
@@ -1049,15 +1049,15 @@ var TableDatatablesAjax = function () {
                         { data: "LastName" },
                         { data: "Email" },
                         { data: "Mobile" },
-                        { 
+                        {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
-                                // Combine the first and last names into a single table field                                
+                                // Combine the first and last names into a single table field
                                 var sentDatesStr = '';
                                 var sentDates = data.SMSSendDates;
-                                                      
-                                for (var i = 0, len = sentDates.length; i < len; i++) 
+
+                                for (var i = 0, len = sentDates.length; i < len; i++)
                                 {
                                     if(sentDates[i] != '')
                                     {
@@ -1068,8 +1068,8 @@ var TableDatatablesAjax = function () {
                                 if( sentDatesStr == '' )
                                 {
                                     sentDatesStr = '<span class="font-red">Not sent</span>';
-                                } 
-                                else 
+                                }
+                                else
                                 {
                                     sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
                                 }
@@ -1082,16 +1082,16 @@ var TableDatatablesAjax = function () {
                             className: "center",
                             render: function ( data, type, row ) {
 
-                                const booking_date = new Date(moment(data.BookingDate).toDate());                               
-                                let day_before = new Date(); 
+                                const booking_date = new Date(moment(data.BookingDate).toDate());
+                                let day_before = new Date();
                                 day_before.setDate(day_before.getDate()-1);
 
                                 // Combine the first and last names into a single table field
                                 let action_buttons = "";
                                 action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs col-xs-12">Delete</a>';
                                 if( booking_date > day_before && data.Mobile != '' )
-                                {                                    
-                                    action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;                                    
+                                {
+                                    action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
                                 }
                                 return action_buttons;
                             }
@@ -1111,24 +1111,24 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded              
-                
+                // execute some code after table records loaded
+
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -1138,20 +1138,20 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "desc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
-                
+
                 "bInfo": false,
                 "columns": [
-                        { data: "BookingRef" },      
+                        { data: "BookingRef" },
                         //{ data: "BookingDate" },
-                        { 
+                        {
                             data: null,
                             type: 'date-uk',
                             className: "center" ,
                             render: function (data, type, row) {
-                                // body...    
+                                // body...
                                 var booking_date = moment(data.BookingDate).toDate();
                                 return moment(booking_date).format('DD/MM/YYYY');
                             }
@@ -1163,17 +1163,17 @@ var TableDatatablesAjax = function () {
                         { data: "LastName" },
                         { data: "Email" },
                         { data: "Mobile" },
-                        { 
+                        {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
-                                // Combine the first and last names into a single table field                                
+                                // Combine the first and last names into a single table field
                                 var sentDatesStr = '';
                                 var sentDates = data.SMSSendDates.string;
 
                                 if( sentDates instanceof Array)
-                                {                
-                                    for (var i = 0, len = sentDates.length; i < len; i++) 
+                                {
+                                    for (var i = 0, len = sentDates.length; i < len; i++)
                                     {
                                         if(sentDates[i] != '')
                                         {
@@ -1181,17 +1181,17 @@ var TableDatatablesAjax = function () {
                                         }
                                     }
 
-                                } 
+                                }
                                 else if( sentDates != '')
                                 {
                                     sentDatesStr += moment(sentDates.split(' ')[0]).format('DD/MM/YYYY') + ', ';
-                                }  
+                                }
 
                                 if( sentDatesStr == '' )
                                 {
                                     sentDatesStr = '<span class="font-red">Not sent</span>';
-                                } 
-                                else 
+                                }
+                                else
                                 {
                                     sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
                                 }
@@ -1215,24 +1215,24 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded         
+                // execute some code after table records loaded
                 console.log(response);
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'iB><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -1242,25 +1242,25 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [0, "desc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
                 "bInfo": false,
-                buttons: [                    
+                buttons: [
                     { extend: 'print', className: 'btn blue-stripe default export-button' },
                     { extend: 'csv', className: 'btn green-meadow-stripe default export-button' }
                 ],
                 "scrollX": true,
                 "scrollY": (screen.height <= 1200 ? screen.height - ( screen.height * 0.40) : screen.height - ( screen.height * 0.55) ) + "px",
                 "scrollCollapse": true,
-                "columns": [ 
+                "columns": [
                         { data: "RefNo", "orderable": true },
-                        { 
+                        {
                             data: null,
                             type: 'date-uk',
                             className: "center" ,
                             render: function (data, type, row) {
-                                // body...    
+                                // body...
                                 var referred_day = moment(data.CreatedOn).toDate();
                                 return moment(referred_day).format('DD/MM/YYYY');
                             }
@@ -1277,12 +1277,12 @@ var TableDatatablesAjax = function () {
 
                                 }
                                 return location;
-                            }                          
+                            }
                         },
-                        { data: "Notes" },                             
+                        { data: "Notes" },
                         { data: "ServiceProviderName" },
-                        { data: "ServiceName" },                             
-                        { 
+                        { data: "ServiceName" },
+                        {
                             data: null,
                             render: function ( data, type, row ) {
                                 var location = '';
@@ -1291,7 +1291,7 @@ var TableDatatablesAjax = function () {
                                     return 'Admin';
                                 }
                                 return data.OutboundServiceProviderName;
-                            } 
+                            }
                         }
                         /*{
                             data: null,
@@ -1316,23 +1316,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                         
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'iB><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -1342,25 +1342,25 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [0, "desc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
                 "bInfo": false,
-                buttons: [                    
+                buttons: [
                     { extend: 'print', className: 'btn blue-stripe default export-button' },
                     { extend: 'csv', className: 'btn green-meadow-stripe default export-button' }
                 ],
                 "scrollX": true,
                 "scrollY": (screen.height <= 1200 ? screen.height - ( screen.height * 0.40) : screen.height - ( screen.height * 0.55) ) + "px",
                 "scrollCollapse": true,
-                "columns": [ 
+                "columns": [
                         { data: "RefNo", "orderable": true },
-                        { 
+                        {
                             data: null,
                             type: 'date-uk',
                             className: "center" ,
                             render: function (data, type, row) {
-                                // body...    
+                                // body...
                                 var referred_day = moment(data.CreatedOn).toDate();
                                 return moment(referred_day).format('DD/MM/YYYY');
                             }
@@ -1377,8 +1377,8 @@ var TableDatatablesAjax = function () {
 
                                 }
                                 return location;
-                            }                          
-                        }, 
+                            }
+                        },
                         {
                             data: null,
                             className: "center",
@@ -1388,9 +1388,9 @@ var TableDatatablesAjax = function () {
                                     data.Mobile = 'N/P';
                                 }
                                 return data.Mobile + '  <br>' + data.Email;
-                            }                          
-                        },                          
-                        {  "width": "300px", data: "Notes" }, 
+                            }
+                        },
+                        {  "width": "300px", data: "Notes" },
                         { data: "ServiceProviderName" },
                         { data: "ServiceName" },
                         { data: "CreatedBy" }
@@ -1417,23 +1417,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded              
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -1443,13 +1443,13 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
                 "bInfo": false,
                 "columns": [
-                        { data: "SerciceName" },                             
-                        { data: "Template" },                             
+                        { data: "SerciceName" },
+                        { data: "Template" },
                         {
                             data: null,
                             className: "center",
@@ -1473,23 +1473,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded              
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -1499,15 +1499,15 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [0, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
                 "bInfo": false,
                 "columns": [
                         { data: "RefNo", "orderable": true },
                         { data: "Name"},
-                        { data: "Subject" },                             
-                        { data: "Section" },                             
+                        { data: "Subject" },
+                        { data: "Section" },
                         {
                             data: null,
                             className: "center",
@@ -1531,25 +1531,26 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded              
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
-                //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
-                "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
-
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
+                "dom":  "<'row'<'col-md-6 col-sm-12'p>"+
+                        "<'col-md-1 col-sm-12'i>"+
+                        "<'col-md-5 col-sm-12'<'table-group-actions pull-right'>>r>t" +
+                        "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>"+
+                        "<'row'<'col-md-12'p>>",
                 "ajax": {
                     "url": "/no_reply_emails/listAllLogRecordBySection", // ajax source
                     "type": "get",
@@ -1557,9 +1558,11 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [4, "desc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
-                "pageLength": 1000,
+                "pageLength": 500,
+                "paging": true,
+                "pagingType": "full_numbers",
                 "bInfo": false,
                 "columns": [
                         { data: "RefNo"},
@@ -1571,14 +1574,14 @@ var TableDatatablesAjax = function () {
                                 return data.PersonName + ' , ' + data.Section;
                             }
                         },
-                        { data: "ToAddress", "orderable": true },                             
+                        { data: "ToAddress", "orderable": true },
                         { data: "Subject" },
-                        { 
+                        {
                             data: null,
                             type: 'date-uk',
                             className: "center" ,
                             render: function (data, type, row) {
-                                // body...    
+                                // body...
                                 var sent_on_date = moment(data.SentOn).toDate();
                                 return moment(sent_on_date).format('DD/MM/YYYY HH:mm:ss');
                             }
@@ -1598,23 +1601,23 @@ var TableDatatablesAjax = function () {
             onSuccess: function (grid, response) {
                 // grid:        grid object
                 // response:    json object of server side ajax response
-                // execute some code after table records loaded                                
+                // execute some code after table records loaded
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
-               
+
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
 
                 "ajax": {
@@ -1624,22 +1627,22 @@ var TableDatatablesAjax = function () {
                 "order": [
                     [1, "asc"]
                 ],// set first column as a default sort by asc,
-                
+
                 "serverSide": false,
                 "pageLength": 1000,
-                
+
                 "bInfo": false,
                 "columns": [
                         { data: "OfficeId" },
-                        { data: "OfficeName" },                             
-                        { data: "FullAddress" },                             
-                        { data: "OfficePhone" },                        
+                        { data: "OfficeName" },
+                        { data: "FullAddress" },
+                        { data: "OfficePhone" },
                         { data: "SpSubType" }
                 ],
 
             }
         });
-    }    
+    }
 
     var handleEReferral = function () {
 
@@ -1654,18 +1657,18 @@ var TableDatatablesAjax = function () {
                 console.log(response);
             },
             onError: function (grid) {
-                // execute some code on network or other general error  
+                // execute some code on network or other general error
             },
             onDataLoad: function (grid) {
                 // execute some code on ajax data load
                 confirmDialog();
             },
 
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
 
                 // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js). 
-                // So when dropdowns used the scrollable div should be removed. 
+                // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/scripts/datatable.js).
+                // So when dropdowns used the scrollable div should be removed.
                 //"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
 
                 "dom": "<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r>t<'row'<'col-md-8 col-sm-12'i><'col-md-4 col-sm-12'>>",
@@ -1707,24 +1710,24 @@ var TableDatatablesAjax = function () {
         var can_view    = false;
 
         switch( role )
-        {            
-            case 'CLC':               
+        {
+            case 'CLC':
             case 'VLA':
 
                 if(controller == 'service')
                 {
                     can_view = true;
-                }                 
+                }
                 break;
             case 'AdminSp':
-                switch(controller) 
+                switch(controller)
                 {
-                    case 'service':                        
+                    case 'service':
                         if( data.ServiceProviderId == sp_id)
                         {
                             can_edit = true;
-                            can_view = true;                            
-                        } 
+                            can_view = true;
+                        }
                         else
                         {
                             can_view = true;
@@ -1736,34 +1739,34 @@ var TableDatatablesAjax = function () {
                             can_edit = true;
                         }
                         break;
-                    case 'no_reply_emails/templates':                                            
+                    case 'no_reply_emails/templates':
                         if(data.Section != 'All')
                         {
                             can_edit = true;
-                            can_delete = true;    
+                            can_delete = true;
                         }
                         else if(data.UserSp == sp_id)
                         {
                             can_edit = true;
                             can_delete = true;
                         }
-                        break;                        
+                        break;
                     case 'question':
                         can_edit = true;
-                    case 'matter':                    
-                    case 'sms_template':                    
-                    default:                      
+                    case 'matter':
+                    case 'sms_template':
+                    default:
                 }
-                break;            
+                break;
             case 'AdminSpClc':
-                switch(controller) 
+                switch(controller)
                 {
-                    case 'service':                        
+                    case 'service':
                         if( data.ServiceProviderId == sp_id)
                         {
                             can_edit = true;
-                            can_view = true;                            
-                        } 
+                            can_view = true;
+                        }
                         else
                         {
                             can_view = true;
@@ -1775,28 +1778,28 @@ var TableDatatablesAjax = function () {
                             can_edit = true;
                         }
                         break;
-                    case 'no_reply_emails/templates':                                            
+                    case 'no_reply_emails/templates':
                         if(data.Section != 'All')
                         {
                             can_edit = true;
-                            can_delete = true;    
+                            can_delete = true;
                         }
-                        break;                        
+                        break;
                     case 'question':
                         can_edit = true;
-                    case 'matter':                    
-                    case 'sms_template':                    
-                    default:  
+                    case 'matter':
+                    case 'sms_template':
+                    default:
                 }
-                break;        
+                break;
             case 'Administrator':
                 can_edit   = true;
                 can_delete = true;
                 break;
             default:
-                break;  
+                break;
         }
-        
+
         var actions_buttons = '';
         if(can_edit)
         {
@@ -1811,7 +1814,7 @@ var TableDatatablesAjax = function () {
             actions_buttons += '<a href="javascript:;" id="' + id + '" class="btn blue view-content btn-xs">View</a>';
         }
 
-        return actions_buttons;     
+        return actions_buttons;
 
     }
 
@@ -1834,11 +1837,11 @@ var TableDatatablesAjax = function () {
                 var ukDatea = a.split('/');
                 return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
             },
-         
+
             "date-uk-asc": function ( a, b ) {
                 return ((a < b) ? -1 : ((a > b) ? 1 : 0));
             },
-         
+
             "date-uk-desc": function ( a, b ) {
                 return ((a < b) ? 1 : ((a > b) ? -1 : 0));
             }
@@ -1882,18 +1885,18 @@ var TableDatatablesAjax = function () {
 }();
 
 
-var confirmDialog = function() 
+var confirmDialog = function()
 {
-    $( ".delete-content" ).on( "click", function(e) 
-    {        
+    $( ".delete-content" ).on( "click", function(e)
+    {
         var r = confirm("Are you sure that you want to delete it?\n To confirm press OK or Cancel.");
-        if (r == true) 
+        if (r == true)
         {
             //Continue to the event
         } else {
-            e.preventDefault();       
+            e.preventDefault();
         }
-    });  
+    });
 }
 
 jQuery(document).ready(function() {
