@@ -8,15 +8,15 @@ var map;
 var bounds;
 var loc;
 
-function getAddress() 
+function getAddress()
 {
 	const csrf  = document.getElementsByName("_token")[0].content;
 	let address = document.querySelector('#address').value;
 	let serviceName = document.getElementById("serviceName").innerText;
 	if ( address != '') {
-
+		 $("#contentLoading").modal("show");
 		$.ajax({
-			headers: 
+			headers:
 			{
 			  'X-CSRF-TOKEN': csrf
 			},
@@ -25,10 +25,10 @@ function getAddress()
 			data: { address,
 					serviceName }
 		})
-		.done(function( msg ) 
-		{							
-			if ( msg.hasOwnProperty("client_address") && msg.hasOwnProperty("closest") ) 
-			{			
+		.done(function( msg )
+		{
+			if ( msg.hasOwnProperty("client_address") && msg.hasOwnProperty("closest") )
+			{
 			    const client_address =  JSON.parse(msg.client_address);
 			    const closest = JSON.parse(msg.closest);
 			    createPoint( client_address, closest );
@@ -40,16 +40,17 @@ function getAddress()
 				swal("Alert", "Address not found", "warning");
 				$('#map').hide();
 			}
+			$("#contentLoading").modal("hide");
 		});
 	}
-	else 
+	else
 	{
 		swal("Alert", "Please provide an address", "warning");
 		$('#map').hide();
 	}
 }
 
-function createPoint(client_address, closest) 
+function createPoint(client_address, closest)
 {
 	document.getElementById("map").style.height = "400px";
 	var map = new google.maps.Map(document.getElementById('map'), {
@@ -59,8 +60,8 @@ function createPoint(client_address, closest)
 	markers = [];
 	//Set Client Marker
 	setMarker( map, client_address);
-	for (let i = closest.length - 1; i >= 0; i--) 
-	{          
+	for (let i = closest.length - 1; i >= 0; i--)
+	{
 	  let office = closest[i].office;
 	  let lat = parseInt(office.lat);
 	  let lng = parseInt(office.lng);
@@ -87,11 +88,11 @@ function setMarker( map, office)
 	if( office.hasOwnProperty("OfficeName"))
 	{
 	  options.title = office.OfficeName;
-	  contentString = '<div id="content" style = "width:200px;min-height:40px">'+              
-	      '<h4>' + office.OfficeName + '</h4>'+              
+	  contentString = '<div id="content" style = "width:200px;min-height:40px">'+
+	      '<h4>' + office.OfficeName + '</h4>'+
 	      '<p><strong>Address: </strong>' + office.FullAddress + '</p>'+
-	      '<p><strong>Phone: </strong>' + office.OfficePhone + '</p>'+              
-	      '</div>';	      
+	      '<p><strong>Phone: </strong>' + office.OfficePhone + '</p>'+
+	      '</div>';
 	}
 	else
 	{
@@ -101,12 +102,12 @@ function setMarker( map, office)
 	// Search for markers in the same position
     markers.forEach(function(markerObject, index, markers){
     	if(options.position.lat == markerObject.position.lat() && options.position.lng == markerObject.position.lng() && office.hasOwnProperty("OfficeName") )
-    	{	    		
+    	{
     		contentString += "<hr>"+ markerObject.infowindow.content;
     		markerObject.infowindow.content = '';
     	}
-    	
-    });	
+
+    });
 
 	var infowindow = new google.maps.InfoWindow({
           content: contentString
@@ -137,10 +138,10 @@ function toggleBounce() {
 function hideAllInfoWindows(map) {
    markers.forEach(function(marker) {
      marker.infowindow.close(map, marker);
-  }); 
+  });
 }
 
-function initMap() 
+function initMap()
 {
 	//set center to 570 Bourke St
 	var map = new google.maps.Map(document.getElementById('map'), {
@@ -169,10 +170,10 @@ function get_lat_lng()
 		    $.ajax({
 		        headers: {
 		            'X-CSRF-TOKEN': csrf
-		        },		    	
+		        },
 		      	method: "POST",
 		      	url: "/panel_lawyers/get_lat_lng/",
-		      	data: { address }		      
+		      	data: { address }
 		    })
 		    .done(function( coordinates ) {
 		    	document.getElementById("lat").value = coordinates.lat;
@@ -180,24 +181,24 @@ function get_lat_lng()
 		    })
 		    .fail(function(xhr, status, error) {
 	    		 swal("Alert", "Address not found", "warning");
-			});			
-		}); 
-		
+			});
+		});
+
 	}
-};	
+};
 
 
 
-document.addEventListener('DOMContentLoaded', function() {    
+document.addEventListener('DOMContentLoaded', function() {
     get_lat_lng();
-    initMap();        
-    var pacContainerInitialized = false; 
-    document.getElementById("address").onkeypress = function() 
+    initMap();
+    var pacContainerInitialized = false;
+    document.getElementById("address").onkeypress = function()
     {
-        if (!pacContainerInitialized) { 
-                $('.pac-container').css('z-index', '99999'); 
-                pacContainerInitialized = true; 
-        } 
+        if (!pacContainerInitialized) {
+                $('.pac-container').css('z-index', '99999');
+                pacContainerInitialized = true;
+        }
     };
 }, false);
 
