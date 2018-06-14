@@ -43,11 +43,11 @@
         <div class="portlet-body">
             {{ csrf_field() }}
             <div class="form-body">
-             
-              <input type="number" class="form-control hidden" placeholder="" name="mt_id" value="{{ $_GET['mt_id'] }}" required> 
 
-              @foreach( $question_list as $qu_id => $question ) 
-              
+              <input type="number" class="form-control hidden" placeholder="" name="mt_id" value="{{ $_GET['mt_id'] }}" required>
+
+              @foreach( $question_list as $qu_id => $question )
+
               <div class="row">
                 <div class="form-group">
 
@@ -56,10 +56,10 @@
                   </div>
 
                   <div class="col-xs-12 col-sm-6">
-                  
-                    @if($question['prop']['QuestionTypeName'] == 'numeric') 
+
+                    @if($question['prop']['QuestionTypeName'] == 'numeric')
                       <span class="input-group-addon"></span>
-                      <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]" required> 
+                      <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]" required>
                     @endif
                     @if($question['prop']['QuestionTypeName'] == 'boolean')
                       <div class="mt-radio-inline">
@@ -73,13 +73,13 @@
                             </label>
                         </div>
                     @endif
-                    @if( $question['prop']['QuestionTypeName'] == 'multiple' ) 
-                    <?php 
+                    @if( $question['prop']['QuestionTypeName'] == 'multiple' )
+                    <?php
                       $options = array_unique( $question['prop']['QuestionValue'] );
-                      sort($options);                    
+                      sort($options);
                     ?>
-                      <select  class="form-control" name="answers[{{ $qu_id }}]">                      
-                        <option> Not listed below / Not applicable </option> 
+                      <select  class="form-control" name="answers[{{ $qu_id }}]">
+                        <option> Not listed below / Not applicable </option>
                         @foreach ( $options as $option )
                           <option value="{{ $option }}"> {{ $option }} </option>
                         @endforeach
@@ -90,10 +90,10 @@
 
                 </div>
               </div>
-
+              <br/>
               @endforeach
             </div>
-    
+
         </div>
       </div>
       <!-- Navigation -->
@@ -105,7 +105,7 @@
           <div class="col-xs-6 col-sm-4 col-lg-3 pull-right">
             <button type="submit" class="btn green-jungle btn-block btn-lg pull-right"><span class="hidden-xs">View Matches</span><span class="visible-xs-block">Matches</span></button>
           </div>
-      </div>   
+      </div>
     </form>
   </div>
 </div>

@@ -89,11 +89,11 @@ b, optgroup, strong {
 }
 
 .padding-bottom-10 {
-    padding-bottom: 10px !important; 
+    padding-bottom: 10px !important;
 }
 
 .padding-bottom-10 {
-    padding-bottom: 10px !important; 
+    padding-bottom: 10px !important;
 }
 
 .padding-bottom-20 {
@@ -175,15 +175,15 @@ b, optgroup, strong {
 
 
 .margin-0 {
-    margin: 0px !important; 
+    margin: 0px !important;
 }
 
 .margin-top-0 {
-    margin-top: 0px !important; 
+    margin-top: 0px !important;
 }
 
 .margin-bottom-10 {
-    margin-bottom: 10px !important; 
+    margin-bottom: 10px !important;
 }
 
 .margin-bottom-20 {
@@ -295,12 +295,12 @@ b, optgroup, strong {
 /**
  * Remove arrows from number inputs
  */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    margin: 0; 
+    margin: 0;
 }
 
 /************ header **********/
@@ -315,7 +315,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /***** Results page *****/
 
-.portlet.light .portlet-body {    
+.portlet.light .portlet-body {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -337,7 +337,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .search-page .input-group.select2-bootstrap-prepend {
     padding-right: 0px;
-    float: left; 
+    float: left;
     padding-left: 0;
 }
 
@@ -348,10 +348,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 .search-page .input-group.select2-bootstrap {
     padding-left: 0px;
-    float: left; 
+    float: left;
 }
 
-.search-page .legal_issue.input-group .select2-selection.select2-selection--single {    
+.search-page .legal_issue.input-group .select2-selection.select2-selection--single {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     border-left: 1px solid #c2cad8;
@@ -392,7 +392,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 /******** Referral table *****************/
 .table>thead:first-child>tr:first-child>th.text-left-padding {
     text-align: left;
-    padding-left: 10px; 
+    padding-left: 10px;
 }
 
 .portlet.light .dataTables_wrapper .dt-buttons {
@@ -411,7 +411,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 }
 
 .portlet.light .dataTables_extended_wrapper .dataTables_scrollBody .table.dataTable {
-    margin-top: 0px !important; /** Overide plugins important declaration too **/ 
+    margin-top: 0px !important; /** Overide plugins important declaration too **/
 }
 
 /******** Booking screen ************************/
@@ -441,7 +441,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     margin-top: 15px;
 }
 
-#booking_document_tab .col2{    
+#booking_document_tab .col2{
     width: 25px;
     margin-left: -30px;
 }
@@ -459,12 +459,12 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     background-color: #26c281;
 }
 
-.datepicker table tr td.day.disabled.active {    
+.datepicker table tr td.day.disabled.active {
     background-color: white !important;
     color: #999;
 }
 
-.datepicker table tr td.day.new,td.day.old {    
+.datepicker table tr td.day.new,td.day.old {
   pointer-events: none;
   cursor: default;
 }
@@ -476,14 +476,14 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 
 /************** New Matching Screen *****************/
 .result-card {
-    background-color: white;    
+    background-color: white;
 }
 
 .result-card hr{
     margin: 0 15px;
 }
 
-.card-top-info{   
+.card-top-info{
     padding: 15px 25px 0px 0px;
     height: 189px;
     overflow: hidden;
@@ -528,7 +528,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     padding: 15px 15px 0;
 }
 
-.card-body-info .description {    
+.card-body-info .description {
     margin-top: 10px;
     margin-bottom: 15px;
     font-size: 14px;
@@ -538,26 +538,26 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     margin: 0 0 6px 0;
 }
 
-.card-body-info .description p[style],ul[style] {    
+.card-body-info .description p[style],ul[style] {
     font-family: "Open Sans",sans-serif !important;
     font-size: 14px !important;
     color: #333 !important;
 }
 
 .book-button, .refer-button{
-    text-align: center;    
+    text-align: center;
 }
 
 .refer-button button {
-    width: 100%;    
+    width: 100%;
 }
 .book-button button {
-    width: 100%;    
+    width: 100%;
 }
 
 [data-readmore-toggle] {
-    text-align: right; 
-    font-size: 12px; 
+    text-align: right;
+    font-size: 12px;
     padding: 15px;
 }
 
@@ -585,10 +585,10 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 }
 /****************************** Login Page *******************/
 #email-login{
-    font-size: large; 
+    font-size: large;
 }
 #password-login{
-    font-size: large;    
+    font-size: large;
 }
 
 .vl {
@@ -596,7 +596,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     height: 50%;
     position: absolute;
     left: 50%;
-    top: 24%;    
+    top: 24%;
 }
 
 #vla-login{
@@ -612,7 +612,7 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     margin-right: 10%;
 }
 #login-div{
-    outline: solid 0.5px lightgrey;    
+    outline: solid 0.5px lightgrey;
 }
 
 /***************** Referral *******************************/
@@ -742,7 +742,7 @@ h4 {
 
 .details-page small.elibigility_label {
     font-size: 80%;
-    color: #555;
+    color: #4f4f4f;
     display: block;
     margin-bottom: 10px;
     margin-top: -8px;
