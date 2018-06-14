@@ -19,6 +19,7 @@ new Vue({
         interpreter_required: false,
         is_complex: false,
         is_direct_booking: false,
+        selected_sp: document.getElementsByClassName('sp_id')[0].id,
         services: [],
         service_providers: [],
         user_sp_id: document.getElementsByClassName('sp_id')[0].id
@@ -75,7 +76,7 @@ new Vue({
                 template += 'Brief outline of matter: <br> <br>';
                 template += 'Notes (special needs, urgency, time limits, tribunal/court hearing dates and location if the caller is in custody/detention):<br><br>';
                 template += 'This call was supervised by (if relevant):  <br><br>';
-            } else if (parseInt(e.srcElement.value) === 3) { //'phone_advice'             
+            } else if (parseInt(e.srcElement.value) === 3) { //'phone_advice'
                 template += 'Brief outline of matter: <br><br>';
                 template += 'This call was supervised by (if relevant):  <br><br>';
             } else if (parseInt(e.srcElement.value) === 4) { //'duty_layer'
@@ -107,6 +108,7 @@ new Vue({
             self.booking_template = template;
             self.booking_template_id = e.srcElement.value;
             $('#Desc').summernote('code', template);
+            document.getElementsByName("service_provider_id")[0].value = self.selected_sp;
         },
         onChangeLanguage: function (e) {
             var self = this;
@@ -404,6 +406,7 @@ new Vue({
                     self.can_book = false;
                     self.can_e_referr = false;
                     self.available_times = [];
+                    self.selected_sp = sp_id;
 
                     self.getServicesPromise(sp_id)
                         .then(services => {

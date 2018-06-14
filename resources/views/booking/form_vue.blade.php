@@ -2,12 +2,12 @@
 <div id="app">
 
     <div>
-        <br>    
+        <br>
         <small>Book a client into an appointment by using the Direct Booking form below. The office/program area providing the service will be able to see the booking in ORBIT. </small>
-        <br>    
+        <br>
         <small>Legal Help: as an alternative to Direct Bookings you can send an e-referral to the office/program area by choosing any of the other form types. A copy of this email is bcc’d to the LegalInfoCallBack mailbox.</small>
     </div>
-    <hr>    
+    <hr>
 
     <form role="form" method="POST" action="/booking" enctype="multipart/form-data" id="bookingForm">
 
@@ -26,21 +26,21 @@
                         </select>
                     </div>
                 </div>
-                <input type="text" class="form-control input-large hidden" id="ServiceProviderName" name="ServiceProviderName" :value="current_service.ServiceProviderName"> 
+                <input type="text" class="form-control input-large hidden" id="ServiceProviderName" name="ServiceProviderName" :value="current_service.ServiceProviderName">
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-xs-12 ">
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label>Service: <small>if unsure if client qualifies for service find the VLA service guidelines <a href="https://viclegalaid.sharepoint.com/sites/intranet/practiceresources/Pages/default.aspx" target="_blank">here</a></small></label>  
+                        <label>Service: <small>if unsure if client qualifies for service find the VLA service guidelines <a href="https://viclegalaid.sharepoint.com/sites/intranet/practiceresources/Pages/default.aspx" target="_blank">here</a></small></label>
                     </div>
                 </div>
             </div>
             <div class="col-xs-12 col-md-12 padding-bottom-20">
                 <div class="form-group">
-                    
+
                     <div class="col-xs-12 col-md-6">
                         <select class="form-control" v-on:change="onChangeService" name="ServiceId" required>
                             <option :value="null"></option>
@@ -51,10 +51,10 @@
                         <button type="button" class="btn btn-block dark btn-outline" data-toggle="modal" data-target="#EligibilityConfirm">View Service Details</button>
                     </div>
                 </div>
-                <input type="text" class="form-control input-large hidden" id="ServiceName" name="ServiceName" :value="current_service.ServiceName"> 
+                <input type="text" class="form-control input-large hidden" id="ServiceName" name="ServiceName" :value="current_service.ServiceName">
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-xs-12 ">
                 <div class="form-group">
@@ -65,19 +65,19 @@
             </div>
             <div class="col-xs-12 col-md-12 ">
                 <div class="form-group">
-                    <div class="col-xs-12 col-md-6 padding-bottom-10"> 
+                    <div class="col-xs-12 col-md-6 padding-bottom-10">
                         <select class="form-control" v-on:change="onChangeFormType" name="request_type" id="request_type" required>
                             <option :value="null"></option>
                             <option value="0" v-if="can_book">Direct Booking</option>
                             <option v-for="form in e_referral_forms" :value="form.ReferralFormID" v-text="form.ReferralFromName" v-if="can_e_referr"></option>
-                        </select>                  
+                        </select>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
                         <button type="button" class="btn btn-block dark btn-outline" data-toggle="modal" data-target="#bookingTypeDescription">More info</button>
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
 
         <hr>
         <h4 class="padding-top-10 padding-bottom-10">Appointment Details</h4>
@@ -93,9 +93,9 @@
             <div class="col-xs-12 col-sm-12">
                 <div class="form-group">
                     <div class="col-xs-8 col-md-6 padding-bottom-10">
-                        <select class="form-control" id="Language" name="Language" v-on:change="onChangeLanguage">    
+                        <select class="form-control" id="Language" name="Language" v-on:change="onChangeLanguage">
                             @include( 'booking.language' )
-                        </select>                    
+                        </select>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 <div class="form-group">
                     <div class="col-xs-8 padding-bottom-10">
                         <label>Complex needs? <small>may result in longer appointment</small></label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Eg barrier to comprehending advice such as an intellectual disability, ABI,cognitive or psychiatric disability. May result in longer appointments at some services."></i>
-                        
+
                         <div class="mt-radio-inline padding-left-20" v-on:change="onChangeComplex">
                             <label class="mt-radio mt-radio-outline">
                                 <input type="radio" name="IsComplex" id="IsComplex" value="1">Yes<span></span>
@@ -114,18 +114,18 @@
                             <label class="mt-radio mt-radio-outline">
                                 <input type="radio" name="IsComplex" id="IsComplex" value="0">No<span></span>
                             </label>
-                        </div>                  
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="booking-area" v-show="can_book && is_direct_booking">   
+
+        <div class="booking-area" v-show="can_book && is_direct_booking">
             <div class="row availability">
                 <div class="col-xs-12 padding-bottom-20">
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <label>Date of appointment: <small>choose from dates marked green</small></label>                
+                            <label>Date of appointment: <small>choose from dates marked green</small></label>
                             <input type="text" class="form-control input-medium" id="booking-date" name="booking-date" required>
                         </div>
                     </div>
@@ -139,35 +139,35 @@
                             <label>Available Times:</label>
                             <div class="mt-radio-list">
                                 <label class="mt-radio mt-radio-outline"  v-for="time in available_times">
-                                    <input type="radio" name="serviceTime" 
+                                    <input type="radio" name="serviceTime"
                                     :value="time.value">
                                     @{{ time.text }}<span></span>
                                 </label>
                             </div>
                         </div>
-                    </div>   
+                    </div>
                 </div>
             </div>
         </div>
 
         <hr>
         <h4 class="padding-top-10 padding-bottom-10">Client Details</h4>
-        
+
         <div class="row">
             <div class="col-xs-5 col-sm-6 col-md-6 col-lg-5">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>First Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" required> 
+                        <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" required>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xs-4 col-sm-6 col-md-6 col-lg-5">        
+            <div class="col-xs-4 col-sm-6 col-md-6 col-lg-5">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Last Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName"  required> 
+                        <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName"  required>
                     </div>
                 </div>
             </div>
@@ -178,7 +178,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>CIR Number: <small>if known / required if legal advice is given</small></label>
-                        <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" id="CIRNumber">                 
+                        <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" id="CIRNumber">
                     </div>
                 </div>
             </div>
@@ -189,7 +189,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Date of Birth</label>
-                        <input type="text" class="form-control input-large" name="dob" id="dob">                 
+                        <input type="text" class="form-control input-large" name="dob" id="dob">
                     </div>
                 </div>
             </div>
@@ -200,7 +200,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Suburb town of caller</label>
-                        <input type="text" class="form-control input-large" name="suburb" id="suburb">                 
+                        <input type="text" class="form-control input-large" name="suburb" id="suburb">
                     </div>
                 </div>
             </div>
@@ -221,18 +221,18 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Postal Address:</label>
-                        <input type="text" class="form-control input-large" name="postal_address" id="postal_address"> 
+                        <input type="text" class="form-control input-large" name="postal_address" id="postal_address">
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row" v-if="booking_template_id == 5">
-            <div class="col-xs-5 col-md-6 col-lg-5">                            
+            <div class="col-xs-5 col-md-6 col-lg-5">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Email:</label>
-                        <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" id="email"> 
+                        <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" id="email">
                     </div>
                 </div>
             </div>
@@ -252,7 +252,7 @@
                             </label>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
 
@@ -261,14 +261,14 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Phone Number:</label>
-                        <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile"> 
+                        <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile">
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row" v-show="can_book && is_direct_booking">
-            <div class="col-xs-12">                            
+            <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12">
                         <label>SMS auto-confirmation? &nbsp; <small>This will send an appointment confirmation when this booking is saved.</small></label>
@@ -286,7 +286,7 @@
         </div>
 
         <div class="row" v-show="can_book && is_direct_booking">
-            <div class="col-xs-12">                            
+            <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12">
                         <label>SMS auto-reminder? &nbsp; <small>This will send an appointment reminder one day before the appointment.</small></label>
@@ -308,7 +308,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Is it ok to leave a message or send SMS? Any other instructions re contact?</label>
-                        <input type="text" class="form-control input-large" name="reContact" id="reContact"> 
+                        <input type="text" class="form-control input-large" name="reContact" id="reContact">
                     </div>
                 </div>
             </div>
@@ -335,15 +335,15 @@
                 </div>
             </div>
         </div-->
-        
-        <div class="row attached-files" v-show="can_book && is_direct_booking">            
-            <div class="col-xs-12 col-md-6">                                
+
+        <div class="row attached-files" v-show="can_book && is_direct_booking">
+            <div class="col-xs-12 col-md-6">
                 <div class="form-group mt-repeater">
                     <div data-repeater-list="attachments">
                         <div class="mt-repeater-item">
                             <label class="control-label">Attachment</label>
                             <input type="file" name="files" class="form-control" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.slideshow, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-text/plain, application/pdf, image/*"> 
+text/plain, application/pdf, image/*">
                         </div>
                         <div data-repeater-item class="mt-repeater-item mt-overflow">
                             <label class="control-label">Additional Attachment</label>
@@ -360,22 +360,22 @@ text/plain, application/pdf, image/*" />
                         <i class="fa fa-plus"></i> Add new Attachment</a>
                 </div>
             </div>
-        </div>  
-        
+        </div>
+
         <div class="row">
             <div class="col-xs-12 padding-top-10 padding-bottom-20">
                 <button type="submit" class="btn green-jungle btn-block btn-lg" id="submit-booking">Make Booking</button>
             </div>
         </div>
-        
+
     </form>
-    
-    @include ('booking.booking_description')   
-    
+
+    @include ('booking.booking_description')
+
 </div>
 
 
-@section('scripts')    
+@section('scripts')
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
@@ -388,11 +388,9 @@ text/plain, application/pdf, image/*" />
     <script src="/assets/global/plugins/jquery-repeater/jquery.repeater.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/form-repeater.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
-    
-    <script src="/js/bookings_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>
 @endsection
 
-@section('styles')    
+@section('styles')
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />

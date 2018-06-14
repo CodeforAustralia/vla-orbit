@@ -270,6 +270,8 @@ Route::get('/user/new', 'UserController@create');
 
 Route::get('/user/list', 'UserController@list');
 
+Route::get('/user/clearNotifications', 'UserController@clearNotifications');
+
 Route::post('/user/update', 'UserController@update');
 
 Route::post('/user', 'UserController@store');

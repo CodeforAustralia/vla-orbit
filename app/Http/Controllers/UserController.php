@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Notifications;
 use App\Role;
 use App\ServiceProvider;
 use App\User;
+use Auth;
 
 /**
  * User Controller.
@@ -184,6 +186,12 @@ class UserController extends Controller
         $response = User::updateUser( request() );
 
         return redirect('/user')->with($response['success'], $response['message']);
+    }
+
+    public function clearNotifications()
+    {
+        $notifications = new Notifications();
+        $notifications->clearNotifications();
     }
 
 }
