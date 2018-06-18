@@ -79,9 +79,6 @@
             </div>
         </div>
 
-        <hr>
-        <h4 class="padding-top-10 padding-bottom-10">Appointment Details</h4>
-
         <div class="row">
             <div class="col-xs-12 ">
                 <div class="form-group">
@@ -119,6 +116,9 @@
                 </div>
             </div>
         </div>
+
+        <hr v-show="can_book && is_direct_booking">
+        <h4 class="padding-top-10 padding-bottom-10" v-show="can_book && is_direct_booking">Appointment Details</h4>
 
         <div class="booking-area" v-show="can_book && is_direct_booking">
             <div class="row availability">
