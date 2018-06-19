@@ -64,6 +64,28 @@
     <!-- END DASHBOARD STATS 1-->
 
     <div class="row">
+
+        <!-- BEGIN WELL PORTLET-->
+        <div class="col-sm-12 col-md-6">
+
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-share font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">Notifications</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    @foreach( $dashboards as $dashboard )
+                        @include('dashboard.dashboard_partial')
+                    @endforeach
+                </div>
+            </div>
+
+        </div>
+        <!-- END WELL PORTLET-->
+
         <!-- BEGIN THUMBNAILS PORTLET-->
         <div class="col-sm-12 col-md-6">
             <div class="portlet light ">
@@ -83,7 +105,7 @@
                                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4Z4iC1eD3Es" frameborder="0" allowfullscreen></iframe>
                                 </div>
 
-                                <div class="caption">
+                                <div class="caption hidden">
                                     <h3 class="">What is Orbit?</h3>
                                     <p class=""> </p>
                                     <p class="hidden">
@@ -100,7 +122,7 @@
                                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/hb3OJYhFi04" frameborder="0" allowfullscreen></iframe>
                                 </div>
 
-                                <div class="caption">
+                                <div class="caption hidden">
                                     <h3 class="">How to make a Referral?</h3>
                                     <p class=""> </p>
                                     <p class="hidden">
@@ -116,27 +138,6 @@
         </div>
         <!-- END THUMBNAILS PORTLET-->
 
-        <!-- BEGIN WELL PORTLET-->
-
-        <div class="col-sm-12 col-md-6">
-
-            <div class="portlet light ">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="icon-share font-red-sunglo"></i>
-                        <span class="caption-subject font-red-sunglo bold uppercase">WAll</span>
-                    </div>
-                </div>
-
-                <div class="portlet-body">
-                    @foreach( $dashboards as $dashboard )
-                        @include('dashboard.dashboard_partial')
-                    @endforeach
-                </div>
-            </div>
-
-        </div>
-        <!-- END WELL PORTLET-->
     </div>
 
 
