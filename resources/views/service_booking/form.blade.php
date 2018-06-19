@@ -1,10 +1,10 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>{{ isset($current_service_booking) ? 'Edit ' : 'New ' }}Service Booking
+                <i class="fa fa-book"></i>{{ isset($current_service_booking) ? 'Edit ' : 'New ' }}Service Booking
             </div>
         </div>
-        <div class="portlet-body form">           
+        <div class="portlet-body form">
             <!-- BEGIN FORM-->
             @include ('orbit.errors')
             <form method="POST" action="/service_booking" class="form-horizontal" >
@@ -18,7 +18,7 @@
                         <label for="single" class="col-md-3 control-label">Sevice Name:</label>
                         <div class="select2-bootstrap col-sm-4 col-md-4">
                             <select id="service_list" class="form-control select2" name="ServiceId" required>
-                             <option> </option>                            
+                             <option> </option>
                                 @foreach( $services as $service)
                                     <option value="{{ $service['ServiceId'] }}"> {{ $service['ServiceName'] }} - [ {{ $service['ServiceProviderName'] }} ]</option>
                                 @endforeach
@@ -30,13 +30,13 @@
                         <div class="col-md-4">
                             <input type="number" class="form-control" id="bbsv_id" name="BookingServiceId"  value="{{ isset($current_service_booking) ? $current_service_booking->BookingServiceId : '' }}" placeholder="" required>
                         </div>
-                    </div>                               
+                    </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="bbisv_id">BB Interpreter Id:</label>
                         <div class="col-md-4">
                             <input type="number" class="form-control" id="bbisv_id" name="InternalBookingServId"  value="{{ isset($current_service_booking) ? $current_service_booking->InternalBookingServId : '' }}" placeholder="">
                         </div>
-                    </div>  
+                    </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="bbr_id">BB Resource Id:</label>
                         <div class="col-md-4">
@@ -63,19 +63,19 @@
                             <button type="button" onclick="window.location='/service_booking';return false" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                         </div>
                     </div>
-                </div>                               
+                </div>
             </form>
             <!-- END FORM-->
         </div>
     </div>
 
 
-@section('styles')    
+@section('styles')
 
 @endsection
 
 @section('inline-scripts')
   $(document).ready(function() {
     $('#service_list').select2({placeholder: "-- Select from list --"}).val( {{ isset($current_service_booking) ? $current_service_booking->ServiceId : 'null' }} ).trigger("change");
-  });  
+  });
 @endsection

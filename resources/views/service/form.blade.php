@@ -1,7 +1,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>Service</div>
+                <i class="icon-notebook"></i>Service</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->

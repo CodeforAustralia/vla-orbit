@@ -2,7 +2,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>{{ $type_name }}</div>
+                <i class="fa fa-question"></i>{{ $type_name }}</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
@@ -27,7 +27,7 @@
 		                  	<input type="text" class="form-control" id="QuestionName" name="QuestionName"  value="{{ isset($current_question) ? $current_question->QuestionName : '' }}" required>
 		                </div>
 	                </div>
-                    
+
                     <div class="form-group {{ ( sizeof($question_types) > 1 ? '' : 'hidden' ) }} ">
                         <label class="col-md-3 control-label">Type</label>
                         <div class="col-md-4">
@@ -54,12 +54,12 @@
                         <label class="col-md-3 control-label">Question Group Parent</label>
                         <div class="col-md-4">
                             <select class="form-control" id="QuestionGroupId" name="QuestionGroupId">
-                                <option value="0"></option>                                
-                                <select class="form-control" id="QuestionGroupId" name="QuestionGroupId">                                   
+                                <option value="0"></option>
+                                <select class="form-control" id="QuestionGroupId" name="QuestionGroupId">
                                     <option> </option>
-                                </select>   
+                                </select>
                             </select>
-                            
+
                         </div>
                     </div>
 
@@ -76,15 +76,15 @@
         </div>
     </div>
 
-    
+
 @section('inline-scripts')
 (function() {
-   
+
     $.get("/question_group/list_formated", function (data, status) {
         $("#QuestionGroupId").select2({
             data: data.data,
             width: '100%'
-        }).val(  {{ isset($current_question) ? json_encode( $current_question->QuestionGroupId ) : '[]'  }} ).trigger("change");        
+        }).val(  {{ isset($current_question) ? json_encode( $current_question->QuestionGroupId ) : '[]'  }} ).trigger("change");
     });
 })();
 @endsection

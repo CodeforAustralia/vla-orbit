@@ -2,7 +2,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>Service Providers</div>
+                <i class="fa fa-briefcase"></i>Service Providers</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->

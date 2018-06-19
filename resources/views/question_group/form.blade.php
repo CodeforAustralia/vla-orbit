@@ -1,7 +1,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>Question Group</div>
+                <i class="fa fa-question"></i>Question Group</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->

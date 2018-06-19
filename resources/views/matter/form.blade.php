@@ -2,7 +2,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>New Legal Matter</div>
+                <i class="fa fa-legal"></i>New Legal Matter</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->

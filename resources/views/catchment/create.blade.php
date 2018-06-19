@@ -4,11 +4,11 @@
     <!-- BEGIN PAGE HEADER-->
     <h1 class="page-title"> Create New Catchment </h1>
     <!-- END PAGE HEADER-->
-    
+
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>New Catchment</div>
+                <i class="fa fa-map-signs"></i>New Catchment</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->

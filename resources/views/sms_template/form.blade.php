@@ -2,7 +2,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>{{ (isset($current_sms_template) ? 'Edit' : 'New') }} SMS Template</div>
+                <i class="fa fa-envelope"></i>{{ (isset($current_sms_template) ? 'Edit' : 'New') }} SMS Template</div>
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
@@ -32,11 +32,11 @@
                             <textarea rows="5" class="form-control" id="template" name="template" required>{{ isset($current_sms_template) ? $current_sms_template['Template'] : '' }}</textarea>
 
                             <div class="char-box"><span>Characters remaining: </span><span id="char-count"></span></div>
-                            <span class="help-block">Tags:</span>  
+                            <span class="help-block">Tags:</span>
                             <button type="button" class="btn btn-primary btn-xs shortcut-tag tooltips" data-toggle="tooltip" title="Date of appointment">(date)</button>&nbsp;
                             <button type="button" class="btn btn-primary btn-xs shortcut-tag tooltips" data-toggle="tooltip" title="Time of appointment">(time)</button>&nbsp;
                             <button type="button" class="btn btn-primary btn-xs shortcut-tag tooltips" data-toggle="tooltip" title="Location of appointment">(location)</button>&nbsp;
-                            <button type="button" class="btn btn-primary btn-xs shortcut-tag tooltips" data-toggle="tooltip" title="Office number">(phone)</button>&nbsp;                            
+                            <button type="button" class="btn btn-primary btn-xs shortcut-tag tooltips" data-toggle="tooltip" title="Office number">(phone)</button>&nbsp;
                             <button type="button" class="btn btn-primary btn-xs shortcut-tag tooltips" data-toggle="tooltip" title="Client's name">(client_name)</button>&nbsp;
                             <button type="button" class="btn btn-primary btn-xs shortcut-tag tooltips" data-toggle="tooltip" title="Show service name">(service_name)</button>
 
