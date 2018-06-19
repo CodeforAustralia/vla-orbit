@@ -1,11 +1,11 @@
 @extends ('orbit.master')
 
 @section ('content')
-    
+
     <!-- BEGIN PAGE HEADER-->
     <h1 class="page-title"> Dashboard </h1>
     <!-- END PAGE HEADER-->
-    
+
     <!-- BEGIN DASHBOARD STATS 1-->
     <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -52,7 +52,7 @@
                     <i class="fa fa-globe"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> 
+                    <div class="number">
                         <span data-counter="counterup" data-value="{{ $stats->NoOfBookingThisYear }}">0</span>
                     </div>
                     <div class="desc"> Bookings this year </div>
@@ -62,7 +62,7 @@
     </div>
     <div class="clearfix"></div>
     <!-- END DASHBOARD STATS 1-->
-    
+
     <div class="row">
         <!-- BEGIN THUMBNAILS PORTLET-->
         <div class="col-sm-12 col-md-6">
@@ -75,29 +75,47 @@
                 </div>
                 <div class="portlet-body">
                     <div class="row">
-                        <div class="col-sm-12">
+
+                        <div class="col-sm-6">
                             <div class="thumbnail">
                             <!-- 16:9 aspect ratio -->
                                 <div class="embed-responsive embed-responsive-16by9">
                                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4Z4iC1eD3Es" frameborder="0" allowfullscreen></iframe>
-                                </div>                               
-                                
-                                <div class="caption hidden">
-                                    <h3 class="">Request a new service</h3>
-                                    <p class=""> Does your office provide a service that isn't in ORBIT yet? Any local services you refer to a lot and would like to see as a referral option?
-                                    Complete <a target="_blank" href="https://www.surveymonkey.com/r/Orbit_request_service">this form</a> to request a new service added to ORBIT and we'll check that the service qualifies as a referral option.</p>
+                                </div>
+
+                                <div class="caption">
+                                    <h3 class="">What is Orbit?</h3>
+                                    <p class=""> </p>
                                     <p class="hidden">
                                         <a href="javascript:;" class="btn red"> Read More </a>
                                     </p>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-6">
+                            <div class="thumbnail">
+                            <!-- 16:9 aspect ratio -->
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/hb3OJYhFi04" frameborder="0" allowfullscreen></iframe>
+                                </div>
+
+                                <div class="caption">
+                                    <h3 class="">How to make a Referral?</h3>
+                                    <p class=""> </p>
+                                    <p class="hidden">
+                                        <a href="javascript:;" class="btn red"> Read More </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
         <!-- END THUMBNAILS PORTLET-->
-                       
+
         <!-- BEGIN WELL PORTLET-->
 
         <div class="col-sm-12 col-md-6">
@@ -120,6 +138,6 @@
         </div>
         <!-- END WELL PORTLET-->
     </div>
-    
+
 
 @endsection
