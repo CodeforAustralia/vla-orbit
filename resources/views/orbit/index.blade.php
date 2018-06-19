@@ -138,6 +138,41 @@
         </div>
         <!-- END THUMBNAILS PORTLET-->
 
+        <!-- BEGIN THUMBNAILS PORTLET-->
+        <div class="col-sm-12 col-md-6">
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-book font-green-sharp"></i>
+                        <span class="caption-subject font-green-sharp bold">Presentations</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="thumbnail">
+                            <!-- 16:9 aspect ratio -->
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/gYXmhQu2Hqs" frameborder="0" allowfullscreen></iframe>
+                                </div>
+
+                                <div class="caption hidden">
+                                    <h3 class="">Showcase</h3>
+                                    <p class=""> </p>
+                                    <p class="hidden">
+                                        <a href="javascript:;" class="btn red"> Read More </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END THUMBNAILS PORTLET-->
+
     </div>
 
 
