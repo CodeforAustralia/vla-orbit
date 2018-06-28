@@ -87,7 +87,7 @@ class RegistrationController extends Controller
                             ]
                         );
 
-        $args['message'] = 'Thanks for showing interest in ORBIT. Please fill in your details below and an ORBIT team member will get in touch shortly.\n\n
+        $args['Message'] = 'Thanks for showing interest in ORBIT. Please fill in your details below and an ORBIT team member will get in touch shortly.\n\n
 
                             Name:' . request('name') .'\n
                             Email address:' . request('email') .'\n
