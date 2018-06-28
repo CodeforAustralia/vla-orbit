@@ -87,10 +87,10 @@ class RegistrationController extends Controller
                             ]
                         );
 
-        $args['Message'] = 'Thanks for showing interest in ORBIT. Please fill in your details below and an ORBIT team member will get in touch shortly.\n\n
+        $args['Message'] = 'Thanks for showing interest in ORBIT. Please fill in your details below and an ORBIT team member will get in touch shortly.<br><br>
 
-                            Name:' . request('name') .'\n
-                            Email address:' . request('email') .'\n
+                            Name:' . request('name') .'<br>
+                            Email address:' . request('email') .'<br>
                             Message:' . request('message') ;
 
         Mail::to('orbitteam@vla.vic.gov.au')->send( new SignupEmail( $args ) );
