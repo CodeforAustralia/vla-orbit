@@ -24,7 +24,7 @@ class RegistrationController extends Controller
     public function __construct()
     {
         //$this->middleware('auth')->except(['create','show']);
-        $this->middleware('guest', ['except' => ['index']]);
+        $this->middleware('guest', ['except' => ['index', 'information']]);
     }
 
     /**
@@ -62,6 +62,36 @@ class RegistrationController extends Controller
 
         $dashboards = \App\Dashboard::all()->sortBy('position');
         return view("orbit.index", compact( 'stats', 'stats_today', 'stats_month', 'stats_week', 'referrals_made', 'dashboards' ));
+    }
+
+    /**
+     * Display a the orbit main page with general information and contact details
+     * @return view orbit information page
+     */
+    public function information()
+    {
+        return view("orbit.information");
+    }
+
+    public function contact()
+    {
+        // Validate the form
+        $this->validate(
+                            request(),
+                            [
+                                'name' => 'required',
+                                'email' => 'required|email',
+                                'message' => 'required'
+                            ]
+                        );
+
+        $args['message'] = 'Thanks for showing interest in ORBIT. Please fill in your details below and an ORBIT team member will get in touch shortly.\n\n
+
+                            Name:' . request('name') .'\n
+                            Email address:' . request('email') .'\n
+                            Message:' . request('message') ;
+
+        Mail::to('orbitteam@vla.vic.gov.au')->send( new SignupEmail( $args ) );
     }
 
     /**

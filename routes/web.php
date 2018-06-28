@@ -390,6 +390,10 @@ Route::post('/e_referral', 'EReferralController@store');
 
 Route::get('/', 'RegistrationController@index')->name('home');
 
+Route::get('/information', 'RegistrationController@information');
+
+Route::post('/information', 'RegistrationController@contact');
+
 Route::get('/register', 'RegistrationController@create');
 
 Route::post('/register', 'RegistrationController@store');

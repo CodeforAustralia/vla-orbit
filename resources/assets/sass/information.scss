@@ -1,0 +1,373 @@
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+$screen-xs: 480px;
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;
+
+$contact-img-path: '/assets/pages/img/information/team.png';
+
+$orbit-blue: #17c4bb;
+$text-grey: #605E5E;
+$light-grey: #fafafa;
+$light-blue: #f2f7ff;
+$purple: #5933aa;
+$blue-overlay: rgba(6, 21, 81, 0.75);
+$dark-blue: #061551;
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+p {
+    color: $text-grey;
+}
+
+.navbar {
+    background-color: $dark-blue;
+}
+
+.navbar-nav {
+    float: right;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 30px
+}
+
+.navbar-inverse .navbar-nav>li>a,
+.navbar-inverse .navbar-nav>li>a {
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-inverse .navbar-nav>li>a:focus,
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: $orbit-blue;
+}
+
+.navbar-nav>li {
+    margin-right: 34px;
+}
+
+.youtube-video {
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.menu-bar {
+    margin: 0;
+}
+
+.sq-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: $blue-overlay;
+    top: 0;
+    position: absolute;
+    color: white;
+}
+
+.banner {
+    margin-top: 50px;
+    width: 100%;
+    height: 0;
+    position: relative;
+    padding-bottom: 56.25%;
+
+    .info {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    .button {
+        color: white;
+        background-color: $orbit-blue;
+        border: solid transparent 1px;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .button:hover {
+        color: $orbit-blue;
+        background-color: white;
+        text-decoration: none;
+    }
+    .dashboard-img {
+        position: relative;
+    }
+    .dashboard-img img {
+        width: 80%;
+    }
+}
+
+.how_it_works {
+    background-color: $light-blue;
+    padding: 15px 0;
+    img {
+        width: 100%;
+    }
+    p {
+        text-align: left;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .row {
+        margin-bottom: 15px;
+    }
+}
+
+.section_1 {
+    line-height: 24px;
+    margin-bottom: 15px;
+    div {
+        margin-bottom: 15px;
+    }
+}
+
+.purple-font {
+    color: $purple;
+    font-weight: bold;
+}
+
+.small-text {
+    font-size: 14px;
+}
+
+.is-danger{
+    color: red;
+}
+
+
+.quote {
+    padding: 15px 0;
+    background-color: $purple;
+    color: white;
+    min-height: 300px;
+    p {
+        font-weight: bold;
+        font-size: 24px;
+        display: inline-grid;
+        color: white;
+    }
+}
+
+.logos {
+    background-color: $light-grey;
+    padding: 30px 0;
+     p {
+         padding: 30px 0 0 0;
+         font-size: 16px;
+     }
+
+     .img_container {
+         padding: 4px;
+     }
+
+     img {
+         width: 100%;
+     }
+}
+
+
+.contact {
+    background-image: url($contact-img-path);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 600px;
+    position: relative;
+
+    a {
+        color: white;
+        line-height: 30px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: $orbit-blue;
+    }
+
+    p {
+        color: white;
+        font-size: 34px;
+        font-weight: bold;
+    }
+    input,
+    textarea,
+    button {
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+     .btn-blue {
+         background-color: $orbit-blue;
+         color: white;
+         font-size: 18px;
+         font-weight: bold;
+         font-family: arial;
+     }
+    .email-container {
+        border-right: 1px solid white
+    }
+    .contact-form {
+        top: 80px;
+    }
+}
+
+footer {
+    background-color: $dark-blue;
+    line-height: 50px;
+    p{
+        color: white;
+    }
+}
+
+h1 {
+    font-size: 5em;
+    font-weight: bold;
+}
+
+h2 {
+    margin-bottom: 30px;
+}
+
+h3 {
+    font-weight: bold;
+    margin: 30px 0;
+}
+
+h4 {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+h5 {
+    font-size: 18px;
+    padding: 0px 36%;
+    ::after {
+        content: '';
+        display: block;
+        width: 20%;
+        border-bottom: 1px solid white;
+        margin-left: 38%;
+        margin-top: 15px;
+        margin-bottom: 20px;
+    }
+}
+
+h6 {
+    font-weight: bold;
+    font-size: 28px;
+    color: $orbit-blue;
+}
+
+@media (max-width: $screen-xs) {
+    .navbar-nav {
+        float: none;
+        text-align: center;
+    }
+    .section_1 {
+        margin-top: 15px;
+    }
+    .banner{ 
+        .info {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin-top: 0;
+        }
+        .dashboard-img {
+            top: 50%;
+        }
+        .dashboard-img img {
+            width: 60%;
+        }
+        .dashboard-img {
+            display: none;
+        }
+    }
+    .contact{
+        .email-container {
+            border-right: 0;
+        }
+    }
+    h1 {
+        font-size: 2.5em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+    h5 {
+        font-size: 18px;
+        padding: 0px;
+        ::after {
+            width: 50%;
+            margin-left: 25%;
+        }
+    }
+}
+
+@media (min-width: $screen-sm) {
+    .banner {
+        .info {
+            top: 22%;
+        }
+        .dashboard-img {
+            top: 50%;
+        }
+        .dashboard-img img {
+            width: 60%;
+        }
+    }
+    .section_1 {
+        margin-top: 13%;
+    }
+}
+
+@media (min-width: $screen-md) {
+    .banner {
+        .info {
+            top: 18%;
+        }
+        .dashboard-img {
+            top: 40%;
+        }
+        .dashboard-img img {
+            width: 70%;
+        }
+    }
+}
+
+@media (min-width: $screen-lg) {
+    .banner {
+        .info {
+            top: 17%;
+        }
+        .dashboard-img {
+            top: 35%;
+        }
+    }
+    .how_it_works {
+        font-size: 1.5em;
+    }
+    h3,
+    h4 {
+        font-size: 1.7em;
+    }
+}
