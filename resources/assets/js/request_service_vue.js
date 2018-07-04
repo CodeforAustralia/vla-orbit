@@ -69,45 +69,55 @@ new Vue({
          */
         request_matter: function (e) {
             let self = this;
-            if (self.validate(self.matter_form)) {
-                self.matter_form.submit('post', '/service/request_addition')
-                    .then(() => {
-                        swal("Thank you!", "We’ll look at your request and get back to you when it is added or if we have any questions.", "success ");
+            self.validate(self.matter_form).then(() => {
+                    self.matter_form.submit('post', '/service/request_addition')
+                    .then(function (response) {
+                        swal("Thank you!", "We’ll look at your request and get back to you when it is added or if we have any questions.", "success");
                         $('#request-matter').modal('hide');
-                    }).catch(() => {
-                        console.log('Error in Server')
+                    }).catch(function (error) {
+                        console.log('Error in Server', error)
                     });
-            }
+            }).catch(function (error) {
+                console.log('Fields missing', error);
+            });
         },
         /**
          * On Request Vulberability
          */
         request_vulnerability: function (e) {
             let self = this;
-            if (self.validate(self.vulnerability_form)) {
+            self.validate(self.vulnerability_form).then(() => {
                 this.vulnerability_form.submit('post', '/service/request_addition')
-                    .then(() => {
-                        swal("Thank you!", "We’ll look at your request and get back to you when it is added or if we have any questions.", "success ");
+                    .then(function (response) {
+                        swal("Thank you!", "We’ll look at your request and get back to you when it is added or if we have any questions.", "success");
                         $('#request-vulnerability').modal('hide');
-                    }).catch(() => {
-                        console.log('Error in Server')
+                    }).catch(function (error) {
+                        console.log('Error in Server', error);
                     });
-            }
+            }).catch(function (error) {
+                console.log('Fields missing', error);
+            });
         },
         validate: function(form_to_validate) {
-            let valid = true;
-            let object_form = form_to_validate;
-            let error_msg = {};
-            for (let propety in object_form) {
-                if (object_form[propety] === '') {
-                    error_msg[propety] = ['This field is required'];
-                    object_form.errors.record(error_msg);
-                    valid = false;
-                } else {
-                    object_form.errors.clear(propety);
+            return new Promise((resolve, reject) => {
+                let valid = true;
+                let object_form = form_to_validate;
+                let error_msg = {};
+                for (let propety in object_form) {
+                    if (object_form[propety] === '') {
+                        error_msg[propety] = ['This field is required'];
+                        object_form.errors.record(error_msg);
+                        valid = false;
+                    } else {
+                        object_form.errors.clear(propety);
+                    }
                 }
-            }
-            return valid;
+                if(valid) {
+                    resolve();
+                } else{
+                    reject();
+                }
+            });
         }
     },
     mounted() {
