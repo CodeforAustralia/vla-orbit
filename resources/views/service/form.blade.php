@@ -186,7 +186,7 @@
                         </div>
 
                         <div class="col-sm-12">
-                            <p><small>Choose the legal matters covered by the service</small></p>
+                            <p><small>Choose the legal matters covered by the service. If needed <a data-toggle="modal" href="#request-matter">request a new legal matter</a>.</small></p>
                             <select multiple class="form-control" id="matters" name="matters[]"></select>
 
                         </div>
@@ -285,6 +285,8 @@
         </div>
     </div>
 
+    @include ('service.request_additional_modal')
+
 @section('styles')
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <link href="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
@@ -304,6 +306,7 @@
     <!-- Bootstrap toogle JS -->
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- END Bootstrap toogle JS -->
+    <script src="/js/request_service_vue.js?id={{ str_random(6) }}"></script>
 @endsection
 
 @section('inline-scripts')

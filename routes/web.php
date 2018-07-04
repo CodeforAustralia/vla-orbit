@@ -70,6 +70,8 @@ Route::get('/service/new', 'ServiceController@create');
 
 Route::post('/service', 'ServiceController@store');
 
+Route::post('/service/request_addition', 'ServiceController@sendRequestEmail');
+
 //Service Type
 Route::get('/service_type', 'ServiceTypeController@index');
 

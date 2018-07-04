@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Service;
 use App\ServiceAction;
 use App\ServiceType;
@@ -14,6 +15,7 @@ use App\Catchment;
 use App\Vulnerability;
 use App\MatterServiceAnswer;
 use App\EReferral;
+use App\Mail\RequestEmail;
 use Auth;
 
 /**
@@ -299,6 +301,18 @@ class ServiceController extends Controller
         $service->catchments = array_values($service_catchments);
 
         return response()->json($service);
+    }
+
+    /**
+     * Send sign up email to orbit team
+     *
+     */
+    public function sendRequestEmail()
+    {
+        $user = Auth::user();
+        $request = request()->all();
+        $request['user'] = $user;
+        Mail::to('orbitteam@vla.vic.gov.au')->send( new RequestEmail( $request ) );
     }
 
 }
