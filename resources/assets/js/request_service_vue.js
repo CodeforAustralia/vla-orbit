@@ -74,6 +74,12 @@ new Vue({
                     .then(function (response) {
                         swal("Thank you!", "We’ll look at your request and get back to you when it is added or if we have any questions.", "success");
                         $('#request-matter').modal('hide');
+                        self.matter_form = new Form({
+                                name: 'matter',
+                                matter_name: '',
+                                parent_matter: '',
+                                reason: ''
+                            });
                     }).catch(function (error) {
                         console.log('Error in Server', error)
                     });
@@ -91,6 +97,12 @@ new Vue({
                     .then(function (response) {
                         swal("Thank you!", "We’ll look at your request and get back to you when it is added or if we have any questions.", "success");
                         $('#request-vulnerability').modal('hide');
+                        self.vulnerability_form = new Form({
+                            name: 'criteria',
+                            criteria_name: '',
+                            criteria_group: '',
+                            reason: ''
+                        });
                     }).catch(function (error) {
                         console.log('Error in Server', error);
                     });
