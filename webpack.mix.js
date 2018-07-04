@@ -17,6 +17,7 @@ mix.js(
                 'resources/assets/js/notifications_vue.js'
             ],
             'public/js/orbit.js'
-        );
-   //.js('resources/assets/js/app.js', 'public/js')
-   //.sass('resources/assets/sass/app.scss', 'public/css');
+        )
+   .js('resources/assets/js/information_vue.js', 'public/js')
+   .js('resources/assets/js/request_service_vue.js', 'public/js')
+   .sass('resources/assets/sass/information.scss', 'public/css');
