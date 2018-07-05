@@ -1,7 +1,3 @@
-// The following example creates a marker in Stockholm, Sweden using a DROP
-// animation. Clicking on the marker will toggle the animation between a BOUNCE
-// animation and no animation.
-
 var markers = [];
 var infowindow;
 var map;
@@ -22,16 +18,24 @@ function getAddress()
 			},
 			method: 'POST',
 			url: '/panel_lawyers/get_closet_by_address',
-			data: { address,
-					serviceName }
+			data: {
+				address: address,
+				serviceName: serviceName
+			}
 		})
 		.done(function( msg )
 		{
 			if ( msg.hasOwnProperty("client_address") && msg.hasOwnProperty("closest") )
 			{
 			    const client_address =  JSON.parse(msg.client_address);
-			    const closest = JSON.parse(msg.closest);
-			    createPoint( client_address, closest );
+				const closest = JSON.parse(msg.closest);
+
+				setTimeout(function () {
+					map.fitBounds(bounds);
+					console.log("fitting it!! :=");
+				}, 3000);
+
+				createPoint(client_address, closest);
 			    $('#nearest').val(msg.closest);
 				$('#map').show();
 			}
@@ -53,11 +57,12 @@ function getAddress()
 function createPoint(client_address, closest)
 {
 	document.getElementById("map").style.height = "400px";
-	var map = new google.maps.Map(document.getElementById('map'), {
-	  zoom: 12,
+	map = new google.maps.Map(document.getElementById('map'), {
+	  zoom: 11,
 	  center: {lat: client_address.lat, lng: client_address.lng}
 	});
 	markers = [];
+	bounds = new google.maps.LatLngBounds();
 	//Set Client Marker
 	setMarker( map, client_address);
 	for (let i = closest.length - 1; i >= 0; i--)
@@ -68,8 +73,7 @@ function createPoint(client_address, closest)
 	  //Set CLosest offices marker
 	  setMarker( map, office);
 	}
-	map.fitBounds(bounds);       // auto-zoom
-	map.panToBounds(bounds);     // auto-center
+	return map;
 }
 
 function setMarker( map, office)
@@ -82,8 +86,6 @@ function setMarker( map, office)
 	  animation: google.maps.Animation.DROP,
 	  position: {lat:  parseFloat(office.lat), lng: parseFloat(office.lng)},
 	  title: title,
-	  //icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-	  //icon: 'https://findicons.com/files/icons/1580/devine_icons_part_2/128/home.png'
 	};
 	if( office.hasOwnProperty("OfficeName"))
 	{
@@ -97,7 +99,6 @@ function setMarker( map, office)
 	else
 	{
 	    options.icon = '/../../assets/layouts/layout2/img/OrbitCasa_icon.png';
-    	bounds  = new google.maps.LatLngBounds();
 	}
 	// Search for markers in the same position
     markers.forEach(function(markerObject, index, markers){
@@ -106,7 +107,6 @@ function setMarker( map, office)
     		contentString += "<hr>"+ markerObject.infowindow.content;
     		markerObject.infowindow.content = '';
     	}
-
     });
 
 	var infowindow = new google.maps.InfoWindow({
@@ -144,8 +144,8 @@ function hideAllInfoWindows(map) {
 function initMap()
 {
 	//set center to 570 Bourke St
-	var map = new google.maps.Map(document.getElementById('map'), {
-	  zoom: 13,
+	map = new google.maps.Map(document.getElementById('map'), {
+	  //zoom: 10,
 	  center: {lat: -37.815419, lng: 144.956719 }
 	});
 
@@ -155,7 +155,7 @@ function initMap()
     // Bind the map's bounds (viewport) property to the autocomplete object,
     // so that the autocomplete requests use the current map bounds for the
     // bounds option in the request.
-    autocomplete.bindTo('bounds', map);
+	autocomplete.bindTo('bounds', map);
 };
 
 
@@ -173,7 +173,7 @@ function get_lat_lng()
 		        },
 		      	method: "POST",
 		      	url: "/panel_lawyers/get_lat_lng/",
-		      	data: { address }
+		      	data: { address: address }
 		    })
 		    .done(function( coordinates ) {
 		    	document.getElementById("lat").value = coordinates.lat;
@@ -186,7 +186,6 @@ function get_lat_lng()
 
 	}
 };
-
 
 
 document.addEventListener('DOMContentLoaded', function() {
