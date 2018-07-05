@@ -44,7 +44,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if (!$this->isHttpException($exception)) 
+        $is_production = config('app.env') === 'production';
+        if (!$this->isHttpException($exception) && $is_production ) 
         {
             $exception = new \Symfony\Component\HttpKernel\Exception\HttpException(500);
         }
