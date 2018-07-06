@@ -4,9 +4,9 @@
 
 	<div class="note note-danger">
 
-	    <h4 class="block"> <strong>Error  <small>{{ $exception->getStatusCode() }}</small></strong> - Something went wrong please contact an admin to receive help with this issue <a href="mailto:orbitteam@vla.vic.gov.au">orbitteam@vla.vic.gov.au</a> </h4>	    
+	    <h4 class="block"> <strong>Error  <small>{{ $exception->getStatusCode() }}</small></strong> - Something went wrong please contact an admin to receive help with this issue <a href="mailto:{{ config('app.team_email') }}">{{ config('app.team_email') }}</a> </h4>
 	</div>
-    
+
     @if ( \App\Http\helpers::getRole() == 'Administrator' )
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -16,7 +16,7 @@
         </div>
         <div id="collapse_error" class="panel-collapse collapse">
             <div class="panel-body">
-                
+
 				<p> <strong>{{ $exception->getFile() }} in line {{ $exception->getLine() }}</strong> </p>
 				<br>
 				<p>  {{ json_encode($exception->getTrace()) }} </p>

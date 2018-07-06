@@ -50,7 +50,7 @@ class ReferralSms extends Mailable
         // if is CLC send message with different sender
         if ( $is_clc ) {
             $address = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
-            $name = env('APP_NAME', 'Orbit');
+            $name = config('app.name');
             return  $this
                     ->from( $address, $name )
                     ->subject(' ')->markdown('emails.referral.sms')

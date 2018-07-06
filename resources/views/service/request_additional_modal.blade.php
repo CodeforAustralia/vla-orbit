@@ -9,7 +9,7 @@
 
                 <div class="modal-body" style="display: grid;">
 
-                    <span>Use the form below the request a new legal matter to be added to ORBIT.</span><br>
+                    <span>Use the form below the request a new legal matter to be added to {{ strtoupper(config('app.name')) }}.</span><br>
                     <span>For a full list of existing matters <a target="_blank" href="https://docs.google.com/spreadsheets/d/1L-pg_KxX9WP29CsE--3OvgyFE8BjL7CmgPBFHBw4-KM/view">click here</a>.</span>
 
                     <div class="form-group  margin-top-10">
@@ -67,7 +67,7 @@
 
                 <div class="modal-body" style="display: grid;">
 
-                    <span>Use the form below the request a new eligibility criteria to be added to ORBIT.</span><br>
+                    <span>Use the form below the request a new eligibility criteria to be added to {{ strtoupper(config('app.name')) }}.</span><br>
 
                     <div class="form-group  margin-top-10">
                         <div class="col-sm-12">

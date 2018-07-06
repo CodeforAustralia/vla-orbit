@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 
+<!--
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.7
 Version: 4.7.5
 Author: KeenThemes
@@ -21,10 +21,10 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <head>
         <meta charset="utf-8" />
-        <title>ORBIT | Code for Australia</title>
+        <title>{{ strtoupper(config('app.name')) }}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <meta content="Preview page of Orbit" name="description" />
+        <meta content="Preview page of {{ ucfirst(config('app.name')) }}" name="description" />
         <meta content="Code For Australia and Victoria Legal Aid" name="author" />
         <meta name="_token" content="{{ csrf_token() }}"/>
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -43,21 +43,21 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="/assets/layouts/layout2/css/layout.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/layouts/layout2/css/themes/blue.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="/assets/layouts/layout2/css/custom.css" rel="stylesheet" type="text/css" />
-        <link href="/assets/layouts/layout2/css/loading.css" rel="stylesheet" type="text/css" />                
+        <link href="/assets/layouts/layout2/css/loading.css" rel="stylesheet" type="text/css" />
         <link href="/assets/layouts/layout2/css/xl-grid-bootstrap.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <!-- SELECT2 LAYOUT STYLES -->
         <link href="/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
-        <!-- END SELECT2 LAYOUT STYLES -->        
+        <!-- END SELECT2 LAYOUT STYLES -->
         <!-- include summernote css-->
         <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
         <!-- End summernote css-->
 
-        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-16x16.png" sizes="16x16">  
-        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-32x32.png" sizes="32x32">  
-        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-92x92.png" sizes="92x92">  
+        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-92x92.png" sizes="92x92">
 
         @yield('styles')
 
@@ -67,9 +67,9 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END HEAD -->
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
-        
+
         @include ('orbit.header')
-        
+
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
 
@@ -86,7 +86,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     @include ('orbit.alert')
 
                     @yield ('content')
-                    
+
                 </div>
                 <!-- END CONTENT BODY -->
             </div>
@@ -96,11 +96,11 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- END QUICK SIDEBAR -->
         </div>
         <!-- END CONTAINER -->
-        
+
         @include ('orbit.footer')
 
-        @include ('orbit.loading_modal')        
-        
+        @include ('orbit.loading_modal')
+
     </body>
 
 </html>

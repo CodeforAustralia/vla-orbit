@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta content="Preview page of Orbit" name="description" />
+    <meta content="Preview page of {{ ucfirst(config('app.name')) }}" name="description" />
     <meta content="Code For Australia and Victoria Legal Aid" name="author" />
     <meta name="_token" content="{{ csrf_token() }}"/>
     <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-92x92.png" sizes="92x92">
 
-    <title>ORBIT | Code for Australia</title>
+    <title>{{ strtoupper(config('app.name')) }}</title>
 
 </head>
 <body>
@@ -28,7 +28,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">ORBIT</a>
+        <a class="navbar-brand" href="#">{{ strtoupper(config('app.name')) }}</a>
         </div>
         <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -49,7 +49,7 @@
         <iframe class="youtube-video" src="https://www.youtube.com/embed/3ltXlQduKWQ?autoplay=1&showinfo=0&mute=1&enablejsapi=1&controls=0&loop=1&playlist=3ltXlQduKWQ" frameborder="0" allowfullscreen></iframe>
         <div class="sq-overlay">
             <div class="col-sm-8 info text-center">
-                <h1>ORBIT</h1>
+                <h1>{{ strtoupper(config('app.name')) }}</h1>
                 <h2> Your new online tool to help clients get to legal services in Victoria</h2>
                 <a href="#contact" target="_self" role="button" class="button">
                     <span>Request access</span>
@@ -68,7 +68,7 @@
 
         <div class="col-xs-10 col-xs-offset-1">
             <p>With more than 500 legal services across Victoria and a web of eligibility questions determining if a client qualifies for a service, finding appropriate legal assistance for eligible clients is challenging for frontline staff.</p>
-            <p>ORBIT is an online referral booking and information tool that aims to tackle some of the challenges staff and clients meet when a legal problem occurs while focusing on improving both the client and staff experience.</p>
+            <p>{{ strtoupper(config('app.name')) }} is an online referral booking and information tool that aims to tackle some of the challenges staff and clients meet when a legal problem occurs while focusing on improving both the client and staff experience.</p>
         </div>
 
         <div class="col-xs-10 col-xs-offset-1">
@@ -101,7 +101,7 @@
 
             <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-0">
                 <h4 class="text-left">Referrals</h4>
-                <p>Based on clients' circumstances, type of legal matter(s), what stage the legal matter is in and where they live, ORBIT makes it easy for staff to find accurate referral options.</p>
+                <p>Based on clients' circumstances, type of legal matter(s), what stage the legal matter is in and where they live, {{ strtoupper(config('app.name')) }} makes it easy for staff to find accurate referral options.</p>
                 <p>Referral options include VLA services, CLC services and common support services. ​</p>
                 <p>Referral information can easily be shared with the client over SMS or email.</p>
             </div>
@@ -112,9 +112,9 @@
 
             <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-1">
                 <h4 class="text-left">Bookings</h4>
-                <p>Administer your bookable services in ORBIT and allow staff to easily find the next available appointment and book clients directly.</p>
+                <p>Administer your bookable services in {{ strtoupper(config('app.name')) }} and allow staff to easily find the next available appointment and book clients directly.</p>
                 <p>If appropriate open up bookings to other offices and let them book clients into appointments directly. ​</p>
-                <p>Bookings in ORBIT includes the option of sending clients automatic SMS reminders to attend appointments. </p>
+                <p>Bookings in {{ strtoupper(config('app.name')) }} includes the option of sending clients automatic SMS reminders to attend appointments. </p>
             </div>
             <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-0">
                 <img src="/assets/pages/img/information/book_pop_up.png" />
@@ -130,7 +130,7 @@
 
             <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-0">
                 <h4 class="text-left">Information</h4>
-                <p>ORBIT provides over 100 email templates. The emails cover basic information and have been developed by VLA’s Legal Help and Community Legal Education teams.</p>
+                <p>{{ strtoupper(config('app.name')) }} provides over 100 email templates. The emails cover basic information and have been developed by VLA’s Legal Help and Community Legal Education teams.</p>
                 <p>The emails provide a good alternative to a referral for clients who are capable of self-help or as a supplement to a referral.</p>
             </div>
 
@@ -143,7 +143,7 @@
 
         <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
             <h5>Brendan Lacota Moonee Valley Legal Service</h5>
-            <p>"Our staff and volunteers use Orbit daily to help with referrals. We have a large number of volunteers who appreciate Orbit’s easy to use and intuitive interface, which is a testament to its human centred design. Orbit helps us to save time and provide better referrals to clients."</p>
+            <p>"Our staff and volunteers use {{ strtoupper(config('app.name')) }} daily to help with referrals. We have a large number of volunteers who appreciate {{ strtoupper(config('app.name')) }}’s easy to use and intuitive interface, which is a testament to its human centred design. {{ strtoupper(config('app.name')) }} helps us to save time and provide better referrals to clients."</p>
         </div>
         <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
             <h5>Legal Help Officer</h5>
@@ -157,7 +157,7 @@
     <div class="row logos" id="logos">
         <div class="col-xs-10 col-xs-offset-1">
             <div class="col-xs-12">
-                <p>ORBIT is the product of a thorough research phase learning about client and staff needs. The development has been in close collaboration with frontline staff at Victoria Legal Aid offices and community legal centres.</p>
+                <p>{{ strtoupper(config('app.name')) }} is the product of a thorough research phase learning about client and staff needs. The development has been in close collaboration with frontline staff at Victoria Legal Aid offices and community legal centres.</p>
 
                 <div class="col-xs-6 col-sm-4 col-md-2 img_container">
                     <a href="https://www.fitzroy-legal.org.au/" target="blank">
@@ -233,7 +233,7 @@
         <div class="sq-overlay">
             <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 contact-form">
                 <h6>Request access</h6>
-                <p>To get access to ORBIT or schedule a demo, please fill in your contact details</p>
+                <p>To get access to {{ strtoupper(config('app.name')) }} or schedule a demo, please fill in your contact details</p>
                 <form method="POST" action="/information" @submit="onSubmit" @keydown="form.errors.clear($event.target.name)">
 
                     <div class="form-group row">
@@ -262,10 +262,10 @@
 
                 </form>
                 <div class="col-xs-6 text-right email-container">
-                    <a href="mailto:orbitteam@vla.vic.gov.au">orbitteam@vla.vic.gov.au</a>
+                    <a href="mailto:{{ config('app.team_email') }}">{{ config('app.team_email') }}</a>
                 </div>
                 <div class="col-xs-6 text-left">
-                    <a href="https://www.orbit.vla.vic.gov.au">www.orbit.vla.vic.gov.au</a>
+                    <a href="{{ config('app.url') }}">{{ config('app.url') }}</a>
                 </div>
             </div>
         </div>

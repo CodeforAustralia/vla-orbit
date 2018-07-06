@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Auth;
 
 /**
- * Master Controller used to test ORBIT Web services.
+ * Master Controller used to test Web services.
  * Controller for the home dashboard
  *
  * @author Christian Arevalo
@@ -25,7 +25,7 @@ class MasterController extends Controller
     }
 
     /**
-     * Core Orbit Web Service client
+     * Core Web Service client
      *
      * @return SoapClient
      */
@@ -40,7 +40,7 @@ class MasterController extends Controller
 	}
 
     /**
-     * Orbit Web Service functions
+     * Web Service functions
      *
      * @return Dump Dump message on the browser
      */
@@ -52,7 +52,7 @@ class MasterController extends Controller
     }
 
     /**
-     * Orbit Web Service types
+     * Web Service types
      *
      * @return Dump Dump message on the browser
      */

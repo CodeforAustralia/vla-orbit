@@ -35,7 +35,7 @@
                             <select class="form-control" id="sp_id" name="sp_id">
 
                                 @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
-                                <option value="0">Orbit Admin</option>
+                                <option value="0">{{ ucfirst(config('app.name')) }} Admin</option>
                                 @endif
                                 @foreach($service_providers as $service_provider)
                                     <option value="{{ $service_provider['ServiceProviderId'] }}" {{ ( isset($user) && $service_provider['ServiceProviderId'] == $user->sp_id ? 'selected' : '') }}> {{ $service_provider['ServiceProviderName'] }} </option>

@@ -90,12 +90,12 @@
                                             <li>
                                                 <a href="javascript:;">
                                                     <span class="details">
-                                                        Thanks for using Orbit. We are still making changes and improvements to the tool,
+                                                        Thanks for using {{ ucfirst(config('app.name')) }}. We are still making changes and improvements to the tool,
                                                         and need to know what is working, what isn't and if something is missing. </span>
                                                 </a>
-                                                <a href="mailto:orbitteam@vla.vic.gov.au">
+                                                <a href="mailto:{{ config('app.team_email') }}">
                                                     <span class="details">Please send any feedback to
-                                                        <span class="bold">orbitteam@vla.vic.gov.au</span>
+                                                        <span class="bold">{{ config('app.team_email') }}</span>
                                                         or use the chat tool in the bottom left side of the page.
                                                     </span>
                                                 </a>
