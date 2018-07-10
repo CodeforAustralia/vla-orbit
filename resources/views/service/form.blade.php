@@ -313,7 +313,8 @@
     //init_select2.js is loading information by ajx for each select2 field in this page
     function loadServiceMatters()
     {
-        $("#matters").select2({width: '100%'}).val( {{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }} ).trigger("change");
+        $("#matters").select2({width: '100%',escapeMarkup: function (text) {return text;}}).val( {{ isset($matter_services) ? json_encode( $matter_services ) : '[]' }} ).trigger("change");
+
     }
 
     function loadCatchments()
