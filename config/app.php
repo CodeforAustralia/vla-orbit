@@ -225,7 +225,18 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        
+
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Team Email
+    |--------------------------------------------------------------------------
+    |
+    | This value is the email of your team. This value is used when the
+    | client requires more information, contact the team to request
+    | access or even add content.\League\Flysystem\Config
+    |
+    */
+    'team_email' =>  env('APP_TEAM_EMAIL', 'orbitteam@vla.vic.gov.au'),
 ];

@@ -106,7 +106,7 @@
                                 </div>
 
                                 <div class="caption hidden">
-                                    <h3 class="">What is Orbit?</h3>
+                                    <h3 class="">What is {{ ucfirst(config('app.name')) }}?</h3>
                                     <p class=""> </p>
                                     <p class="hidden">
                                         <a href="javascript:;" class="btn red"> Read More </a>

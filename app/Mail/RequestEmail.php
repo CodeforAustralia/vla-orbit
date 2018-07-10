@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 /**
  * Request email inside service.
- * Send email to request legal matter or vulnerability in ORBIT
+ * Send email to request legal matter or vulnerability
  * @author Christian Arevalo
  * @version 1.0.0
  * @see  Mailable

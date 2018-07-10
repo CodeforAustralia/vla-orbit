@@ -22,6 +22,6 @@
 
 @endif
 
-<h1> This email was generated automatically by ORBIT </h1>
+<h1> This email was generated automatically by {{ strtoupper(config('app.name')) }} </h1>
 
 @endcomponent

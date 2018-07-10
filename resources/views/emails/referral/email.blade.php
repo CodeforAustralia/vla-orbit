@@ -24,6 +24,6 @@ They have referred you to another service for more help:
 
 **Once you make contact the service will assess whether they can help you or not.**
 
-*This email was sent by ORBIT on behalf of {!! $args['sendingServiceProvider']['ServiceProviderName'] !!}. Please do not reply to this email.*
+*This email was sent by {{ strtoupper(config('app.name')) }} on behalf of {!! $args['sendingServiceProvider']['ServiceProviderName'] !!}. Please do not reply to this email.*
 
 @endcomponent

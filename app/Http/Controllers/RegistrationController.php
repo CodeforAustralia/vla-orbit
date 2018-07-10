@@ -13,7 +13,7 @@ use SimpleSAML_Auth_Simple;
 
 /**
  * Registration Controller.
- * Controller for the Orbit main page functionalities
+ * Controller for the main page functionalities
  * @author VLA & Code for Australia
  * @version 1.2.0
  * @see  Controller
@@ -86,14 +86,14 @@ class RegistrationController extends Controller
                                 'message' => 'required'
                             ]
                         );
-
-        $args['Message'] = 'Thanks for showing interest in ORBIT. Please fill in your details below and an ORBIT team member will get in touch shortly.<br><br>
+        $app_name = strtoupper(config('app.name'));
+        $args['Message'] = 'Thanks for showing interest in '. $app_name .'. Please fill in your details below and an '. $app_name .' team member will get in touch shortly.<br><br>
 
                             Name:' . request('name') .'<br>
                             Email address:' . request('email') .'<br>
                             Message:' . request('message') ;
 
-        Mail::to('orbitteam@vla.vic.gov.au')->send( new SignupEmail( $args ) );
+        Mail::to(config('app.team_email'))->send( new SignupEmail( $args ) );
     }
 
     /**

@@ -1,10 +1,10 @@
-@php    
-    $sp_arr = [ 98, 99, 106, 109, 119, 121, 160 ];        
-    $is_lh  = \App\Http\helpers::getUSerServiceProviderId() === 112;    
+@php
+    $sp_arr = [ 98, 99, 106, 109, 119, 121, 160 ];
+    $is_lh  = \App\Http\helpers::getUSerServiceProviderId() === 112;
 @endphp
 <div>
-    <br>    
-    <small>Book a client in for an appointment using the form type Direct Booking. The office providing the service will be see the booking in Orbit. Send an e-referral to the office providing the service by choosing any of the other form types. A copy of the email sent is bcc’d to the LegalInfoCallBack mailbox.</small>
+    <br>
+    <small>Book a client in for an appointment using the form type Direct Booking. The office providing the service will be see the booking in {{ ucfirst(config('app.name')) }}. Send an e-referral to the office providing the service by choosing any of the other form types. A copy of the email sent is bcc’d to the LegalInfoCallBack mailbox.</small>
 </div>
 <hr>
 <form role="form" method="POST" action="/booking" enctype="multipart/form-data" id="bookingForm">
@@ -12,17 +12,17 @@
     {{ csrf_field() }}
 
     <h4 class="padding-top-10 padding-bottom-10">Service Details</h4>
-    
+
     <div class="row">
         <div class="col-xs-12 col-md-12 padding-bottom-20">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Office/program area:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="ORBIT is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
+                    <label>Office/program area:</label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="{{ strtoupper(config('app.name')) }} is currently for new client appointments at Civil Justice (internal use only), CLM summary crime, and Ringwood crime."></i>
                 </div>
                 <div class="col-xs-12 col-md-6">
-                    <select class="form-control" id="service_provider_id" name="service_provider_id" required>                                
+                    <select class="form-control" id="service_provider_id" name="service_provider_id" required>
                         <option selected=""> </option>
-                        
+
                         @foreach($service_providers as $service_provider)
                             @if( (in_array( $service_provider['ServiceProviderId'], $sp_arr ) && !$is_lh) ||  ($service_provider['ServiceProviderTypeName'] == 'VLA' && $is_lh) && $service_provider['ServiceProviderId'] != 166 )
                             <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
@@ -35,7 +35,7 @@
                     </select>
                 </div>
             </div>
-            <input type="text" class="form-control input-large hidden" id="ServiceProviderName" name="ServiceProviderName"> 
+            <input type="text" class="form-control input-large hidden" id="ServiceProviderName" name="ServiceProviderName">
         </div>
     </div>
 
@@ -43,13 +43,13 @@
         <div class="col-xs-12 ">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Service: <small>if unsure if client qualifies for service find the VLA service guidelines <a href="https://viclegalaid.sharepoint.com/sites/intranet/practiceresources/Pages/default.aspx" target="_blank">here</a></small></label>  
+                    <label>Service: <small>if unsure if client qualifies for service find the VLA service guidelines <a href="https://viclegalaid.sharepoint.com/sites/intranet/practiceresources/Pages/default.aspx" target="_blank">here</a></small></label>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-md-12 padding-bottom-20">
             <div class="form-group">
-                
+
                 <div class="col-xs-12 col-md-6">
                     <select class="form-control" id="sp_services" name="ServiceId" required>
                         <option> </option>
@@ -59,7 +59,7 @@
                     <button type="button" class="btn btn-block dark btn-outline" data-toggle="modal" data-target="#EligibilityConfirm">View Service Details</button>
                 </div>
             </div>
-            <input type="text" class="form-control input-large hidden" id="ServiceName" name="ServiceName"> 
+            <input type="text" class="form-control input-large hidden" id="ServiceName" name="ServiceName">
         </div>
     </div>
 
@@ -67,14 +67,14 @@
         <div class="col-xs-12 ">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <label>Form Type:</label> <small>if direct booking is not available, this service is not in ORBIT yet. Legal Help users can select an e-referral template here</small>
+                    <label>Form Type:</label> <small>if direct booking is not available, this service is not in {{ strtoupper(config('app.name')) }} yet. Legal Help users can select an e-referral template here</small>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-md-12 ">
             <div class="form-group">
-                <div class="col-xs-12 col-md-6 padding-bottom-10">                    
-                    <select class="form-control" id="request_type" name="request_type">                                                    
+                <div class="col-xs-12 col-md-6 padding-bottom-10">
+                    <select class="form-control" id="request_type" name="request_type">
                         <option value="direct_booking" id="direct_booking">Direct Booking</option>
                         @if( \App\Http\helpers::getUSerServiceProviderId() === 112 || \App\Http\helpers::getUSerServiceProviderId() === 0 )
                         <option value="appointment_request">Appointment Request</option>
@@ -84,14 +84,14 @@
                         <option value="child_protection" class="hidden">Child Protection</option>
                         <option value="child_support">Child Support</option>
                         @endif
-                    </select>                    
+                    </select>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
                     <button type="button" class="btn btn-block dark btn-outline" data-toggle="modal" data-target="#bookingTypeDescription">More info</button>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 
     <hr>
     <h4 class="padding-top-10 padding-bottom-10">Appointment Details</h4>
@@ -107,9 +107,9 @@
         <div class="col-xs-12 col-sm-12">
             <div class="form-group">
                 <div class="col-xs-8 col-md-6 padding-bottom-10">
-                    <select class="form-control" id="Language" name="Language">    
+                    <select class="form-control" id="Language" name="Language">
                         @include( 'booking.language' )
-                    </select>                    
+                    </select>
                 </div>
             </div>
         </div>
@@ -120,7 +120,7 @@
             <div class="form-group">
                 <div class="col-xs-8 padding-bottom-10">
                     <label>Complex needs? <small>may result in longer appointment</small></label> <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Eg barrier to comprehending advice such as an intellectual disability, ABI,cognitive or psychiatric disability. May result in longer appointments at some services."></i>
-                    
+
                     <div class="mt-radio-inline padding-left-20">
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="IsComplex" id="IsComplex" value="1">Yes<span></span>
@@ -128,32 +128,32 @@
                         <label class="mt-radio mt-radio-outline">
                             <input type="radio" name="IsComplex" id="IsComplex" value="0">No<span></span>
                         </label>
-                    </div>                  
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    @include ('booking.book-button')                    
-    
+    @include ('booking.book-button')
+
     <hr>
     <h4 class="padding-top-10 padding-bottom-10">Client Details</h4>
-    
+
     <div class="row">
         <div class="col-xs-5 col-sm-6 col-md-6 col-lg-5">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>First Name:</label>
-                    <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" required> 
+                    <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" required>
                 </div>
             </div>
         </div>
 
-        <div class="col-xs-4 col-sm-6 col-md-6 col-lg-5">        
+        <div class="col-xs-4 col-sm-6 col-md-6 col-lg-5">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Last Name:</label>
-                    <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName" required> 
+                    <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName" required>
                 </div>
             </div>
         </div>
@@ -164,7 +164,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>CIR Number: <small>if known / required if legal advice is given</small></label>
-                    <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" id="CIRNumber">                 
+                    <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" id="CIRNumber">
                 </div>
             </div>
         </div>
@@ -175,7 +175,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Date of Birth</label>
-                    <input type="text" class="form-control input-large" name="dob" id="dob">                 
+                    <input type="text" class="form-control input-large" name="dob" id="dob">
                 </div>
             </div>
         </div>
@@ -186,7 +186,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Suburb town of caller</label>
-                    <input type="text" class="form-control input-large" name="suburb" id="suburb">                 
+                    <input type="text" class="form-control input-large" name="suburb" id="suburb">
                 </div>
             </div>
         </div>
@@ -207,18 +207,18 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Postal Address:</label>
-                    <input type="text" class="form-control input-large" name="postal_address" id="postal_address"> 
+                    <input type="text" class="form-control input-large" name="postal_address" id="postal_address">
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-5 col-md-6 col-lg-5">                            
+        <div class="col-xs-5 col-md-6 col-lg-5">
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Email:</label>
-                    <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" id="email"> 
+                    <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" id="email">
                 </div>
             </div>
         </div>
@@ -238,7 +238,7 @@
                         </label>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 
@@ -247,14 +247,14 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Phone Number:</label>
-                    <input type="number" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile"> 
+                    <input type="number" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile">
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-12">                            
+        <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12">
                     <label>Is it safe to contact this client by SMS? &nbsp; <i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="If it is safe to contact the client on their phone we may call or send the client an SMS to remind them of their booking or to notify them of changes to their booking. Select 'No' if it is unsafe to call or SMS this client."></i></label>
@@ -272,7 +272,7 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-12">                            
+        <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12">
                     <label>Is it safe to contact this client by phone call? &nbsp; </label>
@@ -291,7 +291,7 @@
 
 
     <div class="row">
-        <div class="col-xs-12">                            
+        <div class="col-xs-12">
             <div class="form-group">
                 <div class="col-xs-12">
                     <label>Is it safe to leave a message? &nbsp; </label>
@@ -313,7 +313,7 @@
             <div class="form-group">
                 <div class="col-xs-12 padding-bottom-20">
                     <label>Any unavailable times or instructions re contact?:</label>
-                    <input type="text" class="form-control input-large" name="reContact" id="reContact"> 
+                    <input type="text" class="form-control input-large" name="reContact" id="reContact">
                 </div>
             </div>
         </div>
@@ -339,9 +339,9 @@
     </div>
 </form>
 
-@include ('booking.booking_description')   
+@include ('booking.booking_description')
 
-@section('styles')    
+@section('styles')
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
@@ -351,7 +351,7 @@
     <!-- END PAGE LEVEL PLUGINS -->
 @endsection
 
-@section('scripts')    
+@section('scripts')
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
@@ -369,10 +369,10 @@
 @section('inline-scripts')
 $(document).ready(function() {
     var spId = {{\App\Http\helpers::getUSerServiceProviderId()}};
-    $("#service_provider_id > option").each(function() {   
+    $("#service_provider_id > option").each(function() {
         if(this.value == spId){
             $("#service_provider_id").val(this.value).trigger( "change" );
-        }      
+        }
     });
 });
 @endsection

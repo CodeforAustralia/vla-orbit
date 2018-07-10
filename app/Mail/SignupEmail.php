@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 /**
  * Signup email service.
- * Send email to request a new user in ORBIT
+ * Send email to request a new user
  * @author Sebastian Currea
  * @version 1.0.0
  * @see  Mailable
@@ -47,7 +47,7 @@ class SignupEmail extends Mailable
     public function build()
     {
         return $this
-               ->subject('Request ORBIT login')
+               ->subject('Request login')
                ->markdown('emails.login.signup')
                ->with($this->args);
     }

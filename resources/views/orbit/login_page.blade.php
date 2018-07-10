@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 
+<!--
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.7
 Version: 4.7.5
 Author: KeenThemes
@@ -21,10 +21,10 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <head>
         <meta charset="utf-8" />
-        <title>ORBIT | Code for Australia</title>
+        <title>{{ strtoupper(config('app.name')) }}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <meta content="Preview page of Orbit" name="description" />
+        <meta content="Preview page of {{ ucfirst(config('app.name')) }}" name="description" />
         <meta content="" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
@@ -47,7 +47,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- END SELECT2 LAYOUT STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> 
+        <link rel="shortcut icon" href="favicon.ico" />
         @yield('styles')
 
         <script src="/js/ga.js" type="text/javascript"></script>
@@ -56,14 +56,14 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END HEAD -->
 
     <body class="login">
-        
-        @yield ('content')     
-        
+
+        @yield ('content')
+
         <!-- END QUICK NAV -->
         <!--[if lt IE 9]>
         <script src="/assets/global/plugins/respond.min.js"></script>
-        <script src="/assets/global/plugins/excanvas.min.js"></script> 
-        <script src="/assets/global/plugins/ie8.fix.min.js"></script> 
+        <script src="/assets/global/plugins/excanvas.min.js"></script>
+        <script src="/assets/global/plugins/ie8.fix.min.js"></script>
         <![endif]-->
         <!-- BEGIN CORE PLUGINS -->
         <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -81,15 +81,15 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
-        <!-- BEGIN PAGE LEVEL SCRIPTS -->            
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script src="/js/matter_type.js?id={{ str_random(6) }}" type="text/javascript"></script>
-        
+
         <script src="/assets/global/plugins/counterup/jquery.waypoints.min.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/counterup/jquery.counterup.min.js" type="text/javascript"></script>
 
         <script src="/assets/pages/scripts/ui-sweetalert.min.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js" type="text/javascript"></script>
-        
+
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="/assets/layouts/layout2/scripts/layout.min.js" type="text/javascript"></script>
@@ -120,8 +120,8 @@ License: You must have a valid license purchased only from themeforest(the above
                     $('#radio1003').attr('checked', 'checked');
                 });
             })
-        </script>     
-        
+        </script>
+
     </body>
 
 </html>

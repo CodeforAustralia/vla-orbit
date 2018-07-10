@@ -3,7 +3,7 @@
 
     <div>
         <br>
-        <small>Book a client into an appointment by using the Direct Booking form below. The office/program area providing the service will be able to see the booking in ORBIT. </small>
+        <small>Book a client into an appointment by using the Direct Booking form below. The office/program area providing the service will be able to see the booking in {{ strtoupper(config('app.name')) }}. </small>
         <br>
         <small>Legal Help: as an alternative to Direct Bookings you can send an e-referral to the office/program area by choosing any of the other form types. A copy of this email is bcc’d to the LegalInfoCallBack mailbox.</small>
     </div>
@@ -59,7 +59,7 @@
             <div class="col-xs-12 ">
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label>Form Type:</label> <small>if direct booking is not available, this service is not in ORBIT yet. Legal Help users can select an e-referral template here</small>
+                        <label>Form Type:</label> <small>if direct booking is not available, this service is not in {{ strtoupper(config('app.name')) }} yet. Legal Help users can select an e-referral template here</small>
                     </div>
                 </div>
             </div>

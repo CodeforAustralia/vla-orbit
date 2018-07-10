@@ -25,7 +25,7 @@ class StatisticController extends Controller
     }
 
     /**
-     * Display an informatin page about ORBIT statistics
+     * Display an informatin page with statistics
      * @return view statistic information
      */
     public function index()

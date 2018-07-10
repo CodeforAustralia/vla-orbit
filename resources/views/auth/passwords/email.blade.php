@@ -8,7 +8,7 @@
             <div class="col-md-6 login-container bs-reset">
                 <img class="login-logo login-6" src="../assets/pages/img/login/login-invert.png" />
                 <div class="login-content">
-                    <h1>ORBIT Reset password</h1>
+                    <h1>{{ strtoupper(config('app.name')) }} reset password</h1>
                     <p> Please provide your email. </p>
 
                     <div class="row">
@@ -66,7 +66,7 @@
                         </div>
                         <div class="col-xs-7 bs-reset">
                             <div class="login-copyright text-right">
-                                <p>Copyright © VLA 2017</p>
+                                <p>Copyright © VLA 2018</p>
                             </div>
                         </div>
                     </div>
