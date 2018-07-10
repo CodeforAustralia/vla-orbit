@@ -8,6 +8,7 @@ use App\Mail\SignupEmail;
 use App\Report;
 use App\Role;
 use App\User;
+use App\ServiceProvider;
 use Auth;
 use SimpleSAML_Auth_Simple;
 
@@ -60,10 +61,20 @@ class RegistrationController extends Controller
                                 ->groupBy('date')
                                 ->get()
                                 ->count();
+            // get all service providers
+            $service_providers_obj  = new ServiceProvider();
+            $service_providers      = $service_providers_obj->getAllServiceProviders();
         }
 
         $dashboards = \App\Dashboard::all()->sortBy('position');
-        return view("orbit.index", compact( 'stats', 'stats_today', 'stats_month', 'stats_week', 'referrals_made', 'dashboards' ));
+        return view("orbit.index",
+               compact( 'stats',
+                        'stats_today',
+                        'stats_month',
+                        'stats_week',
+                        'referrals_made',
+                        'dashboards',
+                        'service_providers' ));
     }
 
     /**

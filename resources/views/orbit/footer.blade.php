@@ -7,7 +7,52 @@
                     <i class="icon-arrow-up"></i>
                 </div>
             </div>
-            <!-- END FOOTER -->
+         </div>
+        <!-- END FOOTER -->
+        <!-- BEGIN MODAL SELECT SP -->
+        <div id="select_sp_modal" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Set up profile</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid" data-always-visible="1" data-rail-visible1="1">
+                            <div class="row" id="sp-content" style="display:block">
+                                <div class="form-group">
+                                    <div class=" input-group col-md-6">
+                                        <label for="sp_id">Choose your office/program area from the list to get the correct access:</label>
+                                        @if(isset($service_providers))
+                                        <select class="form-control" id="sp_id" name="sp_id">
+                                        @foreach($service_providers as $service_provider)
+                                            <option value="{{ $service_provider['ServiceProviderId'] }}"> {{ $service_provider['ServiceProviderName'] }} </option>
+                                        @endforeach
+                                        </select>
+                                        @endif
+                                        <label><small>Not listed? send us an email on orbitteam@vla.vic.gov.au</small></label>
+                                    </div>
+                                </div>
+                                   <div class="form-group">
+                                    <div class=" input-group col-md-6">
+                                        <label for="full_name" id="full_namel">Full name: <small>Optional</small></label>
+                                        <input class="form-control" type="text" autocomplete="off" id="full_name" name="full_name"/>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn green-jungle btn-lg pull-center" id="sp_send">Update profile</button><br>
+                            </div>
+                        </div>
+                        <div class="row" id="sp-result" style="display:none">
+                          <div class="col-xs-12 text-center">
+                            <p style="font-size: 126px;"><i class="fa fa-check-circle" style="color: #5cb85c;background-color: #fff;"></i></p>
+                            <h3><strong>Changes done successful</strong></h3>
+                            <button type="button" onClick="window.location='/';" class="btn default blue btn-lg"><span>Close</span></button>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
             <!--[if lt IE 9]>
             <script src="/assets/global/plugins/respond.min.js"></script>
             <script src="/assets/global/plugins/excanvas.min.js"></script>
@@ -72,10 +117,16 @@
             @yield('scripts')
             @yield('scripts-extra')
             <!-- ------------------------------------------ template loaded js ------------------------------------------ -->
-            
+
             <script type="text/javascript">
                 @yield('inline-scripts')
             </script>
+
+            @if(\App\Http\helpers::getUSerServiceProviderId() === 0 &&  \App\Http\helpers::getRole() === 'VLA')
+            <script>
+            $('#select_sp_modal').modal('show');
+            </script>
+            @endif
 
             <script>
                 $(document).ready(function()
@@ -86,5 +137,5 @@
                     });
                 })
             </script>
-
             <script src="/js/orbit.js?id={{ str_random(6) }}" type="text/javascript"></script>
+            <script src="/js/footer.js?id={{ str_random(6) }}" type="text/javascript"></script>

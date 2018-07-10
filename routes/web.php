@@ -113,6 +113,8 @@ Route::get('/service_provider/new', 'ServiceProvidersController@create');
 
 Route::post('/service_provider', 'ServiceProvidersController@store');
 
+Route::post('/service_provider/set_sp','ServiceProvidersController@setServiceProvider');
+
 //Catchment
 Route::get('/catchment', 'CatchmentController@index');
 

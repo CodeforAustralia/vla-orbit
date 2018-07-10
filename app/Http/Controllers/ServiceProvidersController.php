@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ServiceProvider;
+use App\User;
 use Carbon\Carbon;
 use Auth;
 
@@ -131,5 +132,27 @@ class ServiceProvidersController extends Controller
         $service_provider = new ServiceProvider();
         $result = $service_provider->getAllServiceProvidersFormated( request('scope') );
         return $result;
+    }
+    /**
+     * Set Service provicer and name for users with no service provider and role VLA
+     */
+    public function setServiceProvider()
+    {
+
+        $request = request()->all();
+
+        $user_obj = new User();
+        $user_obj->id = Auth::user()->id;
+        $user_obj->email = Auth::user()->email;
+        $user_obj->sp_id=$request['sp'];
+        $user_obj->ro_id=Auth::user()->roles()->first()->id;
+        $user_obj->name=filter_var($request['name'], FILTER_SANITIZE_STRING);
+        if ( empty($request['name']) ) {
+            $user_obj->name=Auth::user()->name;
+        }
+
+        $response = User::updateUser( $user_obj );
+
+        return redirect('/')->with($response['success'], $response['message']);
     }
 }
