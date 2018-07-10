@@ -15,8 +15,8 @@ var footer = function()
 			method: "POST",
 			url: "/service_provider/set_sp",
 			data: {
-			        sp,
-			        name
+			        sp:sp,
+			        name:name
 			      }
 			})
 			.done(function() {
