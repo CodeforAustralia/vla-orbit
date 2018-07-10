@@ -26,7 +26,10 @@ var searchPage = function()
 	            width: '100%',
 	            placeholder: "Legal matter ( e.g. overdue fines, insurance )",
 	            matcher: matchCustom,
-	            selectOnClose: true
+				selectOnClose: true,
+				escapeMarkup: function (text) {
+					return text;
+				}
 	        });
 	    }).done(function(){
 	        $("#contentLoading").modal("hide");
