@@ -17,6 +17,7 @@ use App\MatterServiceAnswer;
 use App\EReferral;
 use App\Mail\RequestEmail;
 use Auth;
+use Validator;
 
 /**
  * Service Controller.
@@ -128,6 +129,16 @@ class ServiceController extends Controller
     public function store()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+
+        $rules = [
+            'phone' => 'required|numeric|max:9999999999'
+        ];
+        $validator = Validator::make( request()->all(), $rules );
+
+        if ( $validator->fails() ) {
+
+            return redirect()->back()->with('error', ' Phone should be numeric and may not be greater than 10 numbers ')->withInput();
+        }
 
         $sv_params = [
                         'ServiceId'   	=> request('sv_id'),
