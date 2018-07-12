@@ -212,15 +212,3 @@ var disableReferralButton =  function( id )
   $("#" + id + " .refer-button button").addClass('bg-grey-silver bg-font-grey-silver');
   $("#" + id + " .refer-button button").text('Referral Sent');
 }
-
-var enableSummernote = function ()
-{
-  $('#Desc').summernote({
-      toolbar: [
-          // [groupName, [list of button]]
-          ['style', ['bold', 'italic', 'underline']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['link', ['linkDialogShow', 'unlink']]
-      ]
-  });
-}();
