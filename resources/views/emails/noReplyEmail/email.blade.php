@@ -1,2 +1,2 @@
 {!! $args['message'] !!}
-<img src="https://www.google-analytics.com/collect?v=1&tid=UA-104395487-1&t=event&ec=email&ea=open&cs=newsletter&cm=email&cn=nop_reply_emails&cid=555&dp=%2email%2nre&dt=No%20Reply%20emails">
+<img src="https://www.google-analytics.com/collect?v=1&tid=UA-104395487-1&t=event&ec=email&ea=open&cs=newsletter&cm=email&cn=nop_reply_emails&cid=555&dp=%2nre&dt=No%20Reply%20emails&el=nre">
