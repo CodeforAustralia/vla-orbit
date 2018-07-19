@@ -7,7 +7,6 @@ use App\ServiceProvider;
 use App\User;
 use Carbon\Carbon;
 use Auth;
-use Validator;
 
 /**
  * Service Provider Controller.
@@ -68,17 +67,6 @@ class ServiceProvidersController extends Controller
     public function store()
     {
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
-        $rules = [
-            'contact_phone' => 'required|numeric|max:9999999999'
-        ];
-        $validator = Validator::make( request()->all(), $rules );
-
-        if ( $validator->fails() ) {
-
-            return redirect()->back()->with('error', ' Phone should be numeric and may not be greater than 10 numbers ')->withInput();
-        }
-        // Validate the form
-
 
         $sp_params = [
                         'ServiceProviderId'     => request('sp_id'),

@@ -108,7 +108,7 @@
 	                  	    <label for="phone">Phone Number: <small>eg. 0444 333 222 The number is for clients to contact the service. If none put #</small></label>
                         </div>
                         <div class="col-sm-7">
-    	                  	<input type="number" class="form-control" id="phone" name="phone" value="{{ isset($current_service) ? $current_service->Phone : '' }}" required>
+    	                  	<input type="text" class="form-control" id="phone" name="phone" value="{{ isset($current_service) ? $current_service->Phone : '' }}" required>
                         </div>
 	                </div>
 

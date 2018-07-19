@@ -164,14 +164,6 @@ var sendToClient = function () {
     {
       swal("Alert", "Please enter a mobile number", "warning");
     }
-    else if(isNaN( phone ))
-    {
-      swal("Alert", "Phone should be numetical value", "warning");
-    }
-    else if(phone.length > 10)
-    {
-      swal("Alert", "Phone may not be grater than 10 numbers", "warning");
-    }
     else if( ( isEmail( email ) && safe_email == 1 ) || ( phone != '' && safe_phone ) )
     {
       $("#contentLoading").modal("show");

@@ -6,7 +6,6 @@
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
-             @include ('orbit.errors')
             <form method="POST" action="/service_provider" class="form-horizontal">
                 {{ csrf_field() }}
                 <div class="form-body">
@@ -47,7 +46,7 @@
 
                     <div class="form-group">
                         <label for="contact_phone">Contact Phone:</label>
-                        <input type="number" max="9999999999" class="form-control" id="contact_phone" name="contact_phone" value="{{ isset($current_sp) ? $current_sp->ContactPhone : '' }}" required>
+                        <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ isset($current_sp) ? $current_sp->ContactPhone : '' }}" required>
                     </div>
 
                     <div class="form-group">

@@ -261,7 +261,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Phone Number:</label>
-                        <input type="number" max="9999999999" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile">
+                        <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile">
                     </div>
                 </div>
             </div>
