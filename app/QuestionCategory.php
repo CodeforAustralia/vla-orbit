@@ -1,24 +1,44 @@
 <?php
 namespace App;
 
-Class QuestionCategory
+/**
+ * Question Category Model.
+ * Model for the Question Category functionalities
+ *
+ * @author Christian Arevalo
+ * @version 1.2.0
+ * @see  OrbitSoap
+ */
+
+Class QuestionCategory extends OrbitSoap
 {
+    /**
+     * Get All Question Categories
+     *
+     * @return array Array with All Question Categories
+     */
     public function getAllQuestionCategories()
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        $question_categories = json_decode( $client->GetAllQuestionCategoriesasJSON()->GetAllQuestionCategoriesasJSONResult, true );
+        $question_categories = json_decode(
+                                                $this
+                                                ->client
+                                                ->ws_init('GetAllQuestionCategoriesasJSON')
+                                                ->GetAllQuestionCategoriesasJSON()
+                                                ->GetAllQuestionCategoriesasJSONResult
+                                                , true
+                                            );
 
         return $question_categories;
     }
 
-
-    public function saveQuestionCategory( $question_category ) 
+    /**
+     * Save Question Category
+     *
+     * @param array $question_category Array with information of Question Category
+     * @return array Array with error or success message
+     */
+    public function saveQuestionCategory( $question_category )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
         // Current time
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
@@ -29,41 +49,44 @@ Class QuestionCategory
         $question_category['CreatedOn'] = $date_time;
         $question_category['UpdatedOn'] = $date_time;
 
-        // Create call request        
+        // Create call request
         $info = [ 'ObjectInstance' => $question_category ];
-        
+
         try {
-            $response = $client->SaveQuestionCategoy( $info );
-            
-            if($response->SaveQuestionCategoyResult){
-                return array( 'success' => 'success' , 'message' => 'Question Category saved.' );
+            $response = $this->client->ws_init('SaveQuestionCategoy')->SaveQuestionCategoy( $info );
+
+            if ($response->SaveQuestionCategoyResult) {
+                return ['success' => 'success' , 'message' => 'Question Category saved.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );      
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 
+    /**
+     * Delete Question Category by ID
+     *
+     * @param integer $qc_id Question Category ID
+     * @return array Array with error or success message
+     */
     public function deleteQuestionCategory( $qc_id )
-    {    	
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        // Create call request        
+    {
+        // Create call request
         $info = [ 'RefNumber' => $qc_id ];
 
         try {
-            $response = $client->DeleteQuestionCategoy( $info );
-            if( $response->DeleteQuestionCategoyResult ){
-                return array( 'success' => 'success' , 'message' => 'Question Category deleted.' );
+            $response = $this->client->ws_init('DeleteQuestionCategoy')->DeleteQuestionCategoy( $info );
+            if ( $response->DeleteQuestionCategoyResult ) {
+                return ['success' => 'success' , 'message' => 'Question Category deleted.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 }

@@ -1,18 +1,34 @@
 <?php
 namespace App;
 
-Class MatterType
-{
+/**
+ * Legal Matter Type Model.
+ * Model for the legal matter type functionalities
+ *
+ * @author Christian Arevalo
+ * @version 1.2.0
+ * @see  OrbitSoap
+ */
 
+Class MatterType extends OrbitSoap
+{
+    /**
+     * Get all Legal Matter Types
+     *
+     * @return array Array with Legal Matter Types
+     */
 	public function getAllMatterTypes()
 	{
-		// Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        $matter_types = json_decode($client->GetAllLegalMatterTypessasJSON()->GetAllLegalMatterTypessasJSONResult);
+        $matter_types = json_decode(
+                                        $this
+                                        ->client
+                                        ->ws_init('GetAllLegalMatterTypessasJSON')
+                                        ->GetAllLegalMatterTypessasJSON()
+                                        ->GetAllLegalMatterTypessasJSONResult
+                                    );
 
         foreach ($matter_types as $matter_type) {
-            $result[]  = [ 
+            $result[]  = [
                             'MatterTypeID' => $matter_type->MatterTypeID,
                             'MatterTypeName' => $matter_type->MatterTypeName,
                             'CreatedBy' => $matter_type->CreatedBy,
@@ -24,59 +40,68 @@ Class MatterType
 
         return $result;
 	}
-    
-    public function saveMatterType( $matter_type ) 
+
+    /**
+     * Save Legal Matter Type
+     *
+     * @param array $matter_type Legal Matter Type information
+     * @return array Array with error or success message
+     */
+    public function saveMatterType( $matter_type )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        // Create call request        
-        $info = [ 'ObjectInstance' => [
-                        
-                        'MatterTypeName' => $matter_type['title'], // $matter_type['title']
+        $info = [
+                    'ObjectInstance' => [
+                        'MatterTypeName' => $matter_type['title'],
                         'CreatedBy' => auth()->user()->name,
                         'CreatedOn' => '2017-05-11T16:00:00',
                         'UpdatedBy' => auth()->user()->name,
                         'UpdatedOn' => '2017-05-11T16:00:00'
-                        ]                    
+                    ]
                 ];
         try {
-            $response = $client->SaveMatterType($info);            
-            if($response->SaveMatterTypeResult){
-                return array( 'success' => 'success' , 'message' => 'Legal matter Type deleted.' );
+            $response = $this
+                        ->client
+                        ->ws_init('SaveMatterType')
+                        ->SaveMatterType($info);
+
+            if ($response->SaveMatterTypeResult) {
+                return ['success' => 'success' , 'message' => 'Legal matter Type deleted.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'something went wrong.' );
+                return ['success' => 'error' , 'message' => 'something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );           
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 
-
+    /**
+     * Delete Legal Matter Type
+     *
+     * @param array $matter_type Legal Matter Type information
+     * @return array Array with error or success message
+     */
     public function deleteMatter($mt_id)
     {
-
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        // Create call request        
         $info = [ 'RefNumber' => $mt_id];
 
         try {
-            $response = $client->DeleteMatterType($info);
-            // Redirect to index        
-            if($response->DeleteMatterTypeResult){
-                return array( 'success' => 'success' , 'message' => 'Legal matter Type deleted.' );
+            $response = $this
+                        ->client
+                        ->ws_init('DeleteMatterType')
+                        ->DeleteMatterType($info);
+
+            if ($response->DeleteMatterTypeResult) {
+                return ['success' => 'success' , 'message' => 'Legal matter Type deleted.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'something went wrong.' );
+                return ['success' => 'error' , 'message' => 'something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );              
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
 
     }
-    
+
 }
 

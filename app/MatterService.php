@@ -1,28 +1,48 @@
 <?php
 namespace App;
 
-Class MatterService
+/**
+ * Legal Matter Service Model.
+ * Model for the legal matter interaction with Services as they are a many to many table
+ *
+ * @author Christian Arevalo
+ * @version 1.2.0
+ * @see  OrbitSoap
+ */
+
+Class MatterService extends OrbitSoap
 {
-
-	public function getMatterServiceBySvID($sv_id) {
-		// Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        //GetAllOrbitServices
+    /**
+     * Get all Legal matters in service
+     *
+     * @param integer $sv_id Service ID
+     * @return array Legal matters in Service
+     */
+    public function getMatterServiceBySvID($sv_id)
+    {
         $info = [ 'ServiceId' => $sv_id ];
 
-        $services = json_decode($client->GetServiceMattersbyServiceIdasJSON( $info )->GetServiceMattersbyServiceIdasJSONResult);        
+        $services = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetServiceMattersbyServiceIdasJSON')
+                                    ->GetServiceMattersbyServiceIdasJSON( $info )
+                                    ->GetServiceMattersbyServiceIdasJSONResult
+                                );
 
         return $services;
 	}
 
-
-    public function saveMatterService( $sv_id, $mt_id ) 
+    /**
+     * Save Legal Matters in Service
+     *
+     * @param integer $sv_id Service ID
+     * @param integer $mt_id Legal Matter ID
+     * @return array Array with error or success message
+     */
+    public function saveMatterService( $sv_id, $mt_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        $info = [ 'ObjectInstance' => [    
+        $info = [ 'ObjectInstance' => [
                                         'RefNo'     => 0,
         								'MatterId' 	=> $mt_id,
                                         'ServiceId' => $sv_id
@@ -30,34 +50,46 @@ Class MatterService
 			    ];
 
         try {
-            $response = $client->SaveServiceMatter( $info );            
-            if($response->SaveServiceMatterResult){
-                return array( 'success' => 'success' , 'message' => 'Service created.' );
+            $response =  $this
+                        ->client
+                        ->ws_init('SaveServiceMatter')
+                        ->SaveServiceMatter( $info );
+
+            if ($response->SaveServiceMatterResult) {
+                return ['success' => 'success' , 'message' => 'Service created.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 
-    public function deleteMatterServiceByID( $sv_id ) 
+    /**
+     * Delete All Legal Matters by Service ID
+     *
+     * @param integer $sv_id Service ID
+     * @return array Array with error or success message
+     */
+    public function deleteMatterServiceByID( $sv_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+
         $info = [ 'ServiceId'     => $sv_id ] ;
 
         try {
-            $response = $client->DeleteServiceMatterByService( $info );            
-            if($response->DeleteServiceMatterByServiceResult){
-                return array( 'success' => 'success' , 'message' => 'Relation deleted.' );
+            $response =  $this
+                        ->client
+                        ->ws_init('DeleteServiceMatterByService')
+                        ->DeleteServiceMatterByService( $info );
+            if ($response->DeleteServiceMatterByServiceResult) {
+                return ['success' => 'success' , 'message' => 'Relation deleted.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
 
     }

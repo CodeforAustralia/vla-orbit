@@ -1,24 +1,42 @@
 <?php
 namespace App;
 
-Class QuestionType
+/**
+ * Question Group Model.
+ *
+ * @author Christian Arevalo
+ * @version 1.2.0
+ * @see  OrbitSoap
+ */
+Class QuestionType extends OrbitSoap
 {
+    /**
+     * Get all Question Types
+     *
+     * @return array Array with Question Types
+     */
     public function GetAllQuestionTypes()
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        $question_types = json_decode($client->GetAllQuestionTypessasJSON()->GetAllQuestionTypessasJSONResult, true);
+        $question_types = json_decode(
+                                        $this
+                                        ->client
+                                        ->ws_init('GetAllQuestionTypessasJSON')
+                                        ->GetAllQuestionTypessasJSON()
+                                        ->GetAllQuestionTypessasJSONResult
+                                        , true
+                                    );
 
         return $question_types;
     }
 
-
-    public function saveQuestionType( $question_type ) 
+    /**
+     * Save Question Type
+     *
+     * @param array $question_type Array with information of Question Type
+     * @return array Array with error or success message
+     */
+    public function saveQuestionType( $question_type )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
         // Current time
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
@@ -29,41 +47,42 @@ Class QuestionType
         $question_type['CreatedOn'] = $date_time;
         $question_type['UpdatedOn'] = $date_time;
 
-        // Create call request        
         $info = [ 'ObjectInstance' => $question_type ];
-        
+
         try {
-            $response = $client->SaveQuestionType( $info );
-            
-            if($response->SaveQuestionTypeResult){
-                return array( 'success' => 'success' , 'message' => 'Question Type saved.' );
+            $response = $this->client->ws_init('SaveQuestionType')->SaveQuestionType( $info );
+
+            if ($response->SaveQuestionTypeResult) {
+                return ['success' => 'success' , 'message' => 'Question Type saved.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );      
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 
+    /**
+     * Delete Question Type by ID
+     *
+     * @param integer $qt_id Question Type ID
+     * @return array Array with error or success message
+     */
     public function deleteQuestionType( $qt_id )
-    {    	
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        // Create call request        
+    {
         $info = [ 'RefNumber' => $qt_id ];
 
         try {
-            $response = $client->DeleteQuestionType( $info );
-            if($response->DeleteQuestionTypeResult){
-                return array( 'success' => 'success' , 'message' => 'Question Type deleted.' );
+            $response = $this->client->ws_init('DeleteQuestionType')->DeleteQuestionType( $info );
+            if ($response->DeleteQuestionTypeResult) {
+                return ['success' => 'success' , 'message' => 'Question Type deleted.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 }

@@ -1,48 +1,64 @@
 <?php
 namespace App;
 
-Class Question
+/**
+ * Question Model.
+ * Model for the Question functionalities
+ *
+ * @author Christian Arevalo
+ * @version 1.2.0
+ * @see  OrbitSoap
+ */
+Class Question extends OrbitSoap
 {
     public function getAllQuestions()
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        $questions = json_decode($client->GetAllQuestionsasJSON()->GetAllQuestionsasJSONResult, true);
+        $questions = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetAllQuestionsasJSON')
+                                    ->GetAllQuestionsasJSON()
+                                    ->GetAllQuestionsasJSONResult
+                                    , true
+                                );
 
         return $questions;
     }
 
     public function getAllQuestionsByCategoryID( $qc_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        $questions = json_decode($client->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => $qc_id ] )->GetAllQuestionsByCategoryIdasJSONResult, true);
+        $questions = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetAllQuestionsByCategoryIdasJSON')
+                                    ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => $qc_id ] )
+                                    ->GetAllQuestionsByCategoryIdasJSONResult
+                                    , true
+                                );
 
         return $questions;
     }
 
     public function getAllQuestionById( $qu_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
         try {
-            $question = json_decode( $client->GetAllQuestionsByIdasJSON( [ 'RefNumber' => $qu_id  ] )->GetAllQuestionsByIdasJSONResult );
-            return array( 'success' => 'success' , 'message' => 'Service.', 'data' => $question );
+            $question = json_decode(
+                                        $this
+                                        ->client
+                                        ->ws_init('GetAllQuestionsByIdasJSON')
+                                        ->GetAllQuestionsByIdasJSON( [ 'RefNumber' => $qu_id  ] )
+                                        ->GetAllQuestionsByIdasJSONResult
+                                    );
+            return ['success' => 'success' , 'message' => 'Service.', 'data' => $question];
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
 
     }
 
-    public function saveQuestion( $question ) 
+    public function saveQuestion( $question )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
         // Current time
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
@@ -53,61 +69,60 @@ Class Question
         $question['CreatedOn'] = $date_time;
         $question['UpdatedOn'] = $date_time;
 
-        // Create call request        
+        // Create call request
         $info = [ 'ObjectInstance' => $question ];
-        
+
         try {
-            $response = $client->SaveQuestion($info);
-            
-            if($response->SaveQuestionResult){
-                return array( 'success' => 'success' , 'message' => 'Question saved.' );
+            $response = $this->client->ws_init('SaveQuestion')->SaveQuestion($info);
+
+            if ($response->SaveQuestionResult) {
+                return ['success' => 'success' , 'message' => 'Question saved.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
         catch (\Exception $e) {
-            dd($e, $info);
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );      
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 
     public function deleteQuestion( $qu_id )
-    {    	
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        // Create call request        
+    {
+        // Create call request
         $info = [ 'RefNumber' => $qu_id ];
 
         try {
-            $response = $client->DeleteQuestion( $info );
-            if($response->DeleteQuestionResult){
-                return array( 'success' => 'success' , 'message' => 'Question deleted.' );
+            $response = $this->client->ws_init('DeleteQuestion')->DeleteQuestion( $info );
+            if ($response->DeleteQuestionResult) {
+                return ['success' => 'success' , 'message' => 'Question deleted.'];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
         }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
 
     public function getAllLegalMatterQuestions()
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        $questions = json_decode($client->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => 1 ] )->GetAllQuestionsByCategoryIdasJSONResult, true);
+        $questions = json_decode($this
+                                ->client
+                                ->ws_init('GetAllQuestionsByCategoryIdasJSON')
+                                ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 1 ] )
+                                ->GetAllQuestionsByCategoryIdasJSONResult,
+                                 true);
 
         return $questions;
     }
-    
+
     public function getAllVulnerabilityQuestions()
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        $questions = json_decode($client->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => 2 ] )->GetAllQuestionsByCategoryIdasJSONResult, true);
+        $questions = json_decode($this
+                                 ->client
+                                 ->ws_init('GetAllQuestionsByCategoryIdasJSON')
+                                 ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 2 ] )
+                                 ->GetAllQuestionsByCategoryIdasJSONResult, true);
 
         return $questions;
     }

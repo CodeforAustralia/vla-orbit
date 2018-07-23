@@ -1,15 +1,29 @@
 <?php
 namespace App;
 
-Class Service
+/**
+ * Service model for the service functionalities
+ * @author Christian Arevalo
+ * @version 1.0.0
+ * @see  OrbitSoap
+ */
+Class Service extends OrbitSoap
 {
-
+    /**
+     * Get all services
+     * @return array $services services
+     */
     public function getAllServices()
-    {       
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+    {
 
-        $services = json_decode($client->GetAllOrbitServicesasJSON()->GetAllOrbitServicesasJSONResult, true);
+        $services = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetAllOrbitServicesasJSON')
+                                    ->GetAllOrbitServicesasJSON()
+                                    ->GetAllOrbitServicesasJSONResult
+                                    , true
+                                );
 
         //Sort by key on a multidimentional array
         usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
@@ -17,17 +31,26 @@ Class Service
         return $services;
 
     }
-
+    /**
+     * Get all services by services provider
+     * @param  int    $sp_id    service provider id
+     * @return array  $services services by service provider
+     */
     public function getAllServicesBySP( $sp_id )
-    {       
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+    {
 
         $info = [
-                    'ServiceProviderId'    => $sp_id 
+                    'ServiceProviderId'    => $sp_id
                 ];
 
-        $services = json_decode($client->GetAllOrbitServicesByServiceProviderasJSON( $info )->GetAllOrbitServicesByServiceProviderasJSONResult, true);
+        $services = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetAllOrbitServicesByServiceProviderasJSON')
+                                    ->GetAllOrbitServicesByServiceProviderasJSON( $info )
+                                    ->GetAllOrbitServicesByServiceProviderasJSONResult
+                                    , true
+                                );
 
         //Sort by key on a multidimentional array
         usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
@@ -35,18 +58,28 @@ Class Service
         return $services;
 
     }
-
+    /**
+     * Get all services by service provider and service provider user
+     * @param  int    $sp_id      service provider id
+     * @param  int    $user_sp_id service provider user id
+     * @return array  $services   services by service provider
+     */
 	public function getAllServicesBySPAndUserSP( $sp_id, $user_sp_id )
-	{		
-		// Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+	{
 
         $info = [
-                    'OwnerProviderId'  => $sp_id , 
-                    'ServiceProviderId'    => $user_sp_id 
+                    'OwnerProviderId'   => $sp_id ,
+                    'ServiceProviderId' => $user_sp_id
                 ];
 
-        $services = json_decode($client->GetAllEligibleOrbitServicesByProviderasJSON( $info )->GetAllEligibleOrbitServicesByProviderasJSONResult, true);
+        $services = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetAllEligibleOrbitServicesByProviderasJSON')
+                                    ->GetAllEligibleOrbitServicesByProviderasJSON( $info )
+                                    ->GetAllEligibleOrbitServicesByProviderasJSONResult
+                                    , true
+                                );
 
         //Sort by key on a multidimentional array
         usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
@@ -54,12 +87,13 @@ Class Service
         return $services;
 
 	}
-
-    public function saveService( $sv_params ) 
+    /**
+     * Create or update a service
+     * @param  Object  $sv_params service details
+     * @return array              success or error message
+     */
+    public function saveService( $sv_params )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
         // Current time
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
@@ -73,79 +107,93 @@ Class Service
         $info = [ 'ObjectInstance' => $sv_params ];
 
         try {
-            $response = $client->SaveOrbitService( $info );            
-            // Redirect to index        
-            if( $response->SaveOrbitServiceResult >= 0 ){
-                return array( 'success' => 'success' , 'message' => 'Service saved.', 'data' => $response->SaveOrbitServiceResult );
+            $response = $this
+                        ->client
+                        ->ws_init('SaveOrbitService')
+                        ->SaveOrbitService( $info );
+            // Redirect to index
+            if ( $response->SaveOrbitServiceResult >= 0 ) {
+                return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $response->SaveOrbitServiceResult ];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
             }
-        }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        } catch (\Exception $e) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
-
+    /**
+     * Delete a service
+     * @param  int    $sv_id service id
+     * @return array         success or error message
+     */
     public function deleteService($sv_id)
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        // Create call request        
+
+        // Create call request
         $info = [ 'RefNumber' => $sv_id ];
 
         try {
-            $response = $client->DeleteOrbitService( $info );
-            if( $response->DeleteOrbitServiceResult ){
+            $response = $this->client->ws_init('DeleteOrbitService')->DeleteOrbitService( $info );
+            if ( $response->DeleteOrbitServiceResult ) {
                 return array( 'success' => 'success' , 'message' => 'Service deleted.' );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
             }
-        }
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        } catch ( \Exception $e ) {
+            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );
         }
 
     }
-
+    /**
+     * Gete service by service id
+     * @param  int    $sv_id service id
+     * @return array         service or error message
+     */
     public function getServiceByID($sv_id)
-    {        
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
-        // Create call request        
+    {
+        // Create call request
         $info = [ 'ServiceId' => $sv_id ];
 
         try {
-            $response = $client->GetOrbitServicesWithMattersByIdasJSON( $info );
-            
-            if( $response->GetOrbitServicesWithMattersByIdasJSONResult ){                
-                return array( 'success' => 'success' , 'message' => 'Service.', 'data' => $response->GetOrbitServicesWithMattersByIdasJSONResult );
+            $response =     $this
+                            ->client
+                            ->ws_init('GetOrbitServicesWithMattersByIdasJSON')
+                            ->GetOrbitServicesWithMattersByIdasJSON( $info );
+
+            if ( $response->GetOrbitServicesWithMattersByIdasJSONResult ) {
+                return [ 'success' => 'success' , 'message' => 'Service.', 'data' => $response->GetOrbitServicesWithMattersByIdasJSONResult ];
             } else {
-                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
+                return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
             }
-        }
-        catch (\Exception $e) {          
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
-
+    /**
+     * Get al service by service provider
+     * @param  int    $sp_id        service provider id
+     * @return array  $sp_services  services by service provider
+     */
     public function getAllServicesByServiceProvider( $sp_id )
     {
         $services = self::getAllServices();
 
         $sp_services = [];
 
-        foreach ($services as $service) {
-            if( $service['ServiceProviderId'] == $sp_id )
-            {
+        foreach ( $services as $service ) {
+            if ( $service['ServiceProviderId'] == $sp_id ){
                 $sp_services[] = $service;
             }
         }
 
         return $sp_services;
     }
-
+    /**
+     * Get all services by service provider and service provider user
+     * @param  int    $sp_id             service provider id
+     * @param  int    $user_sp_id        service provider user id
+     * @return array  $filtered_services services by service provider and service provider user
+     */
     public function getAllServicesByServiceProviderAndUSerSP( $sp_id, $user_sp_id )
     {
         $services = self::getAllServicesBySP( $sp_id );
@@ -154,21 +202,18 @@ Class Service
 
         $filtered_services = [];
 
-        foreach ($services as $service) 
-        {
-            $service_position = array_search( $service['ServiceId'],  array_column( $services_with_actions, 'ServiceId' ) );            
-            if($service_position === false)
-            { //The user has an action in the serice
+        foreach ( $services as $service ) {
+
+            $service_position = array_search( $service['ServiceId'],  array_column( $services_with_actions, 'ServiceId' ) );
+            if ( $service_position === false ) { //The user has an action in the serice
+
                 $service['ServiceActions'] = [];
-                if( auth()->user()->sp_id === 0 )
-                {
+                if ( auth()->user()->sp_id === 0 ) {
                     $service['ServiceActions'] = array(["Action" => "ALL"]);
-                }           
-                $filtered_services[] = $service;    
-            }
-            else
-            {
-                $filtered_services[] = $services_with_actions[$service_position]; 
+                }
+                $filtered_services[] = $service;
+            } else {
+                $filtered_services[] = $services_with_actions[$service_position];
             }
         }
 

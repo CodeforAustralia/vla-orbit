@@ -1,17 +1,29 @@
 <?php
 namespace App;
 
-Class Report
+/**
+ * Report model for the report functionalities
+ * @author Christian Arevalo
+ * @version 1.0.0
+ * @see  OrbitSoap
+ */
+Class Report extends OrbitSoap
 {
-
+	/**
+	 * Get ORBIT stats
+	 * @param  date $financial_year year for retrieve stats
+	 * @return [type]                 [description]
+	 */
 	public function getDashboadStats( $financial_year )
 	{
-		// Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-        
+
         $period = [ 'DateObject' => $financial_year ]; //Financial year
 
-        $stats = json_decode($client->GetAllStatsasJSON( $period )->GetAllStatsasJSONResult);        
+		$stats = json_decode( $this
+							  ->client
+							  ->ws_init('GetAllStatsasJSON')
+							  ->GetAllStatsasJSON( $period )
+							  ->GetAllStatsasJSONResult);
 
         return $stats;
 	}

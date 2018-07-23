@@ -1,39 +1,60 @@
 <?php
 namespace App;
 
+/**
+ * Catchment model for the catchment functionalities
+ * @author Christian Arevalo
+ * @version 1.2.0
+ * @see  OrbitSoap
+ */
 
-Class Catchment
+const POSTCODE_ID = 1;
+const SUBURBS_ID = 2;
+const LGA_ID = 3;
+const ALL_CATCHMENTS_ID = 4;
+
+Class Catchment extends OrbitSoap
 {
+    /**
+     * Get all catchments from web service
+     *
+     * @return array Array of catchments
+     */
 	public function getAllCatchments()
-	{		
-		// Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
+	{
+        $services = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetAllCatchmentsasJSON')
+                                    ->GetAllCatchmentsasJSON()
+                                    ->GetAllCatchmentsasJSONResult
+                                    , true
+                                );
 
-        //GetAllOrbitServices
-        $services = json_decode($client->GetAllCatchmentsasJSON()->GetAllCatchmentsasJSONResult, true);
-
-        foreach ($services as $pos => $service) 
-        {
-            if( $service['PostCode'] == 0 )
-            {
+        foreach ($services as $pos => $service) {
+            if ( $service['PostCode'] == 0 ) {
                 unset( $services[$pos] );
             }
-        }        
+        }
 
         return $services;
 	}
 
+    /**
+     * Get all catchments from web services
+     *
+     * @return array Array of catchments in format id, text (catchmend id, suburb, postcode) to be used in a select2 field
+     */
     public function getAllCatchmentsFormated()
     {
         $catchments = self::getAllCatchments();
 
         $output = [];
-        foreach ($catchments as $catchment) 
-        {            
+        foreach ($catchments as $catchment) {
             $output[ $catchment['LGC'] ]['text'] = $catchment['LGC'];
             $output[ $catchment['LGC'] ]['children'][] = [
                         'id'    => $catchment['CatchmentId'],
-                        'text'  => $catchment['Suburb'] . 
+                        'text'  => $catchment['Suburb'] .
                                     ', ' . $catchment['PostCode']
                         ];
         }
@@ -41,180 +62,260 @@ Class Catchment
         return array_values($output);
     }
 
+    /**
+     * Get all distinct Local Goverment Councy
+     *
+     * @return array Array of Local Goverment Councy
+     */
     public function getDistinctLGC()
-    {    
+    {
         $lgcs = self::getDistinctByKey( 'LGC' );
         return $lgcs;
     }
 
-
+    /**
+     * Get all distinct Postal Codes
+     *
+     * @return array Array of Postal Codes
+     */
     public function getDistinctPostcode()
-    {    
+    {
         $postcodes = self::getDistinctByKey( 'PostCode' );
         return $postcodes;
     }
 
-
+    /**
+     * Get all distinct Suburbs
+     *
+     * @return array Array of Suburbs
+     */
     public function getDistinctSuburb()
-    {    
+    {
         $suburbs = self::getDistinctByKey( 'Suburb' );
         return $suburbs;
     }
 
+    /**
+     * Get distinct Catcments by Catchment attribute (LGC, Postcode or Suburb)
+     *
+     * @param string $key One of LGC, Postcode or Suburb
+     * @return array Array with Catchments by key
+     */
     public function getDistinctByKey( $key='' )
     {
         $catchments = self::getAllCatchments();
 
-        
-       $temp_array = array();
+
+       $temp_array = [];
 
        foreach ( $catchments as $catchment ) {
 
-           if ( !isset( $temp_array[ $catchment[ $key ] ] ) )
-
-           $temp_array[ $catchment[ $key ] ] = array( 'id' => $catchment['CatchmentId'] , 'text' => $catchment[ $key ] ) ;
+            if ( !isset( $temp_array[ $catchment[ $key ] ] ) ) {
+                $temp_array[ $catchment[ $key ] ] = [ 'id' => $catchment['CatchmentId'] , 'text' => $catchment[ $key ] ];
+            }
 
        }
 
-        return array_values( $temp_array ); 
+        return array_values( $temp_array );
     }
 
+    /**
+     * Get Catchment by ID XML method
+     *
+     * @param string $ca_id Catchment ID
+     * @return object Object of catchments by ID
+     */
     public function getCatchmentByID( $ca_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        $catchments = $client->GetCatchmentById( array( 'RefNumber' => $ca_id ) )->GetCatchmentByIdResult->Catchment;        
+        $catchments = $this
+                      ->client
+                      ->ws_init('GetCatchmentById')
+                      ->GetCatchmentById( ['RefNumber' => $ca_id] )
+                      ->GetCatchmentByIdResult
+                      ->Catchment;
 
         return $catchments;
-        
+
     }
 
+    /**
+     * Get Catchment by ID JSON Method
+     *
+     * @param string $ca_id Catchment ID
+     * @return array Array of catchments by ID
+     */
     public function getCatchmentsByID( $ca_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        $catchments = json_decode($client->GetCatchmentByCatchmentIdasJSON( array( 'CatchmentId' => $ca_id ) )->GetCatchmentByCatchmentIdasJSONResult, true);
+        $catchments = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetCatchmentByCatchmentIdasJSON')
+                                    ->GetCatchmentByCatchmentIdasJSON( ['CatchmentId' => $ca_id] )
+                                    ->GetCatchmentByCatchmentIdasJSONResult
+                                    , true
+                                );
 
         return $catchments;
-        
+
     }
-    
+
+    /**
+     * Get Catchment by PostCode
+     *
+     * @param string $postcode  Postcode
+     * @return array    Array of Catchments by Postcode
+     */
     public function getCatchmentsByPostCode( $postcode )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        $catchments = json_decode($client->GetCatchmentByPostCodeasJSON( array( 'PostCode' => $postcode ) )->GetCatchmentByPostCodeasJSONResult, true);
+        $catchments = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetCatchmentByPostCodeasJSON')
+                                    ->GetCatchmentByPostCodeasJSON( ['PostCode' => $postcode] )
+                                    ->GetCatchmentByPostCodeasJSONResult
+                                    , true
+                                );
 
         return $catchments;
-        
+
     }
-    
+
+    /**
+     * Get Catchment by Suburb
+     *
+     * @param string $suburb  Suburb
+     * @return array Array of Catchments by Suburb
+     */
     public function getCatchmentsBySuburb( $suburb )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        $catchments = json_decode($client->GetCatchmentBySuburbasJSON( array( 'Suburb' => $suburb ) )->GetCatchmentBySuburbasJSONResult, true);
+        $catchments = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetCatchmentBySuburbasJSON')
+                                    ->GetCatchmentBySuburbasJSON( ['Suburb' => $suburb] )
+                                    ->GetCatchmentBySuburbasJSONResult
+                                    , true
+                                );
 
         return $catchments;
-        
+
     }
 
+    /**
+     * Save Catchments on Services processiing LGA, Suburbs and Postcode
+     *
+     * @param array $request Array with service request
+     * @param int $sv_id Service ID
+     * @return void
+     */
     public function setCatchmentsOnRequest( $request, $sv_id )
     {
         self::deleteCatchmentAreaByServiceId( $sv_id );
-        
-        $catchments = array();
-        if( isset( $request['lga'] ) )
-        {
+
+        $catchments = [];
+        if ( isset( $request['lga'] ) ) {
+
             foreach ( $request['lga'] as $catchment_id) {
-                $catchment_lgas = self::getCatchmentsByID( $catchment_id );                
-                $catchments = array_merge( $catchments, $catchment_lgas ); //Check this is not efficient
+
+                $catchment_lgas = self::getCatchmentsByID( $catchment_id );
+                $catchments = array_merge( $catchments, $catchment_lgas );
             }
-            self::processCatchmentArea( $catchments, $sv_id, 3 );
+            self::processCatchmentArea( $catchments, $sv_id, LGA_ID );
         }
 
-        $catchments = array();
-        if( isset( $request['suburbs'] ) )
-        {
-            foreach ( $request['suburbs'] as $catchment_id ) 
-            {
+        $catchments = [];
+        if ( isset( $request['suburbs'] ) ) {
+
+            foreach ( $request['suburbs'] as $catchment_id ) {
+
                 $suburb = self::getCatchmentByID( $catchment_id );
-                $catchments_suburb = self::getCatchmentsBySuburb( $suburb->Suburb ); //This is returning like %% results instead of exact matchs
-                $catchments = array_merge( $catchments, $catchments_suburb ); //Check this is not efficient                            
+                $catchments_suburb = self::getCatchmentsBySuburb( $suburb->Suburb );
+                $catchments = array_merge( $catchments, $catchments_suburb );
             }
-            self::processCatchmentArea( $catchments, $sv_id, 2 );
+            self::processCatchmentArea( $catchments, $sv_id, SUBURBS_ID );
         }
 
-        $catchments = array();
-        if( isset( $request['postcodes'] ) )
-        {
+        $catchments = [];
+        if ( isset( $request['postcodes'] ) ) {
+
             $postcodes = explode( ",", $request['postcodes'] );
-            foreach ( $postcodes as $postcode ) 
-            {
+            foreach ( $postcodes as $postcode ) {
+
                 $catchments_postcode = self::getCatchmentsByPostCode( $postcode );
-                foreach ( $catchments_postcode as $temp_postcode ) 
-                {
+                foreach ( $catchments_postcode as $temp_postcode ) {
+
                     $catchments[ $temp_postcode['PostCode'] ] = $catchments_postcode[0];
-                }            
-            }            
-            self::processCatchmentArea( $catchments, $sv_id, 1 );
+                }
+            }
+            self::processCatchmentArea( $catchments, $sv_id, POSTCODE_ID );
         }
 
-        if( !isset( $request['lga'] ) && !isset( $request['postcodes'] ) && !isset( $request['suburbs'] ) ) 
-        {
+        if ( !isset( $request['lga'] ) && !isset( $request['postcodes'] ) && !isset( $request['suburbs'] ) ) {
+
             $catchments[] = [
                                 'CatchmentId' => 10209, //ID for all catchments
                             ];
-            self::processCatchmentArea( $catchments, $sv_id, 4 ); //All catchments, 
+            self::processCatchmentArea( $catchments, $sv_id, ALL_CATCHMENTS_ID ); //All catchments
         }
     }
 
-    public function processCatchmentArea( $catchments, $sv_id, $ct_id ) 
+    /**
+     * Save Catment in Service
+     *
+     * @param array $catchments Array of catchments
+     * @param string $sv_id Service ID
+     * @param string $ct_id Catchment Type ID
+     * @return void
+     */
+    public function processCatchmentArea( $catchments, $sv_id, $ct_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        // Current time     
+        // Current time
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
         $date_time = $date_now . "T" . $time_now;
-//dd($catchments);
+
         foreach ($catchments as $catchment) {
-            if(isset($catchment['CatchmentId'])){
+
+            if (isset($catchment['CatchmentId'])) {
 
                 $catchment_area['CatchmentAreaId'] = 0;
                 $catchment_area['CatchmentId']     = $catchment['CatchmentId'];
                 $catchment_area['ServiceId']       = $sv_id;
                 $catchment_area['CatchmentTypeId'] = $ct_id;
-                    
-                // Create call request        
+
+                // Create call request
                 $info = [ 'ObjectInstance' => $catchment_area ];
 
                 try {
-                    $response = $client->SaveCatchmentArea( $info )->SaveCatchmentAreaResult;                
+                    $response = $this->client->ws_init('SaveCatchmentArea')->SaveCatchmentArea( $info )->SaveCatchmentAreaResult;
                 }
-                catch (\Exception $e) {      
-                    //return array( 'success' => 'error' , 'message' =>  $e->getMessage() );
+                catch (\Exception $e) {
+                    return ['success' => 'error' , 'message' =>  $e->getMessage()];
                 }
             }
         }
     }
 
+    /**
+     * Delete all Catchment information from an specific service
+     *
+     * @param string $sv_id Service ID
+     * @return void
+     */
     public function deleteCatchmentAreaByServiceId( $sv_id )
     {
-        // Create Soap Object
-        $client =  (new \App\Repositories\VlaSoap)->ws_init();
-
-        // Create call request        
+        // Create call request
         $info = [ 'ServiceId' => $sv_id ];
-        
-        $client->DeleteCatchmentAreaByServiceId( $info );
+
+        $this->client->ws_init('DeleteCatchmentAreaByServiceId')->DeleteCatchmentAreaByServiceId( $info );
     }
 
+    /**
+     * Sort Catchment information by type ie. Suburb, Postcode, LGA
+     *
+     * @param array $catchments
+     * @return array Array of catchments categorized by Suburb, Postcode, LGA
+     */
     public function sortCatchments( $catchments )
     {
         $result = [];
@@ -222,24 +323,23 @@ Class Catchment
         $result['Postcode'] = [];
         $result['LGA'] = [];
 
-        foreach ( $catchments as $catchment ) 
-        {
-            switch ( $catchment->CatchmentTypeId ) 
-            {
-                case '2': //Suburbs                
-                    if( !isset( $result['Suburbs'][ $catchment->CatchmentSuburb ] ) 
-                        || $result['Suburbs'][ $catchment->CatchmentSuburb ] > $catchment->CatchmentId ){
+        foreach ( $catchments as $catchment ) {
+
+            switch ( $catchment->CatchmentTypeId ) {
+
+                case SUBURBS_ID: //Suburbs
+                    if ( !isset( $result['Suburbs'][ $catchment->CatchmentSuburb ] )
+                        || $result['Suburbs'][ $catchment->CatchmentSuburb ] > $catchment->CatchmentId ) {
                         $result['Suburbs'][ $catchment->CatchmentSuburb ] = $catchment->CatchmentId;
-                    }                    
+                    }
                     break;
-                case '1': //Postcode                    
+                case POSTCODE_ID: //Postcode
                     $result['Postcode'][] = $catchment->CatchmentPostcode;
                     break;
-                case '3': //Local Goverment Council
+                case LGA_ID: //Local Goverment Council
                     # code...
                     $result['LGA'][] = $catchment->CatchmentId;
                     break;
-                
                 default:
                     # code...
                     break;
@@ -248,8 +348,8 @@ Class Catchment
 
         //$result['Suburbs']  = implode( ',', array_values( $result['Suburbs'] ) ) ;
         $result['Suburbs']  = array_values( $result['Suburbs'] );
-        $result['Postcode'] = implode( ',', $result['Postcode'] ) ;        
-        //$result['LGA']      = implode( ',', $result['LGA'] ) ;        
+        $result['Postcode'] = implode( ',', $result['Postcode'] ) ;
+        //$result['LGA']      = implode( ',', $result['LGA'] ) ;
 
         return $result;
     }

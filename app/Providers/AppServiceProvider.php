@@ -4,12 +4,13 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-/** User Auth on boot **/
 use App\Role;
 use App\User;
 use Auth;
 use URL;
 use SimpleSAML_Auth_Simple;
+
+const LEGAL_HELP_ID = 112;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,45 +21,41 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
         Schema::defaultStringLength(191);
 
         $adsf_rul = 'fs.vla.vic.gov.au';
         $prev_url = URL::previous();
-        
-        if ( !Auth::check() && \Request::is('login_vla') ) 
-        {
+
+        if ( !Auth::check() && \Request::is('login_vla') ) {
+
             session(['login_vla' => true ]);
             $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
             $as->requireAuth();
-            $attributes = $as->getAttributes();        
+            $attributes = $as->getAttributes();
             session(['login_vla_attributes' => $attributes ]);
 
             //Check if is a VLA USER
             if (isset($attributes['mail'][0]) && $attributes['mail'][0] != '') {
                 $email = $attributes['mail'][0];
                 $user = User::where('email',$email)->first();
-                if ($user) { // User exists?                
+                if ($user) { // User exists?
                     Auth::login($user);
-                } else { //Create that user!!!                
+                } else { //Create that user!!!
                     $user = User::create([
                       'name'     => $attributes['name'][0],
                       'email'    => $attributes['mail'][0],
                       'password' => bcrypt('123344adsdsaasdasd'),
-                    ]);                
+                    ]);
                     //sign them in and Add role too
                     $user
                        ->roles()
                        ->attach(Role::where('name', 'VLA')->first());
-                    $user->sp_id = 112 ; // No service provider
+                    $user->sp_id = LEGAL_HELP_ID ; // No service provider set LH by default
                     $user->save();
                     Auth::login($user);
                 }
             }
-        } 
-        elseif( strpos( $prev_url, $adsf_rul ) !== false && is_null( session('login_vla') ) )
-        {
-            //dd( $prev_url );
+        } elseif( strpos( $prev_url, $adsf_rul ) !== false && is_null( session('login_vla') ) ) {
             echo '
             <script>
                 window.location.replace("/login_vla");

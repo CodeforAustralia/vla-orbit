@@ -1,22 +1,26 @@
 <?php
 namespace App;
 
-Class ServiceAction
+/**
+ * Service Action model for the service action functionalities
+ * @author Christian Arevalo
+ * @version 1.2.0
+ * @see  OrbitSoap
+ */
+Class ServiceAction extends OrbitSoap
 {
-	public $client;
-
-	function __construct() 
-	{
-	       $this->client = (new \App\Repositories\VlaSoap)->ws_init();
-	}
-
-    public function saveServiceAction( $action, $sv_id, $sp_ids ) 
+    /**
+     * Create or update service action
+     * @param  String $action action
+     * @param  int    $sv_id  service id
+     * @param  array  $sp_ids service providers
+     * @return array          success or error message
+     */
+    public function saveServiceAction( $action, $sv_id, $sp_ids )
     {
         try {
-        	if( !empty($sp_ids) )
-        	{
-		        foreach ($sp_ids as $sp_id) 
-		        {
+        	if ( !empty($sp_ids) ) {
+		        foreach ( $sp_ids as $sp_id ) {
 			        $sa_params['Action'] = $action;
 			        $sa_params['Reference_id'] = 0;
 			        $sa_params['ServiceId'] = $sv_id;
@@ -24,30 +28,36 @@ Class ServiceAction
 
 			        $info = [ 'ObjectInstance' => $sa_params ];
 
-		            $response = $this->client->SaveServiceAction( $info );            
-		            // Redirect to index        
-		            if( $response->SaveServiceActionResult != 1 ){
-		                return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
-		            } 
+		            $response = $this
+                                ->client
+                                ->ws_init( 'SaveServiceAction' )
+                                ->SaveServiceAction( $info );
+		            // Redirect to index
+		            if( $response->SaveServiceActionResult != 1 ) {
+		                return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
+		            }
 		        }
         	}
-            return array( 'success' => 'success' , 'message' => 'Service actions saved.');
-        }
-        catch (\Exception $e) 
-        {
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+            return [ 'success' => 'success' , 'message' => 'Service actions saved.'];
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
-
-    public function deleteAllActionsByService($sv_id)
+    /**
+     * Delete service actions
+     * @param  int    $sv_id service id
+     * @return array         success or error message
+     */
+    public function deleteAllActionsByService( $sv_id )
     {
     	try {
-
 	        $info = [ 'ServiceId' => $sv_id ];
-            $this->client->DeleteServiceActionsByServiceId( $info );  
-    	}
-        catch (\Exception $e) {            
-            return array( 'success' => 'error' , 'message' =>  $e->getMessage() );       
+            $this
+            ->client
+            ->ws_init( 'DeleteServiceActionsByServiceId' )
+            ->DeleteServiceActionsByServiceId( $info );
+    	} catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
 }
