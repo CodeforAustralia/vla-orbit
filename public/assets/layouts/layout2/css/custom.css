@@ -274,7 +274,9 @@ b, optgroup, strong {
 .modal-dialog{
     margin-top: 6%;
 }
-
+.login-modal-dialog {
+    margin-top: 33%;
+}
 #form_answers h4 {
     font-size: 16px;
 }
@@ -336,6 +338,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .innerLink {
     cursor: pointer;
+}
+@media (max-width:767px) {
+    .innerLink:first-child {
+        margin-bottom: 20px;
+    }
 }
 
 /***** Search page ******/
