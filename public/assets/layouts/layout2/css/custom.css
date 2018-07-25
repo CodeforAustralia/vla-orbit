@@ -275,7 +275,12 @@ b, optgroup, strong {
     margin-top: 6%;
 }
 .login-modal-dialog {
-    margin-top: 33%;
+    margin-top: 23%;
+}
+@media (max-width:767px) {
+    .login-modal-dialog {
+        margin-top: 33%;
+    }
 }
 #form_answers h4 {
     font-size: 16px;
