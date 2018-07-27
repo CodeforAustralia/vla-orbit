@@ -7,20 +7,23 @@
         <div class="row bs-reset">
             <div class="col-md-6 login-container bs-reset">
                 <img class="login-logo login-6" src="../assets/pages/img/login/login-invert.png" />
+
                 <div class="login-content">
+                    @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                    @endif
                     <h1>{{ strtoupper(config('app.name')) }} reset password</h1>
                     <p> Please provide your email. </p>
 
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <div class="panel panel-default">
+
                                 <div class="panel-heading">Reset Password</div>
                                 <div class="panel-body">
-                                    @if (session('status'))
-                                        <div class="alert alert-success">
-                                            {{ session('status') }}
-                                        </div>
-                                    @endif
+
 
                                     <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
                                         {{ csrf_field() }}
