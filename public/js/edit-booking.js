@@ -4,12 +4,12 @@ var current_month = current_date.getMonth() + 1;
 var current_year = current_date.getFullYear();
 var current_service = '';
 
-$(document).ready(function() { 
+$(document).ready(function() {
     openEditBooking();
     closeEditBooking();
     updateBooking();
     printBooking();
-});  
+});
 
 function updateBooking()
 {
@@ -22,12 +22,12 @@ function updateBooking()
                 date_time: $("#time-options input:checked").val(),
                 ClientBooking: currentEventInCalendar
             };
-            
+
             var booking_ref = $("#bookingRef").text();
             var date_time = $("#time-options input:checked").val();
             var csrf = document.getElementsByName("_token")[0].content;
             $.ajax({
-                headers: 
+                headers:
                 {
                     'X-CSRF-TOKEN': csrf
                 },
@@ -37,13 +37,13 @@ function updateBooking()
             })
               .done(function( msg ) {
                 swal( "Booking Updated", "Booking #" + booking_ref + " has been updated", "success" );
-                $(".close-booking-edit").click();                
+                $(".close-booking-edit").click();
               });
 
         } else {
             alert('Please choose a time');
         }
-    }); 
+    });
 }
 function openEditBooking()
 {
@@ -51,18 +51,18 @@ function openEditBooking()
 
         var booking_id = $(".edit-booking").attr("id");
         $(".booking-information").addClass("hidden");
-        $(".booking-edit").hide().removeClass("hidden").fadeIn(); 
+        $(".booking-edit").hide().removeClass("hidden").fadeIn();
 
         getBookingsByService(booking_id);
 
-    }); 
+    });
 }
 
 function getBookingsByService(booking_id)
 {
-    var dateInput = $('#booking-date');
+    let date_input = $('#edit-booking-date');
     current_service = booking_id;
-    dateInput.datepicker({
+    date_input.datepicker({
                     format: "yyyy-mm-dd",
                     startDate: current_date.toISOString().split('T')[0],
                     daysOfWeekDisabled: [0,6],
@@ -73,44 +73,47 @@ function getBookingsByService(booking_id)
                         var day =  ('0'+ e.date.getDate()).slice(-2);
                         var month = ('0'+ (e.date.getMonth() + 1) ).slice(-2);
                         var year = e.date.getFullYear();
-                        showTimes(day, month, year);     
+                        showTimes(day, month, year);
                     }
                 })
                 .on('changeMonth', function(e){
+                    event.stopPropagation();
                     var current_month = new Date(e.date).getMonth() + 1;
                     var current_year = String(e.date).split(" ")[3];
-                    $("#booking-date").val('');                    
-                    getServiceDatesByDate( current_year, current_month, current_service); //Init dates  
-                });  
+                    $("#edit-booking-date").val('');
+                    getServiceDatesByDate( current_year, current_month, current_service); //Init dates
+                });
                 /**** Buggy method can't be used *****
-                .on('changeMonth', function(e){});  
+                .on('changeMonth', function(e){});
                 *******/
-    getServiceDatesByDate( current_year, current_month, current_service); //Init dates    
+    getServiceDatesByDate( current_year, current_month, current_service); //Init dates
 }
 
 function getServiceDatesByDate( year, month, sv_id )
 {
-    showLoading();
-    var dateInput = $('#booking-date');
+    if (typeof sv_id !== "undefined") {
+        showLoading();
+        let date_input = $('#edit-booking-date');
 
-    $.ajax({
-      method: "GET",
-      url: "/booking/listDatesByDate/" + year + "/" + month + "/" + sv_id,
-      async: false
-    })
-      .done(function( msg ) {        
-        if( Object.keys(msg).length > 1)
-        {
-            services = msg;
-            dateInput.datepicker( 'setDate',  year + "-" + month + "-01" );
-            dateInput.datepicker('setDatesDisabled', msg.unavailables);
-            showAvailability();
-            hideLoading();
-        } else{
-            hiddeAvailability();
-            hideLoading();                
-        }
-      });
+        $.ajax({
+        method: "GET",
+        url: "/booking/listDatesByDate/" + year + "/" + month + "/" + sv_id,
+        async: false
+        })
+        .done(function( msg ) {
+            if( Object.keys(msg).length > 1)
+            {
+                services = msg;
+                date_input.datepicker( 'setDate',  year + "-" + month + "-01" );
+                date_input.datepicker('setDatesDisabled', msg.unavailables);
+                showAvailability();
+                hideLoading();
+            } else{
+                hiddeAvailability();
+                hideLoading();
+            }
+        });
+    }
 }
 
 function showTimes(day, month, year)
@@ -121,7 +124,7 @@ function showTimes(day, month, year)
         {
             var times = services._embedded.events[index].times;
             var date = services._embedded.events[index].date;
-            var event_id = services._embedded.events[index].event_id;            
+            var event_id = services._embedded.events[index].event_id;
         }
     }
 
@@ -135,7 +138,7 @@ function showTimes(day, month, year)
 
     for (index = 0; index < times.length; ++index) {
         if(times[index].avail == 1)
-        {            
+        {
             var slot_time = new Date(times[index].datetime);
             var hour = ('0'+ slot_time.getHours() ).slice(-2);
             var minute = ('0'+ slot_time.getMinutes() ).slice(-2);
@@ -146,7 +149,7 @@ function showTimes(day, month, year)
             var end_minute = ('0'+ end_time.getMinutes() ).slice(-2);
 
             var option = '<label class="mt-radio mt-radio-outline"><input type="radio" name="serviceTime" value="' + date + 'T' + hour + ':' + minute + '"> ' + hour + ':' + minute + ' - '+ end_hour +':' + end_minute + '<span></span></label>';
-            $("#time-options").append(option);               
+            $("#time-options").append(option);
         }
     }
 }
@@ -154,7 +157,7 @@ function showTimes(day, month, year)
 function hiddeAvailability()
 {
     $(".availability").addClass("hidden");
-    $("#no-dates-availables").hide().removeClass("hidden").fadeIn();    
+    $("#no-dates-availables").hide().removeClass("hidden").fadeIn();
 }
 
 function showAvailability()
@@ -164,14 +167,14 @@ function showAvailability()
 }
 
 function showLoading()
-{    
-    $("#loading").hide().removeClass("hidden").fadeIn(); 
+{
+    $("#loading").hide().removeClass("hidden").fadeIn();
     $(".availability").addClass("hidden");
     $("#no-dates-availables").addClass("hidden");
 }
 
 function hideLoading()
-{    
+{
     $("#loading").addClass("hidden");
 }
 
@@ -181,9 +184,9 @@ function closeEditBooking()
 
         var booking_id = $(".edit-booking").attr("id");
         $(".booking-edit").addClass("hidden");
-        $(".booking-information").hide().removeClass("hidden").fadeIn(); 
+        $(".booking-information").hide().removeClass("hidden").fadeIn();
         AppCalendar.init();
-    }); 
+    });
 }
 
 function printBooking(){
@@ -193,13 +196,13 @@ function printBooking(){
         printFrame.name = "printFrame";
         printFrame.style.position = "absolute";
         printFrame.style.top = "-1000000px";
-        document.body.appendChild(printFrame);            
-        var frameDoc = (printFrame.contentWindow) ? printFrame.contentWindow : (printFrame.contentDocument.document) ? printFrame.contentDocument.document : printFrame.contentDocument;        
+        document.body.appendChild(printFrame);
+        var frameDoc = (printFrame.contentWindow) ? printFrame.contentWindow : (printFrame.contentDocument.document) ? printFrame.contentDocument.document : printFrame.contentDocument;
         frameDoc.document.open();
         frameDoc.document.write('<html><body>'+
                                 $('#SelectMatchLabel').html()+'<br>' +
                                 $('#clientInformation').html()+ '<br>' +
-                                $('#bookingInformation').html()+    
+                                $('#bookingInformation').html()+
                                 '</body></html>');
         frameDoc.document.close();
         setTimeout(function () {
@@ -207,6 +210,6 @@ function printBooking(){
             window.frames["printFrame"].print();
             document.body.removeChild(printFrame);
         }, 500);
-    return false;               
-    });    
+    return false;
+    });
 }

@@ -143,7 +143,7 @@
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <label>Date:</label>
-                                        <input type="text" class="form-control input-medium" id="booking-date" required>
+                                        <input type="text" class="form-control input-medium" id="edit-booking-date" required>
                                     </div>
                                 </div>
                             </div>
