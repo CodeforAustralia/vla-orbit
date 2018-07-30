@@ -271,7 +271,7 @@ class Referral extends OrbitSoap
         $info = [ 'CatchmentId' => $ca_id, 'MatterId' => $mt_id, 'ServiceProvderId' => $sp_id ];
 
         $services = json_decode(
-            						$client
+            						$this->client
                                     ->ws_init( 'GetOrbitServicesWithMattersByCatchmentandMatterIdandSpIdasJSON' )
             						->GetOrbitServicesWithMattersByCatchmentandMatterIdandSpIdasJSON( $info )
             						->GetOrbitServicesWithMattersByCatchmentandMatterIdandSpIdasJSONResult,
