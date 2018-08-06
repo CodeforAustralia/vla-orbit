@@ -2,12 +2,13 @@
 namespace App\Http;
 
 use Auth;
+use DateTime;
 
 /**
  * Common functionalities.
  *
  * @author Christian Arevalo and Sebastian Currea
- * @version 1.0.0
+ * @version 1.0.1
 
  */
 class Helpers
@@ -29,12 +30,9 @@ class Helpers
      */
     public static function getRole()
     {
-    	if( Auth::check() )
-    	{
+    	if( Auth::check() ) {
     		return Auth::user()->roles()->first()->name ;
-    	}
-    	else
-    	{
+    	} else {
     		return 'Anonymous';
     	}
     }
@@ -44,12 +42,9 @@ class Helpers
      */
     public static function getUSerServiceProviderId()
     {
-    	if( Auth::check() )
-    	{
+    	if( Auth::check() )	{
     		return Auth::user()->sp_id ;
-    	}
-    	else
-    	{
+    	} else {
     		return '';
     	}
     }
@@ -59,12 +54,9 @@ class Helpers
      */
     public static function getUSerId()
     {
-    	if( Auth::check() )
-    	{
+    	if( Auth::check() ) {
     		return Auth::user()->id ;
-    	}
-    	else
-    	{
+    	} else {
     		return '';
     	}
     }
@@ -76,7 +68,7 @@ class Helpers
     {
         return ['29545', 'F4190', '28708', 'F6313', '28707', '3256', '26271', '26270', '26300', '2366'];
     }
-/**
+    /**
      * Function taken from [http://php.net/manual/en/function.sort.php]
      * @param  [array] $array  [array to be sorted]
      * @param  [string] $on    [key to sort an specific array]
@@ -117,4 +109,14 @@ class Helpers
         return $new_array;
     }
 
+    /**
+     * Check if today is the first friday of the month
+     *
+     * @return boolean
+     */
+    public static function firstFridayOfMonth() {
+        $today = new DateTime();
+        $first_friday = new DateTime('first friday of this month');
+        return $today->format('d-m-y') == $first_friday->format('d-m-y');
+    }
 }
