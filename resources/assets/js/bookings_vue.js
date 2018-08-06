@@ -60,6 +60,22 @@ new Vue({
                     self.updateServiceAvailability();
                 }
             }
+            // Set the first option of the request_type select if only exist one.
+            //
+            setTimeout(onlyOne, 1000);
+            function onlyOne() {
+                let form_type = document.getElementById("request_type");
+                if ( (self.e_referral_forms.length === 0 && self.can_book) ||  (self.e_referral_forms.length === 1 &&  !self.can_book) ) {
+                    form_type.selectedIndex = "1";
+                } else {
+                    form_type.selectedIndex = "0";
+                }
+                var event = document.createEvent('Event');
+                event.initEvent("change", false, true);
+                form_type.dispatchEvent(event);
+            };
+
+
         },
         onChangeFormType: function (e) {
             var self = this;
@@ -435,6 +451,7 @@ new Vue({
                 });
             }
         }
+
     },
 
     mounted() {
