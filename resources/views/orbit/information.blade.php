@@ -235,7 +235,7 @@
             <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 contact-form">
                 <h6>Request access</h6>
                 <p>To get access to {{ strtoupper(config('app.name')) }} or schedule a demo, please fill in your contact details</p>
-                <form method="POST" action="/information" @submit="onSubmit" @keydown="form.errors.clear($event.target.name)">
+                <form  @submit="onSubmit" @keydown="form.errors.clear($event.target.name)">
 
                     <div class="form-group row">
                         <div class="col-xs-12 col-sm-6">

@@ -20,7 +20,7 @@ new Vue({
          */
         onSubmit: function(e) {
             e.preventDefault();
-            this.form.submit('post', '/information')
+            this.form.submit('post', '/contact_information')
             .then( () =>{
                 swal("Thanks", "", "success");
             }).catch(() => {

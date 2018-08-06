@@ -398,6 +398,9 @@ Route::get('/information', 'RegistrationController@information');
 
 Route::post('/information', 'RegistrationController@contact');
 
+Route::post('/contact_information', 'InformationController@contact');
+
+
 Route::get('/register', 'RegistrationController@create');
 
 Route::post('/register', 'RegistrationController@store');
