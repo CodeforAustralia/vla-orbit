@@ -169,9 +169,9 @@ Class SentSms extends OrbitSoap
                 $current_service = $service;
             }
         }
-
+                
         $args['service_name']     = $current_service['ServiceName'];
-        $args['service_location'] = htmlspecialchars_decode($current_service['Location']);
+        $args['service_location'] = htmlspecialchars_decode($current_service['Location'], ENT_QUOTES);
         $args['service_phone']    = $current_service['Phone'];
 
         //SMS template
