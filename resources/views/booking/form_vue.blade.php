@@ -289,7 +289,8 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label>SMS auto-reminder? &nbsp; <small>This will send an appointment reminder one day before the appointment.</small></label>
+                        <label>SMS auto-reminder? &nbsp; <small>This will send an appointment reminder at 9am the day before the appointment.
+                            <br>Note: This SMS may be arrive unexpectedly. Before selecting 'yes', please ensure the client will not be exposed to any family violence risk at this time </small></label>
                         <div class="mt-radio-inline padding-left-20">
                             <label class="mt-radio mt-radio-outline">
                                 <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
