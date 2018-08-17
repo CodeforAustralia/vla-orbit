@@ -6,5 +6,7 @@
   "/mix.js": "/mix.js",
   "/css/information.css": "/css/information.css",
   "/js/information_vue.js": "/js/information_vue.js",
-  "/js/request_service_vue.js": "/js/request_service_vue.js"
+  "/js/request_service_vue.js": "/js/request_service_vue.js",
+  "/js/booking_engine.js": "/js/booking_engine.js",
+  "/css/booking_engine.css": "/css/booking_engine.css"
 }

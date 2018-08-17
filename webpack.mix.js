@@ -19,5 +19,7 @@ mix.js(
             'public/js/orbit.js'
         )
    .js('resources/assets/js/information_vue.js', 'public/js')
+   .sass('resources/assets/sass/information.scss', 'public/css')
    .js('resources/assets/js/request_service_vue.js', 'public/js')
-   .sass('resources/assets/sass/information.scss', 'public/css');
+   .js('resources/assets/js/booking_engine_vue.js', 'public/js/booking_engine.js')
+    .sass('resources/assets/sass/booking_engine.scss', 'public/css');

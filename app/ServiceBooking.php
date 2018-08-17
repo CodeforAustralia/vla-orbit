@@ -5,8 +5,8 @@ use Auth;
 
 /**
  * Service Booking model for the service booking functionalities
- * @author Sebastian Currea
- * @version 1.2.0
+ * @author Sebastian Currea & Christian Arevalo
+ * @version 1.2.1
  * @see  OrbitSoap
  */
 Class ServiceBooking extends OrbitSoap
@@ -25,7 +25,23 @@ Class ServiceBooking extends OrbitSoap
                                     , true
                                 );
         return $services;
-	}
+    }
+
+	/**
+	 * Get all services with booking including all service information
+	 * @return Object list of all service with bookings
+	 */
+	public function getAllServicesWithBookings()
+	{
+        $services = $this
+                    ->client
+                    ->GetAllServiceBookingsWithReferrals()
+                    ->GetAllServiceBookingsWithReferralsResult
+                    ->OrbitService;
+
+        return $services;
+    }
+
 	/**
 	 * Create or update a service booking
 	 * @param  array $sb_params service booking details

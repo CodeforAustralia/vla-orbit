@@ -233,6 +233,18 @@ Route::get('/booking/listLegalHelpBookings', 'BookingController@listLegalHelpBoo
 
 Route::get('/booking/legalHelp', 'BookingController@legalHelp');
 
+//Booking Engine
+
+Route::get('/booking/services', 'BookingEngineController@index');
+
+Route::get('/booking/resources', 'BookingEngineController@resources');
+
+Route::get('/booking/services/days/{sv_id}', 'BookingEngineController@getServiceDays');
+
+Route::get('/booking/services/hours/{sv_id}', 'BookingEngineController@getServiceHours');
+
+//Route::get('/booking/listServices', 'BookingEngineController@listServices');
+
 //Referral
 Route::get('/referral', 'ReferralController@index');
 

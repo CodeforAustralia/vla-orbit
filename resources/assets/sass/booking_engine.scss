@@ -1,0 +1,153 @@
+$orbit-blue: #17c4bb;
+$light-grey: #EFEFEF;
+$white: #fff;
+
+//Adhock Calendar Styles
+#set_adhoc_booking {
+
+    .day_col {
+        float: left;
+        width: 45px;
+    }
+
+    .hours_col {
+
+        float: left;
+        width: 25px;
+        margin-right: 3px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 12px;
+
+        button {
+            float: left;
+            width: 97%;
+            height: 14px;
+            padding: 0;
+            margin-right: 1px;
+        }
+
+        .half_hour {
+            width: 46%;
+        }
+
+        .quarter_hour {
+            width: 21%;
+        }
+    }
+
+    .week_days {
+        font-size: 12px;
+        height: 17px;
+    }
+}
+//Hours Calendar Styles
+.day_col {
+    float: left;
+    width: 45px;
+}
+
+.hours_selection {
+    width: 1700px;
+}
+
+.hours_col {
+    float: left;
+    width: 65px;
+    margin-right: 3px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+
+    button {
+        float: left;
+        width: 97%;
+        height: 14px;
+        padding: 0;
+        margin-right: 1px;
+    }
+
+    .half_hour {
+        width: 48%;
+    }
+
+    .quarter_hour {
+        width: 23%;
+    }
+}
+
+.week_days {
+    font-size: 12px;
+    height: 17px;
+}
+
+// Days Calendar Styles
+.service_days {
+
+    .whiteLink {
+        color: $white;
+        text-decoration: none;
+        :hover{
+            text-decoration: none;
+        }
+    }
+    label {
+        padding-left: 0px;
+        padding-right: 0px;
+
+        a {
+            padding: 0px 5px;
+        }
+    }
+}
+.calendars {
+    th, td {
+        border: solid 1px $light-grey;
+        font-size: 13px;
+        text-align: center;
+    }
+}
+
+.option_day {
+    padding: 1px 3px;
+}
+
+.month_label {
+    font-weight: bold;
+}
+
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+    &::-webkit-scrollbar-track {
+        background-color: $light-grey;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $orbit-blue;
+    }
+    &::-webkit-scrollbar {
+        background-color: $light-grey;
+        height: 12px;
+    }
+}
+
+.ds-selected {
+    background-color: $orbit-blue;
+}
+
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width: 1200px;
+    }
+}
