@@ -181,11 +181,12 @@ function hideLoading()
 function closeEditBooking()
 {
     $(".close-booking-edit").on("click", function(){
-
+        let moment = currentEventInCalendar.BookingDate;
         var booking_id = $(".edit-booking").attr("id");
         $(".booking-edit").addClass("hidden");
         $(".booking-information").hide().removeClass("hidden").fadeIn();
-        AppCalendar.init();
+
+        $.when(AppCalendar.init()).then($('#calendar').fullCalendar('gotoDate', moment));
     });
 }
 
