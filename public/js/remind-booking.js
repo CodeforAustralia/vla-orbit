@@ -93,7 +93,6 @@ var RemindBooking = function () {
             }
         })
         .done(function (msg) {
-            swal("", "", "success");
             let template = msg;
             $('#custom-sms').val(template);
             $("#contentLoading").modal("hide");
