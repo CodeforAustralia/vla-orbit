@@ -116,32 +116,7 @@ Class SentSms extends OrbitSoap
             }
         }*/
     }
-    /**
-     * Replace SMS template structure
-     * @param  Object  $args   template details
-     * @return array   $output template modified
-     */
-    public function replaceTemplateTags( $args )
-    {
-        $output = '';
-        $output  = $args['template'];
 
-        $date      = date("D, d/m/Y", strtotime( $args['date'] ) );
-        $time      = date("g:i a", strtotime( $args['time'] ) );
-        $location  = $args['service_location'];
-        $service_name  = $args['service_name'];
-        $service_phone = $args['service_phone'];
-        $client_name   = $args['client_name'];
-
-        $output = str_replace( '(date)', $date, $output );
-        $output = str_replace( '(time)', $time, $output );
-        $output = str_replace( '(location)', $location, $output );
-        $output = str_replace( '(client_name)', $client_name, $output );
-        $output = str_replace( '(service_name)', $service_name, $output );
-        $output = str_replace( '(service_phone)', $service_phone, $output );
-
-        return $output;
-    }
     /**
      * Send SMS
      * @param  Object  $booking booking
@@ -169,18 +144,23 @@ Class SentSms extends OrbitSoap
                 $current_service = $service;
             }
         }
-                
+
         $args['service_name']     = $current_service['ServiceName'];
         $args['service_location'] = htmlspecialchars_decode($current_service['Location'], ENT_QUOTES);
         $args['service_phone']    = $current_service['Phone'];
 
-        //SMS template
-        $sms_template_obj = new SmsTemplate();
-        $sms_template = $sms_template_obj->getTemplateByServiceId( $current_service['ServiceId'] );
-        $args['template'] = $sms_template['Template'];
+        if($booking->template == '') {
+            //SMS template
+            $sms_template_obj = new SmsTemplate();
+            $sms_template = $sms_template_obj->getTemplateByServiceId( $current_service['ServiceId'] );
+            $args['template'] = $sms_template['Template'];
 
-        //replace tags in template
-        $template = self::replaceTemplateTags($args);
+            //replace tags in template
+            $template = $sms_template_obj->replaceTemplateTags($args);
+        } else {
+            $sms_template['TemplateId'] = 1;
+            $template = $booking->template;
+        }
 
         //send sms
         $client_phone = preg_replace("/\D/", "", $args['client_phone']) ;

@@ -482,10 +482,21 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 }
 
 .datepicker table tr td.day.new,td.day.old {
-  pointer-events: none;
-  cursor: default;
+    pointer-events: none;
+    cursor: default;
 }
 
+.booking-information .dropdown-menu:before {
+    left: 99px;
+}
+
+.booking-information .dropdown-menu:after {
+    left: 100px;
+}
+
+#bookingCustomSms .modal-dialog {
+    margin-top: 15%;
+}
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
     cursor: default;

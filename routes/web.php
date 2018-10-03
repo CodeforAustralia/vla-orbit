@@ -306,6 +306,8 @@ Route::get('/sms_template/list', 'SmsTemplateController@list');
 
 Route::post('/sms_template', 'SmsTemplateController@store');
 
+Route::get('/sms_template/getTemplateByServiceBookingId', 'SmsTemplateController@getTemplateByServiceBookingId');
+
 //Statistics
 
 Route::get('/statistic', 'StatisticController@index');

@@ -314,6 +314,7 @@ class BookingController extends Controller
     {
         $reminder = request('reminder');
         $booking = json_decode( json_encode( request('booking') ), FALSE );
+        $booking->template = $reminder['template']; //Custom Template
         $sent_sms_obj = new SentSms();
         $result = $sent_sms_obj->sendReminder( $booking );
         return $result;

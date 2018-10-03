@@ -35,6 +35,7 @@
 
     <!-- Modal Start -->
     @include("booking.booking_info_modal")
+    @include("booking.booking_custom_sms_modal")
     <!-- Modal Fade Close-->
 
     <!-- Begin: Demo Datatable services -->
