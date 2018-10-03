@@ -117,19 +117,7 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>SMS status: </strong></label>
                                 <span id="sentStatus"></span>
-                                <div class="btn-group pull-right sms-actions">
-                                    <button class="btn green btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> SMS Actions
-                                        <i class="fa fa-angle-down"></i>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <a href="javascript:;" class="remind-booking"> Send Reminder </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;" class="custom-sms-booking"> Send Custom SMS </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a href="#" class="btn btn-xs green custom-sms-booking pull-right">Send SMS</a>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Arrival status: </strong></label>
