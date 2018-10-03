@@ -102,7 +102,7 @@
                             <div class="thumbnail">
                             <!-- 16:9 aspect ratio -->
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4Z4iC1eD3Es" frameborder="0" allowfullscreen></iframe>
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/oDwm4MixE9k" frameborder="0" allowfullscreen></iframe>
                                 </div>
 
                                 <div class="caption hidden">
@@ -119,7 +119,7 @@
                             <div class="thumbnail">
                             <!-- 16:9 aspect ratio -->
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/hb3OJYhFi04" frameborder="0" allowfullscreen></iframe>
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/nV24alN_KtE" frameborder="0" allowfullscreen></iframe>
                                 </div>
 
                                 <div class="caption hidden">
