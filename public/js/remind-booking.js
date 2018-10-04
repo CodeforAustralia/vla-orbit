@@ -93,7 +93,7 @@ var RemindBooking = function () {
             }
         })
         .done(function (msg) {
-            let template = msg;
+            let template = msg.replace(/\s\s+/g, ' ').trim();
             $('#custom-sms').val(template);
             $("#contentLoading").modal("hide");
         });
