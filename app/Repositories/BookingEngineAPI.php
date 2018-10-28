@@ -19,7 +19,7 @@ const LOGOUT_URL = '/api/auth/logout';
 class BookingEngineAPI
 {
 
-    public $client, $email, $password, $remember_me;
+    private $client, $email, $password, $remember_me;
     /**
      * Constructor. Initialize client and basic auth
      */
