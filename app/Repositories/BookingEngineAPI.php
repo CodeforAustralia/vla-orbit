@@ -36,9 +36,10 @@ class BookingEngineAPI
      *
      * @param array $form_params Form Information
      * @param array $tokens Tokens returned on login
+     * @param string $url Url to access through the method
      * @return array
      */
-    public function post($form_params, $tokens)
+    public function post($form_params, $tokens, $url)
     {
         try{
             $headers = [
@@ -63,9 +64,10 @@ class BookingEngineAPI
      * Get request to API
      *
      * @param array $tokens Tokens returned on login
+     * @param string $url Url to access through the method
      * @return array
      */
-    public function get($tokens)
+    public function get($tokens, $url)
     {
         try{
             $headers = [
