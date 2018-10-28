@@ -46,7 +46,7 @@ class BookingEngineAPI
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
             ];
-            $this->client->post(
+            $response = $this->client->post(
                                         $url,
                                         [
                                             'headers' => $headers,
@@ -74,7 +74,7 @@ class BookingEngineAPI
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
             ];
-            $this->client->get(
+            $response = $this->client->get(
                                         $url,
                                         [
                                             'headers' => $headers
