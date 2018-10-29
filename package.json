@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "dragselect": "^1.8.0",
-    "npm": "^6.4.0"
+    "npm": "^6.4.0",
+    "vue-moment": "^4.0.0"
   }
 }

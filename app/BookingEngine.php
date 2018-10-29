@@ -51,9 +51,39 @@ Class BookingEngine extends BookingEngineClient
         $availability = $this->client->get($tokens, $url);
         return $availability;
     }
-
+    /**
+     * Get service availability in Booking Engine
+     *
+     * @param array $args
+     * @return void
+     */
     public function getServiceAvailability( $args )
     {
+        $url = "/api/auth/service/" . $args['sv_id'] . "/availability/" . $args['start_date'] . "/" . $args['end_date'];
+        $tokens = $this->getTokens();
+        $availability = $this->client->get($tokens, $url);
+        return $availability;
+    }
 
+    public function storeBooking($booking)
+    {
+        $url = "/api/auth/booking";
+        $tokens = $this->getTokens();
+        $booking_id = $this->client->post($booking,$tokens, $url);
+        $log = new Log();
+        $log::record( 'CREATE', 'booking', $booking_id, $booking );
+        return $booking_id;
+    }
+
+    private function getTokens()
+    {
+        $tokens = [];
+        if(session('be_tokens')) {
+            $tokens = session('be_tokens');
+        } else {
+            $tokens = $this->client->login();
+            session(['be_tokens' => $tokens]);
+        }
+        return $tokens;
     }
 }

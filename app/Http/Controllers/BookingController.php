@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use File;
 use App\Booking;
 use App\BookingDocument;
+use App\BookingEngine;
 use App\SentSms;
 use App\ServiceProvider;
 use Auth;
@@ -124,74 +125,85 @@ class BookingController extends Controller
      */
     public function store()
     {
+        //dd(request());
         $booking_obj = new Booking();
+        $booking_engine_obj = new BookingEngine();
         $request_type = request('request_type');
         if( $request_type == 0 ) //Direct booking - Booking Bug integration
         {
-            // Validate files
+            // Validate form
+            $rules = [
+                'files'               => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
+                'attachments.*.files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
+                'service_provider_id' => 'required',
+                'ServiceId'           => 'required',
+                'request_type'        => 'required',
+                'start_hour'          => 'required',
+                'firstName'           => 'required',
+                'lastName'            => 'required',
+                'Desc'                => 'required',
+                'booking-date'        => 'required'
+
+            ];
+            $customMessages = [
+                'required' => 'The :attribute field is required.',
+                'mimes'    => 'Failed to upload file(s), Check format. Formats accepted: pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg.',
+                'max'      => 'Failed to upload file(s), Check size. Max size: 4MB'
+            ];
             $validator = Validator::make(request()->all(),
-                [
-                    'files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
-                    'attachments.*.files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096'
-                ]
+                $rules,
+                $customMessages
             );
-            if($validator->fails())
-            {
-                return redirect('/booking')->with('error', 'Failed to upload file(s), Check format or size. Formats accepted: pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg. and max size: 4MB');
+            if ($validator->fails()) {
+
+                return back()->withInput()
+                            ->withErrors($validator);
             }
 
-            $service_name = request('ServiceName');
-            $client_details = request('client');
-            $client_details['ClientEmail']  = (
-            									!isset( $client_details['ClientEmail'] ) || is_null( $client_details['ClientEmail'] ) ?
-            										'' :
-            										$client_details['ClientEmail']
-            								  );
-            $client_details['Mobile']       = (
-            									!isset( $client_details['Mobile'] ) || is_null( $client_details['Mobile'] ) ?
-            										'' :
-            										str_replace(" ", "", $client_details['Mobile'])
-            								  );
-            $service_time = explode( 'T', request('serviceTime') );
             $serviceId = explode( '-', request('ServiceId') );
 
             $service_booking_id = $serviceId[0];
-
-            if( !is_null( request('Language') ) || ( !is_null( request('IsComplex') ) && request('IsComplex') == 1 ) )
-            {
-                $service_booking_id = $serviceId[1];
-            }
-
+            // Get the booking extra information
+            $extra_data = [
+                'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
+                'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
+                'IsComplex' => (is_null( request('IsComplex') ) ? 0 : request('IsComplex') ),
+                'IsSafeSMS' => (is_null( request('phonepermission') ) ? 0 : ( request('phonepermission') == 'Yes' ? 1 : 0 ) ),//phonepermission
+                'IsSafeCall' => (is_null( request('phoneCallPermission') ) ? 0 : ( request('phoneCallPermission') == 'Yes' ? 1 : 0 ) ),//phoneCallPermission
+                'IsSafeLeaveMessage'  => (is_null( request('phoneMessagePermission') ) ? 0 : ( request('phoneMessagePermission') == 'Yes' ? 1 : 0 ) ),//phoneMessagePermission
+                'ContactInstructions' => (is_null( request('reContact') ) ? '' : request('reContact') ),//reContact
+                'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),//phonepermission
+            ];
+            // Create the booking object
             $booking = [
-                            'Date' => $service_time[0],
-                            'Time' => $service_time[1],
-                            'ServiceId' => $service_booking_id,
-                        ];
+                'comment'   => request('Desc'),
+                'contact'   => (is_null( request('phone') ) ? '' : request('phone') ),
+                'first_name' =>  request('firstName'),
+                'last_name' => request('lastName'),
+                'start_hour'  =>  request('start_hour'),
+                'time_length' => request('time_length'),
+                'resource_id' => request('resource_id'),
+                'date' => request('booking-date'),
+                'hour' => request('text'),
+                'is_interpreter' => (is_null( request('Language') ) ? 0 : 1 ),
+                'int_language' => (is_null( request('Language') ) ? '' : request('Language') ),
+                'service_id' => $service_booking_id,
+                'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ), // Put it here to be retrieved easily when send the email
+                'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),// Put it here to be retrieved easily when send the email
+                'data' => json_encode($extra_data)
+            ];
 
-            $booking['ClientBooking'] = [
-                                            'Description' => (is_null( request('Desc') ) ? '' : request('Desc') ),
-                                            'Language'  => (is_null( request('Language') ) ? '' : request('Language') ),
-                                            //Modified without inform us so added just to make it work but emails are generated by Language not IntLanguage
-                                            'IntLanguage'  => (is_null( request('Language') ) ? '' : request('Language') ),
-                                            'Safe'      => (is_null( request('Safe') ) ? 'true' : request('Safe') ),
-                                            'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ),
-                                            'IsComplex' => (is_null( request('IsComplex') ) ? 0 : request('IsComplex') ),
-                                            'IsSafeSMS' => (is_null( request('phonepermission') ) ? 0 : ( request('phonepermission') == 'Yes' ? 1 : 0 ) ),//phonepermission
-                                            'IsSafeCall' => (is_null( request('phoneCallPermission') ) ? 0 : ( request('phoneCallPermission') == 'Yes' ? 1 : 0 ) ),//phoneCallPermission
-                                            'IsSafeLeaveMessage'  => (is_null( request('phoneMessagePermission') ) ? 0 : ( request('phoneMessagePermission') == 'Yes' ? 1 : 0 ) ),//phoneMessagePermission
-                                            'ContactInstructions' => (is_null( request('reContact') ) ? '' : request('reContact') ),//reContact
-                                            'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),//phonepermission
-                                        ];
-
-
+            // Get the Service provider
             $sp_id = request('service_provider_id');
             $service_providers_obj   = new ServiceProvider();
             $service_provider_result = $service_providers_obj->getServiceProviderByID( $sp_id );
             $service_provider = json_decode( $service_provider_result['data'] )[0];
-
-            $reservation = $booking_obj->createBooking( $client_details, $booking, $service_provider, $service_name );
-
-            $reservation_details = json_decode( $reservation['reservation'] );
+            //Store booking
+            $reservation = $booking_engine_obj->storeBooking($booking);
+            // Notify booking
+            $service_name = request('ServiceName');
+            $booking["booking_no"] = $reservation;
+            $booking_obj->notifyBooking( $booking, $service_provider, $service_name );
 
             //Upload attached files
 
@@ -217,10 +229,8 @@ class BookingController extends Controller
                 foreach ($files as $file)
                 {
                     $fileName = $file['files']->getClientOriginalName();
-                    $file['files']->move( public_path('booking_docs') . '/' . $reservation_details->id , $fileName );
-                    //Get booking refer from clients name
-                    $clientBokingRefNo = explode(' ',  $reservation_details->client_name );
-                    $booking_document->saveBookingDocument( $fileName , $clientBokingRefNo [0] );
+                    $file['files']->move( public_path('booking_docs') . '/' . $reservation , $fileName );
+                    $booking_document->saveBookingDocument( $fileName , $reservation );
                 }
             }
 

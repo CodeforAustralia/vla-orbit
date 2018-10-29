@@ -10,6 +10,13 @@
                     <span class="caption-subject font-green sbold"><i class="icon-calendar font-green"></i>&nbsp; New Booking / Intake</span>
                 </div>
             </div>
+            @if ($errors->any())
+            <ul class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            @endif
             <div class="portlet-body form">
                 @include("booking.form_vue")
             </div>

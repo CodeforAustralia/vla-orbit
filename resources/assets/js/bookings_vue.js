@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import 'babel-polyfill'
+import moment from 'moment'
+import axios from 'axios';
 
 new Vue({
     el: '#app',
@@ -22,7 +24,10 @@ new Vue({
         selected_sp: document.getElementsByClassName('sp_id')[0].id,
         services: [],
         service_providers: [],
-        user_sp_id: document.getElementsByClassName('sp_id')[0].id
+        user_sp_id: document.getElementsByClassName('sp_id')[0].id,
+        dates_regular: [],
+        dates_interpreter: [],
+        hour:null,
     },
 
     methods: {
@@ -172,25 +177,31 @@ new Vue({
             let year = args.year;
             let month = args.month;
             let sv_id = args.sv_id;
-            let dateInput = document.getElementById('booking-date');
-            self.showLoading();
-
-            $.ajax({
-                url: "/booking/listDatesByDate/" + year + "/" + month + "/" + sv_id,
-                method: 'GET',
-                success: function (data) {
+            if(sv_id && sv_id!==0){
+                let dateInput = document.getElementById('booking-date');
+                let initial_date = new Date();
+                let last_day = new Date( year, month, 0);
+                self.showLoading();
+            axios.get('/booking/service/' +
+                        sv_id +
+                        '/getAvailability/' +
+                        moment(initial_date).format('YYYY-MM-DD') +
+                        "/" +
+                        moment(last_day).format('YYYY-MM-DD'))
+                .then(function (response) {
+                    self.dates_regular = Object.keys(response.data.regular);
+                    self.dates_interpreter = Object.keys(response.data.interpreter);
+                    self.booking_availability = response.data,
                     $(dateInput).prop('disabled', false);
                     $(dateInput).datepicker('setDate', year + "-" + month + "-01");
-                    $(dateInput).datepicker('setDatesDisabled', data.unavailables);
-                    self.booking_availability = data._embedded.events;
                     self.hideLoading();
-                },
-                error: function (error) {
+                })
+                .catch(function (error) {
                     self.booking_availability = [];
                     $(dateInput).prop('disabled', true);
                     self.hideLoading();
-                }
-            });
+                });
+            }
         },
         getServicesPromise: function (sp_id) {
             var self = this;
@@ -243,7 +254,7 @@ new Vue({
                 }
             });
         },
-        setAvailability: function (selected_date) {
+        setAvailability2: function (selected_date) {
             var self = this;
             let date = selected_date.year + '-' + selected_date.month + '-' + selected_date.day;
             let times = [];
@@ -281,10 +292,40 @@ new Vue({
             }
 
         },
+        setAvailability: function (selected_date) {
+            var self = this;
+            let date = selected_date;
+            let times = [];
+            self.available_times = [];
+            let days = [];
+            if(!self.interpreter_required && self.dates_regular.length > 0) {
+                days = Object.entries(self.booking_availability.regular);
+            }
+            if(self.interpreter_required && self.dates_interpreter.length > 0) {
+                days = Object.entries(self.booking_availability.interpreter);
+            }
+            if(days.length > 0) {
+                days.forEach(function(day) {
+                    if(date === day[0]) {
+                        let time = Object.values(day[1]).slice(0);
+                        time.forEach(function(hour){
+                        if (Array.isArray(hour)) {
+                            var first = function(element) { return !!element };
+                            times.push(hour.find(first));
+                        }
+                        else {
+                            let time_data = Object.values(hour);
+                            times.push(time_data[0]);
+                        }
+                        });
+                    }
+                });
+            }
+            self.available_times = times;
+        },
         setBookingBugId: function () {
             var self = this;
             self.booking_bug_id = self.current_service.BookingServiceId;
-
             if (self.requireInterpreterOrComplex()) {
                 self.booking_bug_id = self.current_service.BookingInterpritterServiceId;
             }
@@ -310,16 +351,30 @@ new Vue({
                     format: "yyyy-mm-dd",
                     startDate: current_date.toISOString().split('T')[0],
                     daysOfWeekDisabled: [0, 6],
-                    todayHighlight: true
+                    todayHighlight: true,
+                    beforeShowDay : function(date){
+                        if(self.booking_bug_id && self.booking_bug_id !== 0){
+                            let date_formated = moment(date).format('YYYY-MM-DD');
+                            if(!self.interpreter_required && self.dates_regular.length > 0) {
+                                return  self.dates_regular.includes(date_formated) ? true:false;
+                            }
+                            else if (self.interpreter_required && self.dates_interpreter.length > 0) {
+                                return  self.dates_interpreter.includes(date_formated) ? true:false;
+                            }
+                        }
+                    }
                 })
                 .on("changeDate", function (e) {
 
                     if (e.hasOwnProperty("date")) {
-                        let selected_date = {
+                        let selected_date = e.date.getFullYear() + "-" +
+                                            ('0' + (e.date.getMonth() + 1)).slice(-2) + "-" +
+                                            ('0' + e.date.getDate()).slice(-2);
+                        /*{
                             day: ('0' + e.date.getDate()).slice(-2),
                             month: ('0' + (e.date.getMonth() + 1)).slice(-2),
                             year: e.date.getFullYear()
-                        }
+                        }*/
                         self.setAvailability(selected_date);
                     }
                 })

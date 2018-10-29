@@ -249,6 +249,8 @@ Route::get('/booking/service/{service_id}/booking/{start_date}/{end_date}', 'Boo
 
 Route::get('/booking/service_provider/{sp_id}/booking', 'BookingEngineController@getServiceBookingsBySP');
 
+Route::get('/booking/service/{sv_id}/getAvailability/{start_date}/{end_date}','BookingEngineController@getServiceAvailability');
+
 //Route::get('/booking/listServices', 'BookingEngineController@listServices');
 
 //Referral

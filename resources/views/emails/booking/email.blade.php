@@ -2,23 +2,21 @@
 
 @if( $args['send_booking'] == 1)
 
-<p> <strong>Client's name: </strong>{{ $args['client']['FirstName'] . ' ' . $args['client']['LastName'] }} </p>
+<p> <strong>Client's name: </strong>{{ $args['booking']['first_name'] . ' ' . $args['booking']['last_name'] }} </p>
 
-<p> <strong>Client's phone number: </strong>{{ $args['client']['Mobile'] }} </p>
+<p> <strong>Client's phone number: </strong>{{ $args['booking']['contact'] }} </p>
 
-<p> <strong>Client's email: </strong>{{ $args['client']['ClientEmail'] }} </p>
-
-@if( isset($args['booking']['ClientBooking']['CIRNumber']) )
-<p> <strong>Client's CIR number: </strong>{{ $args['booking']['ClientBooking']['CIRNumber'] }} </p>
+@if( isset($args['booking']['CIRNumber']) )
+<p> <strong>Client's CIR number: </strong>{{ $args['booking']['CIRNumber'] }} </p>
 
 @endif
 <p> <strong>Service Name: </strong> {{ $args['service_name'] }} </p>
 
-<p> <strong>Booking Time: </strong>{{ $args['booking']['Date'] . ' ' . $args['booking']['Time'] }} </p>
+<p> <strong>Booking Time: </strong>{{ $args['booking']['date'] . ' ' . $args['booking']['hour'] }} </p>
 
-<p> <strong>Interpreter: </strong>{{ $args['booking']['ClientBooking']['Language'] }} </p>
+<p> <strong>Interpreter: </strong>{{ $args['booking']['int_language'] }} </p>
 
-<p> <strong>Description: </strong>{{ $args['booking']['ClientBooking']['Description'] }} </p>
+<p> <strong>Description: </strong>{{ $args['booking']['comment'] }} </p>
 
 @endif
 

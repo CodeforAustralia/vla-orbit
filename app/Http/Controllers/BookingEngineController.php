@@ -186,17 +186,24 @@ class BookingEngineController extends Controller
         return $hours;
     }
 
-    public function getServiceAvailability( Request $request, $service_id, $start_date, $end_date )
+    /**
+     * Get service availability in Booking Engine
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function getServiceAvailability( Request $request)
     {
         $validation = $this->getAvailabilityData($request->route()->parameters());
         if(!$validation->fails()) {
             $booking_engine_obj = new BookingEngine();
-            return $booking_engine_obj->getServiceAvailability($request->route()->parameters());
+            return json_encode($booking_engine_obj->getServiceAvailability($request->route()->parameters()));
         } else {
             return response()->json(['error'=>$validation->errors()]);
         }
 
     }
+
 
     public function getServiceBookings( Request $request )
     {
@@ -260,4 +267,22 @@ class BookingEngineController extends Controller
         $validator = Validator::make($request->all(), $rules);
         return $validator;
     }
+    /**
+     * validate get availability data
+     *
+     * @param Request $request
+     * @return void
+     */
+    protected function getAvailabilityData($request)
+    {
+        $rules = [
+            'sv_id' => 'required',
+            'start_date' => 'required',
+            'end_date'   => 'required'
+        ];
+
+        $validator = Validator::make($request, $rules);
+        return $validator;
+    }
+
 }

@@ -138,10 +138,13 @@
                         <div class="col-xs-12">
                             <label>Available Times:</label>
                             <div class="mt-radio-list">
-                                <label class="mt-radio mt-radio-outline"  v-for="time in available_times">
-                                    <input type="radio" name="serviceTime"
-                                    :value="time.value">
-                                    @{{ time.text }}<span></span>
+                                <label class="mt-radio mt-radio-outline" v-for= "time in available_times" :key="time.start_time" >
+                                        <input type="radio" id='time' :value="time" v-model="hour">
+                                        <input type="hidden"  v-if="hour" name="resource_id" id="resource_id" :value="hour.resource_id">
+                                        <input type="hidden"  v-if="hour" name="time_length" id="time_length" :value="hour.duration">
+                                        <input type="hidden"  v-if="hour" name="start_hour" id="start_hour" :value="hour.start_time">
+                                        <input type="hidden"  v-if="hour" name="text" id="text" :value="hour.text">
+                                        @{{ time.text }}<span></span><br>
                                 </label>
                             </div>
                         </div>
@@ -158,7 +161,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>First Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Jane" name="client[FirstName]" id="FirstName" required>
+                        <input type="text" class="form-control input-large" placeholder="Jane" name="firstName" id="FirstName" required>
                     </div>
                 </div>
             </div>
@@ -167,7 +170,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Last Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Smith" name="client[LastName]" id="LastName"  required>
+                        <input type="text" class="form-control input-large" placeholder="Smith" name="lastName" id="LastName"  required>
                     </div>
                 </div>
             </div>
@@ -261,7 +264,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Phone Number:</label>
-                        <input type="text" class="form-control input-large" placeholder="0400 000 000" name="client[Mobile]" id="mobile">
+                        <input type="text" class="form-control input-large" placeholder="0400 000 000" name="phone" id="mobile">
                     </div>
                 </div>
             </div>
@@ -319,7 +322,7 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-10">
-                        <label>Description:</label>
+                        <label>Description: </label>
                         <textarea v-text="booking_template" rows="5" class="form-control" id="Desc" placeholder="Client requirements, special needs, difficulties experienced with client, time limits, instructions for contact or any other information that may be useful for the service provider to know beforehand." name="Desc" required></textarea>
                     </div>
                 </div>

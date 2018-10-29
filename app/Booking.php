@@ -2,6 +2,8 @@
 namespace App;
 
 use Illuminate\Support\Facades\Mail;
+use \App\Repositories\BookingEngineApi;
+use Exception;
 use App\Log;
 use App\Mail\BookingEmail;
 use App\Mail\BookingRequestEmail;
@@ -467,43 +469,22 @@ Class Booking extends OrbitSoap
         return $reservation;
     }
 
+
     /**
-     * Create booking bug service details
-     * @param  array    $client_details   client details
-     * @param  array    $booking          booking details
-     * @param  array    $service_provider service provider details
-     * @param  String   $service_name     service name
-     * @return array                      client and reservation
+     * Send the booking information to the Booking Engine
+     *
+     * @param array $booking
+     * @return void
      */
-    public function createBooking( $client_details, $booking, $service_provider, $service_name )
+    public function storeBooking($booking, $service_provider, $service_name)
     {
-        $SendNotification = false;
-        $user = Auth::user();
-        $client = self::createClient( $client_details );
-        $booking['AdminUserId']      = $user->id;
-        $booking['SendNotification'] = $SendNotification;
+        try{
+            self::notifyBooking( $booking, $service_provider, $service_name );
+            return $data;
 
-        $UserObject =   [
-                            'LocalRef'  => $client->LocalRef ,
-                            'country'   => $client->country ,
-                            'email'     => $client->email ,
-                            'first_name' => $client->first_name ,
-                            'id'        => $client->id ,
-                            'last_name' => $client->last_name ,
-                            'mobile'    => $client->mobile ,
-                        ];
-        $booking['UserObject'] = $UserObject;
-        $reservation = self::createBookingService( $booking );
-
-        $reservation_details = json_decode( $reservation );
-        $booking['reservation'] = $reservation_details;
-
-        self::notifyBooking( $booking, $client_details, $service_provider, $service_name );
-
-        $log = new Log();
-        $log::record( 'CREATE', 'booking', $reservation_details->id, $booking );
-
-        return [ 'cient' => $client, 'reservation' => $reservation ];
+        }catch (Exception $exception) {
+            return $exception->getMessage();
+        }
     }
 
     /**
@@ -603,6 +584,7 @@ Class Booking extends OrbitSoap
         }
     }
 
+
     /**
      * Notify a booking to Legal Help via email and SMS
      * @param  array  $booking          booking details
@@ -610,7 +592,7 @@ Class Booking extends OrbitSoap
      * @param  Object $service_provider service provider details
      * @param  String $service_name     service name
      */
-    public function notifyBooking( $booking, $client, $service_provider, $service_name )
+    public function notifyBooking( $booking, $service_provider, $service_name )
     {
         $user = Auth::user();
 
@@ -619,12 +601,11 @@ Class Booking extends OrbitSoap
             $lh_email = LEGAL_HELP_EMAIL;
 
             $subject  = strtoupper(config('app.name')) . ' booking by ' . $user->name . ' - ' .
-                        $service_provider->ServiceProviderName . ', ' . $client['FirstName'] .
-                        ' ' . $client['LastName'];
+                        $service_provider->ServiceProviderName . ', ' . $booking['first_name'] .
+                        ' ' . $booking['last_name'];
 
             $args = [
                         'subject' => $subject,
-                        'client'  => $client,
                         'booking' => $booking,
                         'service_name' => $service_name,
                         'send_booking' => 1
@@ -635,11 +616,11 @@ Class Booking extends OrbitSoap
         }
 
         //If an interpreter required in a booking, send a copy of the booking details to the Service email address
-        if ( $booking[ 'ClientBooking' ][ 'Language' ] != '' ) {
+        if ( $booking[ 'int_language' ] != '' ) {
             $sp_email = $service_provider->ContactEmail;
 
-            $subject  = strtoupper(config('app.name')) . ' booking notification - ' . $booking['ClientBooking']['Language'] .
-                        ' interpreter required on ' . $booking['Date'] . ' ' . $booking['Time'];
+            $subject  = strtoupper(config('app.name')) . ' booking notification - ' . $booking['int_language'] .
+                        ' interpreter required on ' . $booking['date'] . ' ' . $booking['hour'];
 
             $args = [
                         'subject' => $subject,
@@ -649,17 +630,15 @@ Class Booking extends OrbitSoap
             Mail::to( $sp_email )->send( new BookingEmail( $args ) );
         }
 
-        if ( $booking['ClientBooking']['RemindNow'] == 1 && $client['Mobile'] != '' ) {
-            $reservation = $booking['reservation'];
+        if ( $booking['RemindNow'] == 1 && $booking['contact'] != '' ) {
 
-            $ref = explode( ' ', $reservation->client_name );
             $args = [
-                        'FirstName'     => $client['FirstName'] . ' ' . $client['LastName'],
-                        'Mobile'        => $client['Mobile'] ,
-                        'BookingDate'   => $booking['Date'],
-                        'BookingTime'   => $booking['Time'],
-                        'ServiceId'     => $booking['ServiceId'],
-                        'RefNo'         => $ref[0],
+                        'FirstName'     => $booking['first_name'] . ' ' . $booking['last_name'],
+                        'Mobile'        => $booking['contact'] ,
+                        'BookingDate'   => $booking['date'],
+                        'BookingTime'   => $booking['hour'],
+                        'ServiceId'     => $booking['service_id'],
+                        'RefNo'         => $booking['booking_no'],
                         'IsSafeSMS'     => 1
                     ];
             $sent_sms_obj = New SentSms();
@@ -712,11 +691,11 @@ Class Booking extends OrbitSoap
 
             $booking_request['subject'] .=  $booking_request['ServiceProviderName'] . ', ' .
                                             $booking_request['ServiceName'] . ': ' .
-                                            $booking_request['client']['LastName'] . ', ' .
-                                            $booking_request['client']['FirstName'] . ' - ' .
+                                            $booking_request['lastName'] . ', ' .
+                                            $booking_request['firstName'] . ' - ' .
                                             (
-                                                isset($booking_request['client']['Mobile']) ?
-                                                $booking_request['client']['Mobile'] : ''
+                                                isset($booking_request['phone']) ?
+                                                $booking_request['phone'] : ''
                                             );
 
             $log = new Log();
