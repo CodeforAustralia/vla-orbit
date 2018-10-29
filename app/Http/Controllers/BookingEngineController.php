@@ -212,10 +212,15 @@ class BookingEngineController extends Controller
 
     public function getServiceBookingsBySP( Request $request )
     {
-        $validation = $this->getBookingsBySPData($request->route()->parameters());
-        if(!$validation->fails()) {
+        $validation = $this->getBookingsBySPData($request);
+        if(!$validation->fails() && isset($request->route()->parameters()['sp_id'])) {
             $booking_engine_obj = new BookingEngine();
-            return $booking_engine_obj->getServiceBookingsBySP($request->route()->parameters());
+            $args = [
+                'sp_id' => $request->route()->parameters()['sp_id'],
+                'start_date' => $request['start'],
+                'end_date'   => $request['end']
+            ];
+            return $booking_engine_obj->getServiceBookingsBySP($args);
         } else {
             return response()->json(['error'=>$validation->errors()]);
         }
@@ -248,12 +253,11 @@ class BookingEngineController extends Controller
     protected function getBookingsBySPData($request)
     {
         $rules = [
-            'sp_id' => 'required',
-            'start_date' => 'required',
-            'end_date'   => 'required'
+            'start' => 'required',
+            'end'   => 'required'
         ];
 
-        $validator = Validator::make($request, $rules);
+        $validator = Validator::make($request->all(), $rules);
         return $validator;
     }
 }
