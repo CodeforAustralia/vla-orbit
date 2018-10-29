@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\BookingEngine;
 use App\Service;
 use App\ServiceBooking;
 use App\ServiceProvider;
@@ -12,11 +12,13 @@ use DateTime;
 use DateInterval;
 use DatePeriod;
 
+use Validator;
+
 /**
  * Booking Engine Controller.
  * Controller for the booking functionalities
  * @author Christian Arevalo
- * @version 1.2.0
+ * @version 1.3.0
  * @see  Controller
  */
 class BookingEngineController extends Controller
@@ -182,5 +184,76 @@ class BookingEngineController extends Controller
             $hours[] = $days[$week] . '-' . $day;
         }
         return $hours;
+    }
+
+    public function getServiceAvailability( Request $request, $service_id, $start_date, $end_date )
+    {
+        $validation = $this->getAvailabilityData($request->route()->parameters());
+        if(!$validation->fails()) {
+            $booking_engine_obj = new BookingEngine();
+            return $booking_engine_obj->getServiceAvailability($request->route()->parameters());
+        } else {
+            return response()->json(['error'=>$validation->errors()]);
+        }
+
+    }
+
+    public function getServiceBookings( Request $request )
+    {
+        $validation = $this->getBookingsData($request->route()->parameters());
+        if(!$validation->fails()) {
+            $booking_engine_obj = new BookingEngine();
+            return $booking_engine_obj->getServiceBookings($request->route()->parameters());
+        } else {
+            return response()->json(['error'=>$validation->errors()]);
+        }
+
+    }
+
+    public function getServiceBookingsBySP( Request $request )
+    {
+        $validation = $this->getBookingsBySPData($request->route()->parameters());
+        if(!$validation->fails()) {
+            $booking_engine_obj = new BookingEngine();
+            return $booking_engine_obj->getServiceBookingsBySP($request->route()->parameters());
+        } else {
+            return response()->json(['error'=>$validation->errors()]);
+        }
+
+    }
+
+    /**
+     * Get the request's data from the request.
+     *
+     * @param array $request
+     * @return array
+     */
+    protected function getBookingsData($request)
+    {
+        $rules = [
+            'service_id' => 'required',
+            'start_date' => 'required',
+            'end_date'   => 'required'
+        ];
+
+        $validator = Validator::make($request, $rules);
+        return $validator;
+    }
+    /**
+     * Get the request's data from the request.
+     *
+     * @param array $request
+     * @return array
+     */
+    protected function getBookingsBySPData($request)
+    {
+        $rules = [
+            'sp_id' => 'required',
+            'start_date' => 'required',
+            'end_date'   => 'required'
+        ];
+
+        $validator = Validator::make($request, $rules);
+        return $validator;
     }
 }
