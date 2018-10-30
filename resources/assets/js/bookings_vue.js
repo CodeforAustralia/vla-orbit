@@ -254,44 +254,6 @@ new Vue({
                 }
             });
         },
-        setAvailability2: function (selected_date) {
-            var self = this;
-            let date = selected_date.year + '-' + selected_date.month + '-' + selected_date.day;
-            let times = [];
-            let event_id = '';
-            self.available_times = [];
-            let len = self.booking_availability.length;
-            for (let i = 0; i < len; i++) {
-                if (self.booking_availability[i].date == date) {
-                    times = self.booking_availability[i].times;
-                }
-            }
-
-            for (let index = 0; index < times.length; ++index) {
-                if (times[index].avail == 1) {
-                    let slot_time = new Date(times[index].datetime);
-                    let hour = ('0' + slot_time.getHours()).slice(-2);
-                    let minute = ('0' + slot_time.getMinutes()).slice(-2);
-
-                    let duration_slot = self.current_service.BookingServiceLength;
-                    if (self.requireInterpreterOrComplex()) {
-                        duration_slot = self.current_service.BookingInternalServiceLength;
-                    }
-
-                    let end_time = new Date(slot_time.getTime() + (duration_slot * 60 * 1000));
-                    let end_hour = ('0' + end_time.getHours()).slice(-2);
-                    let end_minute = ('0' + end_time.getMinutes()).slice(-2);
-
-                    self.available_times.push({
-                        start: hour + ':' + minute,
-                        end: end_hour + ':' + end_minute,
-                        text: hour + ':' + minute + ' - ' + end_hour + ':' + end_minute,
-                        value: date + 'T' + hour + ':' + minute
-                    });
-                }
-            }
-
-        },
         setAvailability: function (selected_date) {
             var self = this;
             let date = selected_date;

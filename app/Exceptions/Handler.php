@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use GuzzleHttp\Exception\ClientException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,11 +45,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
+        if ($exception instanceof ClientException ) {
+            return back()->withInput()
+                        ->withErrors(['unexpected_error' => $exception->getMessage()]);
+        }
         $is_production = config('app.env') === 'production';
-        if (!$this->isHttpException($exception) && $is_production ) 
-        {
+        if (!$this->isHttpException($exception) && $is_production ) {
             $exception = new \Symfony\Component\HttpKernel\Exception\HttpException(500);
         }
+
 
         return parent::render($request, $exception);
     }

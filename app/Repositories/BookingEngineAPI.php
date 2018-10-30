@@ -41,7 +41,7 @@ class BookingEngineAPI
      */
     public function post($form_params, $tokens, $url)
     {
-        try{
+        
             $headers = [
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
@@ -55,9 +55,7 @@ class BookingEngineAPI
                                     )->getBody();
             $data = json_decode($response);
             return $data;
-        }catch (Exception $exception) {
-            return $exception->getMessage();
-        }
+        
     }
 
     /**
