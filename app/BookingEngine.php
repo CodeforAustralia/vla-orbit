@@ -53,7 +53,13 @@ Class BookingEngine extends BookingEngineClient
         return $availability;
     }
 
-    public function storeBooking($booking)
+     /**
+     * Store booking;
+     *
+     * @param array $booking
+     * @return void
+     */
+    public function storeBooking( $booking )
     {
         $url = "/api/auth/booking";
         $tokens = $this->getTokens();
@@ -63,6 +69,26 @@ Class BookingEngine extends BookingEngineClient
         return $booking_id;
     }
 
+     /**
+     * Update booking;
+     *
+     * @param array $booking
+     * @return void
+     */
+    public function updateBooking( $args )
+    {
+        $url = "/api/auth/booking/" . $args['booking_id']  ;
+        $tokens = $this->getTokens();
+        $booking = $this->client->patch($args,$tokens, $url);
+        $log = new Log();
+        $log::record( 'UPDATE', 'booking', $booking->id, $booking );
+        return $booking;
+    }
+    /**
+     * Get login token
+     *
+     * @return void
+     */
     private function getTokens()
     {
         $tokens = [];

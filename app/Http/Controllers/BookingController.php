@@ -132,32 +132,10 @@ class BookingController extends Controller
         if( $request_type == 0 ) //Direct booking - Booking Bug integration
         {
             // Validate form
-            $rules = [
-                'files'               => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
-                'attachments.*.files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
-                'service_provider_id' => 'required',
-                'ServiceId'           => 'required',
-                'request_type'        => 'required',
-                'start_hour'          => 'required',
-                'firstName'           => 'required',
-                'lastName'            => 'required',
-                'Desc'                => 'required',
-                'booking-date'        => 'required'
-
-            ];
-            $customMessages = [
-                'required' => 'The :attribute field is required.',
-                'mimes'    => 'Failed to upload file(s), Check format. Formats accepted: pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg.',
-                'max'      => 'Failed to upload file(s), Check size. Max size: 4MB'
-            ];
-            $validator = Validator::make(request()->all(),
-                $rules,
-                $customMessages
-            );
-            if ($validator->fails()) {
-
+            $validation = $this->validateBookingData(request()->all());
+            if ($validation->fails()) {
                 return back()->withInput()
-                            ->withErrors($validator);
+                            ->withErrors($validation->errors());
             }
 
             $serviceId = explode( '-', request('ServiceId') );
@@ -248,6 +226,39 @@ class BookingController extends Controller
         }
     }
     /**
+     * Validate booking data to be stored
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function validateBookingData($request)
+    {
+        $rules = [
+            'files'               => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
+            'attachments.*.files' => 'nullable|mimes:pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg|max:4096',
+            'service_provider_id' => 'required',
+            'ServiceId'           => 'required',
+            'request_type'        => 'required',
+            'start_hour'          => 'required',
+            'firstName'           => 'required',
+            'lastName'            => 'required',
+            'Desc'                => 'required',
+            'booking-date'        => 'required'
+
+        ];
+        $customMessages = [
+            'required' => 'The :attribute field is required.',
+            'mimes'    => 'Failed to upload file(s), Check format. Formats accepted: pdf,png,jpeg,bmp,jpg,doc,docx,xls,xlsx,msg.',
+            'max'      => 'Failed to upload file(s), Check size. Max size: 4MB'
+        ];
+        $validator = Validator::make($request,
+            $rules,
+            $customMessages
+        );
+        return $validator;
+    }
+
+    /**
      * List all booking for the next month
      * @return array list of all booking
      */
@@ -296,13 +307,47 @@ class BookingController extends Controller
      * Store a updated booking in the data base
      * @return Object $result booking update result
      */
-    public function updateBooking()
+    public function updateBooking2()
     {
         $booking_obj = new Booking();
         $result = $booking_obj->updateBooking( request()->all() ) ;
 
         return $result;
     }
+
+    public function updateBooking(Request $request)
+    {
+        $validation = $this->getBookingsData($request);
+        if(!$validation->fails()) {
+            $booking_engine_obj = new BookingEngine();
+            return $booking_engine_obj->updateBooking($request);
+        } else {
+            return response()->json(['error'=>$validation->errors()]);
+        }
+    }
+
+    /**
+     * Get the request's data from the request.
+     *
+     * @param array $request
+     * @return array
+     */
+    protected function getBookingsData($request)
+    {
+        $rules = [
+            'booking_id'          => 'required',
+            'start_hour'          => 'required',
+            'firstName'           => 'required',
+            'lastName'            => 'required',
+            'Desc'                => 'required',
+            'date'                => 'required',
+            'is_interpreter'      => 'required'
+        ];
+
+        $validator = Validator::make($request, $rules);
+        return $validator;
+    }
+
     /**
      * Store a updated booking details in the data base
      * @return Object $result booking details update result

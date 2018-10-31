@@ -41,7 +41,6 @@ class BookingEngineAPI
      */
     public function post($form_params, $tokens, $url)
     {
-        
             $headers = [
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
@@ -55,7 +54,31 @@ class BookingEngineAPI
                                     )->getBody();
             $data = json_decode($response);
             return $data;
-        
+    }
+    /**
+     * Patch request to API
+     *
+     * @param array $form_params Form Information
+     * @param array $tokens Tokens returned on login
+     * @param string $url Url to access through the method
+     * @return void
+     */
+    public function patch($form_params, $tokens, $url)
+    {
+        $headers = [
+            'content-type' => 'application/json',
+            'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
+        ];
+        $response = $this->client->patch(
+                                        $url,
+                                        [
+                                            'headers' => $headers,
+                                            'form_params' => $form_params
+                                        ]
+                                        )->getBody();
+        $data = json_decode($response);
+        return $data;
+
     }
 
     /**
@@ -92,25 +115,22 @@ class BookingEngineAPI
      */
     public function login()
     {
-        try{
-            $response = $this->client->post(
-                                            LOGIN_URL,
-                                            [
-                                                RequestOptions::JSON => [
-                                                                            "email" => $this->email,
-                                                                            "password" => $this->password,
-                                                                            "remember_me" => $this->remember_me
-                                                                        ]
-                                            ]
-                                        )->getBody();
-            $data = json_decode($response);
-            return  [
-                        'token_type' => $data->token_type,
-                        'access_token' => $data->access_token
-                    ];
-        }catch (Exception $exception) {
-            return $exception->getMessage();
-        }
+        $response = $this->client->post(
+                                        LOGIN_URL,
+                                        [
+                                            RequestOptions::JSON => [
+                                                                        "email" => $this->email,
+                                                                        "password" => $this->password,
+                                                                        "remember_me" => $this->remember_me
+                                                                    ]
+                                        ]
+                                    )->getBody();
+        $data = json_decode($response);
+        return  [
+                    'token_type' => $data->token_type,
+                    'access_token' => $data->access_token
+                ];
+
     }
 
     /**

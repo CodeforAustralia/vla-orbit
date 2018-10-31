@@ -142,5 +142,5 @@
                     });
                 })
             </script>
-            <script src="/js/orbit.js?id={{ str_random(6) }}" type="text/javascript"></script>
+            <script src="/js/notifications_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>
             <script src="/js/footer.js?id={{ str_random(6) }}" type="text/javascript"></script>

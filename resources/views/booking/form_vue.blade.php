@@ -391,6 +391,7 @@ text/plain, application/pdf, image/*" />
     <script src="/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-repeater/jquery.repeater.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/form-repeater.min.js" type="text/javascript"></script>
+    <script src="/js/bookings_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
 @endsection
 
