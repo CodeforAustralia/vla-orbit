@@ -10,7 +10,7 @@ use Auth;
 /**
  * Booking model for the booking engine functionalities
  * @author Christian Arevalo
- * @version 1.0.0
+ * @version 1.0.1
  * @see  BookingEngineClient
  */
 
@@ -19,14 +19,8 @@ Class BookingEngine extends BookingEngineClient
     public function getServiceBookings( $args )
     {
         $url = "/api/auth/service/" . $args['service_id'] . "/booking/" . $args['start_date'] . "/" . $args['end_date'];
-        $tokens = [];
 
-        if(session('be_tokens')) {
-            $tokens = session('be_tokens');
-        } else {
-            $tokens = $this->client->login();
-            session(['be_tokens' => $tokens]);
-        }
+        $tokens = $this->getTokens();
 
         $availability = $this->client->get($tokens, $url);
         return $availability;
@@ -39,14 +33,8 @@ Class BookingEngine extends BookingEngineClient
         $service_ids = implode(',',array_diff(array_column($services,'BookingServiceId'), [''])); //Check for services with Booking Ids and exclude services without it
 
         $url = "/api/auth/service/" . $service_ids. "/booking/" . $args['start_date'] . "/" . $args['end_date'];
-        $tokens = [];
 
-        if(session('be_tokens')) {
-            $tokens = session('be_tokens');
-        } else {
-            $tokens = $this->client->login();
-            session(['be_tokens' => $tokens]);
-        }
+        $tokens = $this->getTokens();
 
         $availability = $this->client->get($tokens, $url);
         return $availability;
@@ -78,7 +66,7 @@ Class BookingEngine extends BookingEngineClient
     private function getTokens()
     {
         $tokens = [];
-        if(session('be_tokens')) {
+        if(session('be_tokens') && is_array(session('be_tokens'))) {
             $tokens = session('be_tokens');
         } else {
             $tokens = $this->client->login();
