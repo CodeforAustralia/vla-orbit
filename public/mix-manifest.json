@@ -9,5 +9,6 @@
   "/js/request_service_vue.js": "/js/request_service_vue.js",
   "/js/booking_engine.js": "/js/booking_engine.js",
   "/css/booking_engine.css": "/css/booking_engine.css",
-  "/js/notifications_vue.js": "/js/notifications_vue.js"
+  "/js/notifications_vue.js": "/js/notifications_vue.js",
+  "/js/calendar_vue.js": "/js/calendar_vue.js"
 }

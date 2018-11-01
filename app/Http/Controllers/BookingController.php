@@ -59,6 +59,18 @@ class BookingController extends Controller
         return view("booking.by_service_provider", compact( 'service_providers' ));
     }
     /**
+     * Display a listing of booking by service provider
+     * @return view booking by service provider information
+     */
+    public function byServiceProvider2()
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp' , 'VLA']);
+        $service_providers_obj  = new ServiceProvider();
+        $service_providers      = $service_providers_obj->getAllServiceProviders();
+
+        return view("booking.by_service_provider2", compact( 'service_providers' ));
+    }
+    /**
      * Display a specific booking
      * @param  int $bk_id booking id
      * @return view single booking information page

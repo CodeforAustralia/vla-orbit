@@ -247,7 +247,7 @@ Route::get('/booking/by_service_provider2', 'BookingController@byServiceProvider
 
 Route::get('/booking/service/{service_id}/booking/{start_date}/{end_date}', 'BookingEngineController@getServiceBookings');
 
-Route::get('/booking/service_provider/{sp_id}/booking', 'BookingEngineController@getServiceBookingsBySP');
+Route::get('/booking/service_provider/booking', 'BookingEngineController@getServiceBookingsBySP');
 
 Route::get('/booking/service/{sv_id}/getAvailability/{start_date}/{end_date}','BookingEngineController@getServiceAvailability');
 
