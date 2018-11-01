@@ -69,17 +69,19 @@
         },
         methods: {
             eventRendered(event, element, view){
-                let slot_time = event.start_hour;
-                let slot_duration = event.time_length;
-                let start_time = moment(event.date).add(parseInt(slot_time), 'm').format('HH:mm A');
-                let end_time = moment(event.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm').format('HH:mm A');
-                $(element).popover({
-                    html: true,
-                    content: 'Start: ' + start_time + '<br />End: ' + end_time,
-                    trigger: 'hover',
-                    placement: 'auto top',
-                    container: 'body'
-                });
+                if(event.hasOwnProperty('booking')) {
+                    let slot_time = event.booking.start_hour;
+                    let slot_duration = event.booking.time_length;
+                    let start_time = moment(event.booking.date).add(parseInt(slot_time), 'm').format('HH:mm A');
+                    let end_time = moment(event.booking.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm').format('HH:mm A');
+                    $(element).popover({
+                        html: true,
+                        content: 'Start: ' + start_time + '<br />End: ' + end_time,
+                        trigger: 'hover',
+                        placement: 'auto top',
+                        container: 'body'
+                    });
+                }
             },
             eventSelected(event, jsEvent){
                 console.log(event, jsEvent);

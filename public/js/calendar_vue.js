@@ -63538,17 +63538,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         eventRendered: function eventRendered(event, element, view) {
-            var slot_time = event.start_hour;
-            var slot_duration = event.time_length;
-            var start_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.date).add(parseInt(slot_time), 'm').format('HH:mm A');
-            var end_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm').format('HH:mm A');
-            $(element).popover({
-                html: true,
-                content: 'Start: ' + start_time + '<br />End: ' + end_time,
-                trigger: 'hover',
-                placement: 'auto top',
-                container: 'body'
-            });
+            if (event.hasOwnProperty('booking')) {
+                var slot_time = event.booking.start_hour;
+                var slot_duration = event.booking.time_length;
+                var start_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.booking.date).add(parseInt(slot_time), 'm').format('HH:mm A');
+                var end_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.booking.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm').format('HH:mm A');
+                $(element).popover({
+                    html: true,
+                    content: 'Start: ' + start_time + '<br />End: ' + end_time,
+                    trigger: 'hover',
+                    placement: 'auto top',
+                    container: 'body'
+                });
+            }
         },
         eventSelected: function eventSelected(event, jsEvent) {
             console.log(event, jsEvent);
