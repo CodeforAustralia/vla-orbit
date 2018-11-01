@@ -62,7 +62,7 @@
                     <div class="portlet-body">
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
-                                <Calendar :service_provider_id="service_provider_id"></Calendar>
+                                <Calendar :service_provider_id="service_provider_id" :current_booking="current_booking" v-on:update:current_booking="current_booking = $event"></Calendar>
                             </div>
                         </div>
                     </div>
@@ -70,6 +70,9 @@
             </div>
         </div>
         <!-- Calendar End -->
+        <!-- Modal Start -->
+        @include("booking.booking_info_modal_vue")
+        <!-- Modal Fade Close-->
     </div>
 @endsection
 

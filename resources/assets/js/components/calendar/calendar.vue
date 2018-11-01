@@ -12,7 +12,7 @@
     import axios from 'axios';
 
 	export default {
-        props: ['service_provider_id'],
+        props: ['service_provider_id', 'current_booking'],
         data () {
             let self = this;
             return {
@@ -85,6 +85,11 @@
             },
             eventSelected(event, jsEvent){
                 console.log(event, jsEvent);
+                if(event.hasOwnProperty('booking')) {
+                    //this.current_booking = event.booking;
+                    this.$emit('update:current_booking', event.booking);
+                    $("#bookingInfo").modal("show");
+                }
                 $(jsEvent.target).popover('toggle');
             },
             initCalendar(response) {

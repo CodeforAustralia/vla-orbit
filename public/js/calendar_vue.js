@@ -39169,6 +39169,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#sp-calendar',
 
     data: {
+        current_booking: {},
         service_provider_options: [],
         service_provider_selected: [],
         service_provider_id: 0
@@ -63479,7 +63480,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['service_provider_id'],
+    props: ['service_provider_id', 'current_booking'],
     data: function data() {
         var self = this;
         return {
@@ -63554,6 +63555,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         eventSelected: function eventSelected(event, jsEvent) {
             console.log(event, jsEvent);
+            if (event.hasOwnProperty('booking')) {
+                //this.current_booking = event.booking;
+                this.$emit('update:current_booking', event.booking);
+                $("#bookingInfo").modal("show");
+            }
             $(jsEvent.target).popover('toggle');
         },
         initCalendar: function initCalendar(response) {

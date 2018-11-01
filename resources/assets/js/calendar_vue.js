@@ -14,6 +14,7 @@ new Vue({
     el: '#sp-calendar',
 
     data: {
+        current_booking: {},
         service_provider_options: [],
         service_provider_selected: [],
         service_provider_id: 0
