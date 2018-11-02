@@ -26,12 +26,10 @@ new Vue({
             let url = '/service_provider/list';
             axios.get(url)
                 .then(function (response) {
-                    console.log(response);
                     self.service_provider_options = response.data.data;
                     $("#contentLoading").modal("hide");
                 })
                 .catch(function (error) {
-                    console.log(error);
                     alert('Please refresh the page');
                     $("#contentLoading").modal("hide");
                 });

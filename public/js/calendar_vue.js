@@ -39180,11 +39180,9 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             var self = this;
             var url = '/service_provider/list';
             __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(url).then(function (response) {
-                console.log(response);
                 self.service_provider_options = response.data.data;
                 $("#contentLoading").modal("hide");
             }).catch(function (error) {
-                console.log(error);
                 alert('Please refresh the page');
                 $("#contentLoading").modal("hide");
             });
@@ -63554,9 +63552,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         eventSelected: function eventSelected(event, jsEvent) {
-            console.log(event, jsEvent);
+            s;
             if (event.hasOwnProperty('booking')) {
-                //this.current_booking = event.booking;
                 this.$emit('update:current_booking', event.booking);
                 $("#bookingInfo").modal("show");
             }

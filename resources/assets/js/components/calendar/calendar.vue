@@ -83,10 +83,8 @@
                     });
                 }
             },
-            eventSelected(event, jsEvent){
-                console.log(event, jsEvent);
+            eventSelected(event, jsEvent){s
                 if(event.hasOwnProperty('booking')) {
-                    //this.current_booking = event.booking;
                     this.$emit('update:current_booking', event.booking);
                     $("#bookingInfo").modal("show");
                 }

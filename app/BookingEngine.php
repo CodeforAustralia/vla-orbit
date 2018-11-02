@@ -18,11 +18,12 @@ Class BookingEngine extends BookingEngineClient
 {
     public function getServiceBookings( $args )
     {
-        $url = "/api/auth/service/" . $args['service_id'] . "/booking/" . $args['start_date'] . "/" . $args['end_date'];
-
-        $tokens = $this->getTokens();
-
-        $availability = $this->client->get($tokens, $url);
+        $availability = [];
+        if($args['service_id'] != '') {
+            $url = "/api/auth/service/" . $args['service_id'] . "/booking/" . $args['start_date'] . "/" . $args['end_date'];
+            $tokens = $this->getTokens();
+            $availability = $this->client->get($tokens, $url);
+        }
         return $availability;
     }
 
@@ -30,14 +31,9 @@ Class BookingEngine extends BookingEngineClient
     {
         $service_obj = new Service();
         $services =  $service_obj->getAllServicesBySP($args['sp_id']);
-        $service_ids = implode(',',array_diff(array_column($services,'BookingServiceId'), [''])); //Check for services with Booking Ids and exclude services without it
+        $args['service_id'] = implode(',',array_diff(array_column($services,'BookingServiceId'), [''])); //Check for services with Booking Ids and exclude services without it
 
-        $url = "/api/auth/service/" . $service_ids. "/booking/" . $args['start_date'] . "/" . $args['end_date'];
-
-        $tokens = $this->getTokens();
-
-        $availability = $this->client->get($tokens, $url);
-        return $availability;
+        return self::getServiceBookings($args);
     }
     /**
      * Get service availability in Booking Engine
