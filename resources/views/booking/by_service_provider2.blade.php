@@ -93,8 +93,4 @@
 @endsection
 
 @section('inline-scripts')
-    $(document).ready(function()
-    {
-        $("#contentLoading").modal("hide")
-    })
 @endsection

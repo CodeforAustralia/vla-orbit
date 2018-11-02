@@ -39,22 +39,22 @@
 
                             <div class="col-sm-12 hide">
                                 <label class="col-sm-5"><strong>Safe to call: </strong></label>
-                                <span id="IsSafeCall"></span>
+                                <span id="IsSafeCall" v-html="(current_booking.data ? (current_booking.data.IsSafeCall ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12 hide">
                                 <label class="col-sm-5"><strong>Safe to leave a message: </strong></label>
-                                <span id="IsSafeLeaveMessage"></span>
+                                <span id="IsSafeLeaveMessage" v-html="(current_booking.data ? (current_booking.data.IsSafeLeaveMessage ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>SMS Reminder: </strong></label>
-                                <span id="IsSafeSMS"></span>
+                                <span id="IsSafeSMS" v-html="(current_booking.data ? (current_booking.data.IsSafeSMS ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Instructions re contact: </strong></label>
-                                <span id="ContactInstructions"></span>
+                                <span id="ContactInstructions" v-html="(current_booking.data ? (current_booking.data.ContactInstructions ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
@@ -68,12 +68,12 @@
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Complex needs: </strong></label>
-                                <span id="IsComplex"></span>
+                                <span id="IsComplex" v-html="(current_booking.data ? (current_booking.data.IsComplex ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>CIR Number: </strong></label>
-                                <a href="javascript:;" id="bookingCIRNumber" data-type="text" data-original-title="Enter CIR number"></a>
+                                <a href="javascript:;" id="bookingCIRNumber" data-type="text" data-original-title="Enter CIR number" v-html="(current_booking.data ? current_booking.data.CIRNumber : '' )"></a>
                             </div>
                         </div>
                         <hr>
@@ -83,19 +83,19 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Provider: </strong></label>
-                                <span id="bookingSPName"></span>
+                                <span id="bookingSPName" v-html="(current_booking.service ? current_booking.service.ServiceProviderName : '' )"></span>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Name: </strong></label>
-                                <span id="bookingTitle"></span>
+                                <span id="bookingTitle" v-html="(current_booking.service ? current_booking.service.ServiceName : '')"></span>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Time of appointment: </strong></label>
-                                <a id="bookingTime" class="editable editable-click edit-booking"></a>
+                                <a id="bookingTime" class="editable editable-click edit-booking" v-html="current_booking.booking_time"></a>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Appointment Description: </strong></label>
-                                <div id="bookingDescription" class="col-sm-7 padding-0" data-type="wysihtml5"></div>
+                                <div id="bookingDescription" class="col-sm-7 padding-0" data-type="wysihtml5" v-html="current_booking.comment"></div>
                             </div>
                             <br>
                             <div class="col-sm-12">

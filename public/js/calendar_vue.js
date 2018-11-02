@@ -63482,8 +63482,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         var self = this;
         return {
-            regular: {},
-            interpreter: {},
+            services: {},
             unavailable: {},
             events: [],
             config: {
@@ -63526,7 +63525,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     success: function success(response) {
                         setTimeout(function () {
                             //Line necessary to avoid duplication on events with no names and info on them
-                            self.initCalendar(response);
+                            self.initCalendar(response.bookings);
+                            self.services = response.services;
                             $("#contentLoading").modal('hide');
                         }, 1000);
                     }
@@ -63552,8 +63552,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         eventSelected: function eventSelected(event, jsEvent) {
-            s;
             if (event.hasOwnProperty('booking')) {
+                if (event.booking.data) {
+                    event.booking.data = JSON.parse(event.booking.data);
+                }
+                for (var index = 0; index < this.services.length; index++) {
+                    if (this.services[index].BookingServiceId == event.booking.service_id) {
+                        event.booking.service = this.services[index];
+                    }
+                }
+                event.booking.booking_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.booking.date).add(parseInt(event.booking.start_hour), 'm').format('HH:mm A');
                 this.$emit('update:current_booking', event.booking);
                 $("#bookingInfo").modal("show");
             }
@@ -63600,7 +63608,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             $("#contentLoading").modal("show");
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(url).then(function (response) {
-                self.initCalendar(response.data);
+                self.initCalendar(response.data.bookings);
+                self.services = response.data.services;
                 $("#contentLoading").modal("hide");
             }).catch(function (error) {
                 $("#contentLoading").modal("hide");

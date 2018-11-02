@@ -10,12 +10,18 @@ use Auth;
 /**
  * Booking model for the booking engine functionalities
  * @author Christian Arevalo
- * @version 1.0.1
+ * @version 1.1.1
  * @see  BookingEngineClient
  */
 
 Class BookingEngine extends BookingEngineClient
 {
+    /**
+     * get service bookings
+     *
+     * @param String $args One or many service ids concatenated by , if is more than one
+     * @return array
+     */
     public function getServiceBookings( $args )
     {
         $availability = [];
@@ -31,9 +37,17 @@ Class BookingEngine extends BookingEngineClient
     {
         $service_obj = new Service();
         $services =  $service_obj->getAllServicesBySP($args['sp_id']);
-        $args['service_id'] = implode(',',array_diff(array_column($services,'BookingServiceId'), [''])); //Check for services with Booking Ids and exclude services without it
+        $service_ids = [];
+        $services_info = [];
+        foreach ($services as $service) {
+            if($service['BookingServiceId'] != ''){
+                $service_ids[] = $service['BookingServiceId'];
+                $services_info[] = $service;
+            }
+        }
+        $args['service_id'] = implode(',',$service_ids);
 
-        return self::getServiceBookings($args);
+        return ['bookings' => self::getServiceBookings($args), 'services' => $services_info];
     }
     /**
      * Get service availability in Booking Engine

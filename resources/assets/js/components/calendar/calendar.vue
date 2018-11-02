@@ -16,8 +16,7 @@
         data () {
             let self = this;
             return {
-                    regular: {},
-                    interpreter: {},
+                    services: {},
                     unavailable: {},
                     events: [
                     ],
@@ -59,7 +58,8 @@
                             },
                             success: function (response) {
                                 setTimeout(() => { //Line necessary to avoid duplication on events with no names and info on them
-                                    self.initCalendar(response);
+                                    self.initCalendar(response.bookings);
+                                    self.services = response.services;
                                     $("#contentLoading").modal('hide');
                                 }, 1000);
                             }
@@ -83,8 +83,17 @@
                     });
                 }
             },
-            eventSelected(event, jsEvent){s
+            eventSelected(event, jsEvent){
                 if(event.hasOwnProperty('booking')) {
+                    if(event.booking.data){
+                        event.booking.data = JSON.parse(event.booking.data);
+                    }
+                    for (let index = 0; index < this.services.length; index++) {
+                        if(this.services[index].BookingServiceId == event.booking.service_id){
+                            event.booking.service = this.services[index];
+                        }
+                    }
+                    event.booking.booking_time = moment(event.booking.date).add(parseInt(event.booking.start_hour), 'm').format('HH:mm A');
                     this.$emit('update:current_booking', event.booking);
                     $("#bookingInfo").modal("show");
                 }
@@ -132,7 +141,8 @@
                 $("#contentLoading").modal("show");
                 axios.get(url)
                     .then(function (response) {
-                        self.initCalendar(response.data);
+                        self.initCalendar(response.data.bookings);
+                        self.services = response.data.services;
                         $("#contentLoading").modal("hide");
                     })
                     .catch(function (error) {
