@@ -87,7 +87,7 @@ Class BookingEngine extends BookingEngineClient
      */
     public function updateBooking( $args )
     {
-        $url = "/api/auth/booking/" . $args['booking_id']  ;
+        $url = "/api/auth/booking/" . $args['booking_id'] ;
         $tokens = $this->getTokens();
         $booking = $this->client->patch($args,$tokens, $url);
         $log = new Log();

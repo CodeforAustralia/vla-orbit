@@ -251,6 +251,8 @@ Route::get('/booking/service_provider/booking', 'BookingEngineController@getServ
 
 Route::get('/booking/service/{sv_id}/getAvailability/{start_date}/{end_date}','BookingEngineController@getServiceAvailability');
 
+Route::patch('/booking','BookingController@updateBooking');
+
 //Route::get('/booking/listServices', 'BookingEngineController@listServices');
 
 //Referral

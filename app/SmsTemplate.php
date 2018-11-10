@@ -94,25 +94,15 @@ Class SmsTemplate extends OrbitSoap
      * @param  int   $sv_id service id
      * @return array templates
      */
-	public function getTemplateByServiceBookingId( $booking_sv_id, $booking )
+	public function getTemplateByServiceBookingId( $sv_id, $booking )
 	{
 
         $service_obj = new Service();
-        $services = $service_obj->getAllServices();
+        $service = $service_obj->getServiceByID($sv_id);
+        $current_service = json_decode($service['data'], true);
 
-        $current_service = [];
-        foreach ( $services as $service ) {
-            if ( $service['BookingServiceId'] == $booking_sv_id
-                || $service['BookingInterpritterServiceId'] == $booking_sv_id  ) {
-
-                $current_service = $service;
-            }
-        }
-
-        $sv_id = $current_service['ServiceId'];
 
         $templates = self::getAllTemplates();
-
         $current_sms_template = [];
 
         foreach ( $templates as $template ) {
@@ -127,16 +117,17 @@ Class SmsTemplate extends OrbitSoap
                                                     To change call us on (service_phone).', 'TemplateId' => 1
                                     ];
         }
+        $booking = json_decode($booking);
 
         //get client info
-        $args['client_name']  = $booking['FirstName'];
-        $args['client_phone'] = $booking['Mobile'];
-        $args['date'] = $booking['BookingDate'];
-        $args['time'] = $booking['BookingTime'];
+        $args['client_name']  = $booking->FirstName;//$booking['FirstName'];
+        $args['client_phone'] = $booking->Mobile;//$booking['Mobile'];
+        $args['date'] = $booking->BookingDate;//$booking['BookingDate'];
+        $args['time'] = $booking->BookingTime;//$booking['BookingTime'];
 
-        $args['service_name']     = $current_service['ServiceName'];
-        $args['service_location'] = htmlspecialchars_decode($current_service['Location'], ENT_QUOTES);
-        $args['service_phone']    = $current_service['Phone'];
+        $args['service_name']     = $current_service[0]['ServiceName'];
+        $args['service_location'] = htmlspecialchars_decode($current_service[0]['Location'], ENT_QUOTES);
+        $args['service_phone']    = $current_service[0]['Phone'];
         $args['template']         = $current_sms_template['Template'];
 
         return $this->replaceTemplateTags($args);
@@ -187,7 +178,6 @@ Class SmsTemplate extends OrbitSoap
         $output = str_replace( '(client_name)', $client_name, $output );
         $output = str_replace( '(service_name)', $service_name, $output );
         $output = str_replace( '(service_phone)', $service_phone, $output );
-
         return $output;
     }
 }

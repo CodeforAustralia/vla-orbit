@@ -66,7 +66,7 @@ class BookingEngineAPI
     public function patch($form_params, $tokens, $url)
     {
         $headers = [
-            'content-type' => 'application/json',
+            'content-type' => 'application/x-www-form-urlencoded',
             'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
         ];
         $response = $this->client->patch(

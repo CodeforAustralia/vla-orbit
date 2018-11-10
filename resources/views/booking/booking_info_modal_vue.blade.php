@@ -10,7 +10,7 @@
 
                 <div class="modal-body">
                     <div class="container-fluid booking-information">
-                        <div class="row" id='clientInformation'>
+                        <div class="row" id='clientInformation' v-show="!show_date && !show_sms">
                             <div class="col-sm-6">
                                 <h4><strong> Client </strong></h4>
                             </div>
@@ -20,12 +20,39 @@
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>First name: </strong></label>
-                                <a href="javascript:;" id="bookingFirstName" data-type="text" data-original-title="Enter First name" v-html="(current_booking.client ? current_booking.client.first_name : '')"></a>
+                                <a href="javascript:;"
+                                    class="col-sm-5"
+                                    id="bookingFirstName"
+                                    data-type="text"
+                                    v-show="!showField('first_name')"
+                                    v-html="(current_booking.client ? current_booking.client.first_name : '')"
+                                    @click="enableEditing(current_booking.client ? current_booking.client.first_name : '', 'first_name')"></a>
+                                <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('first_name')"/>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('first_name')"
+                                        @click="updateBookingField('client.first_name')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('first_name')"> <i class="fa fa-times"></i> </button>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Last name: </strong></label>
-                                <a href="javascript:;" id="bookingLastName" data-type="text" data-original-title="Enter Last name" v-html="(current_booking.client ? current_booking.client.last_name : '' )"></a>
+                                <a href="javascript:;"
+                                class="col-sm-5"
+                                id="bookingLastName"
+                                data-type="text"
+                                v-show="!showField('last_name')"
+                                v-html="(current_booking.client ? current_booking.client.last_name : '' )"
+                                @click="enableEditing(current_booking.client ? current_booking.client.last_name : '','last_name')"></a>
+                                <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('last_name')"/>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('last_name')"
+                                        @click="updateBookingField('client.last_name')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('last_name')"> <i class="fa fa-times"></i> </button>
+
                             </div>
 
                             <div class="col-sm-12">
@@ -34,27 +61,41 @@
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Phone number: </strong></label>
-                                <a href="javascript:;" id="bookingPhone" data-type="text" data-original-title="Enter Phone number" v-html="(current_booking.client ? current_booking.client.contact : '' )"></a>
+                                <a href="javascript:;"
+                                class="col-sm-5"
+                                id="bookingPhone"
+                                data-type="text"
+                                v-show="!showField('contact')"
+                                v-html="(current_booking.client ? current_booking.client.contact : '' )"
+                                @click="enableEditing(current_booking.client ? current_booking.client.contact : '','contact')"></a>
+                                <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('contact')"/>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('contact')"
+                                        @click="updateBookingField('client.contact')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('contact')"> <i class="fa fa-times"></i> </button>
+
                             </div>
 
                             <div class="col-sm-12 hide">
                                 <label class="col-sm-5"><strong>Safe to call: </strong></label>
-                                <span id="IsSafeCall" v-html="(current_booking.data ? (current_booking.data.IsSafeCall ? 'Yes' : 'No') : '' )"></span>
+                                <span id="IsSafeCall" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.IsSafeCall ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12 hide">
                                 <label class="col-sm-5"><strong>Safe to leave a message: </strong></label>
-                                <span id="IsSafeLeaveMessage" v-html="(current_booking.data ? (current_booking.data.IsSafeLeaveMessage ? 'Yes' : 'No') : '' )"></span>
+                                <span id="IsSafeLeaveMessage" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.IsSafeLeaveMessage ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>SMS Reminder: </strong></label>
-                                <span id="IsSafeSMS" v-html="(current_booking.data ? (current_booking.data.IsSafeSMS ? 'Yes' : 'No') : '' )"></span>
+                                <span id="IsSafeSMS" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.IsSafeSMS ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Instructions re contact: </strong></label>
-                                <span id="ContactInstructions" v-html="(current_booking.data ? (current_booking.data.ContactInstructions ? 'Yes' : 'No') : '' )"></span>
+                                <span id="ContactInstructions" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.ContactInstructions ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
@@ -63,21 +104,35 @@
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Interpreter Language: </strong></label>
-                                <span id="bookingIntLanguage" v-html="current_booking.int_language"></span>
+                                <span id="bookingIntLanguage" class="col-sm-5" v-html="current_booking.int_language"></span>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Complex needs: </strong></label>
-                                <span id="IsComplex" v-html="(current_booking.data ? (current_booking.data.IsComplex ? 'Yes' : 'No') : '' )"></span>
+                                <span id="IsComplex" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.IsComplex ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>CIR Number: </strong></label>
-                                <a href="javascript:;" id="bookingCIRNumber" data-type="text" data-original-title="Enter CIR number" v-html="(current_booking.data ? current_booking.data.CIRNumber : '' )"></a>
+                                <a href="javascript:;"
+                                class="col-sm-5"
+                                id="bookingCIRNumber"
+                                data-type="text"
+                                v-show="!showField('CIRNumber')"
+                                v-html="(current_booking.data && current_booking.data.CIRNumber ? current_booking.data.CIRNumber : 'N/P' )"
+                                @click="enableEditing(current_booking.data ? current_booking.data.CIRNumber : '','CIRNumber')"></a>
+                                <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('CIRNumber')"/>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('CIRNumber')"
+                                        @click="updateBookingField('data.CIRNumber')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('CIRNumber')"> <i class="fa fa-times"></i> </button>
+
                             </div>
                         </div>
-                        <hr>
-                        <div class="row" id="bookingInformation">
+                        <hr v-show="!show_date && !show_sms">
+                        <div class="row" id="bookingInformation" v-show="!show_date && !show_sms">
                             <div class="col-sm-6">
                                 <h4><strong> Appointment </strong></h4>
                             </div>
@@ -91,11 +146,23 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Time of appointment: </strong></label>
-                                <a id="bookingTime" class="editable editable-click edit-booking" v-html="current_booking.booking_time"></a>
+                                <a id="bookingTime" @click="initDatePicker" class="editable editable-click edit-booking" v-html="current_booking.date + ' at ' + current_booking.booking_time"></a>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Appointment Description: </strong></label>
-                                <div id="bookingDescription" class="col-sm-7 padding-0" data-type="wysihtml5" v-html="current_booking.comment"></div>
+                                <div class="col-sm-5"
+                                id="bookingdescription"
+                                data-type="text"
+                                v-show="!showField('comment')"
+                                v-html="(current_booking.comment ? current_booking.comment : 'N/P' )"
+                                @click="enableEditing(current_booking.comment ? current_booking.comment : '','comment')"></div>
+                                <textarea v-model="temp_value" v-show="showField('comment')" rows="5" class="form-control col-sm-5" id="Desc"  name="Desc"></textarea>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('comment')"
+                                        @click="updateBookingField('comment')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('comment')"> <i class="fa fa-times"></i> </button>
                             </div>
                             <br>
                             <div class="col-sm-12">
@@ -112,12 +179,12 @@
 
                         </div>
 
-                        <hr>
-                        <div class="row" id="extraInformation">
+                        <hr v-show="!show_date && !show_sms">
+                        <div class="row" id="extraInformation" v-show="!show_date && !show_sms">
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>SMS status: </strong></label>
                                 <span id="sentStatus"></span>
-                                <a href="#" class="btn btn-xs green custom-sms-booking pull-right">Send SMS</a>
+                                <a href="#" class="btn btn-xs green pull-right" @click="getCurrentServiceTemplate">Send SMS</a>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Arrival status: </strong></label>
@@ -129,59 +196,51 @@
                                 </select>
                             </div>
                         </div>
-                        <br>
-                        <div class="row pull-right">
+                        <br v-show="!show_date">
+                        <div class="row pull-right" v-show="!show_date && !show_sms">
                             <div class="col-sm-12">
                                 <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
                                 <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                             </div>
                         </div>
+
+                        <div class="row" id="bookingInformation" v-show="show_date">
+                            <div class="col-sm-6">
+                                <h4><strong> Change Appointment Date </strong></h4>
+                            </div>
+                            <div class="col-sm-12">
+                                <label>Date of appointment: <small>choose from dates marked green</small></label>
+                                <input type="text" class="form-control input-medium" id="booking-date" v-model='selected_date' name="booking-date">
+                            </div>
+                            <div class="col-sm-12">
+                                <label>Available Times:</label>
+                                <div class="mt-radio-list">
+                                    <label class="mt-radio mt-radio-outline" v-for= "time in available_times" :key="time.start_time" >
+                                            <input type="radio" id='time' :value="time" v-model="hour">
+                                            @{{ time.text }}<span></span><br>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12">
+                                <button id="update-booking" @click="updateBookingDate" class="btn green">Update</button>
+                                <button id="cancel" @click="show_date = false" class="btn blue">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="row" id="bookingSMS" v-show="show_sms">
+                            <div class="col-sm-6">
+                                <h4><strong> Edit SMS here if required: </strong></h4>
+                            </div>
+                            <div class="col-sm-12">
+                                <textarea class="form-control" rows='5' id="booking-sms" v-model='sms' name="booking-sms"></textarea>
+                            </div>
+                            <div class="col-sm-12">
+                                <button id="send" @click="sendSMSReminder" class="btn green">Send</button>
+                                <button id="cancel" @click="show_sms = false" class="btn blue">Cancel</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hidden booking-edit">
-                        <div class="row availability hidden">
-                            <div class="col-xs-12 padding-bottom-20">
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <label>Date:</label>
-                                        <input type="text" class="form-control input-medium" id="edit-booking-date" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row availability hidden">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <label>Available Times:</label>
-                                        <div class="mt-radio-list" id="time-options">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row hidden" id="no-dates-availables">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <h3>Sorry there are no dates available for this service</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row hidden" id="loading">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <i class="fa fa-spinner fa-spin font-green-jungle" style="font-size:24px"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button id="update-booking" class="btn green">Update</button>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 text-center">

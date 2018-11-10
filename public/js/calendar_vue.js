@@ -39172,7 +39172,19 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         current_booking: {},
         service_provider_options: [],
         service_provider_selected: [],
-        service_provider_id: 0
+        service_provider_id: 0,
+        temp_value: null,
+        edit_field: '',
+        show_date: false,
+        show_sms: false,
+        dates_regular: [],
+        dates_interpreter: [],
+        booking_availability: [],
+        available_times: [],
+        hour: null,
+        selected_date: null,
+        sms: null
+
     },
     methods: {
         intitServiceProviders: function intitServiceProviders() {
@@ -39190,7 +39202,224 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         getServiceProviderBookings: function getServiceProviderBookings(service_provider) {
             var self = this;
             self.service_provider_id = service_provider.ServiceProviderId;
+        },
+        enableEditing: function enableEditing(value, name) {
+            var self = this;
+            self.temp_value = value;
+            self.edit_field = name;
+        },
+        showField: function showField(name) {
+            var self = this;
+            return self.edit_field == name;
+        },
+        disableEditing: function disableEditing() {
+            var self = this;
+            self.temp_value = null;
+            self.edit_field = null;
+        },
+        updateBookingField: function updateBookingField(field) {
+            $("#contentLoading").modal("show");
+            var self = this;
+            var url = '/booking';
+            var temp_field = '';
+            if (field === 'comment') {
+                temp_field = self.current_booking.comment;
+                self.current_booking.comment = self.temp_value;
+            } else {
+                var _fields = field.split('.');
+                temp_field = self.current_booking[_fields[0]][_fields[1]]; //save it in case of error
+                self.current_booking[_fields[0]][_fields[1]] = self.temp_value;
+            }
+            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.patch(url, self.current_booking).then(function (response) {
+                if (response.data.error) {
+                    alert(Object.values(response.data.error));
+                    self.current_booking[fields[0]][fields[1]] = temp_field;
+                    self.temp_value = temp_field;
+                } else {
+                    console.log(response.data);
+                }
+                $("#contentLoading").modal("hide");
+            }).catch(function (error) {
+                console.log(error);
+                $("#contentLoading").modal("hide");
+            });
+            this.disableEditing();
+        },
+        updateBookingDate: function updateBookingDate() {
+            $("#contentLoading").modal("show");
+            var self = this;
+            var url = '/booking';
+            var temp_booking = self.current_booking; // Save old values in case of error.
+            if (!self.hour || !self.selected_date) {
+                alert("Please a Date and Time");
+                $("#contentLoading").modal("hide");
+            } else {
+                self.current_booking.date = self.selected_date;
+                self.current_booking.resource_id = self.hour.resource_id;
+                self.current_booking.start_hour = self.hour.start_time;
+                self.current_booking.time_length = self.hour.time_length;
+                self.current_booking.booking_time = __WEBPACK_IMPORTED_MODULE_4_moment___default()(self.selected_date).add(parseInt(self.hour.start_time), 'm').format('HH:mm A');
+                __WEBPACK_IMPORTED_MODULE_2_axios___default.a.patch(url, self.current_booking).then(function (response) {
+                    if (response.data.error) {
+                        alert(Object.values(response.data.error));
+                        self.current_booking = temp_booking;
+                    } else {
+                        self.show_date = false;
+                    }
+                    $("#contentLoading").modal("hide");
+                }).catch(function (error) {
+                    console.log(error);
+                    $("#contentLoading").modal("hide");
+                });
+            }
+        },
+        getBookingAvailability: function getBookingAvailability(args) {
+            var self = this;
+            var dateInput = document.getElementById('booking-date');
+            var year = args.year;
+            var month = args.month;
+            var initial_date = new Date();
+            var last_day = new Date(year, month, 0);
+            $("#contentLoading").modal("show");
+            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/booking/service/' + self.current_booking.service_id + '/getAvailability/' + __WEBPACK_IMPORTED_MODULE_4_moment___default()(initial_date).format('YYYY-MM-DD') + "/" + __WEBPACK_IMPORTED_MODULE_4_moment___default()(last_day).format('YYYY-MM-DD')).then(function (response) {
+                self.dates_regular = Object.keys(response.data.regular);
+                self.dates_interpreter = Object.keys(response.data.interpreter);
+                self.booking_availability = response.data, $(dateInput).prop('disabled', false);
+                $(dateInput).datepicker('setDate', year + "-" + month + "-01");
+                $("#contentLoading").modal("hide");
+            }).catch(function (error) {
+                self.booking_availability = [];
+                $(dateInput).prop('disabled', true);
+                $("#contentLoading").modal("hide");
+            });
+        },
+        initDatePicker: function initDatePicker() {
+            var self = this;
+            self.show_date = true;
+            self.available_times = [];
+            self.hour = null;
+            var dateInput = document.getElementById('booking-date');
+            var current_date = new Date();
+            var booking_info = {
+                year: new Date().getFullYear(),
+                month: new Date().getMonth() + 1
+            };
+            self.getBookingAvailability(booking_info);
+            $(dateInput).datepicker({
+                format: "yyyy-mm-dd",
+                startDate: current_date.toISOString().split('T')[0],
+                daysOfWeekDisabled: [0, 6],
+                todayHighlight: true,
+                autoclose: true,
+                beforeShowDay: function beforeShowDay(date) {
+                    var date_formated = __WEBPACK_IMPORTED_MODULE_4_moment___default()(date).format('YYYY-MM-DD');
+                    if (self.current_booking.is_interpreter == 0 && self.dates_regular.length > 0) {
+                        return self.dates_regular.includes(date_formated) ? true : false;
+                    } else if (self.current_booking.is_interpreter == 1 && self.dates_interpreter.length > 0) {
+                        return self.dates_interpreter.includes(date_formated) ? true : false;
+                    }
+                } }).on("changeDate", function (e) {
+
+                if (e.hasOwnProperty("date")) {
+                    var selected_date = e.date.getFullYear() + "-" + ('0' + (e.date.getMonth() + 1)).slice(-2) + "-" + ('0' + e.date.getDate()).slice(-2);
+                    self.selected_date = selected_date;
+                    self.setAvailableTimes(selected_date);
+                }
+            }).on('changeMonth', function (e) {
+
+                booking_info = {
+                    year: e.date.getFullYear(),
+                    month: e.date.getMonth() + 1
+                };
+                self.getBookingAvailability(booking_info);
+            });
+        },
+        setAvailableTimes: function setAvailableTimes(selected_date) {
+            var self = this;
+            var date = selected_date;
+            var times = [];
+            self.available_times = [];
+            var days = [];
+            if (self.current_booking.is_interpreter == 0 && self.dates_regular.length > 0) {
+                days = Object.entries(self.booking_availability.regular);
+            }
+            if (self.current_booking.is_interpreter == 1 && self.dates_interpreter.length > 0) {
+                days = Object.entries(self.booking_availability.interpreter);
+            }
+            if (days.length > 0) {
+                days.forEach(function (day) {
+                    if (date === day[0]) {
+                        var time = Object.values(day[1]).slice(0);
+                        time.forEach(function (hour) {
+                            if (Array.isArray(hour)) {
+                                var first = function first(element) {
+                                    return !!element;
+                                };
+                                times.push(hour.find(first));
+                            } else {
+                                var time_data = Object.values(hour);
+                                times.push(time_data[0]);
+                            }
+                        });
+                    }
+                });
+            }
+            self.available_times = times;
+        },
+        getCurrentServiceTemplate: function getCurrentServiceTemplate() {
+            var self = this;
+            $("#contentLoading").modal("show");
+            var url = '/sms_template/getTemplateByServiceBookingId';
+            var booking = {
+                FirstName: self.current_booking.client.first_name,
+                Mobile: self.current_booking.client.contact,
+                BookingDate: self.current_booking.date,
+                BookingTime: self.current_booking.booking_time
+            };
+
+            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(url, {
+                params: {
+                    sv_id: self.current_booking.service.ServiceId,
+                    booking: booking
+                }
+            }).then(function (response) {
+                self.sms = response.data.replace(/\s\s+/g, ' ').trim();
+                self.show_sms = true;
+
+                $("#contentLoading").modal("hide");
+            }).catch(function (error) {
+                $("#contentLoading").modal("hide");
+                self.show_sms = true;
+            });
+        },
+        sendSMSReminder: function sendSMSReminder() {
+            var self = this;
+            $("#contentLoading").modal("show");
+            var url = "/booking/sendSmsReminder";
+            var booking = {
+                Mobile: self.current_booking.client.contact,
+                FirstName: self.current_booking.client.first_name,
+                BookingDate: self.current_booking.date,
+                BookingTime: self.current_booking.booking_time,
+                ServiceId: self.current_booking.service_id,
+                RefNo: self.current_booking.id,
+                template: self.sms,
+                IsSafeSMS: 1
+            };
+            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(url, {
+                params: {
+                    booking: booking
+                }
+            }).then(function (response) {
+                console.log(response.data);
+                self.show_sms = false;
+                $("#contentLoading").modal("hide");
+            }).catch(function (error) {
+                $("#contentLoading").modal("hide");
+                self.show_sms = true;
+            });
         }
+
     },
     mounted: function mounted() {
         this.intitServiceProviders();
@@ -45282,7 +45511,7 @@ var Component = __webpack_require__(150)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\wamp64\\www\\temp\\vla-orbit\\node_modules\\vue-full-calendar\\components\\FullCalendar.vue"
+Component.options.__file = "C:\\xampp\\orbit\\node_modules\\vue-full-calendar\\components\\FullCalendar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullCalendar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -45293,9 +45522,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1bfa069c", Component.options)
+    hotAPI.createRecord("data-v-26d7bc7a", Component.options)
   } else {
-    hotAPI.reload("data-v-1bfa069c", Component.options)
+    hotAPI.reload("data-v-26d7bc7a", Component.options)
   }
 })()}
 
@@ -63416,7 +63645,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1bfa069c", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-26d7bc7a", module.exports)
   }
 }
 
@@ -63434,7 +63663,7 @@ var Component = __webpack_require__(150)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\wamp64\\www\\temp\\vla-orbit\\resources\\assets\\js\\components\\calendar\\calendar.vue"
+Component.options.__file = "C:\\xampp\\orbit\\resources\\assets\\js\\components\\calendar\\calendar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] calendar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -63445,9 +63674,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-82cd3ba2", Component.options)
+    hotAPI.createRecord("data-v-501752e6", Component.options)
   } else {
-    hotAPI.reload("data-v-82cd3ba2", Component.options)
+    hotAPI.reload("data-v-501752e6", Component.options)
   }
 })()}
 
@@ -63562,6 +63791,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }
                 event.booking.booking_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.booking.date).add(parseInt(event.booking.start_hour), 'm').format('HH:mm A');
+                event.booking.date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.booking.date).format('YYYY-MM-DD');
                 this.$emit('update:current_booking', event.booking);
                 $("#bookingInfo").modal("show");
             }
@@ -63639,7 +63869,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-82cd3ba2", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-501752e6", module.exports)
   }
 }
 

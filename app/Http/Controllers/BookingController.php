@@ -326,38 +326,81 @@ class BookingController extends Controller
 
         return $result;
     }
-
+    /**
+     * Update The Booking element
+     *
+     * @param Request $request
+     * @return void
+     */
     public function updateBooking(Request $request)
     {
-        $validation = $this->getBookingsData($request);
+        $booking = $this->getBookingData($request);
+        $validation = $this->validateBooking($booking);
         if(!$validation->fails()) {
             $booking_engine_obj = new BookingEngine();
-            return $booking_engine_obj->updateBooking($request);
+            $result = $booking_engine_obj->updateBooking($booking);
+            return $result->id;
         } else {
             return response()->json(['error'=>$validation->errors()]);
         }
+
     }
 
     /**
-     * Get the request's data from the request.
+     * Get the booking data from the request.
      *
      * @param array $request
      * @return array
      */
-    protected function getBookingsData($request)
+    protected function getBookingData($request)
     {
-        $rules = [
-            'booking_id'          => 'required',
-            'start_hour'          => 'required',
-            'firstName'           => 'required',
-            'lastName'            => 'required',
-            'Desc'                => 'required',
-            'date'                => 'required',
-            'is_interpreter'      => 'required'
+        // Create the booking object
+        $extra_data = '';
+        if (isset($request['data'])) {
+            $extra_data =   $request['data'];
+            $extra_data['CIRNumber'] = (is_null( $request['data']['CIRNumber'] ) ? '' : $request['data']['CIRNumber'] );
+        }
+        $booking = [
+            'booking_id'    => $request['id'],
+            'first_name'    => (is_null($request['client']['first_name']) ? null : $request['client']['first_name']),
+            'last_name'     => (is_null($request['client']['last_name']) ? null : $request['client']['last_name']),
+            'contact'       => (is_null($request['client']['contact']) ? null : $request['client']['contact']),
+            'comment'       => (is_null($request['comment']) ? null : $request['comment']),
+            'start_hour'    => (is_null($request['start_hour']) ? null : $request['start_hour']),
+            'time_length'   => $request['time_length'],
+            'day'           => $request['day'],
+            'date'          => (is_null($request['date']) ? null : $request['date']),
+            'data'          => json_encode($extra_data),
+            'client_id'     => (is_null($request['client_id']) ? null : $request['client_id']),
         ];
 
-        $validator = Validator::make($request, $rules);
-        return $validator;
+        return $booking;
+    }
+
+    /**
+     * Validate Booking data when update
+     *
+     * @param array $booking
+     * @return void
+     */
+    protected function validateBooking($booking)
+    {
+        $rules = [
+            'booking_id'    => 'required',
+            'start_hour'    => 'required',
+            'first_name'    => 'required',
+            'last_name'     => 'required',
+            'comment'       => 'required',
+            'date'          => 'required',
+            'start_hour'    => 'required',
+            'client_id'     => 'required'
+        ];
+
+        $customMessages = [
+            'required' => 'The :attribute field is required.'
+        ];
+        $validation = Validator::make($booking, $rules, $customMessages);
+        return $validation;
     }
 
     /**
@@ -379,9 +422,9 @@ class BookingController extends Controller
      */
     public function sendSmsReminder()
     {
-        $reminder = request('reminder');
-        $booking = json_decode( json_encode( request('booking') ), FALSE );
-        $booking->template = $reminder['template']; //Custom Template
+        //$reminder = request('reminder');
+        $booking = json_decode(request('booking'));
+        //$reminder['template']; //Custom Template
         $sent_sms_obj = new SentSms();
         $result = $sent_sms_obj->sendReminder( $booking );
         return $result;

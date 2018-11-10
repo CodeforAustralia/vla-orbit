@@ -182,25 +182,25 @@ new Vue({
                 let initial_date = new Date();
                 let last_day = new Date( year, month, 0);
                 self.showLoading();
-            axios.get('/booking/service/' +
-                        sv_id +
-                        '/getAvailability/' +
-                        moment(initial_date).format('YYYY-MM-DD') +
-                        "/" +
-                        moment(last_day).format('YYYY-MM-DD'))
-                .then(function (response) {
-                    self.dates_regular = Object.keys(response.data.regular);
-                    self.dates_interpreter = Object.keys(response.data.interpreter);
-                    self.booking_availability = response.data,
-                    $(dateInput).prop('disabled', false);
-                    $(dateInput).datepicker('setDate', year + "-" + month + "-01");
-                    self.hideLoading();
-                })
-                .catch(function (error) {
-                    self.booking_availability = [];
-                    $(dateInput).prop('disabled', true);
-                    self.hideLoading();
-                });
+                axios.get('/booking/service/' +
+                            sv_id +
+                            '/getAvailability/' +
+                            moment(initial_date).format('YYYY-MM-DD') +
+                            "/" +
+                            moment(last_day).format('YYYY-MM-DD'))
+                    .then(function (response) {
+                        self.dates_regular = Object.keys(response.data.regular);
+                        self.dates_interpreter = Object.keys(response.data.interpreter);
+                        self.booking_availability = response.data,
+                        $(dateInput).prop('disabled', false);
+                        $(dateInput).datepicker('setDate', year + "-" + month + "-01");
+                        self.hideLoading();
+                    })
+                    .catch(function (error) {
+                        self.booking_availability = [];
+                        $(dateInput).prop('disabled', true);
+                        self.hideLoading();
+                    });
             }
         },
         getServicesPromise: function (sp_id) {
