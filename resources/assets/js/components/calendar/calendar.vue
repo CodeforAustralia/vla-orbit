@@ -86,7 +86,11 @@
             eventSelected(event, jsEvent){
                 if(event.hasOwnProperty('booking')) {
                     if(event.booking.data){
-                        event.booking.data = JSON.parse(event.booking.data);
+                        try {
+                            event.booking.data = JSON.parse(event.booking.data);
+                        } catch (e) {
+                            //all set the info was parsed as Object
+                        }
                     }
                     for (let index = 0; index < this.services.length; index++) {
                         if(this.services[index].BookingServiceId == event.booking.service_id){
@@ -98,7 +102,7 @@
                     this.$emit('update:current_booking', event.booking);
                     $("#bookingInfo").modal("show");
                 }
-                $(jsEvent.target).popover('toggle');
+                $(".popover").popover('hide');
             },
             initCalendar(response) {
                 this.events = [];

@@ -45511,7 +45511,7 @@ var Component = __webpack_require__(150)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\orbit\\node_modules\\vue-full-calendar\\components\\FullCalendar.vue"
+Component.options.__file = "C:\\wamp64\\www\\temp\\vla-orbit\\node_modules\\vue-full-calendar\\components\\FullCalendar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullCalendar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -45522,9 +45522,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-26d7bc7a", Component.options)
+    hotAPI.createRecord("data-v-1bfa069c", Component.options)
   } else {
-    hotAPI.reload("data-v-26d7bc7a", Component.options)
+    hotAPI.reload("data-v-1bfa069c", Component.options)
   }
 })()}
 
@@ -63645,7 +63645,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-26d7bc7a", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-1bfa069c", module.exports)
   }
 }
 
@@ -63663,7 +63663,7 @@ var Component = __webpack_require__(150)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\orbit\\resources\\assets\\js\\components\\calendar\\calendar.vue"
+Component.options.__file = "C:\\wamp64\\www\\temp\\vla-orbit\\resources\\assets\\js\\components\\calendar\\calendar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] calendar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -63674,9 +63674,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-501752e6", Component.options)
+    hotAPI.createRecord("data-v-82cd3ba2", Component.options)
   } else {
-    hotAPI.reload("data-v-501752e6", Component.options)
+    hotAPI.reload("data-v-82cd3ba2", Component.options)
   }
 })()}
 
@@ -63783,7 +63783,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         eventSelected: function eventSelected(event, jsEvent) {
             if (event.hasOwnProperty('booking')) {
                 if (event.booking.data) {
-                    event.booking.data = JSON.parse(event.booking.data);
+                    try {
+                        event.booking.data = JSON.parse(event.booking.data);
+                    } catch (e) {
+                        //all set the info was parsed as Object
+                    }
                 }
                 for (var index = 0; index < this.services.length; index++) {
                     if (this.services[index].BookingServiceId == event.booking.service_id) {
@@ -63795,7 +63799,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$emit('update:current_booking', event.booking);
                 $("#bookingInfo").modal("show");
             }
-            $(jsEvent.target).popover('toggle');
+            $(".popover").popover('hide');
         },
         initCalendar: function initCalendar(response) {
             this.events = [];
@@ -63869,7 +63873,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-501752e6", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-82cd3ba2", module.exports)
   }
 }
 
