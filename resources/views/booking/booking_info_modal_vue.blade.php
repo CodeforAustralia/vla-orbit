@@ -138,11 +138,11 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Provider: </strong></label>
-                                <span id="bookingSPName" v-html="(current_booking.service ? current_booking.service.ServiceProviderName : '' )"></span>
+                                <span id="bookingSPName" v-html="(current_booking.orbit_service ? current_booking.orbit_service.ServiceProviderName : '' )"></span>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Name: </strong></label>
-                                <span id="bookingTitle" v-html="(current_booking.service ? current_booking.service.ServiceName : '')"></span>
+                                <span id="bookingTitle" v-html="(current_booking.orbit_service ? current_booking.orbit_service.ServiceName : '')"></span>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Time of appointment: </strong></label>

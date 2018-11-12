@@ -94,7 +94,7 @@
                     }
                     for (let index = 0; index < this.services.length; index++) {
                         if(this.services[index].BookingServiceId == event.booking.service_id){
-                            event.booking.service = this.services[index];
+                            event.booking.orbit_service = this.services[index];
                         }
                     }
                     event.booking.booking_time = moment(event.booking.date).add(parseInt(event.booking.start_hour), 'm').format('HH:mm A');
@@ -123,14 +123,14 @@
                     let slot_duration = appointment.time_length;
                     let start_time = moment(appointment.date).add(parseInt(slot_time), 'm');
                     let end_time = moment(appointment.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm');
-
                     if(slot_text !== '') {
                         self.events.push({
                             title: slot_text,
                             start: start_time,
                             end: end_time,
                             editable: false,
-                            booking: appts[index]
+                            booking: appts[index],
+                            color: appointment.service.color
                         });
                     }
                 }

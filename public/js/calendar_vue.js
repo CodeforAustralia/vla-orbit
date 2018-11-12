@@ -39171,6 +39171,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     data: {
         current_booking: {},
         service_provider_options: [],
+        booking_status_options: [],
         service_provider_selected: [],
         service_provider_id: 0,
         temp_value: null,
@@ -39223,8 +39224,10 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             var url = '/booking';
             var temp_field = '';
             if (field === 'comment') {
-                temp_field = self.current_booking.comment;
-                self.current_booking.comment = self.temp_value;
+                temp_field = self.current_booking[field]; // save it in case of error
+                self.current_booking[field] = self.temp_value;
+            } else if (field === 'booking_status_id') {
+                self.current_booking.booking_status_id = self.current_booking.bookingstatus ? self.current_booking.bookingstatus.id : null;
             } else {
                 var _fields = field.split('.');
                 temp_field = self.current_booking[_fields[0]][_fields[1]]; //save it in case of error
@@ -39233,10 +39236,13 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             __WEBPACK_IMPORTED_MODULE_2_axios___default.a.patch(url, self.current_booking).then(function (response) {
                 if (response.data.error) {
                     alert(Object.values(response.data.error));
-                    self.current_booking[fields[0]][fields[1]] = temp_field;
-                    self.temp_value = temp_field;
-                } else {
-                    console.log(response.data);
+                    if (field === 'comment') {
+                        self.current_booking[field] = temp_field;
+                        self.temp_value = temp_field;
+                    } else {
+                        self.current_booking[fields[0]][fields[1]] = temp_field;
+                        self.temp_value = temp_field;
+                    }
                 }
                 $("#contentLoading").modal("hide");
             }).catch(function (error) {
@@ -39418,11 +39424,24 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 $("#contentLoading").modal("hide");
                 self.show_sms = true;
             });
+        },
+        initBookingStatus: function initBookingStatus() {
+            $("#contentLoading").modal("show");
+            var self = this;
+            var url = '/booking/booking_status';
+            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(url).then(function (response) {
+                self.booking_status_options = response.data;
+                $("#contentLoading").modal("hide");
+            }).catch(function (error) {
+                alert('Please refresh the page');
+                $("#contentLoading").modal("hide");
+            });
         }
 
     },
     mounted: function mounted() {
         this.intitServiceProviders();
+        this.initBookingStatus();
     }
 });
 
@@ -63791,7 +63810,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
                 for (var index = 0; index < this.services.length; index++) {
                     if (this.services[index].BookingServiceId == event.booking.service_id) {
-                        event.booking.service = this.services[index];
+                        event.booking.orbit_service = this.services[index];
                     }
                 }
                 event.booking.booking_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.booking.date).add(parseInt(event.booking.start_hour), 'm').format('HH:mm A');
@@ -63820,14 +63839,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var slot_duration = appointment.time_length;
                 var start_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(appointment.date).add(parseInt(slot_time), 'm');
                 var end_time = __WEBPACK_IMPORTED_MODULE_0_moment___default()(appointment.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm');
-
                 if (slot_text !== '') {
                     self.events.push({
                         title: slot_text,
                         start: start_time,
                         end: end_time,
                         editable: false,
-                        booking: appts[index]
+                        booking: appts[index],
+                        color: appointment.service.color
                     });
                 }
             }
