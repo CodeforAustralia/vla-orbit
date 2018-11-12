@@ -19,7 +19,8 @@ new Vue({
     data: {
         current_booking: {},
         service_provider_options: [],
-        service_provider_selected: [],
+        booking_status_options : [],
+        service_provider_selected : [],
         service_provider_id: 0,
         temp_value : null,
         edit_field : '',
@@ -72,9 +73,12 @@ new Vue({
             var self =this;
             let url = '/booking';
             let temp_field = '';
-            if(field === 'comment') {
-                temp_field = self.current_booking.comment;
-                self.current_booking.comment = self.temp_value;
+            if (field === 'comment') {
+                temp_field = self.current_booking[field]; // save it in case of error
+                self.current_booking[field] = self.temp_value;
+            } else if (field === 'booking_status_id') {
+                self.current_booking.booking_status_id = self.current_booking.bookingstatus ?
+                                                        self.current_booking.bookingstatus.id : null;
             } else {
                 let fields = field.split('.');
                 temp_field = self.current_booking[fields[0]][fields[1]]; //save it in case of error
@@ -84,11 +88,13 @@ new Vue({
                 .then(function (response) {
                     if(response.data.error) {
                         alert(Object.values(response.data.error));
-                        self.current_booking[fields[0]][fields[1]] = temp_field;
-                        self.temp_value = temp_field;
-                    }
-                    else{
-                        console.log(response.data);
+                        if (field === 'comment') {
+                            self.current_booking[field] = temp_field; 
+                            self.temp_value = temp_field;
+                        } else {
+                            self.current_booking[fields[0]][fields[1]] = temp_field;
+                            self.temp_value = temp_field;
+                        }
                     }
                     $("#contentLoading").modal("hide");
                 })
@@ -291,11 +297,27 @@ new Vue({
                 $("#contentLoading").modal("hide");
                 self.show_sms = true;
             });
+        },
+        initBookingStatus : function() {
+            $("#contentLoading").modal("show");
+            var self = this;
+            let url = '/booking/booking_status';
+            axios.get(url)
+                .then(function (response) {
+                    self.booking_status_options = response.data;
+                    $("#contentLoading").modal("hide");
+                })
+                .catch(function (error) {
+                    alert('Please refresh the page');
+                    $("#contentLoading").modal("hide");
+                });
+
         }
 
     },
     mounted() {
         this.intitServiceProviders();
+        this.initBookingStatus();
     }
 
 });

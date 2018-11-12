@@ -188,12 +188,25 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Arrival status: </strong></label>
-
-                                <select class="form-control input-small booking-status input-sm">
-                                    <option value="1" class="bg-white bg-font-white">Pending</option>
-                                    <option value="2" class="bg-white font-green-jungle">Arrived</option>
-                                    <option value="3" class="bg-white font-red">No Show</option>
-                                </select>
+                                <multiselect
+                                class="input-small col-sm-5"
+                                v-model="current_booking.bookingstatus"
+                                label="name"
+                                key="id"
+                                id="booking_status_select"
+                                track-by="name"
+                                placeholder="Select"
+                                open-direction="bottom"
+                                :options="booking_status_options"
+                                :multiple="false"
+                                :searchable="false"
+                                :close-on-select="true"
+                                :show-no-results="false"
+                                :show-labels="false"
+                                :allow-empty="false"
+                                @input="updateBookingField('booking_status_id')"
+                                >
+                                </multiselect>
                             </div>
                         </div>
                         <br v-show="!show_date">

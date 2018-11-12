@@ -361,17 +361,18 @@ class BookingController extends Controller
             $extra_data['CIRNumber'] = (is_null( $request['data']['CIRNumber'] ) ? '' : $request['data']['CIRNumber'] );
         }
         $booking = [
-            'booking_id'    => $request['id'],
-            'first_name'    => (is_null($request['client']['first_name']) ? null : $request['client']['first_name']),
-            'last_name'     => (is_null($request['client']['last_name']) ? null : $request['client']['last_name']),
-            'contact'       => (is_null($request['client']['contact']) ? null : $request['client']['contact']),
-            'comment'       => (is_null($request['comment']) ? null : $request['comment']),
-            'start_hour'    => (is_null($request['start_hour']) ? null : $request['start_hour']),
-            'time_length'   => $request['time_length'],
-            'day'           => $request['day'],
-            'date'          => (is_null($request['date']) ? null : $request['date']),
-            'data'          => json_encode($extra_data),
-            'client_id'     => (is_null($request['client_id']) ? null : $request['client_id']),
+            'booking_id'        => $request['id'],
+            'first_name'        => (is_null($request['client']['first_name']) ? null : $request['client']['first_name']),
+            'last_name'         => (is_null($request['client']['last_name']) ? null : $request['client']['last_name']),
+            'contact'           => (is_null($request['client']['contact']) ? null : $request['client']['contact']),
+            'comment'           => (is_null($request['comment']) ? null : $request['comment']),
+            'start_hour'        => (is_null($request['start_hour']) ? null : $request['start_hour']),
+            'time_length'       => $request['time_length'],
+            'day'               => $request['day'],
+            'date'              => (is_null($request['date']) ? null : $request['date']),
+            'data'              => json_encode($extra_data),
+            'client_id'         => (is_null($request['client_id']) ? null : $request['client_id']),
+            'booking_status_id' => (is_null($request['booking_status_id']) ? null : $request['booking_status_id']),
         ];
 
         return $booking;
@@ -386,14 +387,15 @@ class BookingController extends Controller
     protected function validateBooking($booking)
     {
         $rules = [
-            'booking_id'    => 'required',
-            'start_hour'    => 'required',
-            'first_name'    => 'required',
-            'last_name'     => 'required',
-            'comment'       => 'required',
-            'date'          => 'required',
-            'start_hour'    => 'required',
-            'client_id'     => 'required'
+            'booking_id'        => 'required',
+            'start_hour'        => 'required',
+            'first_name'        => 'required',
+            'last_name'         => 'required',
+            'comment'           => 'required',
+            'date'              => 'required',
+            'start_hour'        => 'required',
+            'client_id'         => 'required',
+            'booking_status_id' => 'required'
         ];
 
         $customMessages = [

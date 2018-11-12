@@ -204,7 +204,12 @@ class BookingEngineController extends Controller
 
     }
 
-
+    /**
+     * Get the booking by service and date
+     *
+     * @param Request $request
+     * @return void
+     */
     public function getServiceBookings( Request $request )
     {
         $validation = $this->getBookingsData($request->route()->parameters());
@@ -216,7 +221,12 @@ class BookingEngineController extends Controller
         }
 
     }
-
+    /**
+     * Get all booking by service provider and date
+     *
+     * @param Request $request
+     * @return void
+     */
     public function getServiceBookingsBySP( Request $request )
     {
         $validation = $this->getBookingsBySPData($request);
@@ -232,6 +242,16 @@ class BookingEngineController extends Controller
             return response()->json(['error'=>$validation->errors()]);
         }
 
+    }
+    /**
+     * Get All Booking Status
+     *
+     * @return void
+     */
+    public function getAllBookingStatus()
+    {
+        $booking_engine_obj = new BookingEngine();
+        return $booking_engine_obj->getAllBookingStatus();
     }
 
     /**

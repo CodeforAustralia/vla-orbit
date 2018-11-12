@@ -94,6 +94,20 @@ Class BookingEngine extends BookingEngineClient
         $log::record( 'UPDATE', 'booking', $booking->id, $booking );
         return $booking;
     }
+
+
+    /**
+     * Get all booking status
+     *
+     * @return void
+     */
+    public function getAllBookingStatus()
+    {
+        $url = "/api/auth/booking_status";
+        $tokens = $this->getTokens();
+        $booking_status = $this->client->get($tokens,$url);
+        return $booking_status;
+    }
     /**
      * Get login token
      *
