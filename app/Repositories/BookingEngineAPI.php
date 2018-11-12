@@ -107,6 +107,28 @@ class BookingEngineAPI
             return $exception->getMessage();
         }
     }
+    /**
+     * Delete the requested entity
+     *
+     * @param array $tokens Tokens returned on login
+     * @param string $url Url to access through the method
+     * @return array
+     */
+    public function delete($tokens, $url)
+    {
+            $headers = [
+                'content-type' => 'application/x-www-form-urlencoded',
+                'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
+            ];
+            $response = $this->client->delete(
+                                        $url,
+                                        [
+                                            'headers' => $headers
+                                        ]
+                                    )->getBody();
+            $data = json_decode($response);
+            return $data;
+    }
 
     /**
      * Login to get tokens

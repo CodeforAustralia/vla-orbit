@@ -32,7 +32,8 @@ new Vue({
         available_times:[],
         hour:null,
         selected_date:null,
-        sms:null
+        sms:null,
+        booking_to_delete : 0
 
     },
     methods: {
@@ -89,7 +90,7 @@ new Vue({
                     if(response.data.error) {
                         alert(Object.values(response.data.error));
                         if (field === 'comment') {
-                            self.current_booking[field] = temp_field; 
+                            self.current_booking[field] = temp_field;
                             self.temp_value = temp_field;
                         } else {
                             self.current_booking[fields[0]][fields[1]] = temp_field;
@@ -254,7 +255,7 @@ new Vue({
 
             axios.get(url , {
                 params: {
-                    sv_id: self.current_booking.service.ServiceId,
+                    sv_id: self.current_booking.orbit_service.ServiceId,
                     booking: booking
                 }
             })
@@ -311,6 +312,26 @@ new Vue({
                     alert('Please refresh the page');
                     $("#contentLoading").modal("hide");
                 });
+
+        },
+        deleteBooking : function() {
+            var self = this;
+            let confirmation = confirm("Are you sure that you want to delete it?\n To confirm press OK or Cancel.");
+            if(confirmation == true) {
+                $("#contentLoading").modal("show");
+                let url = '/booking/' + self.current_booking.id;
+                axios.delete(url)
+                .then(function (response) {
+                    self.booking_to_delete = self.current_booking.id;
+                    self.current_booking = {};
+                    $("#bookingInfo").modal("hide");
+                    $("#contentLoading").modal("hide");
+                })
+                .catch(function (error) {
+                    alert('Please refresh the page');
+                    $("#contentLoading").modal("hide");
+                });
+            }
 
         }
 

@@ -254,6 +254,19 @@ class BookingEngineController extends Controller
         return $booking_engine_obj->getAllBookingStatus();
     }
 
+    public function deleteBooking($booking_id)
+    {
+        $booking_engine_obj = new BookingEngine();
+        $response = $booking_engine_obj->deleteBooking($booking_id);
+        $message = 'Error, Consult with the admin';
+        if($response) {
+            $success = 'success';
+            $message = 'sucess,  the booking ' .$booking_id . ' has been deleted';
+        }
+        return $message;
+
+    }
+
     /**
      * Get the request's data from the request.
      *

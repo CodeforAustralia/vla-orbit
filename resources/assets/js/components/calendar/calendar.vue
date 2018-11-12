@@ -12,7 +12,7 @@
     import axios from 'axios';
 
 	export default {
-        props: ['service_provider_id', 'current_booking'],
+        props: ['service_provider_id', 'current_booking', 'booking_to_delete'],
         data () {
             let self = this;
             return {
@@ -153,6 +153,17 @@
                     .catch(function (error) {
                         $("#contentLoading").modal("hide");
                     });
+            },
+            booking_to_delete : function() {
+                let self = this;
+                if(self.booking_to_delete != 0) {
+                    for(let i = 0 ; i < self.events.length ; i++) {
+                        if(self.events[i].booking.id == self.booking_to_delete) {
+                            self.events.splice(i, 1);
+                            this.$emit('update:reset_booking_to_delete',0);
+                        }
+                    }
+                }
             }
         },
         mounted() {

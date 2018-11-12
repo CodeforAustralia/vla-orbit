@@ -255,6 +255,8 @@ Route::patch('/booking','BookingController@updateBooking');
 
 Route::get('/booking/booking_status', 'BookingEngineController@getAllBookingStatus');
 
+Route::delete('/booking/{booking_id}', 'BookingEngineController@deleteBooking');
+
 //Route::get('/booking/listServices', 'BookingEngineController@listServices');
 
 //Referral

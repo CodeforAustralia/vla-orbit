@@ -212,12 +212,12 @@
                         <br v-show="!show_date">
                         <div class="row pull-right" v-show="!show_date && !show_sms">
                             <div class="col-sm-12">
-                                <a href="#" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
+                                <a @click="deleteBooking" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
                                 <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                             </div>
                         </div>
 
-                        <div class="row" id="bookingInformation" v-show="show_date">
+                        <div class="row" id="bookingdate" v-show="show_date">
                             <div class="col-sm-6">
                                 <h4><strong> Change Appointment Date </strong></h4>
                             </div>

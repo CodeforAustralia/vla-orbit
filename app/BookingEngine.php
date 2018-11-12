@@ -108,6 +108,15 @@ Class BookingEngine extends BookingEngineClient
         $booking_status = $this->client->get($tokens,$url);
         return $booking_status;
     }
+
+
+    public function deleteBooking($booking_id)
+    {
+        $url = "/api/auth/booking/" . $booking_id;
+        $tokens = $this->getTokens();
+        $response = $this->client->delete($tokens, $url);
+        return $response;
+    }
     /**
      * Get login token
      *
