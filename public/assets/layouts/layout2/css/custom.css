@@ -497,6 +497,10 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 #bookingCustomSms .modal-dialog {
     margin-top: 15%;
 }
+
+.fc-more-popover .fc-event:first-child {
+    margin-top: 14px;
+}
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
     cursor: default;
