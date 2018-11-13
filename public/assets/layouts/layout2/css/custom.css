@@ -501,6 +501,9 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 .fc-more-popover .fc-event:first-child {
     margin-top: 14px;
 }
+.multiselect--active {
+    z-index: 5 !important;
+}
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
     cursor: default;
