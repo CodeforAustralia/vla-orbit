@@ -138,15 +138,15 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Provider: </strong></label>
-                                <span id="bookingSPName" v-html="(current_booking.orbit_service ? current_booking.orbit_service.ServiceProviderName : '' )"></span>
+                                <span  class='col-sm-5' id="bookingSPName" v-html="(current_booking.orbit_service ? current_booking.orbit_service.ServiceProviderName : '' )"></span>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Service Name: </strong></label>
-                                <span id="bookingTitle" v-html="(current_booking.orbit_service ? current_booking.orbit_service.ServiceName : '')"></span>
+                                <span class='col-sm-5' id="bookingTitle" v-html="(current_booking.orbit_service ? current_booking.orbit_service.ServiceName : '')"></span>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Time of appointment: </strong></label>
-                                <a id="bookingTime" @click="initDatePicker" class="editable editable-click edit-booking" v-html="current_booking.date + ' at ' + current_booking.booking_time"></a>
+                                <a id="bookingTime" @click="initDatePicker" class="editable editable-click edit-booking col-sm-5" v-html="current_booking.date + ' at ' + current_booking.booking_time"></a>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Appointment Description: </strong></label>
@@ -257,7 +257,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 text-center">
-                        <small>Created By: <span id="createdBy"></span></small>
+                        <small>Created By: <span id="createdBy" v-html="(current_booking.data ? (current_booking.data.CreatedBy ? current_booking.data.CreatedBy : '') : '' )"></span></small>
                     </div>
                 </div>
             </div>

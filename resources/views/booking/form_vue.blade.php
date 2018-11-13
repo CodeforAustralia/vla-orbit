@@ -12,7 +12,7 @@
     <form role="form" method="POST" action="/booking" enctype="multipart/form-data" id="bookingForm">
 
         {{ csrf_field() }}
-
+        <input type="hidden" id="created_by" name="created_by" value="{{ Auth::user()->name }}">
         <div class="row">
             <div class="col-xs-12 col-md-12 padding-bottom-20">
                 <div class="form-group">

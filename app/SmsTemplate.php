@@ -166,7 +166,7 @@ Class SmsTemplate extends OrbitSoap
         $output  = $args['template'];
 
         $date      = date("D, d/m/Y", strtotime( $args['date'] ) );
-        $time      = date("g:i a", strtotime( $args['time'] ) );
+        $time      = $args['time'];//date("g:i a", strtotime( $args['time'] ) );
         $location  = $args['service_location'];
         $service_name  = $args['service_name'];
         $service_phone = $args['service_phone'];

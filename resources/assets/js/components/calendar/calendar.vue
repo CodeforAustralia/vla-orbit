@@ -97,7 +97,7 @@
                             event.booking.orbit_service = this.services[index];
                         }
                     }
-                    event.booking.booking_time = moment(event.booking.date).add(parseInt(event.booking.start_hour), 'm').format('HH:mm A');
+                    event.booking.booking_time = moment(event.booking.date).add(parseInt(event.booking.start_hour), 'm').format('hh:mm A');
                     event.booking.date = moment(event.booking.date).format('YYYY-MM-DD');
                     this.$emit('update:current_booking', event.booking);
                     $("#bookingInfo").modal("show");
