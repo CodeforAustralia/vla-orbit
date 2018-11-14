@@ -109,13 +109,30 @@ Class BookingEngine extends BookingEngineClient
         return $booking_status;
     }
 
-
+    /**
+     * Delete Booking
+     *
+     * @param int $booking_id
+     * @return void
+     */
     public function deleteBooking($booking_id)
     {
         $url = "/api/auth/booking/" . $booking_id;
         $tokens = $this->getTokens();
         $response = $this->client->delete($tokens, $url);
         return $response;
+    }
+    /**
+     * Get booking Services
+     *
+     * @return void
+     */
+    public function getServices()
+    {
+        $url = "api/auth/service";
+        $tokens = $this->getTokens();
+        $services = $this->client->get($tokens, $url);
+        return json_decode(json_encode($services), true);
     }
     /**
      * Get login token

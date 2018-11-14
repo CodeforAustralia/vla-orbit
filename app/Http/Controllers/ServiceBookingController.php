@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ServiceBooking;
 use App\Service;
+use App\BookingEngine;
 use Auth;
 
 /**
@@ -54,12 +55,12 @@ class ServiceBookingController extends Controller
     public function create()
     {
         Auth::user()->authorizeRoles( ['Administrator'] );
-    	$service_obj = new Service();
+        $service_obj = new Service();
+        $booking_engine_obj = new BookingEngine();
         $services = $service_obj->getAllServices();
-
+        $booking_services = $booking_engine_obj->getServices();
 		usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
-
-    	return view("service_booking.create", compact('services'));
+    	return view("service_booking.create", compact('services', 'booking_services'));
     }
 
     /**
@@ -98,10 +99,13 @@ class ServiceBookingController extends Controller
         $service_obj = new Service();
         $services = $service_obj->getAllServices();
 
+        $booking_engine_obj = new BookingEngine();
+        $booking_services = $booking_engine_obj->getServices();
+
         usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
         if ( isset($result['data']) ) {
             $current_service_booking = json_decode( $result['data'] )[0];
-            return view( "service_booking.show", compact( 'current_service_booking','services' ) );
+            return view( "service_booking.show", compact( 'current_service_booking','services' ,'booking_services') );
         } else {
             return redirect('/service_booking')->with( $response['success'], $response['message'] );
         }

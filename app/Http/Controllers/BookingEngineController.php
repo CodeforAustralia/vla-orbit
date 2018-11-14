@@ -7,6 +7,7 @@ use App\BookingEngine;
 use App\Service;
 use App\ServiceBooking;
 use App\ServiceProvider;
+use App\SentSms;
 use Auth;
 use DateTime;
 use DateInterval;
@@ -237,12 +238,44 @@ class BookingEngineController extends Controller
                 'start_date' => $request['start'],
                 'end_date'   => $request['end']
             ];
-            return $booking_engine_obj->getServiceBookingsBySP($args);
+            $bookings = $booking_engine_obj->getServiceBookingsBySP($args);
+
+            // Include the SMS information in Bookings
+            $bookings['bookings'] = self::getSentSMSDates($bookings['bookings']);
+
+            return $bookings;
         } else {
             return response()->json(['error'=>$validation->errors()]);
         }
 
     }
+    /**
+     * Get Sms dates for a collection of bookings
+     *
+     * @param array $bookings
+     * @return void
+     */
+    private function getSentSMSDates($bookings)
+    {
+        $sent_sms_obj = new SentSms();
+        $replace = ["/Date(", ")/"];
+        $date = new DateTime();
+        foreach ($bookings as $key => $booking) {
+            $date_array = [];
+            $sms_date = '';
+            $date = new DateTime();
+            $sms_messages = $sent_sms_obj->getSentSMSByBookingRefID($booking->id);
+            foreach ($sms_messages as $key => $sms_message) {
+                $sms_date = str_replace($replace,"", $sms_message['SentDate']);
+                $date->setTimestamp(intval(substr($sms_date, 0, 10)));
+                $date_formatted = $date->format('Y-m-d');
+                $date_array[] = $date_formatted;
+            }
+            $booking->sms_date =  implode (", ", $date_array);
+        }
+        return $bookings;
+    }
+
     /**
      * Get All Booking Status
      *

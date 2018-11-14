@@ -117,7 +117,11 @@ class SmsTemplateController extends Controller
         $sms_template_obj = new SmsTemplate();
         return ['data' => $sms_template_obj->getAllTemplates() ];
     }
-
+    /**
+     * Get template by Booking Id
+     *
+     * @return void
+     */
     public function getTemplateByServiceBookingId()
     {
         $sms_template_obj = new SmsTemplate();
@@ -126,4 +130,5 @@ class SmsTemplateController extends Controller
 
         return $sms_template_obj->getTemplateByServiceBookingId($sv_id, $booking);
     }
+
 }

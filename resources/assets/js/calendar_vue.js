@@ -290,7 +290,12 @@ new Vue({
                 }
             })
             .then(function (response) {
-                console.log(response.data);
+                if(self.current_booking.sms_date) {
+                    self.current_booking.sms_date += ', ' + moment().format('YYYY-MM-DD');
+                }
+                else {
+                    self.current_booking.sms_date = moment().format('YYYY-MM-DD');
+                }
                 self.show_sms = false;
                 $("#contentLoading").modal("hide");
             })

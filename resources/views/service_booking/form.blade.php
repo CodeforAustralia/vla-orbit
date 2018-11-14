@@ -18,7 +18,7 @@
                         <label for="single" class="col-md-3 control-label">Sevice Name:</label>
                         <div class="select2-bootstrap col-sm-4 col-md-4">
                             <select id="service_list" class="form-control select2" name="ServiceId" required>
-                             <option> </option>
+                            <option> </option>
                                 @foreach( $services as $service)
                                     <option value="{{ $service['ServiceId'] }}"> {{ $service['ServiceName'] }} - [ {{ $service['ServiceProviderName'] }} ]</option>
                                 @endforeach
@@ -27,8 +27,13 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="bbsv_id">BB Service Id:</label>
-                        <div class="col-md-4">
-                            <input type="number" class="form-control" id="bbsv_id" name="BookingServiceId"  value="{{ isset($current_service_booking) ? $current_service_booking->BookingServiceId : '' }}" placeholder="" required>
+                        <div class="select2-bootstrap col-sm-4 col-md-4">
+                            <select id="bbsv_id" class="form-control select2" name="BookingServiceId" placeholder="Select a service" required>
+                            <option> </option>
+                                @foreach( $booking_services as $booking_service)
+                                    <option value="{{ $booking_service['id'] }}"> {{ $booking_service['name'] }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -77,5 +82,6 @@
 @section('inline-scripts')
   $(document).ready(function() {
     $('#service_list').select2({placeholder: "-- Select from list --"}).val( {{ isset($current_service_booking) ? $current_service_booking->ServiceId : 'null' }} ).trigger("change");
+    $('#bbsv_id').select2({placeholder: "-- Select from list --"}).val( {{ isset($current_service_booking) ? $current_service_booking->BookingServiceId : 'null' }} ).trigger("change");
   });
 @endsection

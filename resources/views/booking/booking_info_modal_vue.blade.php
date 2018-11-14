@@ -183,7 +183,7 @@
                         <div class="row" id="extraInformation" v-show="!show_date && !show_sms">
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>SMS status: </strong></label>
-                                <span id="sentStatus"></span>
+                                <span class='col-sm-5' id="sentStatus" v-html="(current_booking.sms_date ? current_booking.sms_date : 'Not sent')"></span>
                                 <a href="#" class="btn btn-xs green pull-right" @click="getCurrentServiceTemplate">Send SMS</a>
                             </div>
                             <div class="col-sm-12">
