@@ -201,7 +201,7 @@ Route::get('/booking', 'BookingController@index');
 
 Route::get('/booking/next_bookings', 'BookingController@nextBookings');
 
-Route::get('/booking/by_service_provider', 'BookingController@byServiceProvider');
+Route::get('/booking/by_service_provider2', 'BookingController@byServiceProvider');
 
 Route::get('/booking/show/{bk_id}', 'BookingController@show');
 
@@ -243,7 +243,7 @@ Route::get('/booking/services/days/{sv_id}', 'BookingEngineController@getService
 
 Route::get('/booking/services/hours/{sv_id}', 'BookingEngineController@getServiceHours');
 
-Route::get('/booking/by_service_provider2', 'BookingController@byServiceProvider2');
+Route::get('/booking/by_service_provider', 'BookingController@byServiceProvider2');
 
 Route::get('/booking/service/{service_id}/booking/{start_date}/{end_date}', 'BookingEngineController@getServiceBookings');
 

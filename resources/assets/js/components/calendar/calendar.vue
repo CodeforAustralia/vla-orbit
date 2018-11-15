@@ -82,16 +82,11 @@
                         container: 'body'
                     });
                 }
+                var title = element.find( '.fc-title' );
+                title.html( title.text() );
             },
             eventSelected(event, jsEvent){
                 if(event.hasOwnProperty('booking')) {
-                    if(event.booking.data){
-                        try {
-                            event.booking.data = JSON.parse(event.booking.data);
-                        } catch (e) {
-                            //all set the info was parsed as Object
-                        }
-                    }
                     for (let index = 0; index < this.services.length; index++) {
                         if(this.services[index].BookingServiceId == event.booking.service_id){
                             event.booking.orbit_service = this.services[index];
@@ -114,11 +109,22 @@
                     let appointment = appts[index];
                     let client = appts[index].client;
                     let slot_text  = '';
+
                     if(client){
-                        slot_text = (client.hasOwnProperty('first_name') && client.hasOwnProperty('last_name') ?  client.first_name + ' ' + client.last_name : 'Name not indicated');
+                        let int_icon = (appointment.int_language ? '<i class="fa fa-globe"></i> ' : '');
+                        slot_text = int_icon + (client.hasOwnProperty('first_name') && client.hasOwnProperty('last_name') ?  client.first_name + ' ' + client.last_name : 'Name not indicated');
                     } else {
                         slot_text = 'Name not indicated';
                     }
+
+                    if(appointment.data){
+                        try {
+                            appointment.data = JSON.parse(appointment.data);
+                        } catch (e) {
+                            //all set the info was parsed as Object
+                        }
+                    }
+
                     let slot_time = appointment.start_hour;
                     let slot_duration = appointment.time_length;
                     let start_time = moment(appointment.date).add(parseInt(slot_time), 'm');
