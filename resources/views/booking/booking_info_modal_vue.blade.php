@@ -116,7 +116,7 @@
                                 id="ContactInstructions"
                                 data-type="text"
                                 v-show="!showField('ContactInstructions')"
-                                v-html="(current_booking.data ? (current_booking.data.ContactInstructions ? current_booking.data.ContactInstructions : '') : '' )"
+                                v-html="(current_booking.data && current_booking.data.ContactInstructions ? current_booking.data.ContactInstructions : 'N/P' )"
                                 @click="enableEditing(current_booking.data ? current_booking.data.ContactInstructions : '','ContactInstructions')"></a>
                                 <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('ContactInstructions')"/>
                                 <button class='btn blue editable-submit col-sm-1'
