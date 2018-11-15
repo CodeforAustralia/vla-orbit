@@ -317,10 +317,10 @@ new Vue({
                     beforeShowDay : function(date){
                         if(self.booking_bug_id && self.booking_bug_id !== 0){
                             let date_formated = moment(date).format('YYYY-MM-DD');
-                            if(!self.interpreter_required && self.dates_regular.length > 0) {
+                            if(!self.interpreter_required) {
                                 return  self.dates_regular.includes(date_formated) ? true:false;
                             }
-                            else if (self.interpreter_required && self.dates_interpreter.length > 0) {
+                            else if (self.interpreter_required) {
                                 return  self.dates_interpreter.includes(date_formated) ? true:false;
                             }
                         }
