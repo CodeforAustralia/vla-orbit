@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Booking;
 use App\Service;
 use App\SmsTemplate;
+use App\BookingEngine;
 use App\Mail\ReminderSms;
 
 /**
@@ -67,12 +68,11 @@ Class SentSms extends OrbitSoap
         date_default_timezone_set('Australia/Melbourne');
         $today = date('Y-m-d h:i:s');
 
-        //increment 7 days
+        //increment 1 days
         $tomorrow      = date( 'Y-m-d', strtotime($today.'+ 1 day')  ) ;
 
-
-        $booking_obj            = new Booking();
-        $tomorrow_bookings      = $booking_obj->getAllBookingsByDay( $tomorrow );
+        $booking_engine_obj     = new BookingEngine;
+        $tomorrow_bookings      = $booking_engine_obj->getAllBookingsByDay( $tomorrow );
 
 
         return ['tomorrow_bookings' => $tomorrow_bookings ];
@@ -87,15 +87,32 @@ Class SentSms extends OrbitSoap
 
         //Tomorrow
         $tomorrow_bookings = $bookings['tomorrow_bookings'];
-        if ( isset( $tomorrow_bookings->Bookings ) ) {
-            if ( sizeof( $tomorrow_bookings->Bookings ) == 1 ) {
-                $tomorrow_bookings->Bookings = [$tomorrow_bookings->Bookings];
-            }
-            foreach ( $tomorrow_bookings->Bookings as $booking ) {
+        $service_obj = new Service();
+        $services = $service_obj->getAllServices();
 
-                if ( isset( $booking->Mobile ) && $booking->Mobile != '' ) {
-                    self::sendReminder( $booking );
+        foreach ($tomorrow_bookings as $key => $booking) {
+            $data = $booking->data ? json_decode($booking->data,true) : null;
+            $args = [
+                'FirstName'     => $booking->client ? $booking->client->first_name : ''  . ' ' . $booking->client ? $booking->client->last_name : '',
+                'Mobile'        => $booking->client ? $booking->client->contact : null,
+                'BookingDate'   => date( 'Y-m-d', strtotime($booking->date)  ),
+                'BookingTime'   => date('h:i A', mktime(0, $booking->start_hour)),
+                'ServiceId'     => $booking->service_id,
+                'RefNo'         => $booking->id,
+                'IsSafeSMS'     => $data['IsSafeSMS'],
+            ];
+
+            // Validate that the booking belongs to a Orbit Service
+
+            $current_service = [];
+            foreach ( $services as $service ) {
+                if ( $service['BookingServiceId'] == $args['ServiceId']) {
+                    $current_service = $service;
+                    break;
                 }
+            }
+            if ( !empty($current_service) && isset( $args['Mobile'] ) && is_numeric($args['Mobile']) ) {
+                self::sendReminder( (object) $args );
             }
         }
         /*

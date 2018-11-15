@@ -135,6 +135,20 @@ Class BookingEngine extends BookingEngineClient
         return json_decode(json_encode($services), true);
     }
     /**
+     * Get All Booking by Day
+     *
+     * @param date $date YYY-MM-DD
+     * @return void
+     */
+    public function getAllBookingsByDay($date)
+    {
+        $url = "api/auth/booking/date/".$date;
+        $tokens = $this->getTokens();
+        $bookings = $this->client->get($tokens, $url);
+        return $bookings;
+    }
+
+    /**
      * Get login token
      *
      * @return void

@@ -180,7 +180,7 @@ class BookingController extends Controller
                 'int_language' => (is_null( request('Language') ) ? '' : request('Language') ),
                 'service_id' => $service_booking_id,
                 'CIRNumber' => (is_null( request('CIRNumber') ) ? '' : request('CIRNumber') ), // Put it here to be retrieved easily when send the email
-                'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),// Put it here to be retrieved easily when send the email
+                'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),// Put it here to be retrieved easily when send the reminder
                 'data' => json_encode($extra_data)
             ];
 
@@ -360,20 +360,23 @@ class BookingController extends Controller
         if (isset($request['data'])) {
             $extra_data =   $request['data'];
             $extra_data['CIRNumber'] = (is_null( $request['data']['CIRNumber'] ) ? '' : $request['data']['CIRNumber'] );
+            $extra_data['ContactInstructions'] =  (is_null( $request['data']['ContactInstructions'] ) ? '' : $request['data']['ContactInstructions'] );
         }
         $booking = [
-            'booking_id'        => $request['id'],
+            'date'              => (is_null($request['date']) ? null : $request['date']),
+            'day'               => $request['day'],
+            'start_hour'        => (is_null($request['start_hour']) ? null : $request['start_hour']),
+            'time_length'       => $request['time_length'],
+            'comment'           => (is_null($request['comment']) ? null : $request['comment']),
+            'is_interpreter'    => (is_null($request['is_interpreter']) ? '' : $request['is_interpreter']),
+            'int_language'      => (is_null($request['int_language']) ? '' : $request['int_language']),
+            'data'              => json_encode($extra_data),
+            'booking_status_id' => (is_null($request['booking_status_id']) ? null : $request['booking_status_id']),
             'first_name'        => (is_null($request['client']['first_name']) ? null : $request['client']['first_name']),
             'last_name'         => (is_null($request['client']['last_name']) ? null : $request['client']['last_name']),
             'contact'           => (is_null($request['client']['contact']) ? null : $request['client']['contact']),
-            'comment'           => (is_null($request['comment']) ? null : $request['comment']),
-            'start_hour'        => (is_null($request['start_hour']) ? null : $request['start_hour']),
-            'time_length'       => $request['time_length'],
-            'day'               => $request['day'],
-            'date'              => (is_null($request['date']) ? null : $request['date']),
-            'data'              => json_encode($extra_data),
             'client_id'         => (is_null($request['client_id']) ? null : $request['client_id']),
-            'booking_status_id' => (is_null($request['booking_status_id']) ? null : $request['booking_status_id']),
+            'booking_id'        => $request['id'],
         ];
 
         return $booking;

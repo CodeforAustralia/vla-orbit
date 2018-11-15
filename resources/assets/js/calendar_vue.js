@@ -111,7 +111,7 @@ new Vue({
             let url = '/booking';
             let temp_booking = self.current_booking; // Save old values in case of error.
             if(!self.hour || !self.selected_date) {
-                alert("Please a Date and Time");
+                alert("Please select a Date and Time");
                 $("#contentLoading").modal("hide");
             } else {
                 self.current_booking.date = self.selected_date;

@@ -125,6 +125,7 @@ Class Booking extends OrbitSoap
      * Get all bookings by day
      * @param  date   $day
      * @return array  $bookings bookings array
+     * @deprecated
      */
     public function getAllBookingsByDay( $day )
     {

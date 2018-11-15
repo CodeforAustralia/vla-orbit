@@ -90,12 +90,41 @@
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>SMS Reminder: </strong></label>
-                                <span id="IsSafeSMS" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.IsSafeSMS ? 'Yes' : 'No') : '' )"></span>
+                                <a href="javascript:;"
+                                class="col-sm-5"
+                                id="IsSafeSMS"
+                                data-type="text"
+                                v-show="!showField('IsSafeSMS')"
+                                v-html="(current_booking.data ? (current_booking.data.IsSafeSMS == 1 ? 'Yes' : 'No') : '' )"
+                                @click="enableEditing(current_booking.data ? current_booking.data.IsSafeSMS : '','IsSafeSMS')"></a>
+                                <select class="form-control input-small col-sm-5" v-show="showField('IsSafeSMS')" v-model="temp_value">
+                                    <option value="1"> Yes </option>
+                                    <option value="0"> No </option>
+                                </select>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('IsSafeSMS')"
+                                        @click="updateBookingField('data.IsSafeSMS')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('IsSafeSMS')"> <i class="fa fa-times"></i> </button>
                             </div>
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Instructions re contact: </strong></label>
-                                <span id="ContactInstructions" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.ContactInstructions ? 'Yes' : 'No') : '' )"></span>
+                                <a href="javascript:;"
+                                class="col-sm-5"
+                                id="ContactInstructions"
+                                data-type="text"
+                                v-show="!showField('ContactInstructions')"
+                                v-html="(current_booking.data ? (current_booking.data.ContactInstructions ? current_booking.data.ContactInstructions : '') : '' )"
+                                @click="enableEditing(current_booking.data ? current_booking.data.ContactInstructions : '','ContactInstructions')"></a>
+                                <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('ContactInstructions')"/>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('ContactInstructions')"
+                                        @click="updateBookingField('data.ContactInstructions')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('ContactInstructions')"> <i class="fa fa-times"></i> </button>
                             </div>
 
                             <div class="col-sm-12">
@@ -109,7 +138,23 @@
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Complex needs: </strong></label>
-                                <span id="IsComplex" class="col-sm-5" v-html="(current_booking.data ? (current_booking.data.IsComplex ? 'Yes' : 'No') : '' )"></span>
+                                <a href="javascript:;"
+                                class="col-sm-5"
+                                id="IsComplex"
+                                data-type="text"
+                                v-show="!showField('IsComplex')"
+                                v-html="(current_booking.data ? (current_booking.data.IsComplex == 1 ? 'Yes' : 'No') : '' )"
+                                @click="enableEditing(current_booking.data ? current_booking.data.IsComplex : '','IsComplex')"></a>
+                                <select class="form-control input-small col-sm-5" v-show="showField('IsComplex')" v-model="temp_value">
+                                    <option value="1"> Yes </option>
+                                    <option value="0"> No </option>
+                                </select>
+                                <button class='btn blue editable-submit col-sm-1'
+                                        v-show="showField('IsComplex')"
+                                        @click="updateBookingField('data.IsComplex')">
+                                        <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('IsComplex')"> <i class="fa fa-times"></i> </button>
                             </div>
 
                             <div class="col-sm-12">
