@@ -25,7 +25,7 @@ class BookingEngineAPI
      */
     function __construct()
     {
-        $this->client = new Client(['base_uri' => env( 'BOOKING_ENGINE_BASE_URL' )]);
+        $this->client = new Client(['base_uri' => env( 'BOOKING_ENGINE_BASE_URL' ), 'verify' => env( 'BOOKING_ENGINE_VERIFY_PATH', false ) ]);
         $this->email        = env( 'BOOKING_ENGINE_EMAIL' );
         $this->password     = env( 'BOOKING_ENGINE_PASSWORD' );
         $this->remember_me  = env( 'BOOKING_ENGINE_REMEMBER_ME' );
