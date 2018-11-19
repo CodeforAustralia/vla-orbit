@@ -201,14 +201,18 @@
                                 v-show="!showField('comment')"
                                 v-html="(current_booking.comment ? current_booking.comment : 'N/P' )"
                                 @click="enableEditing(current_booking.comment ? current_booking.comment : '','comment')"></div>
-                                <textarea v-model="temp_value" v-show="showField('comment')" rows="5" class="form-control col-sm-5" id="Desc"  name="Desc"></textarea>
-                                <button class='btn blue editable-submit col-sm-1'
-                                        v-show="showField('comment')"
-                                        @click="updateBookingField('comment')">
-                                        <i class="fa fa-check"></i>
-                                </button>
-                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('comment')"> <i class="fa fa-times"></i> </button>
+                                <vue-mce
+                                    class="form-control col-sm-5"
+                                    v-model="comment_value"
+                                    :config="config"
+                                    v-show="showField('comment')"/>
                             </div>
+                            <button class='btn blue editable-submit col-sm-1'
+                                    v-show="showField('comment')"
+                                    @click="updateBookingField('comment')">
+                                    <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('comment')"> <i class="fa fa-times"></i> </button>
                             <br>
                             <div class="col-sm-12">
                                 <label class="col-sm-5">&nbsp;</label>

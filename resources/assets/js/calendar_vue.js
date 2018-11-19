@@ -4,25 +4,38 @@ import axios from 'axios';
 import * as uiv from 'uiv';
 import moment from 'moment'
 import FullCalendar from 'vue-full-calendar';
+import VueMce from 'vue-mce';
 
 
 Vue.use(uiv);
 Vue.use(FullCalendar);
+Vue.use(VueMce);
 Vue.component('multiselect', Multiselect);
 Vue.component('Calendar', require('./components/calendar/calendar.vue'));
 
-
+const config = {
+    theme: 'modern',
+    fontsize_formats: "8px 10px 12px 14px 16px 18px 20px 22px 24px 26px 28px",
+    plugins: '',
+    toolbar1: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+    content_css: [
+      '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+      '//www.tinymce.com/css/codepen.min.css'
+    ],
+  };
 
 new Vue({
     el: '#sp-calendar',
 
     data: {
+        config,
         current_booking: {},
         service_provider_options: [],
         booking_status_options : [],
         service_provider_selected : [],
         service_provider_id: 0,
-        temp_value : null,
+        temp_value : '',
+        comment_value : '',
         edit_field : '',
         show_date: false,
         show_sms: false,
@@ -58,6 +71,7 @@ new Vue({
         enableEditing: function(value, name){
             var self = this;
             self.temp_value = value;
+            self.comment_value = value;
             self.edit_field = name;
         },
         showField : function(name) {
@@ -66,7 +80,8 @@ new Vue({
         },
         disableEditing: function(){
             var self = this;
-            self.temp_value = null;
+            self.temp_value = '';
+            self.comment_value = '';
             self.edit_field = null;
         },
         updateBookingField: function (field){
@@ -76,7 +91,7 @@ new Vue({
             let temp_field = '';
             if (field === 'comment') {
                 temp_field = self.current_booking[field]; // save it in case of error
-                self.current_booking[field] = self.temp_value;
+                self.current_booking[field] = self.comment_value;
             } else if (field === 'booking_status_id') {
                 self.current_booking.booking_status_id = self.current_booking.bookingstatus ?
                                                         self.current_booking.bookingstatus.id : null;
@@ -91,7 +106,7 @@ new Vue({
                         alert(Object.values(response.data.error));
                         if (field === 'comment') {
                             self.current_booking[field] = temp_field;
-                            self.temp_value = temp_field;
+                            self.comment_value = temp_field;
                         } else {
                             self.current_booking[fields[0]][fields[1]] = temp_field;
                             self.temp_value = temp_field;
@@ -337,7 +352,6 @@ new Vue({
                     $("#contentLoading").modal("hide");
                 });
             }
-
         }
 
     },
