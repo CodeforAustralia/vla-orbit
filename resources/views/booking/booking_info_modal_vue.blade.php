@@ -39,12 +39,12 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Last name: </strong></label>
                                 <a href="javascript:;"
-                                class="col-sm-5"
-                                id="bookingLastName"
-                                data-type="text"
-                                v-show="!showField('last_name')"
-                                v-html="(current_booking.client ? current_booking.client.last_name : '' )"
-                                @click="enableEditing(current_booking.client ? current_booking.client.last_name : '','last_name')"></a>
+                                    class="col-sm-5"
+                                    id="bookingLastName"
+                                    data-type="text"
+                                    v-show="!showField('last_name')"
+                                    v-html="(current_booking.client ? current_booking.client.last_name : '' )"
+                                    @click="enableEditing(current_booking.client ? current_booking.client.last_name : '','last_name')"></a>
                                 <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('last_name')"/>
                                 <button class='btn blue editable-submit col-sm-1'
                                         v-show="showField('last_name')"
@@ -62,12 +62,12 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Phone number: </strong></label>
                                 <a href="javascript:;"
-                                class="col-sm-5"
-                                id="bookingPhone"
-                                data-type="text"
-                                v-show="!showField('contact')"
-                                v-html="(current_booking.client ? current_booking.client.contact : '' )"
-                                @click="enableEditing(current_booking.client ? current_booking.client.contact : '','contact')"></a>
+                                    class="col-sm-5"
+                                    id="bookingPhone"
+                                    data-type="text"
+                                    v-show="!showField('contact')"
+                                    v-html="(current_booking.client ? current_booking.client.contact : '' )"
+                                    @click="enableEditing(current_booking.client ? current_booking.client.contact : '','contact')"></a>
                                 <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('contact')"/>
                                 <button class='btn blue editable-submit col-sm-1'
                                         v-show="showField('contact')"
@@ -91,12 +91,12 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>SMS Reminder: </strong></label>
                                 <a href="javascript:;"
-                                class="col-sm-5"
-                                id="IsSafeSMS"
-                                data-type="text"
-                                v-show="!showField('IsSafeSMS')"
-                                v-html="(current_booking.data ? (current_booking.data.IsSafeSMS == 1 ? 'Yes' : 'No') : '' )"
-                                @click="enableEditing(current_booking.data ? current_booking.data.IsSafeSMS : '','IsSafeSMS')"></a>
+                                    class="col-sm-5"
+                                    id="IsSafeSMS"
+                                    data-type="text"
+                                    v-show="!showField('IsSafeSMS')"
+                                    v-html="(current_booking.data ? (current_booking.data.IsSafeSMS == 1 ? 'Yes' : 'No') : '' )"
+                                    @click="enableEditing(current_booking.data ? current_booking.data.IsSafeSMS : '','IsSafeSMS')"></a>
                                 <select class="form-control input-small col-sm-5" v-show="showField('IsSafeSMS')" v-model="temp_value">
                                     <option value="1"> Yes </option>
                                     <option value="0"> No </option>
@@ -112,12 +112,12 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Instructions re contact: </strong></label>
                                 <a href="javascript:;"
-                                class="col-sm-5"
-                                id="ContactInstructions"
-                                data-type="text"
-                                v-show="!showField('ContactInstructions')"
-                                v-html="(current_booking.data && current_booking.data.ContactInstructions ? current_booking.data.ContactInstructions : 'N/P' )"
-                                @click="enableEditing(current_booking.data ? current_booking.data.ContactInstructions : '','ContactInstructions')"></a>
+                                    class="col-sm-5"
+                                    id="ContactInstructions"
+                                    data-type="text"
+                                    v-show="!showField('ContactInstructions')"
+                                    v-html="(current_booking.data && current_booking.data.ContactInstructions ? current_booking.data.ContactInstructions : 'N/P' )"
+                                    @click="enableEditing(current_booking.data ? current_booking.data.ContactInstructions : '','ContactInstructions')"></a>
                                 <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('ContactInstructions')"/>
                                 <button class='btn blue editable-submit col-sm-1'
                                         v-show="showField('ContactInstructions')"
@@ -139,12 +139,12 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Complex needs: </strong></label>
                                 <a href="javascript:;"
-                                class="col-sm-5"
-                                id="IsComplex"
-                                data-type="text"
-                                v-show="!showField('IsComplex')"
-                                v-html="(current_booking.data ? (current_booking.data.IsComplex == 1 ? 'Yes' : 'No') : '' )"
-                                @click="enableEditing(current_booking.data ? current_booking.data.IsComplex : '','IsComplex')"></a>
+                                    class="col-sm-5"
+                                    id="IsComplex"
+                                    data-type="text"
+                                    v-show="!showField('IsComplex')"
+                                    v-html="(current_booking.data ? (current_booking.data.IsComplex == 1 ? 'Yes' : 'No') : '' )"
+                                    @click="enableEditing(current_booking.data ? current_booking.data.IsComplex : '','IsComplex')"></a>
                                 <select class="form-control input-small col-sm-5" v-show="showField('IsComplex')" v-model="temp_value">
                                     <option value="1"> Yes </option>
                                     <option value="0"> No </option>
@@ -160,12 +160,12 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>CIR Number: </strong></label>
                                 <a href="javascript:;"
-                                class="col-sm-5"
-                                id="bookingCIRNumber"
-                                data-type="text"
-                                v-show="!showField('CIRNumber')"
-                                v-html="(current_booking.data && current_booking.data.CIRNumber ? current_booking.data.CIRNumber : 'N/P' )"
-                                @click="enableEditing(current_booking.data ? current_booking.data.CIRNumber : '','CIRNumber')"></a>
+                                    class="col-sm-5"
+                                    id="bookingCIRNumber"
+                                    data-type="text"
+                                    v-show="!showField('CIRNumber')"
+                                    v-html="(current_booking.data && current_booking.data.CIRNumber ? current_booking.data.CIRNumber : 'N/P' )"
+                                    @click="enableEditing(current_booking.data ? current_booking.data.CIRNumber : '','CIRNumber')"></a>
                                 <input  v-model="temp_value" class="form-control input-small col-sm-5" v-show="showField('CIRNumber')"/>
                                 <button class='btn blue editable-submit col-sm-1'
                                         v-show="showField('CIRNumber')"
@@ -196,12 +196,13 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Appointment Description: </strong></label>
                                 <div class="col-sm-5"
-                                id="bookingdescription"
-                                data-type="text"
-                                v-show="!showField('comment')"
-                                v-html="(current_booking.comment ? current_booking.comment : 'N/P' )"
-                                @click="enableEditing(current_booking.comment ? current_booking.comment : '','comment')"></div>
+                                    id="bookingdescription"
+                                    data-type="text"
+                                    v-show="!showField('comment')"
+                                    v-html="(current_booking.comment ? current_booking.comment : 'N/P' )"
+                                    @click="enableEditing(current_booking.comment ? current_booking.comment : '','comment')"></div>
                                 <vue-mce
+                                    id="booking_description"
                                     class="form-control col-sm-5"
                                     v-model="comment_value"
                                     :config="config"

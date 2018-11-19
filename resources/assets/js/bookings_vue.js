@@ -2,11 +2,28 @@ import Vue from 'vue';
 import 'babel-polyfill'
 import moment from 'moment'
 import axios from 'axios';
+import VueMce from 'vue-mce';
+
+Vue.use(VueMce);
+
+const config = {
+    theme: 'modern',
+    menubar:false,
+    fontsize_formats: "8px 10px 12px 14px 16px 18px 20px 22px 24px 26px 28px",
+    plugins: 'lists paste',
+    paste_as_text: true,
+    toolbar1: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+    content_css: [
+        '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+        '//www.tinymce.com/css/codepen.min.css'
+    ],
+};
 
 new Vue({
     el: '#app',
 
     data: {
+        config,
         actions: [],
         available_times: [],
         booking_availability: [],
@@ -28,6 +45,7 @@ new Vue({
         dates_regular: [],
         dates_interpreter: [],
         hour:null,
+        description_value : '',
     },
 
     methods: {
@@ -351,18 +369,6 @@ new Vue({
                     self.getServiceAvailabilityByDate(booking_info);
                 });
         },
-        initSummernote: function () {
-            //TODO: implement with in a vue js way
-            let description = document.getElementById('Desc');
-            $(description).summernote({
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['style', ['bold', 'italic', 'underline']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['link', ['linkDialogShow', 'unlink']]
-                ]
-            });
-        },
         initDOBMask: function () {
             //TODO: implement with in a vue js way
             let dob = document.getElementById('dob');
@@ -472,7 +478,6 @@ new Vue({
     },
 
     mounted() {
-        this.initSummernote();
         this.initDatePicker();
         this.initDOBMask();
         this.initFormValidation();

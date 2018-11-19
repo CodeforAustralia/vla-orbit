@@ -322,9 +322,14 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-10">
-                        <label>Description: </label>
-                        <textarea v-text="booking_template" rows="5" class="form-control" id="Desc" placeholder="Client requirements, special needs, difficulties experienced with client, time limits, instructions for contact or any other information that may be useful for the service provider to know beforehand." name="Desc" required></textarea>
-                    </div>
+                        <label>Description: <small>Client requirements, special needs, difficulties experienced with client, time limits,<br> instructions for contact or any other information that may be useful for the service provider to know beforehand.</small> </label>
+                        <vue-mce
+                            id="booking_description"
+                            class="form-control"
+                            :value="description_value"
+                            :config="config"
+                            name="Desc"/>
+                        </div>
                 </div>
             </div>
         </div>
@@ -382,6 +387,7 @@ text/plain, application/pdf, image/*" />
 @section('scripts')
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
+    <script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey=v3tjlgkjdlr8xiq21qsdopbjfkuk5ibmdhgb5yznjfpyb1lj" ></script>
     <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
