@@ -126,7 +126,7 @@
                     <div class="form-group">
                         <div class="col-xs-12">
                             <label>Date of appointment: <small>choose from dates marked green</small></label>
-                            <input type="text" class="form-control input-medium" id="booking-date" name="booking-date" required>
+                            <input type="text" class="form-control input-medium" id="booking-date" name="booking-date" autocomplete="off" required>
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>First Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Jane" name="firstName" id="FirstName" required>
+                        <input type="text" class="form-control input-large" placeholder="Jane" name="firstName" id="FirstName" autocomplete="off" required>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Last Name:</label>
-                        <input type="text" class="form-control input-large" placeholder="Smith" name="lastName" id="LastName"  required>
+                        <input type="text" class="form-control input-large" placeholder="Smith" name="lastName" id="LastName" autocomplete="off" required>
                     </div>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>CIR Number: <small>if known / required if legal advice is given</small></label>
-                        <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" id="CIRNumber">
+                        <input type="text" class="form-control input-large" placeholder="1234567" name="CIRNumber" autocomplete="off" id="CIRNumber">
                     </div>
                 </div>
             </div>
@@ -192,7 +192,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Date of Birth</label>
-                        <input type="text" class="form-control input-large" name="dob" id="dob">
+                        <input type="text" class="form-control input-large" autocomplete="off" name="dob" id="dob">
                     </div>
                 </div>
             </div>
@@ -203,7 +203,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Suburb town of caller</label>
-                        <input type="text" class="form-control input-large" name="suburb" id="suburb">
+                        <input type="text" class="form-control input-large" name="suburb" autocomplete="off" id="suburb">
                     </div>
                 </div>
             </div>
@@ -224,7 +224,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Postal Address:</label>
-                        <input type="text" class="form-control input-large" name="postal_address" id="postal_address">
+                        <input type="text" class="form-control input-large" name="postal_address" autocomplete="off" id="postal_address">
                     </div>
                 </div>
             </div>
@@ -235,7 +235,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Email:</label>
-                        <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" id="email">
+                        <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" autocomplete="off" id="email">
                     </div>
                 </div>
             </div>
@@ -264,7 +264,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Phone Number:</label>
-                        <input type="text" class="form-control input-large" placeholder="0400 000 000" name="phone" id="mobile">
+                        <input type="text" class="form-control input-large" placeholder="0400 000 000" name="phone" autocomplete="off" id="mobile">
                     </div>
                 </div>
             </div>
@@ -312,7 +312,7 @@
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
                         <label>Is it ok to leave a message or send SMS? Any other instructions re contact?</label>
-                        <input type="text" class="form-control input-large" name="reContact" id="reContact">
+                        <input type="text" class="form-control input-large" name="reContact" autocomplete="off" id="reContact">
                     </div>
                 </div>
             </div>
