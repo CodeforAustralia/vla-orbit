@@ -253,8 +253,6 @@ Route::get('/booking/service/{sv_id}/getAvailability/{start_date}/{end_date}','B
 
 Route::patch('/booking','BookingController@updateBooking');
 
-Route::get('/booking/booking_status', 'BookingEngineController@getAllBookingStatus');
-
 Route::delete('/booking/{booking_id}', 'BookingEngineController@deleteBooking');
 
 //Route::get('/booking/listServices', 'BookingEngineController@listServices');

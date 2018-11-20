@@ -276,16 +276,6 @@ class BookingEngineController extends Controller
         return $bookings;
     }
 
-    /**
-     * Get All Booking Status
-     *
-     * @return void
-     */
-    public function getAllBookingStatus()
-    {
-        $booking_engine_obj = new BookingEngine();
-        return $booking_engine_obj->getAllBookingStatus();
-    }
 
     public function deleteBooking($booking_id)
     {

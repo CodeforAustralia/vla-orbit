@@ -12,7 +12,12 @@
     import axios from 'axios';
 
 	export default {
-        props: ['service_provider_id', 'current_booking', 'booking_to_delete'],
+        props: ['service_provider_id',
+                'current_booking',
+                'booking_to_delete',
+                'booking_status_options',
+                'booking_to_update'
+                ],
         data () {
             let self = this;
             return {
@@ -154,6 +159,7 @@
                     .then(function (response) {
                         self.initCalendar(response.data.bookings);
                         self.services = response.data.services;
+                        self.$emit('update:booking_status_options', response.data.booking_status);
                         $("#contentLoading").modal("hide");
                     })
                     .catch(function (error) {
@@ -170,7 +176,23 @@
                         }
                     }
                 }
-            }
+            },
+            booking_to_update : function() {
+                let self = this;
+                let int_icon = (self.current_booking.int_language ? '<i class="fa fa-globe"></i> ' : '');
+                let slot_time = self.current_booking.start_hour;
+                let slot_duration = self.current_booking.time_length;
+                if(self.booking_to_update != 0) {
+                    for(let i = 0 ; i < self.events.length ; i++) {
+                        if(self.events[i].booking.id == self.booking_to_update) {
+                            self.events[i].title = int_icon + (self.current_booking.client.hasOwnProperty('first_name') && self.current_booking.client.hasOwnProperty('last_name') ?  self.current_booking.client.first_name + ' ' + self.current_booking.client.last_name : 'Name not indicated');
+                            self.events[i].start = moment(self.current_booking.date).add(parseInt(slot_time), 'm');
+                            self.events[i].end   = moment(self.current_booking.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm');
+                            this.$emit('update:booking_to_update',0);
+                        }
+                    }
+                }
+            },
         },
         mounted() {
         },

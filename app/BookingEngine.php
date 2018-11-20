@@ -47,7 +47,9 @@ Class BookingEngine extends BookingEngineClient
         }
         $args['service_id'] = implode(',',$service_ids);
 
-        return ['bookings' => self::getServiceBookings($args), 'services' => $services_info];
+        return ['bookings'       => self::getServiceBookings($args),
+                'services'       => $services_info,
+                'booking_status' => self::getAllBookingStatus()];
     }
     /**
      * Get service availability in Booking Engine

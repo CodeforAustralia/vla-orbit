@@ -48,7 +48,8 @@ new Vue({
         hour:null,
         selected_date:null,
         sms:null,
-        booking_to_delete : 0
+        booking_to_delete : 0,
+        booking_to_update : 0
 
     },
     methods: {
@@ -85,6 +86,8 @@ new Vue({
             self.temp_value = '';
             self.comment_value = '';
             self.edit_field = null;
+            self.show_date = false;
+            self.show_sms = false;
         },
         updateBookingField: function (field){
             $("#contentLoading").modal("show");
@@ -113,6 +116,9 @@ new Vue({
                             self.current_booking[fields[0]][fields[1]] = temp_field;
                             self.temp_value = temp_field;
                         }
+                    }
+                    else {
+                        self.booking_to_update = self.current_booking.id;
                     }
                     $("#contentLoading").modal("hide");
                 })
@@ -144,6 +150,7 @@ new Vue({
                         }
                         else{
                             self.show_date = false;
+                            self.booking_to_update = self.current_booking.id;
                         }
                         $("#contentLoading").modal("hide");
                     })
@@ -321,21 +328,6 @@ new Vue({
                 self.show_sms = true;
             });
         },
-        initBookingStatus : function() {
-            $("#contentLoading").modal("show");
-            var self = this;
-            let url = '/booking/booking_status';
-            axios.get(url)
-                .then(function (response) {
-                    self.booking_status_options = response.data;
-                    $("#contentLoading").modal("hide");
-                })
-                .catch(function (error) {
-                    alert('Please refresh the page');
-                    $("#contentLoading").modal("hide");
-                });
-
-        },
         deleteBooking : function() {
             var self = this;
             let confirmation = confirm("Are you sure that you want to delete it?\n To confirm press OK or Cancel.");
@@ -359,7 +351,6 @@ new Vue({
     },
     mounted() {
         this.intitServiceProviders();
-        this.initBookingStatus();
     }
 
 });

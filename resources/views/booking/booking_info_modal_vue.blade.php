@@ -4,7 +4,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close close-booking-edit" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" @click="disableEditing" class="close close-booking-edit" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h5 class="modal-title" id="SelectMatchLabel"><strong>Booking #<span id="bookingRef" v-html="current_booking.id"></span></strong></h5>
                 </div>
 
@@ -265,7 +265,7 @@
                         <div class="row pull-right" v-show="!show_date && !show_sms">
                             <div class="col-sm-12">
                                 <a @click="deleteBooking" class="btn btn-xs btn-danger" id="delete-booking">Delete</a>
-                                <a href="#" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
+                                <a href="#" @click="disableEditing" class="btn btn-xs btn-outline dark close-booking-edit" data-dismiss="modal" >Close</a>
                             </div>
                         </div>
 

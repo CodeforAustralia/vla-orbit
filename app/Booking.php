@@ -637,7 +637,7 @@ Class Booking extends OrbitSoap
                         'FirstName'     => $booking['first_name'] . ' ' . $booking['last_name'],
                         'Mobile'        => $booking['contact'] ,
                         'BookingDate'   => $booking['date'],
-                        'BookingTime'   => $booking['hour'],
+                        'BookingTime'   => date('h:i A', mktime(0, $booking['start_hour'])),
                         'ServiceId'     => $booking['service_id'],
                         'RefNo'         => $booking['booking_no'],
                         'IsSafeSMS'     => 1
