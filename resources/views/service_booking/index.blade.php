@@ -20,12 +20,11 @@
                     <thead>
                         <tr role="row" class="heading">
                             <th width="5%"> Id </th>
+                            <th width="10%"> Service Provider </th>
                             <th width="10%"> Service Id </th>
-                            <th width="10%"> BB Service Id </th>
-                            <th width="10%"> BB Interpreter Id </th>
-                            <th width="10%"> BB Resource Id </th>
-                            <th width="10%"> Length of Appt </th>
-                            <th width="10%"> Length of Int Appt </th>
+                            <th width="10%"> Service Name </th>
+                            <th width="10%"> Booking Service Id </th>
+                            <th width="10%"> Booking Service Name </th>
                             <th width="10%"> Actions</th>
                         </tr>
                     </thead>

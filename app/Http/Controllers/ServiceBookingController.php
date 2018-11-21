@@ -42,10 +42,38 @@ class ServiceBookingController extends Controller
     public function list()
     {
         Auth::user()->authorizeRoles( ['Administrator'] );
-        $service_booking = new ServiceBooking();
-        $result  = $service_booking->getAllServiceBookings();
+        $service_booking_obj = new ServiceBooking();
+        $service_obj = new Service();
+        $booking_engine_obj = new BookingEngine();
 
-        return ['data' => $result];
+        // orbit services
+        $services = $service_obj->getAllServices();
+        //booking engine services
+        $booking_services = $booking_engine_obj->getServices();
+        // service bookings
+        $service_bookings = $service_booking_obj->getAllServiceBookings();
+
+        foreach ($service_bookings as $key_sb => $service_booking) {
+            $service_bookings[$key_sb]['ServiceName'] = '';
+            $service_bookings[$key_sb]['ServiceProviderName'] = '';
+            $service_bookings[$key_sb]['BookingServiceName'] = '';
+            foreach ($services as $key => $service) {
+                if($service_booking['ServiceId'] == $service['ServiceId']) {
+                    $service_bookings[$key_sb]['ServiceName'] = $service['ServiceName'];
+                    $service_bookings[$key_sb]['ServiceProviderName'] = $service['ServiceProviderName'];
+                    break;
+                }
+            }
+            foreach ($booking_services as $key => $booking_service) {
+                if($service_booking['BookingServiceId'] == $booking_service['id']) {
+                    $service_bookings[$key_sb]['BookingServiceName'] = $booking_service['name'];
+                    break;
+                }
+            }
+        }
+
+
+        return ['data' => $service_bookings];
     }
 
     /**

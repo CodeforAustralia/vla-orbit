@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="bbsv_id">BB Service Id:</label>
+                        <label class="col-md-3 control-label" for="bbsv_id">Booking Service Name:</label>
                         <div class="select2-bootstrap col-sm-4 col-md-4">
                             <select id="bbsv_id" class="form-control select2" name="BookingServiceId" placeholder="Select a service" required>
                             <option> </option>
@@ -36,30 +36,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="bbisv_id">BB Interpreter Id:</label>
-                        <div class="col-md-4">
-                            <input type="number" class="form-control" id="bbisv_id" name="InternalBookingServId"  value="{{ isset($current_service_booking) ? $current_service_booking->InternalBookingServId : '' }}" placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="bbr_id">BB Resource Id:</label>
-                        <div class="col-md-4">
-                            <input type="number" class="form-control" id="bbr_id" name="ResourceId"  value="{{ isset($current_service_booking) ? $current_service_booking->ResourceId : '' }}" placeholder="" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="lenght_app">Length of Appt:</label>
-                        <div class="col-md-4">
-                            <input type="number" class="form-control" id="lenght_app" name="ServiceLength"  value="{{ isset($current_service_booking) ? $current_service_booking->ServiceLength : '' }}" placeholder="" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="lenght_int_app">Length of Int Appt:</label>
-                        <div class="col-md-4">
-                            <input type="number" class="form-control" id="lenght_int_app" name="IntServiceLength"  value="{{ isset($current_service_booking) ? $current_service_booking->IntServiceLength : '' }}" placeholder="">
-                        </div>
-                </div>
+
+                    <input type="hidden"  id="bbisv_id" name="InternalBookingServId"  value="0" >
+
+                    <input type="hidden"  id="bbr_id" name="ResourceId"  value="0" >
+
+                    <input type="hidden"  id="lenght_app" name="ServiceLength"  value="0" >
+
+                    <input type="hidden"  id="lenght_int_app" name="IntServiceLength"  value="0">
                 </div>
                 <div class="form-actions">
                     <div class="row">
