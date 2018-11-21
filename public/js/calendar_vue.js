@@ -39277,7 +39277,9 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         enableEditing: function enableEditing(value, name) {
             var self = this;
             self.temp_value = value;
-            self.comment_value = value;
+            if (name === 'comment') {
+                self.comment_value = value;
+            }
             self.edit_field = name;
         },
         showField: function showField(name) {

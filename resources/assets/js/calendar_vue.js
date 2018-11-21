@@ -74,7 +74,9 @@ new Vue({
         enableEditing: function(value, name){
             var self = this;
             self.temp_value = value;
-            self.comment_value = value;
+            if(name === 'comment') {
+                self.comment_value = value;
+            }
             self.edit_field = name;
         },
         showField : function(name) {
