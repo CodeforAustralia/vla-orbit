@@ -306,9 +306,7 @@ new Vue({
         setBookingBugId: function () {
             var self = this;
             self.booking_bug_id = self.current_service.BookingServiceId;
-            if (self.requireInterpreterOrComplex()) {
-                self.booking_bug_id = self.current_service.BookingInterpritterServiceId;
-            }
+
         },
         updateServiceAvailability: function () {
             var self = this;
