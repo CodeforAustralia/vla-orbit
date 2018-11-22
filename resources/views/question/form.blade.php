@@ -1,4 +1,3 @@
-
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
@@ -22,9 +21,9 @@
                     </div>
 
 	                <div class="form-group">
-	                  	<label class="col-md-3 control-label" for="QuestionName">Question/Tooltip:</label>
-	                  	<div class="col-md-4">
-		                  	<input type="text" class="form-control" id="QuestionName" name="QuestionName"  value="{{ isset($current_question) ? $current_question->QuestionName : '' }}" required>
+                        <label class="col-md-3 control-label" for="QuestionName">Question/Tooltip:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="QuestionName" name="QuestionName"  value="{{ isset($current_question) ? $current_question->QuestionName : '' }}" required>
 		                </div>
 	                </div>
 
@@ -50,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group {{ ($type_name == 'Legal Matter' ? 'hidden' : '') }}">
                         <label class="col-md-3 control-label">Question Group Parent</label>
                         <div class="col-md-4">
                             <select class="form-control" id="QuestionGroupId" name="QuestionGroupId">
