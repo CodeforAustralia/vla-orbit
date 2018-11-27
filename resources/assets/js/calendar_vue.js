@@ -36,6 +36,7 @@ new Vue({
         booking_status_options : [],
         service_provider_selected : [],
         service_provider_id: 0,
+        selected_service_provider: 0,
         temp_value : '',
         comment_value : '',
         edit_field : '',
@@ -66,6 +67,10 @@ new Vue({
                     alert('Please refresh the page');
                     $("#contentLoading").modal("hide");
                 });
+        },
+        selectInitialServiceProvider: function() {
+            var self = this;
+            self.selected_service_provider = document.querySelector('.sp_id').id;
         },
         getServiceProviderBookings: function (service_provider) {
             var self = this;
@@ -353,6 +358,7 @@ new Vue({
     },
     mounted() {
         this.intitServiceProviders();
+        this.selectInitialServiceProvider();
     }
 
 });

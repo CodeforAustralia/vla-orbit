@@ -39241,6 +39241,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         booking_status_options: [],
         service_provider_selected: [],
         service_provider_id: 0,
+        selected_service_provider: 0,
         temp_value: '',
         comment_value: '',
         edit_field: '',
@@ -39269,6 +39270,10 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 alert('Please refresh the page');
                 $("#contentLoading").modal("hide");
             });
+        },
+        selectInitialServiceProvider: function selectInitialServiceProvider() {
+            var self = this;
+            self.selected_service_provider = document.querySelector('.sp_id').id;
         },
         getServiceProviderBookings: function getServiceProviderBookings(service_provider) {
             var self = this;
@@ -39529,6 +39534,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     },
     mounted: function mounted() {
         this.intitServiceProviders();
+        this.selectInitialServiceProvider();
     }
 });
 

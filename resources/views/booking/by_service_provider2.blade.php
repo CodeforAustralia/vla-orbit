@@ -62,15 +62,17 @@
                     <div class="portlet-body">
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
-                                <Calendar   :service_provider_id="service_provider_id"
-                                            :current_booking="current_booking"
-                                            :booking_to_delete="booking_to_delete"
-                                            :booking_status_options = "booking_status_options"
-                                            :booking_to_update = "booking_to_update"
-                                            v-on:update:reset_booking_to_delete="booking_to_delete = 0"
-                                            v-on:update:current_booking="current_booking = $event"
-                                            v-on:update:booking_status_options="booking_status_options = $event"
-                                            v-on:update:booking_to_update="booking_to_update = 0">
+                                <Calendar
+                                v-model="selected_service_provider"
+                                :service_provider_id="service_provider_id"
+                                :current_booking="current_booking"
+                                :booking_to_delete="booking_to_delete"
+                                :booking_status_options = "booking_status_options"
+                                :booking_to_update = "booking_to_update"
+                                v-on:update:reset_booking_to_delete="booking_to_delete = 0"
+                                v-on:update:current_booking="current_booking = $event"
+                                v-on:update:booking_status_options="booking_status_options = $event"
+                                v-on:update:booking_to_update="booking_to_update = 0">
                                 </Calendar>
                             </div>
                         </div>
