@@ -21003,8 +21003,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
     methods: {
         onChangeSP: function onChangeSP(e) {
-
             var self = this;
+            self.showLoading();
             self.services = [];
             self.e_referral_forms = [];
             self.can_book = false;
@@ -21253,10 +21253,6 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         setBookingBugId: function setBookingBugId() {
             var self = this;
             self.booking_bug_id = self.current_service.BookingServiceId;
-            /*
-            if (self.requireInterpreterOrComplex()) {
-                self.booking_bug_id = self.current_service.BookingInterpritterServiceId;
-            }*/
         },
         updateServiceAvailability: function updateServiceAvailability() {
             var self = this;

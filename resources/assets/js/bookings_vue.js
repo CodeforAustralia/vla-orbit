@@ -50,8 +50,8 @@ new Vue({
 
     methods: {
         onChangeSP: function (e) {
-
             var self = this;
+            self.showLoading();
             self.services = [];
             self.e_referral_forms = [];
             self.can_book = false;
