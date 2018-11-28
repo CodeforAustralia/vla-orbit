@@ -39239,9 +39239,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         current_booking: {},
         service_provider_options: [],
         booking_status_options: [],
-        service_provider_selected: [],
+        service_provider_selected: {},
         service_provider_id: 0,
-        selected_service_provider: 0,
         temp_value: '',
         comment_value: '',
         edit_field: '',
@@ -39266,6 +39265,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(url).then(function (response) {
                 self.service_provider_options = response.data.data;
                 $("#contentLoading").modal("hide");
+            }).then(function () {
+                return self.selectInitialServiceProvider();
             }).catch(function (error) {
                 alert('Please refresh the page');
                 $("#contentLoading").modal("hide");
@@ -39273,7 +39274,14 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         },
         selectInitialServiceProvider: function selectInitialServiceProvider() {
             var self = this;
-            self.selected_service_provider = document.querySelector('.sp_id').id;
+            var sp_id = parseInt(document.querySelector('.sp_id').id);
+
+            self.service_provider_id = sp_id;
+            for (var index = 0; index < self.service_provider_options.length; index++) {
+                if (sp_id == self.service_provider_options[index].ServiceProviderId) {
+                    self.service_provider_selected = self.service_provider_options[index];
+                }
+            }
         },
         getServiceProviderBookings: function getServiceProviderBookings(service_provider) {
             var self = this;
@@ -39534,7 +39542,6 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     },
     mounted: function mounted() {
         this.intitServiceProviders();
-        this.selectInitialServiceProvider();
     }
 });
 

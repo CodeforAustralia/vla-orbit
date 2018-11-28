@@ -63,7 +63,6 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <Calendar
-                                v-model="selected_service_provider"
                                 :service_provider_id="service_provider_id"
                                 :current_booking="current_booking"
                                 :booking_to_delete="booking_to_delete"

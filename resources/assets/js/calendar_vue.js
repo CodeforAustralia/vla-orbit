@@ -34,9 +34,8 @@ new Vue({
         current_booking: {},
         service_provider_options: [],
         booking_status_options : [],
-        service_provider_selected : [],
+        service_provider_selected : {},
         service_provider_id: 0,
-        selected_service_provider: 0,
         temp_value : '',
         comment_value : '',
         edit_field : '',
@@ -63,6 +62,7 @@ new Vue({
                     self.service_provider_options = response.data.data;
                     $("#contentLoading").modal("hide");
                 })
+                .then(() => self.selectInitialServiceProvider())
                 .catch(function (error) {
                     alert('Please refresh the page');
                     $("#contentLoading").modal("hide");
@@ -70,7 +70,14 @@ new Vue({
         },
         selectInitialServiceProvider: function() {
             var self = this;
-            self.selected_service_provider = document.querySelector('.sp_id').id;
+            let sp_id = parseInt(document.querySelector('.sp_id').id);
+
+            self.service_provider_id = sp_id;
+            for (let index = 0; index < self.service_provider_options.length; index++) {
+                if (sp_id == self.service_provider_options[index].ServiceProviderId) {
+                    self.service_provider_selected = self.service_provider_options[index];
+                }
+            }
         },
         getServiceProviderBookings: function (service_provider) {
             var self = this;
@@ -358,7 +365,6 @@ new Vue({
     },
     mounted() {
         this.intitServiceProviders();
-        this.selectInitialServiceProvider();
     }
 
 });
