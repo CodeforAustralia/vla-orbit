@@ -23,9 +23,9 @@ Class BookingDocument extends OrbitSoap
 	{
         $booking_doc_params = [
                                 'RefNo' 			=> 0 ,
-                                'file_path'  		=> $file_path ,
-                                'client_booking_ref_no'	=> $client_booking_ref_no
-							];
+                                'Filepath'  		=> $file_path ,
+                                'clientBokingRefNo'	=> $client_booking_ref_no
+                            ];
 
 		// Current time
         $date_now = date("Y-m-d");

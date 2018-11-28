@@ -69,7 +69,7 @@
             <div class="col-md-6 col-xs-12 login-container bs-reset">
                 <div class="login-content">
                         <a href="/login_vla">
-                        <img class="login-logo login-6" id="vla-login" src="../assets/pages/img/login/VLA_login_button.png" /></a> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <img class="login-logo login-6 img-responsive" id="vla-login" src="../assets/pages/img/login/VLA_login_button.png" /></a> &nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
             </div>
     </div>
