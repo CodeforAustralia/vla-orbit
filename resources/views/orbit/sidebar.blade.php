@@ -44,16 +44,10 @@
                                 <span class="arrow {{ Request::is('booking','booking/*') ? 'open' : null }}"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item {{ Request::is('booking') ? 'active' : null }}">
-                                    <a href="/booking" class="nav-link ">
-                                        <i class="icon-calendar"></i>
-                                        <span class="title">My Office</span>
-                                    </a>
-                                </li>
                                 <li class="nav-item {{ Request::is('booking/by_service_provider') ? 'active' : null }}">
                                     <a href="/booking/by_service_provider" class="nav-link ">
                                         <i class="icon-calendar"></i>
-                                        <span class="title">Other Offices</span>
+                                        <span class="title">My Bookings</span>
                                     </a>
                                 </li>
                                 <li class="nav-item {{ Request::is('booking/next_bookings') ? 'active' : null }}">
@@ -70,8 +64,16 @@
                                     </a>
                                 </li>
                                 @endif
+                                @if( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp']) )
+                                <li class="nav-item">
+                                    <a href="{{ env('BOOKING_ENGINE_BASE_URL') }}login_vla" class="nav-link" target="_blank">
+                                        <i class="fa fa-cog"></i>
+                                        <span class="title">Manage Bookings</span>
+                                    </a>
+                                </li>
+                                @endif
                             </ul>
-                        </li>        
+                        </li>
                         @endif
                         <li class="nav-item {{ Request::is('no_reply_emails','no_reply_emails/*') ? 'active' : null }}">
                             <a href="/no_reply_emails" class="nav-link nav-toggle">
@@ -93,9 +95,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>                
-
-                        
+                        </li>
 
                         <li class="nav-item {{ Request::is('service','service/*') ? 'active' : null }}">
                             <a href="/service" class="nav-link">
@@ -220,13 +220,13 @@
                                 <span class="title">Panel Lawyer</span>
                                 <span class="arrow"></span>
                             </a>
-                        </li>                   
+                        </li>
                         @endif
                     </ul>
                     <!-- END SIDEBAR MENU -->
                 </div>
                 <!-- END SIDEBAR -->
-                
+
                 <div class="hidden role" id="{{ \App\Http\helpers::getRole() }}"></div>
                 <div class="hidden sp_id" id="{{ \App\Http\helpers::getUSerServiceProviderId() }}"></div>
 
