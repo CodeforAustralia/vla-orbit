@@ -192,13 +192,11 @@ new Vue({
                     self.dates_regular = Object.keys(response.data.regular);
                     self.dates_interpreter = Object.keys(response.data.interpreter);
                     self.booking_availability = response.data,
-                    $(dateInput).prop('disabled', false);
                     $(dateInput).datepicker('setDate', year + "-" + month + "-01");
                     $("#contentLoading").modal("hide");
                 })
                 .catch(function (error) {
                     self.booking_availability = [];
-                    $(dateInput).prop('disabled', true);
                     $("#contentLoading").modal("hide");
                 });
         },
@@ -220,12 +218,13 @@ new Vue({
                 daysOfWeekDisabled: [0, 6],
                 todayHighlight: true,
                 autoclose: true,
+                container: '#bookingInfo',
                 beforeShowDay : function(date){
                     let date_formated = moment(date).format('YYYY-MM-DD');
-                    if(self.current_booking.is_interpreter == 0 && self.dates_regular.length > 0) {
+                    if(self.current_booking.is_interpreter == 0 ) {
                         return  self.dates_regular.includes(date_formated) ? true:false;
                     }
-                    else if (self.current_booking.is_interpreter == 1 && self.dates_interpreter.length > 0) {
+                    else if (self.current_booking.is_interpreter == 1 ) {
                         return  self.dates_interpreter.includes(date_formated) ? true:false;
                     }
 
@@ -248,6 +247,7 @@ new Vue({
                     };
                     self.getBookingAvailability(booking_info);
                 });
+                self.getBookingAvailability(booking_info);
         },
         setAvailableTimes: function (selected_date) {
             var self = this;

@@ -469,11 +469,16 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 
 .datepicker table tr td.today {
     border-radius: 15px;
+    color: #000;
+    background-color: #ffdb99;
+    border-color: #ffb733;
+    padding-left: 7px;
 }
 
 .datepicker table tr td.day:not(.new):not(.today):not(.disabled):not(.old) {
     border-radius: 15px;
     background-color: #26c281;
+    padding-left: 8px;
 }
 
 .datepicker table tr td.day.disabled.active {

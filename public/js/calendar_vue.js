@@ -39382,12 +39382,10 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/booking/service/' + self.current_booking.service_id + '/getAvailability/' + __WEBPACK_IMPORTED_MODULE_4_moment___default()(initial_date).format('YYYY-MM-DD') + "/" + __WEBPACK_IMPORTED_MODULE_4_moment___default()(last_day).format('YYYY-MM-DD')).then(function (response) {
                 self.dates_regular = Object.keys(response.data.regular);
                 self.dates_interpreter = Object.keys(response.data.interpreter);
-                self.booking_availability = response.data, $(dateInput).prop('disabled', false);
-                $(dateInput).datepicker('setDate', year + "-" + month + "-01");
+                self.booking_availability = response.data, $(dateInput).datepicker('setDate', year + "-" + month + "-01");
                 $("#contentLoading").modal("hide");
             }).catch(function (error) {
                 self.booking_availability = [];
-                $(dateInput).prop('disabled', true);
                 $("#contentLoading").modal("hide");
             });
         },
@@ -39409,11 +39407,12 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 daysOfWeekDisabled: [0, 6],
                 todayHighlight: true,
                 autoclose: true,
+                container: '#bookingInfo',
                 beforeShowDay: function beforeShowDay(date) {
                     var date_formated = __WEBPACK_IMPORTED_MODULE_4_moment___default()(date).format('YYYY-MM-DD');
-                    if (self.current_booking.is_interpreter == 0 && self.dates_regular.length > 0) {
+                    if (self.current_booking.is_interpreter == 0) {
                         return self.dates_regular.includes(date_formated) ? true : false;
-                    } else if (self.current_booking.is_interpreter == 1 && self.dates_interpreter.length > 0) {
+                    } else if (self.current_booking.is_interpreter == 1) {
                         return self.dates_interpreter.includes(date_formated) ? true : false;
                     }
                 } }).on("changeDate", function (e) {
@@ -39431,6 +39430,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 };
                 self.getBookingAvailability(booking_info);
             });
+            self.getBookingAvailability(booking_info);
         },
         setAvailableTimes: function setAvailableTimes(selected_date) {
             var self = this;
