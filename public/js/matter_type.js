@@ -278,7 +278,7 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [1, "asc"], [2, "asc"]
+                    [1, "asc"]
                 ],// set first column as a default sort by asc,
 
                 "serverSide": false,
@@ -287,12 +287,11 @@ var TableDatatablesAjax = function () {
                 "bInfo": false,
                 "columns": [
                         { data: "RefNo" },
+                        { data: "ServiceProviderName" },
                         { data: "ServiceId" },
+                        { data: "ServiceName" },
                         { data: "BookingServiceId" },
-                        { data: "InternalBookingServId" },
-                        { data: "ResourceId" },
-                        { data: "ServiceLength" },
-                        { data: "IntServiceLength" },
+                        { data: "BookingServiceName" },
                         {
                             data: null,
                             className: "center",
