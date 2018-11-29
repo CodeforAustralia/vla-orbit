@@ -31,7 +31,7 @@
                             <select id="bbsv_id" class="form-control select2" name="BookingServiceId" placeholder="Select a service" required>
                             <option> </option>
                                 @foreach( $booking_services as $booking_service)
-                                    <option value="{{ $booking_service['id'] }}"> {{ $booking_service['name'] }}</option>
+                                    <option value="{{ $booking_service['id'] }}"> {{ $booking_service['name'] }} - [ {{ $booking_service['serviceprovider']['name'] }} ]</option>
                                 @endforeach
                             </select>
                         </div>
