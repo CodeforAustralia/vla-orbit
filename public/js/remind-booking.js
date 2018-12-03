@@ -62,12 +62,12 @@ var RemindBooking = function () {
 
     var sendReminder = function () {
         $('.remind-booking').on('click', function () {
-            service_call();
+            service_call('');
         });
     }
 
     //currentEventInCalendar is a global variable that is at calendar.js
-    var service_call = function(template = '') {
+    var service_call = function() {
         let reminder = get_reminder_info();
         reminder.template = template;
         $.ajax({

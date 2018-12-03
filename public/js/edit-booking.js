@@ -190,27 +190,31 @@ function closeEditBooking()
     });
 }
 
-function printBooking(){
-    $( "#printBooking" ).click(function() {
+function printBooking() {
+    $("#printBooking").click(function () {
 
         var printFrame = document.createElement('iframe');
         printFrame.name = "printFrame";
         printFrame.style.position = "absolute";
-        printFrame.style.top = "-1000000px";
+        printFrame.style.zIndex = "1000000";
+        printFrame.style.top = "0px";
+        printFrame.style.backgroundColor = "white";
+        printFrame.style.width = "100%";
+        printFrame.style.height = "100%";
+        $(".page-container").hide();
         document.body.appendChild(printFrame);
         var frameDoc = (printFrame.contentWindow) ? printFrame.contentWindow : (printFrame.contentDocument.document) ? printFrame.contentDocument.document : printFrame.contentDocument;
         frameDoc.document.open();
-        frameDoc.document.write('<html><body>'+
-                                $('#SelectMatchLabel').html()+'<br>' +
-                                $('#clientInformation').html()+ '<br>' +
-                                $('#bookingInformation').html()+
-                                '</body></html>');
+        frameDoc.document.write('<html><body onload="window.print()">' +
+            $('#SelectMatchLabel').html() + '<br>' +
+            $('#clientInformation').html() + '<br>' +
+            $('#bookingInformation').html() +
+            '</body></html>');
         frameDoc.document.close();
         setTimeout(function () {
-            window.frames["printFrame"].focus();
-            window.frames["printFrame"].print();
             document.body.removeChild(printFrame);
+            $(".page-container").show();
         }, 500);
-    return false;
+        return false;
     });
 }
