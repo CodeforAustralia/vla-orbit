@@ -10,7 +10,7 @@ use Auth;
 use URL;
 use SimpleSAML_Auth_Simple;
 
-const LEGAL_HELP_ID = 112;
+const NO_SP = 0;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
                     $user
                        ->roles()
                        ->attach(Role::where('name', 'VLA')->first());
-                    $user->sp_id = LEGAL_HELP_ID ; // No service provider set LH by default
+                    $user->sp_id = NO_SP ; // No service provider set LH by default
                     $user->save();
                     Auth::login($user);
                 }
