@@ -106,7 +106,7 @@ class BookingController extends Controller
         $booking_obj = new Booking();
         $response = $booking_obj->deleteBooking( $bo_id );
 
-        return redirect('/booking')->with($response['success'], $response['message']);
+        return redirect('/booking/by_service_provider')->with($response['success'], $response['message']);
     }
     /**
      * Get bookable services by date
@@ -225,16 +225,16 @@ class BookingController extends Controller
                 }
             }
 
-            return redirect('/booking')->with('success', 'Booking saved.');
+            return redirect('/booking/by_service_provider')->with('success', 'Booking saved.');
         } else {
             $response = $booking_obj->requestBooking( request()->all() );
             if( $response )
             {
-                return redirect('/booking')->with('success', 'e-Referral sent.');
+                return redirect('/booking/by_service_provider')->with('success', 'e-Referral sent.');
             }
             else
             {
-                return redirect('/booking')->with('error', 'Email not set in service, please contact an administrator.');
+                return redirect('/booking/by_service_provider')->with('error', 'Email not set in service, please contact an administrator.');
             }
         }
     }
