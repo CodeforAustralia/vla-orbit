@@ -278,10 +278,10 @@ new Vue({
             let times = [];
             self.available_times = [];
             let days = [];
-            if(!self.interpreter_required && self.dates_regular.length > 0) {
+            if((!self.interpreter_required && !self.is_complex) && self.dates_regular.length > 0) {
                 days = Object.entries(self.booking_availability.regular);
             }
-            if(self.interpreter_required && self.dates_interpreter.length > 0) {
+            if((self.interpreter_required || self.is_complex) && self.dates_interpreter.length > 0) {
                 days = Object.entries(self.booking_availability.interpreter);
             }
             if(days.length > 0) {
@@ -333,10 +333,10 @@ new Vue({
                     beforeShowDay : function(date){
                         if(self.booking_bug_id && self.booking_bug_id !== 0){
                             let date_formated = moment(date).format('YYYY-MM-DD');
-                            if(!self.interpreter_required) {
+                            if(!self.interpreter_required && !self.is_complex) {
                                 return  self.dates_regular.includes(date_formated) ? true:false;
                             }
-                            else if (self.interpreter_required) {
+                            else if (self.interpreter_required || self.is_complex) {
                                 return  self.dates_interpreter.includes(date_formated) ? true:false;
                             }
                         }

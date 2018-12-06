@@ -667,26 +667,32 @@ Class Booking extends OrbitSoap
             switch ( $booking_request["request_type"] ) {
                 case APPOINTMENT_REQUEST:
                     $booking_request['subject'] = 'Appointment request - ';
+                    $booking_request['view_path'] = 'emails.booking.requestEmailApptReq';
                     break;
 
                 case FOR_ASSESSMENT:
                     $booking_request['subject'] =  'For Assessment - ';
+                    $booking_request['view_path'] = 'emails.booking.requestEmailForAssess';
                     break;
 
                 case PHONE_ADVICE:
                     $booking_request['subject'] = 'Phone advice - ' ;
+                    $booking_request['view_path'] = 'emails.booking.requestEmailPhAdv';
                     break;
 
                 case DUTY_LAYER:
                     $booking_request['subject'] = 'Duty Lawyer - ';
+                    $booking_request['view_path'] = 'emails.booking.requestEmailDuttyLaw';
                     break;
 
                 case CHILD_SUPPORT:
                     $booking_request['subject'] = 'Child Support - ';
+                    $booking_request['view_path'] = 'emails.booking.requestEmailChildSupport';
                     break;
 
                 case CHILD_PROTECTION:
                     $booking_request['subject'] = 'Child Protection - ';
+                    $booking_request['view_path'] = 'emails.booking.requestEmailChildProtection';
                     break;
             }
 

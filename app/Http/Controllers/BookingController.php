@@ -228,12 +228,10 @@ class BookingController extends Controller
             return redirect('/booking/by_service_provider')->with('success', 'Booking saved.');
         } else {
             $response = $booking_obj->requestBooking( request()->all() );
-            if( $response )
-            {
+            if ( $response ) {
                 return redirect('/booking/by_service_provider')->with('success', 'e-Referral sent.');
             }
-            else
-            {
+            else {
                 return redirect('/booking/by_service_provider')->with('error', 'Email not set in service, please contact an administrator.');
             }
         }

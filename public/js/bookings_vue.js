@@ -21224,10 +21224,10 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             var times = [];
             self.available_times = [];
             var days = [];
-            if (!self.interpreter_required && self.dates_regular.length > 0) {
+            if (!self.interpreter_required && !self.is_complex && self.dates_regular.length > 0) {
                 days = Object.entries(self.booking_availability.regular);
             }
-            if (self.interpreter_required && self.dates_interpreter.length > 0) {
+            if ((self.interpreter_required || self.is_complex) && self.dates_interpreter.length > 0) {
                 days = Object.entries(self.booking_availability.interpreter);
             }
             if (days.length > 0) {
@@ -21279,9 +21279,9 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 beforeShowDay: function beforeShowDay(date) {
                     if (self.booking_bug_id && self.booking_bug_id !== 0) {
                         var date_formated = __WEBPACK_IMPORTED_MODULE_2_moment___default()(date).format('YYYY-MM-DD');
-                        if (!self.interpreter_required) {
+                        if (!self.interpreter_required && !self.is_complex) {
                             return self.dates_regular.includes(date_formated) ? true : false;
-                        } else if (self.interpreter_required) {
+                        } else if (self.interpreter_required || self.is_complex) {
                             return self.dates_interpreter.includes(date_formated) ? true : false;
                         }
                     }
