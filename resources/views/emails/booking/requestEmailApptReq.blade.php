@@ -3,9 +3,9 @@
 
 ___
 
-<p>First name: {{ $args['first_name'] }}</p>
-<p>Last  name: {{ $args['last_name'] }}</p>
-<p>If interpreter is needed, what language?: {{ ( isset($args['int_language']) && $args['int_language'] != '' ? $args['int_language'] : 'N/A') }}</p>
+<p>First name: {{ $args['firstName'] }}</p>
+<p>Last  name: {{ $args['lastName'] }}</p>
+<p>If interpreter is needed, what language?: {{ ( isset($args['Language']) && $args['Language'] != '' ? $args['Language'] : 'N/A') }}</p>
 <p>Complex needs? {{ ( isset($args['IsComplex']) && $args['IsComplex'] != '' ? ($args['IsComplex'] == 1 ? 'Yes' : 'No' ) : 'N/A') }}</p>
 <p>Client Intake Record - Legal Advice ID:  {{ ( isset($args['CIRNumber']) && $args['CIRNumber'] != '' ? $args['CIRNumber'] : 'N/A') }}</p>
 
@@ -17,7 +17,7 @@ ___
 @if( isset($args['phone']) && $args['phone'] != '')
 <p>Contact number: {{ $args['phone'] }}</p>
 @endif
- 
+
 @if( isset($args['reContact']) && $args['reContact'] != '')
 <p>Instructions re contact: {{ $args['reContact'] }}</p>
 @endif
