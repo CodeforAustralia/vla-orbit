@@ -25,6 +25,50 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Display fields in form:</label>
+                    <div class="col-sm-3">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" id="email" name="dob" {{ ( isset( $fields )  && in_array('dob', $fields) ? 'checked' : '' ) }}>
+                            Date of Birth
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3 col-sm-offset-3">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" id="suburb" name="suburb" {{ ( isset( $fields )  && in_array('suburb', $fields) ? 'checked' : '' ) }}>
+                            Suburb
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3 col-sm-offset-3">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" id="postal_address" name="postal_address" {{ ( isset( $fields )  && in_array('postal_address', $fields) ? 'checked' : '' ) }}>
+                            Postal Address
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3 col-sm-offset-3">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" id="email" name="email" {{ ( isset( $fields )  && in_array('email', $fields) ? 'checked' : '' ) }}>
+                            Email
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Body of booking:</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="Body" name="Body" value="{{ ( isset($e_referral) && isset( $e_referral->Body ) && $e_referral->Body  ? $e_referral->Body : '' )}}" rows="20"></textarea>
+                    </div>
+                </div>
+
             </div>
             <div class="form-actions">
                 <div class="row">

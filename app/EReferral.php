@@ -52,6 +52,24 @@ Class EReferral extends OrbitSoap
         return $output;
     }
 
+    private function getFields($e_referral_form)
+    {
+        $fields = [];
+        if( array_key_exists ( 'dob', $e_referral_form ) ){
+            $fields[] = 'dob';
+        }
+        if( array_key_exists ( 'suburb', $e_referral_form ) ){
+            $fields[] = 'suburb';
+        }
+        if( array_key_exists ( 'postal_address', $e_referral_form ) ){
+            $fields[] = 'postal_address';
+        }
+        if( array_key_exists ( 'email', $e_referral_form ) ){
+            $fields[] = 'email';
+        }
+        return implode(',', $fields);
+    }
+
     /**
      * Stores a new eReferral form
      *
@@ -64,15 +82,23 @@ Class EReferral extends OrbitSoap
         $time_now = date("H:i:s");
         $date_time = $date_now . "T" . $time_now;
 
+        $body = '';
+        if( isset($e_referral_form['Body']) ) {
+            $body = $e_referral_form['Body'];
+        }
+
+        $fields = $this->getFields($e_referral_form);
+
         $info = [ 'ObjectInstance' =>
                     [
                         'RefNo'		  => filter_var( $e_referral_form['RefNo'], FILTER_SANITIZE_STRING ),
                         'Name'		  => filter_var( $e_referral_form['Name'], FILTER_SANITIZE_STRING ),
                         'Description' => filter_var( $e_referral_form['Description'], FILTER_SANITIZE_STRING ),
-
-                        'CreatedBy' => auth()->user()->name,
+                        'Body'        =>  $body,
+                        'Fields'      =>  $fields,
+                        'CreatedBy' => auth()->user()->id,
                         'Created'   => $date_time,
-                        'UpdatedBy' => auth()->user()->name,
+                        'UpdatedBy' => auth()->user()->id,
                         'Updated'   => $date_time
                     ]
                 ];

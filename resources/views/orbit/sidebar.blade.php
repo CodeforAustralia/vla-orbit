@@ -214,6 +214,14 @@
                             </a>
                         </li>
 
+                        <li class="nav-item start {{ Request::is('e_referral','e_referral/*') ? 'active' : null }}">
+                            <a href="/e_referral" class="nav-link">
+                                <i class="icon-paper-plane"></i>
+                                <span class="title">E-Referrals</span>
+                                <span class="arrow {{ Request::is('e_referral','e_referral/*') ? 'open' : null }}"></span>
+                            </a>
+                        </li>
+
                         <li class="nav-item {{ Request::is('panel_lawyers') ? 'active' : null }}">
                             <a href="/panel_lawyers" class="nav-link">
                                 <i class="fa fa-gavel"></i>
