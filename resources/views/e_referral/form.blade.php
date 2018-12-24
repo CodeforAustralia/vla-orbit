@@ -65,7 +65,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Body of booking:</label>
                     <div class="col-md-4">
-                        <textarea class="form-control" id="Body" name="Body" value="{{ ( isset($e_referral) && isset( $e_referral->Body ) && $e_referral->Body  ? $e_referral->Body : '' )}}" rows="20"></textarea>
+                        <textarea class="form-control" id="Body" name="Body" rows="20">{{ ( isset($e_referral) && isset( $e_referral->Body ) && $e_referral->Body  ? $e_referral->Body : '' )}}</textarea>
                     </div>
                 </div>
 

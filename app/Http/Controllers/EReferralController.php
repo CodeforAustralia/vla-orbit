@@ -42,7 +42,8 @@ class EReferralController extends Controller
         Auth::user()->authorizeRoles('Administrator');
         $e_referral_obj = new EReferral();
         $e_referral = $e_referral_obj->getEReferralFormByID($erf_id)['data']->ReferralForm;
-        $fields = ( isset( $e_referral->fields ) ?  explode(',', $e_referral->fields) : [] );
+        $fields = ( isset( $e_referral->Fields ) ?  explode(',', $e_referral->Fields) : [] );
+
         return view("e_referral.show", compact('e_referral', 'fields'));
     }
     /**
