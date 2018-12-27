@@ -187,7 +187,7 @@
             </div>
         </div>
 
-        <div class="row" v-show="booking_template_id == 2">
+        <div class="row" v-show="displayField('dob')">
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
@@ -198,7 +198,7 @@
             </div>
         </div>
 
-        <div class="row" v-show="booking_template_id == 2">
+        <div class="row" v-show="displayField('suburb')">
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
@@ -219,7 +219,7 @@
             </div>
         </div>
 
-        <div class="row" v-if="booking_template_id == 5">
+        <div class="row" v-if="displayField('postal_address')">
             <div class="col-xs-5 col-md-6 col-lg-5">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
@@ -230,7 +230,7 @@
             </div>
         </div>
 
-        <div class="row" v-if="booking_template_id == 5">
+        <div class="row" v-if="displayField('email')">
             <div class="col-xs-5 col-md-6 col-lg-5">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
@@ -241,7 +241,7 @@
             </div>
         </div>
 
-        <div class="row" v-if="booking_template_id == 5">
+        <div class="row" v-if="displayField('email')">
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12">
@@ -387,7 +387,7 @@ text/plain, application/pdf, image/*" />
 @section('scripts')
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
-    <script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey=v3tjlgkjdlr8xiq21qsdopbjfkuk5ibmdhgb5yznjfpyb1lj" ></script>
+    <script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey={{ env('TYTINYMCE_KEY') }}" ></script>
     <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
@@ -397,7 +397,7 @@ text/plain, application/pdf, image/*" />
     <script src="/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-repeater/jquery.repeater.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/form-repeater.min.js" type="text/javascript"></script>
-    <script src="/js/bookings_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>
+    <script src="/js/bookings_vue.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
 @endsection
 

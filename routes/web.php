@@ -412,6 +412,8 @@ Route::get('/e_referral/delete/{erf_id}', 'EReferralController@destroy');
 
 Route::get('/e_referral/list', 'EReferralController@list');
 
+Route::get('/e_referral/list_by_id/{erf_id}', 'EReferralController@listById');
+
 Route::get('/e_referral/listFormsFormated', 'EReferralController@listFormsFormated');
 
 Route::post('/e_referral', 'EReferralController@store');

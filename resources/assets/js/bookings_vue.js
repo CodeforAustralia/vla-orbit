@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import 'babel-polyfill'
-import moment from 'moment'
 import axios from 'axios';
+import 'babel-polyfill';
+import moment from 'moment';
+import Vue from 'vue';
 import VueMce from 'vue-mce';
 
 Vue.use(VueMce);
@@ -28,8 +28,6 @@ new Vue({
         available_times: [],
         booking_availability: [],
         booking_bug_id: 0,
-        booking_template: '',
-        booking_template_id: '',
         can_book: false,
         can_e_referr: false,
         client: {},
@@ -46,6 +44,7 @@ new Vue({
         dates_interpreter: [],
         hour:null,
         description_value : '',
+        template_flieds: []
     },
 
     methods: {
@@ -84,7 +83,6 @@ new Vue({
                 }
             }
             // Set the first option of the request_type select if only exist one.
-            //
             setTimeout(onlyOne, 1000);
             function onlyOne() {
                 let form_type = document.getElementById("request_type");
@@ -100,53 +98,36 @@ new Vue({
 
 
         },
+        setEReferralTemplate: function (e_ref_obj) {
+            var self = this;
+            let fields = e_ref_obj.Fields.split(',');
+            self.template_flieds = fields;
+            self.description_value = e_ref_obj.Body;
+        },
+        getEreferralTemplate: function (erf_id) {
+            var self = this;
+            self.showLoading();
+            axios.get('/e_referral/list_by_id/' + erf_id)
+                .then(function (response) {
+                    self.setEReferralTemplate(response.data);
+                    self.hideLoading();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    self.hideLoading();
+                });
+        },
         onChangeFormType: function (e) {
             var self = this;
-            let template = '';
             document.getElementById("submit-booking").innerText = "Send e-Referral";
             self.is_direct_booking = false;
             if (parseInt(e.srcElement.value) === 0) { //Direct Booking
                 self.is_direct_booking = true;
                 document.getElementById("submit-booking").innerText = "Make booking";
-            } else if (parseInt(e.srcElement.value) === 1) { //'appointment_request'
-                template += 'Brief outline of matter: <br> <br>';
-                template += 'This call was supervised by (if relevant):  <br><br>';
-            } else if (parseInt(e.srcElement.value) === 2) { //'for_assessment'
-                template += 'Brief outline of matter: <br> <br>';
-                template += 'Notes (special needs, urgency, time limits, tribunal/court hearing dates and location if the caller is in custody/detention):<br><br>';
-                template += 'This call was supervised by (if relevant):  <br><br>';
-            } else if (parseInt(e.srcElement.value) === 3) { //'phone_advice'
-                template += 'Brief outline of matter: <br><br>';
-                template += 'This call was supervised by (if relevant):  <br><br>';
-            } else if (parseInt(e.srcElement.value) === 4) { //'duty_layer'
-                template += 'Brief outline of matter: <br><br>';
-                template += 'Court Date: <br><br>';
-                template += 'This call was supervised by (if relevant):  <br><br>';
-            } else if (parseInt(e.srcElement.value) === 5) { //'child_support'
-                template += 'Brief outline of matter: <br><br>';
-                template += 'Before completing this booking, ensure conflicts enquiry is completed. Please list names and DOB of other parties (including children): <br><br>';
-                template += 'This call was supervised by (if relevant):  <br><br>';
-            } else if (parseInt(e.srcElement.value) === 6) { //'child_protection'
-                template += 'Urgent: Y/N <br><br><br>';
-                template += '<strong>Conflict Check All Parties</strong> <br><br>';
-                template += 'Mother: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
-                template += 'Mother\'s spouse/ domestic partner: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
-                template += 'Father: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
-                template += 'Father\'s spouse/domestic partner: DOB,  ATSI Y/N, Conflict Y/N <br><br>';
-                template += 'Children (inc step): DOB,  ATSI Y/N, Conflict Y/N <br><br><hr>';
-                template += 'Upcoming Court date: Y/N <br><br>';
-                template += 'Court location: <br><br>';
-                template += 'Are there orders in place? Y/N Details <br><br>';
-                template += 'Date orders made? <br><br>';
-                template += 'Upcoming appointment with DHHS?  Y/N  When? <br><br>';
-                template += 'Has the client signed an agreement with DHHS in relation to the child? Y/N Details <br><br>';
-                template += 'Are they asking the client to sign something? Details <br><br>';
-                template += 'Has DHHS indicated they are thing of removing the child from the client\'s care or change the living arrangements? Details <br><br>';
-                template += 'What has prompted the call to VLA today? Details <br><br>';
+            } else if (parseInt(e.srcElement.value) > 0) {
+                self.getEreferralTemplate(parseInt(e.srcElement.value));
             }
-            self.booking_template = template;
-            self.booking_template_id = e.srcElement.value;
-            $('#Desc').summernote('code', template);
+
             document.getElementsByName("service_provider_id")[0].value = self.selected_sp;
         },
         onChangeLanguage: function (e) {
@@ -348,11 +329,6 @@ new Vue({
                         let selected_date = e.date.getFullYear() + "-" +
                                             ('0' + (e.date.getMonth() + 1)).slice(-2) + "-" +
                                             ('0' + e.date.getDate()).slice(-2);
-                        /*{
-                            day: ('0' + e.date.getDate()).slice(-2),
-                            month: ('0' + (e.date.getMonth() + 1)).slice(-2),
-                            year: e.date.getFullYear()
-                        }*/
                         self.setAvailability(selected_date);
                     }
                 })
@@ -471,6 +447,12 @@ new Vue({
                         });
                 });
             }
+        },
+        displayField: function (field_name) {
+            if (this.template_flieds.indexOf(field_name) >= 0) {
+                return true;
+            }
+            return false;
         }
 
     },

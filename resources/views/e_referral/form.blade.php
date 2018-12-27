@@ -64,8 +64,16 @@
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Body of booking:</label>
-                    <div class="col-md-4">
-                        <textarea class="form-control" id="Body" name="Body" rows="20">{{ ( isset($e_referral) && isset( $e_referral->Body ) && $e_referral->Body  ? $e_referral->Body : '' )}}</textarea>
+                    <div class="col-md-8">
+                        <textarea class="form-control hidden" id="body_text" rows="20">{{ ( isset($e_referral) && isset( $e_referral->Body ) && $e_referral->Body  ? $e_referral->Body : '' )}}</textarea>
+                        <div id="editor" class="editor">
+                            <vue-mce
+                                id="Body"
+                                name="Body"
+                                class="form-control"
+                                :value="text_in_editor"
+                                :config="config"/>
+                        </div>
                     </div>
                 </div>
 
@@ -81,3 +89,8 @@
         <!-- END FORM-->
     </div>
 </div>
+
+@section('scripts')
+<script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey={{ env('TYTINYMCE_KEY') }}" ></script>
+<script src="/js/e_referral.js" type="text/javascript"></script>
+@endsection

@@ -807,3 +807,7 @@ h4 {
     padding: 0;
     border: 0;
 }
+
+.editor {
+    height: 400px;
+}
