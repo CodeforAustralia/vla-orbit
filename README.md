@@ -56,6 +56,7 @@ The values that are relevant for us are:
 * `APP_DEBUG=` This should be only true when you are debuggin your application ie. your development server.
 * `APP_LOG_LEVEL=` Log Severity Levels one of [debug, info, notice, warning, error, critical, alert, emergency]
 * `APP_URL=http://localhost`
+* `APP_TEAM_EMAIL=team@yourdomain.com` This is used to receive feedback or support from users
 
 * `DB_CONNECTION=` Type of connection that you will use with your database ie. mysql
 * `DB_HOST=` Address that will be used to connect with your database ie. 127.0.0.1
@@ -78,7 +79,7 @@ The values that are relevant for us are:
 
 *Simple SAML settings, to authenticate users using VLA's Active Directory*
 
-* `SIMPLESML_SP=` Simple SAML identifier
+* `SIMPLESML_SP=` Simple SAML identifier for Active Directory Auth
 
 *Web Services settings, this web services are hosted in a different server and each WSDL is accessed by Laravel through SOAP*
 
@@ -89,6 +90,7 @@ The values that are relevant for us are:
 *Other libraries*
 
 * `GOOGLE_MAPS_KEY=` Your own google maps API KEY with this liraries enabled [Places API, Geocoding API, Maps JavaScript API, Distance Matrix API]
+* `TYTINYMCE_KEY=` You should get this key from their Tiny MCE website in order to use it on the project
 
 *As a good practice your .env file should not be committed to your application's source control*
 
