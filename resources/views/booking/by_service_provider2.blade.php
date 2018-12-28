@@ -99,6 +99,7 @@
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey=v3tjlgkjdlr8xiq21qsdopbjfkuk5ibmdhgb5yznjfpyb1lj" ></script>
     <script src="/js/calendar_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>
+    <script src="/js/edit-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
 
 @endsection

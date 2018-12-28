@@ -138,23 +138,11 @@
 
                             <div class="col-sm-12">
                                 <label class="col-sm-5"><strong>Complex needs: </strong></label>
-                                <a href="javascript:;"
+                                <span
                                     class="col-sm-5"
                                     id="IsComplex"
                                     data-type="text"
-                                    v-show="!showField('IsComplex')"
-                                    v-html="(current_booking.data ? (current_booking.data.IsComplex == 1 ? 'Yes' : 'No') : '' )"
-                                    @click="enableEditing(current_booking.data ? current_booking.data.IsComplex : '','IsComplex')"></a>
-                                <select class="form-control input-small col-sm-5" v-show="showField('IsComplex')" v-model="temp_value">
-                                    <option value="1"> Yes </option>
-                                    <option value="0"> No </option>
-                                </select>
-                                <button class='btn blue editable-submit col-sm-1'
-                                        v-show="showField('IsComplex')"
-                                        @click="updateBookingField('data.IsComplex')">
-                                        <i class="fa fa-check"></i>
-                                </button>
-                                <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('IsComplex')"> <i class="fa fa-times"></i> </button>
+                                    v-html="(current_booking.data ? (current_booking.data.IsComplex == 1 ? 'Yes' : 'No') : '' )"></span>
                             </div>
 
                             <div class="col-sm-12">
@@ -275,7 +263,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <label>Date of appointment: <small>choose from dates marked green</small></label>
-                                <input type="text" class="form-control input-medium" id="booking-date" v-model='selected_date' name="booking-date">
+                                <input type="text" class="form-control input-medium" id="booking-date" v-model='selected_date' name="booking-date" autocomplete="off">
                             </div>
                             <div class="col-sm-12">
                                 <label>Available Times:</label>
