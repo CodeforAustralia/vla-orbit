@@ -113,6 +113,17 @@
                             </a>
                         </li>
 
+                        @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp']) )
+
+                        <li class="nav-item {{ Request::is('service_booking') ? 'active' : null }}">
+                            <a href="/service_booking" class="nav-link">
+                                <i class="fa fa-book"></i>
+                                <span class="title">Service Booking</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                        @endif
+
                         @if ( \App\Http\helpers::getRole() == 'Administrator' )
 
                         <li class="nav-item {{ Request::is('matter','matter/*') ? 'active' : null }}">
@@ -202,14 +213,6 @@
                             <a href="/dashboard" class="nav-link">
                                 <i class="fa fa-desktop"></i>
                                 <span class="title">Dashboard wall</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item {{ Request::is('service_booking') ? 'active' : null }}">
-                            <a href="/service_booking" class="nav-link">
-                                <i class="fa fa-book"></i>
-                                <span class="title">Service Booking</span>
                                 <span class="arrow"></span>
                             </a>
                         </li>

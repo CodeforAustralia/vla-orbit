@@ -31,7 +31,7 @@ class ServiceBookingController extends Controller
      */
     public function index()
     {
-        Auth::user()->authorizeRoles( ['Administrator'] );
+        Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
         return view("service_booking.index");
     }
 
@@ -41,7 +41,7 @@ class ServiceBookingController extends Controller
      */
     public function list()
     {
-        Auth::user()->authorizeRoles( ['Administrator'] );
+        Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
         $service_booking_obj = new ServiceBooking();
         $service_obj = new Service();
         $booking_engine_obj = new BookingEngine();
@@ -82,7 +82,7 @@ class ServiceBookingController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles( ['Administrator'] );
+        Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
         $service_obj = new Service();
         $booking_engine_obj = new BookingEngine();
         $services = $service_obj->getAllServices();
@@ -97,7 +97,7 @@ class ServiceBookingController extends Controller
      */
     public function store()
     {
-        Auth::user()->authorizeRoles( ['Administrator'] );
+        Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
     	//Validations
     	$this->validate(request(), [
     		'ServiceId'=>'required',
@@ -119,7 +119,7 @@ class ServiceBookingController extends Controller
      */
     public function show( $sb_id )
     {
-        Auth::user()->authorizeRoles( ['Administrator'] );
+        Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
 
         $service_booking = new ServiceBooking();
         $result = $service_booking->getServiceBookingByID( $sb_id );
@@ -147,7 +147,7 @@ class ServiceBookingController extends Controller
      */
     public function destroy($sb_id)
     {
-        Auth::user()->authorizeRoles( ['Administrator'] );
+        Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
         $serviceBooking = new ServiceBooking();
         $response = $serviceBooking->deleteServiceBookingById($sb_id);
 

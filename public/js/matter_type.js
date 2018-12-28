@@ -1750,6 +1750,10 @@ var TableDatatablesAjax = function () {
                             can_delete = true;
                         }
                         break;
+                    case 'service_booking':
+                        can_edit = true;
+                        can_delete = true;
+                        break;
                     case 'question':
                         can_edit = true;
                     case 'matter':
