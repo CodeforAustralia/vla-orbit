@@ -136,6 +136,15 @@ Class BookingEngine extends BookingEngineClient
         $services = $this->client->get($tokens, $url);
         return json_decode(json_encode($services), true);
     }
+
+    public function getServicesBySPName($service_provider_name)
+    {
+        $url =  "api/auth/service/service_provider/" . $service_provider_name;
+        $tokens = $this->getTokens();
+        $services = $this->client->get($tokens, $url);
+        return json_decode(json_encode($services), true);
+
+    }
     /**
      * Get All Booking by Day
      *

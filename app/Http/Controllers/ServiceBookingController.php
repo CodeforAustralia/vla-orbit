@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ServiceBooking;
 use App\Service;
+use App\ServiceProvider;
 use App\BookingEngine;
 use Auth;
 
@@ -42,27 +43,34 @@ class ServiceBookingController extends Controller
     public function list()
     {
         Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
+        $user = Auth::user();
         $service_booking_obj = new ServiceBooking();
         $service_obj = new Service();
         $booking_engine_obj = new BookingEngine();
-
-        // orbit services
-        $services = $service_obj->getAllServices();
         //booking engine services
         $booking_services = $booking_engine_obj->getServices();
         // service bookings
         $service_bookings = $service_booking_obj->getAllServiceBookings();
+
+        if(\App\Http\helpers::getRole() !== 'Administrator') {
+            $services = $service_obj->getAllServicesBySP($user->sp_id);
+            $service_bookings =  $this->filterServiceBooking($service_bookings, $services);
+        } else {
+            $services = $service_obj->getAllServices();
+        }
+        // orbit services
 
         foreach ($service_bookings as $key_sb => $service_booking) {
             $service_bookings[$key_sb]['ServiceName'] = '';
             $service_bookings[$key_sb]['ServiceProviderName'] = '';
             $service_bookings[$key_sb]['BookingServiceName'] = '';
             foreach ($services as $key => $service) {
-                if($service_booking['ServiceId'] == $service['ServiceId']) {
+                if($service_booking['ServiceId'] == $service['ServiceId'] ) {
                     $service_bookings[$key_sb]['ServiceName'] = $service['ServiceName'];
                     $service_bookings[$key_sb]['ServiceProviderName'] = $service['ServiceProviderName'];
                     break;
                 }
+
             }
             foreach ($booking_services as $key => $booking_service) {
                 if($service_booking['BookingServiceId'] == $booking_service['id']) {
@@ -75,6 +83,28 @@ class ServiceBookingController extends Controller
 
         return ['data' => $service_bookings];
     }
+    /**
+     * Get service bookings list with the services that belong to the service provider of the user
+     *
+     * @param array $service_bookings
+     * @param array $services
+     * @return void
+     */
+    private function filterServiceBooking($service_bookings, $services)
+    {
+        $user = Auth::user();
+        $service_bookings_list = [];
+        foreach ($services as $service) {
+            foreach ($service_bookings as $service_booking) {
+                if($service_booking['ServiceId'] == $service['ServiceId']){
+                    $service_bookings_list [] = $service_booking;
+                    break;
+                }
+            }
+        }
+        return $service_bookings_list;
+
+    }
 
     /**
      * Show the form for creating a nee service booking
@@ -83,10 +113,20 @@ class ServiceBookingController extends Controller
     public function create()
     {
         Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
-        $service_obj = new Service();
+        $user = Auth::user();
+        $service_booking = new ServiceBooking();
         $booking_engine_obj = new BookingEngine();
-        $services = $service_obj->getAllServices();
-        $booking_services = $booking_engine_obj->getServices();
+        $service_obj = new Service();
+        if(\App\Http\helpers::getRole() !== 'Administrator') {
+            $service_providers_obj = new ServiceProvider();
+            $service_provider_result = $service_providers_obj->getServiceProviderByID( $user->sp_id );
+            $service_provider = json_decode( $service_provider_result['data'] )[0];
+            $services = $service_obj->getAllServicesBySP($user->sp_id);
+            $booking_services = $booking_engine_obj->getServicesBySPName($service_provider->ServiceProviderName);
+        } else {
+            $services = $service_obj->getAllServices();
+            $booking_services = $booking_engine_obj->getServices();
+        }
 		usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
     	return view("service_booking.create", compact('services', 'booking_services'));
     }
@@ -120,16 +160,21 @@ class ServiceBookingController extends Controller
     public function show( $sb_id )
     {
         Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
-
+        $user = Auth::user();
         $service_booking = new ServiceBooking();
         $result = $service_booking->getServiceBookingByID( $sb_id );
-
-        $service_obj = new Service();
-        $services = $service_obj->getAllServices();
-
         $booking_engine_obj = new BookingEngine();
-        $booking_services = $booking_engine_obj->getServices();
-
+        $service_obj = new Service();
+        if(\App\Http\helpers::getRole() !== 'Administrator') {
+            $service_providers_obj = new ServiceProvider();
+            $service_provider_result = $service_providers_obj->getServiceProviderByID( $user->sp_id );
+            $service_provider = json_decode( $service_provider_result['data'] )[0];
+            $services = $service_obj->getAllServicesBySP($user->sp_id);
+            $booking_services = $booking_engine_obj->getServicesBySPName($service_provider->ServiceProviderName);
+        } else {
+            $services = $service_obj->getAllServices();
+            $booking_services = $booking_engine_obj->getServices();
+        }
         usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
         if ( isset($result['data']) ) {
             $current_service_booking = json_decode( $result['data'] )[0];
