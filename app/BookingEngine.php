@@ -97,6 +97,10 @@ Class BookingEngine extends BookingEngineClient
     {
         $url = "/api/auth/booking/" . $args['booking_id'] ;
         $tokens = $this->getTokens();
+
+        $user = Auth::user();
+        $args['updated_by'] = $user->id;
+
         $booking = $this->client->patch($args,$tokens, $url);
         $log = new Log();
         $log::record( 'UPDATE', 'booking', $booking->id, $booking );
