@@ -75,9 +75,15 @@ Class BookingEngine extends BookingEngineClient
     {
         $url = "/api/auth/booking";
         $tokens = $this->getTokens();
+
+        $user = Auth::user();
+        $booking['created_by'] = $user->id;
+
         $booking_id = $this->client->post($booking,$tokens, $url);
+
         $log = new Log();
         $log::record( 'CREATE', 'booking', $booking_id, $booking );
+
         return $booking_id;
     }
 
