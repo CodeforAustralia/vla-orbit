@@ -164,6 +164,7 @@ class BookingController extends Controller
                 'ContactInstructions' => (is_null( request('reContact') ) ? '' : request('reContact') ),//reContact
                 'RemindNow' => (is_null( request('RemindNow') ) ? 0 : ( request('RemindNow') == 'Yes' ? 1 : 0 ) ),//phonepermission
                 'CreatedBy' => (is_null( request('created_by') ) ? '':request('created_by')),
+                'OfficeId'  => \App\Http\helpers::getUSerServiceProviderId()  // The user office (sp)
             ];
             // Create the booking object
             $booking = [
