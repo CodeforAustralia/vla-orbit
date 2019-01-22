@@ -52,7 +52,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="portlet light portlet-fit  calendar">
+                <div class="portlet light portlet-fit calendar">
                     <div class="portlet-title">
                         <div class="caption">
                             <i class=" icon-layers font-green"></i>
@@ -80,9 +80,36 @@
             </div>
         </div>
         <!-- Calendar End -->
+
         <!-- Modal Start -->
         @include("booking.booking_info_modal_vue")
         <!-- Modal Fade Close-->
+    </div>
+
+    <div class="row vue-tables" id="datatable">
+        <div class="col-md-12">
+            <div class="portlet light portlet-fit">
+                <div class="portlet-title">
+                    <div class="col-xs-12 form-inline margin-0">
+                        <div class="form-group pull-right">
+                            <label>
+                                Search:
+                                <input type="text" class="form-control" v-model="filter" placeholder="Search">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div id="datatable" class="portlet-body vue-tables">
+                            <div id="table" class="col-xs-12 table-responsive">
+                                <datatable :columns="columns" :data="rows" :filter-by="filter"></datatable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -98,6 +125,7 @@
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey=v3tjlgkjdlr8xiq21qsdopbjfkuk5ibmdhgb5yznjfpyb1lj" ></script>
+    <script src="/js/datatable/user_bookings_datatable.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <script src="/js/calendar_vue.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <script src="/js/edit-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->

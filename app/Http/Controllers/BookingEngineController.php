@@ -288,6 +288,18 @@ class BookingEngineController extends Controller
         return self::getSentSMSDates($booking_engine_obj->getFutureBookingsBySPName());
     }
 
+    /**
+     * Get appointments made by the user
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function user( Request $request )
+    {
+        $booking_engine_obj = new BookingEngine();
+        return self::getSentSMSDates($booking_engine_obj->getBookingsByUser());
+    }
+
 
     public function deleteBooking($booking_id)
     {

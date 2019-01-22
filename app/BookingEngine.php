@@ -170,6 +170,11 @@ Class BookingEngine extends BookingEngineClient
         return $bookings;
     }
 
+    /**
+     * Get future booking by office name
+     *
+     * @return Array Bookings for the given office
+     */
     public function getFutureBookingsBySPName()
     {
         $bookings = [];
@@ -187,6 +192,21 @@ Class BookingEngine extends BookingEngineClient
             $tokens = $this->getTokens();
             $bookings = $this->client->get($tokens, $url);
         }
+        return $bookings;
+    }
+
+    /**
+     * Get bookings by current user using the app
+     *
+     * @return Array
+     */
+    public function getBookingsByUser()
+    {
+        $user = Auth::user();
+        $url = 'api/auth/booking/orbit_user/' . $user->id;
+        $tokens = $this->getTokens();
+        $bookings = $this->client->get($tokens, $url);
+
         return $bookings;
     }
 

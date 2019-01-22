@@ -37,7 +37,7 @@
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
 
     <script src="/js/remind-booking.js?id={{ str_random(6) }}" type="text/javascript"></script>
-    <script src="/js/datatable/datatable.js?id={{ str_random(6) }}" type="text/javascript"></script>
+    <script src="/js/datatable/future_bookings_datatable.js?id={{ str_random(6) }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
 
 @endsection
