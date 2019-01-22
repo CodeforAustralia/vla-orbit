@@ -150,6 +150,14 @@
             <h5>Legal Help Officer</h5>
             <p>"I like the fact that it makes me think of other relevant services. Especially non legal services."</p>
         </div>
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+            <h5>Ringwood ASM</h5>
+            <p>"A user friendly tool that actually works. Automatic SMS reminders go out to the clients the day before the appointment which have increased attendance rate. We have noticed that clients even call to reschedule or cancel. This frees up an appointment slot for any urgent ones to be made. It is particularly helpful for lawyers travelling to outreach services to know if there is a cancellation in advance so that they can make travel arrangements accordingly."</p>
+        </div>
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+            <h5>Legal Assistant, Gippsland</h5>
+            <p>"Orbit is such a fantastic tool for referrals both internally and externally to the organisation. I love how you can send both text and e-mail so quickly. I have learnt such much more about other services I would not have known about otherwise. This is such a great resource for our organisation I use it numerous times every day."</p>
+        </div>
 
     </div>
     <!-- End - Quotes Section -->
