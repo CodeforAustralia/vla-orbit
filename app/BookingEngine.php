@@ -4,6 +4,7 @@ namespace App;
 use Illuminate\Support\Facades\Mail;
 use App\Log;
 use App\Service;
+use App\ServiceProvider;
 use App\User;
 use Auth;
 
@@ -166,6 +167,26 @@ Class BookingEngine extends BookingEngineClient
         $url = "api/auth/booking/date/".$date;
         $tokens = $this->getTokens();
         $bookings = $this->client->get($tokens, $url);
+        return $bookings;
+    }
+
+    public function getFutureBookingsBySPName()
+    {
+        $bookings = [];
+        $service_providers_obj  = new ServiceProvider();
+        $user = Auth::user();
+        if($user->sp_id > 0) {
+            $service_provider = $service_providers_obj->getServiceProviderByID($user->sp_id);
+            $service_provider_info = json_decode($service_provider['data'])[0];
+            $sp_name = $service_provider_info->ServiceProviderName;
+            $today = date("Y-m-d");
+            $three_moths_time = strtotime("+3 Months");
+            $three_moths = date("Y-m-d", $three_moths_time);
+
+            $url = 'api/auth/booking/' . $sp_name . '/'. $today . '/' . $three_moths;
+            $tokens = $this->getTokens();
+            $bookings = $this->client->get($tokens, $url);
+        }
         return $bookings;
     }
 

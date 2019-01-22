@@ -813,3 +813,9 @@ h4 {
 .editor {
     height: 400px;
 }
+
+/************************** Vue Js Datatables *********************************/
+.vue-tables table.dataTable thead .sorting {
+    color: #7a80dd;
+    width: 0;
+}

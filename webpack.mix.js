@@ -19,4 +19,5 @@ mix.js('resources/assets/js/bookings_vue.js', 'public/js')
    .js('resources/assets/js/booking_engine_vue.js', 'public/js/booking_engine.js')
    .sass('resources/assets/sass/booking_engine.scss', 'public/css')
    .js('resources/assets/js/calendar_vue.js', 'public/js/calendar_vue.js')
-   .js('resources/assets/js/e_referral.js', 'public/js');
+   .js('resources/assets/js/e_referral.js', 'public/js')
+   .js('resources/assets/js/datatable.js', 'public/js/datatable');

@@ -276,6 +276,18 @@ class BookingEngineController extends Controller
         return $bookings;
     }
 
+    /**
+     * get 3 months in advance bookings for own office
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function nextBookings( Request $request )
+    {
+        $booking_engine_obj = new BookingEngine();
+        return self::getSentSMSDates($booking_engine_obj->getFutureBookingsBySPName());
+    }
+
 
     public function deleteBooking($booking_id)
     {
