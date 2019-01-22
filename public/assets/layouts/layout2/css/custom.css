@@ -739,10 +739,12 @@ body {
 
 .portlet.calendar .fc-event .fc-title {
     font-weight: normal;
+    color: unset;
 }
 
 .portlet.calendar .fc-event .fc-time {
     font-weight: normal;
+    color: unset;
 }
 
 .page-sidebar .page-sidebar-menu>li.active>a,
