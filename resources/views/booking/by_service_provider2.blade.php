@@ -101,7 +101,7 @@
                 </div>
                 <div class="portlet-body">
                     <div class="row">
-                        <div id="datatable" class="portlet-body vue-tables">
+                        <div id="datatable" class="vue-tables">
                             <div id="table" class="col-xs-12 table-responsive">
                                 <datatable :columns="columns" :data="rows" :filter-by="filter"></datatable>
                             </div>
