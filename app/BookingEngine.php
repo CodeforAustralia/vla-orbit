@@ -232,6 +232,7 @@ Class BookingEngine extends BookingEngineClient
     {
         $user = new User();
         $legal_help_id = LEGAL_HELP_ID;
+        $legal_help_bookings=[];
         foreach ($bookings['bookings'] as $booking) {
 
             $user_id = $booking->created_by;
