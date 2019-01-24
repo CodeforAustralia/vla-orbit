@@ -10,10 +10,12 @@ use Auth;
 
 /**
  * Booking model for the booking engine functionalities
- * @author Christian Arevalo
+ * @author Christian Arevalo and Sebastian Currea
  * @version 1.1.1
  * @see  BookingEngineClient
  */
+
+const LEGAL_HELP_ID = 112;
 
 Class BookingEngine extends BookingEngineClient
 {
@@ -175,7 +177,7 @@ Class BookingEngine extends BookingEngineClient
      *
      * @return Array Bookings for the given office
      */
-    public function getFutureBookingsBySPName()
+    public function getFutureBookingsByUserSPName()
     {
         $bookings = [];
         $service_providers_obj  = new ServiceProvider();
@@ -208,6 +210,40 @@ Class BookingEngine extends BookingEngineClient
         $bookings = $this->client->get($tokens, $url);
 
         return $bookings;
+    }
+
+    public function legalHelpBookings()
+    {
+        $bookings = [];
+        $legal_help_bookings = [];
+        $start_date = date("Y-m-d", strtotime("2017-08-01"));
+        $end_date = date("Y-m-d", strtotime("+3 Months"));
+        $url = 'api/auth/booking/'. $start_date . '/' . $end_date;
+        $tokens = $this->getTokens();
+        $bookings = $this->client->get($tokens, $url);
+        $bookings_obj = ['bookings' => $bookings ];
+        // Filter bookings
+        $legal_help_bookings = $this->filterLegalHelpBookings($bookings_obj);
+        return $legal_help_bookings;
+
+    }
+
+    private function filterLegalHelpBookings($bookings)
+    {
+        $user = new User();
+        $legal_help_id = LEGAL_HELP_ID;
+        foreach ($bookings['bookings'] as $booking) {
+
+            $user_id = $booking->created_by;
+            $user_info = $user->find($user_id);
+            if ( $user_info && $user_info->sp_id == $legal_help_id ) {
+                $booking->created_by = $user_info->name;
+                $legal_help_bookings[] = $booking;
+            }
+        }
+        return $legal_help_bookings;
+
+
     }
 
     /**

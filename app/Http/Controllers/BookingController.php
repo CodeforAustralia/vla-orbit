@@ -9,7 +9,10 @@ use App\Booking;
 use App\BookingDocument;
 use App\BookingEngine;
 use App\SentSms;
+use App\Service;
 use App\ServiceProvider;
+use App\ServiceBooking;
+use DateTime;
 use Auth;
 
 /**
@@ -440,8 +443,49 @@ class BookingController extends Controller
      */
     public function listLegalHelpBookings()
     {
+
+        $booking_engine_obj = new BookingEngine();
+        $service_booking_obj = new ServiceBooking();
+        $service_obj = new Service();
+        $sent_sms_obj = new SentSms();
+        $replace = ["/Date(", ")/"];
+        $date_array = [];
+        $bookings = $booking_engine_obj->legalHelpBookings();
+        $service_bookings = $service_booking_obj->getAllServiceBookings();
+        foreach ($bookings as $key => $booking) {
+            foreach ($service_bookings as $service_booking) {
+                if($service_booking['BookingServiceId']== $booking->service_id)
+                {
+                    $result = $service_obj->getServiceByID($service_booking['ServiceId']);
+                    $service = json_decode( $result['data'] )[0];
+                    $bookings[$key]->serviceProviderName = $service->ServiceProviderName;
+                    $bookings[$key]->serviceName = $service->ServiceName;
+                    // Get SMS
+                    $date = new DateTime();
+                    $sms_messages = $sent_sms_obj->getSentSMSByBookingRefID($booking->id);
+                    foreach ($sms_messages as $sms_message) {
+                        $sms_date = str_replace($replace,"", $sms_message['SentDate']);
+                        $date->setTimestamp(intval(substr($sms_date, 0, 10)));
+                        $date_formatted = $date->format('d/m/Y');
+                        $date_array[] = $date_formatted;
+                    }
+                    $bookings[$key]->sms_sent = implode (", ", $date_array);
+                    // Set time
+                    $valute_in_hours = intval($bookings[$key]->start_hour)/60;
+                    $hour = sprintf("%02d", floor($valute_in_hours) );
+                    $minute = sprintf("%02d", round(fmod($valute_in_hours, 1) * 60));
+                    $bookings[$key]->time = "$hour:$minute";
+                    break;
+                }
+
+            }
+            $date_array= [];
+        }
+        return [ 'data' => $bookings];
+
+        /*
         $booking_obj = new Booking();
-        return array( 'data' => $booking_obj->legalHelpBookings() );
+        return array( 'data' => $booking_obj->legalHelpBookings() );*/
     }
     /**
      * Display Legal Help booking

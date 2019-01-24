@@ -1143,7 +1143,7 @@ var TableDatatablesAjax = function () {
 
                 "bInfo": false,
                 "columns": [
-                        { data: "BookingRef" },
+                        { data: "id" },
                         //{ data: "BookingDate" },
                         {
                             data: null,
@@ -1151,54 +1151,34 @@ var TableDatatablesAjax = function () {
                             className: "center" ,
                             render: function (data, type, row) {
                                 // body...
-                                var booking_date = moment(data.BookingDate).toDate();
+                                var booking_date = moment(data.date).toDate();
                                 return moment(booking_date).format('DD/MM/YYYY');
                             }
                         },
-                        { data: "BookingTime" },
-                        { data: "ServiceName" },
-                        { data: "ServiceProviderName" },
-                        { data: "FirstName" },
-                        { data: "LastName" },
-                        { data: "Email" },
-                        { data: "Mobile" },
+                        { data: "time" },
+                        { data: "serviceName" },
+                        { data: "serviceProviderName" },
+                        { data: "client.first_name" },
+                        { data: "client.last_name" },
+                        { data: "client.contact" },
                         {
                             data: null,
                             className: "center",
                             render: function ( data, type, row ) {
                                 // Combine the first and last names into a single table field
-                                var sentDatesStr = '';
-                                var sentDates = data.SMSSendDates.string;
-
-                                if( sentDates instanceof Array)
-                                {
-                                    for (var i = 0, len = sentDates.length; i < len; i++)
-                                    {
-                                        if(sentDates[i] != '')
-                                        {
-                                            sentDatesStr += moment(sentDates[i].split(' ')[0]).format('DD/MM/YYYY') + ', ';
-                                        }
-                                    }
-
-                                }
-                                else if( sentDates != '')
-                                {
-                                    sentDatesStr += moment(sentDates.split(' ')[0]).format('DD/MM/YYYY') + ', ';
-                                }
-
-                                if( sentDatesStr == '' )
-                                {
+                                let sentDatesStr = '';
+                                let sentDates = data.sms_sent
+                                if( sentDates == '' ) {
                                     sentDatesStr = '<span class="font-red">Not sent</span>';
                                 }
-                                else
-                                {
-                                    sentDatesStr = '<span class="font-green-jungle">' + sentDatesStr.replace(/,\s*$/, '') + '</span>';
+                                else {
+                                    sentDatesStr = '<span class="font-green-jungle">' + sentDates + '</span>';
                                 }
                                 //sent dates or status
                                 return sentDatesStr;
                             }
                         },
-                        { data: "CreatedBy" }
+                        { data: "created_by" }
                 ],
 
             }

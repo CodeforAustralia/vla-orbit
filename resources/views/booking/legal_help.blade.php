@@ -24,7 +24,6 @@
                             <th width="10%"> Service Provider </th>
                             <th width="10%"> First Name </th>
                             <th width="10%"> Last Name </th>
-                            <th width="10%"> Email </th>
                             <th width="10%"> Phone </th>
                             <th width="10%"> Sent SMS </th>
                             <th width="10%"> Made By </th>
@@ -36,5 +35,4 @@
         </div>
     </div>
     <!-- End: Demo Datatable services -->
-                
 @endsection

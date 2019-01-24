@@ -285,7 +285,7 @@ class BookingEngineController extends Controller
     public function nextBookings( Request $request )
     {
         $booking_engine_obj = new BookingEngine();
-        return self::getSentSMSDates($booking_engine_obj->getFutureBookingsBySPName());
+        return self::getSentSMSDates($booking_engine_obj->getFutureBookingsByUserSPName());
     }
 
     /**
