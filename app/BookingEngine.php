@@ -15,7 +15,7 @@ use Auth;
  * @see  BookingEngineClient
  */
 
-const LEGAL_HELP_ID = 112;
+
 
 Class BookingEngine extends BookingEngineClient
 {
@@ -231,7 +231,7 @@ Class BookingEngine extends BookingEngineClient
     private function filterLegalHelpBookings($bookings)
     {
         $user = new User();
-        $legal_help_id = LEGAL_HELP_ID;
+        $legal_help_id = 112;
         $legal_help_bookings=[];
         foreach ($bookings['bookings'] as $booking) {
 
