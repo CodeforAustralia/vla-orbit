@@ -25,10 +25,10 @@
                             <div class="form-group">
                                 <multiselect
                                 v-model="service_provider_selected"
-                                label="ServiceProviderName"
-                                key="ServiceProviderId"
+                                label="text"
+                                key="id"
                                 id="service-provider-select"
-                                track-by="ServiceProviderName"
+                                track-by="text"
                                 placeholder="Select Service..."
                                 open-direction="bottom"
                                 :options="service_provider_options"

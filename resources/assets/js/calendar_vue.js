@@ -56,10 +56,13 @@ new Vue({
         intitServiceProviders: function () {
             $("#contentLoading").modal("show");
             var self = this;
-            let url = '/service_provider/list';
-            axios.get(url)
+            let url = '/service_provider/listFormated';
+            let scope = {
+                scope: 'VLA'
+            };
+            axios.post(url, scope)
                 .then(function (response) {
-                    self.service_provider_options = response.data.data;
+                    self.service_provider_options = response.data;
                     $("#contentLoading").modal("hide");
                 })
                 .then(() => self.selectInitialServiceProvider())
@@ -74,14 +77,14 @@ new Vue({
 
             self.service_provider_id = sp_id;
             for (let index = 0; index < self.service_provider_options.length; index++) {
-                if (sp_id == self.service_provider_options[index].ServiceProviderId) {
+                if (sp_id == self.service_provider_options[index].id) {
                     self.service_provider_selected = self.service_provider_options[index];
                 }
             }
         },
         getServiceProviderBookings: function (service_provider) {
             var self = this;
-            self.service_provider_id = service_provider.ServiceProviderId;
+            self.service_provider_id = service_provider.id;
         },
         enableEditing: function(value, name){
             var self = this;
