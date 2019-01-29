@@ -37,7 +37,8 @@
                                 eventLimit: 5 // adjust to 6 only for agendaWeek/agendaDay
                             },
                             agendaWeek:{
-                                columnHeaderFormat:'ddd D/M'
+                                columnHeaderFormat:'ddd D/M',
+                                slotEventOverlap: false
                             }
                         },
                         weekends: false,
@@ -75,8 +76,6 @@
         methods: {
             eventRendered(event, element, view){
                 if(event.hasOwnProperty('booking')) {
-                    console.log(event);
-                    console.log(event.booking);
                     let slot_time = event.booking.start_hour;
                     let slot_duration = event.booking.time_length;
                     let start_time = moment(event.booking.date).add(parseInt(slot_time), 'm').format('HH:mm A');

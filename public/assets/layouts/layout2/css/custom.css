@@ -819,3 +819,8 @@ h4 {
     color: #7a80dd;
     width: 0;
 }
+
+/************************* Calendar page  ***********************************/
+#calendar .fc-ltr .fc-time-grid .fc-event-container {
+    margin: 0px 2px;
+}
