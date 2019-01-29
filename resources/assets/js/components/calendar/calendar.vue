@@ -75,13 +75,21 @@
         methods: {
             eventRendered(event, element, view){
                 if(event.hasOwnProperty('booking')) {
+                    console.log(event);
+                    console.log(event.booking);
                     let slot_time = event.booking.start_hour;
                     let slot_duration = event.booking.time_length;
                     let start_time = moment(event.booking.date).add(parseInt(slot_time), 'm').format('HH:mm A');
                     let end_time = moment(event.booking.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm').format('HH:mm A');
+                    let content = '';
+                    let interpreter = (event.booking.is_interpreter == 1 ? '<i class="fa fa-globe"></i> ' + event.booking.int_language : '');
+                    content = `<strong> ${event.booking.service.name } </strong><br />
+                                Start: ${start_time} <br />
+                                End: ${end_time}<br />
+                                ${interpreter}`;
                     $(element).popover({
                         html: true,
-                        content: 'Start: ' + start_time + '<br />End: ' + end_time,
+                        content: content,
                         trigger: 'hover',
                         placement: 'auto top',
                         container: 'body'
