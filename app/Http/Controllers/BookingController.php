@@ -257,7 +257,7 @@ class BookingController extends Controller
             'start_hour'          => 'required',
             'firstName'           => 'required',
             'lastName'            => 'required',
-            'Desc'                => 'required',
+            'Desc'                => 'nullable',
             'booking-date'        => 'required'
 
         ];
@@ -397,7 +397,7 @@ class BookingController extends Controller
             'start_hour'        => 'required',
             'first_name'        => 'required',
             'last_name'         => 'required',
-            'comment'           => 'required',
+            'comment'           => 'nullable',
             'date'              => 'required',
             'start_hour'        => 'required',
             'client_id'         => 'required',
