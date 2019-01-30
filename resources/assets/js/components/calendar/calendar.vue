@@ -124,7 +124,11 @@
 
                     if(client){
                         let int_icon = (appointment.int_language ? '<i class="fa fa-globe"></i> ' : '');
-                        slot_text = int_icon + (client.hasOwnProperty('first_name') && client.hasOwnProperty('last_name') ?  client.first_name + ' ' + client.last_name : 'Name not indicated');
+                        slot_text = (client.hasOwnProperty('first_name') && client.hasOwnProperty('last_name') ?  client.first_name + ' ' + client.last_name : 'Name not indicated');
+                        if( slot_text.length > 16 ) {
+                            slot_text = slot_text.slice(0,14) + '...';
+                        }
+                        slot_text = int_icon + slot_text;
                     } else {
                         slot_text = 'Name not indicated';
                     }
