@@ -38,7 +38,7 @@
                         @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp' , 'VLA']) )
 
                         <li class="nav-item {{ Request::is('booking','booking/*') ? 'active' : null }}">
-                            <a href="/booking" class="nav-link nav-toggle">
+                            <a href="/booking/by_service_provider" class="nav-link nav-toggle">
                                 <i class="icon-calendar"></i>
                                 <span class="title">Bookings</span>
                                 <span class="arrow {{ Request::is('booking','booking/*') ? 'open' : null }}"></span>
