@@ -25,7 +25,7 @@ Class SentSms extends OrbitSoap
 	{
 
         $info = [ 'BookingRef' => $ref_id ];
-        $template = json_decode(
+        $sent_sms = json_decode(
                                     $this->client
                                     ->ws_init('GetSentSMSByBookingRefIDasJSON')
                                     ->GetSentSMSByBookingRefIDasJSON( $info )
@@ -33,7 +33,25 @@ Class SentSms extends OrbitSoap
                                     , true
                                 );
 
-        return $template;
+        return $sent_sms;
+    }
+
+    /**
+     * Get all sent SMS by booking
+     * @param  int    $ref_id   booking id
+     * @return array  $template SMS sent
+     */
+	public function getAllSentSMS()
+	{
+
+        $sent_sms = json_decode(
+                                    $this->client
+                                    ->ws_init('GetAllSendSMSasJSON')
+                                    ->GetAllSendSMSasJSON()
+                                    ->GetAllSendSMSasJSONResult
+                                    , true
+                                );
+        return $sent_sms;
 	}
     /**
      * Create a sent SMS

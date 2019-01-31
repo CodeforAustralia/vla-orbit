@@ -12,6 +12,8 @@ use Auth;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use StdClass;
+
 
 use Validator;
 
@@ -239,9 +241,9 @@ class BookingEngineController extends Controller
                 'end_date'   => $request['end']
             ];
             $bookings = $booking_engine_obj->getServiceBookingsBySP($args);
-
             // Include the SMS information in Bookings
             $bookings['bookings'] = self::getSentSMSDates($bookings['bookings']);
+
 
             return $bookings;
         } else {
@@ -249,7 +251,7 @@ class BookingEngineController extends Controller
         }
 
     }
-    /**
+   /**
      * Get Sms dates for a collection of bookings
      *
      * @param array $bookings
@@ -260,21 +262,33 @@ class BookingEngineController extends Controller
         $sent_sms_obj = new SentSms();
         $replace = ["/Date(", ")/"];
         $date = new DateTime();
-        foreach ($bookings as $key => $booking) {
-            $date_array = [];
-            $sms_date = '';
-            $date = new DateTime();
-            $sms_messages = $sent_sms_obj->getSentSMSByBookingRefID($booking->id);
-            foreach ($sms_messages as $key => $sms_message) {
-                $sms_date = str_replace($replace,"", $sms_message['SentDate']);
-                $date->setTimestamp(intval(substr($sms_date, 0, 10)));
-                $date_formatted = $date->format('Y-m-d');
-                $date_array[] = $date_formatted;
+        $sms_messages = $sent_sms_obj->getAllSentSMS();
+        $sms_sent = [];
+        $date_array = [];
+        foreach ($sms_messages as $key => $sms_message) {
+
+            $sms_date = str_replace($replace,"", $sms_message['SentDate']);
+            $date->setTimestamp(intval(substr($sms_date, 0, 10)));
+            $date_formatted = $date->format('Y-m-d');
+            if(!isset($sms_sent[$sms_message['BookingRef']])) {
+                $sms_sent[$sms_message['BookingRef']] = new StdClass();
             }
-            $booking->sms_date =  implode (", ", $date_array);
+            $date_array[$sms_message['BookingRef']][] = $date_formatted;
+            $sms_sent[$sms_message['BookingRef']]->id = $sms_message['BookingRef'];
+            $sms_sent[$sms_message['BookingRef']]->sms_date = implode (", ", $date_array[$sms_message['BookingRef']]);
+        }
+
+        foreach ($bookings as $key => $booking) {
+            if(isset($sms_sent[$booking->id]))
+            {
+                $booking->sms_date =  $sms_sent[$booking->id]->sms_date;
+            } else {
+                $booking->sms_date = '';
+            }
         }
         return $bookings;
     }
+
 
     /**
      * get 3 months in advance bookings for own office
