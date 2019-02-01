@@ -186,8 +186,16 @@
                                 <div class="col-sm-5"
                                     id="bookingdescription"
                                     data-type="text"
+                                    v-if = "(current_booking.comment &&  current_booking.comment.length < 27) || (!current_booking.comment)"
                                     v-show="!showField('comment')"
                                     v-html="(current_booking.comment ? current_booking.comment : 'N/P' )"
+                                    @click="enableEditing(current_booking.comment ? current_booking.comment : '','comment')"></div>
+                                <div class="col-sm-12"
+                                    id="bookingdescription"
+                                    data-type="text"
+                                    v-else
+                                    v-show="!showField('comment')"
+                                    v-html="current_booking.comment"
                                     @click="enableEditing(current_booking.comment ? current_booking.comment : '','comment')"></div>
                                 <vue-mce
                                     id="booking_description"
