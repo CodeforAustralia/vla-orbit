@@ -690,12 +690,6 @@ Class Booking extends OrbitSoap
                     $booking_request['view_path'] = 'emails.booking.requestEmailChildProtection';
                     break;
                 default:
-                    $booking_request['subject'] = '';
-                    foreach ($service->ReferralFormServices as $e_referral_form) {
-                        if( $e_referral_form->ReferralFormID == $booking_request['request_type'] ) {
-                            $booking_request['subject'] = $e_referral_form->Description . ' - ';
-                        }
-                    }
                     $booking_request['view_path'] = 'emails.booking.requestEReferral';
             }
             $booking_request['subject'] = self::setSubject($service, $booking_request);
