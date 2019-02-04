@@ -60,11 +60,9 @@
                                 $("#contentLoading").modal('hide');
                             },
                             success: function (response) {
-                                setTimeout(() => { //Line necessary to avoid duplication on events with no names and info on them
-                                    self.initCalendar(response.bookings);
-                                    self.services = response.services;
-                                    $("#contentLoading").modal('hide');
-                                }, 1000);
+                                self.initCalendar(response.bookings);
+                                self.services = response.services;
+                                $("#contentLoading").modal('hide');
                             }
                         }]
                     },
@@ -211,16 +209,18 @@
                 let url = '/booking/service_provider/booking/?start=' + today + '&end=' + in_a_month + '&sp_id=' + self.service_provider_id;
 
                 $("#contentLoading").modal("show");
-                axios.get(url)
-                    .then(function (response) {
-                        self.initCalendar(response.data.bookings);
-                        self.services = response.data.services;
-                        self.$emit('update:booking_status_options', response.data.booking_status);
-                        $("#contentLoading").modal("hide");
-                    })
-                    .catch(function (error) {
-                        $("#contentLoading").modal("hide");
-                    });
+                if(self.service_provider_id > 0){
+                    axios.get(url)
+                        .then(function (response) {
+                            self.initCalendar(response.data.bookings);
+                            self.services = response.data.services;
+                            self.$emit('update:booking_status_options', response.data.booking_status);
+                            $("#contentLoading").modal("hide");
+                        })
+                        .catch(function (error) {
+                            $("#contentLoading").modal("hide");
+                        });
+                }
             },
             booking_to_delete : function() {
                 let self = this;
