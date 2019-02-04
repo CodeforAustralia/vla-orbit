@@ -211,7 +211,11 @@ Class BookingEngine extends BookingEngineClient
 
         return $bookings;
     }
-
+    /**
+     * Return the bookings made by LH users
+     *
+     * @return void
+     */
     public function legalHelpBookings()
     {
         $bookings = [];
@@ -227,7 +231,12 @@ Class BookingEngine extends BookingEngineClient
         return $legal_help_bookings;
 
     }
-
+    /**
+     * Filter Legal Help Bookings
+     *
+     * @param [type] $bookings
+     * @return void
+     */
     private function filterLegalHelpBookings($bookings)
     {
         $user = new User();
@@ -243,8 +252,34 @@ Class BookingEngine extends BookingEngineClient
             }
         }
         return $legal_help_bookings;
+    }
 
+    /**
+     * Get statistics for one day
+     *
+     * @return Array
+     */
+    public function getStatsDay($date)
+    {
+        $url = 'api/auth/stats_day/' . $date;
+        $tokens = $this->getTokens();
+        $bookings = $this->client->get($tokens, $url);
 
+        return $bookings;
+    }
+
+    /**
+     * Get statistics for one day
+     *
+     * @return Array
+     */
+    public function getStatsPeriod($date)
+    {
+        $url = 'api/auth/stats_period/' . $date;
+        $tokens = $this->getTokens();
+        $bookings = $this->client->get($tokens, $url);
+
+        return $bookings;
     }
 
     /**
@@ -263,4 +298,5 @@ Class BookingEngine extends BookingEngineClient
         }
         return $tokens;
     }
+
 }

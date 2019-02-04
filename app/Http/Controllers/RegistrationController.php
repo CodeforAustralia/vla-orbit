@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupEmail;
 use App\Report;
+use App\BookingEngine;
 use App\Role;
 use App\User;
 use App\ServiceProvider;
@@ -39,15 +40,18 @@ class RegistrationController extends Controller
         $user = Auth::user();
 
         $financial_year = date("Y");
-        $last_monday =  date('Y-m-d',time()+( 1 - date('w'))*24*3600);
+        $year = date("Y-m-d", strtotime('first day of January'));
+        $last_monday =  date("Y-m-d", strtotime('monday this week'));//date('Y-m-d',time()+( 1 - date('w'))*24*3600);
         $today = date('Y-m-d');
         $month = date('Y-m');
 
         $report_obj     = new Report();
+        $booking_engine_obj = new BookingEngine();
         $stats          = $report_obj->getDashboadStats( $financial_year );
-        $stats_today    = $report_obj->getDashboadStats( $today );
+        $stats_year     = $booking_engine_obj->getStatsPeriod( $year );
+        $stats_today    = $booking_engine_obj->getStatsDay( $today );
         $stats_month    = $report_obj->getDashboadStats( $month );
-        $stats_week     = $report_obj->getDashboadStats( $last_monday );
+        $stats_week     = $booking_engine_obj->getStatsPeriod( $last_monday );
 
         $referrals_made = 0;
         if( isset($user->id) )
@@ -72,6 +76,7 @@ class RegistrationController extends Controller
                         'stats_today',
                         'stats_month',
                         'stats_week',
+                        'stats_year',
                         'referrals_made',
                         'dashboards',
                         'service_providers' ));
