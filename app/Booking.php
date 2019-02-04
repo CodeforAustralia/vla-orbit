@@ -664,54 +664,41 @@ Class Booking extends OrbitSoap
 
         if ( isset($service->Email) && $service->Email != '' ) {
             $sp_email = $service->Email;
+
             switch ( $booking_request["request_type"] ) {
                 case APPOINTMENT_REQUEST:
-                    $booking_request['subject'] = 'Appointment request - ';
                     $booking_request['view_path'] = 'emails.booking.requestEmailApptReq';
                     break;
 
                 case FOR_ASSESSMENT:
-                    $booking_request['subject'] =  'For Assessment - ';
                     $booking_request['view_path'] = 'emails.booking.requestEmailForAssess';
                     break;
 
                 case PHONE_ADVICE:
-                    $booking_request['subject'] = 'Phone advice - ' ;
                     $booking_request['view_path'] = 'emails.booking.requestEmailPhAdv';
                     break;
 
                 case DUTY_LAYER:
-                    $booking_request['subject'] = 'Duty Lawyer - ';
                     $booking_request['view_path'] = 'emails.booking.requestEmailDuttyLaw';
                     break;
 
                 case CHILD_SUPPORT:
-                    $booking_request['subject'] = 'Child Support - ';
                     $booking_request['view_path'] = 'emails.booking.requestEmailChildSupport';
                     break;
 
                 case CHILD_PROTECTION:
-                    $booking_request['subject'] = 'Child Protection - ';
                     $booking_request['view_path'] = 'emails.booking.requestEmailChildProtection';
                     break;
                 default:
                     $booking_request['subject'] = '';
                     foreach ($service->ReferralFormServices as $e_referral_form) {
                         if( $e_referral_form->ReferralFormID == $booking_request['request_type'] ) {
-                            $booking_request['subject'] = $e_referral_form->ReferralFromName . ' - ';
+                            $booking_request['subject'] = $e_referral_form->Description . ' - ';
                         }
                     }
                     $booking_request['view_path'] = 'emails.booking.requestEReferral';
             }
-
-            $booking_request['subject'] .=  $booking_request['ServiceProviderName'] . ', ' .
-                                            $booking_request['ServiceName'] . ': ' .
-                                            $booking_request['lastName'] . ', ' .
-                                            $booking_request['firstName'] . ' - ' .
-                                            (
-                                                isset($booking_request['phone']) ?
-                                                $booking_request['phone'] : ''
-                                            );
+            $booking_request['subject'] = self::setSubject($service, $booking_request);
 
             $log = new Log();
             $log::record( 'CREATE', 'booking_request', 0, $booking_request );
@@ -720,6 +707,25 @@ Class Booking extends OrbitSoap
         } else {
             return false;
         }
+    }
+
+    private function setSubject ($service, $booking_request){
+        $subject = '';
+        foreach ($service->ReferralFormServices as $e_referral_form) {
+            if( $e_referral_form->ReferralFormID == $booking_request['request_type'] ) {
+                $subject = $e_referral_form->ReferralFromDescription . ' - ';
+            }
+        }
+        $subject .= $booking_request['ServiceProviderName'] . ', ' .
+                    $booking_request['ServiceName'] . ': ' .
+                    $booking_request['lastName'] . ', ' .
+                    $booking_request['firstName'] . ' - ' .
+                    (
+                        isset($booking_request['phone']) ?
+                        $booking_request['phone'] : ''
+                    );
+        return $subject;
+
     }
     /**
      * Get Legal Help Bookings
