@@ -33,9 +33,6 @@
                         },
                         defaultView: 'month',
                         views: {
-                            month: {
-                                eventLimit: 5 // adjust to 6 only for agendaWeek/agendaDay
-                            },
                             agendaWeek:{
                                 columnHeaderFormat:'ddd D/M',
                                 slotEventOverlap: false
