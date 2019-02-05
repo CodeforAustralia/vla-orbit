@@ -5,7 +5,7 @@
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
-            <form method="POST" action="/service" class="form-horizontal">
+            <form method="POST" action="/service" class="form-horizontal" id="service_submit">
                 {{ csrf_field() }}
                 <div class="form-body">
 
@@ -276,7 +276,7 @@
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-lg green" onclick="showLoader()">Save Service</button>
+                            <button type="submit" class="btn btn-lg green" >Save Service</button>
                         </div>
                     </div>
                 </div>
@@ -364,6 +364,9 @@
             ['para', ['ul', 'ol', 'paragraph']],
             ['link', ['linkDialogShow', 'unlink']]
         ]
+    });
+    $('#service_submit').submit(function() {
+        $("#contentLoading").modal("show");
     });
 
 @endsection
