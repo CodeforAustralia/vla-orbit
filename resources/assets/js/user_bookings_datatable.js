@@ -30,8 +30,8 @@ Vue.use(DatatableFactory);
 
 Vue.component('actionBtns', {
     template: `<div>
-                    <button v-if="displayButton()" class="btn btn-xs green remind-booking col-xs-12 col-md-6" @click="sendReminder">Send Reminder</button>
-                    <button class="btn btn-xs btn-danger col-xs-12 col-md-6" @click="deleteBooking">Delete</button>
+                    <button v-if="displayButton()" class="btn btn-xs green remind-booking col-xs-12 col-md-8" @click="sendReminder">Send Reminder</button>
+                    <button class="btn btn-xs btn-danger col-xs-12 col-md-8" @click="deleteBooking">Delete</button>
                 </div>`,
     props: ['row', 'column'],
     methods: {
