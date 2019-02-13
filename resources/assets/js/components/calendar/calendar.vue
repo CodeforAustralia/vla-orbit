@@ -108,7 +108,9 @@
             },
             initCalendar(response) {
                 this.events = [];
-                this.addEventsToCalendar(response);
+                setTimeout(() => {
+                    this.addEventsToCalendar(response);
+                }, 100);
             },
             addEventsToCalendar(appts){
                 let self = this;
