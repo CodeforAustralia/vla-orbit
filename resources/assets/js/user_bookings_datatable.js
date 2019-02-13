@@ -30,8 +30,8 @@ Vue.use(DatatableFactory);
 
 Vue.component('actionBtns', {
     template: `<div>
-                    <button v-if="displayButton()" class="btn btn-xs green remind-booking col-xs-12 col-md-7" @click="sendReminder">Send Reminder</button>
-                    <button class="btn btn-xs btn-danger col-xs-12 col-md-4" @click="deleteBooking">Delete</button>
+                    <button v-if="displayButton()" class="btn btn-xs green remind-booking col-xs-12 col-md-6" @click="sendReminder">Send Reminder</button>
+                    <button class="btn btn-xs btn-danger col-xs-12 col-md-6" @click="deleteBooking">Delete</button>
                 </div>`,
     props: ['row', 'column'],
     methods: {
@@ -86,11 +86,12 @@ Vue.component('actionBtns', {
                 let url = '/booking/' + self.row.id;
                 axios.delete(url)
                     .then(function (response) {
-                        alert(response.data);
+                        alert(response.data)
+                        window.location.reload();
                         $("#contentLoading").modal("hide");
                     })
-                    .catch(function (error) {
-                        alert('Please refresh the page');
+                    .catch(error => {
+                        alert('Please refresh the page.');
                         $("#contentLoading").modal("hide");
                     });
             }
