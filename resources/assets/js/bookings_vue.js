@@ -44,7 +44,8 @@ new Vue({
         dates_interpreter: [],
         hour:null,
         description_value : '',
-        template_flieds: []
+        template_flieds: [],
+        header_value : ''
     },
 
     methods: {
@@ -103,6 +104,7 @@ new Vue({
             let fields = e_ref_obj.Fields.split(',');
             self.template_flieds = fields;
             self.description_value = e_ref_obj.Body;
+            self.header_value = e_ref_obj.Header;
         },
         getEreferralTemplate: function (erf_id) {
             var self = this;

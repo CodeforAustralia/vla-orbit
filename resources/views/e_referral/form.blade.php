@@ -26,6 +26,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-md-3 control-label">Header:</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="Header" name="Header" value="{{ ( isset($e_referral) ? $e_referral->Header : '' )}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-md-3 control-label">Display fields in form:</label>
                     <div class="col-sm-3">
                         <label class="checkbox-inline">

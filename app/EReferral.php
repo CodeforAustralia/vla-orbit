@@ -81,10 +81,13 @@ Class EReferral extends OrbitSoap
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
         $date_time = $date_now . "T" . $time_now;
-
+        $header =  '';
         $body = '';
         if( isset($e_referral_form['Body']) ) {
             $body = $e_referral_form['Body'];
+        }
+        if(isset($e_referral_form['Header'])) {
+            $header = $e_referral_form['Header'];
         }
 
         $fields = $this->getFields($e_referral_form);
@@ -94,6 +97,7 @@ Class EReferral extends OrbitSoap
                         'RefNo'		  => filter_var( $e_referral_form['RefNo'], FILTER_SANITIZE_STRING ),
                         'Name'		  => filter_var( $e_referral_form['Name'], FILTER_SANITIZE_STRING ),
                         'Description' => filter_var( $e_referral_form['Description'], FILTER_SANITIZE_STRING ),
+                        'Header'      => filter_var( $header, FILTER_SANITIZE_STRING ),
                         'Body'        =>  $body,
                         'Fields'      =>  $fields,
                         'CreatedBy' => auth()->user()->id,
@@ -108,7 +112,7 @@ Class EReferral extends OrbitSoap
                         ->client
                         ->ws_init('SaveReferralForm')
                         ->SaveReferralForm($info);
-
+            
             if ($response->SaveReferralFormResult) {
                 return ['success' => 'success' , 'message' => 'E-Referral Form created.'];
             } else {

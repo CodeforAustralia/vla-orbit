@@ -18,7 +18,8 @@
                     <thead>
                         <tr role="row" class="heading">
                             <th width="10%"> Id </th>
-                            <th width="25%"> Form Name </th>
+                            <th width="20%"> Form Name </th>
+                            <th width="20%"> Header </th>
                             <th width="35%"> Form Description </th>
                             <th width="10%"> </th>
                         </tr>

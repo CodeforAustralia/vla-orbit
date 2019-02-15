@@ -13,6 +13,7 @@
 
         {{ csrf_field() }}
         <input type="hidden" id="created_by" name="created_by" value="{{ Auth::user()->name }}">
+        <input type="hidden" id="e-referral_header" name="e-referal-header" :value="header_value">
         <div class="row">
             <div class="col-xs-12 col-md-12 padding-bottom-20">
                 <div class="form-group">

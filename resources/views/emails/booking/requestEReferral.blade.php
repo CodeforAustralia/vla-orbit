@@ -1,5 +1,6 @@
 @component('mail::message')
 
+<p>{{$args['e-referal-header']}}</p>
 ___
 
 <p>First name: {{ $args['firstName'] }}</p>

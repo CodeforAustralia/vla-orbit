@@ -1664,6 +1664,7 @@ var TableDatatablesAjax = function () {
                 "columns": [
                     { data: "RefNo" },
                     { data: "Name" },
+                    { data: "Header" },
                     { data: "Description" },
                     {
                         data: null,
