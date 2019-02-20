@@ -192,7 +192,7 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
-                        <label>Date of Birth</label>
+                        <label>Date of Birth: <small>not required if CIR provided</small></label>
                         <input type="text" class="form-control input-large" autocomplete="off" name="dob" id="dob">
                     </div>
                 </div>
@@ -203,7 +203,7 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
-                        <label>Suburb town of caller</label>
+                        <label>Suburb town of caller: <small>not required if CIR provided</small></label>
                         <input type="text" class="form-control input-large" name="suburb" autocomplete="off" id="suburb">
                     </div>
                 </div>
@@ -224,7 +224,7 @@
             <div class="col-xs-5 col-md-6 col-lg-5">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
-                        <label>Postal Address:</label>
+                        <label>Postal Address: <small>not required if CIR provided</small></label>
                         <input type="text" class="form-control input-large" name="postal_address" autocomplete="off" id="postal_address">
                     </div>
                 </div>
@@ -235,7 +235,7 @@
             <div class="col-xs-5 col-md-6 col-lg-5">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
-                        <label>Email:</label>
+                        <label>Email: <small>not required if CIR provided</small></label>
                         <input type="text" class="form-control input-large" placeholder="janesmith@gmail.com" name="client[ClientEmail]" autocomplete="off" id="email">
                     </div>
                 </div>
