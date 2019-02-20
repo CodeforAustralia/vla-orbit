@@ -10,6 +10,7 @@
 <script>
 	import moment from 'moment'
     import axios from 'axios';
+    import EventBus from '../../utils/event-bus';
 
 	export default {
         props: ['service_provider_id',
@@ -202,6 +203,17 @@
                     b: parseInt(result[3], 16)
                 } : null;
             },
+            deleteBookingEvent : function() {
+                var self =this;
+                EventBus.$on('delete_booking', (booking_id) => {
+                    for(let i = 0 ; i < self.events.length ; i++) {
+                        if(self.events[i].booking.id == booking_id) {
+                            self.events.splice(i, 1);
+                            this.$emit('update:reset_booking_to_delete',0);
+                        }
+                    }
+                });
+            }
         },
         watch:{
             service_provider_id: function(){
@@ -253,6 +265,7 @@
             },
         },
         mounted() {
+            this.deleteBookingEvent();
         },
     }
 
