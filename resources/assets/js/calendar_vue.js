@@ -5,6 +5,7 @@ import * as uiv from 'uiv';
 import moment from 'moment'
 import FullCalendar from 'vue-full-calendar';
 import VueMce from 'vue-mce';
+import EventBus from './utils/event-bus';
 
 
 Vue.use(uiv);
@@ -12,6 +13,7 @@ Vue.use(FullCalendar);
 Vue.use(VueMce);
 Vue.component('multiselect', Multiselect);
 Vue.component('Calendar', require('./components/calendar/calendar.vue'));
+Vue.component('user_booking_datatable', require('./components/datatable/user_booking_datatable.vue'));
 
 const config = {
     theme: 'modern',
@@ -355,6 +357,7 @@ new Vue({
                 .then(function (response) {
                     self.booking_to_delete = self.current_booking.id;
                     self.current_booking = {};
+                    EventBus.$emit('delete_booking', self.current_booking.id);
                     $("#bookingInfo").modal("hide");
                     $("#contentLoading").modal("hide");
                 })
@@ -363,7 +366,7 @@ new Vue({
                     $("#contentLoading").modal("hide");
                 });
             }
-        }
+        },
 
     },
     mounted() {
