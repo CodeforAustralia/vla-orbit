@@ -167,7 +167,6 @@
                                         <span class="title">Eligibility Criteria</span>
                                     </a>
                                 </li>
-                                </li>
                                 <li class="nav-item {{ Request::is('question_group') ? 'active' : null }}">
                                     <a href="/question_group" class="nav-link ">
                                         <i class="fa fa-list"></i>
