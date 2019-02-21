@@ -739,12 +739,12 @@ body {
 
 .portlet.calendar .fc-event .fc-title {
     font-weight: normal;
-    color: unset;
+    color: inherit;
 }
 
 .portlet.calendar .fc-event .fc-time {
     font-weight: normal;
-    color: unset;
+    color: inherit;
 }
 
 .page-sidebar .page-sidebar-menu>li.active>a,
@@ -823,4 +823,20 @@ h4 {
 /************************* Calendar page  ***********************************/
 #calendar .fc-ltr .fc-time-grid .fc-event-container {
     margin: 0px 2px;
+}
+
+/************************ Pre **********************************************/
+pre {
+    display: inherit;
+    padding: inherit;
+    margin: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    word-break: inherit;
+    word-wrap: inherit;
+    color: inherit;
+    background-color: inherit;
+    border: inherit;
+    border-radius: inherit;
+    font-family: "Open Sans",sans-serif;
 }

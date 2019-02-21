@@ -333,11 +333,11 @@ new Vue({
                 }
             })
             .then(function (response) {
-                if(self.current_booking.sms_date) {
-                    self.current_booking.sms_date += ', ' + moment().format('YYYY-MM-DD');
+                if(self.current_booking.sms_date_hour) {
+                    self.current_booking.sms_date_hour += "\n" + moment().format('YYYY-MM-DD hh:mm A');
                 }
                 else {
-                    self.current_booking.sms_date = moment().format('YYYY-MM-DD');
+                    self.current_booking.sms_date_hour = moment().format('YYYY-MM-DD hh:mm A');
                 }
                 self.show_sms = false;
                 $("#contentLoading").modal("hide");

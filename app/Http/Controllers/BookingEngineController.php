@@ -265,25 +265,32 @@ class BookingEngineController extends Controller
         $sms_messages = $sent_sms_obj->getAllSentSMS();
         $sms_sent = [];
         $date_array = [];
+        $date_array_hour = [];
         foreach ($sms_messages as $key => $sms_message) {
 
             $sms_date = str_replace($replace,"", $sms_message['SentDate']);
             $date->setTimestamp(intval(substr($sms_date, 0, 10)));
             $date_formatted = $date->format('Y-m-d');
+            $date_formatted_hour = $date->format('Y-m-d h:i A');
             if(!isset($sms_sent[$sms_message['BookingRef']])) {
                 $sms_sent[$sms_message['BookingRef']] = new StdClass();
             }
             $date_array[$sms_message['BookingRef']][] = $date_formatted;
+            $date_array_hour[$sms_message['BookingRef']][] = $date_formatted_hour;
+
             $sms_sent[$sms_message['BookingRef']]->id = $sms_message['BookingRef'];
             $sms_sent[$sms_message['BookingRef']]->sms_date = implode (", ", $date_array[$sms_message['BookingRef']]);
+            $sms_sent[$sms_message['BookingRef']]->sms_date_hour = implode ("\n", $date_array_hour[$sms_message['BookingRef']]);
         }
 
         foreach ($bookings as $key => $booking) {
             if(isset($sms_sent[$booking->id]))
             {
                 $booking->sms_date =  $sms_sent[$booking->id]->sms_date;
+                $booking->sms_date_hour = $sms_sent[$booking->id]->sms_date_hour;
             } else {
                 $booking->sms_date = '';
+                $booking->sms_date_hour = '';
             }
         }
         return $bookings;
