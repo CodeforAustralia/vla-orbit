@@ -29,7 +29,13 @@
     import axios from 'axios';
     import moment from 'moment';
     //This is a small hack to the suggested way...
-    import DatatableFactory from 'vuejs-datatable/dist/vuejs-datatable.esm.js';
+    //import DatatableFactory from 'vuejs-datatable/dist/vuejs-datatable.esm.js';
+    /**
+     * This library was taken from https://github.com/pstephan1187/vue-datatable 
+     * He made an excelent library and as we wanted to use it in IE11 we had to transpile it and do it in our end.
+     */
+    import DatatableFactory from './vue-datatable.js';
+
     import EventBus from '../../utils/event-bus';
 
     DatatableFactory.useDefaultType(false)
