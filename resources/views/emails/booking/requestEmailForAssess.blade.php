@@ -1,6 +1,6 @@
 @component('mail::message')
 
-<p>Please contact this person for further assessment and assistance.</p>
+<p>{{$args['e-referal-header']}}</p>
 
 ___
 

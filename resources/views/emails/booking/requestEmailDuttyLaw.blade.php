@@ -1,6 +1,6 @@
 @component('mail::message')
 
-<p>The following client has been assessed as eligible to receive advice and/or in-court advocacy from the Duty Lawyer service.</p>
+<p>{{$args['e-referal-header']}}</p>
 
 ___
 

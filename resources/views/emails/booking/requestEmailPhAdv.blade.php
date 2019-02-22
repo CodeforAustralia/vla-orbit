@@ -1,6 +1,6 @@
 @component('mail::message')
 
-<p>Please contact this person to provide phone advice.</p>
+<p>{{$args['e-referal-header']}}</p>
 
 ___
 

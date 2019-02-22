@@ -1,5 +1,5 @@
 @component('mail::message')
-<p>Please make an appointment for this client to attend this service.</p>
+<p>{{$args['e-referal-header']}}</p>
 
 ___
 
