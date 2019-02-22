@@ -26,7 +26,8 @@ function printBooking() {
         frameDoc.document.write('<html><body onload="window.print()">' +
             $('#SelectMatchLabel').html() + '<br>' +
             $('#clientInformation').html() + '<br>' +
-            $('#bookingInformation').html() +
+            $('#bookingInformation').html() + '<br>' +
+            $('#extraInformation').html() + '<br>' +
             '</body></html>');
         frameDoc.document.close();
         setTimeout(function () {

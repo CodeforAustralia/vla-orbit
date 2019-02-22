@@ -160,7 +160,7 @@ new Vue({
                 self.current_booking.resource_id = self.hour.resource_id;
                 self.current_booking.start_hour = self.hour.start_time;
                 self.current_booking.time_length = self.hour.time_length;
-                self.current_booking.booking_time = moment(self.selected_date).add(parseInt(self.hour.start_time), 'm').format('HH:mm A');
+                self.current_booking.booking_time = moment(self.selected_date).add(parseInt(self.hour.start_time), 'm').format('h:mm A');
                 axios.patch(url, self.current_booking)
                     .then(function (response) {
                         if(response.data.error) {
@@ -334,10 +334,10 @@ new Vue({
             })
             .then(function (response) {
                 if(self.current_booking.sms_date_hour) {
-                    self.current_booking.sms_date_hour += "\n" + moment().format('YYYY-MM-DD hh:mm A');
+                    self.current_booking.sms_date_hour += "\n" + moment().format('DD-MM-YYYY h:mm A');
                 }
                 else {
-                    self.current_booking.sms_date_hour = moment().format('YYYY-MM-DD hh:mm A');
+                    self.current_booking.sms_date_hour = moment().format('DD-MM-YYYY h:mm A');
                 }
                 self.show_sms = false;
                 $("#contentLoading").modal("hide");

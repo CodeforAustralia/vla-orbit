@@ -243,8 +243,6 @@ class BookingEngineController extends Controller
             $bookings = $booking_engine_obj->getServiceBookingsBySP($args);
             // Include the SMS information in Bookings
             $bookings['bookings'] = self::getSentSMSDates($bookings['bookings']);
-
-
             return $bookings;
         } else {
             return response()->json(['error'=>$validation->errors()]);
@@ -271,7 +269,7 @@ class BookingEngineController extends Controller
             $sms_date = str_replace($replace,"", $sms_message['SentDate']);
             $date->setTimestamp(intval(substr($sms_date, 0, 10)));
             $date_formatted = $date->format('Y-m-d');
-            $date_formatted_hour = $date->format('Y-m-d h:i A');
+            $date_formatted_hour = $date->format('d-m-Y g:i A');
             if(!isset($sms_sent[$sms_message['BookingRef']])) {
                 $sms_sent[$sms_message['BookingRef']] = new StdClass();
             }
