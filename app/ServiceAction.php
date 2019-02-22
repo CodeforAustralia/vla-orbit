@@ -19,24 +19,24 @@ Class ServiceAction extends OrbitSoap
     public function saveServiceAction( $action, $sv_id, $sp_ids )
     {
         try {
+            $info=[];
         	if ( !empty($sp_ids) ) {
 		        foreach ( $sp_ids as $sp_id ) {
-			        $sa_params['Action'] = $action;
-			        $sa_params['Reference_id'] = 0;
-			        $sa_params['ServiceId'] = $sv_id;
-			        $sa_params['ServiceProviderId'] = $sp_id;
-
-			        $info = [ 'ObjectInstance' => $sa_params ];
-
-		            $response = $this
-                                ->client
-                                ->ws_init( 'SaveServiceAction' )
-                                ->SaveServiceAction( $info );
-		            // Redirect to index
-		            if( $response->SaveServiceActionResult != 1 ) {
-		                return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
-		            }
-		        }
+                    $info['ObjectInstance'][] = [
+                                    'Action' => $action,
+                                    'Reference_id' => 0,
+                                    'ServiceId' => $sv_id,
+                                    'ServiceProviderId' => $sp_id,
+                                ];
+                }
+                $response = $this
+                            ->client
+                            ->ws_init( 'SaveServiceActions' )
+                            ->SaveServiceActions( $info );
+                // Redirect to index
+                if( $response->SaveServiceActionResult != 1 ) {
+                    return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
+                }
         	}
             return [ 'success' => 'success' , 'message' => 'Service actions saved.'];
         } catch ( \Exception $e ) {
