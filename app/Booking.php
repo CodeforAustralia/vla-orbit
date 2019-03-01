@@ -500,6 +500,7 @@ Class Booking extends OrbitSoap
         $date_time   = $data[ 'date_time' ];
         $data[ 'ClientBooking' ][ 'UpdatedBy' ] = $user->id;
 
+        $data['ClientBooking']['contact'] = ( $data['ClientBooking']['contact'] == "" ? '' : preg_replace('/\D/', '', $data['ClientBooking']['contact']) );
         $data['ClientBooking']['IsComplex'] = ( $data['ClientBooking']['IsComplex'] == "true" ? 1 : 0);
         $data['ClientBooking']['IsSafe']    = ( $data['ClientBooking']['IsSafe'] == "true" ? 1 : 0);
         $data['ClientBooking']['IsSafeSMS'] = ( $data['ClientBooking']['IsSafeSMS'] == "true" ? 1 : 0);
