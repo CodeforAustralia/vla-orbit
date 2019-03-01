@@ -376,7 +376,7 @@ class BookingController extends Controller
             'booking_status_id' => (is_null($request['booking_status_id']) ? null : $request['booking_status_id']),
             'first_name'        => (is_null($request['client']['first_name']) ? null : $request['client']['first_name']),
             'last_name'         => (is_null($request['client']['last_name']) ? null : $request['client']['last_name']),
-            'contact'           => (is_null($request['client']['contact']) ? null : $request['client']['contact']),
+            'contact'           => (is_null($request['client']['contact']) ? null : preg_replace('/\D/', '',$request['client']['contact']) ),
             'client_id'         => (is_null($request['client_id']) ? null : $request['client_id']),
             'booking_id'        => $request['id'],
         ];
