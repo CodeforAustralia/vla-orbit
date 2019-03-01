@@ -172,7 +172,7 @@ class BookingController extends Controller
             // Create the booking object
             $booking = [
                 'comment'   => request('Desc'),
-                'contact'   => (is_null( request('phone') ) ? '' : request('phone') ),
+                'contact'   => (is_null( request('phone') ) ? '' : preg_replace('/\D/', '', request('phone')) ),
                 'first_name' =>  request('firstName'),
                 'last_name' => request('lastName'),
                 'start_hour'  =>  request('start_hour'),
