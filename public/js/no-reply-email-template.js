@@ -189,7 +189,7 @@ var noReplyEmailTemplate = function()
 			    ['clear',['clearAll']],   			
 			],
 		    cleaner:{
-		          action: 'paste', // both|button|paste 'button' only cleans via toolbar button, 'paste' only clean when pasting content, both does both options.
+		          action: 'none', // both|button|paste 'button' only cleans via toolbar button, 'paste' only clean when pasting content, both does both options.
 		          newline: '<br>', // Summernote's default is to use '<p><br></p>'
 		          notStyle: 'position:absolute;top:0;left:0;right:0', // Position of Notification
 		          icon: '<i class="note-icon">[Your Button]</i>',
