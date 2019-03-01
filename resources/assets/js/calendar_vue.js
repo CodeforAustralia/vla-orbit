@@ -108,7 +108,7 @@ new Vue({
             self.show_date = false;
             self.show_sms = false;
         },
-        updateBookingField: function (field){
+        updateBookingField: function (field) {
             $("#contentLoading").modal("show");
             var self =this;
             let url = '/booking';
@@ -123,6 +123,9 @@ new Vue({
                 let fields = field.split('.');
                 temp_field = self.current_booking[fields[0]][fields[1]]; //save it in case of error
                 self.current_booking[fields[0]][fields[1]] = self.temp_value;
+                if (field === 'client.contact') {
+                    self.current_booking.client.contact = Number(self.temp_value.replace(/[^0-9]+/g, ""));
+                }
             }
             axios.patch(url, self.current_booking)
                 .then(function (response) {
