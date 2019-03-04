@@ -19,11 +19,11 @@
                 <div class="modal-body" style="display: grid;">
                     <p>Use the tabs below to add Conditions to a specific legal matter or override the service-wide eligibility criteria for each Legal Matter </p>
                     <ul class="nav nav-tabs">
-                    @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )                                            
-                        <li class="{{ ($pos == 0 ? 'active' : '') }}" ><a data-toggle="tab" href="#{{ $current_service->ServiceMatters[$pos]->MatterID }}">{{ $matter_name }}</a></li>                        
+                    @foreach( array_column( $current_service->ServiceMatters, 'MatterName' ) as $pos => $matter_name )
+                        <li class="{{ ($pos == 0 ? 'active' : '') }}" ><a data-toggle="tab" href="#{{ $current_service->ServiceMatters[$pos]->MatterID }}">{{ $matter_name }}</a></li>
                     @endforeach
                     </ul>
-                    
+
                     <div class="tab-content">
                     <h3>Legal Matter Conditions</h3>
                     <p>To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)</p>
@@ -41,36 +41,37 @@
                                 </div>
                                 <div class="col-md-2">
                                     <select  class="form-control" name="question[{{ $cs_Legal_matter->MatterServiceID }}][{{ $cs_Legal_matter_question->QuestionId }}][operator]" id="operator">
-                                        <?php 
+                                        <?php
                                             // If no prevous value saved - Show default value
                                             $current_op_val = [
-                                                                'operator' => $cs_Legal_matter_question->Operator, 
+                                                                'operator' => $cs_Legal_matter_question->Operator,
                                                                 'value' => $cs_Legal_matter_question->QuestionValue
-                                                              ];
+                                                            ];
                                             // Get previous answer
-                                            $lm_answer = array_search( 
+                                            $lm_answer = array_search(
                                                                     $cs_Legal_matter_question->QuestionId,  //Question id
                                                                     array_column(
                                                                         $cs_Legal_matter->MatterAnswers,  // Array of previous Answers
                                                                         'QuestionId' //Column to search an specific answer
                                                                     )
-                                                                  );
-                                            if($lm_answer !== false) 
+                                                                );
+                                            if($lm_answer !== false)
                                             {
                                                 $current_answer = $cs_Legal_matter->MatterAnswers[ $lm_answer ];
-                                                $current_op_val = [ 
-                                                                    'operator' => $current_answer->Operator, 
-                                                                    'value' => $current_answer->QuestionValue 
-                                                                  ];
+                                                $current_op_val = [
+                                                                    'operator' => $current_answer->Operator,
+                                                                    'value' => $current_answer->QuestionValue
+                                                                ];
                                             }
                                         ?>
-                                        <option></option> 
+                                        <option></option>
                                         <option value=">"  {{ ( $current_op_val['operator'] == '>'  ) ? 'selected' : '' }} > >  </option>
                                         <option value=">=" {{ ( $current_op_val['operator'] == '>=' ) ? 'selected' : '' }} > >= </option>
                                         <option value="<"  {{ ( $current_op_val['operator'] == '<'  ) ? 'selected' : '' }} > <  </option>
                                         <option value="<=" {{ ( $current_op_val['operator'] == '<=' ) ? 'selected' : '' }} > <= </option>
-                                        <option value="="  {{ ( $current_op_val['operator'] == '='  ) ? 'selected' : '' }} > =  </option>
-                                        <option value="in" {{ ( $current_op_val['operator'] == 'in'  ) ? 'selected' : '' }} > IN  </option>
+                                        <option value="="  {{ ( $current_op_val['operator'] == '='  ) ? 'selected' : '' }} > Equal  </option>
+                                        <option value="!=" {{ ( $current_op_val['operator'] == '!=' ) ? 'selected' : '' }} > Not equal </option>
+                                        <option value="in" {{ ( $current_op_val['operator'] == 'in' ) ? 'selected' : '' }} > IN  </option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -79,19 +80,19 @@
                                 <div class="col-md-1">
                                     <input type="text" class="form-control hidden"  name="question[{{ $cs_Legal_matter->MatterServiceID }}][{{ $cs_Legal_matter_question->QuestionId }}][mt_id]" id="answer"  value="{{ $cs_Legal_matter->MatterID }}">
                                 </div>
-                            </div>                        
+                            </div>
                             @endforeach
 
                             <hr>
-                            <?php 
+                            <?php
                             $current_lm_vulnerabilities = array_column($cs_Legal_matter->VulnerabilityMatterAnswers, 'QuestionId');
                             ?>
                             <h3>Eligibility Criteria</h3>
-                            <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>   
-                            
-                            @foreach($vulnertability_questions as $vulnerability_question) 
+                            <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>
+
+                            @foreach($vulnertability_questions as $vulnerability_question)
                                 <div class="col-md-6">
-                                    <label class="checkbox-inline">                                
+                                    <label class="checkbox-inline">
                                         <input type="checkbox" value="" name="vulnerability_matter[{{ $cs_Legal_matter->MatterID }}][{{ $vulnerability_question['QuestionId'] }}]" {{ ( isset( $current_lm_vulnerabilities ) && in_array($vulnerability_question['QuestionId'], $current_lm_vulnerabilities) ? 'checked' : '' ) }}>
                                             {{ $vulnerability_question["QuestionLabel"] }}
                                     </label>

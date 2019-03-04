@@ -16,22 +16,22 @@
                 <div class="modal-body">
                     @foreach($questions as $question)
 
-                    <?php 
-                    $exist_current_op_val = isset( $current_matter ) && 
-                                            is_array($current_matter->MatterQuestions) &&  
+                    <?php
+                    $exist_current_op_val = isset( $current_matter ) &&
+                                            is_array($current_matter->MatterQuestions) &&
                                             isset( $current_matter->MatterQuestions[ $question['QuestionId'] ] );
 
                     $checked = '';
                     if($exist_current_op_val)
                     {
                         $current_op_val =   [
-                                                'operator' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['operator'], 
-                                                'value' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['value'] 
+                                                'operator' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['operator'],
+                                                'value' => $current_matter->MatterQuestions[ $question['QuestionId'] ]['value']
                                             ];
                         $checked = 'checked';
                     } else {
                         $current_op_val = ['operator' => '', 'value' => ''];
-                    }            
+                    }
                     ?>
 
                     <div class="form-group">
@@ -43,14 +43,15 @@
                         </label>
                         <div class="col-md-2">
                             <select  class="form-control" name="question[{{ $question['QuestionId'] }}][operator]" id="operator">
-                                
-                                <option></option> 
+
+                                <option></option>
                                 <option value=">"  {{ ( $current_op_val['operator'] == '>'  ) ? 'selected' : '' }} > >  </option>
                                 <option value=">=" {{ ( $current_op_val['operator'] == '>=' ) ? 'selected' : '' }} > >= </option>
                                 <option value="<"  {{ ( $current_op_val['operator'] == '<'  ) ? 'selected' : '' }} > <  </option>
                                 <option value="<=" {{ ( $current_op_val['operator'] == '<=' ) ? 'selected' : '' }} > <= </option>
-                                <option value="="  {{ ( $current_op_val['operator'] == '='  ) ? 'selected' : '' }} > =  </option>
-                                <option value="in" {{ ( $current_op_val['operator'] == 'in'  ) ? 'selected' : '' }} > IN  </option>
+                                <option value="="  {{ ( $current_op_val['operator'] == '='  ) ? 'selected' : '' }} > Equal  </option>
+                                <option value="!=" {{ ( $current_op_val['operator'] == '!=' ) ? 'selected' : '' }} > Not equal </option>
+                                <option value="in" {{ ( $current_op_val['operator'] == 'in' ) ? 'selected' : '' }} > IN  </option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -66,11 +67,3 @@
             </div>
         </div>
     </div>
-
-@section('scripts')
-    <script src="#"></script>
-@endsection
-
-@section('inline-scripts')
-         
-@endsection

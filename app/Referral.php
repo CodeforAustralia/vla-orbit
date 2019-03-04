@@ -570,6 +570,9 @@ class Referral extends OrbitSoap
             case '<=':
                 return ( $args['answer'] <= $args["QuestionValue"] );
                 break;
+            case '!=':
+                return ( $args['answer'] != $args["QuestionValue"] );
+                break;
             case '=':
                 return ( $args['answer'] == $args["QuestionValue"] );
                 break;
