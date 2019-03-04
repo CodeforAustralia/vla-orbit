@@ -58,7 +58,6 @@
                   <div class="col-xs-12 col-sm-6">
 
                     @if($question['prop']['QuestionTypeName'] == 'numeric')
-                      <span class="input-group-addon"></span>
                       <input type="number" class="form-control" placeholder="" name="answers[{{ $qu_id }}]" required>
                     @endif
                     @if($question['prop']['QuestionTypeName'] == 'boolean')
