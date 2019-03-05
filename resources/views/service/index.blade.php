@@ -38,19 +38,19 @@
         </div>
     </div>
     <!-- End: Datatable services -->
-    
-  <!-- Modal Start -->     
+
+  <!-- Modal Start -->
     <div class="modal fade" id="viewService" tabindex="-1" role="dialog" aria-labelledby="viewService">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title bold" id="serviceName" ></h4>           
+                    <h4 class="modal-title bold" id="serviceName" ></h4>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="container-fluid">
-                    <!-- Top -->            
+                    <!-- Top -->
                         @include('service.view_service_modal')
                     </div> <!-- Modal Body Close-->
                 </div><!-- Modal Content Close-->
@@ -58,7 +58,7 @@
         </div><!-- Modal Fade Close-->
     </div>
 @endsection
-@section('styles')    
+@section('styles')
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <!-- Bootstrap toogle CSS -->
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
