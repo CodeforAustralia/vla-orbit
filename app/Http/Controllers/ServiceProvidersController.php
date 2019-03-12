@@ -59,6 +59,21 @@ class ServiceProvidersController extends Controller
             return redirect('/service_provider')->with( 'error', 'Not Authorized' );
         }
     }
+    /**
+     * Get Service provider object by id
+     *
+     * @param int $sp_id
+     * @return void
+     */
+    public function getById($sp_id){
+        $service_provider_obj   = new ServiceProvider();
+        $service_provider = [];
+        $result = $service_provider_obj->getServiceProviderByID($sp_id);
+        if ( isset( $result['data'] ) ) {
+            $service_provider = json_decode( $result['data'] )[0];
+        }
+        return ['sp'=>$service_provider];
+    }
 
     /**
      * Store a newly or updated service provider in the data base

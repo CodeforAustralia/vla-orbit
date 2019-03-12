@@ -8,6 +8,8 @@ use App\Mail\ReferralSms;
 use App\Mail\ReferralPanelLawyerEmail;
 use App\Mail\ReferralPanelLawyerSms;
 use App\Vulnerability;
+use App\Service;
+use App\Catchment;
 use App\ServiceProviderType;
 use App\Matter;
 use Auth;
@@ -142,14 +144,48 @@ class Referral extends OrbitSoap
         $referral['SentEmail'] = 0;
         $referral['SentMobile'] = 0;
         $referral['ReferralAnswers'] = self::getAnswersFromSession();
-
         $services = session('matches');
-        $service = $services[ $referral['ServiceId'] ];
+        if(isset($services[ $referral['ServiceId'] ])) {
+            $service = $services[ $referral['ServiceId'] ];
+
+        } else {
+            $service_obj = new Service();
+            $result  = $service_obj->getServiceByID($referral['ServiceId']);
+            $service = (array)json_decode( $result['data'] )[0];
+        }
+        /**For Service Referral assign the general Catchment. */
+        if($referral['CatchmentId'] == '0'){
+            $catchment_obj = new Catchment();
+            $results = $catchment_obj->getAllCatchments();
+            foreach ($results as  $catchment) {
+                if($catchment['PostCode']==3999) {
+                    $referral['CatchmentId'] = $catchment['CatchmentId'] ;
+                    break;
+                }
+            }
+        }
         $service['sendingServiceProvider'] = $service_provider;
         $service['Nearest'] = $referral['Nearest'];
         //Get the service legal matter
         $matter_obj = new Matter();
-        $matter = $matter_obj->getAllMatterById(session('mt_id'));
+        if(session()->has('mt_id') &&  session('mt_id') == $referral['MatterId']) {
+            $matter_id = session('mt_id');
+        } else {
+            $matter_id = $referral['MatterId'];
+        }
+
+        if($matter_id == 0) {
+            $matters = $matter_obj->getAllMatters();
+            foreach ($matters as  $mt) {
+                if( $mt['MatterName'] ==  'Other') {
+                    $matter_id = $mt['MatterID'];
+                    $referral['MatterId'] = $mt['MatterID'];
+                    break;
+                }
+            }
+        }
+
+        $matter = $matter_obj->getAllMatterById($matter_id);
         $service['LegalMatter'] = $matter->MatterName;
 
         if ( $referral['Email'] != 'N/P' && $referral['SafeEmail'] != 0 ) {
@@ -220,17 +256,20 @@ class Referral extends OrbitSoap
         }
 
         //questions
-        $answers = sizeof( session('answers') );
-        if( $answers > 0 )
-        {
-            foreach (session('answers') as $answer_id => $answer) {
-                $referral_answers[] = [
-                                        'Answer' => $answer,
-                                        'QuestionId' => $answer_id,
-                                        'RefNo' => 0 ,
-                                        'ReferrelId' => 0
-                                    ];
+        if(session()->has('answers')){
+            $answers = sizeof( session('answers') );
+            if( $answers > 0 )
+            {
+                foreach (session('answers') as $answer_id => $answer) {
+                    $referral_answers[] = [
+                                            'Answer' => $answer,
+                                            'QuestionId' => $answer_id,
+                                            'RefNo' => 0 ,
+                                            'ReferrelId' => 0
+                                        ];
+                }
             }
+
         }
         return $referral_answers;
     }

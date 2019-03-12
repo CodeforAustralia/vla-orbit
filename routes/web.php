@@ -111,6 +111,8 @@ Route::get('/service_provider/delete/{sp_id}', 'ServiceProvidersController@destr
 
 Route::get('/service_provider/new', 'ServiceProvidersController@create');
 
+Route::get('/service_provider/getById/{sp_id}', 'ServiceProvidersController@getById');
+
 Route::post('/service_provider', 'ServiceProvidersController@store');
 
 Route::post('/service_provider/set_sp','ServiceProvidersController@setServiceProvider');

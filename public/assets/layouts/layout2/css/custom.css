@@ -840,3 +840,14 @@ pre {
     border-radius: inherit;
     font-family: "Open Sans",sans-serif;
 }
+
+/************************* Services send to client ******************/
+
+#send_client_btn {
+    float: right;
+    margin: 7px;
+}
+
+#logo_sp {
+    margin-left: 0px;
+}

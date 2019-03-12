@@ -225,7 +225,8 @@ Class Matter extends OrbitSoap
         if ( isset( $matter->MatterQuestions->LegalMatterQuestions ) ) {
 
             $questions = [];
-            if (sizeof($matter->MatterQuestions->LegalMatterQuestions) == 1) {
+            // Change it to avoid 7.2 php error. Check if is array or not
+            if (isset($matter->MatterQuestions->LegalMatterQuestions->QuestionId)) {
 
                 $questionId = $matter->MatterQuestions->LegalMatterQuestions->QuestionId;
                 $operator = $matter->MatterQuestions->LegalMatterQuestions->Operator;

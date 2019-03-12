@@ -44,8 +44,8 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title bold" id="serviceName" ></h4>
+                    <button type="button" @click="clearFields" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title bold" id="serviceName" v-html="title"></h4>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
@@ -59,13 +59,14 @@
     </div>
 @endsection
 @section('styles')
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<!-- Bootstrap toogle CSS -->
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+    <!-- Bootstrap toogle CSS -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <!-- END Bootstrap toogle CSS -->
 @endsection
 @section('scripts')
-    <script src="/js/view_service.js?id={{ str_random(6) }}"></script>
+    <script src="/js/view_service_vue.js?id={{ str_random(6) }}"></script>
     <!-- Bootstrap toogle JS -->
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- END Bootstrap toogle JS -->
