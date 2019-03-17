@@ -213,6 +213,31 @@
                         }
                     }
                 });
+            },
+            updateContactBookingEvent : function() {
+                var self = this;
+                EventBus.$on('update_booking', (field,booking) => {
+                    if(field == 'client.first_name' || field == 'client.last_name' || field == 'client.contact') {
+                        for(let i = 0 ; i < self.events.length ; i++) {
+                            if(self.events[i].booking.client && self.events[i].booking.client.id == booking.client.id) {
+                                switch(field) {
+                                    case 'client.first_name':
+                                        self.events[i].booking.client.first_name = booking.client.first_name;
+                                        break;
+                                    case 'client.last_name':
+                                        self.events[i].booking.client.last_name = booking.client.last_name;
+                                        break;
+                                    case 'client.contact':
+                                        self.events[i].booking.client.contact = booking.client.contact;
+                                        break;
+                                    }
+                                let int_icon = (self.events[i].booking.int_language ? '<i class="fa fa-globe"></i> ' : '');
+                                self.events[i].title = int_icon + (self.events[i].booking.client.hasOwnProperty('first_name') && self.events[i].booking.client.hasOwnProperty('last_name') ?  self.events[i].booking.client.first_name + ' ' + self.events[i].booking.client.last_name : 'Name not indicated');
+                            }
+                        }
+
+                    }
+                });
             }
         },
         watch:{
@@ -266,6 +291,7 @@
         },
         mounted() {
             this.deleteBookingEvent();
+            this.updateContactBookingEvent();
         },
     }
 

@@ -179,11 +179,19 @@
                 EventBus.$on('delete_booking', (booking_id) => {
                     self.getBookings();
                 });
+            },
+            updateContactBookingEvent : function() {
+                var self = this;
+                EventBus.$on('update_booking', (field,booking) => {
+                    self.getBookings();
+                });
             }
         },
+
         mounted() {
             this.getBookings();
             this.deleteBookingEvent();
+            this.updateContactBookingEvent();
         },
     }
 

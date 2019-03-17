@@ -141,6 +141,7 @@ new Vue({
                     }
                     else {
                         self.booking_to_update = self.current_booking.id;
+                        EventBus.$emit('update_booking', field, self.current_booking);
                     }
                     $("#contentLoading").modal("hide");
                 })
