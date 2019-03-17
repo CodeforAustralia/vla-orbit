@@ -851,3 +851,7 @@ pre {
 #logo_sp {
     margin-left: 0px;
 }
+
+#status {
+    cursor:initial;
+}

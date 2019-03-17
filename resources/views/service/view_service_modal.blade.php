@@ -1,4 +1,4 @@
-<div class="row" v-if="!send_to_client">
+<div class="row" v-show="!send_to_client">
 	<div class="col-sm-12">
 		<button type="button" class="btn btn-primary btn-sm" id="send_client_btn" @click="setReferral({{ Auth::user()->id }},{{ Auth::user()->sp_id }})">
 			Send to Client
@@ -84,7 +84,7 @@
 	</div>
 
 </div>
-<div class="row" v-if="send_to_client">
+<div class="row" v-show="send_to_client">
 	<!-- TODO Logo -->
 	<div class="col-xs-6 col-sm-4">
 		<img :src="logo_src" id="logo_sp" class="img-responsive img-thumbnail center-block">
@@ -96,7 +96,7 @@
 		<p>Send referral details to the client by Email, SMS or both with the form below.</p>
 	</div>
 </div>
-<div class="row" v-if="send_to_client" >
+<div class="row" v-show="send_to_client" >
 	<div class="col-sm-12 form-group">
 		<label>
 			<input type="checkbox" v-model="email_checked" id="safeEmail"> It is safe to send an email to the client
