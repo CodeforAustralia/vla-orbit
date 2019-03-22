@@ -393,6 +393,7 @@ Route::post('/service_booking','ServiceBookingController@store');
 
 Route::get('/service_booking/delete/{sb_id}', 'ServiceBookingController@destroy');
 
+Route::post('/service_booking/activate_service','ServiceBookingController@activateService');
 // Panel Lawyers
 
 Route::get('/panel_lawyers', 'PanelLawyersController@index');

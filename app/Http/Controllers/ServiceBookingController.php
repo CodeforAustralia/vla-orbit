@@ -127,8 +127,8 @@ class ServiceBookingController extends Controller
             $services = $service_obj->getAllServices();
             $booking_services = $booking_engine_obj->getServices();
         }
-		usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
-    	return view("service_booking.create", compact('services', 'booking_services'));
+        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+        return view("service_booking.create", compact('services', 'booking_services'));
     }
 
     /**
@@ -138,18 +138,18 @@ class ServiceBookingController extends Controller
     public function store()
     {
         Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
-    	//Validations
-    	$this->validate(request(), [
-    		'ServiceId'=>'required',
+        //Validations
+        $this->validate(request(), [
+            'ServiceId'=>'required',
             'BookingServiceId' => 'required|numeric',
             'InternalBookingServId' => 'numeric|nullable',
             'ResourceId' => 'required|numeric',
             'ServiceLength'=> 'required|numeric',
             'IntServiceLength' => 'numeric|nullable',
-    	]);
-    	$service_booking = new ServiceBooking();
-    	$response = $service_booking->saveServiceBooking( request()->all() );
-    	return redirect('/service_booking')->with( $response['success'], $response['message'] );
+        ]);
+        $service_booking = new ServiceBooking();
+        $response = $service_booking->saveServiceBooking( request()->all() );
+        return redirect('/service_booking')->with( $response['success'], $response['message'] );
     }
 
     /**
@@ -199,4 +199,20 @@ class ServiceBookingController extends Controller
         return redirect('/service_booking')->with( $response['success'], $response['message'] );
     }
 
+    /**
+     * Activate service request which would try to create it in Booking engine
+     *
+     * @param Request $request Service Id
+     * @return json success or error message
+     */
+    public function activateService( Request $request )
+    {
+        Auth::user()->authorizeRoles( ['Administrator','AdminSp'] );
+
+        $sv_id = $request->id;
+        $serviceBooking = new ServiceBooking();
+        $response = $serviceBooking->activateService($sv_id);
+
+        return $response;
+    }
 }

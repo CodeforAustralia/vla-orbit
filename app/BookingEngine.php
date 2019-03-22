@@ -91,6 +91,31 @@ Class BookingEngine extends BookingEngineClient
     }
 
      /**
+     * Store Service
+     *
+     * @param array $params Service paramenters including service provider name
+     * @return int  Id of saved service
+     */
+    public function storeService( $params )
+    {
+        $url = "/api/auth/service";
+        $tokens = $this->getTokens();
+
+        $user = Auth::user();
+        $service_id = $this->client->post($params,$tokens, $url);
+
+        if($service_id) {
+            //Create service booking one
+            $log = new Log();
+            $log::record( 'CREATE', 'booking_engine_service', $service_id, $params );
+            return $service_id;
+        } else {
+            return false;
+        }
+
+    }
+
+     /**
      * Update booking;
      *
      * @param array $booking

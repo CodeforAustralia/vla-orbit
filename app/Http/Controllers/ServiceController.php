@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Service;
 use App\ServiceAction;
+use App\ServiceBooking;
 use App\ServiceType;
 use App\ServiceLevel;
 use App\ServiceProvider;
@@ -69,9 +70,12 @@ class ServiceController extends Controller
         $matter_services_list   = $matter_service_obj->getMatterServiceBySvID($sv_id);
         $matter_services = [];
 
+        $service_booking_obj = new ServiceBooking();
+        $service_booking = $service_booking_obj->getServiceBookingByServiceId($sv_id);
+
         foreach ($matter_services_list as $matter_service) {
-           	$matter_services[] = $matter_service->MatterId;
-       	}
+            $matter_services[] = $matter_service->MatterId;
+        }
 
         $service = new Service();
         $result  = $service->getServiceByID($sv_id);
@@ -80,7 +84,7 @@ class ServiceController extends Controller
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
 
         if (isset( $result['data'] ) ) {
-        	$current_service = json_decode( $result['data'] )[0];
+            $current_service = json_decode( $result['data'] )[0];
             $current_vulnerabilities = array_column($current_service->ServiceVulAnswers, 'QuestionId');
 
             $catchment = new Catchment();
@@ -109,8 +113,9 @@ class ServiceController extends Controller
                 return view(
                                 "service.show",
                                 compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters',
-                                         'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities',
-                                         'referral_conditions', 'booking_conditions', 'e_referral_conditions', 'e_referral_forms')
+                                        'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities',
+                                        'referral_conditions', 'booking_conditions', 'e_referral_conditions', 'e_referral_forms',
+                                        'service_booking')
                             );
             } else {
                 abort(401, 'This action is unauthorized.');

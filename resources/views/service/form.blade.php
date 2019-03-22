@@ -218,7 +218,7 @@
                                     <div class="form-group col-sm-12">
                                         <p class="margin-0">Referrals conditions:</p>
                                         <p class="font-grey-silver margin-bottom-10">Enable Referrals to specific Service Providers by adding them here. <span id="count_referral_conditions">({{ isset($referral_conditions) ? count( $referral_conditions ) : '0' }}) </span> &nbsp;<a href="javascript:;" class="btn btn-xs green" select-all-sp="referral">Select All</a> &nbsp;
-                                          <a href="javascript:;" class="btn btn-xs red" clear-all-sp="referral">Clear</a></p>
+                                        <a href="javascript:;" class="btn btn-xs red" clear-all-sp="referral">Clear</a></p>
                                         <select multiple class="form-control" id="referral_conditions" name="referral_conditions[]"></select>
                                     </div>
 
@@ -226,7 +226,7 @@
                             </div>
                         </div>
 
-                        <div class="panel panel-default">
+                            <div class="panel panel-default {{ (isset($current_service) && $current_service->ServiceProviderTypeName == 'VLA' ? '' : 'hidden' )}}">
                             <div class="panel-heading">
                                 <h4 class="panel-title font-purple-soft bold uppercase">
                                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_2"> Booking Settings </a>
@@ -234,8 +234,14 @@
                             </div>
                             <div id="collapse_2" class="panel-collapse collapse">
                                 <div class="panel-body">
-
-                                    <div class="form-group col-sm-12">
+                                    @if(!isset($current_service))
+                                        <span>To enable bookings you must save this service first.</span>
+                                    @elseif( isset($service_booking) && empty($service_booking))
+                                        <div class="form-group col-sm-12 margin-0" id="service_booking">
+                                            <a href="#" class="btn green" @click="activateService({{ isset($current_service) ? $current_service->ServiceId : 0 }})">Enable bookings</a>
+                                        </div>
+                                    @endif
+                                    <div class="form-group col-sm-12 service_booking_conditions {{ (isset($service_booking) && empty($service_booking) ? 'hidden' : '' )}}">
                                         <p class="margin-0">Bookings conditions:</p>
                                         <p class="font-grey-silver margin-bottom-10">Enable bookings to specific Service Providers by adding them here. <span id="count_booking_conditions">({{ isset($booking_conditions) ? count( $booking_conditions) : '0'  }}) </span>  &nbsp;<a href="javascript:;" class="btn btn-xs green" select-all-sp="booking">Select All</a> &nbsp; <a href="javascript:;" class="btn btn-xs red" clear-all-sp="booking">Clear</a></p>
                                         <select multiple class="form-control" id="booking_conditions" name="booking_conditions[]"></select>
@@ -307,6 +313,7 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- END Bootstrap toogle JS -->
     <script src="/js/request_service_vue.js?id={{ str_random(6) }}"></script>
+    <script src="/js/service_booking.js?id={{ str_random(6) }}"></script>
 @endsection
 
 @section('inline-scripts')
