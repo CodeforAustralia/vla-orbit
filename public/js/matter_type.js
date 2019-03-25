@@ -16,7 +16,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -74,7 +74,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -137,7 +137,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -199,7 +199,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -261,7 +261,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -323,7 +323,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -379,7 +379,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -435,7 +435,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -493,7 +493,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -549,7 +549,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -603,7 +603,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function (grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -654,7 +654,7 @@ var TableDatatablesAjax = function () {
                 // grid:        grid object
                 // response:    json object of server side ajax response
                 // execute some code after table records loaded
-                confirmDialog();
+                
             },
             onError: function (grid) {
                 // execute some code on network or other general error
@@ -714,7 +714,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -768,7 +768,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -822,7 +822,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -882,7 +882,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -973,7 +973,8 @@ var TableDatatablesAjax = function () {
 
                                 // Combine the first and last names into a single table field
                                 let action_buttons = "";
-                                action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs col-xs-12">Delete</a>';
+                                let path = '/booking/delete/' + data.BookingRef;
+                                action_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs col-xs-12">Delete</button>';
                                 if( booking_date > day_before && data.Mobile != '' )
                                 {
                                     action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
@@ -1005,7 +1006,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1087,7 +1088,8 @@ var TableDatatablesAjax = function () {
 
                                 // Combine the first and last names into a single table field
                                 let action_buttons = "";
-                                action_buttons += '<a href="/booking/delete/' + data.BookingRef  +  '" class="btn btn-danger delete-content btn-xs col-xs-12">Delete</a>';
+                                let path = '/booking/delete/' + data.BookingRef;
+                                action_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs col-xs-12">Delete</button>';
                                 if( booking_date > day_before && data.Mobile != '' )
                                 {
                                     action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
@@ -1118,7 +1120,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1202,7 +1204,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1302,7 +1304,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1403,7 +1405,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1459,7 +1461,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1517,7 +1519,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1587,7 +1589,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1640,7 +1642,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function (grid) {
                 // execute some code on ajax data load
-                confirmDialog();
+                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1791,7 +1793,8 @@ var TableDatatablesAjax = function () {
         }
         if(can_delete)
         {
-            actions_buttons += '<a href="/' + controller + '/delete/' + id  +  '" class="btn btn-danger delete-content btn-xs">Delete</a>';
+            let path = '/' + controller + '/delete/' + id  ;
+            actions_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs">Delete</button>';
         }
         if(can_view)
         {
@@ -1867,21 +1870,6 @@ var TableDatatablesAjax = function () {
     };
 
 }();
-
-
-var confirmDialog = function()
-{
-    $( ".delete-content" ).on( "click", function(e)
-    {
-        var r = confirm("Are you sure that you want to delete it?\n To confirm press OK or Cancel.");
-        if (r == true)
-        {
-            //Continue to the event
-        } else {
-            e.preventDefault();
-        }
-    });
-}
 
 jQuery(document).ready(function() {
     TableDatatablesAjax.init();
