@@ -16,7 +16,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -74,7 +74,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -137,7 +137,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -199,7 +199,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -261,7 +261,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -323,7 +323,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -379,7 +379,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -435,7 +435,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -493,7 +493,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -549,7 +549,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -603,7 +603,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function (grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -654,7 +654,7 @@ var TableDatatablesAjax = function () {
                 // grid:        grid object
                 // response:    json object of server side ajax response
                 // execute some code after table records loaded
-                
+
             },
             onError: function (grid) {
                 // execute some code on network or other general error
@@ -714,7 +714,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -768,7 +768,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -822,7 +822,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -882,7 +882,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -974,7 +974,7 @@ var TableDatatablesAjax = function () {
                                 // Combine the first and last names into a single table field
                                 let action_buttons = "";
                                 let path = '/booking/delete/' + data.BookingRef;
-                                action_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs col-xs-12">Delete</button>';
+                                action_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs btn-default col-xs-12">Delete</button>';
                                 if( booking_date > day_before && data.Mobile != '' )
                                 {
                                     action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
@@ -1006,7 +1006,6 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1089,7 +1088,7 @@ var TableDatatablesAjax = function () {
                                 // Combine the first and last names into a single table field
                                 let action_buttons = "";
                                 let path = '/booking/delete/' + data.BookingRef;
-                                action_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs col-xs-12">Delete</button>';
+                                action_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs btn-default col-xs-12">Delete</button>';
                                 if( booking_date > day_before && data.Mobile != '' )
                                 {
                                     action_buttons += '<button class="btn btn-xs green remind-booking col-xs-12" onClick="sendReminderWithParams('+ data.RefNo +')">Send Reminder</button>' ;
@@ -1120,7 +1119,6 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1204,7 +1202,6 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1304,7 +1301,6 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1405,7 +1401,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1461,7 +1457,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1478,7 +1474,7 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [0, "asc"]
+                    [4, "desc"]
                 ],// set first column as a default sort by asc,
 
                 "serverSide": false,
@@ -1519,7 +1515,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1589,7 +1585,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function(grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1642,7 +1638,7 @@ var TableDatatablesAjax = function () {
             },
             onDataLoad: function (grid) {
                 // execute some code on ajax data load
-                
+
             },
 
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options
@@ -1794,7 +1790,7 @@ var TableDatatablesAjax = function () {
         if(can_delete)
         {
             let path = '/' + controller + '/delete/' + id  ;
-            actions_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-xs">Delete</button>';
+            actions_buttons += '<button onclick="if(confirm(\'Are you sure that you want to delete it? \\nTo confirm press OK or Cancel.\')) window.location.href=\'' + path + '\';" class="btn btn-danger btn-default btn-xs">Delete</button>';
         }
         if(can_view)
         {
