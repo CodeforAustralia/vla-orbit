@@ -1,10 +1,10 @@
 <template>
     <div class="data-table">
-        <div class="form-group row mx-0">
+        <div class="form-group row">
             <div class="col-sm-6 col-md-7">
                 <h5>  </h5>
             </div>
-            <label class="col-form-label font-weight-bold pt-2 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
+            <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
             <div class="col-sm-4 col-md-3">
                 <input type="text" id="search" class="form-control form-control-sm" v-model="search">
             </div>
@@ -36,17 +36,17 @@
                         <form method="POST" :action="deleteUrl + '/'  + data.id" accept-charset="UTF-8">
                             <input name="_method" value="DELETE" type="hidden">
                             <input type="hidden" name="_token" :value="csrf">
-                            <div class="btn-group btn-group-sm pull-right list-table" role="group">
-                                <a :href="showUrl + '/' + data.id" class="btn btn-sm btn-info" :title="'Show ' + title " v-if="showUrl != ''">
-                                    <i class="fa fa-calendar-alt"></i>
-                                </a>
-                                <a :href="editUrlComposition(data.id)" class="btn btn-sm btn-primary" :title="'Edit ' + title" v-if="editUrl != ''">
-                                    <i class="fa fa-pencil-alt"></i>
-                                </a>
-                                <button type="submit" :dusk="'delete-' + title.toLowerCase() + '-' + data.id" class="btn btn-sm btn-danger" :title="'Delete ' + title" :onclick="'return confirm(&quot;Delete ' + title + '?&quot;)'" v-if="deleteUrl != ''">
-                                    <i class="fa fa-trash-alt"></i>
-                                </button>
-                            </div>
+
+                            <a :href="showUrl + '/' + data.id" class="btn btn-xs blue" :title="'Show ' + title " v-if="showUrl != ''">
+                                Show
+                            </a>
+                            <a :href="editUrlComposition(data.id)" class="btn btn-warning btn-xs" :title="'Edit ' + title" v-if="editUrl != ''">
+                                Edit
+                            </a>
+                            <button type="submit" :dusk="'delete-' + title.toLowerCase() + '-' + data.id" class="btn btn-danger btn-xs" :title="'Delete ' + title" :onclick="'return confirm(&quot;Delete ' + title + '?&quot;)'" v-if="deleteUrl != ''">
+                                Delete
+                            </button>
+
                         </form>
                     </td>
                 </tr>
@@ -124,11 +124,15 @@ export default {
          * Remove extra attribute created on Laravel's end with row number
          */
         tableDataFiltered() {
-            return this.tableData.filter(function(td) {
-                    if('row_num' in td){
-                        delete td.row_num;
+            let self = this;
+            return self.tableData.map(function(td) {
+                    let filtered = {};
+                    for (let index = 0; index < self.columns.length; index++) {
+                        if(self.columns[index] in td) {
+                            filtered[self.columns[index]] = td[self.columns[index]];
+                        }
                     }
-                    return td;
+                    return filtered;
                 })
         },
         /**
