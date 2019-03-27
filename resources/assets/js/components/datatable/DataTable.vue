@@ -53,7 +53,7 @@
             </tbody>
         </table>
 
-        <nav v-if="pagination && tableData.length > 0">
+        <nav v-if="pagination && tableData.length > 0 && tableData.length > perPage">
             <ul class="pagination">
                 <li class="page-item" :class="{'disabled' : currentPage === 1}">
                     <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
