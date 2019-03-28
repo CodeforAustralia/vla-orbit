@@ -165,8 +165,8 @@ export default {
         }
     },
     methods: {
-        editUrlComposition(sv_id){
-            return this.editUrl.replace('//edit','/' + sv_id + '/edit');
+        editUrlComposition(id){
+            return this.editUrl + '/' + id;
         },
         fetchData() {
             let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search=${this.search}`;
