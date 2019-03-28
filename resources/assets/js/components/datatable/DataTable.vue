@@ -53,7 +53,7 @@
             </tbody>
         </table>
 
-        <nav v-if="pagination && tableData.length > 0 && tableData.length > perPage">
+        <nav v-if="pagination && tableData.length > 0 && tableTotal > perPage">
             <ul class="pagination">
                 <li class="page-item" :class="{'disabled' : currentPage === 1}">
                     <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
@@ -87,6 +87,7 @@ export default {
     data() {
         return {
             tableData: [],
+            tableTotal: 0,
             url: '',
             pagination: {
                 meta: { to: 1, from: 1 }
@@ -175,6 +176,7 @@ export default {
                     this.pagination.meta = data;
                     if('data' in data) { //If no data then reset array
                         this.tableData = data.data;
+                        this.tableTotal = data.total;
                     } else {
                         this.tableData = [];
                     }
