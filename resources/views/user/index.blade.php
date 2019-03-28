@@ -9,29 +9,31 @@
         <br>
     </div>
     <!-- END PAGE HEADER-->
-    
-    <!-- Begin: Demo Datatable services -->
+
+    <!-- Begin: Datatable services -->
     <div class="portlet light portlet-fit portlet-datatable ">
         <div class="portlet-body">
-            <div class="table-container">
-                <div class="table-actions-wrapper">
-                    <div id="service_filter" class="dataTables_filter"><label>Search: <input type="search" id="search_box" class="" placeholder="" aria-controls="service"></label></div>
-                </div>
-                <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_user">
-                    <thead>
-                        <tr role="row" class="heading">
-                            <!-- <th width="10%"> Id </th> -->
-                            <th width="30%"> Name </th>
-                            <th width="20%"> Email </th>
-                            <th width="20%"> Role </th>
-                            <th width="20%"> Service Provider ID </th>
-                            <!-- <th width="10%"> </th> -->
-                        </tr>
-                    </thead>
-                    <tbody> </tbody>
-                </table>
+            <div id="dTables">
+                <data-table
+                    fetch-url="/user/list_table"
+                    show-url=""
+                    edit-url="/user/show"
+                    delete-url="/user/delete"
+                    title="Users"
+                    per-page="20"
+                    :columns="[
+                                'id',
+                                'name',
+                                'email',
+                                'sp_id',
+                                'role'
+                            ]"
+                ></data-table>
             </div>
         </div>
     </div>
-    <!-- End: Demo Datatable services -->
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/tables.js') }}?id={{ str_random(6) }}"></script>
 @endsection

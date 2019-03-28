@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DB;
 
 /**
  * User model for the user functionalities
@@ -22,7 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable =[
                             'name', 'email', 'password',
-                         ];
+                        ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -58,8 +59,8 @@ class User extends Authenticatable
     public function roles()
     {
         return $this
-               ->belongsToMany( 'App\Role' )
-               ->withTimestamps();
+                ->belongsToMany( 'App\Role' )
+                ->withTimestamps();
     }
     /**
      * Check if the user has a specific role
@@ -135,8 +136,8 @@ class User extends Authenticatable
 
         //sign them in and Add role too
         $user
-           ->roles()
-           ->sync(Role::where( 'id',  $user_info->ro_id )->first() );
+            ->roles()
+            ->sync(Role::where( 'id',  $user_info->ro_id )->first() );
 
         $user->save();
 
@@ -164,4 +165,71 @@ class User extends Authenticatable
         $notifications = self::notifications()->get()->all();
         return ['count' => sizeof($notifications) , 'all' => $notifications] ;
     }
+
+    /**
+     * Get users information to be displayed in a data tabe format
+     *
+     * @param Request $request
+     * @return User
+     */
+    public static function getUsersTable($request)
+    {
+        $search_value = '%' . $request->search . '%';
+        $query = User::prepareResourcesQuery($search_value);
+        if(isset($request->column) && !is_null($request->column)){
+            $column = $request->column;
+            if($request->column == 'name'){
+                $column = 'users.name';
+            }
+            if($request->column == 'id'){
+                $column = 'users.id';
+            }
+            $query->orderBy($column, $request->order);
+        }
+        $data = $query->paginate($request->per_page);
+        return $data;
+
+    }
+    /**
+     * Create query limiting users of each service provider and fields
+     *
+     * @param String $search_value
+     * @return DBQuery
+     */
+    public static function prepareResourcesQuery($search_value)
+    {
+        $query = DB::table('users')
+                    ->join('role_user', function($join){
+                            $join->on('role_user.user_id', '=', 'users.id');
+                    })
+                    ->join('roles', function($join){
+                            $join->on('role_user.role_id', '=', 'roles.id');
+                    })
+                    ->select(
+                                User::getUsersFieldsToShow()
+                            )
+                    ->orWhere('roles.name', 'LIKE', '%'.$search_value.'%')
+                    ->orWhere('users.name', 'LIKE', '%'.$search_value.'%')
+                    ->orWhere('users.email', 'LIKE', '%'.$search_value.'%')
+                    ->orWhere('users.sp_id', 'LIKE', '%'.$search_value.'%');
+        return $query;
+    }
+
+    /**
+     * Get fields to be displayed in tables
+     *
+     * @return array
+     */
+    public static function getUsersFieldsToShow()
+    {
+        $fields = [
+            'users.id',
+            'users.name',
+            'users.email',
+            'users.sp_id',
+            'roles.name as role',
+        ];
+        return $fields;
+    }
+
 }

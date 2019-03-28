@@ -33,7 +33,7 @@
                         </span>
                     </td>
                     <td>
-                        <form method="POST" :action="deleteUrl + '/'  + data.id" accept-charset="UTF-8">
+                        <form method="GET" :action="deleteUrl + '/'  + data.id" accept-charset="UTF-8">
                             <input name="_method" value="DELETE" type="hidden">
                             <input type="hidden" name="_token" :value="csrf">
 

@@ -21,9 +21,9 @@ class UserController extends Controller
     /**
      * user contructor. Create a new instance
      */
-	public function __construct()
-	{
-    	$this->middleware('auth');
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
     /**
@@ -33,35 +33,35 @@ class UserController extends Controller
      */
     public function index( Request $request )
     {
-    	$request->user()->authorizeRoles('Administrator');
+        $request->user()->authorizeRoles('Administrator');
         $total_users = User::count();
         return view("user.index", compact('total_users'));
     }
 
-   /**
+    /**
      * Show the form for creating a new user
      * @param Request $request request
      * @return view user creation page
      */
     public function create( Request $request )
     {
-    	$request->user()->authorizeRoles('Administrator');
+        $request->user()->authorizeRoles('Administrator');
 
         $service_provider_obj = new ServiceProvider();
         $service_providers    = $service_provider_obj->getAllServiceproviders();
 
         if ( $request->user()->sp_id != 0 ) {
             //If the user belongs to a service provider
-        	foreach ( $service_providers as $service_provider ) {
-        		if ( $service_provider['ServiceProviderId'] == $request->user()->sp_id  ) {
-        			$service_providers   = []; //Destroy array and override
-        			$service_providers[] = $service_provider;
-        		}
-        	}
+            foreach ( $service_providers as $service_provider ) {
+                if ( $service_provider['ServiceProviderId'] == $request->user()->sp_id  ) {
+                    $service_providers   = []; //Destroy array and override
+                    $service_providers[] = $service_provider;
+                }
+            }
         }
 
         $role_obj = new Role();
-        $roles 	  = $role_obj->all();
+        $roles       = $role_obj->all();
 
         return view("user.create", compact( 'service_providers', 'roles' ));
     }
@@ -97,10 +97,10 @@ class UserController extends Controller
         }
 
         $user->save();
-	    //sign them in and Add role too
-	    $user
-	       ->roles()
-	       ->attach(Role::where('id',  request('ro_id'))->first());
+        //sign them in and Add role too
+        $user
+            ->roles()
+            ->attach(Role::where('id',  request('ro_id'))->first());
 
         return redirect('/user');
     }
@@ -111,12 +111,25 @@ class UserController extends Controller
      */
     public function list()
     {
-    	$users = User::with('roles')->get();
-    	foreach ( $users as $key => $user ) {
-    		$user['role'] = $user->roles()->first()->name;
-    		$users[$key]  = $user;
-    	}
-    	return [ 'data' => $users ];
+        $users = User::with('roles')->get();
+        foreach ( $users as $key => $user ) {
+            $user['role'] = $user->roles()->first()->name;
+            $users[$key]  = $user;
+        }
+        return [ 'data' => $users ];
+    }
+
+    /**
+     * Get Users information in a data table format
+     *
+     * @param Request $request
+     * @return Users    Users with paginator
+     */
+    public function listTable(Request $request)
+    {
+        $users = User::getUsersTable($request);
+
+        return $users;
     }
 
     /**
