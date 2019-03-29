@@ -32,6 +32,7 @@
             </div>
         </div>
     </div>
+    <!-- End: Datatable services -->
 @endsection
 
 @section('scripts')
