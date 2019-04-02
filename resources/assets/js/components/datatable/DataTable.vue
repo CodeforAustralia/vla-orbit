@@ -2,21 +2,21 @@
     <div class="data-table">
         <div class="form-group row">
             <div class="col-sm-6 col-md-7">
-                <h5>  </h5>
+                <button class="btn blue"  @click="printTable">Print</button>
             </div>
             <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
             <div class="col-sm-4 col-md-3">
-                <input type="text" id="search" class="form-control form-control-sm" v-model="search">
+                <input type="text" v-debounce:500ms="searchFilter" id="search"  class="form-control form-control-sm">
             </div>
         </div>
-        <table class="table">
+        <table class="table" id="data_table">
             <thead>
                 <tr>
                     <th v-for="column in columns" :key="column" class="table-head" @click="sortByColumn(column)">
                         {{ column | columnHead }}
                         <span v-if="column === sortedColumn">
                             <i v-if="order === 'asc' " class="fa fa-arrow-up"></i>
-                            <i v-else class="fas fa-arrow-down"></i>
+                            <i v-else class="fa fa-arrow-down"></i>
                         </span>
                     </th>
                     <th class="table-head"></th>
@@ -74,6 +74,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { Printd } from 'printd'
 export default {
     props: {
         fetchUrl: { type: String, required: true },
@@ -96,7 +97,7 @@ export default {
             currentPage: 1,
             sortedColumn: this.columns[0],
             search: '',
-            order: 'asc',
+            order: 'desc',
             csrf: document.getElementsByName("_token")[0].content
         }
     },
@@ -104,15 +105,6 @@ export default {
         fetchUrl: {
             handler: function(fetchUrl) {
                 this.url = fetchUrl;
-            },
-            immediate: true
-        },
-        search: {
-            handler: function(search) {
-
-                this.search = search;
-                this.currentPage = 1; //Reset current page to initial one when searching
-                this.fetchData();
             },
             immediate: true
         }
@@ -208,6 +200,18 @@ export default {
                 this.order = 'asc';
             }
             this.fetchData();
+        },
+        /**
+         * Search function with delay
+         * */
+        searchFilter(val) {
+            this.search = val;
+            this.currentPage = 1; //Reset current page to initial one when searching
+            this.fetchData();
+        },
+        printTable() {
+            const d = new Printd();
+            d.print( document.getElementById('data_table'));
         }
     },
     filters: {

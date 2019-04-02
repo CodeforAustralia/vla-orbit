@@ -283,6 +283,10 @@ Route::get('/referral/list', 'ReferralController@list');
 
 Route::get('/referral/listOutbound', 'ReferralController@listOutbound');
 
+Route::get('/referral/list_pager', 'ReferralController@listPager');
+
+Route::get('/referral/list_outbound_pager', 'ReferralController@listOutboundPager');
+
 //Route::get('/referral/result', 'ReferralController@result');
 
 Route::get('/referral/create/result', 'ReferralController@result');

@@ -13,6 +13,7 @@ use App\Catchment;
 use App\ServiceProviderType;
 use App\Matter;
 use Auth;
+use DateTime;
 
 /**
  * Referral Model.
@@ -37,16 +38,16 @@ class Referral extends OrbitSoap
 
             $info['ServiceProviderId'] = $user->sp_id;
             $referrals = $this->client
-                         ->ws_init( 'GetAllReferralsByServiceProvider' )
-                         ->GetAllReferralsByServiceProvider( $info )
-                         ->GetAllReferralsByServiceProviderResult
-                         ->Referral;
+                        ->ws_init( 'GetAllReferralsByServiceProvider' )
+                        ->GetAllReferralsByServiceProvider( $info )
+                        ->GetAllReferralsByServiceProviderResult
+                        ->Referral;
         } else {
             $referrals = $this->client
-                         ->ws_init( 'GetAllReferrals' )
-                         ->GetAllReferrals()
-                         ->GetAllReferralsResult
-                         ->Referral;
+                        ->ws_init( 'GetAllReferrals' )
+                        ->GetAllReferrals()
+                        ->GetAllReferralsResult
+                        ->Referral;
         }
 
         if ( sizeof($referrals) > 1 ){
@@ -58,6 +59,110 @@ class Referral extends OrbitSoap
 
         return $referrals;
     }
+
+
+    /**
+     * Get all Referrals
+     * @return array Array with Referrals
+     */
+    public function getAllReferralsPager($request)
+    {
+        $column = '';
+        $user = Auth::user();
+        $replace = ["/Date(", ")/"];
+        $date = new DateTime();
+        $column = self::mapTableColumn($request['column']);
+
+        $args = [
+            'PerPage' 		=> $request['per_page'],
+            'Page' 			=> $request['page'] - 1,
+            'SortColumn' 	=> $column,
+            'SortOrder' 	=> $request['order'] ,
+            'Search' 		=> $request['search'] ,
+            'ColumnSearch' 	=> '' ,
+        ];
+        if ( $user->sp_id != 0 ){
+
+            $args['ServiceProviderId'] = $user->sp_id;
+            $response = $this->client
+                        ->ws_init( 'GetAllReferralsByServiceProviderInBatchasJSON' )
+                        ->GetAllReferralsByServiceProviderInBatchasJSON( $args )
+                        ->GetAllReferralsByServiceProviderInBatchasJSONResult;
+        } else {
+            $response = $this->client
+                        ->ws_init( 'GetAllReferralsinBatchasJSON' )
+                        ->GetAllReferralsinBatchasJSON($args)
+                        ->GetAllReferralsinBatchasJSONResult;
+        }
+        $referrals = json_decode( $response, true );
+
+        $data = $referrals['data'];
+        foreach ($data as $key => $record) {
+            $record_date = str_replace($replace,"", $data[$key]['CreatedOn']);
+            $date->setTimestamp(intval(substr($record_date, 0, 10)));
+            $date_formatted = $date->format('d-m-Y');
+            $location = '';
+            if( $data[$key]['PostCode'] != '' )
+            {
+                $location = $record['PostCode'] . ', ' . $record['Suburb'] . ', ' . $record['LGC'];
+            }
+            $result[] = [   "id" => $data[$key]['RefNo'],
+                            "date"=>$date_formatted,
+                            "legal_issue"=>$data[$key]['MatterName'],
+                            "location"=>$location,
+                            "reason"=>$data[$key]['Notes'],
+                            "service_provider"=>$data[$key]['ServiceProviderName'],
+                            "service_name"=>$data[$key]['ServiceName'],
+                            "outbound_service_provider" =>$data[$key]['OutboundServiceProviderName'],
+                        ];
+
+        }
+        $referrals['data'] = $result;
+        return $referrals;
+    }
+
+    /**
+	 * Map the column from the datatable with the columns of the database
+	 *
+	 * @param string $column
+	 * @return void
+	 */
+	private function mapTableColumn($column)
+	{
+		$result = '';
+		if($column == 'id'){
+			$result = 'RE_ID';
+		}
+		if($column == 'date'){
+			$result = 'BO_CREATED_ON';
+		}
+		if($column == 'legal_issue'){
+			$result = 'LM_NAME';
+		}
+		if($column == 'location'){
+			$result = 'CA_POSTCODE';
+		}
+		if($column == 'reason'){
+			$result = 'RE_NOTES';
+        }
+		if($column == 'service_provider'){
+			$result = 'SP_NAME';
+        }
+        if($column == 'service_name'){
+			$result = 'SV_NAME';
+        }
+        if($column == 'outbound_service_provider'){
+			$result = 'OUT_SP_NAME';
+        }
+        if($column == 'contact'){
+			$result = 'RE_EMAIL';
+        }
+        if($column == 'user'){
+			$result = 'BO_CRETED_BY';
+		}
+		return $result;
+	}
+
     /**
      * Get all outbound referrals
      * @return array Array with Referrals
@@ -91,6 +196,75 @@ class Referral extends OrbitSoap
         }
 
         return $referrals;
+    }
+
+    /**
+     * Get all outbound referrals
+     * @return array Array with Referrals
+     */
+    public function getAllOutboundReferralsPager($request)
+    {
+        $column = '';
+        $user = Auth::user();
+        $replace = ["/Date(", ")/"];
+        $date = new DateTime();
+        $column = self::mapTableColumn($request['column']);
+
+        $args = [
+            'PerPage' 		=> $request['per_page'],
+            'Page' 			=> $request['page'] - 1,
+            'SortColumn' 	=> $column,
+            'SortOrder' 	=> $request['order'] ,
+            'Search' 		=> $request['search'] ,
+            'ColumnSearch' 	=> '' ,
+        ];
+        if ( $user->sp_id != 0 ){
+
+            $args['OutServiceProviderId'] = $user->sp_id;
+            $response = $this->client
+                        ->ws_init( 'GetAllReferralsByOutServiceProviderInBatchasJSON' )
+                        ->GetAllReferralsByOutServiceProviderInBatchasJSON( $args )
+                        ->GetAllReferralsByOutServiceProviderInBatchasJSONResult;
+        } else {
+            $response = $this->client
+                        ->ws_init( 'GetAllReferralsinBatchasJSON' )
+                        ->GetAllReferralsinBatchasJSON($args)
+                        ->GetAllReferralsinBatchasJSONResult;
+        }
+        $referrals = json_decode( $response, true );
+
+        $data = $referrals['data'];
+        foreach ($data as $key => $record) {
+            $record_date = str_replace($replace,"", $data[$key]['CreatedOn']);
+            $date->setTimestamp(intval(substr($record_date, 0, 10)));
+            $date_formatted = $date->format('d-m-Y');
+            $location = '';
+            $contact = '';
+            if( $data[$key]['PostCode'] != '' )
+            {
+                $location = $record['PostCode'] . ', ' . $record['Suburb'] . ', ' . $record['LGC'];
+            }
+            if( $data[$key]['Mobile'] == '000000000' )
+            {
+                $data[$key]['Mobile'] = 'N/P';
+            }
+
+            $contact =  $data[$key]['Mobile'] . ' ' . $data[$key]['Email'];
+            $result[] = [   "id" => $data[$key]['RefNo'],
+                            "date" => $date_formatted,
+                            "legal_issue" => $data[$key]['MatterName'],
+                            "location" => $location,
+                            "contact" => $contact,
+                            "reason" => $data[$key]['Notes'],
+                            "service_provider" => $data[$key]['ServiceProviderName'],
+                            "service_name" => $data[$key]['ServiceName'],
+                            "user" => $data[$key]['CreatedBy'],
+                        ];
+
+        }
+        $referrals['data'] = $result;
+        return $referrals;
+
     }
     /**
      * Get all referrals by service provider

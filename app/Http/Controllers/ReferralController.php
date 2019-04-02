@@ -254,6 +254,18 @@ class ReferralController extends Controller
     }
 
    /**
+     * List all inbound referral
+     * @return array list of all inbound referral
+     */
+    public function listPager(Request $request)
+    {
+        $referral_obj = new Referral();
+        return $referral_obj->getAllReferralsPager($request);
+    }
+
+
+
+   /**
      * List all outbound referral
      * @return array list of all outbound referral
      */
@@ -261,6 +273,16 @@ class ReferralController extends Controller
     {
         $referral_obj = new Referral();
         return ['data' => $referral_obj->getAllOutboundReferrals() ];
+    }
+
+   /**
+     * List all outbound referral
+     * @return array list of all outbound referral
+     */
+    public function listOutboundPager(Request $request)
+    {
+        $referral_obj = new Referral();
+        return $referral_obj->getAllOutboundReferralsPager($request);
     }
 
 }

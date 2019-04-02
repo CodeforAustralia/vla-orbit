@@ -196,10 +196,10 @@ class NoReplyEmailController extends Controller
      * Get All sent no reply emails by section
      * @return array list sent emails filtered by section
      */
-    public function getAllLogRecordBySection()
+    public function getAllLogRecordBySection(Request $request)
     {
         $nre_obj = new NoReplyEmail();
-        $result = $nre_obj->getAllLogRecordBySection();
+        $result = $nre_obj->getAllLogRecordBySectionPager($request);
         return $result;
     }
 }

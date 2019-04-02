@@ -162,10 +162,7 @@ class ServiceController extends Controller
             $matter_service_obj->deleteMatterServiceByID( $sv_id ) ;
 
             if ( !empty( request('matters') ) ) {
-                foreach ( request('matters') as $value ) {
-                    $mt_id  = $value;
-                    $result = $matter_service_obj->saveMatterService( $sv_id, $mt_id );
-                }
+                $result = $matter_service_obj->saveMattersService($sv_id, request('matters'));
             }
 
             $catchment = new Catchment();

@@ -11,7 +11,7 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/bookings_vue.js', 'public/js')
+/*mix.js('resources/assets/js/bookings_vue.js', 'public/js')
    .js('resources/assets/js/notifications_vue.js', 'public/js')
    .js('resources/assets/js/information_vue.js', 'public/js')
    .sass('resources/assets/sass/information.scss', 'public/css')
@@ -22,7 +22,7 @@ mix.js('resources/assets/js/bookings_vue.js', 'public/js')
    .js('resources/assets/js/e_referral.js', 'public/js')
    .js('resources/assets/js/future_bookings_datatable.js', 'public/js/datatable')
    .js('resources/assets/js/view_service_vue.js', 'public/js')
-   .js('resources/assets/js/service_booking.js', 'public/js')
-   .js('resources/assets/js/tables.js','public/js')
+   .js('resources/assets/js/service_booking.js', 'public/js')*/
+   mix.js('resources/assets/js/tables.js','public/js')
    ;
 

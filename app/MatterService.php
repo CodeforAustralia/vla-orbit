@@ -67,6 +67,41 @@ Class MatterService extends OrbitSoap
     }
 
     /**
+     * Save Legal Matters in Service
+     *
+     * @param integer $sv_id Service ID
+     * @param array  $matters Legal Matters ID
+     * @return array Array with error or success message
+     */
+    public function saveMattersService( $sv_id, $matters )
+    {
+        try {
+            foreach ( $matters as $value ) {
+                $mt_id  = $value;
+                $info['ObjectInstance'][] = [
+                                                'RefNo'     => 0,
+                                                'MatterId' 	=> $mt_id,
+                                                'ServiceId' => $sv_id
+                ];
+            }
+            if(!empty($info)) {
+                $response =  $this
+                            ->client
+                            ->ws_init('SaveServiceMatters')
+                            ->SaveServiceMatters( $info );
+                if ($response->SaveServiceMattersResult) {
+                    return ['success' => 'success' , 'message' => 'Service created.'];
+                } else {
+                    return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
+                }
+            }
+        }
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
+        }
+    }
+
+    /**
      * Delete All Legal Matters by Service ID
      *
      * @param integer $sv_id Service ID

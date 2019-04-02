@@ -7,6 +7,7 @@ use App\Mail\NoReplyEmailMailable;
 use App\Log;
 use Helpers;
 use Illuminate\Support\Facades\Mail;
+use DateTime;
 
 /**
  * No Reply Email Model.
@@ -511,6 +512,89 @@ class NoReplyEmail extends OrbitSoap
 			return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
 		}
 
+	}
+
+    /**
+     * Get All Sent Emails by section using a pager
+     * @return array send emails filtered by section
+     */
+	public function getAllLogRecordBySectionPager($request)
+	{
+		$column = '';
+		$replace = ["/Date(", ")/"];
+		$date = new DateTime();
+		try {
+			$column = self::mapTableColumn($request['column']);
+
+			$args = [
+				'PerPage' 		=> $request['per_page'],
+				'Page' 			=> $request['page'] - 1,
+				'SortColumn' 	=> $column,
+				'SortOrder' 	=> $request['order'] ,
+				'Search' 		=> $request['search'] ,
+				'ColumnSearch' 	=> '' ,
+			];
+			$section = self::getSection();
+			$response = $this
+						->client
+						->ws_no_reply_emails_init('GetAllLogRecordsInBatchasJSON')
+						->GetAllLogRecordsInBatchasJSON($args);
+			$logs = json_decode( $response->GetAllLogRecordsInBatchasJSONResult , true );
+			$result = [];
+			$data = $logs['data'];
+			$is_admin = in_array( \App\Http\helpers::getRole(), ['Administrator']);
+			foreach ($data as $key => $record) {
+				$user = User::find($record['PersonID']);
+				$record_date = str_replace($replace,"", $data[$key]['SentOn']);
+				$date->setTimestamp(intval(substr($record_date, 0, 10)));
+				$date_formatted_hour = $date->format('d-m-Y g:i A');
+				$person_name ='';
+				if ($is_admin || $record['Section'] == $section) {
+					if (isset($user->name)) {
+						$person_name = $user->name;
+					}
+					$result[] = [
+									"id" 			     => $data[$key]['RefNo'],
+									"sent_by" 			 => $person_name,
+									"to" 				 => $data[$key]['ToAddress'],
+									"subject" 			 => $data[$key]['Subject'],
+									"sent_date_and_time" => $date_formatted_hour,
+								];
+				}
+			}
+			$logs['data'] = $result;
+			return $logs;
+		}
+		catch (Exception $e) {
+			return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
+		}
+
+	}
+	/**
+	 * Map the column from the datatable with the columns of the database
+	 *
+	 * @param string $column
+	 * @return void
+	 */
+	private function mapTableColumn($column)
+	{
+		$result = '';
+		if($column == 'id'){
+			$result = 'VML_REF_NO';
+		}
+		if($column == 'sent_by'){
+			$result = 'VML_REF_NO';
+		}
+		if($column == 'to'){
+			$result = 'VML_TO_ADDRESS';
+		}
+		if($column == 'subject'){
+			$result = 'VML_SUBJECT';
+		}
+		if($column == 'sent_date_and_time'){
+			$result = 'VML_TIMESTAMP';
+		}
+		return $result;
 	}
 
 }
