@@ -3,6 +3,9 @@
         <div class="form-group row">
             <div class="col-sm-6 col-md-7">
                 <button class="btn blue"  @click="printTable">Print</button>
+                <download-csv class= "btn green" :data= "tableDataFiltered" name= "orbit.csv">
+                    CSV
+                </download-csv>
             </div>
             <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
             <div class="col-sm-4 col-md-3">
@@ -74,7 +77,13 @@
 </template>
 
 <script type="text/ecmascript-6">
+import Vue from 'vue'
 import { Printd } from 'printd'
+import JsonCSV from 'vue-json-csv'
+
+Vue.component('downloadCsv', JsonCSV)
+
+
 export default {
     props: {
         fetchUrl: { type: String, required: true },

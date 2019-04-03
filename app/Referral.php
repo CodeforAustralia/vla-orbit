@@ -209,7 +209,7 @@ class Referral extends OrbitSoap
         $replace = ["/Date(", ")/"];
         $date = new DateTime();
         $column = self::mapTableColumn($request['column']);
-
+        $result=[];
         $args = [
             'PerPage' 		=> $request['per_page'],
             'Page' 			=> $request['page'] - 1,
@@ -232,7 +232,6 @@ class Referral extends OrbitSoap
                         ->GetAllReferralsinBatchasJSONResult;
         }
         $referrals = json_decode( $response, true );
-
         $data = $referrals['data'];
         foreach ($data as $key => $record) {
             $record_date = str_replace($replace,"", $data[$key]['CreatedOn']);
