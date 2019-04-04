@@ -2,10 +2,16 @@
     <div class="data-table">
         <div class="form-group row">
             <div class="col-sm-6 col-md-7">
-                <button class="btn blue"  @click="printTable">Print</button>
-                <download-csv class= "btn green" :data= "tableDataFiltered" name= "orbit.csv">
-                    CSV
-                </download-csv>
+                <div v-if="showPrint">
+                    <button class="btn blue"  @click="printTable">Print</button>
+                    <download-excel
+                        class = "btn green"
+                        :data = "tableDataFiltered"
+                        name    = "orbit.csv"
+                        type    = "csv">
+                        CSV
+                    </download-excel>
+                </div>
             </div>
             <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
             <div class="col-sm-4 col-md-3">
@@ -79,10 +85,9 @@
 <script type="text/ecmascript-6">
 import Vue from 'vue'
 import { Printd } from 'printd'
-import JsonCSV from 'vue-json-csv'
+import JsonExcel from 'vue-json-excel'
 
-Vue.component('downloadCsv', JsonCSV)
-
+Vue.component('downloadExcel', JsonExcel)
 
 export default {
     props: {
@@ -92,7 +97,8 @@ export default {
         editUrl: { type: String, required: true },
         deleteUrl: { type: String, required: true },
         title: { type: String, required: false },
-        perPage: { type: String, required: true }
+        perPage: { type: String, required: true },
+        showPrint: { type: Boolean, required:false, default:false },
     },
     data() {
         return {
