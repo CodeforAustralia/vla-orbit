@@ -100,7 +100,7 @@ class Referral extends OrbitSoap
         foreach ($data as $key => $record) {
             $record_date = str_replace($replace,"", $data[$key]['CreatedOn']);
             $date->setTimestamp(intval(substr($record_date, 0, 10)));
-            $date_formatted = $date->format('d-m-Y');
+            $date_formatted = $date->format('d/m/Y');
             $location = '';
             if( $data[$key]['PostCode'] != '' )
             {
@@ -236,7 +236,7 @@ class Referral extends OrbitSoap
         foreach ($data as $key => $record) {
             $record_date = str_replace($replace,"", $data[$key]['CreatedOn']);
             $date->setTimestamp(intval(substr($record_date, 0, 10)));
-            $date_formatted = $date->format('d-m-Y');
+            $date_formatted = $date->format('d/m/Y');
             $location = '';
             $contact = '';
             if( $data[$key]['PostCode'] != '' )

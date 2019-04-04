@@ -28,7 +28,7 @@
                             <i v-else class="fa fa-arrow-down"></i>
                         </span>
                     </th>
-                    <th class="table-head"></th>
+                    <th v-if="showUrl != '' || editUrl != '' " class="table-head"></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
                             {{ value }}
                         </span>
                     </td>
-                    <td>
+                    <td v-if="showUrl != '' || editUrl != '' ">
                         <form method="GET" :action="deleteUrl + '/'  + data.id" accept-charset="UTF-8">
                             <input name="_method" value="DELETE" type="hidden">
                             <input type="hidden" name="_token" :value="csrf">

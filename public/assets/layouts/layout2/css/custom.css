@@ -855,3 +855,24 @@ pre {
 #status {
     cursor:initial;
 }
+
+
+/************************** datatable *******************************/
+
+table#data_table.table tr:nth-child(even) {
+    background: #fbfcfd
+}
+table#data_table.table tr:nth-child(odd) {
+    background: #ffffff
+}
+
+
+table#data_table.table>tbody>tr>td,
+table#data_table.table>tbody>tr>th,
+table#data_table.table>tfoot>tr>td,
+table#data_table.table>tfoot>tr>th,
+table#data_table.table>thead>tr>td,
+table#data_table.table>thead>tr>th {
+    border: 1px solid #e7ecf1;
+
+}

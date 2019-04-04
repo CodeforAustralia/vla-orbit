@@ -547,7 +547,7 @@ class NoReplyEmail extends OrbitSoap
 				$user = User::find($record['PersonID']);
 				$record_date = str_replace($replace,"", $data[$key]['SentOn']);
 				$date->setTimestamp(intval(substr($record_date, 0, 10)));
-				$date_formatted_hour = $date->format('d-m-Y g:i A');
+				$date_formatted_hour = $date->format('d/m/Y g:i A');
 				$person_name ='';
 				if ($is_admin || $record['Section'] == $section) {
 					if (isset($user->name)) {
