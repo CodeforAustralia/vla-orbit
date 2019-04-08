@@ -58,6 +58,8 @@ Route::get('/service', 'ServiceController@index');
 
 Route::get('/service/list', 'ServiceController@list');
 
+Route::get('/service/list_table', 'ServiceController@listTable');
+
 Route::get('/service/list_service_by_id/{sv_id}', 'ServiceController@listServiceById');
 
 Route::get('/service/list_services_sp/{sp_id}', 'ServiceController@listServicesSP');

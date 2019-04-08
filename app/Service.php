@@ -219,5 +219,61 @@ Class Service extends OrbitSoap
 
         return $filtered_services;
     }
+
+    /**
+     * Get services information to be displayed in a data tabe format
+     *
+     * @param Request $request
+     * @return Services
+     */
+    public function getServiceTable($request)
+    {
+        try {
+            $params = [
+                'PerPage' => (isset($request['per_page']) && $request['per_page'] ? $request['per_page'] : '') ,
+                'Page' => (isset($request['page']) && $request['page'] ? $request['page'] - 1 : 0) ,
+                'SortColumn' => (isset($request['column']) && $request['column'] ? $request['column'] : '') ,
+                'SortOrder' => (isset($request['order']) && $request['order'] ? $request['order'] : '') ,
+                'ColumnSearch' => '',
+                'Search' => (isset($request['search']) && $request['search'] ? $request['search'] : '') ,
+            ];
+
+            $services = json_decode(
+                                        $this
+                                        ->client
+                                        ->ws_init('GetAllServicesinBatchasJSON')
+                                        ->GetAllServicesinBatchasJSON( $params )
+                                        ->GetAllServicesinBatchasJSONResult
+                                        , true
+                                    );
+            $services['data'] = self::mapServicesToFields($services['data']);
+            return [ 'success' => 'success' , 'data' => $services ];
+        } catch (\Exception $e) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+
+    /**
+     * Map services object returned from Webservices with fields in Orbit
+     *
+     * @param array $services Set of services returned by the web service
+     * @return array Mapped array with values in Orbit
+     */
+    public static function mapServicesToFields($services)
+    {
+        $mapped_services = [];
+        foreach ($services as $service) {
+            $mapped_services[] = [
+                                    'sv_id' => $service['ServiceId'],
+                                    'name' => $service['ServiceName'],
+                                    'service_provider' => $service['ServiceProviderName'],
+                                    'phone' => $service['Phone'],
+                                    'email' => $service['Email'],
+                                    'service_type' => $service['ServiceTypeName'],
+                                    'service_level' => $service['ServiceLevelName']
+                                ];
+        }
+        return $mapped_services;
+    }
 }
 

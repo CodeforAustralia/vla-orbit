@@ -258,6 +258,23 @@ class ServiceController extends Controller
     }
 
     /**
+     * Get Services information in a data table format
+     *
+     * @param Request $request
+     * @return Services    Users with paginator
+     */
+    public function listTable(Request $request)
+    {
+        $service = new Service();
+        $services = $service->getServiceTable($request);
+
+        if($services['success'] === 'success') {
+            return $services['data'];
+        }
+        return ['errors' => $services['message']];
+    }
+
+    /**
      * List all service by service provider and user service provider
      * @return array list of all service filtered by service provider and user service provider
      */
