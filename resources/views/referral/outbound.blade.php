@@ -20,6 +20,7 @@
                         delete-url=""
                         per-page="50"
                         title="Outbound Referrals"
+                        identifier="id"
                         show-print
                         :columns="['id','date', 'legal_issue', 'location' , 'contact' ,'reason', 'service_provider', 'service_name', 'user']"
                     ></data-table>

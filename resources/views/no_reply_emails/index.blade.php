@@ -21,6 +21,7 @@
                         delete-url=""
                         per-page="50"
                         title="Information Emails"
+                        identifier="id"
                         :columns="['id','sent_by', 'to', 'subject' , 'sent_date_and_time']"
                     ></data-table>
                 </div>

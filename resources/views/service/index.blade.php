@@ -15,31 +15,33 @@
     <!-- Begin: Datatable services -->
     <div class="portlet light portlet-fit portlet-datatable ">
         <div class="portlet-body">
-            <div class="table-container">
-                <div class="table-actions-wrapper">
-                    <div id="service_filter" class="dataTables_filter"><label>Search: <input type="search" id="search_box" class="" placeholder="" aria-controls="service"></label></div>
-                </div>
-                <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_service">
-                    <thead>
-                        <tr role="row" class="heading">
-                            <th width="5%"> Id </th>
-                            <th width="15%"> Name </th>
-                            <th width="15%"> Service Provider </th>
-                            <th width="10%"> Phone </th>
-                            <th width="5%"> Email </th>
-                            <th width="10%"> Service type </th>
-                            <th width="5%"> Service Level </th>
-                            <th width="10%"> Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody> </tbody>
-                </table>
+            <div id="dTables" class="service_data_table">
+                <data-table
+                    fetch-url="/service/list_table"
+                    show-url="#"
+                    edit-url="/service/show"
+                    delete-url="/service/delete"
+                    title="Service"
+                    per-page="20"
+                    model="service"
+                    identifier="sv_id"
+                    :columns="[
+                                'sv_id',
+                                'name',
+                                'service_provider',
+                                'phone',
+                                'email',
+                                'service_type',
+                                'service_level'
+                            ]"
+                ></data-table>
             </div>
         </div>
     </div>
     <!-- End: Datatable services -->
 
-  <!-- Modal Start -->
+
+    <!-- Modal Start -->
     <div class="modal fade" id="viewService" tabindex="-1" role="dialog" aria-labelledby="viewService">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -70,4 +72,5 @@
     <!-- Bootstrap toogle JS -->
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- END Bootstrap toogle JS -->
+    <script src="{{ asset('js/tables.js') }}?id={{ str_random(6) }}"></script>
 @endsection

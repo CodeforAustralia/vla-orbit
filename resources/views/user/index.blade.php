@@ -21,6 +21,7 @@
                     delete-url="/user/delete"
                     title="Users"
                     per-page="20"
+                    identifier="id"
                     :columns="[
                                 'id',
                                 'name',

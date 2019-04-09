@@ -35,28 +35,28 @@
                 <tr class v-if="tableData.length === 0">
                     <td class="lead text-center" :colspan="columns.length + 1">No data found.</td>
                 </tr>
-                <tr v-for="data in tableDataFiltered" :key="data.id" class="m-datatable__row" v-else>
+                <tr v-for="data in tableDataFiltered" :key="data[identifier]" class="m-datatable__row" v-else>
                     <td v-for="(value, key) in data" v-bind:key="key">
-                        <span v-if="key !== 'row_num'">
+                        <span v-if="key !== 'actions'">
                             {{ value }}
                         </span>
-                    </td>
-                    <td v-if="showUrl != '' || editUrl != '' ">
-                        <form method="GET" :action="deleteUrl + '/'  + data.id" accept-charset="UTF-8">
-                            <input name="_method" value="DELETE" type="hidden">
-                            <input type="hidden" name="_token" :value="csrf">
+                        <span v-if="(showUrl != '' || editUrl != '' || deleteUrl != '') && key == 'actions' ">
+                            <form method="GET" :action="deleteUrl + '/'  + data[identifier]" accept-charset="UTF-8">
+                                <input name="_method" value="DELETE" type="hidden">
+                                <input type="hidden" name="_token" :value="csrf">
 
-                            <a :href="showUrl + '/' + data.id" class="btn btn-xs blue" :title="'Show ' + title " v-if="showUrl != ''">
-                                Show
-                            </a>
-                            <a :href="editUrlComposition(data.id)" class="btn btn-warning btn-xs" :title="'Edit ' + title" v-if="editUrl != ''">
-                                Edit
-                            </a>
-                            <button type="submit" :dusk="'delete-' + title.toLowerCase() + '-' + data.id" class="btn btn-danger btn-xs" :title="'Delete ' + title" :onclick="'return confirm(&quot;Delete ' + title + '?&quot;)'" v-if="deleteUrl != ''">
-                                Delete
-                            </button>
+                                <a :href="showUrl + '/' + data[identifier]" :id="'view-' + data[identifier]" class="btn btn-xs blue view-btn" :title="'Show ' + title " v-if="showUrl != '' && value.can_view">
+                                    Show
+                                </a>
+                                <a :href="editUrlComposition(data[identifier])" class="btn btn-warning btn-xs" :title="'Edit ' + title" v-if="editUrl != '' && value.can_edit">
+                                    Edit
+                                </a>
+                                <button type="submit" :dusk="'delete-' + title.toLowerCase() + '-' + data[identifier]" class="btn btn-danger btn-xs" :title="'Delete ' + title" :onclick="'return confirm(&quot;Delete ' + title + '?&quot;)'" v-if="deleteUrl != '' && value.can_delete">
+                                    Delete
+                                </button>
 
-                        </form>
+                            </form>
+                        </span>
                     </td>
                 </tr>
             </tbody>
@@ -83,157 +83,161 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Vue from 'vue'
-import { Printd } from 'printd'
-import JsonExcel from 'vue-json-excel'
+    import Vue from 'vue'
+    import { Printd } from 'printd'
+    import JsonExcel from 'vue-json-excel'
+    import buttonPermissions from './permissions'
 
-Vue.component('downloadExcel', JsonExcel)
+    Vue.component('downloadExcel', JsonExcel)
 
-export default {
-    props: {
-        fetchUrl: { type: String, required: true },
-        columns: { type: Array, required: true },
-        showUrl: { type: String, required: true },
-        editUrl: { type: String, required: true },
-        deleteUrl: { type: String, required: true },
-        title: { type: String, required: false },
-        perPage: { type: String, required: true },
-        showPrint: { type: Boolean, required:false, default:false },
-    },
-    data() {
-        return {
-            tableData: [],
-            tableTotal: 0,
-            url: '',
-            pagination: {
-                meta: { to: 1, from: 1 }
-            },
-            offset: 4,
-            currentPage: 1,
-            sortedColumn: this.columns[0],
-            search: '',
-            order: 'desc',
-            csrf: document.getElementsByName("_token")[0].content
-        }
-    },
-    watch: {
-        fetchUrl: {
-            handler: function(fetchUrl) {
-                this.url = fetchUrl;
-            },
-            immediate: true
-        }
-    },
-    created() {
-        return this.fetchData();
-    },
-    computed: {
-        /**
-         * Remove extra attribute created on Laravel's end with row number
-         */
-        tableDataFiltered() {
-            let self = this;
-            return self.tableData.map(function(td) {
-                    let filtered = {};
-                    for (let index = 0; index < self.columns.length; index++) {
-                        if(self.columns[index] in td) {
-                            filtered[self.columns[index]] = td[self.columns[index]];
+    export default {
+        props: {
+            fetchUrl: { type: String, required: true },
+            columns: { type: Array, required: true },
+            showUrl: { type: String, required: true },
+            editUrl: { type: String, required: true },
+            deleteUrl: { type: String, required: true },
+            title: { type: String, required: false },
+            perPage: { type: String, required: true },
+            showPrint: { type: Boolean, required:false, default:false },
+            model: { type: String, required: false },
+            identifier: { type: String, required: true },
+        },
+        data() {
+            return {
+                tableData: [],
+                tableTotal: 0,
+                url: '',
+                pagination: {
+                    meta: { to: 1, from: 1 }
+                },
+                offset: 4,
+                currentPage: 1,
+                sortedColumn: this.columns[0],
+                search: '',
+                order: 'desc',
+                csrf: document.getElementsByName("_token")[0].content
+            }
+        },
+        watch: {
+            fetchUrl: {
+                handler: function(fetchUrl) {
+                    this.url = fetchUrl;
+                },
+                immediate: true
+            }
+        },
+        created() {
+            return this.fetchData();
+        },
+        computed: {
+            /**
+             * Remove extra attribute created on Laravel's end with row number
+             */
+            tableDataFiltered() {
+                let self = this;
+                return self.tableData.map(function(td) {
+                        let filtered = {};
+                        for (let index = 0; index < self.columns.length; index++) {
+                            if(self.columns[index] in td) {
+                                filtered[self.columns[index]] = td[self.columns[index]];
+                            }
                         }
-                    }
-                    return filtered;
-                })
-        },
-        /**
-         * Get the pages number array for displaying in the pagination.
-         * */
-        pagesNumber() {
-            if (!this.pagination.to) {
-                return [];
+                        filtered.actions = buttonPermissions(self.model, td);
+                        return filtered;
+                    })
+            },
+            /**
+             * Get the pages number array for displaying in the pagination.
+             * */
+            pagesNumber() {
+                if (!this.pagination.to) {
+                    return [];
+                }
+                let from = this.pagination.current_page - this.offset;
+                if (from < 1) {
+                    from = 1;
+                }
+                let to = from + (this.offset * 2);
+                if (to >= this.pagination.last_page) {
+                    to = this.pagination.last_page;
+                }
+                let pagesArray = [];
+                for (let page = from; page <= to; page++) {
+                    pagesArray.push(page);
+                }
+                return pagesArray;
+            },
+            /**
+             * Get the total data displayed in the current page.
+             * */
+            totalData() {
+                return (this.pagination.to - this.pagination.from) + 1;
             }
-            let from = this.pagination.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
+        },
+        methods: {
+            editUrlComposition(id){
+                return this.editUrl + '/' + id;
+            },
+            fetchData() {
+                let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search=${this.search}`;
+                axios.get(dataFetchUrl)
+                    .then(({ data }) => {
+                        this.pagination = data;
+                        this.pagination.meta = data;
+                        if('data' in data) { //If no data then reset array
+                            this.tableData = data.data;
+                            this.tableTotal = data.total;
+                        } else {
+                            this.tableData = [];
+                        }
+                    }).catch(error => this.tableData = []);
+            },
+            /**
+             * Get the serial number.
+             * @param key
+             * */
+            serialNumber(key) {
+                return (this.currentPage - 1) * this.perPage + 1 + key;
+            },
+            /**
+             * Change the page.
+             * @param pageNumber
+             */
+            changePage(pageNumber) {
+                this.currentPage = pageNumber;
+                this.fetchData();
+            },
+            /**
+             * Sort the data by column.
+             * */
+            sortByColumn(column) {
+                if (column === this.sortedColumn) {
+                    this.order = (this.order === 'asc') ? 'desc' : 'asc';
+                } else {
+                    this.sortedColumn = column;
+                    this.order = 'asc';
+                }
+                this.fetchData();
+            },
+            /**
+             * Search function with delay
+             * */
+            searchFilter(val) {
+                this.search = val;
+                this.currentPage = 1; //Reset current page to initial one when searching
+                this.fetchData();
+            },
+            printTable() {
+                const d = new Printd();
+                d.print( document.getElementById('data_table'));
             }
-            let to = from + (this.offset * 2);
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page;
+        },
+        filters: {
+            columnHead(value) {
+                return value.split('_').join(' ').toUpperCase();
             }
-            let pagesArray = [];
-            for (let page = from; page <= to; page++) {
-                pagesArray.push(page);
-            }
-            return pagesArray;
         },
-        /**
-         * Get the total data displayed in the current page.
-         * */
-        totalData() {
-            return (this.pagination.to - this.pagination.from) + 1;
-        }
-    },
-    methods: {
-        editUrlComposition(id){
-            return this.editUrl + '/' + id;
-        },
-        fetchData() {
-            let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search=${this.search}`;
-            axios.get(dataFetchUrl)
-                .then(({ data }) => {
-                    this.pagination = data;
-                    this.pagination.meta = data;
-                    if('data' in data) { //If no data then reset array
-                        this.tableData = data.data;
-                        this.tableTotal = data.total;
-                    } else {
-                        this.tableData = [];
-                    }
-                }).catch(error => this.tableData = []);
-        },
-        /**
-         * Get the serial number.
-         * @param key
-         * */
-        serialNumber(key) {
-            return (this.currentPage - 1) * this.perPage + 1 + key;
-        },
-        /**
-         * Change the page.
-         * @param pageNumber
-         */
-        changePage(pageNumber) {
-            this.currentPage = pageNumber;
-            this.fetchData();
-        },
-        /**
-         * Sort the data by column.
-         * */
-        sortByColumn(column) {
-            if (column === this.sortedColumn) {
-                this.order = (this.order === 'asc') ? 'desc' : 'asc';
-            } else {
-                this.sortedColumn = column;
-                this.order = 'asc';
-            }
-            this.fetchData();
-        },
-        /**
-         * Search function with delay
-         * */
-        searchFilter(val) {
-            this.search = val;
-            this.currentPage = 1; //Reset current page to initial one when searching
-            this.fetchData();
-        },
-        printTable() {
-            const d = new Printd();
-            d.print( document.getElementById('data_table'));
-        }
-    },
-    filters: {
-        columnHead(value) {
-            return value.split('_').join(' ').toUpperCase();
-        }
-    },
 
-}
+    }
 </script>
