@@ -73,8 +73,9 @@ new Vue({
         onClickView : function()
         {
             let self = this;
-            $(document).on("click", ".view-content", function(){
-                let sv_id = $(this).attr('id');
+            $(document).on("click", ".service_data_table .view-btn", function () {
+                let view = $(this).attr('id').split('-');
+                let sv_id = view[1];
                 self.getServiceById(sv_id);
             });
         },
