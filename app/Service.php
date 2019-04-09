@@ -232,7 +232,7 @@ Class Service extends OrbitSoap
             $params = [
                 'PerPage' => (isset($request['per_page']) && $request['per_page'] ? $request['per_page'] : '') ,
                 'Page' => (isset($request['page']) && $request['page'] ? $request['page'] - 1 : 0) ,
-                'SortColumn' => (isset($request['column']) && $request['column'] ? $request['column'] : '') ,
+                'SortColumn' => (isset($request['column']) && $request['column'] ? self::mapServicesColumnsToFields($request['column']) : '') ,
                 'SortOrder' => (isset($request['order']) && $request['order'] ? $request['order'] : '') ,
                 'ColumnSearch' => '',
                 'Search' => (isset($request['search']) && $request['search'] ? $request['search'] : '') ,
@@ -270,10 +270,43 @@ Class Service extends OrbitSoap
                                     'phone' => $service['Phone'],
                                     'email' => $service['Email'],
                                     'service_type' => $service['ServiceTypeName'],
-                                    'service_level' => $service['ServiceLevelName']
+                                    'service_level' => $service['ServiceLevelName'],
+                                    'sp_id' => $service['ServiceProviderId'],
                                 ];
         }
         return $mapped_services;
+    }
+
+    /**
+     * Translate column names to names in tables
+     *
+     * @param String $column Column name
+     * @return String   Column name in table
+     */
+    public static function mapServicesColumnsToFields($column) {
+        switch ($column) {
+            case 'name':
+                return 'sv_name';
+                break;
+            case 'service_provider':
+                return 'sp_name';
+                break;
+            case 'phone':
+                return 'sv_phone';
+                break;
+            case 'email':
+                return 'sv_email';
+                break;
+            case 'service_type':
+                return 'st_name';
+                break;
+            case 'service_level':
+                return 'sl_name';
+                break;
+            default:
+                return '';
+                break;
+        }
     }
 }
 
