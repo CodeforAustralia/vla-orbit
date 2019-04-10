@@ -39,6 +39,34 @@ Class MatterServiceAnswer extends OrbitSoap
     }
 
     /**
+     * Save Legal Matter Answer in Service
+     *
+     * @param array $matter_question Legal Matter Answer in Service information
+     * @return array Array with error or success message
+     */
+    public function saveMatterServiceAnswers( $matter_questions )
+    {
+        $info=[];
+        try {
+            if ( !empty($matter_questions) ) {
+                foreach ( $matter_questions as $matter_question ) {
+                    $info['ObjectInstance'][] = $matter_question;
+                }
+            }
+            $response = $this->client->ws_init('SaveServicesMatterAnswers')->SaveServicesMatterAnswers( $info );
+
+            if ( $response->SaveServicesMatterAnswersResult ) {
+                return ['success' => 'success' , 'message' => 'Matter question saved.'];
+            } else {
+                return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
+            }
+        }
+        catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
+        }
+    }
+
+    /**
      * Process Answers to questions inside Services deleting them and adding the new Answers by Service ID
      *
      * @param array $questions Question and Answers information
@@ -47,6 +75,7 @@ Class MatterServiceAnswer extends OrbitSoap
      */
     public function processMatterServiceAnswer( $questions, $sv_id )
     {
+        $matter_questions = [];
         self::deleteMatterAnswerByServiceID( $sv_id );
 
         $service = new Service();
@@ -65,31 +94,27 @@ Class MatterServiceAnswer extends OrbitSoap
                     }
                     //Get service matter position of question in current service matter - Potentially slow for huge arrays
                     $sm_position = array_search(
-                                                    $qu_values['mt_id'],  //Legal matter id
-                                                    array_column(
-                                                        $current_service->ServiceMatters,  // Array of matters in a service
-                                                        'MatterID' //Column to search an specific matter
-                                                    )
-                                               );
+                                                $qu_values['mt_id'],  //Legal matter id
+                                                array_column(
+                                                    $current_service->ServiceMatters,  // Array of matters in a service
+                                                    'MatterID' //Column to search an specific matter
+                                                )
+                                            );
 
                     if ( isset($current_service->ServiceMatters[$sm_position]) ) {
 
                         $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
-
-                        self::saveMatterServiceAnswer(
-                                                        [
-                                                            'RefNo'           => 0,
-                                                            'MatterServiceId' => $lms_id,
-                                                            'QuestionId'      => $qu_id,
-                                                            'Operator'        => $qu_values['operator'],
-                                                            'QuestionValue'   => $qu_values['answer']
-                                                        ]
-                                                    );
+                        $matter_questions[] = [
+                            'RefNo'           => 0,
+                            'MatterServiceId' => $lms_id,
+                            'QuestionId'      => $qu_id,
+                            'Operator'        => $qu_values['operator'],
+                            'QuestionValue'   => $qu_values['answer']
+                        ];
                     }
-
                 }
             }
-
+            self::saveMatterServiceAnswers($matter_questions);
         }
 
     }
@@ -103,6 +128,7 @@ Class MatterServiceAnswer extends OrbitSoap
      */
     public function processVulnerabilityMatterServiceAnswer( $questions, $sv_id )
     {
+        $matter_questions = [];
         $service = new Service();
         $result  = $service->getServiceByID( $sv_id ); //Get the last version of that service
 
@@ -125,19 +151,17 @@ Class MatterServiceAnswer extends OrbitSoap
 
                 $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
                 foreach ($qu_ids as $qu_id => $value) {
-
-                    self::saveMatterServiceAnswer(
-                                                    [
-                                                        'RefNo'           => 0,
-                                                        'MatterServiceId' => $lms_id,
-                                                        'QuestionId'      => $qu_id,
-                                                        'Operator'        => $operator,
-                                                        'QuestionValue'   => $answer
-                                                    ]
-                                                );
+                    $matter_questions[] =[
+                        'RefNo'           => 0,
+                        'MatterServiceId' => $lms_id,
+                        'QuestionId'      => $qu_id,
+                        'Operator'        => $operator,
+                        'QuestionValue'   => $answer
+                    ];
                 }
 
             }
+            self::saveMatterServiceAnswers($matter_questions);
 
         }
 

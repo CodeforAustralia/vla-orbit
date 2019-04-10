@@ -67,6 +67,7 @@ class Referral extends OrbitSoap
      */
     public function getAllReferralsPager($request)
     {
+        $result = [];
         $column = '';
         $user = Auth::user();
         $replace = ["/Date(", ")/"];
@@ -95,7 +96,6 @@ class Referral extends OrbitSoap
                         ->GetAllReferralsinBatchasJSONResult;
         }
         $referrals = json_decode( $response, true );
-
         $data = $referrals['data'];
         foreach ($data as $key => $record) {
             $record_date = str_replace($replace,"", $data[$key]['CreatedOn']);

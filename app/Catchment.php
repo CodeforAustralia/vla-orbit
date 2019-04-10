@@ -160,6 +160,27 @@ Class Catchment extends OrbitSoap
     }
 
     /**
+     * Get Catchment by list of Id's JSON Method
+     *
+     * @param string $ca_id Catchment ID
+     * @return array Array of catchments
+     *     */
+    public function getCatchmentsByListofID( $ca_ids )
+    {
+        $catchments = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetCatchmentsByCatchmentIdasJSON')
+                                    ->GetCatchmentsByCatchmentIdasJSON( ['CatchmentsId' => $ca_ids] )
+                                    ->GetCatchmentsByCatchmentIdasJSONResult
+                                    , true
+                                );
+        return $catchments;
+
+    }
+
+
+    /**
      * Get Catchment by PostCode
      *
      * @param string $postcode  Postcode
@@ -173,6 +194,27 @@ Class Catchment extends OrbitSoap
                                     ->ws_init('GetCatchmentByPostCodeasJSON')
                                     ->GetCatchmentByPostCodeasJSON( ['PostCode' => $postcode] )
                                     ->GetCatchmentByPostCodeasJSONResult
+                                    , true
+                                );
+
+        return $catchments;
+
+    }
+
+    /**
+     * Get Catchment by PostCode List
+     *
+     * @param string $postcode  Postcode List
+     * @return array    Array of Catchments by Postcode
+     */
+    public function getCatchmentsByPostCodeList( $postcodes )
+    {
+        $catchments = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetCatchmentByPostCodesasJSON')
+                                    ->GetCatchmentByPostCodesasJSON( ['PostCodes' => $postcodes] )
+                                    ->GetCatchmentByPostCodesasJSONResult
                                     , true
                                 );
 
@@ -202,6 +244,27 @@ Class Catchment extends OrbitSoap
     }
 
     /**
+     * Get Catchment by Suburb
+     *
+     * @param string $suburb  Suburb
+     * @return array Array of Catchments by Suburb
+     */
+    public function getCatchmentsBySuburbList( $ca_ids )
+    {
+        $catchments = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init('GetCatchmentBySuburbIdasJSON')
+                                    ->GetCatchmentBySuburbIdasJSON( ['CatchmentsId' => $ca_ids] )
+                                    ->GetCatchmentBySuburbIdasJSONResult
+                                    , true
+                                );
+
+        return $catchments;
+
+    }
+
+    /**
      * Save Catchments on Services processiing LGA, Suburbs and Postcode
      *
      * @param array $request Array with service request
@@ -214,38 +277,24 @@ Class Catchment extends OrbitSoap
 
         $catchments = [];
         if ( isset( $request['lga'] ) ) {
-
-            foreach ( $request['lga'] as $catchment_id) {
-
-                $catchment_lgas = self::getCatchmentsByID( $catchment_id );
-                $catchments = array_merge( $catchments, $catchment_lgas );
-            }
+            $catchment_lgas = self::getCatchmentsByListofID( $request['lga'] );
+            $catchments = array_merge( $catchments, $catchment_lgas );
             self::processCatchmentArea( $catchments, $sv_id, LGA_ID );
         }
-
         $catchments = [];
         if ( isset( $request['suburbs'] ) ) {
-
-            foreach ( $request['suburbs'] as $catchment_id ) {
-
-                $suburb = self::getCatchmentByID( $catchment_id );
-                $catchments_suburb = self::getCatchmentsBySuburb( $suburb->Suburb );
-                $catchments = array_merge( $catchments, $catchments_suburb );
-            }
+            $catchments_suburb = self::getCatchmentsBySuburbList( $request['suburbs'] );
+            $catchments = array_merge( $catchments, $catchments_suburb );
             self::processCatchmentArea( $catchments, $sv_id, SUBURBS_ID );
         }
 
         $catchments = [];
         if ( isset( $request['postcodes'] ) ) {
-
             $postcodes = explode( ",", $request['postcodes'] );
-            foreach ( $postcodes as $postcode ) {
+            $catchments_postcode = self::getCatchmentsByPostCodeList( $postcodes );
 
-                $catchments_postcode = self::getCatchmentsByPostCode( $postcode );
-                foreach ( $catchments_postcode as $temp_postcode ) {
-
-                    $catchments[ $temp_postcode['PostCode'] ] = $catchments_postcode[0];
-                }
+            foreach ( $catchments_postcode as $temp_postcode ) {
+                $catchments[ $temp_postcode['PostCode'] ] = $temp_postcode;
             }
             self::processCatchmentArea( $catchments, $sv_id, POSTCODE_ID );
         }
@@ -269,6 +318,8 @@ Class Catchment extends OrbitSoap
      */
     public function processCatchmentArea( $catchments, $sv_id, $ct_id )
     {
+        $info=[];
+        $save = false;
         // Current time
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
@@ -284,14 +335,20 @@ Class Catchment extends OrbitSoap
                 $catchment_area['CatchmentTypeId'] = $ct_id;
 
                 // Create call request
-                $info = [ 'ObjectInstance' => $catchment_area ];
-
-                try {
-                    $response = $this->client->ws_init('SaveCatchmentArea')->SaveCatchmentArea( $info )->SaveCatchmentAreaResult;
-                }
-                catch (\Exception $e) {
-                    return ['success' => 'error' , 'message' =>  $e->getMessage()];
-                }
+                $info['ObjectInstance'][] = $catchment_area;
+                $save = true;
+            }
+        }
+        if($save) {
+            try {
+                $response = $this
+                            ->client
+                            ->ws_init('SaveCatchmentsArea')
+                            ->SaveCatchmentsArea( $info )
+                            ->SaveCatchmentsAreaResult;
+            }
+            catch (\Exception $e) {
+                return ['success' => 'error' , 'message' =>  $e->getMessage()];
             }
         }
     }
