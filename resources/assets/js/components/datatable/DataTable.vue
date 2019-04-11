@@ -180,6 +180,7 @@
                 return this.editUrl + '/' + id;
             },
             fetchData() {
+                $("#contentLoading").modal("show");
                 let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search=${this.search}`;
                 axios.get(dataFetchUrl)
                     .then(({ data }) => {
@@ -192,6 +193,7 @@
                             this.tableData = [];
                         }
                     }).catch(error => this.tableData = []);
+                $("#contentLoading").modal("hide");
             },
             /**
              * Get the serial number.
