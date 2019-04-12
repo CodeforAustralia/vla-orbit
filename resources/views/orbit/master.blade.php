@@ -84,10 +84,10 @@
             <!-- END QUICK SIDEBAR -->
         </div>
         <!-- END CONTAINER -->
+        @include ('orbit.loading_modal')
 
         @include ('orbit.footer')
 
-        @include ('orbit.loading_modal')
 
     </body>
 
