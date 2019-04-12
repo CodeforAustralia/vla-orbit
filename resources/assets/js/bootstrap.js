@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-//import 'babel-polyfill'
+import 'babel-polyfill'
 
 import axios from 'axios';
 
