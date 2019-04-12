@@ -29,7 +29,7 @@
                             <i v-else class="fa fa-arrow-down"></i>
                         </span>
                     </th>
-                    <th v-if="showUrl != '' || editUrl != '' " class="table-head"></th>
+                    <th v-if="showUrl != '' || editUrl != '' || deleteUrl != ''" class="table-head"></th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +37,7 @@
                     <td class="lead text-center" :colspan="columns.length + 1">No data found.</td>
                 </tr>
                 <tr v-for="data in tableDataFiltered" :key="data[identifier]" class="m-datatable__row" v-else>
-                    <td v-for="(value, key) in data" v-bind:key="key">
+                    <td v-for="(value, key) in data" v-bind:key="key" >
                         <span v-if="key !== 'actions'">
                             {{ value }}
                         </span>
@@ -150,7 +150,9 @@
                                 filtered[self.columns[index]] = td[self.columns[index]];
                             }
                         }
-                        filtered.actions = buttonPermissions(self.model, td);
+                        if(self.showUrl != '' || self.editUrl != '' || self.deleteUrl != '' ) {
+                            filtered.actions = buttonPermissions(self.model, td);
+                        }
                         return filtered;
                     })
             },
