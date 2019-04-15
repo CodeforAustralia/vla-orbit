@@ -876,3 +876,12 @@ table#data_table.table>thead>tr>th {
     border: 1px solid #e7ecf1;
 
 }
+
+
+/***************************** dasboard notifications ****************************/
+
+.dashboard_date {
+    font-size: 85%;
+    float: right;
+
+}

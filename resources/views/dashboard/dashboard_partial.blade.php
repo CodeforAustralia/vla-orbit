@@ -5,4 +5,7 @@
     	@endif
         <h4 class="block bold font-grey-mint note-title">{{ $dashboard->title }}</h4>
         <p class=""> {!! $dashboard->body !!} </p>
+        @if ( \App\Http\helpers::getRole() == 'Administrator' )
+        <p class="dashboard_date"> <small>{!! date('d/m/Y', strtotime($dashboard->created_at)) !!} </small> </p>
+        @endif
     </div>
