@@ -255,9 +255,11 @@
                             self.services = response.data.services;
                             self.$emit('update:booking_status_options', response.data.booking_status);
                             $("#contentLoading").modal("hide");
+                            $(".modal-backdrop").remove();
                         })
                         .catch(function (error) {
                             $("#contentLoading").modal("hide");
+                            $(".modal-backdrop").remove();
                         });
                 }
             },
