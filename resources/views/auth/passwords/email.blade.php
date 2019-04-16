@@ -14,6 +14,11 @@
                         {{ session('status') }}
                     </div>
                     @endif
+                    @if ($errors->has('email'))
+                    <div class="alert alert-success">
+                        {{ $errors->first('email') }}
+                    </div>
+                    @endif
                     <h1>{{ strtoupper(config('app.name')) }} reset password</h1>
                     <p> Please provide your email. </p>
 
@@ -28,17 +33,11 @@
                                     <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
                                         {{ csrf_field() }}
 
-                                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                        <div class="form-group{{ $errors->has('email') ? '' : '' }}">
                                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                                             <div class="col-md-6">
                                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" >
-
-                                                @if ($errors->has('email'))
-                                                    <span class="help-block">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </span>
-                                                @endif
                                             </div>
                                         </div>
 
@@ -69,7 +68,7 @@
                         </div>
                         <div class="col-xs-7 bs-reset">
                             <div class="login-copyright text-right">
-                                <p>Copyright © VLA 2018</p>
+                                <p>Copyright © VLA 2019</p>
                             </div>
                         </div>
                     </div>

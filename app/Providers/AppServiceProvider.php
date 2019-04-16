@@ -42,14 +42,14 @@ class AppServiceProvider extends ServiceProvider
                     Auth::login($user);
                 } else { //Create that user!!!
                     $user = User::create([
-                      'name'     => $attributes['name'][0],
-                      'email'    => $attributes['mail'][0],
-                      'password' => bcrypt('123344adsdsaasdasd'),
+                        'name'     => $attributes['name'][0],
+                        'email'    => $attributes['mail'][0],
+                        'password' => bcrypt(substr(str_shuffle(MD5(microtime())), 0, 16)),
                     ]);
                     //sign them in and Add role too
                     $user
-                       ->roles()
-                       ->attach(Role::where('name', 'VLA')->first());
+                        ->roles()
+                        ->attach(Role::where('name', 'VLA')->first());
                     $user->sp_id = NO_SP ; // No service provider set LH by default
                     $user->save();
                     Auth::login($user);

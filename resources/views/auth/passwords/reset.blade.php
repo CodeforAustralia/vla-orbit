@@ -42,6 +42,9 @@
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
+                                        @if($errors->first('password') == 'The password format is invalid.')
+                                        <strong>The password must contain at least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character (#?!@$%^&*-+).</strong>
+                                        @endif
                                     </span>
                                 @endif
                             </div>
