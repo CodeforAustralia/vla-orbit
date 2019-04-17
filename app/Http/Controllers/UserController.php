@@ -78,7 +78,7 @@ class UserController extends Controller
                             [
                                 'name' => 'required',
                                 'email' => 'required|unique:users|email',
-                                'password' => 'required|confirmed'
+                                'password' => 'required|confirmed|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{6,}$/',
                             ]
                         );
 
@@ -200,11 +200,46 @@ class UserController extends Controller
 
         return redirect('/user')->with($response['success'], $response['message']);
     }
-
+    /**
+     * Clear Notifications
+     *
+     * @return void
+     */
     public function clearNotifications()
     {
         $notifications = new Notifications();
         $notifications->clearNotifications();
+    }
+    /**
+     * Return view to change password
+     *
+     * @return void
+     */
+    public function changePassword()
+    {
+        return view("user.change_password");
+    }
+    /**
+     * Change User Password
+     *
+     * @return void
+     */
+    public function changeUserPassword(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'old_password' => 'required',
+                'password' => 'required|confirmed|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{6,}$/',
+            ]
+        );
+
+        $response = User::updateUserPassword( $request );
+        if ($response['success']=='error') {
+            return redirect()->back()->withInput($request->input())
+                                    ->withErrors($response['message'], $this->errorBag());;
+        }
+        return redirect('/')->with($response['success'], $response['message']);
     }
 
 }

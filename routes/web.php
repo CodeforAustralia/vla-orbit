@@ -317,6 +317,12 @@ Route::post('/user/update', 'UserController@update');
 
 Route::post('/user', 'UserController@store');
 
+// Change Password
+
+Route::get('/change_password', 'UserController@changePassword');
+
+Route::post('/change_password', 'UserController@changeUserPassword');
+
 //SMS Templates
 
 Route::get('/sms_template', 'SmsTemplateController@index');

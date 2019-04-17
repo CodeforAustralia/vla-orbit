@@ -125,6 +125,10 @@
                                         <a href="/logout">
                                             <i class="icon-key"></i> Log Out </a>
                                     </li>
+                                    <li>
+                                        <a href="/change_password">
+                                            <i class="icon-user"></i> Change Password </a>
+                                    </li>
                                 </ul>
                             </li>
                             <!-- END USER LOGIN DROPDOWN -->

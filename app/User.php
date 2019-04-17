@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use DB;
-
+use Redirect;
 /**
  * User model for the user functionalities
  * @author Christian Arevalo
@@ -142,6 +142,26 @@ class User extends Authenticatable
         $user->save();
 
         return [ 'success' => 'success' , 'message' => 'User has been updated.' ];
+
+    }
+
+     /**
+     * Update user
+     * @param  Object $user_info user details
+     * @return array             sucess status and message
+     */
+    public static function updateUserPassword( $user_info )
+    {
+        $user = User::find( $user_info->id );
+
+        //create and save the user
+        $hasher = app('hash');
+        if ($hasher->check($user_info->old_password, $user->password)) {
+            $user->password = bcrypt($user_info->password);
+            $user->save();
+            return [ 'success' => 'success' , 'message' => 'User password has been changed.' ];
+        }
+        return [ 'success' => 'error' , 'message' => 'Old password does not match.' ];
 
     }
 
