@@ -631,6 +631,10 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     font-size: large;
 }
 
+#log_out_menu{
+    color:red;
+}
+
 .vl {
     border-left: 1px solid lightgrey;
     height: 50%;

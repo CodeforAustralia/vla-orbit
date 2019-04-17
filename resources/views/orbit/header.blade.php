@@ -122,12 +122,12 @@
                                             <i class="icon-calendar"></i> My Bookings </a>
                                     </li>
                                     <li>
-                                        <a href="/logout">
-                                            <i class="icon-key"></i> Log Out </a>
-                                    </li>
-                                    <li>
                                         <a href="/change_password">
                                             <i class="icon-user"></i> Change Password </a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout" id='log_out_menu'>
+                                            <i class="icon-key" id='log_out_menu' ></i> Log Out </a>
                                     </li>
                                 </ul>
                             </li>
