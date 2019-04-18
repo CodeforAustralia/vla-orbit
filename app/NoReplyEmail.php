@@ -586,7 +586,7 @@ class NoReplyEmail extends OrbitSoap
 				'Search' 		=> '',
 				'ColumnSearch' 	=> '',
 			];
-			$page_counter ++;
+			
 			$response_search = $this
 					->client
 					->ws_no_reply_emails_init('GetAllLogRecordsInBatchasJSON')
