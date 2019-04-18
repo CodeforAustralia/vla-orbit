@@ -573,51 +573,46 @@ class NoReplyEmail extends OrbitSoap
 
 	}
 
-	public function updateName()
+	public function updateName($page)
 	{
 		try {
-			$page_counter = 0;
-			for ($i=0; $i <100 ; $i++) {
-				$start = microtime(true);
-				$args_page = [
-					'PerPage' 		=> 1000,
-					'Page' 			=> $page_counter,
-					'SortColumn' 	=> 'VML_REF_NO',
-					'SortOrder' 	=> 'ASC' ,
-					'Search' 		=> '',
-					'ColumnSearch' 	=> '',
-				];
-				$page_counter ++;
-				$response_search = $this
-						->client
-						->ws_no_reply_emails_init('GetAllLogRecordsInBatchasJSON')
-						->GetAllLogRecordsInBatchasJSON($args_page);
 
-				$data = json_decode( $response_search->GetAllLogRecordsInBatchasJSONResult , true );
+			$start = microtime(true);
+			$args_page = [
+				'PerPage' 		=> 1000,
+				'Page' 			=> $page,
+				'SortColumn' 	=> 'VML_REF_NO',
+				'SortOrder' 	=> 'ASC' ,
+				'Search' 		=> '',
+				'ColumnSearch' 	=> '',
+			];
+			$page_counter ++;
+			$response_search = $this
+					->client
+					->ws_no_reply_emails_init('GetAllLogRecordsInBatchasJSON')
+					->GetAllLogRecordsInBatchasJSON($args_page);
 
-				$logs = $data['data'];
-				foreach ($logs as $key => $log) {
-					$id = $log['RefNo'];
-					$user = User::find($log['PersonID']);
-					if (isset($user->name)) {
-						$args = [
-							'Id' 		=> $log['RefNo'],
-							'Name' 		=> $user->name,
-						];
-						$response = $this
-									->client
-									->ws_no_reply_emails_init('UpdateEmailsName')
-									->UpdateEmailsName($args);
-					}
+			$data = json_decode( $response_search->GetAllLogRecordsInBatchasJSONResult , true );
 
+			$logs = $data['data'];
+			foreach ($logs as $key => $log) {
+				$id = $log['RefNo'];
+				$user = User::find($log['PersonID']);
+				if (isset($user->name)) {
+					$args = [
+						'Id' 		=> $log['RefNo'],
+						'Name' 		=> $user->name,
+					];
+					$response = $this
+								->client
+								->ws_no_reply_emails_init('UpdateEmailsName')
+								->UpdateEmailsName($args);
 				}
-				$time  = microtime(true) - $start;
-				Logs::info('Time with the round #' . $i .' of ' . $data['last_page'] . " " . $time);
-				if ( $data['last_page']==$page_counter){
-					break;
-				}
-				sleep(10);
+
 			}
+			$time  = microtime(true) - $start;
+			Logs::info('Time with the round #' . $page .' of ' . $data['last_page'] . " " . $time);
+			
 
 			return "Finish";
 		}
