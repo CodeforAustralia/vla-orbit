@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\SendReminders::class,
-        Commands\UpdatePanelLawyersGEO::class
+        Commands\UpdatePanelLawyersGEO::class,
+        Commands\UpdateNameOnNRE::class
     ];
 
     /**

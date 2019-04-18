@@ -207,6 +207,7 @@ class NoReplyEmail extends OrbitSoap
 												'SentOn' 		=> $date_time,
 												'Subject' 		=> filter_var($email_data['subject'], FILTER_SANITIZE_STRING),
 												'ToAddress' 	=> filter_var($email_data['to'], FILTER_VALIDATE_EMAIL),
+												'CreatedBy'		=> auth()->user()->name,
 											],
 						'IsHTML'		=> true,
 					];
@@ -570,6 +571,41 @@ class NoReplyEmail extends OrbitSoap
 		}
 
 	}
+
+	public function updateName($args_page)
+	{
+		try {
+			$response_search = $this
+					->client
+					->ws_no_reply_emails_init('GetAllLogRecordsInBatchasJSON')
+					->GetAllLogRecordsInBatchasJSON($args_page);
+
+			$data = json_decode( $response_search->GetAllLogRecordsInBatchasJSONResult , true );
+
+			$logs = $data['data'];
+			foreach ($logs as $key => $log) {
+				$id = $log['RefNo'];
+				$user = User::find($log['PersonID']);
+				if (isset($user->name)) {
+					$args = [
+						'Id' 		=> $log['RefNo'],
+						'Name' 		=> $user->name,
+					];
+					$response = $this
+								->client
+								->ws_no_reply_emails_init('UpdateEmailsName')
+								->UpdateEmailsName($args);
+				}
+
+			}
+
+			return $data['last_page'];
+		}
+		catch (Exception $e) {
+			return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
+		}
+	}
+
 	/**
 	 * Map the column from the datatable with the columns of the database
 	 *
