@@ -1,19 +1,41 @@
 <template>
-	<full-calendar
-    :config="config"
-    :events="events"
-	@event-selected="eventSelected"
-	@event-render="eventRendered"
-    />
+    <div>
+        <div class="col-sm-3 col-xs-12 filter_container">
+            <h2 class="filters_title">Filters</h2>
+            <h5 class="filters_subtitle">Filter by service</h5>
+            <ul class="list-unstyled">
+                <li v-for="service in services" v-bind:key="service.BookingServiceId" class="filters_text">
+                    <label :for="service.BookingServiceId">
+                        <input type="checkbox" :value="service.BookingServiceId" v-model="selectedServices">
+                        {{ service.ServiceName }}
+                        <i class="fa fa-circle" :style="getServiceColor(service.BookingServiceId)"></i>
+                    </label>
+                </li>
+            </ul>
+            <a href="javascript:;" class="btn btn-sm col-xs-12 btn-default main-green" @click="displayAvailability()">
+                {{ availability_button_text }}
+            </a>
+        </div>
+        <div class="col-sm-9 col-xs-12">
+            <full-calendar
+            :config="config"
+            :events="events"
+            @event-selected="eventSelected"
+            @event-render="eventRendered"
+            />
+        </div>
+    </div>
 </template>
 
 <script>
 	import moment from 'moment'
     import axios from 'axios';
     import EventBus from '../../utils/event-bus';
+    import { getOptimalContrastText } from '../../utils/contrast_color';
 
 	export default {
-        props: ['service_provider_id',
+        props: [
+                'service_provider_id',
                 'current_booking',
                 'booking_to_delete',
                 'booking_status_options',
@@ -22,15 +44,20 @@
         data () {
             let self = this;
             return {
+                    availability_button_text: 'Show available slots',
                     services: {},
+                    service_colors: {},
+                    services_availability: {},
                     unavailable: {},
-                    events: [
-                    ],
+                    events: [],
+                    initial_events: [],
+                    selectedServices: [], //If empty should display all
+                    display_free_slots: false,
                     config: {
                         header: {
                             left: 'title',
                             center: '',
-                            right: 'prev,next today,month,agendaWeek,agendaDay,listMonth'
+                            right: 'prev,next today,month,agendaWeek,agendaDay, availabilityButton'
                         },
                         defaultView: 'month',
                         views: {
@@ -61,15 +88,141 @@
                                 $("#contentLoading").modal('hide');
                             },
                             success: function (response) {
-                                self.initCalendar(response.bookings);
-                                self.services = response.services;
-                                $("#contentLoading").modal('hide');
+                                self.initCalendar(response.bookings)
+                                .then(() => {
+                                    self.initial_events = [...self.events];
+                                    self.services = response.services;
+                                    //self.checkShowAvailability();
+                                    self.filterEvents();
+                                    $("#contentLoading").modal('hide');
+                                }).catch(err => {
+                                    console.log(err);
+                                });
                             }
                         }]
                     },
             }
         },
         methods: {
+            displayAvailability: function () {
+                const self = this;
+                if(self.display_free_slots) {
+                    self.availability_button_text = 'Show available slots';
+                    self.display_free_slots = false;
+                } else {
+                    self.availability_button_text = 'Hide available slots';
+                    self.display_free_slots = true;
+                }
+                self.filterEvents();
+            },
+            hideFreeSlots: function (){
+                const self = this;
+                self.events = self.events.filter(event => !event.free_slot );
+            },
+            showFreeSlots: function () {
+                const self = this;
+                for (const service_id in this.services_availability) {
+                    if(self.selectedServices.includes(service_id) || self.selectedServices.length === 0) {
+                        const service_info = this.services_availability[service_id];
+                        if (service_info.hasOwnProperty('regular')) {
+                            self.iterateAppointmentsByServiceId(service_info, 'regular', service_id);
+                        }
+                        if (service_info.hasOwnProperty('interpreter')) {
+                            self.iterateAppointmentsByServiceId(service_info, 'interpreter', service_id);
+                        }
+                    }
+                }
+            },
+            iterateAppointmentsByServiceId: function (service_info, type, service_id) {
+                const self = this;
+                for (const date_appt in service_info[type]) {
+                    const available_slots = service_info[type][date_appt];
+                    for (const free_slot in available_slots) {
+                        self.service_colors[service_id] = service_info.service_info.color;
+                        const slot = available_slots[free_slot][0];
+                        let svc = self.services.filter((service) => service.BookingServiceId == service_id );
+                        let int_icon = (type === 'interpreter' ? '<i class="fa fa-globe"></i> ' : '');
+                        let sv_name =  (( svc[0].ServiceName.length > 12 ) ? svc[0].ServiceName.slice(0,10) + '...' : svc[0].ServiceName)
+                        let cal_event = {
+                                title: `${int_icon}Available - ${sv_name}`,
+                                start: moment(date_appt).add(parseInt(parseInt(slot.start_time)), 'm'),
+                                end: moment(date_appt).add(parseInt(parseInt(slot.start_time)) + parseInt(slot.duration), 'm'),
+                                color: '#fff',
+                                textColor: '#000',
+                                borderColor: service_info.service_info.color,
+                                className: 'free-slot',
+                                sv_id: svc[0].BookingServiceId,
+                                free_slot: true,
+                                editable: false
+                        };
+                        self.events.push(cal_event);
+                    }
+                }
+            },
+            filterServices: function() {
+                const self = this;
+                self.events = self.initial_events.filter(event => {
+                    let is_present = false;
+                    self.selectedServices.forEach(id => {
+                        if(event.sv_id == id) {
+                            is_present = true;
+                        }
+                    });
+                    return is_present;
+                });
+            },
+            filterEvents: function(){
+                const self = this;
+                if(self.selectedServices.length < 1){ //Show all events
+                    self.events = self.initial_events;
+                } else { //Filter by services
+                    self.filterServices();
+                }
+                if(self.display_free_slots){ //Show free slots
+                    self.showFreeSlots();
+                } else { //Hide free slots
+                    self.hideFreeSlots();
+                }
+            },
+            getEventsBySelectedSP: function() {
+                let self = this;
+                let today = moment().format('YYYY-MM-01');
+                let in_a_month = moment().add(1, 'month').format('YYYY-MM-10');
+                let url = '/booking/service_provider/booking/?start=' + today + '&end=' + in_a_month + '&sp_id=' + self.service_provider_id;
+
+                $("#contentLoading").modal("show");
+                if(self.service_provider_id > 0){
+                    axios.get(url)
+                        .then(function (response) {
+                            self.initCalendar(response.data.bookings);
+                            return response;
+                        })
+                        .then((response) => {
+                            self.initial_events = [...self.events];
+                            self.services = response.data.services;
+                            self.services_availability = response.data.services_availability;
+                            self.$emit('update:booking_status_options', response.data.booking_status);
+                        })
+                        .then(() => {
+                            self.selectedServices = []; //Reset list of selected services
+                            self.filterEvents();
+                            $("#contentLoading").modal("hide");
+                            $(".modal-backdrop").remove();
+                        })
+                        .catch(function (error) {
+                            self.getEventsBySelectedSP();
+                            $("#contentLoading").modal("hide");
+                            $(".modal-backdrop").remove();
+                        });
+                }
+            },
+            getServiceColor: function (id){
+                if(this.service_colors.hasOwnProperty(id)){
+                    return 'color: ' + this.service_colors[id];
+                } else {
+                    return 'display:none';
+                }
+            },
             eventRendered(event, element, view){
                 if(event.hasOwnProperty('booking')) {
                     let slot_time = event.booking.start_hour;
@@ -108,27 +261,25 @@
                 $(".popover").popover('hide');
             },
             initCalendar(response) {
-                this.events = [];
-                setTimeout(() => {
-                    this.addEventsToCalendar(response);
-                }, 100);
+                const self = this;
+                return new Promise(function(resolve, reject) {
+                    self.events = [];
+                    self.addBookedEventsToCalendar(response);
+                    resolve();
+                });
             },
-            addEventsToCalendar(appts){
+            addBookedEventsToCalendar(appts){
                 let self = this;
                 for (let index = 0; index < appts.length; index++) {
                     let appointment = appts[index];
                     let client = appts[index].client;
-                    let slot_text  = '';
+                    let slot_text = 'Name not indicated';
 
                     if(client){
                         let int_icon = (appointment.int_language ? '<i class="fa fa-globe"></i> ' : '');
                         slot_text = (client.hasOwnProperty('first_name') && client.hasOwnProperty('last_name') ?  client.first_name + ' ' + client.last_name : 'Name not indicated');
-                        if( slot_text.length > 16 ) {
-                            slot_text = slot_text.slice(0,14) + '...';
-                        }
+                        slot_text = (( slot_text.length > 16 ) ? slot_text.slice(0,14) + '...' : slot_text);
                         slot_text = int_icon + slot_text;
-                    } else {
-                        slot_text = 'Name not indicated';
                     }
 
                     if(appointment.data){
@@ -138,70 +289,20 @@
                             //all set the info was parsed as Object
                         }
                     }
-
-                    let slot_time = appointment.start_hour;
-                    let slot_duration = appointment.time_length;
-                    let start_time = moment(appointment.date).add(parseInt(slot_time), 'm');
-                    let end_time = moment(appointment.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm');
-                    if(slot_text !== '') {
-                        self.events.push({
+                    self.service_colors[appts[index].service_id] = appointment.service.color;
+                    let cal_event = {
                             title: slot_text,
-                            start: start_time,
-                            end: end_time,
-                            editable: false,
+                            start: moment(appointment.date).add(parseInt(appointment.start_hour), 'm'),
+                            end: moment(appointment.date).add(parseInt(appointment.start_hour) + parseInt(appointment.time_length), 'm'),
                             booking: appts[index],
                             color: appointment.service.color,
-                            textColor:self.getOptimalContrastText(appointment.service.color),
-
-                        });
-
-                    }
+                            textColor: getOptimalContrastText(appointment.service.color),
+                            sv_id: appts[index].service_id,
+                            free_slot: false,
+                            editable: false
+                    };
+                    self.events.push(cal_event);
                 }
-            },
-            getOptimalContrastText : function (color) {
-                let self = this;
-                //convert hex to rgb
-                let rgb = self.convertHexToRGB(color);
-                // get luminance
-                let luminance = self.getLuminance(rgb);
-                //get contrast ratio
-                let white_contrast_ratio = 1.05 / (luminance + 0.05);
-                let black_contrast_ratio = (luminance + 0.05) / 0.05;
-                if(white_contrast_ratio > black_contrast_ratio) {
-                    return 'white';
-                }
-                return 'black'
-
-            },
-            getLuminance: function (rgb) {
-
-                let rg = Math.pow(rgb.r/269 +  0.0513, 2.4);
-                let gg = Math.pow(rgb.g/269 +  0.0513, 2.4);
-                let bg = Math.pow(rgb.b/269 +  0.0513, 2.4);
-                if(rgb.r <= 10) {
-                    rg = rgb.r/3294;
-                }
-                if(rgb.g <= 10) {
-                    gg = rgb.g/3294;
-                }
-                if(rgb.b <= 10) {
-                    bg = rgb.b/3294;
-                }
-                let luminance =  0.2126 * rg + 0.7152 * gg + 0.0722 * bg;
-                return luminance;
-            },
-            convertHexToRGB : function (hex) {
-                let short_hand_regex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-                hex = hex.replace(short_hand_regex, function(m, r, g, b) {
-                    return r + r + g + g + b + b;
-                });
-
-                let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-                return result ? {
-                    r: parseInt(result[1], 16),
-                    g: parseInt(result[2], 16),
-                    b: parseInt(result[3], 16)
-                } : null;
             },
             deleteBookingEvent : function() {
                 var self =this;
@@ -242,26 +343,7 @@
         },
         watch:{
             service_provider_id: function(){
-                let self = this;
-                let today = moment().format('YYYY-MM-01');
-                let in_a_month = moment().add(1, 'month').format('YYYY-MM-10');
-                let url = '/booking/service_provider/booking/?start=' + today + '&end=' + in_a_month + '&sp_id=' + self.service_provider_id;
-
-                $("#contentLoading").modal("show");
-                if(self.service_provider_id > 0){
-                    axios.get(url)
-                        .then(function (response) {
-                            self.initCalendar(response.data.bookings);
-                            self.services = response.data.services;
-                            self.$emit('update:booking_status_options', response.data.booking_status);
-                            $("#contentLoading").modal("hide");
-                            $(".modal-backdrop").remove();
-                        })
-                        .catch(function (error) {
-                            $("#contentLoading").modal("hide");
-                            $(".modal-backdrop").remove();
-                        });
-                }
+                this.getEventsBySelectedSP();
             },
             booking_to_delete : function() {
                 let self = this;
@@ -290,6 +372,9 @@
                     }
                 }
             },
+            selectedServices: function () {
+                this.filterEvents();
+            }
         },
         mounted() {
             this.deleteBookingEvent();

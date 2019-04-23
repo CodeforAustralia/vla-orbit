@@ -509,6 +509,44 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
 .multiselect--active {
     z-index: 5 !important;
 }
+
+.portlet.calendar .fc-event {
+    border: 2px solid;
+}
+
+.portlet.calendar .fc-event .fc-time,
+.portlet.calendar .fc-event .fc-title {
+    font-size: 11.5px;
+}
+
+.filters_title {
+    margin-top: 2px;
+    font-size: 17px;
+    font-weight: lighter;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #17c4bb;
+    line-height: 38px;
+}
+
+.filters_subtitle {
+    font-size: 13px;
+}
+
+.filters_text {
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.filters_text input {
+    height: 11px;
+}
+
+.filter_container {
+    border: 1px solid #dddddd;
+    margin-top: 42px;
+    padding-bottom: 15px;
+}
 /************** Home page ***************************/
 .dashboard-stat:hover, .dashboard-stat:-webkit-any-link {
     cursor: default;

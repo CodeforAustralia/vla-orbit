@@ -42,17 +42,26 @@ Class BookingEngine extends BookingEngineClient
         $services =  $service_obj->getAllServicesBySP($args['sp_id']);
         $service_ids = [];
         $services_info = [];
+        $services_availability = [];
         foreach ($services as $service) {
             if($service['BookingServiceId'] != ''){
                 $service_ids[] = $service['BookingServiceId'];
                 $services_info[] = $service;
+                $services_availability[$service['BookingServiceId']] = self::getServiceAvailability([
+                                                                                                        'sv_id' => $service['BookingServiceId'],
+                                                                                                        'start_date' => $args['start_date'],
+                                                                                                        'end_date' => $args['end_date']
+                                                                                                    ]);
             }
         }
         $args['service_id'] = implode(',',$service_ids);
 
-        return ['bookings'       => self::getServiceBookings($args),
-                'services'       => $services_info,
-                'booking_status' => self::getAllBookingStatus()];
+        return [
+                    'bookings'       => self::getServiceBookings($args),
+                    'services'       => $services_info,
+                    'services_availability' => $services_availability,
+                    'booking_status' => self::getAllBookingStatus()
+                ];
     }
     /**
      * Get service availability in Booking Engine
