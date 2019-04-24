@@ -6,11 +6,16 @@ namespace App;
  * Model for the Question functionalities
  *
  * @author Christian Arevalo
- * @version 1.2.0
+ * @version 1.2.1
  * @see  OrbitSoap
  */
 Class Question extends OrbitSoap
 {
+    /**
+     * Get all questions
+     *
+     * @return Array    list of all questions
+     */
     public function getAllQuestions()
     {
         $questions = json_decode(
@@ -25,6 +30,12 @@ Class Question extends OrbitSoap
         return $questions;
     }
 
+    /**
+     * Get all questions by category ID
+     *
+     * @param Int $qc_id   Question category ID
+     * @return Array         Array Question Category information
+     */
     public function getAllQuestionsByCategoryID( $qc_id )
     {
         $questions = json_decode(
@@ -39,6 +50,12 @@ Class Question extends OrbitSoap
         return $questions;
     }
 
+    /**
+     * Get all questions by ID
+     *
+     * @param Int $qu_id   Question ID
+     * @return Array         Message of success with information or error
+     */
     public function getAllQuestionById( $qu_id )
     {
         try {
@@ -57,6 +74,12 @@ Class Question extends OrbitSoap
 
     }
 
+    /**
+     * Save questions
+     *
+     * @param Array $question   Question information
+     * @return Array            Message of success or error
+     */
     public function saveQuestion( $question )
     {
         // Current time
@@ -86,6 +109,12 @@ Class Question extends OrbitSoap
         }
     }
 
+    /**
+     * Delete questions by ID
+     *
+     * @param Int $qu_id    Question ID
+     * @return Array        Message of success or error
+     */
     public function deleteQuestion( $qu_id )
     {
         // Create call request
@@ -104,6 +133,11 @@ Class Question extends OrbitSoap
         }
     }
 
+    /**
+     * Get all legal matter questions
+     *
+     * @return Array List of questions
+     */
     public function getAllLegalMatterQuestions()
     {
         $questions = json_decode($this
@@ -111,18 +145,39 @@ Class Question extends OrbitSoap
                                 ->ws_init('GetAllQuestionsByCategoryIdasJSON')
                                 ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 1 ] )
                                 ->GetAllQuestionsByCategoryIdasJSONResult,
-                                 true);
+                                true);
 
         return $questions;
     }
 
+    /**
+     * Get vulnerability questions
+     *
+     * @return Array List of questions
+     */
     public function getAllVulnerabilityQuestions()
     {
         $questions = json_decode($this
-                                 ->client
-                                 ->ws_init('GetAllQuestionsByCategoryIdasJSON')
-                                 ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 2 ] )
-                                 ->GetAllQuestionsByCategoryIdasJSONResult, true);
+                                ->client
+                                ->ws_init('GetAllQuestionsByCategoryIdasJSON')
+                                ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 2 ] )
+                                ->GetAllQuestionsByCategoryIdasJSONResult, true);
+
+        return $questions;
+    }
+
+    /**
+     * Get questions required to book a service during the intake process
+     *
+     * @return Array List of questions
+     */
+    public function getAllServiceBookingQuestions()
+    {
+        $questions = json_decode($this
+                                ->client
+                                ->ws_init('GetAllQuestionsByCategoryIdasJSON')
+                                ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 3 ] )
+                                ->GetAllQuestionsByCategoryIdasJSONResult, true);
 
         return $questions;
     }
