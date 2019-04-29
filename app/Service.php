@@ -6,11 +6,12 @@ use App\EReferral;
 use App\MatterService;
 use App\MatterServiceAnswer;
 use App\ServiceAction;
+use App\ServiceBookingQuestions;
 use App\Vulnerability;
 /**
  * Service model for the service functionalities
  * @author Christian Arevalo
- * @version 1.0.0
+ * @version 1.1.0
  * @see  OrbitSoap
  */
 Class Service extends OrbitSoap
@@ -387,8 +388,8 @@ Class Service extends OrbitSoap
      */
     public static function saveServiceQuestions($sv_id, $vulnerability_questions, $vulnerability_matter, $regular_questions, $sv_booking_questions)
     {
-        $vulnerability_obj = new Vulnerability();
         // Delete previous vul. answers
+        $vulnerability_obj = new Vulnerability();
         $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );
         if ( !empty( $vulnerability_questions ) ) {
             $vul_questions = array_keys( $vulnerability_questions );
@@ -400,6 +401,22 @@ Class Service extends OrbitSoap
             $matter_service_answer = new MatterServiceAnswer();
             $matter_service_answer->processMatterServiceAnswer( $regular_questions, $sv_id );
             $matter_service_answer->processVulnerabilityMatterServiceAnswer( $vulnerability_matter, $sv_id );
+        }
+
+        // Delete previous service booking questions
+        $service_booking_questions = new ServiceBookingQuestions();
+        $service_booking_questions->deleteServiceBookingQuestionsByServiceId($sv_id);
+        if ( !empty( $sv_booking_questions ) ) {
+            foreach ($sv_booking_questions as $qu_id => $sv_booking_question) {
+                $sbq_params[] = [
+                                    'ServiceId' => $sv_id,
+                                    'QuestionId' => $qu_id,
+                                    'Operator' => $sv_booking_question['operator'],
+                                    'QuestionValue' => $sv_booking_question['answer'],
+                                    'ServiceBookingQuestionId' => 0
+                                ];
+            }
+            $service_booking_questions->saveServiceBookingQuestions( $sbq_params );
         }
     }
 

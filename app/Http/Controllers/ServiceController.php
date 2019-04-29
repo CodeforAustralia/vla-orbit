@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Service;
 use App\ServiceBooking;
+use App\ServiceBookingQuestions;
 use App\ServiceType;
 use App\ServiceLevel;
 use App\ServiceProvider;
@@ -22,7 +23,7 @@ use Auth;
  * Service Controller.
  * Controller for the service functionalities
  * @author Christian Arevalo
- * @version 1.2.0
+ * @version 1.3.0
  * @see  Controller
  */
 class ServiceController extends Controller
@@ -82,8 +83,8 @@ class ServiceController extends Controller
         $vulnerability_obj = new Vulnerability();
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
 
-        $questions_obj = new Question();
-        $service_booking_questions = $questions_obj->getAllServiceBookingQuestions();
+        $service_booking_questions_obj = new ServiceBookingQuestions();
+        $service_booking_questions = $service_booking_questions_obj->getAllServiceBookingQuestions();
 
         if (isset( $result['data'] ) ) {
             $current_service = json_decode( $result['data'] )[0];

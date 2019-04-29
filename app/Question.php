@@ -6,7 +6,7 @@ namespace App;
  * Model for the Question functionalities
  *
  * @author Christian Arevalo
- * @version 1.2.1
+ * @version 1.3.1
  * @see  OrbitSoap
  */
 Class Question extends OrbitSoap
@@ -161,22 +161,6 @@ Class Question extends OrbitSoap
                                 ->client
                                 ->ws_init('GetAllQuestionsByCategoryIdasJSON')
                                 ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 2 ] )
-                                ->GetAllQuestionsByCategoryIdasJSONResult, true);
-
-        return $questions;
-    }
-
-    /**
-     * Get questions required to book a service during the intake process
-     *
-     * @return Array List of questions
-     */
-    public function getAllServiceBookingQuestions()
-    {
-        $questions = json_decode($this
-                                ->client
-                                ->ws_init('GetAllQuestionsByCategoryIdasJSON')
-                                ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 3 ] )
                                 ->GetAllQuestionsByCategoryIdasJSONResult, true);
 
         return $questions;
