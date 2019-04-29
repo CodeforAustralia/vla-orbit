@@ -1,6 +1,12 @@
 <?php
 namespace App;
 
+use App\Catchment;
+use App\EReferral;
+use App\MatterService;
+use App\MatterServiceAnswer;
+use App\ServiceAction;
+use App\Vulnerability;
 /**
  * Service model for the service functionalities
  * @author Christian Arevalo
@@ -89,10 +95,11 @@ Class Service extends OrbitSoap
 	}
     /**
      * Create or update a service
-     * @param  Object  $sv_params service details
-     * @return array              success or error message
+     * @param  Object   $sv_params  service details
+     * @param Array     $request    Form paramenters with additional service information
+     * @return Array    success or error message
      */
-    public function saveService( $sv_params )
+    public function saveService( $sv_params, $request )
     {
         // Current time
         $date_now = date("Y-m-d");
@@ -104,6 +111,17 @@ Class Service extends OrbitSoap
         $sv_params['CreatedOn'] = $date_time;
         $sv_params['UpdatedOn'] = $date_time;
 
+        $catchment_info = [];
+        if( isset($request['lga']) && !is_null($request['lga']) ){
+            $catchment_info['lga'] = $request['lga'];
+        }
+        if( isset($request['postcodes']) && !is_null($request['postcodes']) ){
+            $catchment_info['postcodes'] = $request['postcodes'];
+        }
+        if( isset($request['suburbs']) && !is_null($request['suburbs']) ){
+            $catchment_info['suburbs'] = $request['suburbs'];
+        }
+
         $info = [ 'ObjectInstance' => $sv_params ];
 
         try {
@@ -113,7 +131,25 @@ Class Service extends OrbitSoap
                         ->SaveOrbitService( $info );
             // Redirect to index
             if ( $response->SaveOrbitServiceResult >= 0 ) {
-                return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $response->SaveOrbitServiceResult ];
+                $sv_id = $response->SaveOrbitServiceResult;
+
+                $matters       = (isset($request['matters']) ? $request['matters'] : []);
+                $vulnerability = (isset($request['vulnerability']) ? $request['vulnerability'] : []);
+                $question      = (isset($request['question']) ? $request['question'] : []);
+                $vulnerability_matter = (isset($request['vulnerability_matter']) ? $request['vulnerability_matter'] : []);
+                $booking_question     = (isset($request['booking_question']) ? $request['booking_question'] : []);
+                $referral_conditions  = (isset($sv_id, $request['referral_conditions']) ? $request['referral_conditions'] : []);
+                $booking_conditions   = (isset($request['booking_conditions']) ? $request['booking_conditions'] : []);
+                $e_referral_conditions = (isset($request['e_referral_conditions']) ? $request['e_referral_conditions'] : []);
+                $e_referral_forms      = (isset($request['e_referral_forms']) ? $request['e_referral_forms'] : []);
+
+                self::saveServiceMatters($sv_id, $matters);
+                self::saveServiceCatchments($sv_id, $catchment_info);
+                self::saveServiceQuestions($sv_id, $vulnerability, $question, $vulnerability_matter, $booking_question);
+                self::saveServiceActions($sv_id, $referral_conditions, $booking_conditions, $e_referral_conditions);
+                self::saveServiceEReferrals($sv_id, $e_referral_forms);
+
+                return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $sv_id ];
             } else {
                 return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
             }
@@ -307,6 +343,97 @@ Class Service extends OrbitSoap
                 return '';
                 break;
         }
+    }
+
+    /**
+     * Save service matters
+     *
+     * @param Int $sv_id        Service ID
+     * @param Array $matters    Legal matters IDs that are offered within this service
+     * @return void
+     */
+    public static function saveServiceMatters($sv_id, $matters)
+    {
+        $matter_service_obj = new MatterService();
+        $matter_service_obj->deleteMatterServiceByID( $sv_id ) ;
+
+        if ( !empty( $matters ) ) {
+            $result = $matter_service_obj->saveMattersService( $sv_id, $matters );
+        }
+    }
+
+    /**
+     * Save service catchments
+     *
+     * @param Int $sv_id            Service ID
+     * @param Array $catchment_info Catment information such us postcode, LGC or Suburb
+     * @return void
+     */
+    public static function saveServiceCatchments($sv_id, $catchment_info)
+    {
+        $catchment = new Catchment();
+        $catchment->setCatchmentsOnRequest( $catchment_info, $sv_id );
+    }
+
+    /**
+     * Save service questions of different types, can be empty if there are no questions
+     *
+     * @param Int $sv_id        Service ID
+     * @param Array $vulnerability_questions    Question IDs of querstions that can be offered in this service
+     * @param Array $vulnerability_matter       Question IDs of querstions that can be offered in this service
+     * @param Array $regular_questions          Question IDs of querstions that can be offered in this service
+     * @param Array $sv_booking_questions       Question IDs of querstions that can be offered in this service
+     * @return void
+     */
+    public static function saveServiceQuestions($sv_id, $vulnerability_questions, $vulnerability_matter, $regular_questions, $sv_booking_questions)
+    {
+        $vulnerability_obj = new Vulnerability();
+        // Delete previous vul. answers
+        $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );
+        if ( !empty( $vulnerability_questions ) ) {
+            $vul_questions = array_keys( $vulnerability_questions );
+            // Save vul. answers
+            $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vul_questions );
+        }
+
+        if ( !empty( $regular_questions ) ) {
+            $matter_service_answer = new MatterServiceAnswer();
+            $matter_service_answer->processMatterServiceAnswer( $regular_questions, $sv_id );
+            $matter_service_answer->processVulnerabilityMatterServiceAnswer( $vulnerability_matter, $sv_id );
+        }
+    }
+
+    /**
+     * Save service actions per service provider
+     *
+     * @param Int $sv_id        Service ID
+     * @param Array $referral_conditions        Service provider IDs who can refer to this service
+     * @param Array $booking_conditions         Service provider IDs who can book to this service
+     * @param Array $e_referral_conditions      Service provider IDs who can eRefer to this service
+     * @return void
+     */
+    public static function saveServiceActions($sv_id, $referral_conditions, $booking_conditions, $e_referral_conditions)
+    {
+        $service_action = new ServiceAction();
+        $service_action->deleteAllActionsByService( $sv_id );
+        $service_action->saveServiceAction( 'REFER', $sv_id, $referral_conditions );
+        $service_action->saveServiceAction( 'BOOK', $sv_id, $booking_conditions );
+        $service_action->saveServiceAction( 'E_REFER', $sv_id, $e_referral_conditions );
+
+    }
+
+    /**
+     * Save eReferral conditions
+     *
+     * @param Int $sv_id                Service ID
+     * @param Array $e_referral_forms   eReferral form IDs who can be offered in this service
+     * @return void
+     */
+    public static function saveServiceEReferrals($sv_id, $e_referral_forms)
+    {
+        $e_referral_obj = new EReferral();
+        $e_referral_obj->deleteAllEReferralByServiceId( $sv_id );
+        $e_referral_obj->saveAllFormsInService( $sv_id, $e_referral_forms );
     }
 }
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Service;
-use App\ServiceAction;
 use App\ServiceBooking;
 use App\ServiceType;
 use App\ServiceLevel;
@@ -14,8 +13,8 @@ use App\Matter;
 use App\MatterService;
 use App\Catchment;
 use App\Vulnerability;
-use App\MatterServiceAnswer;
 use App\EReferral;
+use App\Question;
 use App\Mail\RequestEmail;
 use Auth;
 
@@ -83,6 +82,9 @@ class ServiceController extends Controller
         $vulnerability_obj = new Vulnerability();
         $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
 
+        $questions_obj = new Question();
+        $service_booking_questions = $questions_obj->getAllServiceBookingQuestions();
+
         if (isset( $result['data'] ) ) {
             $current_service = json_decode( $result['data'] )[0];
             $current_vulnerabilities = array_column($current_service->ServiceVulAnswers, 'QuestionId');
@@ -115,14 +117,14 @@ class ServiceController extends Controller
                                 compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters',
                                         'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities',
                                         'referral_conditions', 'booking_conditions', 'e_referral_conditions', 'e_referral_forms',
-                                        'service_booking')
+                                        'service_booking', 'service_booking_questions')
                             );
             } else {
                 abort(401, 'This action is unauthorized.');
             }
 
         } else {
-        	return redirect('/service')->with( $result['success'], $result['message'] );
+            return redirect('/service')->with( $result['success'], $result['message'] );
         }
     }
 
@@ -149,50 +151,10 @@ class ServiceController extends Controller
                         'OpenningHrs'    => filter_var(request('OpenningHrs'), FILTER_SANITIZE_STRING),
                         'Status'         => ( request('Status') == 'on' ? 1 : 0 ),
                         'Specialist'     => false,
-                     ];
+                    ];
 
         $service = new Service();
-        $response = $service->saveService( $sv_params );
-
-        if ( isset( $response['data'] ) || request('sv_id') > 0 ) {
-
-        	$sv_id = ( request('sv_id') > 0 ) ? request('sv_id') : $response['data'];
-
-        	$matter_service_obj = new MatterService();
-            $matter_service_obj->deleteMatterServiceByID( $sv_id ) ;
-
-            if ( !empty( request('matters') ) ) {
-                $result = $matter_service_obj->saveMattersService($sv_id, request('matters'));
-            }
-
-            $catchment = new Catchment();
-            $catchment->setCatchmentsOnRequest( request()->all(), $sv_id );
-
-            $vulnerability_obj = new Vulnerability();
-            // Delete previous vul. answers
-            $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );
-            if ( !empty( request('vulnerability') ) ) {
-                $vul_questions = array_keys( request('vulnerability') );
-                // Save vul. answers
-                $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vul_questions );
-            }
-
-            if ( !empty( request('question') ) ) {
-                $matter_service_answer = new MatterServiceAnswer();
-                $matter_service_answer->processMatterServiceAnswer( request('question'), $sv_id );
-                $matter_service_answer->processVulnerabilityMatterServiceAnswer( request('vulnerability_matter'), $sv_id );
-            }
-
-            $service_action = new ServiceAction();
-            $service_action->deleteAllActionsByService( $sv_id ) ;
-            $service_action->saveServiceAction( 'REFER', $sv_id, request('referral_conditions') ) ;
-            $service_action->saveServiceAction( 'BOOK', $sv_id, request('booking_conditions') ) ;
-            $service_action->saveServiceAction( 'E_REFER', $sv_id, request('e_referral_conditions') ) ;
-
-            $e_referral_obj = new EReferral();
-            $e_referral_obj->deleteAllEReferralByServiceId( $sv_id );
-            $e_referral_obj->saveAllFormsInService( $sv_id, request('e_referral_forms') );
-        }
+        $response = $service->saveService( $sv_params, request()->all() );
 
         return redirect('/service')->with( $response['success'], $response['message'] );
     }
