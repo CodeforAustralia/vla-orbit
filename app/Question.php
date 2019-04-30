@@ -62,9 +62,9 @@ Class Question extends OrbitSoap
             $question = json_decode(
                                         $this
                                         ->client
-                                        ->ws_init('GetAllQuestionsByIdasJSON')
-                                        ->GetAllQuestionsByIdasJSON( [ 'RefNumber' => $qu_id  ] )
-                                        ->GetAllQuestionsByIdasJSONResult
+                                        ->ws_init('GetAllQuestionsByIdWithGroupasJSON')
+                                        ->GetAllQuestionsByIdWithGroupasJSON( [ 'RefNumber' => $qu_id  ] )
+                                        ->GetAllQuestionsByIdWithGroupasJSONResult
                                     );
             return ['success' => 'success' , 'message' => 'Service.', 'data' => $question];
         }

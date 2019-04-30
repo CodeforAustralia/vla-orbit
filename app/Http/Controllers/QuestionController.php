@@ -7,6 +7,7 @@ use App\Question;
 use App\QuestionGroup;
 use App\QuestionType;
 use App\QuestionCategory;
+use App\ServiceBookingQuestions;
 use Auth;
 
 /**
@@ -18,7 +19,11 @@ use Auth;
  */
 
 const LEGAL_MATTER_TYPE = 1;
+const LEGAL_MATTER_TYPE_URL = 'legal_matter_questions';
 const ELEGIBILITY_TYPE = 2;
+const ELEGIBILITY_TYPE_URL = 'eligibility_criteria';
+const BOOKING_TYPE = 3;
+const BOOKING_TYPE_URL = 'service_booking_questions';
 
 class QuestionController extends Controller
 {
@@ -64,6 +69,17 @@ class QuestionController extends Controller
     }
 
     /**
+     * Display a listing of Service booking questions
+     * @return view eligibility question information
+     */
+    public function serviceBookingQuestions()
+    {
+        Auth::user()->authorizeRoles('Administrator');
+
+        return view("question.service_booking_questions");
+    }
+
+    /**
      * Display a specific question
      * @param  int  $qu_id    question Id
      * @return view single question information page
@@ -93,9 +109,9 @@ class QuestionController extends Controller
                                                             array_search(
                                                                     LEGAL_MATTER_TYPE ,
                                                                     array_column( $question_types, 'QuestionTypeId' )
-                                                                  )
-                                                       ]
-                                   ];
+                                                                )
+                                                        ]
+                                    ];
             }
 
             $type_name = $current_question->QuestionCategoryName;
@@ -124,11 +140,20 @@ class QuestionController extends Controller
 
         $question       = new Question();
         $response       = $question->saveQuestion( $question_params );
-        $redirect_path  = ( request('QuestionCategoryId') == ELEGIBILITY_TYPE ? '/eligibility_criteria' : '/legal_matter_questions');
+        $redirect_path  = '/';
+        if(request('QuestionCategoryId') == LEGAL_MATTER_TYPE){
+            $redirect_path .= LEGAL_MATTER_TYPE_URL;
+        }
+        if(request('QuestionCategoryId') == ELEGIBILITY_TYPE){
+            $redirect_path .= ELEGIBILITY_TYPE_URL;
+        }
+        if(request('QuestionCategoryId') == BOOKING_TYPE){
+            $redirect_path .= BOOKING_TYPE_URL;
+        }
         return redirect( $redirect_path )->with( $response['success'], $response['message'] );
     }
 
-     /**
+    /**
      * Show the form for creating a new question
      * @param String $type question type
      * @return view question creation page
@@ -150,7 +175,7 @@ class QuestionController extends Controller
                                                                         $type ,
                                                                         array_column( $question_categories, 'QuestionId' )
                                                                 )
-                                                       ]
+                                                            ]
                                     ];
             //Double check this functionality
             if ( $type == ELEGIBILITY_TYPE ) {
@@ -159,8 +184,8 @@ class QuestionController extends Controller
                                                             array_search(
                                                                     LEGAL_MATTER_TYPE ,
                                                                     array_column( $question_types, 'QuestionTypeId' )
-                                                                  )
-                                                       ]
+                                                                )
+                                                        ]
                                     ];
             }
 
@@ -204,6 +229,17 @@ class QuestionController extends Controller
     {
         $question = new Question();
         $result = $question->getAllLegalMatterQuestions();
+        return ['data' => $result];
+    }
+
+    /**
+     * List all legal matter question
+     * @return array list of all question
+     */
+    public function listServiceBookingQuestions()
+    {
+        $question = new ServiceBookingQuestions();
+        $result = $question->getAllServiceBookingQuestions();
         return ['data' => $result];
     }
 

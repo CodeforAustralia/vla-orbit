@@ -184,11 +184,15 @@ Route::get('/legal_matter_questions', 'QuestionController@legalMatterQuestions')
 
 Route::get('/eligibility_criteria', 'QuestionController@eligibilityCriteria');
 
+Route::get('/service_booking_questions', 'QuestionController@serviceBookingQuestions');
+
 Route::get('/question', 'QuestionController@index');
 
 Route::get('/question/list', 'QuestionController@list');
 
 Route::get('/question/list_legal_matter', 'QuestionController@listLegalMatterQuestions');
+
+Route::get('/question/list_service_booking_questions', 'QuestionController@listServiceBookingQuestions');
 
 Route::get('/question/list_eligibility', 'QuestionController@listVulnerabilityQuestions');
 

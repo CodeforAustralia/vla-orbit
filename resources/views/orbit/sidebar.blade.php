@@ -148,7 +148,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item {{ Request::is('legal_matter_questions','eligibility_criteria', 'question_group/*') ? 'active' : null }}">
+                        <li class="nav-item {{ Request::is('legal_matter_questions','eligibility_criteria', 'question_group/*', 'service_booking_questions') ? 'active' : null }}">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="fa fa-question"></i>
                                 <span class="title">Eligibility</span>
@@ -171,6 +171,12 @@
                                     <a href="/question_group" class="nav-link ">
                                         <i class="fa fa-list"></i>
                                         <span class="title">Eligibility Group</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ Request::is('service_booking_questions') ? 'active' : null }}">
+                                    <a href="/service_booking_questions" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">Service Booking Questions</span>
                                     </a>
                                 </li>
                             </ul>
