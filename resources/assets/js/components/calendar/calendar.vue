@@ -305,18 +305,24 @@
                 }
             },
             deleteBookingEvent : function() {
-                var self =this;
+                const self = this;
                 EventBus.$on('delete_booking', (booking_id) => {
                     for(let i = 0 ; i < self.events.length ; i++) {
                         if(self.events[i].booking.id == booking_id) {
+                            console.log(i, self.events[i]);
                             self.events.splice(i, 1);
                             this.$emit('update:reset_booking_to_delete',0);
+                        }
+                    }
+                    for(let i = 0 ; i < self.initial_events.length ; i++) {
+                        if(self.initial_events[i].booking.id == booking_id) {
+                            self.initial_events.splice(i, 1);
                         }
                     }
                 });
             },
             updateContactBookingEvent : function() {
-                var self = this;
+                const self = this;
                 EventBus.$on('update_booking', (field,booking) => {
                     if(field == 'client.first_name' || field == 'client.last_name' || field == 'client.contact') {
                         for(let i = 0 ; i < self.events.length ; i++) {

@@ -57,7 +57,7 @@ new Vue({
     methods: {
         intitServiceProviders: function () {
             $("#contentLoading").modal("show");
-            var self = this;
+            const self = this;
             let url = '/service_provider/listFormated';
             let scope = {
                 scope: 'VLA'
@@ -74,7 +74,7 @@ new Vue({
                 });
         },
         selectInitialServiceProvider: function() {
-            var self = this;
+            const self = this;
             let sp_id = parseInt(document.querySelector('.sp_id').id);
 
             self.service_provider_id = sp_id;
@@ -85,11 +85,11 @@ new Vue({
             }
         },
         getServiceProviderBookings: function (service_provider) {
-            var self = this;
+            const self = this;
             self.service_provider_id = service_provider.id;
         },
         enableEditing: function(value, name){
-            var self = this;
+            const self = this;
             self.temp_value = value;
             if(name === 'comment') {
                 self.comment_value = value;
@@ -97,11 +97,11 @@ new Vue({
             self.edit_field = name;
         },
         showField : function(name) {
-            var self = this;
+            const self = this;
             return self.edit_field == name
         },
         disableEditing: function(){
-            var self = this;
+            const self = this;
             self.temp_value = '';
             self.comment_value = '';
             self.edit_field = null;
@@ -110,7 +110,7 @@ new Vue({
         },
         updateBookingField: function (field) {
             $("#contentLoading").modal("show");
-            var self =this;
+            const self =this;
             let url = '/booking';
             let temp_field = '';
             if (field === 'comment') {
@@ -153,7 +153,7 @@ new Vue({
         },
         updateBookingDate: function (){
             $("#contentLoading").modal("show");
-            var self =this;
+            const self =this;
             let url = '/booking';
             let temp_booking = self.current_booking; // Save old values in case of error.
             if(!self.hour || !self.selected_date) {
@@ -184,7 +184,7 @@ new Vue({
             }
         },
         getBookingAvailability: function (args) {
-            var self = this;
+            const self = this;
             let dateInput = document.getElementById('booking-date');
             let year = args.year;
             let month = args.month;
@@ -210,7 +210,7 @@ new Vue({
                 });
         },
         initDatePicker: function () {
-            var self = this;
+            const self = this;
             self.show_date = true;
             self.available_times = [];
             self.hour=null;
@@ -259,7 +259,7 @@ new Vue({
                 self.getBookingAvailability(booking_info);
         },
         setAvailableTimes: function (selected_date) {
-            var self = this;
+            const self = this;
             let date = selected_date;
             let times = [];
             self.available_times = [];
@@ -290,7 +290,7 @@ new Vue({
             self.available_times = times;
         },
         getCurrentServiceTemplate: function () {
-            var self = this;
+            const self = this;
             $("#contentLoading").modal("show");
             let url = '/sms_template/getTemplateByServiceBookingId';
             let booking = {
@@ -318,7 +318,7 @@ new Vue({
             });
         },
         sendSMSReminder : function() {
-            var self = this;
+            const self = this;
             $("#contentLoading").modal("show");
             let url = "/booking/sendSmsReminder";
             let booking = {
@@ -352,21 +352,22 @@ new Vue({
             });
         },
         deleteBooking : function() {
-            var self = this;
+            const self = this;
             let confirmation = confirm("Are you sure that you want to delete it?\n To confirm press OK or Cancel.");
             if(confirmation == true) {
                 $("#contentLoading").modal("show");
                 let url = '/booking/' + self.current_booking.id;
                 axios.delete(url)
                 .then(function (response) {
-                    self.booking_to_delete = self.current_booking.id;
+                    let bo_id = self.current_booking.id;
+                    self.booking_to_delete = bo_id;
                     self.current_booking = {};
-                    EventBus.$emit('delete_booking', self.current_booking.id);
+                    EventBus.$emit('delete_booking', bo_id);
                     $("#bookingInfo").modal("hide");
                     $("#contentLoading").modal("hide");
                 })
                 .catch(function (error) {
-                    alert('Please refresh the page');
+                    alert('Error deleting event, please refresh the page');
                     $("#contentLoading").modal("hide");
                 });
             }
