@@ -925,5 +925,11 @@ table#data_table.table>thead>tr>th {
 .dashboard_date {
     font-size: 85%;
     float: right;
+}
 
+.dashboard_date small{
+    background: #e2e2e2;
+    padding: 1px 3px;
+    border-radius: 4px;
+    color: #525e64;
 }
