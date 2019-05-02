@@ -257,31 +257,8 @@ class ServiceController extends Controller
      */
     public function listServiceById( $sv_id )
     {
-        $service = new Service();
-        $result  = $service->getServiceByID($sv_id)['data'];
-        $service = json_decode($result)[0];
-
-        usort($service->ServiceMatters, function($a, $b){ return strcasecmp($a->MatterName, $b->MatterName); });
-
-        $vulnerability_obj = new Vulnerability();
-        $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
-        $serv_vuln = $service;
-
-        $service_vulnerabilities = [];
-        foreach ( $serv_vuln->ServiceVulAnswers as $vulnerability) {
-            $vul_pos = array_search( $vulnerability->QuestionId,  array_column( $vulnertability_questions, 'QuestionId' ) );
-            $service_vulnerabilities[] = $vulnertability_questions[$vul_pos]['QuestionLabel'];
-        }
-        asort($service_vulnerabilities);
-        $service->vulnerabilities =  empty($service_vulnerabilities) ? ['None'] : array_values( $service_vulnerabilities );
-
-        $service_catchments = [];
-        foreach ( $serv_vuln->ServiceCatchments as $catchments) {
-            $service_catchments[$catchments->CatchmentSuburb] = $catchments->CatchmentSuburb;
-        }
-        asort($service_catchments);
-        $service->catchments = array_values($service_catchments);
-
+        $service_obj = new Service();
+        $service  = $service_obj->getServiceInformationByID($sv_id);
         return response()->json($service);
     }
 

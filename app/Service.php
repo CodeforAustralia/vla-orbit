@@ -206,6 +206,44 @@ Class Service extends OrbitSoap
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
+
+    /**
+     * Get complete information of a service by ID
+     * @param  Int    $sv_id service id
+     * @return Array         service information
+     */
+    public function getServiceInformationByID($sv_id)
+    {
+        try {
+            $result  = self::getServiceByID($sv_id)['data'];
+            $service = json_decode($result)[0];
+            //Sort service matters and sort alphabetically
+            usort($service->ServiceMatters, function($a, $b){ return strcasecmp($a->MatterName, $b->MatterName); });
+            //Get vulnerability question information
+            $vulnerability_obj = new Vulnerability();
+            $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
+            $serv_vuln = $service;
+            //Get vulnerability Questions of this service
+            $service_vulnerabilities = [];
+            foreach ( $serv_vuln->ServiceVulAnswers as $vulnerability) {
+                $vul_pos = array_search( $vulnerability->QuestionId,  array_column( $vulnertability_questions, 'QuestionId' ) );
+                $service_vulnerabilities[] = $vulnertability_questions[$vul_pos]['QuestionLabel'];
+            }
+            asort($service_vulnerabilities);
+            $service->vulnerabilities =  empty($service_vulnerabilities) ? ['None'] : array_values( $service_vulnerabilities );
+            //Get service catchments and sort alphabetically
+            $service_catchments = [];
+            foreach ( $serv_vuln->ServiceCatchments as $catchments) {
+                $service_catchments[$catchments->CatchmentSuburb] = $catchments->CatchmentSuburb;
+            }
+            asort($service_catchments);
+            $service->catchments = array_values($service_catchments);
+
+            return $service;
+        } catch (\Exception $e) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
     /**
      * Get al service by service provider
      * @param  int    $sp_id        service provider id
