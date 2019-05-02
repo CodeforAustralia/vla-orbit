@@ -231,10 +231,12 @@ new Vue({
                 beforeShowDay : function(date){
                     let date_formated = moment(date).format('YYYY-MM-DD');
                     if(self.current_booking.is_interpreter == 0 ) {
-                        return  self.dates_regular.includes(date_formated) ? true:false;
+                        return (self.dates_regular.indexOf(date_formated) >= 0 ? true : false);
+                        // return  self.dates_regular.includes(date_formated) ? true:false;
                     }
                     else if (self.current_booking.is_interpreter == 1 ) {
-                        return  self.dates_interpreter.includes(date_formated) ? true:false;
+                        return (self.dates_interpreter.indexOf(date_formated) >= 0 ? true : false);
+                        // return  self.dates_interpreter.includes(date_formated) ? true:false;
                     }
 
                 }})

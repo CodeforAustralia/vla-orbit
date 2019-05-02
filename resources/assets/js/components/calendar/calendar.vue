@@ -122,7 +122,7 @@
             showFreeSlots: function () {
                 const self = this;
                 for (const service_id in this.services_availability) {
-                    if(self.selectedServices.includes(service_id) || self.selectedServices.length === 0) {
+                    if(self.selectedServices.indexOf(service_id) >= 0 || self.selectedServices.length === 0) {
                         const service_info = this.services_availability[service_id];
                         if (service_info.hasOwnProperty('regular')) {
                             self.iterateAppointmentsByServiceId(service_info, 'regular', service_id);
