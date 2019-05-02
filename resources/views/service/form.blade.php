@@ -245,9 +245,11 @@
                                         <p class="margin-0">Bookings conditions:</p>
                                         <p class="font-grey-silver margin-bottom-10">Enable bookings to specific Service Providers by adding them here. <span id="count_booking_conditions">({{ isset($booking_conditions) ? count( $booking_conditions) : '0'  }}) </span>  &nbsp;<a href="javascript:;" class="btn btn-xs green" select-all-sp="booking">Select All</a> &nbsp; <a href="javascript:;" class="btn btn-xs red" clear-all-sp="booking">Clear</a></p>
                                         <select multiple class="form-control" id="booking_conditions" name="booking_conditions[]"></select>
+                                        @if(isset($service_booking_questions))
                                         <div class="form-group col-sm-12">
                                             @include ('service.booking_questions')
                                         </div>
+                                        @endif
                                     </div>
 
                                 </div>
