@@ -45,7 +45,9 @@ new Vue({
         hour:null,
         description_value : '',
         template_flieds: [],
-        header_value : ''
+        header_value : '',
+        disable_submit: false,
+        display_help:false,
     },
 
     methods: {
@@ -122,10 +124,16 @@ new Vue({
         onChangeFormType: function (e) {
             var self = this;
             document.getElementById("submit-booking").innerText = "Send e-Referral";
+            self.disable_submit = false;
             self.is_direct_booking = false;
             if (parseInt(e.srcElement.value) === 0) { //Direct Booking
                 self.is_direct_booking = true;
                 document.getElementById("submit-booking").innerText = "Make booking";
+                //if direct booking and has booking questions.
+                if(self.can_book && self.current_service.ServiceBookingQuestions.length >= 1) {
+                    self.validateQuestions();
+                }
+
             } else if (parseInt(e.srcElement.value) > 0) {
                 self.getEreferralTemplate(parseInt(e.srcElement.value));
             }
@@ -455,6 +463,68 @@ new Vue({
                 return true;
             }
             return false;
+        },
+        validateQuestions: function() {
+            let self = this;
+            self.disable_submit = false;
+            self.current_service.ServiceBookingQuestions.forEach(function(question) {
+                if(question.QuestionType =='boolean') {
+                    if(question.answer == null && question.QuestionValue.toLowerCase() == 'true') {
+                        self.disable_submit =true;
+                    }else if (question.answer == null && question.QuestionValue.toLowerCase() == 'false') {
+                        //to do nothing
+                    } else if ( String(question.answer) != question.QuestionValue.toLowerCase()) {
+                        self.disable_submit = true;
+                    }
+                } else if(question.QuestionType =='numeric') {
+                    if(question.Operator != 'in') {
+                        question.answer = Number(question.answer);
+                        question.QuestionValue = Number(question.QuestionValue);
+                    }
+                    if(!self.compareQuestions(question)) {
+                        self.disable_submit = true;
+                    }
+                } else if(question.QuestionType =='text') {
+                    if(!self.compareQuestions(question)) {
+                        self.disable_submit = true;
+                    }
+                } else if(question.QuestionType =='multiple') {
+                    if(question.options == null ) {
+                        question.options = question.QuestionValue.split(',');
+                    }
+                    if(!self.compareQuestions(question)) {
+                        self.disable_submit = true;
+                    }
+                }
+            });
+        },
+        compareQuestions: function(args) {
+            switch(args.Operator){
+                case '=':
+                    return  args.answer == args.QuestionValue;
+                case '>':
+                    return args.answer > args.QuestionValue;
+                case '>=':
+                    return args.answer >= args.QuestionValue;
+                case '<':
+                    return args.answer < args.QuestionValue;
+                case '<=':
+                    return args.answer <= args.QuestionValue;
+                case '!=':
+                    return args.answer != args.QuestionValue;
+                case 'in':
+                    let options = args.QuestionValue.split(',');
+                    let booleanvalue = false
+                    options.forEach(function(option){
+                        if( args.answer != null && args.answer.trim().toLowerCase() == option.trim().toLowerCase()) {
+                            booleanvalue = true;
+                            return booleanvalue;
+                        }
+                    });
+                    return booleanvalue;
+                default:
+                    return ( args.answer == " " || args.QuestionValue == " " );
+            }
         }
 
     },

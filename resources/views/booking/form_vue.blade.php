@@ -281,7 +281,7 @@
                                 <input type="radio" name="RemindNow" id="RemindNow" value="Yes">Yes<span></span>
                             </label>
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="RemindNow" id="RemindNow" value="No">No<span></span>
+                                <input type="radio" name="RemindNow" id="RemindNow" value="No" checked>No<span></span>
                             </label>
                         </div>
                     </div>
@@ -300,7 +300,7 @@
                                 <input type="radio" name="phonepermission" id="phonepermission" value="Yes">Yes<span></span>
                             </label>
                             <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="phonepermission" id="phonepermission" value="No">No<span></span>
+                                <input type="radio" name="phonepermission" id="phonepermission" value="No" checked>No<span></span>
                             </label>
                         </div>
                     </div>
@@ -319,11 +319,62 @@
             </div>
         </div>
 
+        <hr v-show="can_book && is_direct_booking && current_service.ServiceBookingQuestions.length >= 1">
+        <h4 v-show="can_book && is_direct_booking && current_service.ServiceBookingQuestions.length >= 1" class="padding-top-10 padding-bottom-10">Booking Questions</h4>
+
+        <div class="row" v-show="can_book && is_direct_booking && current_service.ServiceBookingQuestions.length >= 1">
+        <a @click="display_help? display_help = false : display_help = true" pull-right font-green> @{{display_help? 'Hide Help' : 'Show Help'}} </a>
+            <div class="col-xs-5 col-md-7 col-lg-8">
+                <div class="form-group">
+                    <div class="col-xs-12 padding-bottom-20" v-for="question in current_service.ServiceBookingQuestions" v-bind:key="question.ServiceBookingQuestionId">
+                        <div v-if="question.QuestionType=='boolean'">
+                            <label  :for="question.ServiceBookingQuestionId">
+                                @{{question.QuestionLabel }}
+                            </label>
+                            <br>
+                            <small v-show='display_help' class="elibigility_label">@{{question.QuestionName }}</small>
+                            <div class="mt-radio-inline padding-left-20">
+                                <label class="mt-radio mt-radio-outline">
+                                    <input @change="validateQuestions()" type="radio" id="question.ServiceBookingQuestionId" v-model="question.answer" value="true">Yes<span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input @change="validateQuestions()" type="radio" id="question.ServiceBookingQuestionId" v-model="question.answer" value="false">No<span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div v-else-if="question.QuestionType=='numeric'">
+                            <label :for="question.ServiceBookingQuestionId">@{{question.QuestionLabel}}</label>
+                            <br>
+                            <small v-show='display_help' class="elibigility_label">@{{question.QuestionName }}</small>
+                            <input type="number" v-on:keyup="validateQuestions()" class="form-control input-large" v-model="question.answer" autocomplete="off" :id="question.ServiceBookingQuestionId">
+                        </div>
+                        <div v-else-if="question.QuestionType=='text'">
+                            <label :for="question.ServiceBookingQuestionId"> @{{question.QuestionLabel}}</label>
+                            <br>
+                            <small v-show='display_help' class="elibigility_label">@{{question.QuestionName }}</small>
+                            <input type="text" v-on:keyup="validateQuestions()" class="form-control input-large" v-model="question.answer" autocomplete="off" :id="question.ServiceBookingQuestionId">
+                        </div>
+                        <div v-else-if="question.QuestionType=='multiple'">
+                            <label :for="question.ServiceBookingQuestionId">@{{question.QuestionLabel}}</label>
+                            <br>
+                            <small v-show='display_help' class="elibigility_label">@{{question.QuestionName }}</small>
+                            <select v-model="question.answer" class="form-control input-large" @change="validateQuestions()" :id="question.ServiceBookingQuestionId">
+                                <option v-for="option in question.options" v-bind:value="option">
+                                    @{{option}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h4 class="padding-top-10 padding-bottom-10">Description</h4>
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-10">
-                        <label>Description: <small>Client requirements, special needs, difficulties experienced with client, time limits,<br> instructions for contact or any other information that may be useful for the service provider to know beforehand.</small> </label>
+                        <label><small>Client requirements, special needs, difficulties experienced with client, time limits,<br> instructions for contact or any other information that may be useful for the service provider to know beforehand.</small> </label>
                         <vue-mce
                             id="booking_description"
                             class="form-control"
@@ -374,7 +425,7 @@ text/plain, application/pdf, image/*" />
 
         <div class="row">
             <div class="col-xs-12 padding-top-10 padding-bottom-20">
-                <button type="submit" class="btn green-jungle btn-block btn-lg" id="submit-booking">Make Booking</button>
+                <button type="submit" :disabled="disable_submit" class="btn green-jungle btn-block btn-lg" id="submit-booking">Make Booking</button>
             </div>
         </div>
 
