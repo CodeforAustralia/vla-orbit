@@ -136,8 +136,30 @@
                                 <span id="bookingIntLanguage" class="col-sm-5" v-html="current_booking.int_language"></span>
                             </div>
 
+                            <div class="col-sm-12" v-show="current_booking.int_language">
+                                <label class="col-sm-5"><strong>Interpreter Booked: </strong></label>
+                                <a href="javascript:;"
+                                    class="col-sm-5"
+                                    id="InterpreterBooked"
+                                    data-type="text"
+                                    v-show="!showField('InterpreterBooked')"
+                                    v-html="(current_booking.data && current_booking.data.InterpreterBooked ? (current_booking.data.InterpreterBooked == 1 ? 'Yes' : 'No') : 'No' )"
+                                    @click="enableEditing(current_booking.data ? current_booking.data.InterpreterBooked : '','InterpreterBooked')"></a>
+                                    <select class="form-control input-small col-sm-5" v-show="showField('InterpreterBooked')" v-model="temp_value">
+                                        <option value=1> Yes </option>
+                                        <option value=0> No </option>
+                                    </select>
+                                    <button class='btn blue editable-submit col-sm-1'
+                                            v-show="showField('InterpreterBooked')"
+                                            @click="updateBookingField('data.InterpreterBooked')">
+                                            <i class="fa fa-check"></i>
+                                    </button>
+                                    <button class="btn default editable-cancel col-sm-1" @click="disableEditing" v-show="showField('InterpreterBooked')"> <i class="fa fa-times"></i> </button>
+                                    {{-- <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success left" data-offstyle="danger left" data-size="mini" id="interpreter_booked"> --}}
+                            </div>
+
                             <div class="col-sm-12">
-                                <label class="col-sm-5"><strong>Complex needs: </strong></label>
+                                <label class="col-sm-5"><strong>Complex Needs: </strong></label>
                                 <span
                                     class="col-sm-5"
                                     id="IsComplex"

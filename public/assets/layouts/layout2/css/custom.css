@@ -933,3 +933,11 @@ table#data_table.table>thead>tr>th {
     border-radius: 4px;
     color: #525e64;
 }
+
+.darkorange {
+    color: darkorange;
+}
+
+.green-orbit {
+    color: #17C4BB;
+}

@@ -230,11 +230,25 @@
                     let start_time = moment(event.booking.date).add(parseInt(slot_time), 'm').format('HH:mm A');
                     let end_time = moment(event.booking.date).add(parseInt(slot_time) + parseInt(slot_duration), 'm').format('HH:mm A');
                     let content = '';
-                    let interpreter = (event.booking.is_interpreter == 1 ? '<i class="fa fa-globe"></i> ' + event.booking.int_language : '');
+                    let interpreter = (event.booking.is_interpreter == 1 ? '<i class="fa fa-globe"></i>' + event.booking.int_language + '<br />': '');
+                    let interpreter_booked = '';
+                    let booking_validation = event.booking.data
+                                            && event.booking.data.InterpreterBooked
+                                            && event.booking.is_interpreter == 1;
+                    if (    booking_validation
+                            &&  event.booking.data.InterpreterBooked == 1){
+                        interpreter_booked =  '<i class="fa fa-check green-orbit"></i> Interpreter Booked';
+                    }
+                    else if (booking_validation
+                            && event.booking.data.InterpreterBooked == 0){
+                    interpreter_booked = '<i class="fa fa-exclamation-triangle darkorange"></i> Interpreter Not Booked';
+                    }
+
                     content = `<strong> ${event.booking.service.name } </strong><br />
                                 Start: ${start_time} <br />
                                 End: ${end_time}<br />
-                                ${interpreter}`;
+                                ${interpreter}
+                                ${interpreter_booked}`;
                     $(element).popover({
                         html: true,
                         content: content,
