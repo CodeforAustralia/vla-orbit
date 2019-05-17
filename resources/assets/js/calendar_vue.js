@@ -6,14 +6,15 @@ import moment from 'moment'
 import FullCalendar from 'vue-full-calendar';
 import VueMce from 'vue-mce';
 import EventBus from './utils/event-bus';
-
+import Calendar from './components/calendar/calendar.vue';
+import UserBookingDatatable from './components/datatable/user_booking_datatable.vue';
 
 Vue.use(uiv);
 Vue.use(FullCalendar);
 Vue.use(VueMce);
 Vue.component('multiselect', Multiselect);
-Vue.component('Calendar', require('./components/calendar/calendar.vue'));
-Vue.component('user_booking_datatable', require('./components/datatable/user_booking_datatable.vue'));
+Vue.component('Calendar', Calendar);
+Vue.component('user_booking_datatable', UserBookingDatatable);
 
 const config = {
     theme: 'modern',

@@ -92,10 +92,12 @@
                                 .then(() => {
                                     self.initial_events = [...self.events];
                                     self.services = response.services;
-                                    //self.checkShowAvailability();
                                     self.filterEvents();
+                                })
+                                .then(() => {
                                     $("#contentLoading").modal('hide');
-                                }).catch(err => {
+                                })
+                                .catch(err => {
                                     console.log(err);
                                 });
                             }
@@ -190,8 +192,10 @@
                 let in_a_month = moment().add(1, 'month').format('YYYY-MM-10');
                 let url = '/booking/service_provider/booking/?start=' + today + '&end=' + in_a_month + '&sp_id=' + self.service_provider_id;
 
-                $("#contentLoading").modal("show");
                 if(self.service_provider_id > 0){
+                    setTimeout(() => {
+                        $("#contentLoading").modal("show");
+                    }, 500);
                     axios.get(url)
                         .then(function (response) {
                             self.initCalendar(response.data.bookings);
@@ -206,13 +210,12 @@
                         .then(() => {
                             self.selectedServices = []; //Reset list of selected services
                             self.filterEvents();
+                        })
+                        .then(() => {
                             $("#contentLoading").modal("hide");
-                            $(".modal-backdrop").remove();
                         })
                         .catch(function (error) {
-                            self.getEventsBySelectedSP();
                             $("#contentLoading").modal("hide");
-                            $(".modal-backdrop").remove();
                         });
                 }
             },
