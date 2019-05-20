@@ -1,5 +1,4 @@
-require('./bootstrap')
-
+import Vue from 'vue';
 import DataTable from './components/datatable/DataTable'
 import vueDebounce from 'vue-debounce'
 

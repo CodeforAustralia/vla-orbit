@@ -236,15 +236,14 @@
                     let interpreter = (event.booking.is_interpreter == 1 ? '<i class="fa fa-globe"></i>' + event.booking.int_language + '<br />': '');
                     let interpreter_booked = '';
                     let booking_validation = event.booking.data
-                                            && event.booking.data.InterpreterBooked
                                             && event.booking.is_interpreter == 1;
                     if (    booking_validation
                             &&  event.booking.data.InterpreterBooked == 1){
                         interpreter_booked =  '<i class="fa fa-check green-orbit"></i> Interpreter Booked';
                     }
                     else if (booking_validation
-                            && event.booking.data.InterpreterBooked == 0){
-                    interpreter_booked = '<i class="fa fa-exclamation-triangle darkorange"></i> Interpreter Not Booked';
+                            && (event.booking.data.InterpreterBooked == null || event.booking.data.InterpreterBooked == 0)){
+                        interpreter_booked = '<i class="fa fa-exclamation-triangle darkorange"></i> Interpreter Not Booked';
                     }
 
                     content = `<strong> ${event.booking.service.name } </strong><br />

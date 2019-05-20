@@ -7,7 +7,9 @@
                     <button class="btn blue"  @click="printTable">Print</button>
                     <download-excel
                         class = "btn green"
-                        :data = "tableDataFiltered"
+                        :fetch   = "getCSVData"
+                        :before-generate = "startGettingCSVData"
+                        :before-finish = "finishGettingCSVData"
                         name    = "orbit.csv"
                         type    = "csv">
                         CSV
@@ -88,6 +90,7 @@
     import { Printd } from 'printd'
     import JsonExcel from 'vue-json-excel'
     import buttonPermissions from './permissions'
+    import axios from 'axios'
 
     Vue.component('downloadExcel', JsonExcel)
 
@@ -243,7 +246,21 @@
             printTable() {
                 const d = new Printd();
                 d.print( document.getElementById('data_table'));
+            },
+            async getCSVData() {
+                let dataFetchUrl = `${this.url}?page=1&column=${this.sortedColumn}&order=${this.order}&per_page=${this.pagination.total}&search=${this.search}`;
+                let response = await axios.get(dataFetchUrl);
+                if('data' in response.data) {
+                    return response.data.data;
+                }
+            },
+            startGettingCSVData() {
+                $("#contentLoading").modal("show");
+            },
+            finishGettingCSVData() {
+                $("#contentLoading").modal("hide");
             }
+
         },
         filters: {
             columnHead(value) {
