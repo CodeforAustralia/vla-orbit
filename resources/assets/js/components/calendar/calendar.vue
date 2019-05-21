@@ -213,9 +213,11 @@
                         })
                         .then(() => {
                             $("#contentLoading").modal("hide");
+                            document.querySelector('.modal-stack').style.visibility = "hidden";
                         })
                         .catch(function (error) {
                             $("#contentLoading").modal("hide");
+                            document.querySelector('.modal-stack').style.visibility = "hidden";
                         });
                 }
             },
