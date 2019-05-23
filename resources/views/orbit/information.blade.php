@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/assets/global/img/favicon/favicon-92x92.png" sizes="92x92">
 
-    <title>Online referral tool</title>
+    <title>LHO</title>
 
 </head>
 <body>
@@ -69,7 +69,7 @@
 
         <div class="col-xs-10 col-xs-offset-1">
             <p>With more than 500 legal services across Victoria and a web of eligibility questions determining if a client qualifies for a service, finding appropriate legal assistance for eligible clients is challenging for frontline staff.</p>
-            <p>Our new online referral booking and information tool aims to tackle some of the challenges staff and clients meet when a legal problem occurs while focusing on improving both the client and staff experience.</p>
+            <p>Our new legal help online aims to tackle some of the challenges staff and clients meet when a legal problem occurs while focusing on improving both the client and staff experience.</p>
         </div>
 
         <div class="col-xs-10 col-xs-offset-1">
@@ -156,7 +156,7 @@
         </div>
         <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
             <h5>Legal Assistant, Gippsland</h5>
-            <p>"Orbit is such a fantastic tool for referrals both internally and externally to the organisation. I love how you can send both text and e-mail so quickly. I have learnt such much more about other services I would not have known about otherwise. This is such a great resource for our organisation I use it numerous times every day."</p>
+            <p>"LHO is such a fantastic tool for referrals both internally and externally to the organisation. I love how you can send both text and e-mail so quickly. I have learnt such much more about other services I would not have known about otherwise. This is such a great resource for our organisation I use it numerous times every day."</p>
         </div>
 
     </div>
