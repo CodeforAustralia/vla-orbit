@@ -1,7 +1,7 @@
-import axios from 'axios';
-import 'babel-polyfill';
-import moment from 'moment';
+import "@babel/polyfill";
 import Vue from 'vue';
+import axios from 'axios';
+import moment from 'moment';
 import VueMce from 'vue-mce';
 
 Vue.use(VueMce);
@@ -48,12 +48,14 @@ new Vue({
         header_value : '',
         disable_submit: false,
         display_help:false,
+        display_no_book_refer:false,
     },
 
     methods: {
         onChangeSP: function (e) {
             var self = this;
             self.showLoading();
+            self.display_no_book_refer = false;
             self.services = [];
             self.e_referral_forms = [];
             self.can_book = false;
@@ -68,8 +70,8 @@ new Vue({
                 });
         },
         onChangeService: function (e) {
-
             var self = this;
+            self.display_no_book_refer = false;
             let services = self.services;
             let service_id = e.srcElement.value.split('-')[2];
             self.e_referral_forms = [];
@@ -160,20 +162,22 @@ new Vue({
             self.available_times = [];
             self.updateServiceAvailability();
         },
-        canBook: function () {
+        checkBook: function () {
             var self = this;
             self.setBookingBugId(); //Check if is complex or needs interpreter
             let user_sp_id = document.getElementsByClassName('sp_id')[0].id;
             self.can_book = parseInt(self.current_service.ServiceProviderId) === parseInt(user_sp_id);
-
             let len = self.actions.length;
             for (let i = 0; i < len; i++) {
-                if (self.actions[i].Action === 'ALL' || self.actions[i].Action === 'BOOK') {
+                if (self.current_service.BookingServiceId && (self.actions[i].Action === 'ALL' || self.actions[i].Action === 'BOOK')) {
                     self.can_book = true;
                 }
-                if (self.actions[i].Action === 'ALL' || self.actions[i].Action === 'E_REFER') {
+                if (self.e_referral_forms && self.e_referral_forms.length > 0 && (self.actions[i].Action === 'ALL' || self.actions[i].Action === 'E_REFER')) {
                     self.can_e_referr = true;
                 }
+            }
+            if(!self.can_book && !self.can_e_referr) {
+                self.display_no_book_refer = true;
             }
         },
         requireInterpreterOrComplex: function () {
@@ -301,7 +305,7 @@ new Vue({
         },
         updateServiceAvailability: function () {
             var self = this;
-            self.canBook(); //Depends on actions inside service
+            self.checkBook(); //Depends on actions inside service
             if (self.can_book) {
                 let booking_info = {
                     year: new Date().getFullYear(),
