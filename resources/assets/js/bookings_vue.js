@@ -165,9 +165,12 @@ new Vue({
         checkBook: function () {
             var self = this;
             self.setBookingBugId(); //Check if is complex or needs interpreter
-            //let user_sp_id = document.getElementsByClassName('sp_id')[0].id;
+            let user_sp_id = document.getElementsByClassName('sp_id')[0].id;
             //self.can_book = parseInt(self.current_service.ServiceProviderId) === parseInt(user_sp_id);
             let len = self.actions.length;
+            if(self.current_service.BookingServiceId && (self.current_service.ServiceProviderId) === parseInt(user_sp_id)){
+                self.can_book = true;
+            }
             for (let i = 0; i < len; i++) {
                 if (self.current_service.BookingServiceId && (self.actions[i].Action === 'ALL' || self.actions[i].Action === 'BOOK')) {
                     self.can_book = true;
@@ -176,6 +179,7 @@ new Vue({
                     self.can_e_referr = true;
                 }
             }
+
             if(!self.can_book && !self.can_e_referr) {
                 self.display_no_book_refer = true;
             }
