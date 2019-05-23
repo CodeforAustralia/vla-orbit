@@ -71,7 +71,6 @@
                             <option :value="null"></option>
                             <option value="0" v-show="can_book">Direct Booking</option>
                             <option v-for="form in e_referral_forms" :value="form.ReferralFormID" v-text="form.ReferralFromName" v-show="can_e_referr"></option>
-                            <option :value="null" disabled v-show="display_no_book_refer">This service cannot book or e-refer. Please check the service configuration</option>
                         </select>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
