@@ -69,8 +69,9 @@
                     <div class="col-xs-12 col-md-6 padding-bottom-10">
                         <select class="form-control" v-on:change="onChangeFormType" name="request_type" id="request_type" required>
                             <option :value="null"></option>
-                            <option value="0" v-show="can_book">Direct Booking</option>
-                            <option v-for="form in e_referral_forms" :value="form.ReferralFormID" v-text="form.ReferralFromName" v-show="can_e_referr"></option>
+                            <option value="0" v-if='can_book'>Direct Booking</option>
+                            <option v-for="form in e_referral_forms" :value="form.ReferralFormID" v-text="form.ReferralFromName" v-if="can_e_referr"></option>
+                            <option disabled v-if="display_no_book_refer">This service cannot book or e-refer. Please check the service configuration</option>
                         </select>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
