@@ -22,14 +22,19 @@
                         <a href="#service_intake_options" data-toggle="tab"> Intake Options </a>
                     </li>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content padding-top-10">
 
                     <div class="tab-pane active" id="service_general_settings">
                         <service-general-settings></service-general-settings>
                     </div>
 
                     <div class="tab-pane" id="service_clients_matters">
-                        <service-clients-matters></service-clients-matters>
+                        <service-clients-matters
+                            :eligibility_questions='{{ json_encode($vulnertability_questions) }}'
+                            @isset($current_vulnerabilities)
+                            :selected_eligibility_questions='{!! json_encode($current_vulnerabilities) !!}'
+                            @endisset
+                            ></service-clients-matters>
                     </div>
 
                     <div class="tab-pane" id="service_legal_matters">
@@ -45,6 +50,9 @@
     </div>
 </div>
 
+@section('styles')
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+@endsection
 
 @section('scripts')
     <script src="/js/service_management.js"></script>
