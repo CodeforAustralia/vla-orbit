@@ -41,7 +41,26 @@
                         <service-legal-matters></service-legal-matters>
                     </div>
                     <div class="tab-pane" id="service_intake_options">
-                        <service-intake-options></service-intake-options>
+                        <service-intake-options
+                            @isset($referral_conditions)
+                            :selected_referral_conditions='{{ json_encode($referral_conditions) }}'
+                            @endisset
+                            @isset($current_service)
+                            :current_service='{{ json_encode($current_service) }}'
+                            @endisset
+                            @isset($service_booking)
+                            :service_booking='{{ json_encode($service_booking) }}'
+                            @endisset
+                            @isset($booking_conditions)
+                            :selected_booking_conditions='{{ json_encode($booking_conditions) }}'
+                            @endisset
+                            @isset($e_referral_conditions)
+                            :selected_e_referral_conditions='{{ json_encode($e_referral_conditions) }}'
+                            @endisset
+                            @isset($e_referral_forms)
+                            :selected_e_referral_forms='{{ json_encode($e_referral_forms) }}'
+                            @endisset
+                        ></service-intake-options>
                     </div>
 
                 </div>
@@ -55,5 +74,5 @@
 @endsection
 
 @section('scripts')
-    <script src="/js/service_management.js"></script>
+    <script src="/js/service_management.js?id={{ str_random(6) }}"></script>
 @endsection
