@@ -1,5 +1,5 @@
 <template>
-        <div class="panel-group accordion" id="sio_accordion">
+        <div class="panel-group accordion margin-bottom-0" id="sio_accordion">
             <!-- Referral settings -->
             <div class="panel panel-default">
                 <div class="panel-heading">

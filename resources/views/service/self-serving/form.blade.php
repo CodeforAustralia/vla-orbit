@@ -1,13 +1,13 @@
 <div class="service-container" id='service_self_serving'>
 
-    <div class="portlet box yellow">
+    <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-gift"></i>Service
             </div>
         </div>
         <div class="portlet-body" style="display: block;">
-            <div class="tabbable-line">
+            <div class="tabbable-line padding-top-0">
                 <ul class="nav nav-tabs ">
                     <li class="active">
                         <a href="#service_general_settings" data-toggle="tab"> General Settings </a>
@@ -69,10 +69,13 @@
     </div>
 </div>
 
+@include ('service.request_additional_modal')
+
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
 @endsection
 
 @section('scripts')
     <script src="/js/service_management.js?id={{ str_random(6) }}"></script>
+    <script src="/js/request_service_vue.js?id={{ str_random(6) }}"></script>
 @endsection
