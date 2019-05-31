@@ -25,7 +25,17 @@
                 <div class="tab-content padding-top-10">
 
                     <div class="tab-pane active" id="service_general_settings">
-                        <service-general-settings></service-general-settings>
+                        <service-general-settings
+                            :service_providers ='{{ json_encode($service_providers) }}'
+                            :service_types = '{{ json_encode($service_types) }}'
+                            :service_levels = '{{ json_encode($service_levels) }}'
+                            @isset($current_service)
+                                :current_service = '{{ json_encode($current_service) }}'
+                            @endisset
+                            @isset($catchments)
+                                :catchments = '{{ json_encode($catchments) }}'
+                            @endisset>
+                        </service-general-settings>
                     </div>
 
                     <div class="tab-pane" id="service_clients_matters">
@@ -41,8 +51,13 @@
                     </div>
 
                     <div class="tab-pane" id="service_legal_matters">
-                        <service-legal-matters></service-legal-matters>
+                        <service-legal-matters
+                            @isset($current_service)
+                            :current_service = '{{ json_encode($current_service) }}'
+                            @endisset
+                        ></service-legal-matters>
                     </div>
+
                     <div class="tab-pane" id="service_intake_options">
                         <service-intake-options
                             @isset($referral_conditions)
@@ -79,6 +94,8 @@
 @endsection
 
 @section('scripts')
+{{-- TinyMCE editor--}}
+<script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey={{ env('TYTINYMCE_KEY') }}" ></script>
 {{-- Main logic of the file --}}
 <script src="/js/service_management.js?id={{ str_random(6) }}"></script>
 {{-- Opens pop-up window to request additional legal matters or eligibilities --}}

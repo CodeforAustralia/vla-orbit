@@ -30,6 +30,8 @@ Route::get('/matter/list', 'MatterController@list');
 
 Route::get('/matter/listFormated', 'MatterController@listFormated');
 
+Route::get('/matter/listWithQuestionsFormated', 'MatterController@listWithQuestionsFormated');
+
 Route::get('/matter/listFormatedTrimmed', 'MatterController@listFormatedTrimmed');
 
 Route::get('/matter/new', 'MatterController@create');

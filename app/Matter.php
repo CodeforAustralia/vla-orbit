@@ -34,6 +34,24 @@ Class Matter extends OrbitSoap
     }
 
     /**
+     * Get all Legal matters with questions
+     *
+     * @return array Array of legal matters
+     */
+    public function getAllMattersWithQuestions()
+    {
+        $matters = json_decode(
+                                    $this
+                                    ->client
+                                    ->ws_init_local('GetAllMattersWithQuestionsasJSON')
+                                    ->GetAllMattersWithQuestionsasJSON()
+                                    ->GetAllMattersWithQuestionsasJSONResult
+                                    , true
+                                );
+        return $matters;
+    }
+
+    /**
      * Get all Legal matters in format id, text to be used in a select2 field
      *
      * @return array Array of legal matters
@@ -43,7 +61,6 @@ Class Matter extends OrbitSoap
         $matters = self::getAllMatters();
 
         $output = [];
-
         foreach ($matters as $matter) {
             if ( $matter['TypeId'] == SPECIFIC_MATTER ) {
                 $output[] = [
@@ -53,6 +70,29 @@ Class Matter extends OrbitSoap
             }
         }
 
+        return $output;
+    }
+
+    /**
+     * Get all Legal matters in format id, text to be used in a select2 field
+     *
+     * @return array Array of legal matters
+     */
+    public function getAllMattersWithQuestionsFormated()
+    {
+        $matters_questions = self::getAllMattersWithQuestions();
+        $matters = self::getAllMatters();
+
+        $output = [];
+        foreach ($matters_questions as $matter) {
+            if ( $matter['TypeId'] == SPECIFIC_MATTER ) {
+                $output[] = [
+                            'id'        => $matter['MatterID'],
+                            'text'      => self::getParent( $matters, $matter['MatterID'] ),
+                            'questions' => $matter['MatterQuestions']
+                        ];
+            }
+        }
         return $output;
     }
 
@@ -221,7 +261,6 @@ Class Matter extends OrbitSoap
                   ->GetMattersById( ['MatterId' => $mt_id] )
                   ->GetMattersByIdResult
                   ->LegalMatter;
-
         if ( isset( $matter->MatterQuestions->LegalMatterQuestions ) ) {
 
             $questions = [];
@@ -241,7 +280,6 @@ Class Matter extends OrbitSoap
                 $matter->MatterQuestions = $questions;
             }
         }
-
         return $matter;
     }
 
