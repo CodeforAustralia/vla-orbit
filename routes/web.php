@@ -72,6 +72,8 @@ Route::get('/service/new', 'ServiceController@create');
 
 Route::post('/service', 'ServiceController@store');
 
+Route::post('/service/intake_options', 'ServiceController@storeIntakeOptions');
+
 Route::post('/service/request_addition', 'ServiceController@sendRequestEmail');
 
 //Service Type

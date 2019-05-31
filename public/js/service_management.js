@@ -1974,6 +1974,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2087,6 +2089,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
      * Submit form, can be improved by creating indpendent functions for post, get, patch....
      * @param {string} requestType post, get, patch, update
      * @param {string} url End point to submit from
+     * @param {id} service id to be activated in bookings
      */
     submit_service_id: function submit_service_id(requestType, url, id) {
       return new Promise(function (resolve, reject) {
@@ -2103,6 +2106,58 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
           reject(error.response.data);
         });
       });
+    },
+    save_intake_options: function save_intake_options() {
+      var _this = this;
+
+      $('#contentLoading').modal('show');
+      var intake_options = {
+        sv_id: this.current_service.ServiceId,
+        referral_conditions: this.selected_service_providers.map(function (item) {
+          return item.id;
+        }),
+        booking_conditions: this.selected_booking_service_providers.map(function (item) {
+          return item.id;
+        }),
+        e_referral_conditions: this.selected_e_referral_service_providers.map(function (item) {
+          return item.id;
+        }),
+        e_referral_forms: this.selected_e_referral_templates.map(function (item) {
+          return item.id;
+        })
+      };
+      var url = '/service/intake_options';
+      this.submit_service_io('post', url, intake_options).then(function (response) {
+        $('#contentLoading').modal('hide');
+
+        _this.swal_messages(response.success, response.message);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+
+    /**
+     * Submit Client Intake information
+     * @param {string} requestType post, get, patch, update
+     * @param {string} url End point to submit from
+     * @param {data} object with information of intake options
+     */
+    submit_service_io: function submit_service_io(requestType, url, data) {
+      return new Promise(function (resolve, reject) {
+        //Do Ajax or Axios request
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common = {
+          'X-Requested-With': 'XMLHttpRequest'
+        };
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a[requestType](url, data).then(function (response) {
+          resolve(response.data);
+        })["catch"](function (error) {
+          console.log(error);
+          reject(error.response.data);
+        });
+      });
+    },
+    swal_messages: function swal_messages(type, message) {
+      swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
     }
   },
   computed: {
@@ -2687,7 +2742,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "panel-group accordion", attrs: { id: "sio_accordion" } },
+    {
+      staticClass: "panel-group accordion margin-bottom-0",
+      attrs: { id: "sio_accordion" }
+    },
     [
       _c("div", { staticClass: "panel panel-default" }, [
         _vm._m(0),
@@ -3049,7 +3107,7 @@ var render = function() {
                       "track-by": "id",
                       placeholder: "Select e-referral forms",
                       "open-direction": "bottom",
-                      options: _vm.selected_e_referral_templates,
+                      options: _vm.e_referral_forms,
                       multiple: true,
                       searchable: true,
                       "close-on-select": true,
@@ -3070,7 +3128,21 @@ var render = function() {
             ])
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-circle green margin-top-15",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.save_intake_options()
+            }
+          }
+        },
+        [_vm._v("Submit")]
+      )
     ]
   )
 }

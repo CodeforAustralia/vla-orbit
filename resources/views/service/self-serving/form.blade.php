@@ -76,6 +76,8 @@
 @endsection
 
 @section('scripts')
-    <script src="/js/service_management.js?id={{ str_random(6) }}"></script>
-    <script src="/js/request_service_vue.js?id={{ str_random(6) }}"></script>
+{{-- Main logic of the file --}}
+<script src="/js/service_management.js?id={{ str_random(6) }}"></script>
+{{-- Opens pop-up window to request additional legal matters or eligibilities --}}
+<script src="/js/request_service_vue.js?id={{ str_random(6) }}"></script>
 @endsection

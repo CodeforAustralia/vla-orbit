@@ -160,6 +160,40 @@ class ServiceController extends Controller
         return redirect('/service')->with( $response['success'], $response['message'] );
     }
 
+
+    /**
+     * Update service intake options of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeIntakeOptions(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+
+        try {
+            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
+                $sv_id = $request['sv_id'];
+
+                $referral_conditions  = (isset($sv_id, $request['referral_conditions']) ? $request['referral_conditions'] : []);
+                $booking_conditions   = (isset($request['booking_conditions']) ? $request['booking_conditions'] : []);
+                $e_referral_conditions = (isset($request['e_referral_conditions']) ? $request['e_referral_conditions'] : []);
+                $e_referral_forms      = (isset($request['e_referral_forms']) ? $request['e_referral_forms'] : []);
+                //return $request;
+
+                $service = new Service();
+                $service->saveServiceActions($sv_id, $referral_conditions, $booking_conditions, $e_referral_conditions);
+                $service->saveServiceEReferrals($sv_id, $e_referral_forms);
+                return ['success' => 'success' , 'message' => 'Intake options saved.'];
+
+            } else {
+                return ['success' => 'error' , 'message' => 'Please save service first.'];
+            }
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+
     /**
      * Show the form for creating a new service
      * @return view service creation page
