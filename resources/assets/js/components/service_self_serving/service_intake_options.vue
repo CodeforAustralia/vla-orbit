@@ -148,7 +148,7 @@
             </div>
             <!-- END: E-Referral Settings -->
 
-            <button type="button" class="btn btn-circle green margin-top-15" @click="save_intake_options()">Submit</button>
+            <button type="button" class="btn btn-circle green margin-top-15" @click="save_intake_options()">Save Intake Options</button>
 
         </div>
 </template>
