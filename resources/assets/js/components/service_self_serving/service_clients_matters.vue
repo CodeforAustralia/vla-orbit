@@ -35,6 +35,7 @@
     import Vue from 'vue';
     import axios from 'axios';
     import Multiselect from 'vue-multiselect';
+    import EventBus from './../../utils/event-bus';
     Vue.component('multiselect', Multiselect);
 
 	export default {
@@ -108,11 +109,18 @@
                 });
             },
             swal_messages(type, message) {
-                swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
+                this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
+            },
+            event_on_change_tab() {
+                let self = this;
+                EventBus.$on('CHANGE_TAB_ELIGIBILITY', function (payLoad) {
+                    self.save_client_matters();
+                });
             }
         },
         created() {
             this.pre_select_questions();
+            this.event_on_change_tab();
         },
     }
 </script>
