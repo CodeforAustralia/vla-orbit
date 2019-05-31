@@ -34,6 +34,9 @@
                             @isset($current_vulnerabilities)
                             :selected_eligibility_questions='{!! json_encode($current_vulnerabilities) !!}'
                             @endisset
+                            @isset($current_service)
+                            :current_service='{{ json_encode($current_service) }}'
+                            @endisset
                             ></service-clients-matters>
                     </div>
 

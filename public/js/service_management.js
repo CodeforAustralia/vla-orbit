@@ -1734,8 +1734,12 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
-/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
 //
 //
 //
@@ -1768,7 +1772,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default.a);
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_2___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     eligibility_questions: {
@@ -1778,6 +1783,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
     selected_eligibility_questions: {
       type: Array,
       "default": []
+    },
+    current_service: {
+      "default": {}
     }
   },
   data: function data() {
@@ -1797,6 +1805,50 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
 
         return false;
       });
+    },
+    save_client_matters: function save_client_matters() {
+      var _this = this;
+
+      $('#contentLoading').modal('show');
+      var client_matters = {
+        sv_id: this.current_service.ServiceId,
+        vulnerability: this.selected_questions.map(function (item) {
+          return item.QuestionId;
+        }),
+        booking_question: []
+      };
+      var url = '/service/client_eligibility';
+      this.submit_service_cm('post', url, client_matters).then(function (response) {
+        $('#contentLoading').modal('hide');
+
+        _this.swal_messages(response.success, response.message);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+
+    /**
+     * Submit Client Matters information
+     * @param {string} requestType post, get, patch, update
+     * @param {string} url End point to submit from
+     * @param {data} object with information of client matters
+     */
+    submit_service_cm: function submit_service_cm(requestType, url, data) {
+      return new Promise(function (resolve, reject) {
+        //Do Ajax or Axios request
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common = {
+          'X-Requested-With': 'XMLHttpRequest'
+        };
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a[requestType](url, data).then(function (response) {
+          resolve(response.data);
+        })["catch"](function (error) {
+          console.log(error);
+          reject(error.response.data);
+        });
+      });
+    },
+    swal_messages: function swal_messages(type, message) {
+      swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
     }
   },
   created: function created() {
@@ -2695,7 +2747,21 @@ var render = function() {
       _vm._v(" "),
       _c("h4", [
         _vm._v("Booking Questions - if booking is enable will be here")
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-circle green margin-top-15",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.save_client_matters()
+            }
+          }
+        },
+        [_vm._v("Save Client Matters")]
+      )
     ])
   ])
 }

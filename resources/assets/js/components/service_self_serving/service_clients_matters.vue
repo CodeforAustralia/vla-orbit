@@ -24,6 +24,8 @@
 
             <h4>Booking Questions - if booking is enable will be here</h4>
 
+            <button type="button" class="btn btn-circle green margin-top-15" @click="save_client_matters()">Save Client Matters</button>
+
         </div>
     </div>
 </template>
@@ -31,6 +33,7 @@
 <script>
 
     import Vue from 'vue';
+    import axios from 'axios';
     import Multiselect from 'vue-multiselect';
     Vue.component('multiselect', Multiselect);
 
@@ -43,7 +46,10 @@
             selected_eligibility_questions: {
                 type: Array,
                 default: []
-            }
+            },
+            current_service: {
+                default: {}
+            },
         },
         data () {
             return {
@@ -61,6 +67,48 @@
                     }
                     return false;
                 });
+            },
+            save_client_matters() {
+                $('#contentLoading').modal('show');
+                let client_matters = {
+                    sv_id: this.current_service.ServiceId,
+                    vulnerability: this.selected_questions.map(item => item.QuestionId),
+                    booking_question: []
+                };
+                let url = '/service/client_eligibility';
+                this.submit_service_cm('post',url, client_matters)
+                .then(response => {
+                    $('#contentLoading').modal('hide');
+                    this.swal_messages(response.success, response.message);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            },
+            /**
+             * Submit Client Matters information
+             * @param {string} requestType post, get, patch, update
+             * @param {string} url End point to submit from
+             * @param {data} object with information of client matters
+             */
+            submit_service_cm(requestType, url, data) {
+                return new Promise((resolve, reject) => {
+                    //Do Ajax or Axios request
+                    axios.defaults.headers.common = {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    };
+                    axios[requestType](url, data)
+                        .then(response => {
+                            resolve(response.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            reject(error.response.data);
+                    });
+                });
+            },
+            swal_messages(type, message) {
+                swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
             }
         },
         created() {

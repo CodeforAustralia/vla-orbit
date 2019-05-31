@@ -194,6 +194,38 @@ class ServiceController extends Controller
         }
     }
 
+
+    /**
+     * Update service Client Eligibility Questions and Booking Questions of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeClientEligibility(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+
+        try {
+            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
+
+                $sv_id = $request['sv_id'];
+
+                $vulnerability    = (isset($request['vulnerability']) ? $request['vulnerability'] : []);
+                $booking_question = (isset($request['booking_question']) ? $request['booking_question'] : []);
+
+                $service = new Service();
+                $service->saveServiceEligibilityQuestions($sv_id, $vulnerability);
+                $service->saveServiceBookingQuestions($sv_id, $booking_question);
+
+                return ['success' => 'success' , 'message' => 'Client Matters saved.'];
+            } else {
+                return ['success' => 'error' , 'message' => 'Please save service first.'];
+            }
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+
     /**
      * Show the form for creating a new service
      * @return view service creation page
