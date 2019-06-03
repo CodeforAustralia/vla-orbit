@@ -3,6 +3,7 @@ namespace App;
 
 use App\Catchment;
 use App\EReferral;
+use App\Log;
 use App\MatterService;
 use App\MatterServiceAnswer;
 use App\ServiceAction;
@@ -172,6 +173,8 @@ Class Service extends OrbitSoap
         try {
             $response = $this->client->ws_init('DeleteOrbitService')->DeleteOrbitService( $info );
             if ( $response->DeleteOrbitServiceResult ) {
+                $log = new Log();
+                $log::record( 'DELETE', 'service', $sv_id, 'Service deleted.' );
                 return array( 'success' => 'success' , 'message' => 'Service deleted.' );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
@@ -476,6 +479,10 @@ Class Service extends OrbitSoap
         $service_action->saveServiceAction( 'REFER', $sv_id, $referral_conditions );
         $service_action->saveServiceAction( 'BOOK', $sv_id, $booking_conditions );
         $service_action->saveServiceAction( 'E_REFER', $sv_id, $e_referral_conditions );
+        $log = new Log();
+        $log::record( 'UPDATE', 'service', $sv_id, ['actions_refer' => $referral_conditions] );
+        $log::record( 'UPDATE', 'service', $sv_id, ['actions_book' => $booking_conditions] );
+        $log::record( 'UPDATE', 'service', $sv_id, ['actions_e_refer' => $e_referral_conditions] );
 
     }
 
@@ -491,6 +498,8 @@ Class Service extends OrbitSoap
         $e_referral_obj = new EReferral();
         $e_referral_obj->deleteAllEReferralByServiceId( $sv_id );
         $e_referral_obj->saveAllFormsInService( $sv_id, $e_referral_forms );
+        $log = new Log();
+        $log::record( 'UPDATE', 'service', $sv_id, ['e_referral_forms' => $e_referral_forms] );
     }
 
     /**
@@ -508,6 +517,8 @@ Class Service extends OrbitSoap
         if ( !empty( $vulnerability_questions ) ) {
             // Save vul. answers
             $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vulnerability_questions );
+            $log = new Log();
+            $log::record( 'UPDATE', 'service', $sv_id, ['eligibility_questions' => $vulnerability_questions] );
         }
     }
 
@@ -536,6 +547,8 @@ Class Service extends OrbitSoap
                 }
             }
             $service_booking_questions->saveServiceBookingQuestions( $sbq_params );
+            $log = new Log();
+            $log::record( 'UPDATE', 'service', $sv_id, ['booking_questions' => $sbq_params] );
         }
 
     }
