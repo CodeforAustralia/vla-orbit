@@ -253,7 +253,7 @@
                     //activate it with ServiceId
                     id = self.current_service.ServiceId;
                 }
-                self.submit_service_id('post', self.activate_service_url, id)
+                self.submit_service_io('post', self.activate_service_url, { id })
                     .then(function (response) {
                         $('#contentLoading').modal('hide');
                         if (response.success == 'success') {
@@ -267,28 +267,6 @@
                         $('#contentLoading').modal('hide');
                         console.log('Error: ', error)
                     });
-            },
-            /**
-             * Submit form, can be improved by creating indpendent functions for post, get, patch....
-             * @param {string} requestType post, get, patch, update
-             * @param {string} url End point to submit from
-             * @param {id} service id to be activated in bookings
-             */
-            submit_service_id(requestType, url, id) {
-                return new Promise((resolve, reject) => {
-                    //Do Ajax or Axios request
-                    axios.defaults.headers.common = {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    };
-                    axios[requestType](url, {id})
-                        .then(response => {
-                            resolve(response.data);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            reject(error.response.data);
-                    });
-                });
             },
             save_intake_options() {
                 $('#contentLoading').modal('show');
@@ -310,7 +288,7 @@
                 });
             },
             /**
-             * Submit Client Intake information
+             * Submit Client Intake information or activate booking - general axios submit function
              * @param {string} requestType post, get, patch, update
              * @param {string} url End point to submit from
              * @param {data} object with information of intake options

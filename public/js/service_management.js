@@ -2475,7 +2475,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
         id = self.current_service.ServiceId;
       }
 
-      self.submit_service_id('post', self.activate_service_url, id).then(function (response) {
+      self.submit_service_io('post', self.activate_service_url, {
+        id: id
+      }).then(function (response) {
         $('#contentLoading').modal('hide');
 
         if (response.success == 'success') {
@@ -2488,29 +2490,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
       })["catch"](function (error) {
         $('#contentLoading').modal('hide');
         console.log('Error: ', error);
-      });
-    },
-
-    /**
-     * Submit form, can be improved by creating indpendent functions for post, get, patch....
-     * @param {string} requestType post, get, patch, update
-     * @param {string} url End point to submit from
-     * @param {id} service id to be activated in bookings
-     */
-    submit_service_id: function submit_service_id(requestType, url, id) {
-      return new Promise(function (resolve, reject) {
-        //Do Ajax or Axios request
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common = {
-          'X-Requested-With': 'XMLHttpRequest'
-        };
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a[requestType](url, {
-          id: id
-        }).then(function (response) {
-          resolve(response.data);
-        })["catch"](function (error) {
-          console.log(error);
-          reject(error.response.data);
-        });
       });
     },
     save_intake_options: function save_intake_options() {
@@ -2543,7 +2522,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
     },
 
     /**
-     * Submit Client Intake information
+     * Submit Client Intake information or activate booking - general axios submit function
      * @param {string} requestType post, get, patch, update
      * @param {string} url End point to submit from
      * @param {data} object with information of intake options
@@ -35726,7 +35705,7 @@ Vue.component('component-a', {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
+module.exports = __webpack_require__(/*! C:\wamp\www\vla-orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
 
 
 /***/ })
