@@ -43,7 +43,7 @@ Class Matter extends OrbitSoap
         $matters = json_decode(
                                     $this
                                     ->client
-                                    ->ws_init_local('GetAllMattersWithQuestionsasJSON')
+                                    ->ws_init('GetAllMattersWithQuestionsasJSON')
                                     ->GetAllMattersWithQuestionsasJSON()
                                     ->GetAllMattersWithQuestionsasJSONResult
                                     , true
