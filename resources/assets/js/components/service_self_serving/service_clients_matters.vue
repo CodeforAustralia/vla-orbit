@@ -117,7 +117,6 @@
                         if(sb_question.QuestionId === cs_question.QuestionId) {
                             sb_question.Operator = cs_question.Operator;
                             sb_question.QuestionValue = cs_question.QuestionValue;
-                            console.log(cs_question);
                         }
                     });
                 });
