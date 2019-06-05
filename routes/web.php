@@ -78,6 +78,8 @@ Route::post('/service/intake_options', 'ServiceController@storeIntakeOptions');
 
 Route::post('/service/client_eligibility', 'ServiceController@storeClientEligibility');
 
+Route::post('/service/legal_matter', 'ServiceController@storeLegalMatter');
+
 Route::post('/service/request_addition', 'ServiceController@sendRequestEmail');
 
 //Service Type

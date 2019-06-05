@@ -17,6 +17,7 @@ use App\Vulnerability;
 use App\EReferral;
 use App\Question;
 use App\Mail\RequestEmail;
+use App\MatterServiceAnswer;
 use Auth;
 
 /**
@@ -216,6 +217,52 @@ class ServiceController extends Controller
                 $service = new Service();
                 $service->saveServiceEligibilityQuestions($sv_id, $vulnerability);
                 $service->saveServiceBookingQuestions($sv_id, $booking_question);
+
+                return ['success' => 'success' , 'message' => 'Client Matters saved.'];
+            } else {
+                return ['success' => 'error' , 'message' => 'Please save service first.'];
+            }
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+
+    /**
+     * Update service Legal Matter and Legal Matters conditions / eligilibility of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeLegalMatter(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+
+        try {
+            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
+
+                $sv_id = $request['sv_id'];
+
+                $matters    = (isset($request['matters']) ? $request['matters'] : []);
+
+
+                $service = new Service();
+                $matters_ids = array_column($matters, 'id');
+                // Save the legal matters
+                $result = $service->saveServiceMatters($sv_id, $matters_ids);
+                if($result['message']){
+                    // Get the legal Matter Service
+                    $matter_service_obj     = new MatterService();
+                    $matter_services_list   = $matter_service_obj->getMatterServiceBySvID($sv_id);
+
+                    $matter_service_answer = new MatterServiceAnswer();
+                    $matter_service_answer->processMatterServiceAnswers( $matters , $sv_id , $matter_services_list);
+                    //$matter_service_answer->processVulnerabilityMatterServiceAnswer( $vulnerability_matter, $sv_id );
+
+
+                }
+                /*
+                $service->saveServiceEligibilityQuestions($sv_id, $vulnerability);
+                $service->saveServiceBookingQuestions($sv_id, $booking_question);*/
 
                 return ['success' => 'success' , 'message' => 'Client Matters saved.'];
             } else {

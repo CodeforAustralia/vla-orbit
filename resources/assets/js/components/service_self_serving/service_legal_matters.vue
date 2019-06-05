@@ -81,9 +81,39 @@
                             </div>
                         </div>
                         <!-- {{matter.text}} -->
+                        <hr>
+                        <div class="col-xs-5">
+                            <p class="caption-subject font-purple-soft bold uppercase">Eligibility Criteria</p>
+                        </div>
+                        <div class="col-sm-12">
+                            <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <multiselect
+                                v-model="matter.questions_selected"
+                                label="QuestionLabel"
+                                key="QuestionId"
+                                id="vulnerability"
+                                track-by="QuestionLabel"
+                                placeholder="Select eligibility..."
+                                open-direction="top"
+                                :options="eligibility_questions"
+                                :multiple="true"
+                                :searchable="true"
+                                :close-on-select="true"
+                                :show-no-results="false"
+                                :show-labels="false"
+                                ></multiselect>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-circle green margin-top-15" @click="save_legal_matters()">Save Legal Matters</button>
         </div>
     </div>
 </template>
@@ -101,6 +131,10 @@
                 required: false,
                 default: []
             },
+            eligibility_questions : {
+                type: Array,
+                required:true,
+            }
 
         },
         data () {
@@ -154,11 +188,10 @@
                         }
                         // Get previous answer if exist
                         if(self.current_service){
+                            // Legal Matter Conditions
                             self.current_service.ServiceMatters.forEach(service_matter => {
                                 if(service_matter.MatterAnswers){
-                                    let questions_id = service_matter.MatterAnswers.map((value, index) => {
-                                        return value["QuestionId"];
-                                    });
+                                    let questions_id = service_matter.MatterAnswers.map(item => item.QuestionId);
                                     let question_index = questions_id.indexOf(question.QuestionId);
                                     if(question_index !== -1){
                                         let current_answer = service_matter.MatterAnswers[question_index];
@@ -166,10 +199,49 @@
                                         question.QuestionValue = current_answer.QuestionValue;
                                     }
                                 }
-
                             });
+
                         }
                     });
+                    // Eligibility Criteria - Vulnerability Questions
+                    if(self.current_service){
+                        self.current_service.ServiceMatters.forEach(service_matter => {
+                            if(service_matter.MatterID == matter.id
+                                && service_matter.VulnerabilityMatterAnswers
+                                && service_matter.VulnerabilityMatterAnswers.length > 0){
+                                let current_lm_vulnerabilities = service_matter.VulnerabilityMatterAnswers.map( item => {
+                                    if(item.Operator=="=" && item.QuestionValue=="1"){
+                                        return item.QuestionId;
+                                    }
+                                });
+                                self.eligibility_questions.forEach(eligibility_question => {
+                                    if(current_lm_vulnerabilities.indexOf(eligibility_question.QuestionId)  != -1 ){
+                                        if(matter.questions_selected){
+                                            matter.questions_selected.push(eligibility_question);
+                                        }else {
+                                            matter.questions_selected = [eligibility_question];
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            },
+            save_legal_matters() {
+                $('#contentLoading').modal('show');
+                let legal_matters = {
+                    sv_id: this.current_service.ServiceId,
+                    matters: this.matters_selected,
+                };
+                let url = '/service/legal_matter';
+                this.submit_service_lm('post',url, legal_matters)
+                .then(response => {
+                    $('#contentLoading').modal('hide');
+                    this.swal_messages(response.success, response.message);
+                })
+                .catch(error => {
+                    console.log(error);
                 });
             },
             event_on_change_tab() {
@@ -177,7 +249,26 @@
                 EventBus.$on('CHANGE_TAB_MATTERS', function (payLoad) {
                     //self.save_intake_options();
                 });
-            }
+            },
+            submit_service_lm(requestType, url, data) {
+                return new Promise((resolve, reject) => {
+                    //Do Ajax or Axios request
+                    axios.defaults.headers.common = {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    };
+                    axios[requestType](url, data)
+                        .then(response => {
+                            resolve(response.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            reject(error.response.data);
+                    });
+                });
+            },
+            swal_messages(type, message) {
+                this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
+            },
 
         },
         watch:{

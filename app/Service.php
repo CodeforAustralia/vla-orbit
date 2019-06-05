@@ -402,6 +402,7 @@ Class Service extends OrbitSoap
         if ( !empty( $matters ) ) {
             $result = $matter_service_obj->saveMattersService( $sv_id, $matters );
         }
+        return $result;
     }
 
     /**

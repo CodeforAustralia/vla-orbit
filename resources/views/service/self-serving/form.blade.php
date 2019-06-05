@@ -55,6 +55,7 @@
                             @isset($current_service)
                             :current_service = '{{ json_encode($current_service) }}'
                             @endisset
+                            :eligibility_questions='{{ json_encode($vulnertability_questions) }}'
                         ></service-legal-matters>
                     </div>
 

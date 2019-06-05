@@ -120,6 +120,87 @@ Class MatterServiceAnswer extends OrbitSoap
     }
 
     /**
+     * Process Answers to questions inside Services deleting them and adding the new Answers by Service ID
+     *
+     * @param array $questions Question and Answers information
+     * @param integer $sv_id Service ID
+     * @return void
+     */
+    public function processMatterServiceAnswers( $matters, $sv_id, $matter_services_list )
+    {
+        $operator = ' ';
+        $value = ' ';
+        $matter_questions = [];
+        self::deleteMatterAnswerByServiceID( $sv_id );
+
+        $service = new Service();
+        $result  = $service->getServiceByID( $sv_id ); //Get the last version of that service
+
+        if ( isset($result['data']) ) {
+            $current_service = json_decode( $result['data'] )[0];
+            foreach ($matters as $matter) {
+                foreach ($matter['questions'] as $question) {
+                    if(isset($question['operator_selected']) && !is_null($question['QuestionValue'])){
+                        $operator = $question['operator_selected']['value'];
+                        $value = $question['QuestionValue'];
+                    }
+                    $matter_service_index = array_search(
+                        $question['MatterId'],  //Legal matter id
+                        array_column(
+                            $matter_services_list,  // Array of matters in a service
+                            'MatterID' //Column to search an specific matter
+                        )
+                    );
+                    if(isset($matter_services_list[$matter_service_index])){
+
+                        $matter_questions[] = [
+                            'RefNo'           => 0,
+                            'MatterServiceId' => $matter_services_list[$matter_service_index]->RefNo,
+                            'QuestionId'      => $question['QuestionId'],
+                            'Operator'        => $operator,
+                            'QuestionValue'   => $value
+                        ];
+
+                    }
+
+                }
+            }
+            // foreach ( $questions as $question ) {
+
+            //     foreach ( $question as $qu_id => $qu_values ) {
+
+            //         if ( is_null( $qu_values['operator'] ) || is_null( $qu_values['answer'] ) ) {
+            //             $qu_values['operator'] = ' ';
+            //             $qu_values['answer'] = ' ';
+            //         }
+            //         //Get service matter position of question in current service matter - Potentially slow for huge arrays
+            //         $sm_position = array_search(
+            //                                     $qu_values['mt_id'],  //Legal matter id
+            //                                     array_column(
+            //                                         $current_service->ServiceMatters,  // Array of matters in a service
+            //                                         'MatterID' //Column to search an specific matter
+            //                                     )
+            //                                 );
+
+            //         if ( isset($current_service->ServiceMatters[$sm_position]) ) {
+
+            //             $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
+            //             $matter_questions[] = [
+            //                 'RefNo'           => 0,
+            //                 'MatterServiceId' => $lms_id,
+            //                 'QuestionId'      => $qu_id,
+            //                 'Operator'        => $qu_values['operator'],
+            //                 'QuestionValue'   => $qu_values['answer']
+            //             ];
+            //         }
+            //     }
+            // }
+            self::saveMatterServiceAnswers($matter_questions);
+        }
+
+    }
+
+    /**
      * Process Vulnerability Answers to questions inside Services deleting them and adding the new Answers by Service ID
      *
      * @param array $questions Question and Answers information
