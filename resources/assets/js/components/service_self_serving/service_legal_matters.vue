@@ -22,7 +22,6 @@
                 :close-on-select="true"
                 :show-no-results="false"
                 :show-labels="false"
-                name="matters[]"
                 >
                 </multiselect>
 
@@ -37,14 +36,14 @@
                 <p><small>Add a condition to a legal matter or override the eligibility criteria for a specific Legal Matter in this service </small></p>
                 <p><small>Use the tabs below to add Conditions to a specific legal matter or override the service-wide eligibility criteria for each Legal Matter </small></p>
                 <ul class="nav nav-tabs">
-                    <li v-bind:class="[ { active: currentTab === matter }]"
-                        v-on:click="currentTab = matter" v-for="matter in matters_selected" :key='matter.id' >
+                    <li v-bind:class="[ { active: (currentTab === matter || ((Object.entries(currentTab).length === 0) && index === 0) )}]"
+                        v-on:click="currentTab = matter" v-for="(matter, index) in matters_selected" :key='matter.id' >
                         <a data-toggle="tab" :href="'#'+ matter.id">{{matter.text}}</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <p>To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)</p>
-                    <div v-for="matter in matters_selected" :key='matter.id' :id="matter.id" v-bind:class="['tab-pane', { active: currentTab === matter }]">
+                    <div v-for="(matter, index) in matters_selected"  :key='matter.id' :id="matter.id" v-bind:class="['tab-pane', { active: (currentTab === matter || ((Object.entries(currentTab).length === 0) && index === 0)) }]">
                         <div class="form-group col-md-12" v-for="question in matter.questions" :key='question.QuestionId'>
                             <div class="col-md-5">
                                 <label class="pull-right" v-if="question.QuestionName != ''">
@@ -55,32 +54,15 @@
                                 </label>
                             </div>
                             <div class="col-md-2">
-                                <!-- <select  class="form-control" :name="`question[${question.MatterId}][${question.QuestionId}][operator]`"  id="operator"> -->
-                                <!-- </select> -->
-                                <multiselect
-                                v-model="question.operator_selected"
-                                label="label"
-                                key="value"
-                                track-by="value"
-                                id="operator-select"
-                                placeholder="Select Operator..."
-                                open-direction="bottom"
-                                :options='operators'
-                                :multiple="false"
-                                :searchable="true"
-                                :close-on-select="true"
-                                :show-no-results="false"
-                                :show-labels="false"
-                                >
-                                </multiselect>
-
+                                <select  class="form-control" v-model="question.Operator">
+                                    <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator. label }}</option>
+                                </select>
                             </div>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" data-role=tagsinput v-model="question.QuestionValue" v-if="question.QuestionTypeName == 'multiple'"  :name="`question[${question.MatterId}][${question.QuestionId}][answer]`" id="answer"  value="" >
                                 <input type="text" class="form-control" v-model="question.QuestionValue" v-else :name="`question[${question.MatterId}][${question.QuestionId}][answer]`" id="answer"  value="" >
                             </div>
                         </div>
-                        <!-- {{matter.text}} -->
                         <hr>
                         <div class="col-xs-5">
                             <p class="caption-subject font-purple-soft bold uppercase">Eligibility Criteria</p>
@@ -89,24 +71,21 @@
                             <p>Override the service-wide eligibility criteria by selecting ALL that apply for this legal matter below. Any checkboxes selected or not selected here will override the service-wide eligibility criteria for this service. Ensure that any service-wide eligibility criteria that still apply for this legal matter are selected again below.</p>
                         </div>
                         <div class="col-sm-12">
-                            <div class="form-group">
-                                <multiselect
-                                v-model="matter.questions_selected"
-                                label="QuestionLabel"
-                                key="QuestionId"
-                                id="vulnerability"
-                                track-by="QuestionLabel"
-                                placeholder="Select eligibility..."
-                                open-direction="top"
-                                :options="eligibility_questions"
-                                :multiple="true"
-                                :searchable="true"
-                                :close-on-select="true"
-                                :show-no-results="false"
-                                :show-labels="false"
-                                ></multiselect>
-                            </div>
-
+                            <multiselect
+                            v-model="matter.questions_selected"
+                            label="QuestionLabel"
+                            key="QuestionId"
+                            id="vulnerability"
+                            track-by="QuestionLabel"
+                            placeholder="Select eligibility..."
+                            open-direction="top"
+                            :options="eligibility_questions"
+                            :multiple="true"
+                            :searchable="true"
+                            :close-on-select="true"
+                            :show-no-results="false"
+                            :show-labels="false"
+                            ></multiselect>
                         </div>
                     </div>
                 </div>
@@ -182,20 +161,16 @@
                 // If no prevous value saved - Show default value
                 self.matters_selected.forEach(matter => {
                     matter.questions.forEach(question => {
-                        // Put the default value
-                        if(question.Operator && question.QuestionValue){
-                            question.operator_selected = self.operators.find(operator => operator.value == question.Operator);
-                        }
-                        // Get previous answer if exist
+                        // Put the default value Get previous answer if exist
                         if(self.current_service){
                             // Legal Matter Conditions
                             self.current_service.ServiceMatters.forEach(service_matter => {
                                 if(service_matter.MatterAnswers){
                                     let questions_id = service_matter.MatterAnswers.map(item => item.QuestionId);
                                     let question_index = questions_id.indexOf(question.QuestionId);
-                                    if(question_index !== -1){
+                                    if(question_index !== -1 && service_matter.MatterID == matter.id){
                                         let current_answer = service_matter.MatterAnswers[question_index];
-                                        question.operator_selected = self.operators.find(operator => operator.value == current_answer.Operator);
+                                        question.Operator = current_answer.Operator;
                                         question.QuestionValue = current_answer.QuestionValue;
                                     }
                                 }
@@ -216,11 +191,7 @@
                                 });
                                 self.eligibility_questions.forEach(eligibility_question => {
                                     if(current_lm_vulnerabilities.indexOf(eligibility_question.QuestionId)  != -1 ){
-                                        if(matter.questions_selected){
-                                            matter.questions_selected.push(eligibility_question);
-                                        }else {
-                                            matter.questions_selected = [eligibility_question];
-                                        }
+                                        matter.questions_selected.push(eligibility_question);
                                     }
                                 });
                             }

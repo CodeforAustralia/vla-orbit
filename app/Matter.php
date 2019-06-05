@@ -89,7 +89,8 @@ Class Matter extends OrbitSoap
                 $output[] = [
                             'id'        => $matter['MatterID'],
                             'text'      => self::getParent( $matters, $matter['MatterID'] ),
-                            'questions' => $matter['MatterQuestions']
+                            'questions' => $matter['MatterQuestions'],
+                            'questions_selected' => [],
                         ];
             }
         }

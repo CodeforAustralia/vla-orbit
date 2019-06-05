@@ -255,8 +255,10 @@ class ServiceController extends Controller
                     $matter_services_list   = $matter_service_obj->getMatterServiceBySvID($sv_id);
 
                     $matter_service_answer = new MatterServiceAnswer();
+                    // Save the Legal Matter Conditions.
                     $matter_service_answer->processMatterServiceAnswers( $matters , $sv_id , $matter_services_list);
-                    //$matter_service_answer->processVulnerabilityMatterServiceAnswer( $vulnerability_matter, $sv_id );
+                    // Save the Legal Matter Eligibility Criteria
+                    $matter_service_answer->processVulnerabilityMatterServiceAnswers( $matters , $sv_id , $matter_services_list );
 
 
                 }

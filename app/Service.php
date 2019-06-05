@@ -396,6 +396,7 @@ Class Service extends OrbitSoap
      */
     public static function saveServiceMatters($sv_id, $matters)
     {
+        $result = true;
         $matter_service_obj = new MatterService();
         $matter_service_obj->deleteMatterServiceByID( $sv_id ) ;
 

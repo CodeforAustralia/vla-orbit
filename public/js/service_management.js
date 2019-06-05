@@ -2761,27 +2761,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2854,14 +2833,7 @@ __webpack_require__.r(__webpack_exports__);
 
       self.matters_selected.forEach(function (matter) {
         matter.questions.forEach(function (question) {
-          // Put the default value
-          if (question.Operator && question.QuestionValue) {
-            question.operator_selected = self.operators.find(function (operator) {
-              return operator.value == question.Operator;
-            });
-          } // Get previous answer if exist
-
-
+          // Put the default value Get previous answer if exist
           if (self.current_service) {
             // Legal Matter Conditions
             self.current_service.ServiceMatters.forEach(function (service_matter) {
@@ -2871,11 +2843,9 @@ __webpack_require__.r(__webpack_exports__);
                 });
                 var question_index = questions_id.indexOf(question.QuestionId);
 
-                if (question_index !== -1) {
+                if (question_index !== -1 && service_matter.MatterID == matter.id) {
                   var current_answer = service_matter.MatterAnswers[question_index];
-                  question.operator_selected = self.operators.find(function (operator) {
-                    return operator.value == current_answer.Operator;
-                  });
+                  question.Operator = current_answer.Operator;
                   question.QuestionValue = current_answer.QuestionValue;
                 }
               }
@@ -2893,11 +2863,7 @@ __webpack_require__.r(__webpack_exports__);
               });
               self.eligibility_questions.forEach(function (eligibility_question) {
                 if (current_lm_vulnerabilities.indexOf(eligibility_question.QuestionId) != -1) {
-                  if (matter.questions_selected) {
-                    matter.questions_selected.push(eligibility_question);
-                  } else {
-                    matter.questions_selected = [eligibility_question];
-                  }
+                  matter.questions_selected.push(eligibility_question);
                 }
               });
             }
@@ -23127,8 +23093,7 @@ var render = function() {
               searchable: true,
               "close-on-select": true,
               "show-no-results": false,
-              "show-labels": false,
-              name: "matters[]"
+              "show-labels": false
             },
             model: {
               value: _vm.matters_selected,
@@ -23154,12 +23119,19 @@ var render = function() {
         _c(
           "ul",
           { staticClass: "nav nav-tabs" },
-          _vm._l(_vm.matters_selected, function(matter) {
+          _vm._l(_vm.matters_selected, function(matter, index) {
             return _c(
               "li",
               {
                 key: matter.id,
-                class: [{ active: _vm.currentTab === matter }],
+                class: [
+                  {
+                    active:
+                      _vm.currentTab === matter ||
+                      (Object.entries(_vm.currentTab).length === 0 &&
+                        index === 0)
+                  }
+                ],
                 on: {
                   click: function($event) {
                     _vm.currentTab = matter
@@ -23188,12 +23160,20 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm._l(_vm.matters_selected, function(matter) {
+            _vm._l(_vm.matters_selected, function(matter, index) {
               return _c(
                 "div",
                 {
                   key: matter.id,
-                  class: ["tab-pane", { active: _vm.currentTab === matter }],
+                  class: [
+                    "tab-pane",
+                    {
+                      active:
+                        _vm.currentTab === matter ||
+                        (Object.entries(_vm.currentTab).length === 0 &&
+                          index === 0)
+                    }
+                  ],
                   attrs: { id: matter.id }
                 },
                 [
@@ -23223,36 +23203,53 @@ var render = function() {
                               ])
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "col-md-2" },
-                          [
-                            _c("multiselect", {
-                              key: "value",
-                              attrs: {
-                                label: "label",
-                                "track-by": "value",
-                                id: "operator-select",
-                                placeholder: "Select Operator...",
-                                "open-direction": "bottom",
-                                options: _vm.operators,
-                                multiple: false,
-                                searchable: true,
-                                "close-on-select": true,
-                                "show-no-results": false,
-                                "show-labels": false
-                              },
-                              model: {
-                                value: question.operator_selected,
-                                callback: function($$v) {
-                                  _vm.$set(question, "operator_selected", $$v)
-                                },
-                                expression: "question.operator_selected"
+                        _c("div", { staticClass: "col-md-2" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: question.Operator,
+                                  expression: "question.Operator"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    question,
+                                    "Operator",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
                               }
-                            })
-                          ],
-                          1
-                        ),
+                            },
+                            _vm._l(_vm.operators, function(operator) {
+                              return _c(
+                                "option",
+                                {
+                                  key: operator.value,
+                                  domProps: { value: operator.value }
+                                },
+                                [_vm._v(" " + _vm._s(operator.label))]
+                              )
+                            }),
+                            0
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-5" }, [
                           question.QuestionTypeName == "multiple"
@@ -23338,38 +23335,36 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(6, true),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-12" }, [
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("multiselect", {
-                          key: "QuestionId",
-                          attrs: {
-                            label: "QuestionLabel",
-                            id: "vulnerability",
-                            "track-by": "QuestionLabel",
-                            placeholder: "Select eligibility...",
-                            "open-direction": "top",
-                            options: _vm.eligibility_questions,
-                            multiple: true,
-                            searchable: true,
-                            "close-on-select": true,
-                            "show-no-results": false,
-                            "show-labels": false
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-12" },
+                    [
+                      _c("multiselect", {
+                        key: "QuestionId",
+                        attrs: {
+                          label: "QuestionLabel",
+                          id: "vulnerability",
+                          "track-by": "QuestionLabel",
+                          placeholder: "Select eligibility...",
+                          "open-direction": "top",
+                          options: _vm.eligibility_questions,
+                          multiple: true,
+                          searchable: true,
+                          "close-on-select": true,
+                          "show-no-results": false,
+                          "show-labels": false
+                        },
+                        model: {
+                          value: matter.questions_selected,
+                          callback: function($$v) {
+                            _vm.$set(matter, "questions_selected", $$v)
                           },
-                          model: {
-                            value: matter.questions_selected,
-                            callback: function($$v) {
-                              _vm.$set(matter, "questions_selected", $$v)
-                            },
-                            expression: "matter.questions_selected"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ])
+                          expression: "matter.questions_selected"
+                        }
+                      })
+                    ],
+                    1
+                  )
                 ],
                 2
               )
@@ -36089,7 +36084,7 @@ Vue.component('component-a', {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\wamp\www\vla-orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
+module.exports = __webpack_require__(/*! C:\xampp\orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
 
 
 /***/ })

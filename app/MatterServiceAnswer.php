@@ -72,6 +72,7 @@ Class MatterServiceAnswer extends OrbitSoap
      * @param array $questions Question and Answers information
      * @param integer $sv_id Service ID
      * @return void
+     * @deprecated version
      */
     public function processMatterServiceAnswer( $questions, $sv_id )
     {
@@ -128,75 +129,39 @@ Class MatterServiceAnswer extends OrbitSoap
      */
     public function processMatterServiceAnswers( $matters, $sv_id, $matter_services_list )
     {
-        $operator = ' ';
-        $value = ' ';
         $matter_questions = [];
         self::deleteMatterAnswerByServiceID( $sv_id );
 
-        $service = new Service();
-        $result  = $service->getServiceByID( $sv_id ); //Get the last version of that service
-
-        if ( isset($result['data']) ) {
-            $current_service = json_decode( $result['data'] )[0];
-            foreach ($matters as $matter) {
-                foreach ($matter['questions'] as $question) {
-                    if(isset($question['operator_selected']) && !is_null($question['QuestionValue'])){
-                        $operator = $question['operator_selected']['value'];
-                        $value = $question['QuestionValue'];
-                    }
-                    $matter_service_index = array_search(
-                        $question['MatterId'],  //Legal matter id
-                        array_column(
-                            $matter_services_list,  // Array of matters in a service
-                            'MatterID' //Column to search an specific matter
-                        )
-                    );
-                    if(isset($matter_services_list[$matter_service_index])){
-
-                        $matter_questions[] = [
-                            'RefNo'           => 0,
-                            'MatterServiceId' => $matter_services_list[$matter_service_index]->RefNo,
-                            'QuestionId'      => $question['QuestionId'],
-                            'Operator'        => $operator,
-                            'QuestionValue'   => $value
-                        ];
-
-                    }
+        foreach ($matters as $matter) {
+            foreach ($matter['questions'] as $question) {
+                $operator = ' ';
+                $value = ' ';
+                if(isset($question['Operator']) && !is_null($question['QuestionValue'])){
+                    $operator = $question['Operator'];
+                    $value = $question['QuestionValue'];
+                }
+                $matter_service_index = array_search(
+                    $question['MatterId'],  //Legal matter id
+                    array_column(
+                        $matter_services_list,  // Array of matters in a service
+                        'MatterId' //Column to search an specific matter
+                    )
+                );
+                if($question["MatterId"] == $matter["id"]  && isset($matter_services_list[$matter_service_index])){
+                    $matter_questions[] = [
+                        'RefNo'           => 0,
+                        'MatterServiceId' => $matter_services_list[$matter_service_index]->RefNo,
+                        'QuestionId'      => $question['QuestionId'],
+                        'Operator'        => $operator,
+                        'QuestionValue'   => $value
+                    ];
 
                 }
+
             }
-            // foreach ( $questions as $question ) {
-
-            //     foreach ( $question as $qu_id => $qu_values ) {
-
-            //         if ( is_null( $qu_values['operator'] ) || is_null( $qu_values['answer'] ) ) {
-            //             $qu_values['operator'] = ' ';
-            //             $qu_values['answer'] = ' ';
-            //         }
-            //         //Get service matter position of question in current service matter - Potentially slow for huge arrays
-            //         $sm_position = array_search(
-            //                                     $qu_values['mt_id'],  //Legal matter id
-            //                                     array_column(
-            //                                         $current_service->ServiceMatters,  // Array of matters in a service
-            //                                         'MatterID' //Column to search an specific matter
-            //                                     )
-            //                                 );
-
-            //         if ( isset($current_service->ServiceMatters[$sm_position]) ) {
-
-            //             $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
-            //             $matter_questions[] = [
-            //                 'RefNo'           => 0,
-            //                 'MatterServiceId' => $lms_id,
-            //                 'QuestionId'      => $qu_id,
-            //                 'Operator'        => $qu_values['operator'],
-            //                 'QuestionValue'   => $qu_values['answer']
-            //             ];
-            //         }
-            //     }
-            // }
-            self::saveMatterServiceAnswers($matter_questions);
         }
+        self::saveMatterServiceAnswers($matter_questions);
+
 
     }
 
@@ -206,6 +171,7 @@ Class MatterServiceAnswer extends OrbitSoap
      * @param array $questions Question and Answers information
      * @param integer $sv_id Service ID
      * @return void
+     * @deprecated version
      */
     public function processVulnerabilityMatterServiceAnswer( $questions, $sv_id )
     {
@@ -249,6 +215,76 @@ Class MatterServiceAnswer extends OrbitSoap
     }
 
     /**
+     * Process Vulnerability Answers to questions inside Services deleting them and adding the new Answers by Service ID
+     *
+     * @param array $questions Question and Answers information
+     * @param array $matter_services_list Matter service id
+     * @return void
+     */
+    public function processVulnerabilityMatterServiceAnswers( $matters, $sv_id, $matter_services_list )
+    {
+        $operator = '=';
+        $answer = true;
+        foreach ($matters as $matter) {
+            if(isset($matter["questions_selected"])) {
+                foreach ($matter["questions_selected"] as $question) {
+                    $matter_service_index = array_search(
+                        $matter["id"],  //Legal matter id
+                        array_column(
+                            $matter_services_list,  // Array of matters in a service
+                            'MatterId' //Column to search an specific matter
+                        )
+                    );
+                    if(isset($matter_services_list[$matter_service_index])){
+                        $matter_questions[] =[
+                            'RefNo'           => 0,
+                            'MatterServiceId' => $matter_services_list[$matter_service_index]->RefNo,
+                            'QuestionId'      => $question['QuestionId'],
+                            'Operator'        => $operator,
+                            'QuestionValue'   => $answer
+                        ];
+                    }
+                }
+            }
+
+        }
+        // dd("Yes");
+        // if (isset($result['data']) && !is_null( $questions )) {
+
+        //     $current_service = json_decode( $result['data'] )[0];
+        //     foreach ( $questions as $lm_id => $qu_ids ) {
+
+        //         $operator = '=';
+        //         $answer = true;
+
+        //         //Get service matter position of question in current service matter - Potentially slow for huge arrays
+        //         $sm_position = array_search(
+        //                                         $lm_id,  //Legal matter id
+        //                                         array_column(
+        //                                             $current_service->ServiceMatters,  // Array of matters in a service
+        //                                             'MatterID' //Column to search an specific matter
+        //                                         )
+        //                                     );
+
+        //         $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
+        //         foreach ($qu_ids as $qu_id => $value) {
+        //             $matter_questions[] =[
+        //                 'RefNo'           => 0,
+        //                 'MatterServiceId' => $lms_id,
+        //                 'QuestionId'      => $qu_id,
+        //                 'Operator'        => $operator,
+        //                 'QuestionValue'   => $answer
+        //             ];
+        //         }
+
+        //     }
+            self::saveMatterServiceAnswers($matter_questions);
+
+        //}
+
+    }
+
+    /**
      * Delete All legal Matter Answers by Service ID
      *
      * @param integer $sv_id Service ID
@@ -263,7 +299,6 @@ Class MatterServiceAnswer extends OrbitSoap
                         ->client
                         ->ws_init('DeleteMatterAnswersByServiceId')
                         ->DeleteMatterAnswersByServiceId( $info );
-
             if ( $response->DeleteMatterAnswersByServiceIdResult ) {
                 return ['success' => 'success' , 'message' => 'Matter question deleted.'];
             } else {
