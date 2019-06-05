@@ -1771,6 +1771,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1788,11 +1811,40 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
     },
     current_service: {
       "default": {}
+    },
+    service_booking_questions: {
+      type: Array,
+      "default": []
     }
   },
   data: function data() {
     return {
-      selected_questions: []
+      selected_questions: [],
+      //Those are vulnerability/eligibility questions
+      selected_booking_questions: [],
+      selected_operator: [],
+      operators: [{
+        label: '>',
+        value: '>'
+      }, {
+        label: '>=',
+        value: '>='
+      }, {
+        label: '<',
+        value: '<'
+      }, {
+        label: '<=',
+        value: '<='
+      }, {
+        label: 'Equal',
+        value: '='
+      }, {
+        label: 'Not Equal',
+        value: '!='
+      }, {
+        label: 'IN',
+        value: 'in'
+      }]
     };
   },
   methods: {
@@ -1808,6 +1860,36 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
         return false;
       });
     },
+    pre_select_booking_questions: function pre_select_booking_questions() {
+      var self = this;
+      var cs_booking_questions = self.current_service.ServiceBookingQuestions;
+      self.service_booking_questions.map(function (sb_question) {
+        sb_question.Operator = '';
+        sb_question.QuestionValue = '';
+        cs_booking_questions.map(function (cs_question) {
+          if (sb_question.QuestionId === cs_question.QuestionId) {
+            sb_question.Operator = cs_question.Operator;
+            sb_question.QuestionValue = cs_question.QuestionValue;
+            console.log(cs_question);
+          }
+        });
+      });
+    },
+    get_booking_questions: function get_booking_questions() {
+      var self = this;
+      var booking_questions = [];
+      var cs_booking_questions = self.service_booking_questions;
+      cs_booking_questions.map(function (cs_question) {
+        if (cs_question.Operator != '' && cs_question.QuestionValue != '') {
+          booking_questions.push({
+            'QuestionId': cs_question.QuestionId,
+            'Operator': cs_question.Operator,
+            'QuestionValue': cs_question.QuestionValue
+          });
+        }
+      });
+      return booking_questions;
+    },
     save_client_matters: function save_client_matters() {
       var _this = this;
 
@@ -1817,7 +1899,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
         vulnerability: this.selected_questions.map(function (item) {
           return item.QuestionId;
         }),
-        booking_question: []
+        booking_question: this.get_booking_questions()
       };
       var url = '/service/client_eligibility';
       this.submit_service_cm('post', url, client_matters).then(function (response) {
@@ -1861,6 +1943,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
   },
   created: function created() {
     this.pre_select_questions();
+    this.pre_select_booking_questions();
     this.event_on_change_tab();
   }
 });
@@ -21616,60 +21699,190 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-xs-12" }, [
-      _c("h4", [_vm._v("Service client matters")]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form-group" },
-        [
-          _c("multiselect", {
-            key: "QuestionId",
-            attrs: {
-              label: "QuestionLabel",
-              id: "vulnerability",
-              "track-by": "QuestionLabel",
-              placeholder: "Select eligibility...",
-              "open-direction": "bottom",
-              options: _vm.eligibility_questions,
-              multiple: true,
-              searchable: true,
-              "close-on-select": true,
-              "show-no-results": false,
-              "show-labels": false
-            },
-            model: {
-              value: _vm.selected_questions,
-              callback: function($$v) {
-                _vm.selected_questions = $$v
+    _c(
+      "div",
+      { staticClass: "col-xs-12" },
+      [
+        _c("h4", [_vm._v("Service client matters")]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          [
+            _c("multiselect", {
+              key: "QuestionId",
+              attrs: {
+                label: "QuestionLabel",
+                id: "vulnerability",
+                "track-by": "QuestionLabel",
+                placeholder: "Select eligibility...",
+                "open-direction": "bottom",
+                options: _vm.eligibility_questions,
+                multiple: true,
+                searchable: true,
+                "close-on-select": true,
+                "show-no-results": false,
+                "show-labels": false
               },
-              expression: "selected_questions"
+              model: {
+                value: _vm.selected_questions,
+                callback: function($$v) {
+                  _vm.selected_questions = $$v
+                },
+                expression: "selected_questions"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("h4", [_vm._v("Booking Questions")]),
+        _vm._v(" "),
+        _vm._l(_vm.service_booking_questions, function(question) {
+          return _c(
+            "div",
+            { key: question.QuestionId, staticClass: "form-group col-sm-12" },
+            [
+              _c("div", { staticClass: "col-sm-4 col-md-3" }, [
+                question.QuestionName != ""
+                  ? _c("label", { staticClass: "pull-right" }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(question.QuestionName) +
+                          "\n                "
+                      )
+                    ])
+                  : _c("label", { staticClass: "pull-right" }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(question.QuestionLabel) +
+                          "\n                "
+                      )
+                    ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-3 col-md-2" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: question.Operator,
+                        expression: "question.Operator"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          question,
+                          "Operator",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.operators, function(operator) {
+                    return _c(
+                      "option",
+                      {
+                        key: operator.value,
+                        domProps: { value: operator.value }
+                      },
+                      [_vm._v(" " + _vm._s(operator.label))]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-5 col-md-3" }, [
+                question.QuestionTypeName == "multiple"
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: question.QuestionValue,
+                          expression: "question.QuestionValue"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", "data-role": "tagsinput" },
+                      domProps: { value: question.QuestionValue },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            question,
+                            "QuestionValue",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  : _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: question.QuestionValue,
+                          expression: "question.QuestionValue"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text" },
+                      domProps: { value: question.QuestionValue },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            question,
+                            "QuestionValue",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+              ])
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-circle green margin-top-15",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.save_client_matters()
+              }
             }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("h4", [
-        _vm._v("Booking Questions - if booking is enable will be here")
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-circle green margin-top-15",
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.save_client_matters()
-            }
-          }
-        },
-        [_vm._v("Save Client Matters")]
-      )
-    ])
+          },
+          [_vm._v("Save Client Matters")]
+        )
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -35876,7 +36089,7 @@ Vue.component('component-a', {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
+module.exports = __webpack_require__(/*! C:\wamp\www\vla-orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
 
 
 /***/ })

@@ -42,10 +42,13 @@
                         <service-clients-matters
                             :eligibility_questions='{{ json_encode($vulnertability_questions) }}'
                             @isset($current_vulnerabilities)
-                            :selected_eligibility_questions='{!! json_encode($current_vulnerabilities) !!}'
+                                :selected_eligibility_questions='{!! json_encode($current_vulnerabilities) !!}'
                             @endisset
                             @isset($current_service)
-                            :current_service='{{ json_encode($current_service) }}'
+                                :current_service='{{ json_encode($current_service) }}'
+                            @endisset
+                            @isset($service_booking_questions)
+                                :service_booking_questions='{{ json_encode($service_booking_questions) }}'
                             @endisset
                             ></service-clients-matters>
                     </div>
@@ -53,31 +56,31 @@
                     <div class="tab-pane" id="service_legal_matters">
                         <service-legal-matters
                             @isset($current_service)
-                            :current_service = '{{ json_encode($current_service) }}'
+                                :current_service = '{{ json_encode($current_service) }}'
                             @endisset
-                            :eligibility_questions='{{ json_encode($vulnertability_questions) }}'
+                                :eligibility_questions='{{ json_encode($vulnertability_questions) }}'
                         ></service-legal-matters>
                     </div>
 
                     <div class="tab-pane" id="service_intake_options">
                         <service-intake-options
                             @isset($referral_conditions)
-                            :selected_referral_conditions='{{ json_encode($referral_conditions) }}'
+                                :selected_referral_conditions='{{ json_encode($referral_conditions) }}'
                             @endisset
                             @isset($current_service)
-                            :current_service='{{ json_encode($current_service) }}'
+                                :current_service='{{ json_encode($current_service) }}'
                             @endisset
                             @isset($service_booking)
-                            :service_booking='{{ json_encode($service_booking) }}'
+                                :service_booking='{{ json_encode($service_booking) }}'
                             @endisset
                             @isset($booking_conditions)
-                            :selected_booking_conditions='{{ json_encode($booking_conditions) }}'
+                                :selected_booking_conditions='{{ json_encode($booking_conditions) }}'
                             @endisset
                             @isset($e_referral_conditions)
-                            :selected_e_referral_conditions='{{ json_encode($e_referral_conditions) }}'
+                                :selected_e_referral_conditions='{{ json_encode($e_referral_conditions) }}'
                             @endisset
                             @isset($e_referral_forms)
-                            :selected_e_referral_forms='{{ json_encode($e_referral_forms) }}'
+                                :selected_e_referral_forms='{{ json_encode($e_referral_forms) }}'
                             @endisset
                         ></service-intake-options>
                     </div>
