@@ -41,9 +41,9 @@ Class Question extends OrbitSoap
         $questions = json_decode(
                                     $this
                                     ->client
-                                    ->ws_init('GetAllQuestionsByCategoryIdasJSON')
-                                    ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId' => $qc_id ] )
-                                    ->GetAllQuestionsByCategoryIdasJSONResult
+                                    ->ws_init('GetAllQuestionsByCategoryIdWithGroupasJSON')
+                                    ->GetAllQuestionsByCategoryIdWithGroupasJSON( [ 'CategoryId' => $qc_id ] )
+                                    ->GetAllQuestionsByCategoryIdWithGroupasJSONResult
                                     , true
                                 );
 
@@ -142,9 +142,9 @@ Class Question extends OrbitSoap
     {
         $questions = json_decode($this
                                 ->client
-                                ->ws_init('GetAllQuestionsByCategoryIdasJSON')
-                                ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 1 ] )
-                                ->GetAllQuestionsByCategoryIdasJSONResult,
+                                ->ws_init('GetAllQuestionsByCategoryIdWithGroupasJSON')
+                                ->GetAllQuestionsByCategoryIdWithGroupasJSON( [ 'CategoryId'  => 1 ] )
+                                ->GetAllQuestionsByCategoryIdWithGroupasJSONResult,
                                 true);
 
         return $questions;
@@ -159,9 +159,9 @@ Class Question extends OrbitSoap
     {
         $questions = json_decode($this
                                 ->client
-                                ->ws_init('GetAllQuestionsByCategoryIdasJSON')
-                                ->GetAllQuestionsByCategoryIdasJSON( [ 'CategoryId'  => 2 ] )
-                                ->GetAllQuestionsByCategoryIdasJSONResult, true);
+                                ->ws_init('GetAllQuestionsByCategoryIdWithGroupasJSON')
+                                ->GetAllQuestionsByCategoryIdWithGroupasJSON( [ 'CategoryId'  => 2 ] )
+                                ->GetAllQuestionsByCategoryIdWithGroupasJSONResult, true);
 
         return $questions;
     }
