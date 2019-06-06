@@ -6,7 +6,7 @@
                 <i class="fa fa-gift"></i>Service
             </div>
         </div>
-        <div class="portlet-body" style="display: block;">
+        <div class="portlet-body">
             <div class="tabbable-line padding-top-0">
                 <ul class="nav nav-tabs ">
                     <li class="active">

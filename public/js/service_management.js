@@ -1870,7 +1870,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
           if (sb_question.QuestionId === cs_question.QuestionId) {
             sb_question.Operator = cs_question.Operator;
             sb_question.QuestionValue = cs_question.QuestionValue;
-            console.log(cs_question);
           }
         });
       });
@@ -1962,7 +1961,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/event-bus */ "./resources/assets/js/utils/event-bus.js");
-//
 //
 //
 //
@@ -21941,527 +21939,535 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-xs-7 text-right" }, [
-        _c("label", { attrs: { for: "Status" } }, [
-          _vm._v("Show this service in results?")
+  return _c("div", { staticClass: "form" }, [
+    _c("div", { staticClass: "form-horizontal" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xs-7 text-right" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.Status,
+                expression: "current_service.Status"
+              }
+            ],
+            attrs: {
+              type: "checkbox",
+              "data-toggle": "toggle",
+              "data-on": "Yes",
+              "data-off": "No",
+              "data-onstyle": "success",
+              "data-offstyle": "danger",
+              "data-size": "mini",
+              id: "Status"
+            },
+            domProps: {
+              checked: Array.isArray(_vm.current_service.Status)
+                ? _vm._i(_vm.current_service.Status, null) > -1
+                : _vm.current_service.Status
+            },
+            on: {
+              change: function($event) {
+                var $$a = _vm.current_service.Status,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 &&
+                      _vm.$set(_vm.current_service, "Status", $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      _vm.$set(
+                        _vm.current_service,
+                        "Status",
+                        $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                      )
+                  }
+                } else {
+                  _vm.$set(_vm.current_service, "Status", $$c)
+                }
+              }
+            }
+          })
         ]),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.Status,
-              expression: "current_service.Status"
-            }
-          ],
-          attrs: {
-            type: "checkbox",
-            "data-toggle": "toggle",
-            "data-on": "Yes",
-            "data-off": "No",
-            "data-onstyle": "success",
-            "data-offstyle": "danger",
-            "data-size": "mini",
-            id: "Status"
-          },
-          domProps: {
-            checked: Array.isArray(_vm.current_service.Status)
-              ? _vm._i(_vm.current_service.Status, null) > -1
-              : _vm.current_service.Status
-          },
-          on: {
-            change: function($event) {
-              var $$a = _vm.current_service.Status,
-                $$el = $event.target,
-                $$c = $$el.checked ? true : false
-              if (Array.isArray($$a)) {
-                var $$v = null,
-                  $$i = _vm._i($$a, $$v)
-                if ($$el.checked) {
-                  $$i < 0 &&
-                    _vm.$set(_vm.current_service, "Status", $$a.concat([$$v]))
-                } else {
-                  $$i > -1 &&
-                    _vm.$set(
-                      _vm.current_service,
-                      "Status",
-                      $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                    )
-                }
-              } else {
-                _vm.$set(_vm.current_service, "Status", $$c)
+        _vm._m(2),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-sm-7" },
+          [
+            _c("multiselect", {
+              key: "ServiceProviderId",
+              attrs: {
+                label: "ServiceProviderName",
+                id: "service-provider-select",
+                placeholder: "Select Service...",
+                "open-direction": "bottom",
+                options: _vm.service_providers,
+                multiple: false,
+                searchable: true,
+                "close-on-select": true,
+                "show-no-results": false,
+                "show-labels": false
+              },
+              model: {
+                value: _vm.service_provider_selected,
+                callback: function($$v) {
+                  _vm.service_provider_selected = $$v
+                },
+                expression: "service_provider_selected"
               }
-            }
-          }
-        })
+            })
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-sm-7" },
-        [
-          _c("multiselect", {
-            key: "ServiceProviderId",
-            attrs: {
-              label: "ServiceProviderName",
-              id: "service-provider-select",
-              placeholder: "Select Service...",
-              "open-direction": "bottom",
-              options: _vm.service_providers,
-              multiple: false,
-              searchable: true,
-              "close-on-select": true,
-              "show-no-results": false,
-              "show-labels": false
-            },
-            model: {
-              value: _vm.service_provider_selected,
-              callback: function($$v) {
-                _vm.service_provider_selected = $$v
-              },
-              expression: "service_provider_selected"
-            }
-          })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-7" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.ServiceName,
-              expression: "current_service.ServiceName"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", id: "name", name: "name", required: "" },
-          domProps: { value: _vm.current_service.ServiceName },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(3),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.ServiceName,
+                expression: "current_service.ServiceName"
               }
-              _vm.$set(_vm.current_service, "ServiceName", $event.target.value)
-            }
-          }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(3),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-sm-7" },
-        [
-          _c("multiselect", {
-            key: "ServiceTypelId",
-            attrs: {
-              label: "ServiceTypeName",
-              id: "service-type-select",
-              placeholder: "Select Service Type...",
-              "open-direction": "bottom",
-              options: _vm.service_types,
-              multiple: false,
-              searchable: true,
-              "close-on-select": true,
-              "show-no-results": false,
-              "show-labels": false
-            },
-            model: {
-              value: _vm.service_type_selected,
-              callback: function($$v) {
-                _vm.service_type_selected = $$v
-              },
-              expression: "service_type_selected"
-            }
-          })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(4),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-sm-7" },
-        [
-          _c("multiselect", {
-            key: "ServiceLevelId",
-            attrs: {
-              label: "ServiceLevelName",
-              id: "service-level-select",
-              placeholder: "Select Service Level...",
-              "open-direction": "bottom",
-              options: _vm.service_levels,
-              multiple: false,
-              searchable: true,
-              "close-on-select": true,
-              "show-no-results": false,
-              "show-labels": false
-            },
-            model: {
-              value: _vm.service_level_selected,
-              callback: function($$v) {
-                _vm.service_level_selected = $$v
-              },
-              expression: "service_level_selected"
-            }
-          })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(5),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-7" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.Wait,
-              expression: "current_service.Wait"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", id: "wait", name: "wait", required: "" },
-          domProps: { value: _vm.current_service.Wait },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", id: "name", name: "name", required: "" },
+            domProps: { value: _vm.current_service.ServiceName },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.current_service,
+                  "ServiceName",
+                  $event.target.value
+                )
               }
-              _vm.$set(_vm.current_service, "Wait", $event.target.value)
             }
-          }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c(
-        "div",
-        { staticClass: "col-sm-12" },
-        [
-          _vm._m(6),
-          _vm._v(" "),
-          _c("vue-mce", {
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(4),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-sm-7" },
+          [
+            _c("multiselect", {
+              key: "ServiceTypelId",
+              attrs: {
+                label: "ServiceTypeName",
+                id: "service-type-select",
+                placeholder: "Select Service Type...",
+                "open-direction": "bottom",
+                options: _vm.service_types,
+                multiple: false,
+                searchable: true,
+                "close-on-select": true,
+                "show-no-results": false,
+                "show-labels": false
+              },
+              model: {
+                value: _vm.service_type_selected,
+                callback: function($$v) {
+                  _vm.service_type_selected = $$v
+                },
+                expression: "service_type_selected"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(5),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-sm-7" },
+          [
+            _c("multiselect", {
+              key: "ServiceLevelId",
+              attrs: {
+                label: "ServiceLevelName",
+                id: "service-level-select",
+                placeholder: "Select Service Level...",
+                "open-direction": "bottom",
+                options: _vm.service_levels,
+                multiple: false,
+                searchable: true,
+                "close-on-select": true,
+                "show-no-results": false,
+                "show-labels": false
+              },
+              model: {
+                value: _vm.service_level_selected,
+                callback: function($$v) {
+                  _vm.service_level_selected = $$v
+                },
+                expression: "service_level_selected"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(6),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.Wait,
+                expression: "current_service.Wait"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", id: "wait", name: "wait", required: "" },
+            domProps: { value: _vm.current_service.Wait },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.current_service, "Wait", $event.target.value)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "div",
+          { staticClass: "col-sm-12" },
+          [
+            _vm._m(7),
+            _vm._v(" "),
+            _c("vue-mce", {
+              staticClass: "form-control",
+              attrs: {
+                id: "description",
+                config: _vm.config,
+                name: "description"
+              },
+              model: {
+                value: _vm.current_service.Description,
+                callback: function($$v) {
+                  _vm.$set(_vm.current_service, "Description", $$v)
+                },
+                expression: "current_service.Description"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(8),
+        _vm._v(" "),
+        _vm._m(9),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.Location,
+                expression: "current_service.Location"
+              }
+            ],
             staticClass: "form-control",
             attrs: {
-              id: "description",
-              config: _vm.config,
-              name: "description"
+              type: "location",
+              id: "location",
+              name: "location",
+              required: ""
             },
-            model: {
-              value: _vm.current_service.Description,
-              callback: function($$v) {
-                _vm.$set(_vm.current_service, "Description", $$v)
-              },
-              expression: "current_service.Description"
+            domProps: { value: _vm.current_service.Location },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.current_service, "Location", $event.target.value)
+              }
             }
           })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(7),
+        ])
+      ]),
       _vm._v(" "),
-      _vm._m(8),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-7" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.Location,
-              expression: "current_service.Location"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "location",
-            id: "location",
-            name: "location",
-            required: ""
-          },
-          domProps: { value: _vm.current_service.Location },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(10),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.Phone,
+                expression: "current_service.Phone"
               }
-              _vm.$set(_vm.current_service, "Location", $event.target.value)
-            }
-          }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(9),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-7" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.Phone,
-              expression: "current_service.Phone"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", id: "phone", name: "phone", required: "" },
-          domProps: { value: _vm.current_service.Phone },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", id: "phone", name: "phone", required: "" },
+            domProps: { value: _vm.current_service.Phone },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.current_service, "Phone", $event.target.value)
               }
-              _vm.$set(_vm.current_service, "Phone", $event.target.value)
             }
-          }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(10),
+          })
+        ])
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-7" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.Email,
-              expression: "current_service.Email"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "email", id: "email", name: "email", required: "" },
-          domProps: { value: _vm.current_service.Email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(11),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.Email,
+                expression: "current_service.Email"
               }
-              _vm.$set(_vm.current_service, "Email", $event.target.value)
-            }
-          }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(11),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-7" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.URL,
-              expression: "current_service.URL"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", id: "URL", name: "URL", required: "" },
-          domProps: { value: _vm.current_service.URL },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+            ],
+            staticClass: "form-control",
+            attrs: { type: "email", id: "email", name: "email", required: "" },
+            domProps: { value: _vm.current_service.Email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.current_service, "Email", $event.target.value)
               }
-              _vm.$set(_vm.current_service, "URL", $event.target.value)
             }
-          }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(12),
+          })
+        ])
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-7" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.current_service.OpenningHrs,
-              expression: "current_service.OpenningHrs"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            id: "OpenningHrs",
-            name: "OpenningHrs",
-            required: ""
-          },
-          domProps: { value: _vm.current_service.OpenningHrs },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(12),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.URL,
+                expression: "current_service.URL"
               }
-              _vm.$set(_vm.current_service, "OpenningHrs", $event.target.value)
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", id: "URL", name: "URL", required: "" },
+            domProps: { value: _vm.current_service.URL },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.current_service, "URL", $event.target.value)
+              }
             }
-          }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(13),
+          })
+        ])
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-12" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(13),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.current_service.OpenningHrs,
+                expression: "current_service.OpenningHrs"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              id: "OpenningHrs",
+              name: "OpenningHrs",
+              required: ""
+            },
+            domProps: { value: _vm.current_service.OpenningHrs },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.current_service,
+                  "OpenningHrs",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
         _vm._m(14),
         _vm._v(" "),
-        _vm._m(15),
-        _vm._v(" "),
-        _c("div", { staticClass: "tab-content" }, [
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane fade active in",
-              attrs: { id: "tab_lga" }
-            },
-            [
-              _c("multiselect", {
-                key: "id",
-                attrs: {
-                  label: "text",
-                  id: "lga",
-                  "track-by": "id",
-                  "open-direction": "top",
-                  placeholder: "Select LGA",
-                  options: _vm.lgas,
-                  multiple: true,
-                  searchable: true,
-                  "close-on-select": true,
-                  "show-no-results": false,
-                  "show-labels": false,
-                  name: "lga[]"
-                },
-                model: {
-                  value: _vm.lgas_selected,
-                  callback: function($$v) {
-                    _vm.lgas_selected = $$v
-                  },
-                  expression: "lgas_selected"
-                }
-              })
-            ],
-            1
-          ),
+        _c("div", { staticClass: "col-sm-12" }, [
+          _vm._m(15),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "tab-pane fade", attrs: { id: "tab_suburb" } },
-            [
-              _c("multiselect", {
-                key: "id",
-                attrs: {
-                  label: "text",
-                  id: "suburbs",
-                  "track-by": "id",
-                  "open-direction": "top",
-                  placeholder: "Select Suburb",
-                  options: _vm.suburbs,
-                  multiple: true,
-                  searchable: true,
-                  "close-on-select": true,
-                  "show-no-results": false,
-                  "show-labels": false,
-                  name: "suburbs[]"
-                },
-                model: {
-                  value: _vm.suburbs_selected,
-                  callback: function($$v) {
-                    _vm.suburbs_selected = $$v
-                  },
-                  expression: "suburbs_selected"
-                }
-              })
-            ],
-            1
-          ),
+          _vm._m(16),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "tab-pane fade", attrs: { id: "tab_postcode" } },
-            [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.catchments.Postcode,
-                    expression: "catchments.Postcode"
+          _c("div", { staticClass: "tab-content" }, [
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade active in",
+                attrs: { id: "tab_lga" }
+              },
+              [
+                _c("multiselect", {
+                  key: "id",
+                  attrs: {
+                    label: "text",
+                    id: "lga",
+                    "track-by": "id",
+                    "open-direction": "top",
+                    placeholder: "Select LGA",
+                    options: _vm.lgas,
+                    multiple: true,
+                    searchable: true,
+                    "close-on-select": true,
+                    "show-no-results": false,
+                    "show-labels": false,
+                    name: "lga[]"
+                  },
+                  model: {
+                    value: _vm.lgas_selected,
+                    callback: function($$v) {
+                      _vm.lgas_selected = $$v
+                    },
+                    expression: "lgas_selected"
                   }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "postcodes",
-                  id: "postcodes",
-                  name: "postcodes"
-                },
-                domProps: { value: _vm.catchments.Postcode },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "tab-pane fade", attrs: { id: "tab_suburb" } },
+              [
+                _c("multiselect", {
+                  key: "id",
+                  attrs: {
+                    label: "text",
+                    id: "suburbs",
+                    "track-by": "id",
+                    "open-direction": "top",
+                    placeholder: "Select Suburb",
+                    options: _vm.suburbs,
+                    multiple: true,
+                    searchable: true,
+                    "close-on-select": true,
+                    "show-no-results": false,
+                    "show-labels": false,
+                    name: "suburbs[]"
+                  },
+                  model: {
+                    value: _vm.suburbs_selected,
+                    callback: function($$v) {
+                      _vm.suburbs_selected = $$v
+                    },
+                    expression: "suburbs_selected"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "tab-pane fade", attrs: { id: "tab_postcode" } },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.catchments.Postcode,
+                      expression: "catchments.Postcode"
                     }
-                    _vm.$set(_vm.catchments, "Postcode", $event.target.value)
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "postcodes",
+                    id: "postcodes",
+                    name: "postcodes"
+                  },
+                  domProps: { value: _vm.catchments.Postcode },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.catchments, "Postcode", $event.target.value)
+                    }
                   }
-                }
-              })
-            ]
-          )
+                })
+              ]
+            )
+          ])
         ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-sm-12" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-circle green margin-top-15",
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.save_general_settings()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-circle green margin-top-15",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.save_general_settings()
+              }
             }
-          }
-        },
-        [_vm._v("Save General Settings")]
-      )
+          },
+          [_vm._v("Save General Settings")]
+        )
+      ])
     ])
   ])
 }
@@ -22470,14 +22476,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-xs-5" }, [
-        _c(
-          "p",
-          { staticClass: "caption-subject font-purple-soft bold uppercase" },
-          [_vm._v("Service Details")]
-        )
-      ])
+    return _c("div", { staticClass: "col-xs-5" }, [
+      _c(
+        "p",
+        {
+          staticClass:
+            "caption-subject font-purple-soft bold uppercase margin-bottom-10"
+        },
+        [_vm._v("Service Details")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "Status" } }, [
+      _c("small", [_vm._v("Show this service in results?")])
     ])
   },
   function() {
@@ -22561,7 +22576,10 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-xs-5" }, [
       _c(
         "p",
-        { staticClass: "caption-subject font-purple-soft bold uppercase" },
+        {
+          staticClass:
+            "caption-subject font-purple-soft bold uppercase margin-bottom-10 margin-top-10"
+        },
         [_vm._v("Contact Details")]
       )
     ])
@@ -22636,7 +22654,10 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-xs-12" }, [
       _c(
         "p",
-        { staticClass: "caption-subject font-purple-soft bold uppercase" },
+        {
+          staticClass:
+            "caption-subject font-purple-soft bold uppercase margin-bottom-10"
+        },
         [_vm._v("Catchment Area")]
       )
     ])
@@ -36205,7 +36226,7 @@ Vue.component('component-a', {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
+module.exports = __webpack_require__(/*! C:\wamp\www\vla-orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
 
 
 /***/ })

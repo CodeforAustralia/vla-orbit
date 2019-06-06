@@ -1,224 +1,223 @@
 <template>
-    <div class="row">
-        <div class="form-group">
-            <div class="col-xs-5">
-                <p class="caption-subject font-purple-soft bold uppercase">Service Details</p>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-7 text-right">
-                <label for="Status">Show this service in results?</label>
-                <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" id="Status" v-model="current_service.Status">
-            </div>
-            <div class="col-sm-12">
-                <label for="service_provider_id">Service Provider: <small>if not listed go to the Service Provider tab in left sidebar to create new</small></label>
-            </div>
-            <div class="col-sm-7">
-                <multiselect
-                v-model="service_provider_selected"
-                label="ServiceProviderName"
-                key="ServiceProviderId"
-                id="service-provider-select"
-                placeholder="Select Service..."
-                open-direction="bottom"
-                :options='service_providers'
-                :multiple="false"
-                :searchable="true"
-                :close-on-select="true"
-                :show-no-results="false"
-                :show-labels="false"
-                >
-                </multiselect>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="name">Service Name: <small>eg. Fines Drop-in Clinic</small></label>
-            </div>
-            <div class="col-sm-7">
-                <input type="text" class="form-control" id="name" name="name" v-model="current_service.ServiceName" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="service_type_id">Service Type:</label>
-            </div>
-            <div class="col-sm-7">
-                <multiselect
-                v-model="service_type_selected"
-                label="ServiceTypeName"
-                key="ServiceTypelId"
-                id="service-type-select"
-                placeholder="Select Service Type..."
-                open-direction="bottom"
-                :options='service_types'
-                :multiple="false"
-                :searchable="true"
-                :close-on-select="true"
-                :show-no-results="false"
-                :show-labels="false"
-                >
-                </multiselect>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="service_level_id">Service Level:</label>
-            </div>
-            <div class="col-sm-7">
-                <multiselect
-                v-model="service_level_selected"
-                label="ServiceLevelName"
-                key="ServiceLevelId"
-                id="service-level-select"
-                placeholder="Select Service Level..."
-                open-direction="bottom"
-                :options='service_levels'
-                :multiple="false"
-                :searchable="true"
-                :close-on-select="true"
-                :show-no-results="false"
-                :show-labels="false"
-                >
-                </multiselect>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="wait">Wait Time: <small>eg. 2 weeks for an appointment or 20 min. wait for a phone service</small></label>
-            </div>
-            <div class="col-sm-7">
-                <input type="text" class="form-control" id="wait" name="wait" v-model="current_service.Wait"  required>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="description">Description: <small>incl. info on how to proceed, what to expect and what to prepare ahead of making contact</small></label>
-                <vue-mce
-                id="description"
-                class="form-control"
-                v-model="current_service.Description"
-                :config="config"
-                name="description"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-xs-5">
-                <p class="caption-subject font-purple-soft bold uppercase">Contact Details</p>
-            </div>
-            <div class="col-sm-12">
-                <label for="location">Location: <small>eg. 123 Fitzroy St, Brunswick 3056. If none put #</small></label>
-            </div>
-            <div class="col-sm-7">
-                <input type="location" class="form-control" id="location" name="location" v-model="current_service.Location" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="phone">Phone Number: <small>eg. 0444 333 222 The number is for clients to contact the service. If none put #</small></label>
-            </div>
-            <div class="col-sm-7">
-                <input type="text" class="form-control" id="phone" name="phone" v-model="current_service.Phone"  required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="email">Email: <small>any e-referrals will be sent to this address</small></label>
-            </div>
-            <div class="col-sm-7">
-                <input type="email" class="form-control" id="email" name="email" v-model="current_service.Email" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="URL">Website: <small>eg. www.codeforaustralia.org. Do not include http://</small></label>
-            </div>
-            <div class="col-sm-7">
-                <input type="text" class="form-control" id="URL" name="URL" v-model="current_service.URL" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label for="OpenningHrs">Opening Hours: <small>eg. Wednesdays 2-4pm or Weekdays 9am - 5pm</small></label>
-            </div>
-            <div class="col-sm-7">
-                <input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs" v-model="current_service.OpenningHrs" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-12">
-                <p class="caption-subject font-purple-soft bold uppercase">Catchment Area</p>
-            </div>
-            <div class="col-sm-12">
-                <p><small>If the service has a catchment add the local government areas or suburbs here. If no catchment leave blank</small></p>
-
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#tab_lga" data-toggle="tab"> LGA </a>
-                    </li>
-                    <li>
-                        <a href="#tab_suburb" data-toggle="tab"> Suburb </a>
-                    </li>
-                    <li>
-                        <a href="#tab_postcode" data-toggle="tab"> Postcode </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-
-                    <div class="tab-pane fade active in" id="tab_lga">
-                        <multiselect
-                        v-model="lgas_selected"
-                        label="text"
-                        key="id"
-                        id="lga"
-                        track-by="id"
-                        open-direction="top"
-                        placeholder="Select LGA"
-                        :options='lgas'
-                        :multiple="true"
+    <div class="form">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-xs-5">
+                    <p class="caption-subject font-purple-soft bold uppercase margin-bottom-10">Service Details</p>
+                </div>
+                <div class="col-xs-7 text-right">
+                    <label for="Status"><small>Show this service in results?</small></label>
+                    <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" id="Status" v-model="current_service.Status">
+                </div>
+                <div class="col-sm-12">
+                    <label for="service_provider_id">Service Provider: <small>if not listed go to the Service Provider tab in left sidebar to create new</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <multiselect
+                        v-model="service_provider_selected"
+                        label="ServiceProviderName"
+                        key="ServiceProviderId"
+                        id="service-provider-select"
+                        placeholder="Select Service..."
+                        open-direction="bottom"
+                        :options='service_providers'
+                        :multiple="false"
                         :searchable="true"
                         :close-on-select="true"
                         :show-no-results="false"
                         :show-labels="false"
-                        name="lga[]"
-                        >
-                        </multiselect>
-
-                    </div>
-
-                    <div class="tab-pane fade" id="tab_suburb">
-                        <multiselect
-                        v-model="suburbs_selected"
-                        label="text"
-                        key="id"
-                        id="suburbs"
-                        track-by="id"
-                        open-direction="top"
-                        placeholder="Select Suburb"
-                        :options='suburbs'
-                        :multiple="true"
-                        :searchable="true"
-                        :close-on-select="true"
-                        :show-no-results="false"
-                        :show-labels="false"
-                        name="suburbs[]"
-                        >
-                        </multiselect>
-                    </div>
-
-                    <div class="tab-pane fade" id="tab_postcode">
-                        <input type="postcodes" class="form-control" id="postcodes" name="postcodes" v-model="catchments.Postcode">
-                    </div>
-
+                        ></multiselect>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-circle green margin-top-15" @click="save_general_settings()">Save General Settings</button>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="name">Service Name: <small>eg. Fines Drop-in Clinic</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="name" name="name" v-model="current_service.ServiceName" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="service_type_id">Service Type:</label>
+                </div>
+                <div class="col-sm-7">
+                    <multiselect
+                    v-model="service_type_selected"
+                    label="ServiceTypeName"
+                    key="ServiceTypelId"
+                    id="service-type-select"
+                    placeholder="Select Service Type..."
+                    open-direction="bottom"
+                    :options='service_types'
+                    :multiple="false"
+                    :searchable="true"
+                    :close-on-select="true"
+                    :show-no-results="false"
+                    :show-labels="false"
+                    >
+                    </multiselect>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="service_level_id">Service Level:</label>
+                </div>
+                <div class="col-sm-7">
+                    <multiselect
+                    v-model="service_level_selected"
+                    label="ServiceLevelName"
+                    key="ServiceLevelId"
+                    id="service-level-select"
+                    placeholder="Select Service Level..."
+                    open-direction="bottom"
+                    :options='service_levels'
+                    :multiple="false"
+                    :searchable="true"
+                    :close-on-select="true"
+                    :show-no-results="false"
+                    :show-labels="false"
+                    >
+                    </multiselect>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="wait">Wait Time: <small>eg. 2 weeks for an appointment or 20 min. wait for a phone service</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="wait" name="wait" v-model="current_service.Wait"  required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="description">Description: <small>incl. info on how to proceed, what to expect and what to prepare ahead of making contact</small></label>
+                    <vue-mce
+                    id="description"
+                    class="form-control"
+                    v-model="current_service.Description"
+                    :config="config"
+                    name="description"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-5">
+                    <p class="caption-subject font-purple-soft bold uppercase margin-bottom-10 margin-top-10">Contact Details</p>
+                </div>
+                <div class="col-sm-12">
+                    <label for="location">Location: <small>eg. 123 Fitzroy St, Brunswick 3056. If none put #</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="location" class="form-control" id="location" name="location" v-model="current_service.Location" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="phone">Phone Number: <small>eg. 0444 333 222 The number is for clients to contact the service. If none put #</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="phone" name="phone" v-model="current_service.Phone"  required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="email">Email: <small>any e-referrals will be sent to this address</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="email" class="form-control" id="email" name="email" v-model="current_service.Email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="URL">Website: <small>eg. www.codeforaustralia.org. Do not include http://</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="URL" name="URL" v-model="current_service.URL" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="OpenningHrs">Opening Hours: <small>eg. Wednesdays 2-4pm or Weekdays 9am - 5pm</small></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs" v-model="current_service.OpenningHrs" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <p class="caption-subject font-purple-soft bold uppercase margin-bottom-10">Catchment Area</p>
+                </div>
+                <div class="col-sm-12">
+                    <p><small>If the service has a catchment add the local government areas or suburbs here. If no catchment leave blank</small></p>
+
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab_lga" data-toggle="tab"> LGA </a>
+                        </li>
+                        <li>
+                            <a href="#tab_suburb" data-toggle="tab"> Suburb </a>
+                        </li>
+                        <li>
+                            <a href="#tab_postcode" data-toggle="tab"> Postcode </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade active in" id="tab_lga">
+                            <multiselect
+                            v-model="lgas_selected"
+                            label="text"
+                            key="id"
+                            id="lga"
+                            track-by="id"
+                            open-direction="top"
+                            placeholder="Select LGA"
+                            :options='lgas'
+                            :multiple="true"
+                            :searchable="true"
+                            :close-on-select="true"
+                            :show-no-results="false"
+                            :show-labels="false"
+                            name="lga[]"
+                            >
+                            </multiselect>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab_suburb">
+                            <multiselect
+                            v-model="suburbs_selected"
+                            label="text"
+                            key="id"
+                            id="suburbs"
+                            track-by="id"
+                            open-direction="top"
+                            placeholder="Select Suburb"
+                            :options='suburbs'
+                            :multiple="true"
+                            :searchable="true"
+                            :close-on-select="true"
+                            :show-no-results="false"
+                            :show-labels="false"
+                            name="suburbs[]"
+                            >
+                            </multiselect>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab_postcode">
+                            <input type="postcodes" class="form-control" id="postcodes" name="postcodes" v-model="catchments.Postcode">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-circle green margin-top-15" @click="save_general_settings()">Save General Settings</button>
+            </div>
         </div>
     </div>
 </template>
