@@ -7,7 +7,11 @@
                 </div>
                 <div class="col-xs-7 text-right">
                     <label for="Status"><small>Show this service in results?</small></label>
-                    <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" id="Status" v-model="current_service.Status">
+                    <toggle-button
+                        v-model="status"
+                        :labels="{checked: 'Yes', unchecked: 'No'}"
+                        :sync="true"
+                        :color="{checked:'#32c5d2', unchecked:'#e73d4a'}"/>
                 </div>
                 <div class="col-sm-12">
                     <label for="service_provider_id">Service Provider: <small>if not listed go to the Service Provider tab in left sidebar to create new</small></label>
@@ -284,6 +288,7 @@
                     suburbs : [],
                     suburbs_selected : [],
                     config,
+                    status:false,
             }
         },
         methods: {
@@ -339,6 +344,13 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+                // init status;
+                if(self.current_service){
+                    self.status = false;
+                    if(self.current_service.Status == 1){
+                        self.status = true;
+                    }
+                }
             },
             event_on_change_tab() {
                 let self = this;
@@ -356,7 +368,8 @@
                     postcodes: self.catchments.Postcode,
                     service_provider: self.service_provider_selected.ServiceProviderId,
                     service_type:self.service_type_selected.ServiceTypelId,
-                    service_level:self.service_level_selected.ServiceLevelId
+                    service_level:self.service_level_selected.ServiceLevelId,
+                    status: self.status,
 
                 };
                 let url = '/service/general_settings';

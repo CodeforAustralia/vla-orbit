@@ -33,6 +33,7 @@
     "uiv": "^0.27.0",
     "vue-debounce": "^1.2.0",
     "vue-full-calendar": "^2.7.0",
+    "vue-js-toggle-button": "^1.3.2",
     "vue-json-excel": "^0.2.98",
     "vue-mce": "^1.5.0",
     "vue-multiselect": "^2.1.6",

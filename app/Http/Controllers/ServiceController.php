@@ -186,7 +186,7 @@ class ServiceController extends Controller
                 'ServiceLevelId' => $request['service_level'],
                 'ServiceTypeId'  => $request['service_type'] ,
                 'OpenningHrs'    => filter_var($service['OpenningHrs'], FILTER_SANITIZE_STRING),
-                'Status'         => 1 , // TODO
+                'Status'         => $request['status'] ? 1 : 0 , // TODO
                 'Specialist'     => false,
             ];
 

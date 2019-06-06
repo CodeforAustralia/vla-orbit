@@ -7,10 +7,12 @@ import service_clients_matters from './components/service_self_serving/service_c
 import service_intake_options from './components/service_self_serving/service_intake_options.vue';
 import service_legal_matters from './components/service_self_serving/service_legal_matters.vue';
 import VueSweetalert2 from 'vue-sweetalert2';
+import ToggleButton from 'vue-js-toggle-button'
 
 Vue.use(VueSweetalert2);
 Vue.component('multiselect', Multiselect);
 Vue.use(VueMce);
+Vue.use(ToggleButton)
 
 const service_management = new Vue({
     el: '#service_self_serving',
