@@ -13,13 +13,16 @@
                         <a @click="change_tab('settings')" href="#service_general_settings" data-toggle="tab"> General Settings </a>
                     </li>
                     <li>
-                        <a @click="change_tab('eligibility')" href="#service_clients_matters" data-toggle="tab"> Client / Matters </a>
+                        <a v-if="!is_new_service" @click="change_tab('eligibility')" href="#service_clients_matters" data-toggle="tab"> Client / Matters </a>
+                        <a v-else @click="save_service_first()"> Client / Matters</a>
                     </li>
                     <li>
-                        <a @click="change_tab('matters')" href="#service_legal_matters" data-toggle="tab"> Legal Matters </a>
+                        <a v-if="!is_new_service" @click="change_tab('matters')" href="#service_legal_matters" data-toggle="tab"> Legal Matters </a>
+                        <a v-else @click="save_service_first()"> Legal Matters</a>
                     </li>
                     <li>
-                        <a @click="change_tab('intake_options')" href="#service_intake_options" data-toggle="tab"> Intake Options </a>
+                        <a v-if="!is_new_service" @click="change_tab('intake_options')" href="#service_intake_options" data-toggle="tab"> Intake Options </a>
+                        <a v-else @click="save_service_first()"> Intake Options</a>
                     </li>
                 </ul>
                 <div class="tab-content padding-top-10">

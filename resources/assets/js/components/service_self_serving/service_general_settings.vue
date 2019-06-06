@@ -315,13 +315,12 @@
             },
             init_catchments: function() {
                 let self = this;
-                console.log(self.catchments);
                 axios.get('/catchment/listLgcs' )
                     .then(function (response) {
                         self.lgas = response.data;
                         if(self.catchments){
                             self.lgas.forEach(lga => {
-                                if(self.catchments.LGA.includes(lga.id)){
+                                if(self.catchments.LGA.indexOf(lga.id) !== -1 ){
                                     self.lgas_selected.push(lga);
                                 }
                             });
@@ -335,7 +334,7 @@
                         self.suburbs = response.data;
                         if(self.catchments){
                             self.suburbs.forEach(suburb => {
-                                if(self.catchments.Suburbs.includes(suburb.id)){
+                                if(self.catchments.Suburbs.indexOf(suburb.id) !== -1 ){
                                     self.suburbs_selected.push(suburb);
                                 }
                             });

@@ -23,9 +23,19 @@ const service_management = new Vue({
         'service-legal-matters': service_legal_matters
     },
     data: {
-        tab_active: 'settings'
+        tab_active: 'settings',
+        current_path: window.location.pathname
+    },
+    computed: {
+        is_new_service() {
+            return this.current_path === '/service/new';
+        }
     },
     methods: {
+        save_service_first() {
+            let self = this;
+            self.$swal('Please save this service first.', '', 'error');
+        },
         change_tab(tab_name) {
             let self = this;
             if (self.tab_active !== tab_name) {
