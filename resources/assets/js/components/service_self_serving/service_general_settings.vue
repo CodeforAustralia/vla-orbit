@@ -267,6 +267,11 @@
             catchments : {
                 type:Object,
                 required:false,
+                default: function () { return {
+                    Postcode: '',
+                    Suburbs: [],
+                    LGA: []
+                } },
             }
         },
         data () {
@@ -305,6 +310,7 @@
             },
             init_catchments: function() {
                 let self = this;
+                console.log(self.catchments);
                 axios.get('/catchment/listLgcs' )
                     .then(function (response) {
                         self.lgas = response.data;

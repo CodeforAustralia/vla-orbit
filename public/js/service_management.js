@@ -2245,7 +2245,14 @@ var config = {
     },
     catchments: {
       type: Object,
-      required: false
+      required: false,
+      "default": function _default() {
+        return {
+          Postcode: '',
+          Suburbs: [],
+          LGA: []
+        };
+      }
     }
   },
   data: function data() {
@@ -2284,6 +2291,7 @@ var config = {
     },
     init_catchments: function init_catchments() {
       var self = this;
+      console.log(self.catchments);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/catchment/listLgcs').then(function (response) {
         self.lgas = response.data;
 
@@ -36310,7 +36318,7 @@ Vue.component('component-a', {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
+module.exports = __webpack_require__(/*! C:\wamp\www\vla-orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
 
 
 /***/ })
