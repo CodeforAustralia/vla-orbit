@@ -277,13 +277,13 @@ Class Catchment extends OrbitSoap
 
         $catchments = [];
         if ( isset( $request['lga'] ) ) {
-            $catchment_lgas = self::getCatchmentsByListofID( $request['lga'] );
+            $catchment_lgas = self::getCatchmentsByListofID( array_column($request['lga'], 'id') );
             $catchments = array_merge( $catchments, $catchment_lgas );
             self::processCatchmentArea( $catchments, $sv_id, LGA_ID );
         }
         $catchments = [];
         if ( isset( $request['suburbs'] ) ) {
-            $catchments_suburb = self::getCatchmentsBySuburbList( $request['suburbs'] );
+            $catchments_suburb = self::getCatchmentsBySuburbList(array_column($request['suburbs'], 'id'));
             $catchments = array_merge( $catchments, $catchments_suburb );
             self::processCatchmentArea( $catchments, $sv_id, SUBURBS_ID );
         }

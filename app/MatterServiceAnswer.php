@@ -134,9 +134,11 @@ Class MatterServiceAnswer extends OrbitSoap
 
         foreach ($matters as $matter) {
             foreach ($matter['questions'] as $question) {
-                $operator = ' ';
-                $value = ' ';
-                if(isset($question['Operator']) && !is_null($question['QuestionValue'])){
+                $save = false;
+                $operator = '';
+                $value = '';
+                if(!is_null($question['Operator']) && !is_null($question['QuestionValue'])){
+                    $save =true;
                     $operator = $question['Operator'];
                     $value = $question['QuestionValue'];
                 }
@@ -147,7 +149,7 @@ Class MatterServiceAnswer extends OrbitSoap
                         'MatterId' //Column to search an specific matter
                     )
                 );
-                if($question["MatterId"] == $matter["id"]  && isset($matter_services_list[$matter_service_index])){
+                if($question["MatterId"] == $matter["id"]  && isset($matter_services_list[$matter_service_index]) && $save){
                     $matter_questions[] = [
                         'RefNo'           => 0,
                         'MatterServiceId' => $matter_services_list[$matter_service_index]->RefNo,
@@ -159,7 +161,7 @@ Class MatterServiceAnswer extends OrbitSoap
                 }
 
             }
-        }
+        }   
         self::saveMatterServiceAnswers($matter_questions);
 
 
@@ -225,6 +227,7 @@ Class MatterServiceAnswer extends OrbitSoap
     {
         $operator = '=';
         $answer = true;
+        $matter_questions=[];
         foreach ($matters as $matter) {
             if(isset($matter["questions_selected"])) {
                 foreach ($matter["questions_selected"] as $question) {
@@ -248,36 +251,6 @@ Class MatterServiceAnswer extends OrbitSoap
             }
 
         }
-        // dd("Yes");
-        // if (isset($result['data']) && !is_null( $questions )) {
-
-        //     $current_service = json_decode( $result['data'] )[0];
-        //     foreach ( $questions as $lm_id => $qu_ids ) {
-
-        //         $operator = '=';
-        //         $answer = true;
-
-        //         //Get service matter position of question in current service matter - Potentially slow for huge arrays
-        //         $sm_position = array_search(
-        //                                         $lm_id,  //Legal matter id
-        //                                         array_column(
-        //                                             $current_service->ServiceMatters,  // Array of matters in a service
-        //                                             'MatterID' //Column to search an specific matter
-        //                                         )
-        //                                     );
-
-        //         $lms_id = $current_service->ServiceMatters[$sm_position]->MatterServiceID;
-        //         foreach ($qu_ids as $qu_id => $value) {
-        //             $matter_questions[] =[
-        //                 'RefNo'           => 0,
-        //                 'MatterServiceId' => $lms_id,
-        //                 'QuestionId'      => $qu_id,
-        //                 'Operator'        => $operator,
-        //                 'QuestionValue'   => $answer
-        //             ];
-        //         }
-
-        //     }
             self::saveMatterServiceAnswers($matter_questions);
 
         //}

@@ -2208,6 +2208,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 var config = {
@@ -2292,7 +2295,6 @@ var config = {
           });
         }
       })["catch"](function (error) {
-        self.init_catchments();
         console.log(error);
       });
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/catchment/listSuburbs').then(function (response) {
@@ -2306,7 +2308,6 @@ var config = {
           });
         }
       })["catch"](function (error) {
-        self.init_catchments();
         console.log(error);
       });
     },
@@ -2324,7 +2325,10 @@ var config = {
         current_service: self.current_service,
         lga: self.lgas_selected,
         suburbs: self.suburbs_selected,
-        postcodes: self.catchments.Postcode
+        postcodes: self.catchments.Postcode,
+        service_provider: self.service_provider_selected.ServiceProviderId,
+        service_type: self.service_type_selected.ServiceTypelId,
+        service_level: self.service_level_selected.ServiceLevelId
       };
       var url = '/service/general_settings';
       this.submit_service_gs('post', url, general_settings).then(function (response) {
@@ -2834,6 +2838,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2885,7 +2890,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/matter/listWithQuestionsFormated').then(function (response) {
         self.matters = response.data;
 
-        if (self.current_service && self.current_service.length > 0) {
+        if (self.current_service && self.current_service.ServiceMatters.length > 0) {
           self.current_service.ServiceMatters.forEach(function (service_matter) {
             self.matters.forEach(function (matter) {
               if (service_matter.MatterID == matter.id) {
@@ -22082,7 +22087,8 @@ var render = function() {
                 searchable: true,
                 "close-on-select": true,
                 "show-no-results": false,
-                "show-labels": false
+                "show-labels": false,
+                "allow-empty": false
               },
               model: {
                 value: _vm.service_provider_selected,
@@ -22148,7 +22154,8 @@ var render = function() {
                 searchable: true,
                 "close-on-select": true,
                 "show-no-results": false,
-                "show-labels": false
+                "show-labels": false,
+                "allow-empty": false
               },
               model: {
                 value: _vm.service_type_selected,
@@ -22182,7 +22189,8 @@ var render = function() {
                 searchable: true,
                 "close-on-select": true,
                 "show-no-results": false,
-                "show-labels": false
+                "show-labels": false,
+                "allow-empty": false
               },
               model: {
                 value: _vm.service_level_selected,
@@ -23448,17 +23456,21 @@ var render = function() {
                                   }
                                 }
                               },
-                              _vm._l(_vm.operators, function(operator) {
-                                return _c(
-                                  "option",
-                                  {
-                                    key: operator.value,
-                                    domProps: { value: operator.value }
-                                  },
-                                  [_vm._v(" " + _vm._s(operator.label))]
-                                )
-                              }),
-                              0
+                              [
+                                _c("option"),
+                                _vm._v(" "),
+                                _vm._l(_vm.operators, function(operator) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: operator.value,
+                                      domProps: { value: operator.value }
+                                    },
+                                    [_vm._v(" " + _vm._s(operator.label))]
+                                  )
+                                })
+                              ],
+                              2
                             )
                           ]),
                           _vm._v(" "),
@@ -36298,7 +36310,7 @@ Vue.component('component-a', {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\wamp\www\vla-orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
+module.exports = __webpack_require__(/*! C:\xampp\orbit\resources\assets\js\service_management.js */"./resources/assets/js/service_management.js");
 
 
 /***/ })

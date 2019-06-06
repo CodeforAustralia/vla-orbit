@@ -26,6 +26,7 @@
                         :close-on-select="true"
                         :show-no-results="false"
                         :show-labels="false"
+                        :allow-empty="false"
                         ></multiselect>
                 </div>
             </div>
@@ -55,6 +56,7 @@
                     :close-on-select="true"
                     :show-no-results="false"
                     :show-labels="false"
+                    :allow-empty="false"
                     >
                     </multiselect>
                 </div>
@@ -77,6 +79,7 @@
                     :close-on-select="true"
                     :show-no-results="false"
                     :show-labels="false"
+                    :allow-empty="false"
                     >
                     </multiselect>
                 </div>
@@ -314,7 +317,6 @@
                         }
                     })
                     .catch(function (error) {
-                        self.init_catchments();
                         console.log(error);
                     });
                 axios.get('/catchment/listSuburbs' )
@@ -329,7 +331,6 @@
                         }
                     })
                     .catch(function (error) {
-                         self.init_catchments();
                         console.log(error);
                     });
             },
@@ -347,6 +348,9 @@
                     lga:self.lgas_selected,
                     suburbs:self.suburbs_selected,
                     postcodes: self.catchments.Postcode,
+                    service_provider: self.service_provider_selected.ServiceProviderId,
+                    service_type:self.service_type_selected.ServiceTypelId,
+                    service_level:self.service_level_selected.ServiceLevelId
 
                 };
                 let url = '/service/general_settings';

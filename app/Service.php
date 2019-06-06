@@ -198,7 +198,6 @@ Class Service extends OrbitSoap
             // Redirect to index
             if ( $response->SaveOrbitServiceResult >= 0 ) {
                 self::saveServiceCatchments($sv_id, $catchment_info);
-
                 return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $sv_id ];
             } else {
                 return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];

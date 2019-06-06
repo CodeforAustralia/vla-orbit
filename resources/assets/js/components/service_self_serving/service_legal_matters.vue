@@ -56,6 +56,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <select  class="form-control" v-model="question.Operator">
+                                        <option></option>
                                         <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator. label }}</option>
                                     </select>
                                 </div>
@@ -143,7 +144,7 @@
                 axios.get('/matter/listWithQuestionsFormated' )
                     .then(function (response) {
                         self.matters = response.data;
-                        if(self.current_service && self.current_service.length > 0){
+                        if(self.current_service && self.current_service.ServiceMatters.length > 0){
                             self.current_service.ServiceMatters.forEach(service_matter => {
                                 self.matters.forEach(matter => {
                                     if(service_matter.MatterID == matter.id){

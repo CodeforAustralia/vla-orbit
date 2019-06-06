@@ -181,18 +181,18 @@ class ServiceController extends Controller
                 'Description'   => $service['Description'],
                 'Location'      => filter_var($service['Location'], FILTER_SANITIZE_STRING),
                 'URL'           => filter_var($service['URL'], FILTER_SANITIZE_URL),
-                'ServiceProviderId' => $service['ServiceProviderId'],
+                'ServiceProviderId' => $request["service_provider"],
                 'Wait'           => filter_var($service['Wait'], FILTER_SANITIZE_STRING),
-                'ServiceLevelId' => $service['ServiceLevelId'],
-                'ServiceTypeId'  => $service['ServiceTypeId'] ,
+                'ServiceLevelId' => $request['service_level'],
+                'ServiceTypeId'  => $request['service_type'] ,
                 'OpenningHrs'    => filter_var($service['OpenningHrs'], FILTER_SANITIZE_STRING),
                 'Status'         => 1 , // TODO
                 'Specialist'     => false,
             ];
 
             $service_obj = new Service();
-            return $service_obj->saveServices($sv_params, $service['ServiceId'],$request);
-
+            $service_obj->saveServices($sv_params, $service['ServiceId'],$request);
+            return ['success' => 'success' , 'message' => 'Intake options saved.'];
 
         } catch ( \Exception $e ) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
