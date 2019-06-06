@@ -218,7 +218,7 @@
 
             <div class="form-group">
                 <div class="col-sm-12">
-                    <button type="button" class="btn btn-circle green margin-top-15" @click="save_general_settings()">Save General Settings</button>
+                    <button type="button" class="btn green margin-top-15" @click="save_general_settings()">Save General Settings</button>
                 </div>
             </div>
         </div>

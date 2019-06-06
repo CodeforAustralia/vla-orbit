@@ -2830,6 +2830,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -21908,7 +21912,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-circle green margin-top-15",
+                staticClass: "btn green margin-top-15",
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -22520,7 +22524,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-circle green margin-top-15",
+              staticClass: "btn green margin-top-15",
               attrs: { type: "button" },
               on: {
                 click: function($event) {
@@ -23177,7 +23181,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-circle green margin-top-15",
+          staticClass: "btn green margin-top-15",
           attrs: { type: "button" },
           on: {
             click: function($event) {
@@ -23276,103 +23280,62 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-sm-12" },
-        [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("multiselect", {
-            key: "id",
-            attrs: {
-              label: "text",
-              id: "matters",
-              "track-by": "id",
-              "open-direction": "bottom",
-              placeholder: "Select Legal Matters",
-              options: _vm.matters,
-              multiple: true,
-              searchable: true,
-              "close-on-select": true,
-              "show-no-results": false,
-              "show-labels": false
-            },
-            model: {
-              value: _vm.matters_selected,
-              callback: function($$v) {
-                _vm.matters_selected = $$v
-              },
-              expression: "matters_selected"
-            }
-          })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-12" }, [
-        _vm._m(3),
-        _vm._v(" "),
-        _vm._m(4),
-        _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "nav nav-tabs" },
-          _vm._l(_vm.matters_selected, function(matter, index) {
-            return _c(
-              "li",
-              {
-                key: matter.id,
-                class: [
-                  {
-                    active:
-                      _vm.currentTab === matter ||
-                      (Object.entries(_vm.currentTab).length === 0 &&
-                        index === 0)
-                  }
-                ],
-                on: {
-                  click: function($event) {
-                    _vm.currentTab = matter
-                  }
-                }
-              },
-              [
-                _c(
-                  "a",
-                  { attrs: { "data-toggle": "tab", href: "#" + matter.id } },
-                  [_vm._v(_vm._s(matter.text))]
-                )
-              ]
-            )
-          }),
-          0
-        ),
+  return _c("div", { staticClass: "form" }, [
+    _c("div", { staticClass: "form-horizontal" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(0),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "tab-content" },
+          { staticClass: "col-sm-12" },
           [
-            _c("p", [
-              _vm._v(
-                "To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)"
-              )
-            ]),
+            _vm._m(1),
             _vm._v(" "),
+            _c("multiselect", {
+              key: "id",
+              attrs: {
+                label: "text",
+                id: "matters",
+                "track-by": "id",
+                "open-direction": "bottom",
+                placeholder: "Select Legal Matters",
+                options: _vm.matters,
+                multiple: true,
+                searchable: true,
+                "close-on-select": true,
+                "show-no-results": false,
+                "show-labels": false
+              },
+              model: {
+                value: _vm.matters_selected,
+                callback: function($$v) {
+                  _vm.matters_selected = $$v
+                },
+                expression: "matters_selected"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-12" }, [
+          _vm._m(3),
+          _vm._v(" "),
+          _vm._m(4),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "nav nav-tabs" },
             _vm._l(_vm.matters_selected, function(matter, index) {
               return _c(
-                "div",
+                "li",
                 {
                   key: matter.id,
                   class: [
-                    "tab-pane",
                     {
                       active:
                         _vm.currentTab === matter ||
@@ -23380,221 +23343,266 @@ var render = function() {
                           index === 0)
                     }
                   ],
-                  attrs: { id: matter.id }
+                  on: {
+                    click: function($event) {
+                      _vm.currentTab = matter
+                    }
+                  }
                 },
                 [
-                  _vm._l(matter.questions, function(question) {
-                    return _c(
-                      "div",
-                      {
-                        key: question.QuestionId,
-                        staticClass: "form-group col-md-12"
-                      },
-                      [
-                        _c("div", { staticClass: "col-md-5" }, [
-                          question.QuestionName != ""
-                            ? _c("label", { staticClass: "pull-right" }, [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(question.QuestionName) +
-                                    "\n                            "
-                                )
-                              ])
-                            : _c("label", { staticClass: "pull-right" }, [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(question.QuestionLabel) +
-                                    "\n                            "
-                                )
-                              ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-2" }, [
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: question.Operator,
-                                  expression: "question.Operator"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    question,
-                                    "Operator",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            _vm._l(_vm.operators, function(operator) {
-                              return _c(
-                                "option",
-                                {
-                                  key: operator.value,
-                                  domProps: { value: operator.value }
-                                },
-                                [_vm._v(" " + _vm._s(operator.label))]
-                              )
-                            }),
-                            0
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-5" }, [
-                          question.QuestionTypeName == "multiple"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: question.QuestionValue,
-                                    expression: "question.QuestionValue"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  "data-role": "tagsinput",
-                                  name:
-                                    "question[" +
-                                    question.MatterId +
-                                    "][" +
-                                    question.QuestionId +
-                                    "][answer]",
-                                  id: "answer",
-                                  value: ""
-                                },
-                                domProps: { value: question.QuestionValue },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      question,
-                                      "QuestionValue",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: question.QuestionValue,
-                                    expression: "question.QuestionValue"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  name:
-                                    "question[" +
-                                    question.MatterId +
-                                    "][" +
-                                    question.QuestionId +
-                                    "][answer]",
-                                  id: "answer",
-                                  value: ""
-                                },
-                                domProps: { value: question.QuestionValue },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      question,
-                                      "QuestionValue",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                        ])
-                      ]
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _vm._m(5, true),
-                  _vm._v(" "),
-                  _vm._m(6, true),
-                  _vm._v(" "),
                   _c(
-                    "div",
-                    { staticClass: "col-sm-12" },
-                    [
-                      _c("multiselect", {
-                        key: "QuestionId",
-                        attrs: {
-                          label: "QuestionLabel",
-                          id: "vulnerability",
-                          "track-by": "QuestionLabel",
-                          placeholder: "Select eligibility...",
-                          "open-direction": "top",
-                          options: _vm.eligibility_questions,
-                          multiple: true,
-                          searchable: true,
-                          "close-on-select": true,
-                          "show-no-results": false,
-                          "show-labels": false
-                        },
-                        model: {
-                          value: matter.questions_selected,
-                          callback: function($$v) {
-                            _vm.$set(matter, "questions_selected", $$v)
-                          },
-                          expression: "matter.questions_selected"
-                        }
-                      })
-                    ],
-                    1
+                    "a",
+                    { attrs: { "data-toggle": "tab", href: "#" + matter.id } },
+                    [_vm._v(_vm._s(matter.text))]
                   )
-                ],
-                2
+                ]
               )
-            })
-          ],
-          2
-        )
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "tab-content" },
+            [
+              _c("p", [
+                _vm._v(
+                  "To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)"
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.matters_selected, function(matter, index) {
+                return _c(
+                  "div",
+                  {
+                    key: matter.id,
+                    class: [
+                      "tab-pane",
+                      {
+                        active:
+                          _vm.currentTab === matter ||
+                          (Object.entries(_vm.currentTab).length === 0 &&
+                            index === 0)
+                      }
+                    ],
+                    attrs: { id: matter.id }
+                  },
+                  [
+                    _vm._l(matter.questions, function(question) {
+                      return _c(
+                        "div",
+                        {
+                          key: question.QuestionId,
+                          staticClass: "form-group col-md-12"
+                        },
+                        [
+                          _c("div", { staticClass: "col-md-5" }, [
+                            question.QuestionName != ""
+                              ? _c("label", { staticClass: "pull-right" }, [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(question.QuestionName) +
+                                      "\n                                "
+                                  )
+                                ])
+                              : _c("label", { staticClass: "pull-right" }, [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(question.QuestionLabel) +
+                                      "\n                                "
+                                  )
+                                ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-2" }, [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: question.Operator,
+                                    expression: "question.Operator"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      question,
+                                      "Operator",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              _vm._l(_vm.operators, function(operator) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: operator.value,
+                                    domProps: { value: operator.value }
+                                  },
+                                  [_vm._v(" " + _vm._s(operator.label))]
+                                )
+                              }),
+                              0
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-5" }, [
+                            question.QuestionTypeName == "multiple"
+                              ? _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: question.QuestionValue,
+                                      expression: "question.QuestionValue"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    "data-role": "tagsinput",
+                                    name:
+                                      "question[" +
+                                      question.MatterId +
+                                      "][" +
+                                      question.QuestionId +
+                                      "][answer]",
+                                    id: "answer",
+                                    value: ""
+                                  },
+                                  domProps: { value: question.QuestionValue },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        question,
+                                        "QuestionValue",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              : _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: question.QuestionValue,
+                                      expression: "question.QuestionValue"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    name:
+                                      "question[" +
+                                      question.MatterId +
+                                      "][" +
+                                      question.QuestionId +
+                                      "][answer]",
+                                    id: "answer",
+                                    value: ""
+                                  },
+                                  domProps: { value: question.QuestionValue },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        question,
+                                        "QuestionValue",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                          ])
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _vm._m(5, true),
+                    _vm._v(" "),
+                    _vm._m(6, true),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-12" },
+                      [
+                        _c("multiselect", {
+                          key: "QuestionId",
+                          attrs: {
+                            label: "QuestionLabel",
+                            id: "vulnerability",
+                            "track-by": "QuestionLabel",
+                            placeholder: "Select eligibility...",
+                            "open-direction": "top",
+                            options: _vm.eligibility_questions,
+                            multiple: true,
+                            searchable: true,
+                            "close-on-select": true,
+                            "show-no-results": false,
+                            "show-labels": false
+                          },
+                          model: {
+                            value: matter.questions_selected,
+                            callback: function($$v) {
+                              _vm.$set(matter, "questions_selected", $$v)
+                            },
+                            expression: "matter.questions_selected"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ],
+                  2
+                )
+              })
+            ],
+            2
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("div", { staticClass: "col-sm-12" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn green margin-top-15",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.save_legal_matters()
+                }
+              }
+            },
+            [_vm._v("Save Legal Matters")]
+          )
+        ])
       ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-sm-12" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-circle green margin-top-15",
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.save_legal_matters()
-            }
-          }
-        },
-        [_vm._v("Save Legal Matters")]
-      )
     ])
   ])
 }

@@ -66,7 +66,7 @@
 
             <div class="form-group">
                 <div class="col-sm-12">
-                    <button type="button" class="btn btn-circle green margin-top-15" @click="save_client_matters()">Save Client Matters</button>
+                    <button type="button" class="btn green margin-top-15" @click="save_client_matters()">Save Client Matters</button>
                 </div>
             </div>
         </div>
