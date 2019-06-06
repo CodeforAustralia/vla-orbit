@@ -113,7 +113,7 @@
             current_service : {
                 type: Object,
                 required: false,
-                default: []
+                default: function () { return {} }
             },
             eligibility_questions : {
                 type: Array,
@@ -144,7 +144,7 @@
                 axios.get('/matter/listWithQuestionsFormated' )
                     .then(function (response) {
                         self.matters = response.data;
-                        if(self.current_service && self.current_service.ServiceMatters.length > 0){
+                        if(self.current_service.hasOwnProperty('ServiceMatters') && self.current_service.ServiceMatters.length > 0){
                             self.current_service.ServiceMatters.forEach(service_matter => {
                                 self.matters.forEach(matter => {
                                     if(service_matter.MatterID == matter.id){

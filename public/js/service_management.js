@@ -2861,7 +2861,9 @@ __webpack_require__.r(__webpack_exports__);
     current_service: {
       type: Object,
       required: false,
-      "default": []
+      "default": function _default() {
+        return {};
+      }
     },
     eligibility_questions: {
       type: Array,
@@ -2904,7 +2906,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/matter/listWithQuestionsFormated').then(function (response) {
         self.matters = response.data;
 
-        if (self.current_service && self.current_service.ServiceMatters.length > 0) {
+        if (self.current_service.hasOwnProperty('ServiceMatters') && self.current_service.ServiceMatters.length > 0) {
           self.current_service.ServiceMatters.forEach(function (service_matter) {
             self.matters.forEach(function (matter) {
               if (service_matter.MatterID == matter.id) {
