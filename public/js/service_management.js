@@ -2559,26 +2559,38 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     selected_referral_conditions: {
-      "default": [],
+      "default": function _default() {
+        return [];
+      },
       type: Array
     },
     selected_booking_conditions: {
-      "default": [],
+      "default": function _default() {
+        return [];
+      },
       type: Array
     },
     selected_e_referral_conditions: {
-      "default": [],
+      "default": function _default() {
+        return [];
+      },
       type: Array
     },
     selected_e_referral_forms: {
-      "default": [],
+      "default": function _default() {
+        return [];
+      },
       type: Array
     },
     current_service: {
-      "default": {}
+      "default": function _default() {
+        return {};
+      }
     },
     service_booking: {
-      "default": {}
+      "default": function _default() {
+        return {};
+      }
     }
   },
   data: function data() {

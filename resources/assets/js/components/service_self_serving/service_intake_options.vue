@@ -165,26 +165,26 @@
     export default {
         props: {
             selected_referral_conditions: {
-                default: [],
+                default: function () { return [] },
                 type: Array
             },
             selected_booking_conditions: {
-                default: [],
+                default: function () { return [] },
                 type: Array
             },
             selected_e_referral_conditions: {
-                default: [],
+                default: function () { return [] },
                 type: Array
             },
             selected_e_referral_forms: {
-                default: [],
+                default: function () { return [] },
                 type: Array
             },
             current_service: {
-                default: {}
+                default: function () { return {} }
             },
             service_booking: {
-                default: {}
+                default: function () { return {} }
             }
         },
 
