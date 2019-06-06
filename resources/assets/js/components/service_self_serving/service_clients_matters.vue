@@ -1,31 +1,48 @@
 <template>
-    <div class="row">
-        <div class="col-xs-12">
-            <h4>Service client matters</h4>
-
-            <!-- Eligibility Questions -->
-            <p><small>These eligibility criteria are threshold requirements for entry into the service. The chosen criteria are service wide and will be overridden is a condition is added. If needed <a data-toggle="modal" href="#request-vulnerability">request a new criteria</a>.</small></p>
+    <div class="form">
+        <div class="form-horizontal">
             <div class="form-group">
-                <multiselect
-                v-model="selected_questions"
-                label="QuestionLabel"
-                key="QuestionId"
-                id="vulnerability"
-                track-by="QuestionLabel"
-                placeholder="Select eligibility..."
-                open-direction="bottom"
-                :options="eligibility_questions"
-                :multiple="true"
-                :searchable="true"
-                :close-on-select="true"
-                :show-no-results="false"
-                :show-labels="false"
-                ></multiselect>
+                <div class="col-xs-12">
+                    <p class="caption-subject font-purple-soft bold uppercase margin-bottom-10">Service client matters</p>
+                    <!-- Eligibility Questions -->
+                    <p class="margin-bottom-0">
+                        <small>
+                            These eligibility criteria are threshold requirements for entry into the service. 
+                            The chosen criteria are service wide and will be overridden is a condition is added. 
+                            If needed <a data-toggle="modal" href="#request-vulnerability">request a new criteria</a>.
+                        </small>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <multiselect
+                    v-model="selected_questions"
+                    label="QuestionLabel"
+                    key="QuestionId"
+                    id="vulnerability"
+                    track-by="QuestionLabel"
+                    placeholder="Select eligibility..."
+                    open-direction="bottom"
+                    :options="eligibility_questions"
+                    :multiple="true"
+                    :searchable="true"
+                    :close-on-select="true"
+                    :show-no-results="false"
+                    :show-labels="false"
+                    ></multiselect>
+                </div>
             </div>
             <!-- End: Eligibility Questions -->
 
             <!-- Booking Questions -->
-            <h4>Booking Questions</h4>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <p class="caption-subject font-purple-soft bold uppercase margin-bottom-0">Booking Questions</p>
+                </div>
+            </div>
+
             <div class="form-group col-sm-12" v-for="question in service_booking_questions" :key='question.QuestionId'>
                 <div class="col-sm-4 col-md-3">
                     <label class="pull-right" v-if="question.QuestionName != ''">
@@ -47,8 +64,11 @@
             </div>
             <!-- End: Booking Questions -->
 
-            <button type="button" class="btn btn-circle green margin-top-15" @click="save_client_matters()">Save Client Matters</button>
-
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-circle green margin-top-15" @click="save_client_matters()">Save Client Matters</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>

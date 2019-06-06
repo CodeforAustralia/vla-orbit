@@ -1794,6 +1794,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1961,6 +1981,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/event-bus */ "./resources/assets/js/utils/event-bus.js");
+//
+//
+//
 //
 //
 //
@@ -21711,47 +21734,47 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
+  return _c("div", { staticClass: "form" }, [
     _c(
       "div",
-      { staticClass: "col-xs-12" },
+      { staticClass: "form-horizontal" },
       [
-        _c("h4", [_vm._v("Service client matters")]),
-        _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "form-group" },
-          [
-            _c("multiselect", {
-              key: "QuestionId",
-              attrs: {
-                label: "QuestionLabel",
-                id: "vulnerability",
-                "track-by": "QuestionLabel",
-                placeholder: "Select eligibility...",
-                "open-direction": "bottom",
-                options: _vm.eligibility_questions,
-                multiple: true,
-                searchable: true,
-                "close-on-select": true,
-                "show-no-results": false,
-                "show-labels": false
-              },
-              model: {
-                value: _vm.selected_questions,
-                callback: function($$v) {
-                  _vm.selected_questions = $$v
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "div",
+            { staticClass: "col-xs-12" },
+            [
+              _c("multiselect", {
+                key: "QuestionId",
+                attrs: {
+                  label: "QuestionLabel",
+                  id: "vulnerability",
+                  "track-by": "QuestionLabel",
+                  placeholder: "Select eligibility...",
+                  "open-direction": "bottom",
+                  options: _vm.eligibility_questions,
+                  multiple: true,
+                  searchable: true,
+                  "close-on-select": true,
+                  "show-no-results": false,
+                  "show-labels": false
                 },
-                expression: "selected_questions"
-              }
-            })
-          ],
-          1
-        ),
+                model: {
+                  value: _vm.selected_questions,
+                  callback: function($$v) {
+                    _vm.selected_questions = $$v
+                  },
+                  expression: "selected_questions"
+                }
+              })
+            ],
+            1
+          )
+        ]),
         _vm._v(" "),
-        _c("h4", [_vm._v("Booking Questions")]),
+        _vm._m(1),
         _vm._v(" "),
         _vm._l(_vm.service_booking_questions, function(question) {
           return _c(
@@ -21880,19 +21903,23 @@ var render = function() {
           )
         }),
         _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-circle green margin-top-15",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.save_client_matters()
-              }
-            }
-          },
-          [_vm._v("Save Client Matters")]
-        )
+        _c("div", { staticClass: "form-group" }, [
+          _c("div", { staticClass: "col-sm-12" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-circle green margin-top-15",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.save_client_matters()
+                  }
+                }
+              },
+              [_vm._v("Save Client Matters")]
+            )
+          ])
+        ])
       ],
       2
     )
@@ -21903,17 +21930,52 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("small", [
-        _vm._v(
-          "These eligibility criteria are threshold requirements for entry into the service. The chosen criteria are service wide and will be overridden is a condition is added. If needed "
-        ),
+    return _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "col-xs-12" }, [
         _c(
-          "a",
-          { attrs: { "data-toggle": "modal", href: "#request-vulnerability" } },
-          [_vm._v("request a new criteria")]
+          "p",
+          {
+            staticClass:
+              "caption-subject font-purple-soft bold uppercase margin-bottom-10"
+          },
+          [_vm._v("Service client matters")]
         ),
-        _vm._v(".")
+        _vm._v(" "),
+        _c("p", { staticClass: "margin-bottom-0" }, [
+          _c("small", [
+            _vm._v(
+              "\n                        These eligibility criteria are threshold requirements for entry into the service. \n                        The chosen criteria are service wide and will be overridden is a condition is added. \n                        If needed "
+            ),
+            _c(
+              "a",
+              {
+                attrs: {
+                  "data-toggle": "modal",
+                  href: "#request-vulnerability"
+                }
+              },
+              [_vm._v("request a new criteria")]
+            ),
+            _vm._v(".\n                    ")
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "col-xs-12" }, [
+        _c(
+          "p",
+          {
+            staticClass:
+              "caption-subject font-purple-soft bold uppercase margin-bottom-0"
+          },
+          [_vm._v("Booking Questions")]
+        )
       ])
     ])
   }
@@ -22453,20 +22515,22 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-12" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-circle green margin-top-15",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.save_general_settings()
+      _c("div", { staticClass: "form-group" }, [
+        _c("div", { staticClass: "col-sm-12" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-circle green margin-top-15",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.save_general_settings()
+                }
               }
-            }
-          },
-          [_vm._v("Save General Settings")]
-        )
+            },
+            [_vm._v("Save General Settings")]
+          )
+        ])
       ])
     ])
   ])

@@ -215,8 +215,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-circle green margin-top-15" @click="save_general_settings()">Save General Settings</button>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-circle green margin-top-15" @click="save_general_settings()">Save General Settings</button>
+                </div>
             </div>
         </div>
     </div>
