@@ -2180,6 +2180,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 var config = {
@@ -2200,7 +2207,9 @@ var config = {
     current_service: {
       type: Object,
       required: false,
-      "default": []
+      "default": function _default() {
+        return {};
+      }
     },
     service_types: {
       type: Array,
@@ -2262,6 +2271,7 @@ var config = {
           });
         }
       })["catch"](function (error) {
+        self.init_catchments();
         console.log(error);
       });
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/catchment/listSuburbs').then(function (response) {
@@ -2275,13 +2285,51 @@ var config = {
           });
         }
       })["catch"](function (error) {
+        self.init_catchments();
         console.log(error);
       });
     },
     event_on_change_tab: function event_on_change_tab() {
       var self = this;
-      _utils_event_bus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('CHANGE_TAB_SETTINGS', function (payLoad) {//self.save_intake_options();
+      _utils_event_bus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('CHANGE_TAB_SETTINGS', function (payLoad) {//self.save_general_settings();
       });
+    },
+    save_general_settings: function save_general_settings() {
+      var _this = this;
+
+      var self = this;
+      $('#contentLoading').modal('show');
+      var general_settings = {
+        current_service: self.current_service,
+        lga: self.lgas_selected,
+        suburbs: self.suburbs_selected,
+        postcodes: self.catchments.Postcode
+      };
+      var url = '/service/general_settings';
+      this.submit_service_gs('post', url, general_settings).then(function (response) {
+        $('#contentLoading').modal('hide');
+
+        _this.swal_messages(response.success, response.message);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    submit_service_gs: function submit_service_gs(requestType, url, data) {
+      return new Promise(function (resolve, reject) {
+        //Do Ajax or Axios request
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common = {
+          'X-Requested-With': 'XMLHttpRequest'
+        };
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a[requestType](url, data).then(function (response) {
+          resolve(response.data);
+        })["catch"](function (error) {
+          console.log(error);
+          reject(error.response.data);
+        });
+      });
+    },
+    swal_messages: function swal_messages(type, message) {
+      this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
     }
   },
   watch: {},
@@ -2812,7 +2860,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/matter/listWithQuestionsFormated').then(function (response) {
         self.matters = response.data;
 
-        if (self.current_service) {
+        if (self.current_service && self.current_service.length > 0) {
           self.current_service.ServiceMatters.forEach(function (service_matter) {
             self.matters.forEach(function (matter) {
               if (service_matter.MatterID == matter.id) {
@@ -2890,7 +2938,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     event_on_change_tab: function event_on_change_tab() {
       var self = this;
-      _utils_event_bus__WEBPACK_IMPORTED_MODULE_2__["default"].$on('CHANGE_TAB_MATTERS', function (payLoad) {//self.save_intake_options();
+      _utils_event_bus__WEBPACK_IMPORTED_MODULE_2__["default"].$on('CHANGE_TAB_MATTERS', function (payLoad) {
+        self.save_legal_matters();
       });
     },
     submit_service_lm: function submit_service_lm(requestType, url, data) {
@@ -21896,6 +21945,62 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "col-xs-7 text-right" }, [
+        _c("label", { attrs: { for: "Status" } }, [
+          _vm._v("Show this service in results?")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.current_service.Status,
+              expression: "current_service.Status"
+            }
+          ],
+          attrs: {
+            type: "checkbox",
+            "data-toggle": "toggle",
+            "data-on": "Yes",
+            "data-off": "No",
+            "data-onstyle": "success",
+            "data-offstyle": "danger",
+            "data-size": "mini",
+            id: "Status"
+          },
+          domProps: {
+            checked: Array.isArray(_vm.current_service.Status)
+              ? _vm._i(_vm.current_service.Status, null) > -1
+              : _vm.current_service.Status
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.current_service.Status,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 &&
+                    _vm.$set(_vm.current_service, "Status", $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    _vm.$set(
+                      _vm.current_service,
+                      "Status",
+                      $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                    )
+                }
+              } else {
+                _vm.$set(_vm.current_service, "Status", $$c)
+              }
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
       _vm._m(1),
       _vm._v(" "),
       _c(
@@ -22254,7 +22359,7 @@ var render = function() {
                   label: "text",
                   id: "lga",
                   "track-by": "id",
-                  "open-direction": "bottom",
+                  "open-direction": "top",
                   placeholder: "Select LGA",
                   options: _vm.lgas,
                   multiple: true,
@@ -22286,7 +22391,7 @@ var render = function() {
                   label: "text",
                   id: "suburbs",
                   "track-by": "id",
-                  "open-direction": "bottom",
+                  "open-direction": "top",
                   placeholder: "Select Suburb",
                   options: _vm.suburbs,
                   multiple: true,
@@ -22341,6 +22446,22 @@ var render = function() {
           )
         ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-sm-12" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-circle green margin-top-15",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.save_general_settings()
+            }
+          }
+        },
+        [_vm._v("Save General Settings")]
+      )
     ])
   ])
 }

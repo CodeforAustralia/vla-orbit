@@ -74,6 +74,8 @@ Route::get('/service/new', 'ServiceController@create');
 
 Route::post('/service', 'ServiceController@store');
 
+Route::post('/service/general_settings', 'ServiceController@storeGeneralSettings');
+
 Route::post('/service/intake_options', 'ServiceController@storeIntakeOptions');
 
 Route::post('/service/client_eligibility', 'ServiceController@storeClientEligibility');

@@ -221,7 +221,7 @@ Class MatterServiceAnswer extends OrbitSoap
      * @param array $matter_services_list Matter service id
      * @return void
      */
-    public function processVulnerabilityMatterServiceAnswers( $matters, $sv_id, $matter_services_list )
+    public function processVulnerabilityMatterServiceAnswers( $matters, $matter_services_list )
     {
         $operator = '=';
         $answer = true;

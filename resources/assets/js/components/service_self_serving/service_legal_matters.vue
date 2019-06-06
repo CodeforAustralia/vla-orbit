@@ -139,7 +139,7 @@
                 axios.get('/matter/listWithQuestionsFormated' )
                     .then(function (response) {
                         self.matters = response.data;
-                        if(self.current_service){
+                        if(self.current_service && self.current_service.length > 0){
                             self.current_service.ServiceMatters.forEach(service_matter => {
                                 self.matters.forEach(matter => {
                                     if(service_matter.MatterID == matter.id){
@@ -218,7 +218,7 @@
             event_on_change_tab() {
                 let self = this;
                 EventBus.$on('CHANGE_TAB_MATTERS', function (payLoad) {
-                    //self.save_intake_options();
+                    self.save_legal_matters();
                 });
             },
             submit_service_lm(requestType, url, data) {

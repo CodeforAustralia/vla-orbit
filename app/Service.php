@@ -159,6 +159,54 @@ Class Service extends OrbitSoap
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
+
+    /**
+     * Create or update a service
+     * @param  Object   $sv_params  service details
+     * @param Array     $request    Form paramenters with additional service information
+     * @return Array    success or error message
+     */
+    public function saveServices( $sv_params, $sv_id, $request )
+    {
+        // Current time
+        $date_now = date("Y-m-d");
+        $time_now = date("H:i:s");
+        $date_time = $date_now . "T" . $time_now;
+
+        $sv_params['CreatedBy'] = auth()->user()->name;
+        $sv_params['UpdatedBy'] = auth()->user()->name;
+        $sv_params['CreatedOn'] = $date_time;
+        $sv_params['UpdatedOn'] = $date_time;
+
+        $catchment_info = [];
+        if( isset($request['lga']) && !is_null($request['lga']) ){
+            $catchment_info['lga'] = $request['lga'];
+        }
+        if( isset($request['postcodes']) && !is_null($request['postcodes']) ){
+            $catchment_info['postcodes'] = $request['postcodes'];
+        }
+        if( isset($request['suburbs']) && !is_null($request['suburbs']) ){
+            $catchment_info['suburbs'] = $request['suburbs'];
+        }
+        $info = [ 'ObjectInstance' => $sv_params ];
+
+        try {
+            $response = $this
+                        ->client
+                        ->ws_init('SaveOrbitService')
+                        ->SaveOrbitService( $info );
+            // Redirect to index
+            if ( $response->SaveOrbitServiceResult >= 0 ) {
+                self::saveServiceCatchments($sv_id, $catchment_info);
+
+                return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $sv_id ];
+            } else {
+                return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
+            }
+        } catch (\Exception $e) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
     /**
      * Delete a service
      * @param  int    $sv_id service id

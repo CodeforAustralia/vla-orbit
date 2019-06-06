@@ -6,6 +6,10 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="col-xs-7 text-right">
+                <label for="Status">Show this service in results?</label>
+                <input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" data-size="mini" id="Status" v-model="current_service.Status">
+            </div>
             <div class="col-sm-12">
                 <label for="service_provider_id">Service Provider: <small>if not listed go to the Service Provider tab in left sidebar to create new</small></label>
             </div>
@@ -172,7 +176,7 @@
                         key="id"
                         id="lga"
                         track-by="id"
-                        open-direction="bottom"
+                        open-direction="top"
                         placeholder="Select LGA"
                         :options='lgas'
                         :multiple="true"
@@ -193,7 +197,7 @@
                         key="id"
                         id="suburbs"
                         track-by="id"
-                        open-direction="bottom"
+                        open-direction="top"
                         placeholder="Select Suburb"
                         :options='suburbs'
                         :multiple="true"
@@ -212,6 +216,9 @@
 
                 </div>
             </div>
+        </div>
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-circle green margin-top-15" @click="save_general_settings()">Save General Settings</button>
         </div>
     </div>
 </template>
@@ -242,7 +249,7 @@
             current_service : {
                 type: Object,
                 required: false,
-                default: []
+                default: function () { return {} },
             },
             service_types : {
                 type: Array,
@@ -305,6 +312,7 @@
                         }
                     })
                     .catch(function (error) {
+                        self.init_catchments();
                         console.log(error);
                     });
                 axios.get('/catchment/listSuburbs' )
@@ -319,15 +327,56 @@
                         }
                     })
                     .catch(function (error) {
+                         self.init_catchments();
                         console.log(error);
                     });
             },
             event_on_change_tab() {
                 let self = this;
                 EventBus.$on('CHANGE_TAB_SETTINGS', function (payLoad) {
-                    //self.save_intake_options();
+                    //self.save_general_settings();
                 });
-            }
+            },
+            save_general_settings() {
+                let self = this;
+                $('#contentLoading').modal('show');
+                let general_settings = {
+                    current_service: self.current_service,
+                    lga:self.lgas_selected,
+                    suburbs:self.suburbs_selected,
+                    postcodes: self.catchments.Postcode,
+
+                };
+                let url = '/service/general_settings';
+                this.submit_service_gs('post',url, general_settings)
+                .then(response => {
+                    $('#contentLoading').modal('hide');
+                    this.swal_messages(response.success, response.message);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            },
+            submit_service_gs(requestType, url, data) {
+                return new Promise((resolve, reject) => {
+                    //Do Ajax or Axios request
+                    axios.defaults.headers.common = {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    };
+                    axios[requestType](url, data)
+                        .then(response => {
+                            resolve(response.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            reject(error.response.data);
+                    });
+                });
+            },
+            swal_messages(type, message) {
+                this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
+            },
+
 
         },
         watch:{

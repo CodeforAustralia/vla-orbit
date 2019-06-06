@@ -161,6 +161,43 @@ class ServiceController extends Controller
         return redirect('/service')->with( $response['success'], $response['message'] );
     }
 
+    /**
+     * Update service intake options of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeGeneralSettings(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        try {
+            $service = $request['current_service'];
+
+            $sv_params = [
+                'ServiceId'   	=> $service['ServiceId'],
+                'ServiceName'   => filter_var($service['ServiceName'], FILTER_SANITIZE_STRING),
+                'Phone'         => filter_var($service['Phone'], FILTER_SANITIZE_STRING),
+                'Email'         => filter_var($service['Email'], FILTER_SANITIZE_EMAIL),
+                'Description'   => $service['Description'],
+                'Location'      => filter_var($service['Location'], FILTER_SANITIZE_STRING),
+                'URL'           => filter_var($service['URL'], FILTER_SANITIZE_URL),
+                'ServiceProviderId' => $service['ServiceProviderId'],
+                'Wait'           => filter_var($service['Wait'], FILTER_SANITIZE_STRING),
+                'ServiceLevelId' => $service['ServiceLevelId'],
+                'ServiceTypeId'  => $service['ServiceTypeId'] ,
+                'OpenningHrs'    => filter_var($service['OpenningHrs'], FILTER_SANITIZE_STRING),
+                'Status'         => 1 , // TODO
+                'Specialist'     => false,
+            ];
+
+            $service_obj = new Service();
+            return $service_obj->saveServices($sv_params, $service['ServiceId'],$request);
+
+
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
 
     /**
      * Update service intake options of an existing service
@@ -244,7 +281,6 @@ class ServiceController extends Controller
 
                 $matters    = (isset($request['matters']) ? $request['matters'] : []);
 
-
                 $service = new Service();
                 $matters_ids = array_column($matters, 'id');
                 // Save the legal matters
@@ -258,14 +294,10 @@ class ServiceController extends Controller
                     // Save the Legal Matter Conditions.
                     $matter_service_answer->processMatterServiceAnswers( $matters , $sv_id , $matter_services_list);
                     // Save the Legal Matter Eligibility Criteria
-                    $matter_service_answer->processVulnerabilityMatterServiceAnswers( $matters , $sv_id , $matter_services_list );
+                    $matter_service_answer->processVulnerabilityMatterServiceAnswers( $matters , $matter_services_list );
 
 
                 }
-                /*
-                $service->saveServiceEligibilityQuestions($sv_id, $vulnerability);
-                $service->saveServiceBookingQuestions($sv_id, $booking_question);*/
-
                 return ['success' => 'success' , 'message' => 'Client Matters saved.'];
             } else {
                 return ['success' => 'error' , 'message' => 'Please save service first.'];

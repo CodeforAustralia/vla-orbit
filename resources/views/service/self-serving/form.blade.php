@@ -95,9 +95,12 @@
 
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 @endsection
 
 @section('scripts')
+<!-- Bootstrap toogle JS -->
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 {{-- TinyMCE editor--}}
 <script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey={{ env('TYTINYMCE_KEY') }}" ></script>
 {{-- Main logic of the file --}}
