@@ -89,14 +89,14 @@
             },
             selected_eligibility_questions: {
                 type: Array,
-                default: []
+                default: function () { return [] }
             },
             current_service: {
-                default: {}
+                default: function () { return {} }
             },
             service_booking_questions: {
                 type: Array,
-                default: []
+                default: function () { return [] }
             }
         },
         data () {

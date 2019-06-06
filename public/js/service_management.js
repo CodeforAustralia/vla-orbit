@@ -1827,14 +1827,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('multiselect', vue_multisel
     },
     selected_eligibility_questions: {
       type: Array,
-      "default": []
+      "default": function _default() {
+        return [];
+      }
     },
     current_service: {
-      "default": {}
+      "default": function _default() {
+        return {};
+      }
     },
     service_booking_questions: {
       type: Array,
-      "default": []
+      "default": function _default() {
+        return [];
+      }
     }
   },
   data: function data() {
