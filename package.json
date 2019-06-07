@@ -25,6 +25,7 @@
     "webpack": "^4.33.0"
   },
   "dependencies": {
+    "@johmun/vue-tags-input": "^2.0.1",
     "dragselect": "^1.12.2",
     "moment": "^2.24.0",
     "npm": "^6.9.0",

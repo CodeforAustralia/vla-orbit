@@ -354,7 +354,7 @@
             event_on_change_tab() {
                 let self = this;
                 EventBus.$on('CHANGE_TAB_SETTINGS', function (payLoad) {
-                    //self.save_general_settings();
+                    self.save_general_settings();
                 });
             },
             save_general_settings() {
@@ -409,6 +409,7 @@
         created() {
             this.init_catchments();
             this.preselect_data();
+            this.event_on_change_tab();
         },
     }
 

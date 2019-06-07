@@ -61,8 +61,16 @@
                                     </select>
                                 </div>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" data-role=tagsinput v-model="question.QuestionValue" v-if="question.QuestionTypeName == 'multiple'"  :name="`question[${question.MatterId}][${question.QuestionId}][answer]`" id="answer"  value="" >
-                                    <input type="text" class="form-control" v-model="question.QuestionValue" v-else :name="`question[${question.MatterId}][${question.QuestionId}][answer]`" id="answer"  value="" >
+                                    <vue-tags-input
+                                    v-model="tag"
+                                    :tags="question.QuestionValueTag"
+                                    :add-on-key="[13, ':', ';', ',']"
+                                    placeholder=""
+                                    @tags-changed="newTags => question.QuestionValueTag = newTags"
+                                    v-if="question.QuestionTypeName == 'multiple'"
+                                    />
+                                    <!-- <input type="text" class="form-control" data-role=tagsinput v-model="question.QuestionValue" v-if="question.QuestionTypeName == 'multiple'"  id="answer"  value="" > -->
+                                    <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
                                 </div>
                             </div>
                             <hr>
@@ -106,9 +114,13 @@
 	import moment from 'moment'
     import axios from 'axios';
     import EventBus from '../../utils/event-bus';
+    import VueTagsInput from '@johmun/vue-tags-input';
 
 
 	export default {
+          components: {
+            VueTagsInput,
+        },
         props: {
             current_service : {
                 type: Object,
@@ -122,7 +134,6 @@
 
         },
         data () {
-            let self = this;
             return {
                     matters_selected: [],
                     matters: [],
@@ -134,7 +145,8 @@
                                 {label:'Equal', value:'='},
                                 {label:'Not Equal', value:'!='},
                                 {label:'IN', value:'in'},
-                                ]
+                                ],
+                    tag: '',
 
             }
         },
@@ -177,6 +189,16 @@
                                         let current_answer = service_matter.MatterAnswers[question_index];
                                         question.Operator = current_answer.Operator;
                                         question.QuestionValue = current_answer.QuestionValue;
+                                        // for multiple answer question
+                                        if(question.QuestionTypeName=='multiple'){
+                                            let temp_array = current_answer.QuestionValue.split(",");
+                                            question.QuestionValueTag = [];
+                                            temp_array.forEach(tag => {
+                                                question.QuestionValueTag.push({
+                                                    'text': tag,
+                                                })
+                                            });
+                                        }
                                     }
                                 }
                             });
@@ -205,20 +227,22 @@
                 });
             },
             save_legal_matters() {
-                $('#contentLoading').modal('show');
-                let legal_matters = {
-                    sv_id: this.current_service.ServiceId,
-                    matters: this.matters_selected,
-                };
-                let url = '/service/legal_matter';
-                this.submit_service_lm('post',url, legal_matters)
-                .then(response => {
-                    $('#contentLoading').modal('hide');
-                    this.swal_messages(response.success, response.message);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+                if(this.validateLegalMatters()){
+                    $('#contentLoading').modal('show');
+                    let legal_matters = {
+                        sv_id: this.current_service.ServiceId,
+                        matters: this.matters_selected,
+                    };
+                    let url = '/service/legal_matter';
+                    this.submit_service_lm('post',url, legal_matters)
+                    .then(response => {
+                        $('#contentLoading').modal('hide');
+                        this.swal_messages(response.success, response.message);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+                }
             },
             event_on_change_tab() {
                 let self = this;
@@ -244,6 +268,30 @@
             },
             swal_messages(type, message) {
                 this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
+            },
+            validateLegalMatters() {
+                let self = this;
+                let message = '';
+                let result = true;
+                if(self.matters_selected){
+                    self.matters_selected.forEach(matter => {
+                        if(matter.questions){
+                            matter.questions.forEach(question => {
+                                if(question.Operator && !question.QuestionValue && question.QuestionTypeName != 'multiple'){
+                                    message = "Please select a value for question " + "'" + question.QuestionName + "'";
+                                    this.swal_messages("error", message);
+                                    result = false;
+                                }
+                                if(!question.Operator && question.QuestionValue && question.QuestionTypeName != 'multiple') {
+                                    message = "Please select an operator for question " + "'" + question.QuestionName + "'";
+                                    this.swal_messages("error", message);
+                                    result = false;
+                                }
+                            });
+                        }
+                    });
+                }
+                return result;
             },
 
         },

@@ -192,7 +192,7 @@ class ServiceController extends Controller
 
             $service_obj = new Service();
             $service_obj->saveServices($sv_params, $service['ServiceId'],$request);
-            return ['success' => 'success' , 'message' => 'Intake options saved.'];
+            return ['success' => 'success' , 'message' => 'General Settings saved.'];
 
         } catch ( \Exception $e ) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];

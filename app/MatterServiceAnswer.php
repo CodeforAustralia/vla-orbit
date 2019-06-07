@@ -137,10 +137,14 @@ Class MatterServiceAnswer extends OrbitSoap
                 $save = false;
                 $operator = '';
                 $value = '';
-                if(!is_null($question['Operator']) && !is_null($question['QuestionValue'])){
+                if(!is_null($question['Operator']) && (!is_null($question['QuestionValue']) || isset($question["QuestionValueTag"]))){
                     $save =true;
                     $operator = $question['Operator'];
                     $value = $question['QuestionValue'];
+                    // Check if the question is multiple and split the tags
+                    if(isset($question["QuestionValueTag"]) && count($question["QuestionValueTag"])>0){
+                        $value = implode (", ", array_column($question["QuestionValueTag"], "text"));
+                    }
                 }
                 $matter_service_index = array_search(
                     $question['MatterId'],  //Legal matter id
@@ -161,7 +165,7 @@ Class MatterServiceAnswer extends OrbitSoap
                 }
 
             }
-        }   
+        }
         self::saveMatterServiceAnswers($matter_questions);
 
 
