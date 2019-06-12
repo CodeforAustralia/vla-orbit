@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-5">
                                     <vue-tags-input
-                                    v-model="tag"
+                                    v-model="question.tag"
                                     :tags="question.QuestionValueTag"
                                     :add-on-key="[13, ':', ';', ',']"
                                     placeholder=""
