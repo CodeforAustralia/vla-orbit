@@ -231,17 +231,18 @@
                 }
             },
             save_legal_matters() {
+                let self = this;
                 if(this.validateLegalMatters()){
                     $('#contentLoading').modal('show');
                     let legal_matters = {
-                        sv_id: this.current_service.ServiceId,
-                        matters: this.matters_selected,
+                        sv_id: self.current_service.ServiceId,
+                        matters: self.matters_selected,
                     };
                     let url = '/service/legal_matter';
-                    this.submit_service_lm('post',url, legal_matters)
+                    self.$parent.submit('post',url, legal_matters)
                     .then(response => {
                         $('#contentLoading').modal('hide');
-                        this.swal_messages(response.success, response.message);
+                        self.$parent.swal_messages(response.success, response.message);
                     })
                     .catch(error => {
                         console.log(error);
@@ -253,25 +254,6 @@
                 EventBus.$on('CHANGE_TAB_MATTERS', function (payLoad) {
                     self.save_legal_matters();
                 });
-            },
-            submit_service_lm(requestType, url, data) {
-                return new Promise((resolve, reject) => {
-                    //Do Ajax or Axios request
-                    axios.defaults.headers.common = {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    };
-                    axios[requestType](url, data)
-                        .then(response => {
-                            resolve(response.data);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            reject(error.response.data);
-                    });
-                });
-            },
-            swal_messages(type, message) {
-                this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
             },
             validateLegalMatters() {
                 let self = this;
@@ -298,7 +280,7 @@
                     });
                 }
                 if(message) {
-                    this.swal_messages("error", message);
+                    self.$parent.swal_messages("error", message);
                     result = false;
                 }
                 return result;
