@@ -157,8 +157,8 @@
                     .then(function (response) {
                         self.matters = response.data;
                         if(self.current_service.hasOwnProperty('ServiceMatters') && self.current_service.ServiceMatters.length > 0){
-                            self.current_service.ServiceMatters.forEach(service_matter => {
-                                self.matters.forEach(matter => {
+                            self.current_service.ServiceMatters.map(service_matter => {
+                                self.matters.map(matter => {
                                     if(service_matter.MatterID == matter.id){
                                         self.matters_selected.push(matter);
                                     }
@@ -176,8 +176,8 @@
             setLegalMatterValues: function() {
                 let self = this;
                 // If no prevous value saved - Show default value
-                self.matters_selected.forEach(matter => {
-                    matter.questions.forEach(question => {
+                self.matters_selected.map(matter => {
+                    matter.questions.map(question => {
                         // Put the default value Get previous answer if exist
                         if(self.current_service){
                             // Legal Matter Conditions
@@ -206,25 +206,29 @@
                         }
                     });
                     // Eligibility Criteria - Vulnerability Questions
-                    if(self.current_service){
-                        self.current_service.ServiceMatters.forEach(service_matter => {
-                            if(service_matter.MatterID == matter.id
-                                && service_matter.VulnerabilityMatterAnswers
-                                && service_matter.VulnerabilityMatterAnswers.length > 0){
-                                let current_lm_vulnerabilities = service_matter.VulnerabilityMatterAnswers.map( item => {
-                                    if(item.Operator=="=" && item.QuestionValue=="1"){
-                                        return item.QuestionId;
-                                    }
-                                });
-                                self.eligibility_questions.forEach(eligibility_question => {
-                                    if(current_lm_vulnerabilities.indexOf(eligibility_question.QuestionId)  != -1 ){
-                                        matter.questions_selected.push(eligibility_question);
-                                    }
-                                });
-                            }
-                        });
-                    }
+                    self.setEligibilityCriteria(matter);
                 });
+            },
+            setEligibilityCriteria(matter) {
+                let self = this;
+                if(self.current_service){
+                    self.current_service.ServiceMatters.map(service_matter => {
+                        if(service_matter.MatterID == matter.id
+                            && service_matter.VulnerabilityMatterAnswers
+                            && service_matter.VulnerabilityMatterAnswers.length > 0){
+                            let current_lm_vulnerabilities = service_matter.VulnerabilityMatterAnswers.map( item => {
+                                if(item.Operator=="=" && item.QuestionValue=="1"){
+                                    return item.QuestionId;
+                                }
+                            });
+                            self.eligibility_questions.map(eligibility_question => {
+                                if(current_lm_vulnerabilities.indexOf(eligibility_question.QuestionId)  != -1 ){
+                                    matter.questions_selected.push(eligibility_question);
+                                }
+                            });
+                        }
+                    });
+                }
             },
             save_legal_matters() {
                 if(this.validateLegalMatters()){
@@ -273,23 +277,29 @@
                 let self = this;
                 let message = '';
                 let result = true;
-                if(self.matters_selected){
-                    self.matters_selected.forEach(matter => {
+                if(self.matters_selected) {
+                    self.matters_selected.map(matter => {
                         if(matter.questions){
-                            matter.questions.forEach(question => {
-                                if(question.Operator && !question.QuestionValue && question.QuestionTypeName != 'multiple'){
-                                    message = "Please select a value for question " + "'" + question.QuestionName + "'";
-                                    this.swal_messages("error", message);
-                                    result = false;
+                            matter.questions.map(question => {
+                                if(question.Operator && !question.QuestionValue && question.QuestionTypeName != 'multiple') {
+                                    message = "Please select a value for question '" + question.QuestionName + "'";
                                 }
                                 if(!question.Operator && question.QuestionValue && question.QuestionTypeName != 'multiple') {
-                                    message = "Please select an operator for question " + "'" + question.QuestionName + "'";
-                                    this.swal_messages("error", message);
-                                    result = false;
+                                    message = "Please select an operator for question '" + question.QuestionName + "'";
+                                }
+                                if(!question.Operator && question.QuestionValueTag && question.QuestionValueTag.length > 0 && question.QuestionTypeName == 'multiple') {
+                                    message = "Please select an operator for question '" + question.QuestionName + "'";
+                                }
+                                if(question.Operator && (!question.QuestionValueTag || question.QuestionValueTag.length <= 0) && question.QuestionTypeName == 'multiple') {
+                                    message = "Please select a value for question '" + question.QuestionName + "'";
                                 }
                             });
                         }
                     });
+                }
+                if(message) {
+                    this.swal_messages("error", message);
+                    result = false;
                 }
                 return result;
             },
