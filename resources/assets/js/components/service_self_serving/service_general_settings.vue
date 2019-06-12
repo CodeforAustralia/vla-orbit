@@ -408,20 +408,63 @@
             },
             save_general_settings() {
                 let self = this;
-                $('#contentLoading').modal('show');
-                let general_settings = self.get_general_settings();
-                let url = '/service/general_settings';
-
-                self.$parent.submit('post',url, general_settings)
-                    .then(response => {
-                        $('#contentLoading').modal('hide');
-                        self.$parent.swal_messages(response.success, response.message);
-                        self.initial_general_settings = Object.assign({}, self.get_general_settings());
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+                if(self.validateGeneralSettings()){
+                    $('#contentLoading').modal('show');
+                    let general_settings = self.get_general_settings();
+                    let url = '/service/general_settings';
+                    self.$parent.submit('post',url, general_settings)
+                        .then(response => {
+                            $('#contentLoading').modal('hide');
+                            self.$parent.swal_messages(response.success, response.message);
+                            self.initial_general_settings = Object.assign({}, self.get_general_settings());
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
             },
+            validateGeneralSettings() {
+                let self = this;
+                let message = '';
+                let result = true;
+                if(!self.service_provider_selected.hasOwnProperty('ServiceProviderId')) {
+                    message = "Please select a Service Provider";
+                }
+                if(!self.current_service.ServiceName){
+                    message = "Please select a Service Name";
+                }
+                if(!self.service_type_selected.hasOwnProperty('ServiceTypelId')){
+                    message = "Please select a Service Type";
+                }
+                if(!self.service_level_selected.hasOwnProperty('ServiceLevelId')){
+                    message = "Please select a Service Level";
+                }
+                if(!self.current_service.Wait){
+                    message = "Please select a Wait Time";
+                }
+                if(!self.current_service.Location){
+                    message = "Please select a Location";
+                }
+                if(!self.current_service.Phone){
+                    message = "Please select a Phone Number";
+                }
+                if(!self.current_service.Email){
+                    message = "Please select an Email";
+                }
+                if(!self.current_service.URL){
+                    message = "Please select a Website";
+                }
+                if(!self.current_service.OpenningHrs){
+                    message = "Please select a Opening Hours";
+                }
+
+                if(message){
+                    self.$parent.swal_messages("error", message);
+                    result = false;
+                }
+                return result;
+
+            }
 
 
         },
