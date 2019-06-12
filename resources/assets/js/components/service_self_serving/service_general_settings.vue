@@ -96,15 +96,28 @@
                     <input type="text" class="form-control" id="wait" name="wait" v-model="current_service.Wait"  required>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="col-sm-12">
                     <label for="description">Description: <small>incl. info on how to proceed, what to expect and what to prepare ahead of making contact</small></label>
                     <vue-mce
-                    id="description"
-                    class="form-control"
-                    v-model="current_service.Description"
-                    :config="config"
-                    name="description"/>
+                        id="description"
+                        class="form-control"
+                        v-model="current_service.Description"
+                        :config="config_description"
+                        name="description"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="notes">Notes: <small>incl. info about your service for other admins to know (Clients won't receive/see this information)</small></label>
+                    <vue-mce
+                        id="notes"
+                        class="form-control"
+                        v-model="current_service.Notes"
+                        :config="config_notes"
+                        name="notes"/>
                 </div>
             </div>
 
@@ -235,8 +248,9 @@
 <script>
     import axios from 'axios';
     import EventBus from '../../utils/event-bus';
+    import Object from '../../utils/compare_objects';
 
-    const config = {
+    const config_description = {
         theme: 'modern',
         menubar:false,
         fontsize_formats: "8px 10px 12px 14px 16px 18px 20px 22px 24px 26px 28px",
@@ -249,6 +263,7 @@
         ],
     };
 
+    const config_notes = Object.assign({}, config_description);
 	export default {
         props: {
             service_providers:{
@@ -287,8 +302,10 @@
                     lgas_selected : [],
                     suburbs : [],
                     suburbs_selected : [],
-                    config,
+                    config_description,
+                    config_notes,
                     status:false,
+                    initial_general_settings: {},
             }
         },
         methods: {
@@ -310,8 +327,10 @@
                             return self.service_level_selected = service_level;
                         }
                     });
-
                 }
+            },
+            set_initial_general_settings(){
+                this.initial_general_settings = Object.assign({}, this.get_general_settings());
             },
             init_catchments: function() {
                 let self = this;
@@ -354,14 +373,30 @@
             event_on_change_tab() {
                 let self = this;
                 EventBus.$on('CHANGE_TAB_SETTINGS', function (payLoad) {
-                    self.save_general_settings();
+                    if(!Object.compare(self.get_general_settings(), self.initial_general_settings)){
+                        self.$swal({
+                            title: 'Save changes?',
+                            text: "Do not miss any modification you have made so far",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#17c4bb',
+                            cancelButtonColor: '#e2e5ec',
+                            confirmButtonText: 'Yes',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.value) {
+                                //Call save method of current tab
+                                self.save_general_settings();
+                            }
+                        });
+                    }
                 });
             },
-            save_general_settings() {
+            get_general_settings() {
                 let self = this;
-                $('#contentLoading').modal('show');
-                let general_settings = {
-                    current_service: self.current_service,
+                return {
+                    current_service: Object.assign({}, self.current_service),
                     lga:self.lgas_selected,
                     suburbs:self.suburbs_selected,
                     postcodes: self.catchments.Postcode,
@@ -369,36 +404,23 @@
                     service_type:self.service_type_selected.ServiceTypelId,
                     service_level:self.service_level_selected.ServiceLevelId,
                     status: self.status,
-
                 };
+            },
+            save_general_settings() {
+                let self = this;
+                $('#contentLoading').modal('show');
+                let general_settings = self.get_general_settings();
                 let url = '/service/general_settings';
-                this.submit_service_gs('post',url, general_settings)
-                .then(response => {
-                    $('#contentLoading').modal('hide');
-                    this.swal_messages(response.success, response.message);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            },
-            submit_service_gs(requestType, url, data) {
-                return new Promise((resolve, reject) => {
-                    //Do Ajax or Axios request
-                    axios.defaults.headers.common = {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    };
-                    axios[requestType](url, data)
-                        .then(response => {
-                            resolve(response.data);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            reject(error.response.data);
+
+                self.$parent.submit('post',url, general_settings)
+                    .then(response => {
+                        $('#contentLoading').modal('hide');
+                        self.$parent.swal_messages(response.success, response.message);
+                        self.initial_general_settings = Object.assign({}, self.get_general_settings());
+                    })
+                    .catch(error => {
+                        console.log(error);
                     });
-                });
-            },
-            swal_messages(type, message) {
-                this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
             },
 
 
@@ -409,6 +431,7 @@
         created() {
             this.init_catchments();
             this.preselect_data();
+            this.set_initial_general_settings();
             this.event_on_change_tab();
         },
     }

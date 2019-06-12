@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import axios from 'axios';
 import EventBus from './utils/event-bus';
 import Multiselect from 'vue-multiselect';
 import VueMce from 'vue-mce';
@@ -40,24 +41,28 @@ const service_management = new Vue({
             let self = this;
             if (self.tab_active !== tab_name) {
                 //Confirm if you want to save changes when changing a tab
-                self.$swal({
-                    title: 'Save changes?',
-                    text: "Do not miss any modification you have made so far",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#17c4bb',
-                    cancelButtonColor: '#e2e5ec',
-                    confirmButtonText: 'Yes',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false
-                }).then((result) => {
-                    if (result.value) {
-                        //Call save method of current tab
-                        EventBus.$emit('CHANGE_TAB_' + self.tab_active.toUpperCase(), self.tab_active);
-                    }
-                    self.tab_active = tab_name;
-                });
+                EventBus.$emit('CHANGE_TAB_' + self.tab_active.toUpperCase(), self.tab_active);
+                self.tab_active = tab_name;
             }
-        }
+        },
+        submit(requestType, url, data) {
+            return new Promise((resolve, reject) => {
+                //Do Ajax or Axios request
+                axios.defaults.headers.common = {
+                    'X-Requested-With': 'XMLHttpRequest'
+                };
+                axios[requestType](url, data)
+                    .then(response => {
+                        resolve(response.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        reject(error.response.data);
+                    });
+            });
+        },
+        swal_messages(type, message) {
+            this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
+        },
     },
 })

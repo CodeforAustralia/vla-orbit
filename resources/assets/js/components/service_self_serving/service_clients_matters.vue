@@ -79,6 +79,7 @@
     import axios from 'axios';
     import Multiselect from 'vue-multiselect';
     import EventBus from './../../utils/event-bus';
+    import Object from '../../utils/compare_objects';
     Vue.component('multiselect', Multiselect);
 
 	export default {
@@ -104,6 +105,7 @@
                 selected_questions: [], //Those are vulnerability/eligibility questions
                 selected_booking_questions: [],
                 selected_operator: [],
+                initial_client_matters: {},
                 operators: [
                                 { label: '>',value: '>' },
                                 { label: '>=', value: '>=' },
@@ -141,6 +143,9 @@
                     });
                 });
             },
+            set_initial_client_matters() {
+                this.initial_client_matters = Object.assign({}, this.get_client_matters());
+            },
             get_booking_questions() {
                 let self = this;
                 let booking_questions = [];
@@ -157,58 +162,55 @@
                 });
                 return booking_questions;
             },
-            save_client_matters() {
-                $('#contentLoading').modal('show');
-                let client_matters = {
+            get_client_matters(){
+                return {
                     sv_id: this.current_service.ServiceId,
                     vulnerability: this.selected_questions.map(item => item.QuestionId),
                     booking_question: this.get_booking_questions()
                 };
+            },
+            save_client_matters() {
+                $('#contentLoading').modal('show');
+                let client_matters = this.get_client_matters();
                 let url = '/service/client_eligibility';
-                this.submit_service_cm('post',url, client_matters)
-                .then(response => {
-                    $('#contentLoading').modal('hide');
-                    this.swal_messages(response.success, response.message);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            },
-            /**
-             * Submit Client Matters information
-             * @param {string} requestType post, get, patch, update
-             * @param {string} url End point to submit from
-             * @param {data} object with information of client matters
-             */
-            submit_service_cm(requestType, url, data) {
-                return new Promise((resolve, reject) => {
-                    //Do Ajax or Axios request
-                    axios.defaults.headers.common = {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    };
-                    axios[requestType](url, data)
-                        .then(response => {
-                            resolve(response.data);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            reject(error.response.data);
+                this.$parent.submit('post',url, client_matters)
+                    .then(response => {
+                        $('#contentLoading').modal('hide');
+                        this.$parent.swal_messages(response.success, response.message);
+                        this.initial_client_matters = Object.assign({}, this.get_client_matters());
+                    })
+                    .catch(error => {
+                        console.log(error);
                     });
-                });
-            },
-            swal_messages(type, message) {
-                this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
             },
             event_on_change_tab() {
                 let self = this;
                 EventBus.$on('CHANGE_TAB_ELIGIBILITY', function (payLoad) {
-                    self.save_client_matters();
+                    if(!Object.compare(self.get_client_matters(), self.initial_client_matters)){
+                        self.$swal({
+                            title: 'Save changes?',
+                            text: "Do not miss any modification you have made so far",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#17c4bb',
+                            cancelButtonColor: '#e2e5ec',
+                            confirmButtonText: 'Yes',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.value) {
+                                //Call save method of current tab
+                                self.save_client_matters();
+                            }
+                        });
+                    }
                 });
             }
         },
         created() {
             this.pre_select_questions();
             this.pre_select_booking_questions();
+            this.set_initial_client_matters();
             this.event_on_change_tab();
         },
     }
