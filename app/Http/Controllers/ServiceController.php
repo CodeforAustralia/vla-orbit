@@ -173,9 +173,9 @@ class ServiceController extends Controller
         Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
         try {
             $service = $request['current_service'];
-
+            $sv_id = isset($service['ServiceId']) ? $service['ServiceId'] : 0;
             $sv_params = [
-                'ServiceId'   	=> $service['ServiceId'],
+                'ServiceId'   	=> $sv_id,
                 'ServiceName'   => filter_var($service['ServiceName'], FILTER_SANITIZE_STRING),
                 'Phone'         => filter_var($service['Phone'], FILTER_SANITIZE_STRING),
                 'Email'         => filter_var($service['Email'], FILTER_SANITIZE_EMAIL),
@@ -193,7 +193,7 @@ class ServiceController extends Controller
             ];
 
             $service_obj = new Service();
-            $service_obj->saveServices($sv_params, $service['ServiceId'],$request);
+            $service_obj->saveServices($sv_params, $sv_id,$request);
             return ['success' => 'success' , 'message' => 'General Settings saved.'];
 
         } catch ( \Exception $e ) {
