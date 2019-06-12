@@ -41,7 +41,7 @@
             </div>
             <!-- END: Referral settings -->
 
-            <!-- Booking Settings {{ (isset($current_service) && $current_service->ServiceProviderTypeName == 'VLA' ? '' : 'hidden' )}}-->
+            <!-- Booking Settings -->
             <div class="panel panel-default" v-if="current_service.hasOwnProperty('ServiceProviderTypeName') && current_service.ServiceProviderTypeName === 'VLA'">
                 <div class="panel-heading">
                     <h4 class="panel-title font-purple-soft bold uppercase">
@@ -196,6 +196,7 @@
                 selected_booking_service_providers: [],
                 selected_e_referral_service_providers: [],
                 selected_e_referral_templates: [],
+                initial_intake_options: {},
                 activate_service_url: '/service_booking/activate_service',
                 sb_activated: false
             };
@@ -210,6 +211,7 @@
                 .then(response => {
                     self.e_referral_forms = response.data.data;
                     self.selected_e_referral_templates = self.pre_select_conditions(self.e_referral_forms, self.selected_e_referral_forms);
+                    self.initial_intake_options = Object.assign({}, self.get_intake_options());
                 })
                 .catch(error => {
                     console.log('retrying: ', error);
@@ -253,7 +255,7 @@
                     //activate it with ServiceId
                     id = self.current_service.ServiceId;
                 }
-                self.submit_service_io('post', self.activate_service_url, { id })
+                self.$parent.submit('post', self.activate_service_url, { id })
                     .then(function (response) {
                         $('#contentLoading').modal('hide');
                         if (response.success == 'success') {
@@ -268,54 +270,51 @@
                         console.log('Error: ', error)
                     });
             },
-            save_intake_options() {
-                $('#contentLoading').modal('show');
-                let intake_options = {
+            get_intake_options() {
+                return  {
                     sv_id: this.current_service.ServiceId,
                     referral_conditions: this.selected_service_providers.map(item => item.id),
                     booking_conditions: this.selected_booking_service_providers.map(item => item.id),
                     e_referral_conditions: this.selected_e_referral_service_providers.map(item => item.id),
                     e_referral_forms: this.selected_e_referral_templates.map(item => item.id),
                 };
+            },
+            save_intake_options() {
+                $('#contentLoading').modal('show');
+                let intake_options = this.get_intake_options();
                 let url = '/service/intake_options';
-                this.submit_service_io('post',url, intake_options)
-                .then(response => {
-                    $('#contentLoading').modal('hide');
-                    this.swal_messages(response.success, response.message);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            },
-            /**
-             * Submit Client Intake information or activate booking - general axios submit function
-             * @param {string} requestType post, get, patch, update
-             * @param {string} url End point to submit from
-             * @param {data} object with information of intake options
-             */
-            submit_service_io(requestType, url, data) {
-                return new Promise((resolve, reject) => {
-                    //Do Ajax or Axios request
-                    axios.defaults.headers.common = {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    };
-                    axios[requestType](url, data)
-                        .then(response => {
-                            resolve(response.data);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            reject(error.response.data);
+                this.$parent.submit('post',url, intake_options)
+                    .then(response => {
+                        $('#contentLoading').modal('hide');
+                        this.$parent.swal_messages(response.success, response.message);
+                    })
+                    .catch(error => {
+                        console.log(error);
                     });
-                });
-            },
-            swal_messages(type, message) {
-                this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
             },
             event_on_change_tab() {
                 let self = this;
                 EventBus.$on('CHANGE_TAB_INTAKE_OPTIONS', function (payLoad) {
-                    self.save_intake_options();
+
+                    if(!Object.compare(self.get_intake_options(), self.initial_intake_options)){
+                        self.$swal({
+                            title: 'Save changes?',
+                            text: "Do not miss any modification you have made so far",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#17c4bb',
+                            cancelButtonColor: '#e2e5ec',
+                            confirmButtonText: 'Yes',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.value) {
+                                //Call save method of current tab
+                                self.save_intake_options();
+                            }
+                        });
+                    }
+
                 });
             }
         },
