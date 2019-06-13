@@ -164,7 +164,7 @@ new Vue({
                 self.current_booking.date = self.selected_date;
                 self.current_booking.resource_id = self.hour.resource_id;
                 self.current_booking.start_hour = self.hour.start_time;
-                self.current_booking.time_length = self.hour.time_length;
+                self.current_booking.time_length = self.hour.duration;
                 self.current_booking.booking_time = moment(self.selected_date).add(parseInt(self.hour.start_time), 'm').format('h:mm A');
                 axios.patch(url, self.current_booking)
                     .then(function (response) {
