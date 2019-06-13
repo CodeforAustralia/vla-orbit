@@ -50,9 +50,6 @@
                             @isset($current_service)
                                 :current_service='{{ json_encode($current_service) }}'
                             @endisset
-                            @isset($service_booking_questions)
-                                :service_booking_questions='{{ json_encode($service_booking_questions) }}'
-                            @endisset
                             ></service-clients-matters>
                     </div>
 
@@ -84,6 +81,9 @@
                             @endisset
                             @isset($e_referral_forms)
                                 :selected_e_referral_forms='{{ json_encode($e_referral_forms) }}'
+                            @endisset
+                            @isset($service_booking_questions)
+                                :service_booking_questions='{{ json_encode($service_booking_questions) }}'
                             @endisset
                         ></service-intake-options>
                     </div>
