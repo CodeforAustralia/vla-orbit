@@ -219,11 +219,12 @@ class ServiceController extends Controller
                 $booking_conditions   = (isset($request['booking_conditions']) ? $request['booking_conditions'] : []);
                 $e_referral_conditions = (isset($request['e_referral_conditions']) ? $request['e_referral_conditions'] : []);
                 $e_referral_forms      = (isset($request['e_referral_forms']) ? $request['e_referral_forms'] : []);
-                //return $request;
+                $booking_question      = (isset($request['booking_question']) ? $request['booking_question'] : []);
 
                 $service = new Service();
                 $service->saveServiceActions($sv_id, $referral_conditions, $booking_conditions, $e_referral_conditions);
                 $service->saveServiceEReferrals($sv_id, $e_referral_forms);
+                $service->saveServiceBookingQuestions($sv_id, $booking_question);
                 return ['success' => 'success' , 'message' => 'Intake options saved.'];
 
             } else {
@@ -251,11 +252,9 @@ class ServiceController extends Controller
                 $sv_id = $request['sv_id'];
 
                 $vulnerability    = (isset($request['vulnerability']) ? $request['vulnerability'] : []);
-                $booking_question = (isset($request['booking_question']) ? $request['booking_question'] : []);
 
                 $service = new Service();
                 $service->saveServiceEligibilityQuestions($sv_id, $vulnerability);
-                $service->saveServiceBookingQuestions($sv_id, $booking_question);
 
                 return ['success' => 'success' , 'message' => 'Client Matters saved.'];
             } else {
