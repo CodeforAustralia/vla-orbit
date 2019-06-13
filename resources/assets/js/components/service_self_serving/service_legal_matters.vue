@@ -10,22 +10,21 @@
                 <div class="col-sm-12">
                     <p><small>Choose the legal matters covered by the service. If needed <a data-toggle="modal" href="#request-matter">request a new legal matter</a>.</small></p>
                     <multiselect
-                    v-model="matters_selected"
-                    label="text"
-                    key="id"
-                    id="matters"
-                    track-by="id"
-                    open-direction="bottom"
-                    placeholder="Select Legal Matters"
-                    :options='matters'
-                    :multiple="true"
-                    :searchable="true"
-                    :close-on-select="true"
-                    :show-no-results="false"
-                    :show-labels="false"
-                    >
-                    </multiselect>
-
+                        v-model="matters_selected"
+                        label="text"
+                        key="id"
+                        id="matters"
+                        track-by="id"
+                        open-direction="bottom"
+                        placeholder="Select Legal Matters"
+                        :options='matters'
+                        :multiple="true"
+                        :searchable="true"
+                        :close-on-select="true"
+                        :show-no-results="false"
+                        :show-labels="false"
+                        >
+                        </multiselect>
 
                 </div>
             </div>
@@ -62,14 +61,13 @@
                                 </div>
                                 <div class="col-md-5">
                                     <vue-tags-input
-                                    v-model="question.tag"
-                                    :tags="question.QuestionValueTag"
-                                    :add-on-key="[13, ':', ';', ',']"
-                                    placeholder=""
-                                    @tags-changed="newTags => question.QuestionValueTag = newTags"
-                                    v-if="question.QuestionTypeName == 'multiple'"
-                                    />
-                                    <!-- <input type="text" class="form-control" data-role=tagsinput v-model="question.QuestionValue" v-if="question.QuestionTypeName == 'multiple'"  id="answer"  value="" > -->
+                                        v-model="question.tag"
+                                        :tags="question.QuestionValueTag"
+                                        :add-on-key="[13, ':', ';', ',']"
+                                        placeholder=""
+                                        @tags-changed="newTags => question.QuestionValueTag = newTags"
+                                        v-if="question.QuestionTypeName == 'multiple'"
+                                        />
                                     <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
                                 </div>
                             </div>
@@ -82,20 +80,20 @@
                             </div>
                             <div class="col-sm-12">
                                 <multiselect
-                                v-model="matter.questions_selected"
-                                label="QuestionLabel"
-                                key="QuestionId"
-                                id="vulnerability"
-                                track-by="QuestionLabel"
-                                placeholder="Select eligibility..."
-                                open-direction="top"
-                                :options="eligibility_questions"
-                                :multiple="true"
-                                :searchable="true"
-                                :close-on-select="true"
-                                :show-no-results="false"
-                                :show-labels="false"
-                                ></multiselect>
+                                    v-model="matter.questions_selected"
+                                    label="QuestionLabel"
+                                    key="QuestionId"
+                                    id="vulnerability"
+                                    track-by="QuestionLabel"
+                                    placeholder="Select eligibility..."
+                                    open-direction="top"
+                                    :options="eligibility_questions"
+                                    :multiple="true"
+                                    :searchable="true"
+                                    :close-on-select="true"
+                                    :show-no-results="false"
+                                    :show-labels="false"
+                                    ></multiselect>
                             </div>
                         </div>
                     </div>
@@ -114,11 +112,11 @@
 	import moment from 'moment'
     import axios from 'axios';
     import EventBus from '../../utils/event-bus';
+    import Object from '../../utils/compare_objects';
     import VueTagsInput from '@johmun/vue-tags-input';
 
-
 	export default {
-          components: {
+        components: {
             VueTagsInput,
         },
         props: {
@@ -147,6 +145,7 @@
                                 {label:'IN', value:'in'},
                                 ],
                     tag: '',
+                    initial_lm: []
 
             }
         },
@@ -208,6 +207,7 @@
                     // Eligibility Criteria - Vulnerability Questions
                     self.setEligibilityCriteria(matter);
                 });
+                self.set_initial_lm();
             },
             setEligibilityCriteria(matter) {
                 let self = this;
@@ -230,19 +230,28 @@
                     });
                 }
             },
+            set_initial_lm() {
+                this.initial_lm = this.get_lm();
+            },
+            get_lm() {
+                let self = this;
+                let lm = {
+                    sv_id: self.current_service.ServiceId,
+                    matters: self.matters_selected,
+                };
+                return JSON.parse(JSON.stringify(lm)); //This is the slowest option but is the only one working with arrays
+            },
             save_legal_matters() {
                 let self = this;
                 if(this.validateLegalMatters()){
                     $('#contentLoading').modal('show');
-                    let legal_matters = {
-                        sv_id: self.current_service.ServiceId,
-                        matters: self.matters_selected,
-                    };
+                    let legal_matters = self.get_lm();
                     let url = '/service/legal_matter';
                     self.$parent.submit('post',url, legal_matters)
                     .then(response => {
                         $('#contentLoading').modal('hide');
                         self.$parent.swal_messages(response.success, response.message);
+                        self.initial_lm = self.get_lm();
                     })
                     .catch(error => {
                         console.log(error);
@@ -252,7 +261,25 @@
             event_on_change_tab() {
                 let self = this;
                 EventBus.$on('CHANGE_TAB_MATTERS', function (payLoad) {
-                    self.save_legal_matters();
+                    if(!Object.compare(self.get_lm(), self.initial_lm)){
+                        self.$swal({
+                            title: 'Save changes?',
+                            text: "Do not miss any modification you have made so far",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#17c4bb',
+                            cancelButtonColor: '#e2e5ec',
+                            confirmButtonText: 'Yes',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.value) {
+                                //Call save method of current tab
+                                self.save_legal_matters();
+                            }
+                        });
+                    }
+
                 });
             },
             validateLegalMatters() {
@@ -287,10 +314,8 @@
             },
 
         },
-        watch:{
-
-        },
         created() {
+            let self = this;
             this.init_legal_matters();
             this.event_on_change_tab();
         },
