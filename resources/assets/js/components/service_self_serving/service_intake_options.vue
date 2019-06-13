@@ -12,7 +12,7 @@
 
                         <div class="form-group col-sm-12">
                             <p class="margin-0">Referrals conditions:</p>
-                            <p class="font-grey-silver margin-bottom-10">Enable Referrals to specific Service Providers by adding them here. 
+                            <p class="font-grey-silver margin-bottom-10">Enable Referrals to specific Service Providers by adding them here.
                                 <span id="count_referral_conditions">({{ selected_service_providers.length }}) </span> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs green" @click="selected_service_providers = service_providers">Select All</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs red" @click="selected_service_providers = []">Clear</a>
@@ -80,6 +80,47 @@
                                         :show-no-results="false"
                                         :show-labels="false"
                                         ></multiselect>
+
+                            <!-- Booking Questions -->
+                            <div class="margin-top-15">
+
+                                <p class="caption-subject font-purple-soft bold uppercase margin-bottom-0">Booking Questions</p>
+
+
+                                <div class="form-group col-sm-12" v-for="question in service_booking_questions_mapped" :key='question.QuestionId'>
+                                    <div class="col-sm-4 col-md-3">
+                                        <label class="pull-right" v-if="question.QuestionName != ''">
+                                            {{question.QuestionName}}
+                                        </label>
+                                        <label class="pull-right" v-else>
+                                            {{question.QuestionLabel}}
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3 col-md-2">
+                                        <select  class="form-control" v-model="question.Operator">
+                                            <option></option>
+                                            <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator.label }}</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-sm-5 col-md-3">
+                                        <!-- <input type="text" class="form-control" v-model="question.QuestionValue" v-if="question.QuestionTypeName == 'multiple'" data-role=tagsinput>
+                                        <input type="text" class="form-control" v-model="question.QuestionValue" v-else> -->
+
+                                        <vue-tags-input
+                                            v-model="question.newTag"
+                                            :tags="question.QuestionValueTag"
+                                            :add-on-key="[13, ':', ';', ',']"
+                                            placeholder=""
+                                            @tags-changed="newTags => question.QuestionValueTag = newTags"
+                                            v-if="question.QuestionTypeName == 'multiple'"
+                                            />
+                                        <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End: Booking Questions -->
                         </div>
                     </div>
                 </div>
@@ -159,10 +200,14 @@
     import axios from 'axios';
     import Multiselect from 'vue-multiselect';
     import EventBus from './../../utils/event-bus';
+    import VueTagsInput from '@johmun/vue-tags-input';
 
     Vue.component('multiselect', Multiselect);
 
     export default {
+        components: {
+            VueTagsInput,
+        },
         props: {
             selected_referral_conditions: {
                 default: function () { return [] },
@@ -185,6 +230,10 @@
             },
             service_booking: {
                 default: function () { return {} }
+            },
+            service_booking_questions: {
+                type: Array,
+                default: function () { return [] }
             }
         },
 
@@ -196,13 +245,65 @@
                 selected_booking_service_providers: [],
                 selected_e_referral_service_providers: [],
                 selected_e_referral_templates: [],
+                selected_booking_questions: [],
                 initial_intake_options: {},
                 activate_service_url: '/service_booking/activate_service',
-                sb_activated: false
+                sb_activated: false,
+                service_booking_questions_mapped: [], //This removes the multi select issue with reactive props
+                operators: [
+                                { label: '>',value: '>' },
+                                { label: '>=', value: '>=' },
+                                { label: '<', value: '<' },
+                                { label: '<=', value: '<=' },
+                                { label: 'Equal', value: '=' },
+                                { label: 'Not Equal', value: '!=' },
+                                { label: 'IN', value: 'in' }
+                            ]
             };
         },
 
         methods: {
+            pre_select_booking_questions() {
+                let self = this;
+                let cs_booking_questions = self.current_service.ServiceBookingQuestions;
+                self.service_booking_questions.map( sb_question => {
+                    sb_question.Operator = '';
+                    sb_question.QuestionValue = '';
+                    sb_question.newTag = '';
+                    sb_question.QuestionValueTag = [];
+                    cs_booking_questions.map( cs_question => {
+                        if(sb_question.QuestionId === cs_question.QuestionId) {
+                            sb_question.Operator = cs_question.Operator;
+                            sb_question.QuestionValue = cs_question.QuestionValue;
+                            if(sb_question.QuestionTypeName=='multiple'){
+                                sb_question.QuestionValueTag = sb_question.QuestionValue.split(',').map(tag => { return { 'text': tag } });
+                                sb_question.QuestionValue = '';
+                            }
+                        }
+                    });
+                    self.service_booking_questions_mapped.push(sb_question); //This removes the multi select issue with reactive props
+                });
+            },
+            get_booking_questions() {
+                let self = this;
+                let booking_questions = [];
+                let cs_booking_questions = self.service_booking_questions_mapped;
+
+                cs_booking_questions.map( cs_question => {
+                    if(cs_question.Operator != '' && (cs_question.QuestionValue != '' || cs_question.QuestionValueTag.length > 0)) {
+                        let bq_value = {
+                            'QuestionId': cs_question.QuestionId,
+                            'Operator': cs_question.Operator,
+                            'QuestionValue': cs_question.QuestionValue,
+                        };
+                        if(cs_question.QuestionTypeName=='multiple'){
+                            bq_value.QuestionValue = cs_question.QuestionValueTag.map(tag => tag.text ).join(',');
+                        }
+                        booking_questions.push(bq_value);
+                    }
+                });
+                return booking_questions;
+            },
             load_e_referral_forms() {
                 let self = this;
                 let url = "/e_referral/listFormsFormated";
@@ -277,6 +378,7 @@
                     booking_conditions: this.selected_booking_service_providers.map(item => item.id),
                     e_referral_conditions: this.selected_e_referral_service_providers.map(item => item.id),
                     e_referral_forms: this.selected_e_referral_templates.map(item => item.id),
+                    booking_question: this.get_booking_questions()
                 };
             },
             save_intake_options() {
@@ -326,6 +428,7 @@
         created() {
             this.load_service_providers();
             this.load_e_referral_forms();
+            this.pre_select_booking_questions();
             this.event_on_change_tab();
         },
     }
