@@ -86,6 +86,7 @@
 
                                 <p class="caption-subject font-purple-soft bold uppercase margin-bottom-0">Booking Questions</p>
 
+                                <p class="font-grey-silver margin-bottom-10">Questions without value or operator won't be saved.</p>
 
                                 <div class="form-group col-sm-12" v-for="question in service_booking_questions_mapped" :key='question.QuestionId'>
                                     <div class="col-sm-4 col-md-3">
@@ -251,13 +252,13 @@
                 sb_activated: false,
                 service_booking_questions_mapped: [], //This removes the multi select issue with reactive props
                 operators: [
-                                { label: '>',value: '>' },
-                                { label: '>=', value: '>=' },
-                                { label: '<', value: '<' },
-                                { label: '<=', value: '<=' },
-                                { label: 'Equal', value: '=' },
-                                { label: 'Not Equal', value: '!=' },
-                                { label: 'IN', value: 'in' }
+                                { label: 'Is greater than',value: '>' },
+                                { label: 'Is greater or equal than', value: '>=' },
+                                { label: 'Is less than', value: '<' },
+                                { label: 'Is less or equal than', value: '<=' },
+                                { label: 'Is equal to', value: '=' },
+                                { label: 'Is not Equal to', value: '!=' },
+                                { label: 'Is one of', value: 'in' }
                             ]
             };
         },

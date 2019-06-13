@@ -24,6 +24,11 @@ body .page-container-bg-solid .page-content, .page-container-bg-solid .page-cont
     color: white;
 }
 
+#service_self_serving label {
+    line-height: 36px;
+    margin-bottom: 0;
+}
+
 .col-xs-5ths,
 .col-sm-5ths,
 .col-md-5ths,
