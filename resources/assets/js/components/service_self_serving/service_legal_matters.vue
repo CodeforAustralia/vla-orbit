@@ -58,6 +58,7 @@
                                         <option></option>
                                         <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator. label }}</option>
                                     </select>
+                                    <small v-show="validate_operator(question.Operator, question.QuestionValue, question.QuestionValueTag)" class="red">Please provide an operator</small>
                                 </div>
                                 <div class="col-md-5">
                                     <vue-tags-input
@@ -69,6 +70,7 @@
                                         v-if="question.QuestionTypeName == 'multiple'"
                                         />
                                     <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
+                                    <small v-show="validate_value(question.Operator, question.QuestionValue, question.QuestionValueTag)" class="red">Please provide a value</small>
                                 </div>
                             </div>
                             <hr>
@@ -145,11 +147,24 @@
                                 {label:'IN', value:'in'},
                                 ],
                     tag: '',
-                    initial_lm: []
-
+                    initial_lm: [],
             }
         },
         methods: {
+            validate_value(operator, questionValue, questionValueTag){
+                if( ((questionValueTag && questionValueTag.length < 1) || questionValue == '')
+                        && operator != ''){
+                    return true;
+                }
+                return false;
+            },
+            validate_operator(operator, questionValue, questionValueTag){
+                if( ((questionValueTag && questionValueTag.length > 0) || questionValue != '')
+                        && operator == ''){
+                    return true;
+                }
+                return false;
+            },
             init_legal_matters: function() {
                 let self = this;
                 axios.get('/matter/listWithQuestionsFormated' )
