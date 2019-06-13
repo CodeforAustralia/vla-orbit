@@ -123,6 +123,8 @@
             },
             showFreeSlots: function () {
                 const self = this;
+                //Remove all existing free slots before adding them again avoiding duplication
+                self.events = self.events.filter( event => !event.free_slot);
                 for (const service_id in this.services_availability) {
                     if(self.selectedServices.indexOf(service_id) >= 0 || self.selectedServices.length === 0) {
                         const service_info = this.services_availability[service_id];
@@ -218,6 +220,7 @@
                         .catch(function (error) {
                             $("#contentLoading").modal("hide");
                             document.querySelector('.modal-stack').style.visibility = "hidden";
+                            self.getEventsBySelectedSP();
                         });
                 }
             },
