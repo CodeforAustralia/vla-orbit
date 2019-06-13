@@ -23,6 +23,7 @@
                         :close-on-select="true"
                         :show-no-results="false"
                         :show-labels="false"
+                        @remove="removeLegalMatter"
                         >
                         </multiselect>
 
@@ -34,16 +35,27 @@
                 </div>
                 <div class="col-sm-12">
                     <p><small>Add a condition to a legal matter or override the eligibility criteria for a specific Legal Matter in this service </small></p>
-                    <p><small>Use the tabs below to add Conditions to a specific legal matter or override the service-wide eligibility criteria for each Legal Matter </small></p>
-                    <ul class="nav nav-tabs">
-                        <li v-bind:class="[ { active: (currentTab === matter || (!currentTab.hasOwnProperty('id') && index === 0) )}]"
-                            v-on:click="currentTab = matter" v-for="(matter, index) in matters_selected" :key='matter.id' >
-                            <a data-toggle="tab" :href="'#'+ matter.id">{{matter.text}}</a>
-                        </li>
-                    </ul>
+                    <p><small>Use the options below to add Conditions to a specific legal matter or override the service-wide eligibility criteria for each Legal Matter </small></p>
+                    <multiselect
+                    v-model="matter_selected"
+                    label="text"
+                    key="id"
+                    id="matters"
+                    track-by="id"
+                    open-direction="bottom"
+                    placeholder="Select a Legal Matter"
+                    :options='matters_selected'
+                    :multiple="false"
+                    :searchable="true"
+                    :close-on-select="true"
+                    :show-no-results="true"
+                    :show-labels="false"
+                    @input = "updateCurrentTab"
+                    >
+                    </multiselect>
                     <div class="tab-content">
                         <p>To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)</p>
-                        <div v-for="(matter, index) in matters_selected"  :key='matter.id' :id="matter.id" v-bind:class="['tab-pane', { active: (currentTab === matter || (!currentTab.hasOwnProperty('id') && index === 0)) }]">
+                        <div v-for="matter in matters_selected"  :key='matter.id' :id="matter.id" v-bind:class="['tab-pane', { active: (currentTab === matter) }]">
                             <div class="form-group col-md-12" v-for="question in matter.questions" :key='question.QuestionId'>
                                 <div class="col-md-5">
                                     <label class="pull-right" v-if="question.QuestionName != ''">
@@ -136,6 +148,7 @@
         data () {
             return {
                     matters_selected: [],
+                    matter_selected: [],
                     matters: [],
                     currentTab:{},
                     operators:[ {label:'>',value:'>'},
@@ -326,6 +339,20 @@
                     result = false;
                 }
                 return result;
+            },
+            updateCurrentTab(matter_selected){
+                let self = this;
+                if(matter_selected){
+                    self.currentTab = matter_selected;
+                } else {
+                    self.currentTab = {};
+                }
+            },
+            removeLegalMatter(matter_removed){
+                let self = this;
+                if(matter_removed == self.currentTab) {
+                    self.matter_selected = {};
+                }
             },
 
         },
