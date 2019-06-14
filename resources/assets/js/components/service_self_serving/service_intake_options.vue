@@ -83,44 +83,55 @@
 
                             <!-- Booking Questions -->
                             <div class="margin-top-15">
-
-                                <p class="caption-subject font-purple-soft bold uppercase margin-bottom-0">Booking Questions</p>
-
-                                <p class="font-grey-silver margin-bottom-10">Questions without value or operator won't be saved.</p>
-
-                                <div class="form-group col-sm-12" v-for="question in service_booking_questions_mapped" :key='question.QuestionId'>
-                                    <div class="col-sm-4 col-md-3">
-                                        <label class="pull-right" v-if="question.QuestionName != ''">
-                                            {{question.QuestionName}}
-                                        </label>
-                                        <label class="pull-right" v-else>
-                                            {{question.QuestionLabel}}
-                                        </label>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title font-purple-soft bold uppercase">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#sio_booking_questions"> Booking Questions </a>
+                                        </h4>
                                     </div>
-                                    <div class="col-sm-3 col-md-2">
-                                        <select  class="form-control" v-model="question.Operator">
-                                            <option></option>
-                                            <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator.label }}</option>
-                                        </select>
+                                    <div id="sio_booking_questions" class="panel-collapse collapse">
+                                        <div class="panel-body">
 
-                                    </div>
-                                    <div class="col-sm-5 col-md-3">
-                                        <!-- <input type="text" class="form-control" v-model="question.QuestionValue" v-if="question.QuestionTypeName == 'multiple'" data-role=tagsinput>
-                                        <input type="text" class="form-control" v-model="question.QuestionValue" v-else> -->
+                                            <p class="font-grey-silver margin-bottom-10">Questions without value or operator won't be saved.</p>
 
-                                        <vue-tags-input
-                                            v-model="question.newTag"
-                                            :tags="question.QuestionValueTag"
-                                            :add-on-key="[13, ':', ';', ',']"
-                                            placeholder=""
-                                            @tags-changed="newTags => question.QuestionValueTag = newTags"
-                                            v-if="question.QuestionTypeName == 'multiple'"
-                                            />
-                                        <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
+                                            <div class="form-group col-sm-12" v-for="question in service_booking_questions_mapped" :key='question.QuestionId'>
+                                                <div class="col-sm-4 col-md-3">
+                                                    <label class="pull-right" v-if="question.QuestionName != ''">
+                                                        {{question.QuestionName}}
+                                                    </label>
+                                                    <label class="pull-right" v-else>
+                                                        {{question.QuestionLabel}}
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-3 col-md-2">
+                                                    <select  class="form-control" v-model="question.Operator">
+                                                        <option></option>
+                                                        <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator.label }}</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-sm-5 col-md-3">
+
+                                                    <vue-tags-input
+                                                        v-model="question.newTag"
+                                                        :tags="question.QuestionValueTag"
+                                                        :add-on-key="[13, ':', ';', ',']"
+                                                        placeholder=""
+                                                        @tags-changed="newTags => question.QuestionValueTag = newTags"
+                                                        v-if="question.QuestionTypeName == 'multiple'"
+                                                        />
+                                                    <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
+
+                                                </div>
+                                            </div>
+                                        </div>
+
 
                                     </div>
                                 </div>
                             </div>
+                                <!-- <p class="caption-subject font-purple-soft bold uppercase margin-bottom-0"></p> -->
+
                             <!-- End: Booking Questions -->
                         </div>
                     </div>
