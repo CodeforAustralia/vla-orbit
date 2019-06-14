@@ -23401,7 +23401,7 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _vm.service_notes_log.length > 0
+        _vm.service_notes_log.length > 1
           ? _c("div", { staticClass: "col-sm-12" }, [
               _c("label", { attrs: { for: "notes" } }, [_vm._v("Old Notes:")]),
               _vm._v(" "),
