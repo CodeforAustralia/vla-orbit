@@ -40,10 +40,10 @@
       <div class="portlet-body">
         <div class="row">
           <div class="col-xs-12">
-              <p>Find a service by selecting the legal issue that best matches the client’s situation and put in the location of where the client lives.</p>              
+              <p>Find a service by selecting the legal issue that best matches the client’s situation and put in the location of where the client lives.</p>
           </div>
           <div class="col-xs-12">
-              
+
               <div class="form-group">
 
                 <div class="input-group select2-bootstrap col-xs-12 col-sm-6 legal_issue">
@@ -53,11 +53,11 @@
                 </div>
 
                 <div class="input-group select2-bootstrap-prepend col-xs-12 col-sm-6 location">
-                    
-                    <select class="form-control" id="single-prepend-text" name="lga[]">   
-                         <!-- option value="0" style="color: #999;">Search for suburbs, postcodes or councils</option --> 
+
+                    <select class="form-control" id="single-prepend-text" name="lga[]">
+                         <!-- option value="0" style="color: #999;">Search for suburbs, postcodes or councils</option -->
                         <option> </option>
-                    </select>                      
+                    </select>
                 </div>
 
               </div>
@@ -69,12 +69,12 @@
             <div class="tools">
               <a class="accordion-toggle" id="advance-options" data-toggle="collapse" data-parent="#accordion1" href="#collapse"> Advanced Search </a>
             </div>
-          </div>          
+          </div>
           <div id="collapse" class="panel-collapse collapse">
-              <div class="panel-body">                  
+              <div class="panel-body">
                   <div class="form-group col-sm-12">
-                    <div class='mt-checkbox-inline'> 
-                        <label >Include in results:</label> &nbsp;&nbsp;                     
+                    <div class='mt-checkbox-inline'>
+                        <label >Include in results:</label> &nbsp;&nbsp;
                         <label class="mt-checkbox"> <input type="checkbox" id="select_all">All<span></span></label>
                         <label class="mt-checkbox"><input id='referral_CLC' type="checkbox" name="check[]" class='checkbox' value="2"/>CLC<span></span></label>
                         <label class="mt-checkbox"><input id='referral_VLA' type="checkbox" name="check[]" class='checkbox' value="3,4"/>VLA<span></span></label>
@@ -84,22 +84,27 @@
                   </div>
               </div>
           </div>
-      </div>        
       </div>
-    </div> 
+      </div>
+    </div>
   </div>
-</div> 
+</div>
 
-<!-- Navigation -->  
+<!-- Navigation -->
 <div class="row">
   <div class="col-xs-11 col-lg-10 col-xs-offset-1 col-lg-offset-1"><br>
+    <div class="col-xs-6 col-sm-4 col-lg-3 pull-left">
+        <a href="{{ route('serviceList') }}" id="service-list" title="If you know the service to refer click here to show a list of services" class="btn grey-mint btn-block btn-lg pull-left">
+          <span>Service List &nbsp;</span>
+        </a>
+      </div>
     <div class="col-xs-6 col-sm-4 col-lg-3 pull-right">
       <a href="#" id="next-page" class="btn green-jungle btn-block btn-lg pull-right">
-        <span>Next &nbsp;<i class="fa fa-lg fa-angle-right"></i></span> 
+        <span>Next &nbsp;<i class="fa fa-lg fa-angle-right"></i></span>
       </a>
     </div>
   </div>
-</div>  
+</div>
 <!-- Bottom Padding -->
 <div class="row">
     <div class="col-xs-12">

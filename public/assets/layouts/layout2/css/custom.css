@@ -903,8 +903,8 @@ pre {
     margin-left: 0px;
 }
 
-#status {
-    cursor:initial;
+#toggle_status {
+    padding-right: 22px
 }
 
 

@@ -56,7 +56,7 @@ Route::get('/matter_type/new', 'MatterTypeController@create');
 Route::post('/matter_type', 'MatterTypeController@store');
 
 //Service
-Route::get('/service', 'ServiceController@index');
+Route::get('/service', 'ServiceController@index')->name('serviceList');
 
 Route::get('/service/list', 'ServiceController@list');
 

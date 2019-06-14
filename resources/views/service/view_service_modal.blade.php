@@ -1,13 +1,23 @@
 <div class="row" v-show="!send_to_client">
-	<div class="col-sm-12">
-		<button type="button" class="btn btn-primary btn-sm" id="send_client_btn" @click="setReferral({{ Auth::user()->id }},{{ Auth::user()->sp_id }})">
+
+	<div class="col-sm-6 col-xs-8">
+		<h4 class="col-sm-5 bold">Contact Details</h4>
+	</div>
+
+	<div class="col-sm-6 col-xs-4">
+		<button type="button" class="btn btn-primary pull-right btn-sm" id="send_client_btn" @click="setReferral({{ Auth::user()->id }},{{ Auth::user()->sp_id }})">
 			Send to Client
 		</button>
 	</div>
 
-	<div class="col-sm-12">
-		<h4 class="col-sm-5 bold">Contact Details</h4>
-		<input type="checkbox" data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="success" data-offstyle="danger" data-size="mini" id="status">
+	<div class="col-sm-12" id="toggle_status">
+			<toggle-button
+			v-model="status"
+			class="pull-right"
+			:labels="{checked: 'Yes', unchecked: 'No'}"
+			:sync="true"
+			:color="{checked:'#32c5d2', unchecked:'#e73d4a'}"
+			disabled/>
 	</div>
 
 	<div class="col-sm-12">

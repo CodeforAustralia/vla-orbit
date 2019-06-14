@@ -2,7 +2,7 @@
 
     <div class="data-table">
         <div class="form-group row">
-            <div class="col-sm-6 col-md-7">
+            <div class="col-sm-6 col-md-7" >
                 <div v-if="showPrint">
                     <button class="btn blue"  @click="printTable">Print</button>
                     <download-excel
@@ -14,6 +14,9 @@
                         type    = "csv">
                         CSV
                     </download-excel>
+                </div>
+                <div v-if="title=='Service'">
+                    <p align="justify"><small>Below is a list of all services in LHO - use the search box to the right to locate specific services. If the service is available you can use the blue "send to client" button to send the service details to a client by SMS or email. If you have administrator access to a service you can use the yellow "edit" button to update the service details.</small></p>
                 </div>
             </div>
             <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
@@ -49,7 +52,7 @@
                                 <input type="hidden" name="_token" :value="csrf">
 
                                 <a :href="showUrl + '/' + data[identifier]" :id="'view-' + data[identifier]" class="btn btn-xs blue view-btn" :title="'Show ' + title " v-if="showUrl != '' && value.can_view">
-                                    Show
+                                    {{title=="Service"? "Send to Client":"Show"}}
                                 </a>
                                 <a :href="editUrlComposition(data[identifier])" class="btn btn-warning btn-xs" :title="'Edit ' + title" v-if="editUrl != '' && value.can_edit">
                                     Edit

@@ -2,8 +2,11 @@ import Vue from 'vue';
 import axios from 'axios';
 import moment from 'moment';
 import Multiselect from 'vue-multiselect';
+import ToggleButton from 'vue-js-toggle-button'
 
 Vue.component('multiselect', Multiselect);
+
+Vue.use(ToggleButton)
 
 new Vue({
     el: '#viewService',
@@ -24,7 +27,8 @@ new Vue({
         outSP:'',
         user_id:'',
         title: '',
-        logo_src:''
+        logo_src:'',
+        status:false,
     },
     methods: {
         getServiceById : function(sv_id) {
@@ -62,10 +66,7 @@ new Vue({
             {
                 self.catchment_area = '<span class="badge badge-primary badge-roundless">' + self.service.catchments[i] + '</span> ';
             }
-
-            $('#status').prop('disabled',false);
-            $('#status').prop('checked',(self.service.Status!=0) ? true:false).change();
-            $('#status').prop('disabled',true);
+            self.service.Status == 1 ? self.status = true: self.status=false;
             let last_update = moment(self.service.UpdatedOn).toDate();
             last_update = moment(last_update).format('DD/MM/YYYY');
             self.updated_by_date ='Last update ' + last_update + ' by ' + self.service.UpdatedBy;
