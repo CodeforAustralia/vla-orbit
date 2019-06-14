@@ -950,3 +950,37 @@ table#data_table.table>thead>tr>th {
 .green-orbit {
     color: #17C4BB;
 }
+
+/********************************************** Show Service page ************************/
+.feeds {
+    overflow: auto;
+    max-height: 130px;
+}
+.feeds .desc p {
+    margin: 0;
+}
+
+.feeds li .col2 {
+    width: 75px;
+    margin-left: -75px;
+    font-size: 10px;
+}
+.feeds li .col1 {
+    border-top-width: 2px;
+    border-top-style: solid;
+    border-top-color: #17c4bb;
+}
+
+.feeds li .col1>.cont>.cont-col2>.desc {
+    text-align: justify;
+    margin-top: 5px;
+}
+.feeds li .col1>.cont {
+    margin-right: 35px;
+}
+.feeds li .col2>.date {
+    padding: 0px 9px 5px 4px;
+}
+.feeds li:first-child {
+    display: none;
+}

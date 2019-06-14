@@ -119,6 +119,13 @@
                         :config="config_notes"
                         name="notes"/>
                 </div>
+
+                <div class="col-sm-12">
+                    <label for="notes">Old Notes:</label>
+                        <ul class="feeds" v-html="show_log_notes">
+                        </ul>
+                </div>
+
             </div>
 
             <div class="form-group">
@@ -283,6 +290,11 @@
                 type:Array,
                 required: true,
             },
+            service_notes_log : {
+                type:Array,
+                required:false,
+                default: function () { return [] },
+            },
             catchments : {
                 type:Object,
                 required:false,
@@ -306,6 +318,27 @@
                     config_notes,
                     status:false,
                     initial_general_settings: {},
+            }
+        },
+        computed: {
+            show_log_notes() {
+                let notes = '';
+                notes = this.service_notes_log.map( note_log => {
+                    return `<li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col2">
+                                            <div class="desc"> ${note_log.note}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> ${note_log.created_at} </div>
+                                </div>
+                            </li>`;
+                        }).join('');
+                return notes;
             }
         },
         methods: {
