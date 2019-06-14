@@ -147,6 +147,26 @@
                       <input type="text" class="form-control hidden" id="OutboundServiceProviderId" name="OutboundServiceProviderId" value="{{ Auth::user()->sp_id }}">
                     </div>
 
+                    {{-- Admin anotations --}}
+                    <div class="form-group" id="section_feed">
+                      <label for="Anotations">Read this before referring a client</label>
+                      <ul class="feeds referral_feed">
+                        <li>
+                          <div class="col1">
+                              <div class="cont">
+                                  <div class="cont-col2">
+                                      <div class="desc">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col2">
+                              <div class="date">  </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
                     <!-- Button -->
                     <div class="col-xs-8 col-sm-6 col-xs-offset-2 col-sm-offset-3"><br>
                         <!-- Trigger Modal -->

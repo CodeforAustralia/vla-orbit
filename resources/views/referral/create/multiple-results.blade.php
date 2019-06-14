@@ -147,6 +147,9 @@
 
 
             </div>
+            <div class="hidden" id="service_feeds">
+                {{ $match['Notes'] }}
+            </div>
         </div>
     </div>
 

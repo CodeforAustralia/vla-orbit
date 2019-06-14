@@ -981,6 +981,6 @@ table#data_table.table>thead>tr>th {
 .feeds li .col2>.date {
     padding: 0px 9px 5px 4px;
 }
-.feeds li:first-child {
+.feeds:not(.referral_feed) li:first-child {
     display: none;
 }
