@@ -197,6 +197,9 @@ Class Service extends OrbitSoap
                         ->SaveOrbitService( $info );
             // Redirect to index
             if ( $response->SaveOrbitServiceResult >= 0 ) {
+                $log = new Log();
+                $log::record( 'UPDATE', 'service', $sv_id, ['general_settings' => $sv_params] );
+                $log::record( 'UPDATE', 'service', $sv_id, ['catchment_info' => $catchment_info] );
                 self::saveServiceCatchments($sv_id, $catchment_info);
                 return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $sv_id ];
             } else {
@@ -602,5 +605,21 @@ Class Service extends OrbitSoap
 
     }
 
+    /**
+     * Get a log of service notes
+     *
+     * @param int $sv_id Service ID
+     * @return array
+     */
+    public function getServiceNotesLogs($sv_id)
+    {
+        $log = new \App\Log();
+        $logs = $log->getLogByDataCondition('service', $sv_id, ['data->general_settings->Notes', '!=', '']);
+        $notes = [];
+        foreach ($logs as $register) {
+            $notes[] = ['created_at' => $register['created_at'], 'note' => $register['data']['general_settings']['Notes']];
+        }
+        return $notes;
+    }
 }
 

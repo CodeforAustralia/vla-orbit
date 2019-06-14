@@ -111,6 +111,8 @@ class ServiceController extends Controller
 
             $e_referral_forms = array_column($current_service->ReferralFormServices, 'ReferralFormID'); // All the referral forms associated to this service
 
+            $service_notes_log = $service->getServiceNotesLogs($sv_id); //Get log of notes made in this service
+
             if ( $user->sp_id == $current_service->ServiceProviderId
                 || $user->roles()->first()->name == 'Administrator' ) {
                 //Same service provider or admin
@@ -119,7 +121,7 @@ class ServiceController extends Controller
                                 compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters',
                                         'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities',
                                         'referral_conditions', 'booking_conditions', 'e_referral_conditions', 'e_referral_forms',
-                                        'service_booking', 'service_booking_questions')
+                                        'service_booking', 'service_booking_questions', 'service_notes_log')
                             );
             } else {
                 abort(401, 'This action is unauthorized.');

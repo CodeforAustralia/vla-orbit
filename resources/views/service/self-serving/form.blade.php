@@ -38,6 +38,9 @@
                             @isset($catchments)
                                 :catchments = '{{ json_encode($catchments) }}'
                             @endisset>
+                            @isset($service_notes_log)
+                                :service_notes_log = '{{ json_encode($service_notes_log) }}'
+                            @endisset>
                         </service-general-settings>
                     </div>
 
