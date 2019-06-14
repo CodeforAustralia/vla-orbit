@@ -616,8 +616,15 @@ Class Service extends OrbitSoap
         $log = new \App\Log();
         $logs = $log->getLogByDataCondition('service', $sv_id, ['data->general_settings->Notes', '!=', '']);
         $notes = [];
+        $scope_notes = []; //Keep track of each note in log and allows only the new ones
         foreach ($logs as $register) {
-            $notes[] = ['created_at' => $register['created_at'], 'note' => $register['data']['general_settings']['Notes']];
+            if(!in_array($register['data']['general_settings']['Notes'], $scope_notes)) {
+                $notes[] = [
+                                'created_at' => date("d-m-Y", strtotime($register['created_at'])),
+                                'note' => $register['data']['general_settings']['Notes']
+                            ];
+                $scope_notes[] = $register['data']['general_settings']['Notes'];
+            }
         }
         return $notes;
     }
