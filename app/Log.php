@@ -41,7 +41,7 @@ class Log extends Model
         $log->object_type = $object_type;
         $log->object_id = $object_id;
         $log->user_id = $user->id;
-        $log->data = json_encode($object);
+        $log->data = $object;
         return $log->save();
     }
 
@@ -62,6 +62,7 @@ class Log extends Model
         return $log->where('object_type', $object_type)
                         ->where('object_id', $object_id)
                         ->where($field, $operator, $value)
+                        ->orderBy('id', 'desc')
                         ->get()
                         ->toArray();
     }
