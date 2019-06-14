@@ -23401,14 +23401,16 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "col-sm-12" }, [
-          _c("label", { attrs: { for: "notes" } }, [_vm._v("Old Notes:")]),
-          _vm._v(" "),
-          _c("ul", {
-            staticClass: "feeds",
-            domProps: { innerHTML: _vm._s(_vm.show_log_notes) }
-          })
-        ])
+        _vm.service_notes_log.length > 0
+          ? _c("div", { staticClass: "col-sm-12" }, [
+              _c("label", { attrs: { for: "notes" } }, [_vm._v("Old Notes:")]),
+              _vm._v(" "),
+              _c("ul", {
+                staticClass: "feeds",
+                domProps: { innerHTML: _vm._s(_vm.show_log_notes) }
+              })
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [

@@ -120,7 +120,7 @@
                         name="notes"/>
                 </div>
 
-                <div class="col-sm-12">
+                <div class="col-sm-12" v-if="service_notes_log.length > 0">
                     <label for="notes">Old Notes:</label>
                         <ul class="feeds" v-html="show_log_notes">
                         </ul>
