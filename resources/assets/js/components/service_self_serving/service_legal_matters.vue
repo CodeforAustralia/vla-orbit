@@ -8,7 +8,11 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <p><small>Choose the legal matters covered by the service. If needed <a data-toggle="modal" href="#request-matter">request a new legal matter</a>.</small></p>
+                    <p>
+                        <small>Choose the legal matters covered by the service. If needed <a data-toggle="modal" href="#request-matter">request a new legal matter</a>.</small>
+                        <a href="javascript:;" class="btn btn-xs green" @click="matters_selected = matters">Select All</a> &nbsp;
+                        <a href="javascript:;" class="btn btn-xs red" @click="matters_selected = []">Clear</a>
+                    </p>
                     <multiselect
                         v-model="matters_selected"
                         label="text"
