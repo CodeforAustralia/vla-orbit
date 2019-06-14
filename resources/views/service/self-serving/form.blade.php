@@ -37,7 +37,7 @@
                             @endisset
                             @isset($catchments)
                                 :catchments = '{{ json_encode($catchments) }}'
-                            @endisset>
+                            @endisset
                             @isset($service_notes_log)
                                 :service_notes_log = '{{ json_encode($service_notes_log) }}'
                             @endisset>
