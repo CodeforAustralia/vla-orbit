@@ -587,6 +587,7 @@ Class Service extends OrbitSoap
         $service_booking_questions = new ServiceBookingQuestions();
         $service_booking_questions->deleteServiceBookingQuestionsByServiceId($sv_id);
         if ( !empty( $sv_booking_questions ) ) {
+            $sbq_params = [];
             foreach ($sv_booking_questions as $sv_booking_question) {
                 if( !is_null($sv_booking_question['Operator']) && !is_null($sv_booking_question['QuestionValue']) && !is_null($sv_booking_question['QuestionId'])){
                     $sbq_params[] = [
