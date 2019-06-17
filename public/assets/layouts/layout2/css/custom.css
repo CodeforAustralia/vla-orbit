@@ -28,7 +28,12 @@ body .page-container-bg-solid .page-content, .page-container-bg-solid .page-cont
     line-height: 36px;
     margin-bottom: 0;
 }
-
+/*** Dismiss modal ****/
+.modal .modal-header .close {
+    position: absolute;
+    right: 15px;
+    z-index: 1;
+}
 .col-xs-5ths,
 .col-sm-5ths,
 .col-md-5ths,
