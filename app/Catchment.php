@@ -335,17 +335,20 @@ Class Catchment extends OrbitSoap
                 $catchment_area['CatchmentTypeId'] = $ct_id;
 
                 // Create call request
-                $info['ObjectInstance'][] = $catchment_area;
+                $info[] = $catchment_area;
                 $save = true;
             }
         }
+
         if($save) {
             try {
-                $response = $this
-                            ->client
-                            ->ws_init('SaveCatchmentsArea')
-                            ->SaveCatchmentsArea( $info )
-                            ->SaveCatchmentsAreaResult;
+                $chunk_info = array_chunk($info, 100); //Make smaller sets of data to store information
+                foreach ($chunk_info as $smaller_set) {
+                    $result = $this->client
+                        ->ws_init('SaveCatchmentsArea')
+                        ->SaveCatchmentsArea( ['ObjectInstance' => $smaller_set] )
+                        ->SaveCatchmentsAreaResult;
+                }
             }
             catch (\Exception $e) {
                 return ['success' => 'error' , 'message' =>  $e->getMessage()];
