@@ -16,9 +16,13 @@ For VLA offices it is possible to share appointment availability and have other 
 
 ## Technical information
 
-ORBIT is being developed between Code for Australia and the ICT team of VLA. In order to get the most of the current of both teams ICT has built all the interaction between model and the business logic providing a SOAP API supporting different functionalities such as bookings, referrals or management of services.
+ORBIT is being developed between Code for Australia and the ICT team of VLA. In order to get the most of the current of both teams ICT has built all the interaction between model and the business logic providing a SOAP API supporting different functionalities such as referrals, no replay emails, bookings or service management.
 
-On the other hand, CFA fellows have built a web application through researching and approaching potential users of Orbit. This application was built using PHP (Laravel 5.4), Javascript (jQuery) and MySql (MariaDB). In order to keep the front-end development time short, the team acquired a license of the "Metronic" Bootstrap admin dashboard.
+CFA fellows have built a web application through researching and approaching potential users of the legal sector in Victoria. This application was built using PHP (Laravel 5.4), Javascript (jQuery), VueJs, Bootstrap 3 and MySql. In order to keep the front-end development time short, the team acquired a license of the "Metronic" Bootstrap admin dashboard.
+
+In order to keep information about bookings, VLA has developed a system to track this information between their offices including service information, times and service provider.
+
+In order to authenticate VLA user's the application is using SIMPLE SAML libraries to access the service directory, this requires an SSL certificate.
 
 # Installation
 
@@ -83,9 +87,25 @@ The values that are relevant for us are:
 
 *Web Services settings, this web services are hosted in a different server and each WSDL is accessed by Laravel through SOAP*
 
+* `ORBIT_WDSL_USER=` A valid user to authenticate and access internal Web Services
+* `ORBIT_WDSL_PASSWORD=` A valid password to authenticate and access internal Web Services
+
 * `ORBIT_WDSL_URL=` Core SOAP address
 * `ORBIT_BOOKING_WDSL_URL=` Bookings SOAP address
 * `ORBIT_NO_REPLY_EMAILS_WDSL_URL=` No Reply Emails SOAP address
+
+* `ORBIT_WDSL_ACTIONS=` SOAP action URL for core web services
+* `ORBIT_WDSL_ACTIONS_BOOKINGS=` SOAP action URL for booking web services
+* `ORBIT_WDSL_ACTIONS_NRE=` SOAP action URL for no replay emails web services
+
+* `ORBIT_WDSL_TO=` SOAP to URL for core web services
+* `ORBIT_WDSL_TO_BOOKINGS=` SOAP to URL for booking web services
+* `ORBIT_WDSL_TO_NRE=` SOAP to URL for no replay emails web services
+
+* `BOOKING_ENGINE_BASE_URL=` Booking engine setup information
+* `BOOKING_ENGINE_EMAIL=` Booking engine setup information
+* `BOOKING_ENGINE_PASSWORD=` Booking engine setup information
+* `BOOKING_ENGINE_REMEMBER_ME=` Booking engine setup information
 
 *Other libraries*
 
