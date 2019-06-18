@@ -20,7 +20,7 @@ ORBIT is being developed between Code for Australia and the ICT team of VLA. In 
 
 CFA fellows have built a web application through researching and approaching potential users of the legal sector in Victoria. This application was built using PHP (Laravel 5.4), Javascript (jQuery), VueJs, Bootstrap 3 and MySql. In order to keep the front-end development time short, the team acquired a license of the "Metronic" Bootstrap admin dashboard.
 
-In order to keep information about bookings, VLA has developed a system to track this information between their offices including service information, times and service provider.
+To keep information about bookings, VLA has developed a system to track this information between their offices including service information, times and service provider.
 
 In order to authenticate VLA user's the application is using SIMPLE SAML libraries to access the service directory, this requires an SSL certificate.
 
