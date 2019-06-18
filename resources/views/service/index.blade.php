@@ -34,6 +34,7 @@
                                 'service_type',
                                 'service_level'
                             ]"
+                    description="Below is a list of all services in LHO - use the search box to the right to locate specific services. If the service is available you can use the blue 'send to client' button to send the service details to a client by SMS or email. If you have administrator access to a service you can use the yellow 'edit' button to update the service details."
                 ></data-table>
             </div>
         </div>

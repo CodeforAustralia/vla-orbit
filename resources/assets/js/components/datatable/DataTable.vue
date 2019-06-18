@@ -15,8 +15,8 @@
                         CSV
                     </download-excel>
                 </div>
-                <div v-if="title=='Service'">
-                    <p align="justify"><small>Below is a list of all services in LHO - use the search box to the right to locate specific services. If the service is available you can use the blue "send to client" button to send the service details to a client by SMS or email. If you have administrator access to a service you can use the yellow "edit" button to update the service details.</small></p>
+                <div v-if="description !=''">
+                    <p align="justify"><small>{{description}}</small></p>
                 </div>
             </div>
             <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
@@ -109,6 +109,7 @@
             showPrint: { type: Boolean, required:false, default:false },
             model: { type: String, required: false },
             identifier: { type: String, required: true },
+            description:{type: String, required:false}
         },
         data() {
             return {
