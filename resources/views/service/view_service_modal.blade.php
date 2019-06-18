@@ -1,11 +1,16 @@
 <div class="row" v-show="!send_to_client">
+	<input type="hidden" id="user_service_provicer" value="{{Auth::user()->sp_id}}">
+
+	<div class="col-sm-12 alert alert-warning" v-if="!can_refer">
+			<p align="justify" > You do not have permission to refer to this service.</p>
+	</div>
 
 	<div class="col-sm-6 col-xs-8">
 		<h4 class="col-sm-5 bold">Contact Details</h4>
 	</div>
 
 	<div class="col-sm-6 col-xs-4">
-		<button type="button" class="btn btn-primary pull-right btn-sm" id="send_client_btn" @click="setReferral({{ Auth::user()->id }},{{ Auth::user()->sp_id }})">
+		<button v-if="can_refer" type="button" class="btn btn-primary pull-right btn-sm" id="send_client_btn" @click="setReferral({{ Auth::user()->id }})">
 			Send to Client
 		</button>
 	</div>

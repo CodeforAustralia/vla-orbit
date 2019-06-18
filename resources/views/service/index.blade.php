@@ -19,6 +19,7 @@
                 <data-table
                     fetch-url="/service/list_table"
                     show-url="#"
+                    show-label="Send To Client"
                     edit-url="/service/show"
                     delete-url="/service/delete"
                     title="Service"

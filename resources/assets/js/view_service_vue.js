@@ -24,11 +24,12 @@ new Vue({
         email: '',
         phone:'',
         other:'',
-        outSP:'',
+        out_sp:'',
         user_id:'',
         title: '',
         logo_src:'',
         status:false,
+        can_refer:false,
     },
     methods: {
         getServiceById : function(sv_id) {
@@ -38,6 +39,7 @@ new Vue({
             axios['get'](url, {})
                 .then(response => {
                     self.service = response.data;
+                    self.can_refer = self.search_refer_action();
                     self.setServiceInformation();
                     $('#viewService').modal('show')
                     $("#contentLoading").modal("hide");
@@ -76,6 +78,7 @@ new Vue({
             let self = this;
             $(document).on("click", ".service_data_table .view-btn", function () {
                 let view = $(this).attr('id').split('-');
+                self.out_sp = document.getElementById("user_service_provicer").value;
                 let sv_id = view[1];
                 self.getServiceById(sv_id);
             });
@@ -123,7 +126,7 @@ new Vue({
                     CatchmentId: "0",
                     MatterId: self.legal_matter_selected.MatterID.toString(),
                     UserID: self.user_id.toString(),
-                    OutboundServiceProviderId: self.outSP.toString(),
+                    OutboundServiceProviderId: self.out_sp.toString(),
                     Notes : self.other,
                     Nearest: null
                 }
@@ -146,11 +149,10 @@ new Vue({
             }
 
         },
-        setReferral: function (user_id, out_sp)
+        setReferral: function (user_id)
         {
             let self = this;
             self.user_id = user_id;
-            self.outSP = out_sp;
             self.send_to_client = true;
             self.title = 'Send Referral';
             let url = '/service_provider/getById/'+ self.service.ServiceProviderId;
@@ -170,6 +172,18 @@ new Vue({
         {
             let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             return regex.test(email);
+        },
+        search_refer_action() {
+            let self = this;
+            let result = false;
+            if(self.service.ServiceActions){
+                self.service.ServiceActions.map(action => {
+                    if(self.out_sp == 0 || (action.Action == "REFER" && action.ServiceProviderId == self.out_sp ) ) {
+                        result=true;
+                    }
+                });
+            }
+            return result;
         }
 
     },

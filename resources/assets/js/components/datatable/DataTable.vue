@@ -52,13 +52,13 @@
                                 <input type="hidden" name="_token" :value="csrf">
 
                                 <a :href="showUrl + '/' + data[identifier]" :id="'view-' + data[identifier]" class="btn btn-xs blue view-btn" :title="'Show ' + title " v-if="showUrl != '' && value.can_view">
-                                    {{title=="Service"? "Send to Client":"Show"}}
+                                    {{showLabel}}
                                 </a>
                                 <a :href="editUrlComposition(data[identifier])" class="btn btn-warning btn-xs" :title="'Edit ' + title" v-if="editUrl != '' && value.can_edit">
-                                    Edit
+                                    {{editLabel}}
                                 </a>
                                 <button type="submit" :dusk="'delete-' + title.toLowerCase() + '-' + data[identifier]" class="btn btn-danger btn-xs" :title="'Delete ' + title" :onclick="'return confirm(&quot;Delete ' + title + '?&quot;)'" v-if="deleteUrl != '' && value.can_delete">
-                                    Delete
+                                    {{deleteLabel}}
                                 </button>
 
                             </form>
@@ -109,7 +109,10 @@
             showPrint: { type: Boolean, required:false, default:false },
             model: { type: String, required: false },
             identifier: { type: String, required: true },
-            description:{type: String, required:false}
+            description:{type: String, required:false},
+            showLabel:{type:String, required:false, default:"Show"},
+            editLabel:{type:String, required:false, default:"Edit"},
+            deleteLabel:{type:String, required:false, default:"Delete"},
         },
         data() {
             return {

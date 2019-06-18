@@ -912,6 +912,9 @@ pre {
     padding-right: 22px
 }
 
+div#toggle_status label.pull-right.vue-js-switch.toggled.disabled{
+    opacity: inherit;
+}
 
 /************************** datatable *******************************/
 
