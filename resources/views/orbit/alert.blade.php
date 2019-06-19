@@ -1,6 +1,9 @@
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+@if (session('success') || isset($_GET['success']) )
+    <div class="alert alert-success alert-dismissible">
+        {{ $_GET['success'] or session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 @endif
 

@@ -166,7 +166,7 @@ Class Service extends OrbitSoap
      * @param Array     $request    Form paramenters with additional service information
      * @return Array    success or error message
      */
-    public function saveServices( $sv_params, $sv_id, $request )
+    public function saveServices( $sv_params, $request )
     {
         // Current time
         $date_now = date("Y-m-d");
@@ -189,7 +189,6 @@ Class Service extends OrbitSoap
             $catchment_info['suburbs'] = $request['suburbs'];
         }
         $info = [ 'ObjectInstance' => $sv_params ];
-
         try {
             $response = $this
                         ->client
@@ -197,16 +196,21 @@ Class Service extends OrbitSoap
                         ->SaveOrbitService( $info );
             // Redirect to index
             if ( $response->SaveOrbitServiceResult >= 0 ) {
+                $sv_id = $response->SaveOrbitServiceResult;
                 $log = new Log();
-                $log::record( 'UPDATE', 'service', $sv_id, ['general_settings' => $sv_params] );
-                $log::record( 'UPDATE', 'service', $sv_id, ['catchment_info' => $catchment_info] );
+                $action = 'UPDATE';
+                if($sv_params['ServiceId'] == 0 ) { // Is new Service
+                    $action = 'CREATE';
+                }
+                $log::record( $action, 'service', $sv_id, ['general_settings' => $sv_params] );
+                $log::record( $action, 'service', $sv_id, ['catchment_info' => $catchment_info] );
                 self::saveServiceCatchments($sv_id, $catchment_info);
-                return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $sv_id ];
+                return [ 'success' => 'success' , 'message' => 'General Settings saved..', 'data' => $sv_id ];
             } else {
                 return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
             }
         } catch (\Exception $e) {
-            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+            throw $e;
         }
     }
     /**

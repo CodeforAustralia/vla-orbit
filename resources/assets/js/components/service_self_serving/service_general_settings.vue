@@ -447,9 +447,14 @@
                     let url = '/service/general_settings';
                     self.$parent.submit('post',url, general_settings)
                         .then(response => {
+                            if(!self.current_service.ServiceId){
+                                window.location.href = '/service/show/'+ response.data + "?success=Service Saved!";
+                            }else {
+                                self.$parent.swal_messages(response.success, response.message);
+                                self.initial_general_settings = Object.assign({}, self.get_general_settings());
+                            }
                             $('#contentLoading').modal('hide');
-                            self.$parent.swal_messages(response.success, response.message);
-                            self.initial_general_settings = Object.assign({}, self.get_general_settings());
+
                         })
                         .catch(error => {
                             console.log(error);
