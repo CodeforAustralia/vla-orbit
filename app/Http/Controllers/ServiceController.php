@@ -17,6 +17,7 @@ use App\Vulnerability;
 use App\EReferral;
 use App\Question;
 use App\Mail\RequestEmail;
+use App\MatterServiceAnswer;
 use Auth;
 
 /**
@@ -110,6 +111,8 @@ class ServiceController extends Controller
 
             $e_referral_forms = array_column($current_service->ReferralFormServices, 'ReferralFormID'); // All the referral forms associated to this service
 
+            $service_notes_log = $service->getServiceNotesLogs($sv_id); //Get log of notes made in this service
+
             if ( $user->sp_id == $current_service->ServiceProviderId
                 || $user->roles()->first()->name == 'Administrator' ) {
                 //Same service provider or admin
@@ -118,7 +121,7 @@ class ServiceController extends Controller
                                 compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters',
                                         'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities',
                                         'referral_conditions', 'booking_conditions', 'e_referral_conditions', 'e_referral_forms',
-                                        'service_booking', 'service_booking_questions')
+                                        'service_booking', 'service_booking_questions', 'service_notes_log')
                             );
             } else {
                 abort(401, 'This action is unauthorized.');
@@ -143,6 +146,7 @@ class ServiceController extends Controller
                         'Phone'         => filter_var(request('phone'), FILTER_SANITIZE_STRING),
                         'Email'         => filter_var(request('email'), FILTER_SANITIZE_EMAIL),
                         'Description'   => request('description'),
+                        'Notes'         => isset($service['Notes']) ? $service['Notes'] : '',
                         'Location'      => filter_var(request('location'), FILTER_SANITIZE_STRING),
                         'URL'           => filter_var(request('URL'), FILTER_SANITIZE_URL),
                         'ServiceProviderId' => request('service_provider_id'),
@@ -158,6 +162,152 @@ class ServiceController extends Controller
         $response = $service->saveService( $sv_params, request()->all() );
 
         return redirect('/service')->with( $response['success'], $response['message'] );
+    }
+
+    /**
+     * Update service intake options of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeGeneralSettings(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        try {
+            $service = $request['current_service'];
+            $sv_id = isset($service['ServiceId']) ? $service['ServiceId'] : 0;
+            $sv_params = [
+                'ServiceId'   	=> $sv_id,
+                'ServiceName'   => filter_var($service['ServiceName'], FILTER_SANITIZE_STRING),
+                'Phone'         => filter_var($service['Phone'], FILTER_SANITIZE_STRING),
+                'Email'         => filter_var($service['Email'], FILTER_SANITIZE_EMAIL),
+                'Description'   => $service['Description'],
+                'Notes'         => isset($service['Notes']) ? $service['Notes'] : '',
+                'Location'      => filter_var($service['Location'], FILTER_SANITIZE_STRING),
+                'URL'           => filter_var($service['URL'], FILTER_SANITIZE_URL),
+                'ServiceProviderId' => $request["service_provider"],
+                'Wait'           => filter_var($service['Wait'], FILTER_SANITIZE_STRING),
+                'ServiceLevelId' => $request['service_level'],
+                'ServiceTypeId'  => $request['service_type'] ,
+                'OpenningHrs'    => filter_var($service['OpenningHrs'], FILTER_SANITIZE_STRING),
+                'Status'         => $request['status'] ? 1 : 0 , // TODO
+                'Specialist'     => false,
+            ];
+
+            $service_obj = new Service();
+            $service_obj->saveServices($sv_params, $sv_id,$request);
+            return ['success' => 'success' , 'message' => 'General Settings saved.'];
+
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+
+    /**
+     * Update service intake options of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeIntakeOptions(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+
+        try {
+            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
+                $sv_id = $request['sv_id'];
+
+                $referral_conditions  = (isset($sv_id, $request['referral_conditions']) ? $request['referral_conditions'] : []);
+                $booking_conditions   = (isset($request['booking_conditions']) ? $request['booking_conditions'] : []);
+                $e_referral_conditions = (isset($request['e_referral_conditions']) ? $request['e_referral_conditions'] : []);
+                $e_referral_forms      = (isset($request['e_referral_forms']) ? $request['e_referral_forms'] : []);
+                $booking_question      = (isset($request['booking_question']) ? $request['booking_question'] : []);
+
+                $service = new Service();
+                $service->saveServiceActions($sv_id, $referral_conditions, $booking_conditions, $e_referral_conditions);
+                $service->saveServiceEReferrals($sv_id, $e_referral_forms);
+                $service->saveServiceBookingQuestions($sv_id, $booking_question);
+                return ['success' => 'success' , 'message' => 'Intake options saved.'];
+
+            } else {
+                return ['success' => 'error' , 'message' => 'Please save service first.'];
+            }
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+
+
+    /**
+     * Update service Client Eligibility Questions and Booking Questions of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeClientEligibility(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+
+        try {
+            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
+
+                $sv_id = $request['sv_id'];
+
+                $vulnerability    = (isset($request['vulnerability']) ? $request['vulnerability'] : []);
+
+                $service = new Service();
+                $service->saveServiceEligibilityQuestions($sv_id, $vulnerability);
+
+                return ['success' => 'success' , 'message' => 'Client Matters saved.'];
+            } else {
+                return ['success' => 'error' , 'message' => 'Please save service first.'];
+            }
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+
+    /**
+     * Update service Legal Matter and Legal Matters conditions / eligilibility of an existing service
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse service listing page with success/error message
+     */
+    public function storeLegalMatter(Request $request)
+    {
+        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+
+        try {
+            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
+
+                $sv_id = $request['sv_id'];
+
+                $matters    = (isset($request['matters']) ? $request['matters'] : []);
+
+                $service = new Service();
+                $matters_ids = array_column($matters, 'id');
+                // Save the legal matters
+                $result = $service->saveServiceMatters($sv_id, $matters_ids);
+                if($result['message']){
+                    // Get the legal Matter Service
+                    $matter_service_obj     = new MatterService();
+                    $matter_services_list   = $matter_service_obj->getMatterServiceBySvID($sv_id);
+
+                    $matter_service_answer = new MatterServiceAnswer();
+                    // Save the Legal Matter Conditions.
+                    $matter_service_answer->processMatterServiceAnswers( $matters , $sv_id , $matter_services_list);
+                    // Save the Legal Matter Eligibility Criteria
+                    $matter_service_answer->processVulnerabilityMatterServiceAnswers( $matters , $matter_services_list );
+
+
+                }
+                return ['success' => 'success' , 'message' => 'Client Matters saved.'];
+            } else {
+                return ['success' => 'error' , 'message' => 'Please save service first.'];
+            }
+        } catch ( \Exception $e ) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
     }
 
     /**

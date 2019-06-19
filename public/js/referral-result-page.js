@@ -78,12 +78,21 @@ var openModal = function ()
     const service_provider_name = $(service_card).find(".service-provider-name").text();
     const service_name = $(service_card).find(".service-name").text();
     const image_path = $(service_card).find("img").attr("src");
+    const service_feeds = $(service_card).find("#service_feeds").text().trim();
     service_id = $( service_card ).attr('id');
 
     const modal = $("#SelectMatch");
     $(modal).find(".service-provider-name").text(service_provider_name);
     $(modal).find(".service-name").text(service_name);
     $(modal).find("img").attr("src", image_path);
+
+    if (service_feeds != '') {
+      $('#section_feed').show();
+      $(modal).find(".desc").html(service_feeds);
+    } else {
+      $('#section_feed').hide();
+      $(modal).find(".desc").html('');
+    }
 
     if(service_card.hasClass('panel-lawyer'))
     {

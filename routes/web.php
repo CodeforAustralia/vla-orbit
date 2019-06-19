@@ -30,6 +30,8 @@ Route::get('/matter/list', 'MatterController@list');
 
 Route::get('/matter/listFormated', 'MatterController@listFormated');
 
+Route::get('/matter/listWithQuestionsFormated', 'MatterController@listWithQuestionsFormated');
+
 Route::get('/matter/listFormatedTrimmed', 'MatterController@listFormatedTrimmed');
 
 Route::get('/matter/new', 'MatterController@create');
@@ -54,7 +56,7 @@ Route::get('/matter_type/new', 'MatterTypeController@create');
 Route::post('/matter_type', 'MatterTypeController@store');
 
 //Service
-Route::get('/service', 'ServiceController@index');
+Route::get('/service', 'ServiceController@index')->name('serviceList');
 
 Route::get('/service/list', 'ServiceController@list');
 
@@ -71,6 +73,14 @@ Route::get('/service/delete/{sv_id}', 'ServiceController@destroy');
 Route::get('/service/new', 'ServiceController@create');
 
 Route::post('/service', 'ServiceController@store');
+
+Route::post('/service/general_settings', 'ServiceController@storeGeneralSettings');
+
+Route::post('/service/intake_options', 'ServiceController@storeIntakeOptions');
+
+Route::post('/service/client_eligibility', 'ServiceController@storeClientEligibility');
+
+Route::post('/service/legal_matter', 'ServiceController@storeLegalMatter');
 
 Route::post('/service/request_addition', 'ServiceController@sendRequestEmail');
 

@@ -3,6 +3,7 @@ namespace App;
 
 use App\Catchment;
 use App\EReferral;
+use App\Log;
 use App\MatterService;
 use App\MatterServiceAnswer;
 use App\ServiceAction;
@@ -158,6 +159,56 @@ Class Service extends OrbitSoap
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
+
+    /**
+     * Create or update a service
+     * @param  Object   $sv_params  service details
+     * @param Array     $request    Form paramenters with additional service information
+     * @return Array    success or error message
+     */
+    public function saveServices( $sv_params, $sv_id, $request )
+    {
+        // Current time
+        $date_now = date("Y-m-d");
+        $time_now = date("H:i:s");
+        $date_time = $date_now . "T" . $time_now;
+
+        $sv_params['CreatedBy'] = auth()->user()->name;
+        $sv_params['UpdatedBy'] = auth()->user()->name;
+        $sv_params['CreatedOn'] = $date_time;
+        $sv_params['UpdatedOn'] = $date_time;
+
+        $catchment_info = [];
+        if( isset($request['lga']) && !is_null($request['lga']) ){
+            $catchment_info['lga'] = $request['lga'];
+        }
+        if( isset($request['postcodes']) && !is_null($request['postcodes']) ){
+            $catchment_info['postcodes'] = $request['postcodes'];
+        }
+        if( isset($request['suburbs']) && !is_null($request['suburbs']) ){
+            $catchment_info['suburbs'] = $request['suburbs'];
+        }
+        $info = [ 'ObjectInstance' => $sv_params ];
+
+        try {
+            $response = $this
+                        ->client
+                        ->ws_init('SaveOrbitService')
+                        ->SaveOrbitService( $info );
+            // Redirect to index
+            if ( $response->SaveOrbitServiceResult >= 0 ) {
+                $log = new Log();
+                $log::record( 'UPDATE', 'service', $sv_id, ['general_settings' => $sv_params] );
+                $log::record( 'UPDATE', 'service', $sv_id, ['catchment_info' => $catchment_info] );
+                self::saveServiceCatchments($sv_id, $catchment_info);
+                return [ 'success' => 'success' , 'message' => 'Service saved.', 'data' => $sv_id ];
+            } else {
+                return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
+            }
+        } catch (\Exception $e) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
     /**
      * Delete a service
      * @param  int    $sv_id service id
@@ -172,6 +223,8 @@ Class Service extends OrbitSoap
         try {
             $response = $this->client->ws_init('DeleteOrbitService')->DeleteOrbitService( $info );
             if ( $response->DeleteOrbitServiceResult ) {
+                $log = new Log();
+                $log::record( 'DELETE', 'service', $sv_id, 'Service deleted.' );
                 return array( 'success' => 'success' , 'message' => 'Service deleted.' );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
@@ -393,12 +446,14 @@ Class Service extends OrbitSoap
      */
     public static function saveServiceMatters($sv_id, $matters)
     {
+        $result = true;
         $matter_service_obj = new MatterService();
         $matter_service_obj->deleteMatterServiceByID( $sv_id ) ;
 
         if ( !empty( $matters ) ) {
             $result = $matter_service_obj->saveMattersService( $sv_id, $matters );
         }
+        return $result;
     }
 
     /**
@@ -476,6 +531,10 @@ Class Service extends OrbitSoap
         $service_action->saveServiceAction( 'REFER', $sv_id, $referral_conditions );
         $service_action->saveServiceAction( 'BOOK', $sv_id, $booking_conditions );
         $service_action->saveServiceAction( 'E_REFER', $sv_id, $e_referral_conditions );
+        $log = new Log();
+        $log::record( 'UPDATE', 'service', $sv_id, ['actions_refer' => $referral_conditions] );
+        $log::record( 'UPDATE', 'service', $sv_id, ['actions_book' => $booking_conditions] );
+        $log::record( 'UPDATE', 'service', $sv_id, ['actions_e_refer' => $e_referral_conditions] );
 
     }
 
@@ -491,6 +550,84 @@ Class Service extends OrbitSoap
         $e_referral_obj = new EReferral();
         $e_referral_obj->deleteAllEReferralByServiceId( $sv_id );
         $e_referral_obj->saveAllFormsInService( $sv_id, $e_referral_forms );
+        $log = new Log();
+        $log::record( 'UPDATE', 'service', $sv_id, ['e_referral_forms' => $e_referral_forms] );
+    }
+
+    /**
+     * Save service questions, can be empty if there are no questions
+     *
+     * @param Int $sv_id        Service ID
+     * @param Array $vulnerability_questions    Question IDs of querstions that can be offered in this service
+     * @return void
+     */
+    public static function saveServiceEligibilityQuestions($sv_id, $vulnerability_questions)
+    {
+        // Delete previous vul. answers
+        $vulnerability_obj = new Vulnerability();
+        $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );
+        if ( !empty( $vulnerability_questions ) ) {
+            // Save vul. answers
+            $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vulnerability_questions );
+            $log = new Log();
+            $log::record( 'UPDATE', 'service', $sv_id, ['eligibility_questions' => $vulnerability_questions] );
+        }
+    }
+
+    /**
+     * Save service booking questions, can be empty if there are no questions
+     *
+     * @param Int $sv_id        Service ID
+     * @param Array $sv_booking_questions       Question IDs of querstions that can be offered in this service
+     * @return void
+     */
+    public static function saveServiceBookingQuestions($sv_id, $sv_booking_questions)
+    {
+        // Delete previous service booking questions
+        $service_booking_questions = new ServiceBookingQuestions();
+        $service_booking_questions->deleteServiceBookingQuestionsByServiceId($sv_id);
+        if ( !empty( $sv_booking_questions ) ) {
+            $sbq_params = [];
+            foreach ($sv_booking_questions as $sv_booking_question) {
+                if( !is_null($sv_booking_question['Operator']) && !is_null($sv_booking_question['QuestionValue']) && !is_null($sv_booking_question['QuestionId'])){
+                    $sbq_params[] = [
+                                        'ServiceId' => $sv_id,
+                                        'QuestionId' => $sv_booking_question['QuestionId'],
+                                        'Operator' => $sv_booking_question['Operator'],
+                                        'QuestionValue' => $sv_booking_question['QuestionValue'],
+                                        'ServiceBookingQuestionId' => 0
+                                    ];
+                }
+            }
+            $service_booking_questions->saveServiceBookingQuestions( $sbq_params );
+            $log = new Log();
+            $log::record( 'UPDATE', 'service', $sv_id, ['booking_questions' => $sbq_params] );
+        }
+
+    }
+
+    /**
+     * Get a log of service notes
+     *
+     * @param int $sv_id Service ID
+     * @return array
+     */
+    public function getServiceNotesLogs($sv_id)
+    {
+        $log = new \App\Log();
+        $logs = $log->getLogByDataCondition('service', $sv_id, ['data->general_settings->Notes', '!=', '']);
+        $notes = [];
+        $scope_notes = []; //Keep track of each note in log and allows only the new ones
+        foreach ($logs as $register) {
+            if(!in_array($register['data']['general_settings']['Notes'], $scope_notes)) {
+                $notes[] = [
+                                'created_at' => date("d-m-Y", strtotime($register['created_at'])),
+                                'note' => $register['data']['general_settings']['Notes']
+                            ];
+                $scope_notes[] = $register['data']['general_settings']['Notes'];
+            }
+        }
+        return $notes;
     }
 }
 

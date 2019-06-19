@@ -19,6 +19,7 @@
                 <data-table
                     fetch-url="/service/list_table"
                     show-url="#"
+                    show-label="Send To Client"
                     edit-url="/service/show"
                     delete-url="/service/delete"
                     title="Service"
@@ -34,6 +35,7 @@
                                 'service_type',
                                 'service_level'
                             ]"
+                    description="Below is a list of all services in LHO - use the search box to the right to locate specific services. If the service is available you can use the blue 'send to client' button to send the service details to a client by SMS or email. If you have administrator access to a service you can use the yellow 'edit' button to update the service details."
                 ></data-table>
             </div>
         </div>
@@ -47,10 +49,21 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" @click="clearFields" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title bold" id="serviceName" v-html="title"></h4>
+                    <h4 class="modal-title bold col-xs-10" id="serviceName" v-html="title"></h4>
+
+                    <div class="col-xs-2" id="toggle_status" v-show="!send_to_client">
+                        <toggle-button
+                            v-model="status"
+                            class="pull-right"
+                            :labels="{checked: 'Yes', unchecked: 'No'}"
+                            :sync="true"
+                            :color="{checked:'#32c5d2', unchecked:'#e73d4a'}"
+                            disabled/>
+                    </div>
+
                 </div>
                 <!-- Modal Body -->
-                <div class="modal-body">
+                <div class="modal-body padding-top-10">
                     <div class="container-fluid">
                     <!-- Top -->
                         @include('service.view_service_modal')

@@ -19,7 +19,7 @@ class CreateLogsTable extends Migration
             $table->string('object_type');
             $table->integer('object_id');
             $table->integer('user_id')->unsigned();
-            $table->text('data');
+            $table->json('data');
             $table->timestamps();
         });
     }

@@ -2,7 +2,7 @@
 
     <div class="data-table">
         <div class="form-group row">
-            <div class="col-sm-6 col-md-7">
+            <div class="col-sm-6 col-md-7" >
                 <div v-if="showPrint">
                     <button class="btn blue"  @click="printTable">Print</button>
                     <download-excel
@@ -14,6 +14,9 @@
                         type    = "csv">
                         CSV
                     </download-excel>
+                </div>
+                <div v-if="description !=''">
+                    <p align="justify"><small>{{description}}</small></p>
                 </div>
             </div>
             <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
@@ -49,13 +52,13 @@
                                 <input type="hidden" name="_token" :value="csrf">
 
                                 <a :href="showUrl + '/' + data[identifier]" :id="'view-' + data[identifier]" class="btn btn-xs blue view-btn" :title="'Show ' + title " v-if="showUrl != '' && value.can_view">
-                                    Show
+                                    {{showLabel}}
                                 </a>
                                 <a :href="editUrlComposition(data[identifier])" class="btn btn-warning btn-xs" :title="'Edit ' + title" v-if="editUrl != '' && value.can_edit">
-                                    Edit
+                                    {{editLabel}}
                                 </a>
                                 <button type="submit" :dusk="'delete-' + title.toLowerCase() + '-' + data[identifier]" class="btn btn-danger btn-xs" :title="'Delete ' + title" :onclick="'return confirm(&quot;Delete ' + title + '?&quot;)'" v-if="deleteUrl != '' && value.can_delete">
-                                    Delete
+                                    {{deleteLabel}}
                                 </button>
 
                             </form>
@@ -106,6 +109,10 @@
             showPrint: { type: Boolean, required:false, default:false },
             model: { type: String, required: false },
             identifier: { type: String, required: true },
+            description:{type: String, required:false},
+            showLabel:{type:String, required:false, default:"Show"},
+            editLabel:{type:String, required:false, default:"Edit"},
+            deleteLabel:{type:String, required:false, default:"Delete"},
         },
         data() {
             return {

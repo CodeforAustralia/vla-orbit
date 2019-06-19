@@ -1,13 +1,18 @@
 <div class="row" v-show="!send_to_client">
-	<div class="col-sm-12">
-		<button type="button" class="btn btn-primary btn-sm" id="send_client_btn" @click="setReferral({{ Auth::user()->id }},{{ Auth::user()->sp_id }})">
-			Send to Client
-		</button>
+	<input type="hidden" id="user_service_provicer" value="{{Auth::user()->sp_id}}">
+
+	<div class="col-sm-12 alert alert-warning" v-if="!can_refer">
+			<p align="justify" > You do not have permission to refer to this service.</p>
 	</div>
 
-	<div class="col-sm-12">
+	<div class="col-sm-6 col-xs-8">
 		<h4 class="col-sm-5 bold">Contact Details</h4>
-		<input type="checkbox" data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="success" data-offstyle="danger" data-size="mini" id="status">
+	</div>
+
+	<div class="col-sm-6 col-xs-4">
+		<button v-if="can_refer" type="button" class="btn btn-primary pull-right btn-sm" id="send_client_btn" @click="setReferral({{ Auth::user()->id }})">
+			Send to Client
+		</button>
 	</div>
 
 	<div class="col-sm-12">
@@ -79,7 +84,7 @@
     	<span class="col-sm-6 padding-0" id="catchment_area" v-html="catchment_area"></span>
 	</div>
 
-	<div class="col-sm-12 modal-footer">
+	<div class="col-sm-12 modal-footer padding-top-10 padding-bottom-0">
 		<h6 class="col-sm-9" id="updated-by-date"  v-html="updated_by_date"></h6>
 	</div>
 
@@ -97,7 +102,7 @@
 	</div>
 </div>
 <div class="row" v-show="send_to_client" >
-	<div class="col-sm-12 form-group">
+	<div class="col-sm-12 margin-top-10">
 		<label>
 			<input type="checkbox" v-model="email_checked" id="safeEmail"> It is safe to send an email to the client
 			<i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Please be mindful of any family violence risks; eg if this email account is accessible by others."></i>
@@ -111,7 +116,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-12 form-group">
+	<div class="col-sm-12">
 		<label>
 			<input type="checkbox" v-model="phone_checked" id="safePhone"> It is safe to send an SMS to the client
 			<i class="fa fa-info-circle tooltips" aria-hidden="true" data-container="body" data-placement="right" data-original-title="Please be mindful of any family violence risks; eg if the SMS or an SMS notification can be viewed by others."></i>
@@ -126,7 +131,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-12 form group">
+	<div class="col-sm-12 padding-0">
 		<label class="col-sm-12">Legal Matter: </label>
 		<div class="col-sm-5">
 			<multiselect
@@ -146,10 +151,30 @@
 			</multiselect>
 		</div>
 	</div>
-	<div class="col-sm-12 form-group">
+	<div class="col-sm-12" v-show="legal_matter_selected.MatterName === 'Other'">
 		<br>
 		<input type="text" class="col-sm-12 form-control" v-model='other' v-show="legal_matter_selected.MatterName === 'Other'" id="other_lm" autocomplete="off" placeholder="Please type the Legal Matter">
 	</div>
+
+	<div class="col-sm-12 margin-top-15" v-if='service.Notes != ""'>
+		<label for="Anotations">Read this before referring a client</label>
+		<ul class="feeds referral_feed">
+		<li>
+			<div class="col1">
+				<div class="cont">
+					<div class="cont-col2">
+						<div class="desc" v-html="service.Notes">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col2">
+				<div class="date">  </div>
+			</div>
+		</li>
+		</ul>
+	</div>
+
 	<div class="col-sm-12 form-group">
 		<br>
 		<button type="button" @click="sendToClient" class="btn green-jungle btn-sm" id="send-client">Send to Client</button>

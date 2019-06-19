@@ -152,4 +152,10 @@ class MatterController extends Controller
         $result = $matter->getAllMattersFormated();
         return $result;
     }
+    public function listWithQuestionsFormated()
+    {
+        $matter = new Matter();
+        $result = $matter->getAllMattersWithQuestionsFormated();
+        return $result;
+    }
 }

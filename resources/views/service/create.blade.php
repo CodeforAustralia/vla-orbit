@@ -5,6 +5,6 @@
     <h1 class="page-title"> Create Service </h1>
     <!-- END PAGE HEADER-->
 
-    @include ('service.form')
+    @include ('service.self-serving.form')
 
 @endsection

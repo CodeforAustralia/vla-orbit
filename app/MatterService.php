@@ -90,7 +90,7 @@ Class MatterService extends OrbitSoap
                             ->ws_init('SaveServiceMatters')
                             ->SaveServiceMatters( $info );
                 if ($response->SaveServiceMattersResult) {
-                    return ['success' => 'success' , 'message' => 'Service created.'];
+                    return ['success' => 'success' , 'message' => $response->SaveServiceMattersResult];
                 } else {
                     return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
                 }
