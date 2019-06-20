@@ -360,6 +360,19 @@ class ServiceController extends Controller
     }
 
     /**
+     * List all service outdated in a give period of time
+     * @param int $days number of days (should be a positive number)
+     * @return array list of all service outdated in a give period of time
+     */
+    public function listWithoutUpdate($days)
+    {
+        $service = new Service();
+        $result  = $service->getServicesNotUpdated($days);
+
+        return [ 'data' => $result ];
+    }
+
+    /**
      * List all service
      * @return array list of all service
      */

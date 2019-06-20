@@ -9,6 +9,7 @@ use App\MatterServiceAnswer;
 use App\ServiceAction;
 use App\ServiceBookingQuestions;
 use App\Vulnerability;
+use DateTime;
 /**
  * Service model for the service functionalities
  * @author Christian Arevalo
@@ -628,6 +629,51 @@ Class Service extends OrbitSoap
             }
         }
         return $notes;
+    }
+
+    /**
+     * Get all outdated services
+     *
+     * @return void
+     */
+    public function getServicesNotUpdated($date_limit = '90')
+    {
+        $services = self::getAllServices();
+        $data = [];
+        $date_limit = '-' . $date_limit . ' days';
+        $date_limit = new DateTime(date('d-m-Y H:i:s', strtotime( $date_limit )));
+        $two_minutes_before = new DateTime(date('d-m-Y H:i:s', strtotime('-2 minutes')));
+
+        //Save notified ones in log
+        //Remove notified ones from date of notification
+        foreach ($services as $service) {
+
+            $service['UpdatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['UpdatedOn']);
+            $service['CreatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['CreatedOn']);
+            $service_created =  new DateTime(date('d-m-Y H:i:s', strtotime($service['CreatedOn'])));
+            $service_last_update =  new DateTime(date('d-m-Y H:i:s', strtotime($service['UpdatedOn'])));
+
+            if( $date_limit->format('Y-m-d" H:i:s') > $service_last_update->format('Y-m-d" H:i:s')
+                || ( $two_minutes_before->format('Y-m-d" H:i:s') < $service_last_update->format('Y-m-d" H:i:s')
+                    && $date_limit->format('Y-m-d" H:i:s') > $service_created->format('Y-m-d" H:i:s'))){
+
+                $service['UpdatedOn'] = ($service_last_update->format('Y-m-d"') == $two_minutes_before->format('Y-m-d"')) ? '' : $service['UpdatedOn'];
+                $data[] = [
+                    'ServiceId' => $service['ServiceId'],
+                    'ServiceName' => $service['ServiceName'],
+                    'Email' => $service['Email'],
+                    'ServiceProviderId' => $service['ServiceProviderId'],
+                    'ServiceProviderName' => $service['ServiceProviderName'],
+                    'CreatedOn' => $service['CreatedOn'],
+                    'UpdatedOn' => $service['UpdatedOn'],
+                    'last_notification' => ''
+                ];
+
+            }
+        }
+
+        usort($data, function($a, $b){ return strcmp(strtotime($a["UpdatedOn"]), strtotime($b["UpdatedOn"])); });
+        return $data;
     }
 }
 

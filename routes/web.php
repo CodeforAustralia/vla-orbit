@@ -60,6 +60,8 @@ Route::get('/service', 'ServiceController@index')->name('serviceList');
 
 Route::get('/service/list', 'ServiceController@list');
 
+Route::get('/service/list_without_update/{days}', 'ServiceController@listWithoutUpdate');
+
 Route::get('/service/list_table', 'ServiceController@listTable');
 
 Route::get('/service/list_service_by_id/{sv_id}', 'ServiceController@listServiceById');
