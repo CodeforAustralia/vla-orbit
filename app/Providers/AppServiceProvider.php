@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Dusk\DuskServiceProvider;
 use App\Role;
 use App\User;
 use Auth;
@@ -71,6 +72,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //Only run dusk in testing environments
+        if ($this->app->environment('local', 'testing')) {
+            //$this->app->register(\Staudenmeir\DuskUpdater\DuskServiceProvider::class);
+            $this->app->register(DuskServiceProvider::class);
+        }
     }
 }
