@@ -662,11 +662,11 @@ Class Service extends OrbitSoap
                     'ServiceId' => $service['ServiceId'],
                     'ServiceName' => $service['ServiceName'],
                     'Email' => $service['Email'],
-                    'ServiceProviderId' => $service['ServiceProviderId'],
+                    //'ServiceProviderId' => $service['ServiceProviderId'],
                     'ServiceProviderName' => $service['ServiceProviderName'],
                     'ServiceProviderTypeName' => $service['ServiceProviderTypeName'],
-                    'CreatedOn' => $service['CreatedOn'],
-                    'UpdatedOn' => $service['UpdatedOn'],
+                    //'CreatedOn' => $service['CreatedOn'],
+                    'UpdatedOn' => $service_last_update->format('d-m-Y'),
                     'last_notification' => ''
                 ];
 
