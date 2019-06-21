@@ -86,6 +86,9 @@ Route::post('/service/legal_matter', 'ServiceController@storeLegalMatter');
 
 Route::post('/service/request_addition', 'ServiceController@sendRequestEmail');
 
+// Outdated Services
+Route::get('/outdated_services', 'OutdatedServiceController@index');
+
 //Service Type
 Route::get('/service_type', 'ServiceTypeController@index');
 
