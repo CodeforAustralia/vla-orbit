@@ -66,4 +66,20 @@ class Log extends Model
                         ->get()
                         ->toArray();
     }
+
+    /**
+     * Get service notifications.
+     *
+     * @param [type] $service_id
+     * @return void
+     */
+    public static function getServiceLastNotification($service_id)
+    {
+        $log = new Log();
+        return $log->where('object_type', 'service_notification')
+                    ->where('object_id', $service_id)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+    }
 }

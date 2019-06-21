@@ -1,6 +1,10 @@
 <?php
 namespace App;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ServiceNotification;
+use App\ServiceProvider;
+use App\User;
 use App\Catchment;
 use App\EReferral;
 use App\Log;
@@ -648,10 +652,12 @@ Class Service extends OrbitSoap
         //Remove notified ones from date of notification
         foreach ($services as $service) {
 
+            $log = new Log();
             $service['UpdatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['UpdatedOn']);
             $service['CreatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['CreatedOn']);
             $service_created =  new DateTime(date('d-m-Y H:i:s', strtotime($service['CreatedOn'])));
             $service_last_update =  new DateTime(date('d-m-Y H:i:s', strtotime($service['UpdatedOn'])));
+            $last_notification = $log->getServiceLastNotification($service['ServiceId']);
 
             if( $date_limit->format('Y-m-d" H:i:s') > $service_last_update->format('Y-m-d" H:i:s')
                 || ( $two_minutes_before->format('Y-m-d" H:i:s') < $service_last_update->format('Y-m-d" H:i:s')
@@ -667,7 +673,7 @@ Class Service extends OrbitSoap
                     'ServiceProviderTypeName' => $service['ServiceProviderTypeName'],
                     //'CreatedOn' => $service['CreatedOn'],
                     'UpdatedOn' => $service_last_update->format('d-m-Y'),
-                    'last_notification' => ''
+                    'last_notification' => !is_null($last_notification['data']) ?  $last_notification['data']['date'] : 'Not sent'
                 ];
 
             }
@@ -676,5 +682,65 @@ Class Service extends OrbitSoap
         usort($data, function($a, $b){ return strcmp(strtotime($a["UpdatedOn"]), strtotime($b["UpdatedOn"])); });
         return $data;
     }
+    /**
+     * Send Notification about the out of date services.
+     *
+     * @param Array $service_ids
+     * @return void
+     */
+    public function sendServiceNotificacion($service_ids, $template)
+    {
+        $service_provider_obj   = new ServiceProvider();
+        $service_providers      = $service_provider_obj->getAllServiceproviders();
+        $users = User::select('id', 'email', 'sp_id')->with('roles')->get();
+        $services = self::getAllServices();
+
+        $prefix = '</em><br><em>Please do not reply to this email.</em><br><hr><br>';
+        $suffix = '<em>If you wish to contact us, please do not reply to this message. Replies to this message will not be read or responded to.</em><br><br><br><p classname = "orbitprefix" style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">© 2019 '. ucfirst(config('app.name')) .'. All rights reserved.</p><p classname = "emailprefix" style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;">Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
+
+        foreach ($service_ids as $service_id) {
+            $email_info = [];
+            $email_info = self::getServiceEmailAndType( $service_id, $service_providers, $users, $services);
+            $email_info['message'] = $prefix . $template . $suffix;
+            $email_info['subject'] = "Test Email";
+            if($email_info['email'] != '') {
+                Mail::to( $email_info['email'] )->send( new ServiceNotification( $email_info ) );
+                $log = new Log();
+                $log::record( 'CREATE', 'service_notification', $service_id, ['date' => date("Y-m-d")] );
+            }
+        }
+        return 1;
+    }
+    /**
+     * Get the email of the Admin of the service
+     *
+     * @param Array $service_ids
+     * @return void
+     */
+    private function getServiceEmailAndType ($service_id,  $service_providers, $users, $services)
+    {
+        $result=['email'=>'', 'service_provider_type'=> ''];
+        $service = array_filter($services, function($service) use ($service_id) {
+                if ( $service['ServiceId'] == $service_id ) {
+                    return $service;
+                }
+            });
+        $service=array_shift($service);
+        $service_provider = array_filter($service_providers, function($service_provider) use ($service) {
+                if ( $service_provider['ServiceProviderId'] == $service['ServiceProviderId'] ) {
+                    return $service_provider;
+                }
+            });
+        $service_provider = array_shift($service_provider);
+        $result['service_provider_type'] = $service_provider['ServiceProviderTypeName'];
+        foreach($users as $user) {
+            if($service_provider['ServiceProviderId'] ==  $user->sp_id
+            && ($user->roles()->first()->name == "AdminSp" || $user->roles()->first()->name == "AdminSpClc")) {
+                $result['email'] = $user->email;
+            }
+        }
+        return $result;
+    }
+
 }
 

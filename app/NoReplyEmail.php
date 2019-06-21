@@ -143,59 +143,59 @@ class NoReplyEmail extends OrbitSoap
 	{
 		try {
 	        // Current time
-	        $date_now  = date("Y-m-d");
-	        $time_now  = date("H:i:s");
-	        $date_time = $date_now . "T" . $time_now;
-	       	$files = [];
+			$date_now  = date("Y-m-d");
+			$time_now  = date("H:i:s");
+			$date_time = $date_now . "T" . $time_now;
+			$files = [];
 
-	       	$attachment_index = 0;
-	       	while( isset($email_data['attachment'.$attachment_index]) ) {
-	       		$files[] = $email_data['attachment'.$attachment_index];
-	       		$attachment_index++;
+			$attachment_index = 0;
+			while( isset($email_data['attachment'.$attachment_index]) ) {
+				$files[] = $email_data['attachment'.$attachment_index];
+				$attachment_index++;
 			}
 
-	       	if ( isset($email_data['mainAttachment']) ) {
-	       		$files[] = $email_data['mainAttachment'];
-	       	}
-	       	$attachments = self::attachFiles( $files );
-		   	$sp_name = '';
-		   	$sp_contact = '';
-			   $suffix = '<br><hr>';
+			if ( isset($email_data['mainAttachment']) ) {
+				$files[] = $email_data['mainAttachment'];
+			}
+			$attachments = self::attachFiles( $files );
+			$sp_name = '';
+			$sp_contact = '';
+			$suffix = '<br><hr>';
 
-	   		if ( auth()->user()->sp_id != 0) {
+			if ( auth()->user()->sp_id != 0) {
 
-		   		$sp_obj = new ServiceProvider();
-		   		$service_provider = $sp_obj->getServiceProviderByID( auth()->user()->sp_id );
-		   		$service_provider = json_decode($sp_obj->getServiceProviderByID( auth()->user()->sp_id )['data'])[0];
-		   		$sp_name = $service_provider->ServiceProviderName;
-		   		$suffix .= '<em>If you wish to contact us, please do not reply to this message. Replies to this message will not be read or responded to.</em><br><br>';
-		   		$sp_contact .= 'To contact us:<br><br>';
-		   		$sp_contact .= $sp_name . '<br>';
-		   		/* Temp disabled
-		   		if ( $service_provider->ContactPhone != '#')
-		   		{
-		   			$sp_contact .= $service_provider->ContactPhone . '<br>';
-		   		}
-		   		*/
-		   		if ( $service_provider->ServiceProviderURL != '#') {
-		   			$sp_contact .= $service_provider->ServiceProviderURL . '<br>';
-		   		}
-		   		$suffix .= $sp_contact;
-	   		}
+				$sp_obj = new ServiceProvider();
+				$service_provider = $sp_obj->getServiceProviderByID( auth()->user()->sp_id );
+				$service_provider = json_decode($sp_obj->getServiceProviderByID( auth()->user()->sp_id )['data'])[0];
+				$sp_name = $service_provider->ServiceProviderName;
+				$suffix .= '<em>If you wish to contact us, please do not reply to this message. Replies to this message will not be read or responded to.</em><br><br>';
+				$sp_contact .= 'To contact us:<br><br>';
+				$sp_contact .= $sp_name . '<br>';
+				/* Temp disabled
+				if ( $service_provider->ContactPhone != '#')
+				{
+					$sp_contact .= $service_provider->ContactPhone . '<br>';
+				}
+				*/
+				if ( $service_provider->ServiceProviderURL != '#') {
+					$sp_contact .= $service_provider->ServiceProviderURL . '<br>';
+				}
+				$suffix .= $sp_contact;
+			}
 
-	       	$prefix = '<em>This email was sent by ' . $sp_name . ' to ' . $email_data['to'] .  ' </em><br><em>Please do not reply to this email.</em><br><hr><br>';
+			$prefix = '<em>This email was sent by ' . $sp_name . ' to ' . $email_data['to'] .  ' </em><br><em>Please do not reply to this email.</em><br><hr><br>';
 
-		   	$suffix .= '<br><p classname = "orbitprefix" style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">© 2018 '. ucfirst(config('app.name')) .'. All rights reserved.</p><p classname = "emailprefix" style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;">Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
+			$suffix .= '<br><p classname = "orbitprefix" style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">© 2019 '. ucfirst(config('app.name')) .'. All rights reserved.</p><p classname = "emailprefix" style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;">Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
 
 			$is_clc =  in_array( \App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']);
 			$fromAddress = env('MAIL_FROM_ADDRESS', 'hello@example.com');
 
-        	if ( $is_clc ) {
-        		$fromAddress = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
-        	}
+			if ( $is_clc ) {
+				$fromAddress = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
+			}
 
-	       	$email_data['message'] = $prefix . $email_data['message'] . $suffix;
-	       	$info = [
+			$email_data['message'] = $prefix . $email_data['message'] . $suffix;
+			$info = [
 						'MessageObject' => [
 												'Attachments' 	=> $attachments,
 												'Body' 			=> $email_data['message'],
@@ -586,7 +586,7 @@ class NoReplyEmail extends OrbitSoap
 				'Search' 		=> '',
 				'ColumnSearch' 	=> '',
 			];
-			
+
 			$response_search = $this
 					->client
 					->ws_no_reply_emails_init('GetAllLogRecordsInBatchasJSON')
@@ -612,7 +612,7 @@ class NoReplyEmail extends OrbitSoap
 			}
 			$time  = microtime(true) - $start;
 			Logs::info('Time with the round #' . $page .' of ' . $data['last_page'] . " " . $time);
-			
+
 
 			return "Finish";
 		}
