@@ -722,7 +722,7 @@ Class Service extends OrbitSoap
                                             '<em>Good day <br> The service '. $service_id . ' '. $email_info['service_name'] .' has not been updated since '. $email_info['last_update']  .' and it does not have an Administrator. Please Check </em><br>';
                     $email_to_lho++;
                 }
-                //Mail::to( $email_info['email'] )->send( new ServiceNotification( $email_info ) );
+                Mail::to( $email_info['email'] )->send( new ServiceNotification( $email_info ) );
             }
             return [ 'success' => 'success' , 'message' => 'Email(s) sent.', 'data' => ['email_to_admin' => $emails_to_admin, 'email_to_lho' => $email_to_lho] ];
         } catch (\Exception $e) {
