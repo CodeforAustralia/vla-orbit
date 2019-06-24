@@ -1921,6 +1921,26 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1928,8 +1948,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       url: '/service/list_without_update/',
-      days: 90,
       tableData: [],
+      checked_services: [],
       select_all: false,
       sort_order: 'asc',
       selected_day_range: 90,
@@ -1938,7 +1958,21 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
   },
   methods: {
+    notify_selected: function notify_selected(service) {
+      document.getElementById(service.ServiceId).checked = true;
+
+      if (!this.checked_services.includes(service.ServiceId)) {
+        this.checked_services.push(service.ServiceId);
+      }
+
+      $('#notify_services').modal('show');
+    },
+    notify_all: function notify_all() {
+      this.select_all = true;
+      $('#notify_services').modal('show');
+    },
     fetchData: function fetchData() {
+      $('#contentLoading').modal('show');
       var self = this;
       var dataFetchUrl = "".concat(this.url).concat(this.selected_day_range);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(dataFetchUrl).then(function (_ref) {
@@ -2001,11 +2035,16 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
   watch: {
     select_all: function select_all() {
+      var self = this;
+
       var service_checks = _toConsumableArray(document.querySelectorAll('.service_check'));
 
-      if (this.select_all) {
+      self.checked_services = [];
+
+      if (self.select_all) {
         service_checks.map(function (item) {
-          return item.checked = true;
+          item.checked = true;
+          self.checked_services.push(parseInt(item.value));
         });
       } else {
         service_checks.map(function (item) {
@@ -2014,7 +2053,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     selected_day_range: function selected_day_range() {
-      $('#contentLoading').modal('show');
       this.fetchData();
     }
   },
@@ -20160,7 +20198,8 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-sm btn-default main-green margin-left-15",
-          attrs: { type: "button" }
+          attrs: { type: "button" },
+          on: { click: _vm.notify_all }
         },
         [_vm._v("Notify all")]
       )
@@ -20288,7 +20327,47 @@ var render = function() {
           "tbody",
           _vm._l(_vm.tableData, function(service) {
             return _c("tr", { key: service.ServiceId }, [
-              _vm._m(0, true),
+              _c("th", { attrs: { scope: "row" } }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.checked_services,
+                      expression: "checked_services"
+                    }
+                  ],
+                  staticClass: "service_check",
+                  attrs: { id: service.ServiceId, type: "checkbox" },
+                  domProps: {
+                    value: service.ServiceId,
+                    checked: Array.isArray(_vm.checked_services)
+                      ? _vm._i(_vm.checked_services, service.ServiceId) > -1
+                      : _vm.checked_services
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.checked_services,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = service.ServiceId,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.checked_services = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.checked_services = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.checked_services = $$c
+                      }
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(service.ServiceId))]),
               _vm._v(" "),
@@ -20304,13 +20383,68 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(service.last_notification))]),
               _vm._v(" "),
-              _vm._m(1, true)
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs main-green",
+                    on: {
+                      click: function($event) {
+                        return _vm.notify_selected(service)
+                      }
+                    }
+                  },
+                  [_vm._v("Send")]
+                )
+              ])
             ])
           }),
           0
         )
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "notify_services",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "notify_services"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body padding-top-10" }, [
+                _c("div", { staticClass: "container-fluid" }, [
+                  _vm.checked_services.length <= 1
+                    ? _c("p", [_vm._v("Send notification to service")])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.checked_services.length > 1
+                    ? _c("p", [
+                        _vm._v(
+                          "Send notification to " +
+                            _vm._s(_vm.checked_services.length) +
+                            " services"
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -20318,19 +20452,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("th", { attrs: { scope: "row" } }, [
-      _c("input", {
-        staticClass: "service_check",
-        attrs: { id: "service.ServiceId", type: "checkbox" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-xs main-green" }, [_vm._v("Send")])
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title bold col-xs-10" }, [
+        _vm._v("Notification Service")
+      ])
     ])
   }
 ]

@@ -7,7 +7,7 @@
                 <option value="60">60+ Days</option>
                 <option value="90">90+ Days</option>
             </select>
-            <button type="button" class="btn btn-sm btn-default main-green margin-left-15">Notify all</button>
+            <button type="button" class="btn btn-sm btn-default main-green margin-left-15" @click="notify_all">Notify all</button>
         </div>
         <div class="col-xs-3">
             <span class="pull-right padding-top-5">Total Services ({{total_services}})</span>
@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="service in tableData" :key="service.ServiceId">
-                        <th scope="row"> <input id="service.ServiceId" type="checkbox" class="service_check"> </th>
+                        <th scope="row"> <input :id="service.ServiceId" type="checkbox" class="service_check" v-model="checked_services" :value="service.ServiceId"> </th>
                         <td>{{ service.ServiceId }}</td>
                         <td>{{ service.ServiceName }}</td>
                         <td>{{ service.Email }}</td>
@@ -37,10 +37,30 @@
                         <td>{{ service.ServiceProviderTypeName }}</td>
                         <td>{{ service.UpdatedOn }}</td>
                         <td>{{ service.last_notification }}</td>
-                        <td><button class="btn btn-xs main-green">Send</button></td>
+                        <td><button class="btn btn-xs main-green" @click="notify_selected(service)">Send</button></td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- Modal Start -->
+        <div class="modal fade" id="notify_services" tabindex="-1" role="dialog" aria-labelledby="notify_services">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title bold col-xs-10">Notification Service</h4>
+                    </div>
+                    <!-- Modal Body -->
+                    <div class="modal-body padding-top-10">
+                        <div class="container-fluid">
+                        <!-- Top -->
+                            <p v-if="checked_services.length <= 1">Send notification to service</p>
+                            <p v-if="checked_services.length > 1">Send notification to {{ checked_services.length }} services</p>
+                        </div> <!-- Modal Body Close-->
+                    </div><!-- Modal Content Close-->
+                </div><!-- Modal Dialogue Close-->
+            </div><!-- Modal Fade Close-->
         </div>
     </div>
 </template>
@@ -54,8 +74,8 @@
         data () {
             return {
                 url: '/service/list_without_update/',
-                days: 90,
                 tableData: [],
+                checked_services: [],
                 select_all: false,
                 sort_order: 'asc',
                 selected_day_range: 90,
@@ -73,7 +93,19 @@
         },
 
         methods: {
+            notify_selected(service){
+                document.getElementById(service.ServiceId).checked = true;
+                if(!this.checked_services.includes(service.ServiceId)) {
+                    this.checked_services.push(service.ServiceId);
+                }
+                $('#notify_services').modal('show');
+            },
+            notify_all(){
+                this.select_all = true;
+                $('#notify_services').modal('show');
+            },
             fetchData() {
+                $('#contentLoading').modal('show');
                 let self = this;
                 let dataFetchUrl = `${this.url}${this.selected_day_range}`;
                 axios.get(dataFetchUrl)
@@ -133,15 +165,19 @@
         },
         watch: {
             select_all() {
+                const self = this;
                 let service_checks = [...document.querySelectorAll('.service_check')];
-                if(this.select_all){
-                    service_checks.map(item=> item.checked = true );
+                self.checked_services = [];
+                if(self.select_all){
+                    service_checks.map(item=> {
+                        item.checked = true;
+                        self.checked_services.push(parseInt(item.value));
+                    } );
                 } else {
                     service_checks.map(item=> item.checked = false );
                 }
             },
             selected_day_range() {
-                $('#contentLoading').modal('show');
                 this.fetchData();
             },
         },
