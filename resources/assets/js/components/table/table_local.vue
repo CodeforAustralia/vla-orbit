@@ -57,6 +57,24 @@
                         <!-- Top -->
                             <p v-if="checked_services.length <= 1">Send notification to service</p>
                             <p v-if="checked_services.length > 1">Send notification to {{ checked_services.length }} services</p>
+
+                            <multiselect
+                                v-model="template_selected"
+                                :options="templates"
+                                :multiple="false"
+                                group-values="children"
+                                group-label="text"
+                                :group-select="false"
+                                placeholder="Select a Template"
+                                track-by="id"
+                                label="text"
+                                :searchable="true"
+                                :close-on-select="true"
+                                :show-no-results="false"
+                                :show-labels="false"
+                                ></multiselect>
+
+                                <button type="button" class="btn main-green margin-top-15" @click="send_notifications">Send Notifications</button>
                         </div> <!-- Modal Body Close-->
                     </div><!-- Modal Content Close-->
                 </div><!-- Modal Dialogue Close-->
@@ -69,7 +87,15 @@
     import Vue from 'vue';
     import axios from 'axios';
     import moment from 'moment';
+    import Multiselect from 'vue-multiselect';
+    import VueSweetalert2 from 'vue-sweetalert2';
+
+    Vue.use(VueSweetalert2);
+
     export default {
+        components: {
+            Multiselect
+        },
 
         data () {
             return {
@@ -79,7 +105,10 @@
                 select_all: false,
                 sort_order: 'asc',
                 selected_day_range: 90,
+                submit_url: '',
                 total_services: 0,
+                templates: [],
+                template_selected: [],
                 headers: [
                     'ServiceId',
                     'ServiceName',
@@ -93,6 +122,33 @@
         },
 
         methods: {
+            send_notifications() {
+                let self = this;
+                if(this.checked_services.length < 1 || !this.template_selected.hasOwnProperty('id')) {
+                    self.$swal('Please choose a template.', '', 'error');
+                } else {
+                    $("#contentLoading").modal("show");
+                    axios.post(this.submit_url, { template_id: self.template_selected.id, services: self.checked_services })
+                        .then(function (response) {
+
+                            $("#contentLoading").modal("hide");
+                        })
+                        .catch(function (error) {
+
+                            $("#contentLoading").modal("hide");
+                        });
+                }
+            },
+            get_email_templates(){
+                let self = this;
+                let dataFetchUrl = '/no_reply_emails/listTemplatesBySectionFormated';
+                axios.get(dataFetchUrl)
+                    .then(({ data }) => {
+                        self.templates = data;
+                    }).catch(error => {
+                        self.get_email_templates();
+                    });
+            },
             notify_selected(service){
                 document.getElementById(service.ServiceId).checked = true;
                 if(!this.checked_services.includes(service.ServiceId)) {
@@ -184,6 +240,7 @@
 
         created() {
             this.fetchData();
+            this.get_email_templates();
         }
 
     }

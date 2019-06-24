@@ -22,6 +22,8 @@
     <!-- End: Datatable services -->
 @endsection
 @section('styles')
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
 @endsection
 @section('scripts')
     <script src="{{ asset('js/outdated_services.js') }}?id={{ str_random(6) }}"></script>
