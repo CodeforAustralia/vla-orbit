@@ -105,7 +105,7 @@
                 select_all: false,
                 sort_order: 'asc',
                 selected_day_range: 90,
-                submit_url: '',
+                submit_url: '/service/send_notification',
                 total_services: 0,
                 templates: [],
                 template_selected: [],
@@ -130,7 +130,7 @@
                     $("#contentLoading").modal("show");
                     axios.post(this.submit_url, { template_id: self.template_selected.id, services: self.checked_services })
                         .then(function (response) {
-
+                            console.log(response);
                             $("#contentLoading").modal("hide");
                         })
                         .catch(function (error) {

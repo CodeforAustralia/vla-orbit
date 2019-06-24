@@ -437,4 +437,13 @@ class ServiceController extends Controller
         Mail::to('orbitteam@vla.vic.gov.au')->send( new RequestEmail( $request ) );
     }
 
+
+    public function sendNotification(Request $request)
+    {
+        $service_obj = new Service();
+        $result  = $service_obj->sendServiceNotificacion($request['services'],$request['template_id']);
+        dd($result);
+
+    }
+
 }
