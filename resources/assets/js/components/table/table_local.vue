@@ -127,12 +127,11 @@
                 if(this.checked_services.length < 1 || !this.template_selected.hasOwnProperty('id')) {
                     self.$swal('Please choose a template.', '', 'error');
                 } else {
-                    $("#contentLoading").modal("show");
                     axios.post(this.submit_url, { template_id: self.template_selected.id, services: self.checked_services })
                         .then(function (response) {
                             console.log(response);
-                            let email_to_admin = response.data.email_to_admin;
-                            let email_to_lho = response.data.email_to_lho;
+                            let email_to_admin = response.data.data.email_to_admin;
+                            let email_to_lho = response.data.data.email_to_lho;
                             let message_to_admin = `${email_to_admin} Emails sent to service admins`;
                             let message_to_lho = `${email_to_lho} Emails sent to LHO Email`;
                             let message = '';
@@ -145,14 +144,12 @@
                             if(email_to_admin == 0 && email_to_lho == 0 ) {
                                 message = `${message_to_admin} and ${message_to_lho}`;
                             }
-                            $("#contentLoading").modal("hide");
                             $("#notify_services").modal("hide");
                             self.$swal(message, '', 'success');
                             self.fetchData();
                         })
                         .catch(function (error) {
                             self.$swal('Please try again.', '', 'error');
-                            $("#contentLoading").modal("hide");
                         });
                 }
             },
