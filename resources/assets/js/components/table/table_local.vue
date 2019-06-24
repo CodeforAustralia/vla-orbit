@@ -130,7 +130,6 @@
                     $("#contentLoading").modal("show");
                     axios.post(this.submit_url, { template_id: self.template_selected.id, services: self.checked_services })
                         .then(function (response) {
-                            console.log(response);
                             $("#contentLoading").modal("hide");
                         })
                         .catch(function (error) {

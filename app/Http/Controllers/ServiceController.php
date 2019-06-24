@@ -442,7 +442,7 @@ class ServiceController extends Controller
     {
         $service_obj = new Service();
         $result  = $service_obj->sendServiceNotificacion($request['services'],$request['template_id']);
-        dd($result);
+        return $result;
 
     }
 

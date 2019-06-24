@@ -24,6 +24,8 @@ mix.js('resources/assets/js/bookings_vue.js', 'public/js')
    .js('resources/assets/js/service_booking.js', 'public/js')
    .js('resources/assets/js/view_service_vue.js', 'public/js')
    .js('resources/assets/js/tables.js','public/js')
+   .js('resources/assets/js/service_management.js', 'public/js')
+   .js('resources/assets/js/outdated_services.js', 'public/js')
    .webpackConfig({
       module: {
          rules: [{
