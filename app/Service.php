@@ -662,8 +662,8 @@ Class Service extends OrbitSoap
             if( $date_limit->format('Y-m-d" H:i:s') > $service_last_update->format('Y-m-d" H:i:s')
                 || ( $two_minutes_before->format('Y-m-d" H:i:s') < $service_last_update->format('Y-m-d" H:i:s')
                     && $date_limit->format('Y-m-d" H:i:s') > $service_created->format('Y-m-d" H:i:s'))){
-
-                $service['UpdatedOn'] = ($service_last_update->format('Y-m-d"') == $two_minutes_before->format('Y-m-d"')) ? '' : $service['UpdatedOn'];
+                $service_last_update = ($service_last_update->format('Y-m-d H:i:s') > $two_minutes_before->format('Y-m-d H:i:s'))
+                                        ? 'Not Updated' : $service_last_update->format('d-m-Y');
                 $data[] = [
                     'ServiceId' => $service['ServiceId'],
                     'ServiceName' => $service['ServiceName'],
@@ -672,7 +672,7 @@ Class Service extends OrbitSoap
                     'ServiceProviderName' => $service['ServiceProviderName'],
                     'ServiceProviderTypeName' => $service['ServiceProviderTypeName'],
                     //'CreatedOn' => $service['CreatedOn'],
-                    'UpdatedOn' => $service_last_update->format('d-m-Y'),
+                    'UpdatedOn' => $service_last_update,
                     'last_notification' => !is_null($last_notification['data']) ?  $last_notification['data']['date'] : 'Not sent'
                 ];
 
