@@ -748,9 +748,11 @@ Class Service extends OrbitSoap
                 });
             $service=array_shift($service);
             $result['service_name'] = $service['ServiceName'];
+            //get last update of service
+            $service['UpdatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['UpdatedOn']);
             $service_last_update =  new DateTime(date('d-m-Y H:i:s', strtotime($service['UpdatedOn'])));
             $service_last_update = ($service_last_update->format('Y-m-d H:i:s') > $two_minutes_before->format('Y-m-d H:i:s'))
-            ? 'Never Updated' : $service_last_update->format('d-m-Y');
+                                    ? 'Never Updated' : $service_last_update->format('d-m-Y');
             $result['last_update'] = $service_last_update;
             //Service Provider
             $service_provider = array_filter($service_providers, function($service_provider) use ($service) {
