@@ -40,7 +40,7 @@ class ServiceNotification extends Mailable
     public function build()
     {
         $message = $this
-                ->subject( $this->args['subject'] . ' sent on : ' . date('d/m/Y h:i:s a') )
+                ->subject( $this->args['subject'] )
                 ->view('emails.service.update_notification')->with($this->args);
         // if is CLC send message with different sender
         if($this->args['service_provider_type'] == 'CLC') {

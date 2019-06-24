@@ -704,10 +704,16 @@ Class Service extends OrbitSoap
             $email_info['message'] = $prefix . $template . $suffix;
             $email_info['subject'] = "Test Email";
             if($email_info['email'] != '') {
-                Mail::to( $email_info['email'] )->send( new ServiceNotification( $email_info ) );
                 $log = new Log();
-                $log::record( 'CREATE', 'service_notification', $service_id, ['date' => date("Y-m-d")] );
+                $log::record( 'CREATE', 'service_notification', $service_id, ['date' => date("d-m-Y")] );
             }
+            else {
+                $email_info['email'] = env('APP_TEAM_EMAIL', 'LHO@vla.vic.gov.au');
+                $email_info['message'] = $prefix .
+                                        '<em>Good day <br> The service '. $service_id . ' '. $email_info['service_name'] .' has not been updated in a while (put time) and it does not have an Administrator. Please Check </em><br>';
+
+            }
+            Mail::to( $email_info['email'] )->send( new ServiceNotification( $email_info ) );
         }
         return 1;
     }
@@ -719,13 +725,14 @@ Class Service extends OrbitSoap
      */
     private function getServiceEmailAndType ($service_id,  $service_providers, $users, $services)
     {
-        $result=['email'=>'', 'service_provider_type'=> ''];
+        $result=['email'=>'', 'service_provider_type'=> '', 'service_name'=>''];
         $service = array_filter($services, function($service) use ($service_id) {
                 if ( $service['ServiceId'] == $service_id ) {
                     return $service;
                 }
             });
         $service=array_shift($service);
+        $result['service_name'] = $service['ServiceName'];
         $service_provider = array_filter($service_providers, function($service_provider) use ($service) {
                 if ( $service_provider['ServiceProviderId'] == $service['ServiceProviderId'] ) {
                     return $service_provider;
