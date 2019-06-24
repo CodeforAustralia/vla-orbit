@@ -1907,6 +1907,20 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1918,19 +1932,24 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       tableData: [],
       select_all: false,
       sort_order: 'asc',
+      selected_day_range: 90,
+      total_services: 0,
       headers: ['ServiceId', 'ServiceName', 'Email', 'ServiceProviderName', 'ServiceProviderTypeName', 'UpdatedOn', 'last_notification']
     };
   },
   methods: {
     fetchData: function fetchData() {
       var self = this;
-      var dataFetchUrl = "".concat(this.url).concat(this.days);
+      var dataFetchUrl = "".concat(this.url).concat(this.selected_day_range);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(dataFetchUrl).then(function (_ref) {
         var data = _ref.data;
         self.tableData = data.data;
+        self.total_services = data.data.length;
+        $('#contentLoading').modal('hide');
       })["catch"](function (error) {
         self.tableData = [];
         self.fetchData();
+        $('#contentLoading').modal('hide');
       });
     },
     change_order: function change_order() {
@@ -1993,6 +2012,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           return item.checked = false;
         });
       }
+    },
+    selected_day_range: function selected_day_range() {
+      $('#contentLoading').modal('show');
+      this.fetchData();
     }
   },
   created: function created() {
@@ -20091,142 +20114,202 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("table", { staticClass: "table" }, [
-      _c("thead", [
-        _c("tr", [
-          _c("th", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.select_all,
-                  expression: "select_all"
-                }
-              ],
-              attrs: { id: "service.ServiceId", type: "checkbox" },
-              domProps: {
-                checked: Array.isArray(_vm.select_all)
-                  ? _vm._i(_vm.select_all, null) > -1
-                  : _vm.select_all
-              },
-              on: {
-                change: function($event) {
-                  var $$a = _vm.select_all,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 && (_vm.select_all = $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        (_vm.select_all = $$a
-                          .slice(0, $$i)
-                          .concat($$a.slice($$i + 1)))
-                    }
-                  } else {
-                    _vm.select_all = $$c
-                  }
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "th",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.orderNum("ServiceId")
-                }
-              }
-            },
-            [_vm._v("Id")]
-          ),
-          _vm._v(" "),
-          _c(
-            "th",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.orderAlph("ServiceName")
-                }
-              }
-            },
-            [_vm._v("Service Name")]
-          ),
-          _vm._v(" "),
-          _c("th", [_vm._v("Email")]),
-          _vm._v(" "),
-          _c(
-            "th",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.orderAlph("ServiceProviderName")
-                }
-              }
-            },
-            [_vm._v("Service Provider")]
-          ),
-          _vm._v(" "),
-          _c(
-            "th",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.orderAlph("ServiceProviderTypeName")
-                }
-              }
-            },
-            [_vm._v("Type")]
-          ),
-          _vm._v(" "),
-          _c(
-            "th",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.orderDate("UpdatedOn")
-                }
-              }
-            },
-            [_vm._v("Updated")]
-          ),
-          _vm._v(" "),
-          _c("th", [_vm._v("Last Notification")]),
-          _vm._v(" "),
-          _c("th")
-        ])
+    _c("div", { staticClass: "col-xs-9" }, [
+      _c("label", { staticClass: "col-xs-3 padding-top-5" }, [
+        _vm._v("Last update older than:")
       ]),
       _vm._v(" "),
       _c(
-        "tbody",
-        _vm._l(_vm.tableData, function(service) {
-          return _c("tr", { key: service.ServiceId }, [
-            _vm._m(0, true),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(service.ServiceId))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(service.ServiceName))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(service.Email))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(service.ServiceProviderName))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(service.ServiceProviderTypeName))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(service.UpdatedOn))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(service.last_notification))]),
-            _vm._v(" "),
-            _vm._m(1, true)
-          ])
-        }),
-        0
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.selected_day_range,
+              expression: "selected_day_range"
+            }
+          ],
+          staticClass: "col-xs-2 input-sm",
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.selected_day_range = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        [
+          _c("option", { attrs: { value: "30" } }, [_vm._v("30+ Days")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "60" } }, [_vm._v("60+ Days")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "90" } }, [_vm._v("90+ Days")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-sm btn-default main-green margin-left-15",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Notify all")]
       )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-xs-3" }, [
+      _c("span", { staticClass: "pull-right padding-top-5" }, [
+        _vm._v("Total Services (" + _vm._s(_vm.total_services) + ")")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-xs-12" }, [
+      _c("table", { staticClass: "table" }, [
+        _c("thead", [
+          _c("tr", [
+            _c("th", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.select_all,
+                    expression: "select_all"
+                  }
+                ],
+                attrs: { id: "service.ServiceId", type: "checkbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.select_all)
+                    ? _vm._i(_vm.select_all, null) > -1
+                    : _vm.select_all
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.select_all,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.select_all = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.select_all = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.select_all = $$c
+                    }
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.orderNum("ServiceId")
+                  }
+                }
+              },
+              [_vm._v("Id")]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.orderAlph("ServiceName")
+                  }
+                }
+              },
+              [_vm._v("Service Name")]
+            ),
+            _vm._v(" "),
+            _c("th", [_vm._v("Email")]),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.orderAlph("ServiceProviderName")
+                  }
+                }
+              },
+              [_vm._v("Service Provider")]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.orderAlph("ServiceProviderTypeName")
+                  }
+                }
+              },
+              [_vm._v("Type")]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.orderDate("UpdatedOn")
+                  }
+                }
+              },
+              [_vm._v("Updated")]
+            ),
+            _vm._v(" "),
+            _c("th", [_vm._v("Last Notification")]),
+            _vm._v(" "),
+            _c("th")
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.tableData, function(service) {
+            return _c("tr", { key: service.ServiceId }, [
+              _vm._m(0, true),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(service.ServiceId))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(service.ServiceName))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(service.Email))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(service.ServiceProviderName))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(service.ServiceProviderTypeName))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(service.UpdatedOn))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(service.last_notification))]),
+              _vm._v(" "),
+              _vm._m(1, true)
+            ])
+          }),
+          0
+        )
+      ])
     ])
   ])
 }
@@ -20247,7 +20330,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("td", [
-      _c("button", { staticClass: "btn btn-xs green" }, [_vm._v("Send")])
+      _c("button", { staticClass: "btn btn-xs main-green" }, [_vm._v("Send")])
     ])
   }
 ]
