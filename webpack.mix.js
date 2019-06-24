@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/bookings_vue.js', 'public/js')
+mix/*.js('resources/assets/js/bookings_vue.js', 'public/js')
    .js('resources/assets/js/notifications_vue.js', 'public/js')
    .js('resources/assets/js/information_vue.js', 'public/js')
    .sass('resources/assets/sass/information.scss', 'public/css')
@@ -25,7 +25,6 @@ mix.js('resources/assets/js/bookings_vue.js', 'public/js')
    .js('resources/assets/js/view_service_vue.js', 'public/js')
    .js('resources/assets/js/tables.js','public/js')
    .js('resources/assets/js/service_management.js', 'public/js')
-   .js('resources/assets/js/outdated_services.js', 'public/js')
    .webpackConfig({
       module: {
          rules: [{
@@ -37,5 +36,6 @@ mix.js('resources/assets/js/bookings_vue.js', 'public/js')
             }]
          }]
       }
-   });;
+   });*/
+   .js('resources/assets/js/outdated_services.js', 'public/js');
 

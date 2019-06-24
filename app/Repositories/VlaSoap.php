@@ -100,4 +100,37 @@ class VlaSoap
 
         return $client;
     }
+
+    // /**
+    //  * THIS METHOD IS ONLY FOR TEST LOCAL WEB SERVICES.
+    //  *
+    //  * @param string $wsdl
+    //  * @return void
+    //  */
+    // public function getSoapClientLocal($wsdl)
+    // {
+    //     $client = new \SoapClient( $wsdl, array( 'cache_wsdl' => WSDL_CACHE_NONE ) );
+    //     return $client;
+    // }
+    // /**
+    //  * THIS METHOD IS ONLY FOR TEST LOCAL WEB SERVICES.
+    //  *
+    //  * @param [type] $action
+    //  * @return void
+    //  */
+    // public function ws_init_local( $action )
+    // {
+    //     $wsdl           = env( 'ORBIT_WDSL_URL_LOCAL' );
+    //     return self::getSoapClientLocal($wsdl);
+    // }
+    // /**
+    //  * THIS METHOD IS ONLY FOR TEST LOCAL WEB SERVICES
+    //  * @param  String $action method name.
+    //  * @return SoapClient     Soap Client configured with the parameters
+    //  */
+    // public function ws_no_reply_emails_init_local( $action )
+    // {
+    //     $wsdl           = env( 'ORBIT_NO_REPLY_EMAILS_WDSL_URL_LOCAL' );
+    //     return self::getSoapClientLocal($wsdl);
+    // }
 }
