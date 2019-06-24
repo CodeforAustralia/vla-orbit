@@ -23,7 +23,7 @@
                         <th @click="orderAlph('ServiceProviderName')">Service Provider</th>
                         <th @click="orderAlph('ServiceProviderTypeName')">Type</th>
                         <th @click="orderDate('UpdatedOn')">Updated</th>
-                        <th>Last Notification</th>
+                        <th @click="orderDate('last_notification')">Last Notification</th>
                         <th></th>
                     </tr>
                 </thead>
