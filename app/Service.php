@@ -695,22 +695,28 @@ Class Service extends OrbitSoap
      */
     public function getServicesNotUpdated($date_limit = '90')
     {
+        $log = new Log();
+
         $services = self::getAllServices();
         $data = [];
         $date_limit = '-' . $date_limit . ' days';
         $date_limit = new DateTime(date('d-m-Y H:i:s', strtotime( $date_limit )));
         $two_minutes_before = new DateTime(date('d-m-Y H:i:s', strtotime('-2 minutes')));
-
+        $notifications = $log->getServiceLastNotification(array_column($services, 'ServiceId'))->toarray();
         //Save notified ones in log
         //Remove notified ones from date of notification
         foreach ($services as $service) {
 
-            $log = new Log();
             $service['UpdatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['UpdatedOn']);
             $service['CreatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['CreatedOn']);
             $service_created =  new DateTime(date('d-m-Y H:i:s', strtotime($service['CreatedOn'])));
             $service_last_update =  new DateTime(date('d-m-Y H:i:s', strtotime($service['UpdatedOn'])));
-            $last_notification = $log->getServiceLastNotification($service['ServiceId']);
+            $last_notification = array_filter($notifications, function($notification) use ($service) {
+                                    if ( $notification['object_id'] == $service['ServiceId'] ) {
+                                        return $notification;
+                                    }
+                                });
+            $last_notification = array_shift($last_notification);
 
             if( $date_limit->format('Y-m-d" H:i:s') > $service_last_update->format('Y-m-d" H:i:s')
                 || ( $two_minutes_before->format('Y-m-d" H:i:s') < $service_last_update->format('Y-m-d" H:i:s')
@@ -726,7 +732,7 @@ Class Service extends OrbitSoap
                     'ServiceProviderTypeName' => $service['ServiceProviderTypeName'],
                     //'CreatedOn' => $service['CreatedOn'],
                     'UpdatedOn' => $service_last_update,
-                    'last_notification' => !is_null($last_notification['data']) ?  $last_notification['data']['date'] : 'Not sent'
+                    'last_notification' => !is_null($last_notification)?$last_notification['data']['date']: 'Not sent',
                 ];
 
             }

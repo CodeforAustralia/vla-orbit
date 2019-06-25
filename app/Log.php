@@ -77,9 +77,9 @@ class Log extends Model
     {
         $log = new Log();
         return $log->where('object_type', 'service_notification')
-                    ->where('object_id', $service_id)
+                    ->whereIn('object_id', $service_id)
                     ->orderBy('created_at', 'desc')
-                    ->first();
+                    ->get();
 
     }
 }
