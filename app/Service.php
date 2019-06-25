@@ -471,6 +471,9 @@ Class Service extends OrbitSoap
      */
     public static function mapServicesColumnsToFields($column) {
         switch ($column) {
+            case 'sv_id':
+                return 'sv_id';
+                break;
             case 'name':
                 return 'sv_name';
                 break;
