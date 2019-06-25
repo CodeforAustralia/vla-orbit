@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="col-xs-9">
+        <div class="col-xs-10">
             <label class="col-xs-3 padding-top-5">Last update older than:</label>
             <select class="col-xs-2 input-sm" v-model="selected_day_range">
                 <option value="30">30+ Days</option>
@@ -9,7 +9,7 @@
             </select>
             <button type="button" class="btn btn-sm btn-default main-green margin-left-15" @click="notify_all">Notify all</button>
         </div>
-        <div class="col-xs-3">
+        <div class="col-xs-2">
             <span class="pull-right padding-top-5">Total Services ({{total_services}})</span>
         </div>
         <div class="col-xs-12">
@@ -222,6 +222,15 @@
                 this.tableData.sort((a, b) => {
                     let date1 = a[column].split('-');
                     let date2 = b[column].split('-');
+                    if(date1.length < 2 && date2.length < 2 ){ //Control dates not set
+                        return 0;
+                    }
+                    if(date1.length < 2 && date2.length > 1){ //Control dates not set
+                        return 1;
+                    }
+                    if(date2.length < 2 && date1.length > 1){ //Control dates not set
+                        return -1;
+                    }
                     a = new Date(`${date1[2]}-${date1[1]}-${date1[0]}`);
                     b = new Date(`${date2[2]}-${date2[1]}-${date2[0]}`);
                     if(self.sort_order == 'asc'){
