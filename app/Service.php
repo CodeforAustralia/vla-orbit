@@ -167,6 +167,54 @@ Class Service extends OrbitSoap
     }
 
     /**
+     * Function created to update the Update On date of the service when Client Matter, Legal Matter or Intake Options are updated.
+     *
+     * @param int $sv_id
+     * @return void
+     */
+    public function updateServiceDate( $sv_id )
+    {
+        $date_now = date("Y-m-d");
+        $time_now = date("H:i:s");
+        $date_time = $date_now . "T" . $time_now;
+
+        $result  = self::getServiceByID($sv_id)['data'];
+        $service = json_decode($result)[0];
+        $service->CreatedOn = \App\Http\helpers::transformMicrosoftDateToDate($service->CreatedOn);
+        $sv_params = [
+            'ServiceId'   	=> $service->ServiceId,
+            'ServiceName'   => $service->ServiceName,
+            'Phone'         => $service->Phone,
+            'Email'         => $service->Email,
+            'Description'   => $service->Description,
+            'Notes'         => $service->Notes,
+            'Location'      => $service->Location,
+            'URL'           => $service->URL,
+            'ServiceProviderId' => $service->ServiceProviderId,
+            'Wait'           => $service->Wait,
+            'ServiceLevelId' => $service->ServiceLevelId,
+            'ServiceTypeId'  => $service->ServiceTypeId,
+            'OpenningHrs'    => $service->OpenningHrs,
+            'Status'         => $service->Status,
+            'Specialist'     => false,
+            'CreatedBy'      => $service->CreatedBy,
+            'UpdatedBy'      => auth()->user()->name,
+            'CreatedOn'      => date('Y-m-d', strtotime($service->CreatedOn))
+                                . 'T' .
+                                date('H:i:s', strtotime($service->CreatedOn)),
+            'UpdatedOn'      => $date_time
+        ];
+        $info = [ 'ObjectInstance' => $sv_params ];
+        $response = $this
+                        ->client
+                        ->ws_init('SaveOrbitService')
+                        ->SaveOrbitService( $info );
+
+        return $response;
+
+    }
+
+    /**
      * Create or update a service
      * @param  Object   $sv_params  service details
      * @param Array     $request    Form paramenters with additional service information

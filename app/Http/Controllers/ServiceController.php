@@ -223,6 +223,7 @@ class ServiceController extends Controller
                 $booking_question      = (isset($request['booking_question']) ? $request['booking_question'] : []);
 
                 $service = new Service();
+                $service->updateServiceDate($sv_id);
                 $service->saveServiceActions($sv_id, $referral_conditions, $booking_conditions, $e_referral_conditions);
                 $service->saveServiceEReferrals($sv_id, $e_referral_forms);
                 $service->saveServiceBookingQuestions($sv_id, $booking_question);
@@ -255,6 +256,7 @@ class ServiceController extends Controller
                 $vulnerability    = (isset($request['vulnerability']) ? $request['vulnerability'] : []);
 
                 $service = new Service();
+                $service->updateServiceDate($sv_id);
                 $service->saveServiceEligibilityQuestions($sv_id, $vulnerability);
 
                 return ['success' => 'success' , 'message' => 'Client Matters saved.'];
@@ -288,6 +290,7 @@ class ServiceController extends Controller
                 // Save the legal matters
                 $result = $service->saveServiceMatters($sv_id, $matters_ids);
                 if($result['message']){
+                    $service->updateServiceDate($sv_id);
                     // Get the legal Matter Service
                     $matter_service_obj     = new MatterService();
                     $matter_services_list   = $matter_service_obj->getMatterServiceBySvID($sv_id);
