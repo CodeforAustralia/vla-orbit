@@ -1,6 +1,10 @@
 <?php
 namespace App;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ServiceNotification;
+use App\ServiceProvider;
+use App\User;
 use App\Catchment;
 use App\EReferral;
 use App\Log;
@@ -9,6 +13,8 @@ use App\MatterServiceAnswer;
 use App\ServiceAction;
 use App\ServiceBookingQuestions;
 use App\Vulnerability;
+use App\NoReplyEmail;
+use DateTime;
 /**
  * Service model for the service functionalities
  * @author Christian Arevalo
@@ -633,5 +639,145 @@ Class Service extends OrbitSoap
         }
         return $notes;
     }
+
+    /**
+     * Get all outdated services
+     *
+     * @return void
+     */
+    public function getServicesNotUpdated($date_limit = '90')
+    {
+        $services = self::getAllServices();
+        $data = [];
+        $date_limit = '-' . $date_limit . ' days';
+        $date_limit = new DateTime(date('d-m-Y H:i:s', strtotime( $date_limit )));
+        $two_minutes_before = new DateTime(date('d-m-Y H:i:s', strtotime('-2 minutes')));
+
+        //Save notified ones in log
+        //Remove notified ones from date of notification
+        foreach ($services as $service) {
+
+            $log = new Log();
+            $service['UpdatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['UpdatedOn']);
+            $service['CreatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['CreatedOn']);
+            $service_created =  new DateTime(date('d-m-Y H:i:s', strtotime($service['CreatedOn'])));
+            $service_last_update =  new DateTime(date('d-m-Y H:i:s', strtotime($service['UpdatedOn'])));
+            $last_notification = $log->getServiceLastNotification($service['ServiceId']);
+
+            if( $date_limit->format('Y-m-d" H:i:s') > $service_last_update->format('Y-m-d" H:i:s')
+                || ( $two_minutes_before->format('Y-m-d" H:i:s') < $service_last_update->format('Y-m-d" H:i:s')
+                    && $date_limit->format('Y-m-d" H:i:s') > $service_created->format('Y-m-d" H:i:s'))){
+                $service_last_update = ($service_last_update->format('Y-m-d H:i:s') > $two_minutes_before->format('Y-m-d H:i:s'))
+                                        ? 'Not Updated' : $service_last_update->format('d-m-Y');
+                $data[] = [
+                    'ServiceId' => $service['ServiceId'],
+                    'ServiceName' => $service['ServiceName'],
+                    'Email' => $service['Email'],
+                    //'ServiceProviderId' => $service['ServiceProviderId'],
+                    'ServiceProviderName' => $service['ServiceProviderName'],
+                    'ServiceProviderTypeName' => $service['ServiceProviderTypeName'],
+                    //'CreatedOn' => $service['CreatedOn'],
+                    'UpdatedOn' => $service_last_update,
+                    'last_notification' => !is_null($last_notification['data']) ?  $last_notification['data']['date'] : 'Not sent'
+                ];
+
+            }
+        }
+
+        usort($data, function($a, $b){ return strcmp(strtotime($a["UpdatedOn"]), strtotime($b["UpdatedOn"])); });
+        return $data;
+    }
+    /**
+     * Send Notification about the out of date services.
+     *
+     * @param Array $service_ids
+     * @return void
+     */
+    public function sendServiceNotificacion($service_ids, $template_id)
+    {
+        try {
+            $emails_to_admin = 0;
+            $email_to_lho = 0;
+            $service_provider_obj   = new ServiceProvider();
+            $service_providers      = $service_provider_obj->getAllServiceproviders();
+            $users = User::select('id', 'email', 'sp_id')->with('roles')->get();
+            $services = self::getAllServices();
+
+            $template_obj = new NoReplyEmail;
+            $template = $template_obj->getTemplateById($template_id);
+
+            $prefix = '</em><br><em>Please do not reply to this email.</em><br><hr><br>';
+
+            foreach ($service_ids as $service_id) {
+                $email_info = [];
+                $email_info = self::getServiceEmailAndType( $service_id, $service_providers, $users, $services);
+                $suffix =   '<br><br><em>You can update the service in the following link <a href="'.env('APP_URL','http://localhost') .'/service/show/' . $service_id .'">Update Service</a></em><br><br><em>If you wish to contact us, please do not reply to this message. Replies to this message will not be read or responded to.</em><br><br><br><p classname = "orbitprefix" style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">© 2019 '. ucfirst(config('app.name')) .'. All rights reserved.</p><p classname = "emailprefix" style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;"> Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
+                $email_info['message'] = $prefix . $template['TemplateText'] . $suffix;
+                $email_info['subject'] = $service_id . ' '. $email_info['service_name'] . ' ' . $template['Subject'];
+                if($email_info['email'] != '') {
+                    $log = new Log();
+                    $log::record( 'CREATE', 'service_notification', $service_id, ['date' => date("d-m-Y")] );
+                    $emails_to_admin++;
+                }
+                else {
+                    $email_info['subject'] = 'Service '. $service_id . ' '. $email_info['service_name'] . " out of date";
+                    $email_info['email'] = env('APP_TEAM_EMAIL', 'LHO@vla.vic.gov.au');
+                    $email_info['message'] = $prefix .
+                                            '<em>Good day <br> The service '. $service_id . ' '. $email_info['service_name'] .' has not been updated since '. $email_info['last_update']  .' and it does not have an Administrator. Please Check </em><br>';
+                    $email_to_lho++;
+                }
+                Mail::to( $email_info['email'] )->send( new ServiceNotification( $email_info ) );
+            }
+            return [ 'success' => 'success' , 'message' => 'Email(s) sent.', 'data' => ['email_to_admin' => $emails_to_admin, 'email_to_lho' => $email_to_lho] ];
+        } catch (\Exception $e) {
+            return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
+        }
+    }
+    /**
+     * Get the email of the Admin of the service
+     *
+     * @param Array $service_ids
+     * @return void
+     */
+    private function getServiceEmailAndType ($service_id,  $service_providers, $users, $services)
+    {
+        try {
+            $two_minutes_before = new DateTime(date('d-m-Y H:i:s', strtotime('-2 minutes')));
+            $result=['email'=>'', 'service_provider_type'=> '', 'service_name'=>'', 'last_update'=>''];
+            // Service
+            $service = array_filter($services, function($service) use ($service_id) {
+                    if ( $service['ServiceId'] == $service_id ) {
+                        return $service;
+                    }
+                });
+            $service=array_shift($service);
+            $result['service_name'] = $service['ServiceName'];
+            //get last update of service
+            $service['UpdatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['UpdatedOn']);
+            $service_last_update =  new DateTime(date('d-m-Y H:i:s', strtotime($service['UpdatedOn'])));
+            $service_last_update = ($service_last_update->format('Y-m-d H:i:s') > $two_minutes_before->format('Y-m-d H:i:s'))
+                                    ? 'Never Updated' : $service_last_update->format('d-m-Y');
+            $result['last_update'] = $service_last_update;
+            //Service Provider
+            $service_provider = array_filter($service_providers, function($service_provider) use ($service) {
+                    if ( $service_provider['ServiceProviderId'] == $service['ServiceProviderId'] ) {
+                        return $service_provider;
+                    }
+                });
+            $service_provider = array_shift($service_provider);
+            $result['service_provider_type'] = $service_provider['ServiceProviderTypeName'];
+            //Users
+            foreach($users as $user) {
+                if($service_provider['ServiceProviderId'] ==  $user->sp_id
+                && ($user->roles()->first()->name == "AdminSp" || $user->roles()->first()->name == "AdminSpClc")) {
+                    $result['email'] = $user->email;
+                }
+            }
+            return $result;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
 }
 

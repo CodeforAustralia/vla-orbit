@@ -60,6 +60,8 @@ Route::get('/service', 'ServiceController@index')->name('serviceList');
 
 Route::get('/service/list', 'ServiceController@list');
 
+Route::get('/service/list_without_update/{days}', 'ServiceController@listWithoutUpdate');
+
 Route::get('/service/list_table', 'ServiceController@listTable');
 
 Route::get('/service/list_service_by_id/{sv_id}', 'ServiceController@listServiceById');
@@ -83,6 +85,11 @@ Route::post('/service/client_eligibility', 'ServiceController@storeClientEligibi
 Route::post('/service/legal_matter', 'ServiceController@storeLegalMatter');
 
 Route::post('/service/request_addition', 'ServiceController@sendRequestEmail');
+
+Route::post('/service/send_notification', 'ServiceController@sendNotification');
+
+// Outdated Services
+Route::get('/outdated_services', 'OutdatedServiceController@index');
 
 //Service Type
 Route::get('/service_type', 'ServiceTypeController@index');

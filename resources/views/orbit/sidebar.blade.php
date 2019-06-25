@@ -237,6 +237,14 @@
                                 <span class="arrow"></span>
                             </a>
                         </li>
+
+                        <li class="nav-item {{ Request::is('outdated_services','outdated_services/*') ? 'active' : null }}">
+                            <a href="/outdated_services" class="nav-link">
+                                <i class="fa fa-bolt"></i>
+                                <span class="title">Outdated Services</span>
+                                <span class="arrow {{ Request::is('outdated_services','outdated_services/*') ? 'open' : null }}"></span>
+                            </a>
+                        </li>
                         @endif
                     </ul>
                     <!-- END SIDEBAR MENU -->

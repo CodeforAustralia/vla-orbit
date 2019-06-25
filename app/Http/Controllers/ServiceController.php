@@ -359,6 +359,19 @@ class ServiceController extends Controller
     }
 
     /**
+     * List all service outdated in a give period of time
+     * @param int $days number of days (should be a positive number)
+     * @return array list of all service outdated in a give period of time
+     */
+    public function listWithoutUpdate($days)
+    {
+        $service = new Service();
+        $result  = $service->getServicesNotUpdated($days);
+
+        return [ 'data' => $result ];
+    }
+
+    /**
      * List all service
      * @return array list of all service
      */
@@ -421,6 +434,15 @@ class ServiceController extends Controller
         $request = request()->all();
         $request['user'] = $user;
         Mail::to('orbitteam@vla.vic.gov.au')->send( new RequestEmail( $request ) );
+    }
+
+
+    public function sendNotification(Request $request)
+    {
+        $service_obj = new Service();
+        $result  = $service_obj->sendServiceNotificacion($request['services'],$request['template_id']);
+        return $result;
+
     }
 
 }

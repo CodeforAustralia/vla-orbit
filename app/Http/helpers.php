@@ -30,11 +30,11 @@ class Helpers
      */
     public static function getRole()
     {
-    	if( Auth::check() ) {
-    		return Auth::user()->roles()->first()->name ;
-    	} else {
-    		return 'Anonymous';
-    	}
+        if( Auth::check() ) {
+            return Auth::user()->roles()->first()->name ;
+        } else {
+            return 'Anonymous';
+        }
     }
     /**
      * Get service provider from the user in session
@@ -42,11 +42,11 @@ class Helpers
      */
     public static function getUSerServiceProviderId()
     {
-    	if( Auth::check() )	{
-    		return Auth::user()->sp_id ;
-    	} else {
-    		return '';
-    	}
+        if( Auth::check() )	{
+            return Auth::user()->sp_id ;
+        } else {
+            return '';
+        }
     }
     /**
      * Get session user id
@@ -54,11 +54,11 @@ class Helpers
      */
     public static function getUSerId()
     {
-    	if( Auth::check() ) {
-    		return Auth::user()->id ;
-    	} else {
-    		return '';
-    	}
+        if( Auth::check() ) {
+            return Auth::user()->id ;
+        } else {
+            return '';
+        }
     }
     /**
      * Retrieve the panel lawyers exluded
@@ -118,5 +118,17 @@ class Helpers
         $today = new DateTime();
         $first_friday = new DateTime('first friday of this month');
         return $today->format('d-m-y') == $first_friday->format('d-m-y');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param String $microsoft_date
+     * @return String
+     */
+    public static function transformMicrosoftDateToDate($microsoft_date)
+    {
+        $date_r = substr(preg_replace( '/[^0-9]/', '', $microsoft_date), 0 , 10);
+        return date('d-m-Y H:i:s',$date_r);
     }
 }

@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b50e906e27aa7f978466e86f66ae8f0",
+    "content-hash": "2b245ada2c54e819a8679f27d4cc662f",
     "packages": [
         {
             "name": "aacotroneo/laravel-saml2",
@@ -799,51 +799,6 @@
             "time": "2017-04-25T14:43:14+00:00"
         },
         {
-            "name": "microsoft/microsoft-graph",
-            "version": "0.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microsoftgraph/msgraph-sdk-php.git",
-                "reference": "d05b9b2e484675522d8630f2b5189ed1e226ab44"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microsoftgraph/msgraph-sdk-php/zipball/d05b9b2e484675522d8630f2b5189ed1e226ab44",
-                "reference": "d05b9b2e484675522d8630f2b5189ed1e226ab44",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "6.2.*",
-                "php": "^5.6 || ^7.0"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "~1",
-                "phpdocumentor/phpdocumentor": "2.9.*",
-                "phpunit/phpunit": "5.5.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Microsoft\\Graph\\": "src/",
-                    "Microsoft\\Graph\\Test\\": "tests/Functional/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Caitlin Bales",
-                    "email": "caitlin.bales@microsoft.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The Microsoft Graph SDK for PHP",
-            "homepage": "https://graph.microsoft.io/en-us/",
-            "time": "2017-03-02T18:17:00+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "1.22.1",
             "source": {
@@ -1071,29 +1026,26 @@
         },
         {
             "name": "onelogin/php-saml",
-            "version": "2.10.6",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/onelogin/php-saml.git",
-                "reference": "d7f3d9f9c58d215ee6d75736a85c2692f6fbe45b"
+                "reference": "0e2e7fd5610c6c4bb922718ad98cc21f18df89da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/onelogin/php-saml/zipball/d7f3d9f9c58d215ee6d75736a85c2692f6fbe45b",
-                "reference": "d7f3d9f9c58d215ee6d75736a85c2692f6fbe45b",
+                "url": "https://api.github.com/repos/onelogin/php-saml/zipball/0e2e7fd5610c6c4bb922718ad98cc21f18df89da",
+                "reference": "0e2e7fd5610c6c4bb922718ad98cc21f18df89da",
                 "shasum": ""
             },
             "require": {
-                "ext-dom": "*",
-                "ext-mcrypt": "*",
-                "ext-openssl": "*",
                 "php": ">=5.3.2"
             },
             "require-dev": {
                 "pdepend/pdepend": "1.1.0",
                 "phploc/phploc": "*",
-                "phpunit/phpunit": "4.8",
-                "satooshi/php-coveralls": "1.0.1",
+                "phpunit/phpunit": "3.7.31",
+                "satooshi/php-coveralls": "dev-master",
                 "sebastian/phpcpd": "*",
                 "squizlabs/php_codesniffer": "*"
             },
@@ -1121,7 +1073,7 @@
                 "onelogin",
                 "saml"
             ],
-            "time": "2017-05-17T23:53:40+00:00"
+            "time": "2015-03-03T19:11:04+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2568,6 +2520,66 @@
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
+            "name": "facebook/webdriver",
+            "version": "1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/php-webdriver.git",
+                "reference": "e43de70f3c7166169d0f14a374505392734160e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
+                "reference": "e43de70f3c7166169d0f14a374505392734160e5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-zip": "*",
+                "php": "^5.6 || ~7.0",
+                "symfony/process": "^2.8 || ^3.1 || ^4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "jakub-onderka/php-parallel-lint": "^0.9.2",
+                "php-coveralls/php-coveralls": "^2.0",
+                "php-mock/php-mock-phpunit": "^1.1",
+                "phpunit/phpunit": "^5.7",
+                "sebastian/environment": "^1.3.4 || ^2.0 || ^3.0",
+                "squizlabs/php_codesniffer": "^2.6",
+                "symfony/var-dumper": "^3.3 || ^4.0"
+            },
+            "suggest": {
+                "ext-SimpleXML": "For Firefox profile creation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-community": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Facebook\\WebDriver\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "A PHP client for Selenium WebDriver",
+            "homepage": "https://github.com/facebook/php-webdriver",
+            "keywords": [
+                "facebook",
+                "php",
+                "selenium",
+                "webdriver"
+            ],
+            "time": "2019-06-13T08:02:18+00:00"
+        },
+        {
             "name": "fzaninotto/faker",
             "version": "v1.6.0",
             "source": {
@@ -2659,6 +2671,108 @@
                 "test"
             ],
             "time": "2015-05-11T14:41:42+00:00"
+        },
+        {
+            "name": "laravel/dusk",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/dusk.git",
+                "reference": "87d57bbcb878e569aa8750e1d487ce923561f3e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/87d57bbcb878e569aa8750e1d487ce923561f3e3",
+                "reference": "87d57bbcb878e569aa8750e1d487ce923561f3e3",
+                "shasum": ""
+            },
+            "require": {
+                "facebook/webdriver": "~1.0",
+                "illuminate/console": "~5.4",
+                "illuminate/support": "~5.4",
+                "nesbot/carbon": "~1.20",
+                "php": ">=5.6.4",
+                "symfony/console": "~3.2",
+                "symfony/process": "~3.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.6",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Dusk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel Dusk provides simple end-to-end testing and browser automation.",
+            "homepage": "https://laravel.com",
+            "keywords": [
+                "laravel",
+                "testing",
+                "webdriver"
+            ],
+            "time": "2017-10-31T21:41:42+00:00"
+        },
+        {
+            "name": "microsoft/microsoft-graph",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microsoftgraph/msgraph-sdk-php.git",
+                "reference": "d05b9b2e484675522d8630f2b5189ed1e226ab44"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microsoftgraph/msgraph-sdk-php/zipball/d05b9b2e484675522d8630f2b5189ed1e226ab44",
+                "reference": "d05b9b2e484675522d8630f2b5189ed1e226ab44",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "6.2.*",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "~1",
+                "phpdocumentor/phpdocumentor": "2.9.*",
+                "phpunit/phpunit": "5.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Microsoft\\Graph\\": "src/",
+                    "Microsoft\\Graph\\Test\\": "tests/Functional/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caitlin Bales",
+                    "email": "caitlin.bales@microsoft.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The Microsoft Graph SDK for PHP",
+            "homepage": "https://graph.microsoft.io/en-us/",
+            "time": "2017-03-02T18:17:00+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -3364,7 +3478,47 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2016-12-08T20:27:08+00:00"
+        },
+        {
+            "name": "roquie/laravel-dusk-select2",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roquie/laravel-dusk-select2.git",
+                "reference": "1448c7bc32e026f4a3907bc50bf9a71853ddf400"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roquie/laravel-dusk-select2/zipball/1448c7bc32e026f4a3907bc50bf9a71853ddf400",
+                "reference": "1448c7bc32e026f4a3907bc50bf9a71853ddf400",
+                "shasum": ""
+            },
+            "require-dev": {
+                "laravel/dusk": "^2.0",
+                "laravel/laravel": "^5.5",
+                "phpunit/phpunit": "^6.3",
+                "symfony/var-dumper": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/macro.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "roquie",
+                    "email": "roquie0@gmail.com"
+                }
+            ],
+            "description": "Select2.js support for the Laravel Dusk testing.",
+            "time": "2018-07-03T08:49:59+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3878,6 +4032,54 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
+        },
+        {
+            "name": "staudenmeir/dusk-updater",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/dusk-updater.git",
+                "reference": "c639afc8eb7d1dd3ac7b76159ace21e1d3da65ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/dusk-updater/zipball/c639afc8eb7d1dd3ac7b76159ace21e1d3da65ba",
+                "reference": "c639afc8eb7d1dd3ac7b76159ace21e1d3da65ba",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "ext-zip": "*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Staudenmeir\\DuskUpdater\\DuskServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\DuskUpdater\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Updater for Laravel Dusk ChromeDriver binaries",
+            "time": "2019-05-17T20:53:33+00:00"
         },
         {
             "name": "symfony/yaml",
