@@ -5,14 +5,14 @@ var searchPage = function()
 	{
 		$("#contentLoading").modal("show");
 		//Referral section
-		$.get("/catchment/listFormated", function(data, status){
+		$.get("/catchment/listFormated", function(data, status) {
 			$("#single-prepend-text").select2({
 				data: data,
 				width: '100%',
 				placeholder: "Location ( suburb or postcode )",
 				selectOnClose: true
 			});
-		}).done(function(){
+		}).done(function() {
 			$("#contentLoading").modal("hide");
 			setSelectedValues();
 		});
@@ -20,7 +20,7 @@ var searchPage = function()
 	};
 	var setLegalIssue = function ()
 	{
-		$.get("/matter/listFormatedTrimmed", function(data, status){
+		$.get("/matter/listFormatedTrimmed", function(data, status) {
 			$(".legal_issue #single").select2({
 				data: data,
 				width: '100%',
@@ -31,7 +31,7 @@ var searchPage = function()
 					return text;
 				}
 			});
-		}).done(function(){
+		}).done(function() {
 			$("#contentLoading").modal("hide");
 			setSelectedValues();
 		});
@@ -40,16 +40,16 @@ var searchPage = function()
 	var fillFilters = function()
 	{
 		let filters = ''
-		if ($('#referral_CLC').is(":checked")){
+		if ($('#referral_CLC').is(":checked")) {
 			filters += $('#referral_CLC').val() + ',';
 		}
-		if ($('#referral_VLA').is(":checked")){
+		if ($('#referral_VLA').is(":checked")) {
 			filters +=  $('#referral_VLA').val()+ ',';
 		}
-		if ($('#referral_NLP').is(":checked")){
+		if ($('#referral_NLP').is(":checked")) {
 			filters += $('#referral_NLP').val()+ ',';
 		}
-		if ($('#referral_PP').is(":checked")){
+		if ($('#referral_PP').is(":checked")) {
 			filters += $('#referral_PP').val()+ ',';
 		}
 		return filters;
@@ -65,10 +65,10 @@ var searchPage = function()
 			var catchment = $('.location #single-prepend-text').select2('data');
 			// get checkbox value
 			let filters = fillFilters();
-			if(filters == ''){
+			if(filters == '') {
 				swal('Alert','Please Select a Service Provider Type', "warning");
 			}
-			else if( legal_issue[0].id != '' && catchment[0].id != ''){
+			else if( legal_issue[0].id != '' && catchment[0].id != '') {
 				redirectStep( legal_issue[0].id, catchment[0].id, filters );
 			} else {
 				swal("Alert", "Please Select a Legal Matter and catchment", "warning");
@@ -184,11 +184,11 @@ var searchPage = function()
 	var setServiceProviderSelect = function()
 	{
 
-		$("#select_all").change(function(){
+		$("#select_all").change(function() {
 			$(".checkbox").prop('checked', $(this).prop("checked"));
 		});
 
-		$('.checkbox').change(function(){
+		$('.checkbox').change(function() {
 
 			if(false == $(this).prop("checked")) {
 				$("#select_all").prop('checked', false);
