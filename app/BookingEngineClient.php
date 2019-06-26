@@ -13,6 +13,6 @@ Class BookingEngineClient
 
     function __construct()
     {
-	    $this->client = (new \App\Repositories\BookingEngineAPI);
+        $this->client = (new \App\Repositories\BookingEngineAPI);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace App;
 
-use Illuminate\Support\Facades\Mail;
 use App\Log;
 use App\Service;
 use App\ServiceProvider;
@@ -11,11 +10,9 @@ use Auth;
 /**
  * Booking model for the booking engine functionalities
  * @author Christian Arevalo and Sebastian Currea
- * @version 1.1.1
+ * @version 1.1.2
  * @see  BookingEngineClient
  */
-
-
 
 Class BookingEngine extends BookingEngineClient
 {
@@ -36,6 +33,12 @@ Class BookingEngine extends BookingEngineClient
         return $availability;
     }
 
+    /**
+     * Get all bookings by service provider
+     *
+     * @param array $args   Array containign a Service provider id
+     * @return array    Information of bookings, service names, avaiability and booking status object
+     */
     public function getServiceBookingsBySP( $args )
     {
         $service_obj = new Service();
@@ -66,8 +69,8 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Get service availability in Booking Engine
      *
-     * @param array $args
-     * @return void
+     * @param array $args  Array of service id, start and end date
+     * @return array    Array of service availability
      */
     public function getServiceAvailability( $args )
     {
@@ -77,11 +80,11 @@ Class BookingEngine extends BookingEngineClient
         return $availability;
     }
 
-     /**
+    /**
      * Store booking;
      *
      * @param array $booking
-     * @return void
+     * @return int  booking ID
      */
     public function storeBooking( $booking )
     {
@@ -99,7 +102,7 @@ Class BookingEngine extends BookingEngineClient
         return $booking_id;
     }
 
-     /**
+    /**
      * Store Service
      *
      * @param array $params Service paramenters including service provider name
@@ -124,11 +127,11 @@ Class BookingEngine extends BookingEngineClient
 
     }
 
-     /**
+    /**
      * Update booking;
      *
      * @param array $booking
-     * @return void
+     * @return array Bookin ginformation
      */
     public function updateBooking( $args )
     {
@@ -148,7 +151,7 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Get all booking status
      *
-     * @return void
+     * @return array Array of booking status
      */
     public function getAllBookingStatus()
     {
@@ -162,7 +165,7 @@ Class BookingEngine extends BookingEngineClient
      * Delete Booking
      *
      * @param int $booking_id
-     * @return void
+     * @return boolean
      */
     public function deleteBooking($booking_id)
     {
@@ -174,7 +177,7 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Get booking Services
      *
-     * @return void
+     * @return array Array of services
      */
     public function getServices()
     {
@@ -184,6 +187,12 @@ Class BookingEngine extends BookingEngineClient
         return json_decode(json_encode($services), true);
     }
 
+    /**
+     * Get service by service provider name
+     *
+     * @param string $service_provider_name Service provider name
+     * @return array Array of services
+     */
     public function getServicesBySPName($service_provider_name)
     {
         $url =  "api/auth/service/service_provider/" . $service_provider_name;
@@ -196,7 +205,7 @@ Class BookingEngine extends BookingEngineClient
      * Get All Booking by Day
      *
      * @param date $date YYY-MM-DD
-     * @return void
+     * @return array    Array of bookings in a given date
      */
     public function getAllBookingsByDay($date)
     {
@@ -234,7 +243,7 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Get bookings by current user using the app
      *
-     * @return Array
+     * @return Array Bookings for the current user
      */
     public function getBookingsByUser()
     {
@@ -248,7 +257,7 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Return the bookings made by LH users
      *
-     * @return void
+     * @return Array    Legal help bookings
      */
     public function legalHelpBookings()
     {
@@ -268,8 +277,8 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Filter Legal Help Bookings
      *
-     * @param [type] $bookings
-     * @return void
+     * @param Array $bookings All bookings
+     * @return Array    Array of bookings made by legal help
      */
     private function filterLegalHelpBookings($bookings)
     {
@@ -291,7 +300,7 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Get statistics for one day
      *
-     * @return Array
+     * @return Array    Statistics for a given day
      */
     public function getStatsDay($date)
     {
@@ -305,7 +314,7 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Get statistics for one day
      *
-     * @return Array
+     * @return Array    Statistics for a given period of time
      */
     public function getStatsPeriod($date)
     {
@@ -319,7 +328,7 @@ Class BookingEngine extends BookingEngineClient
     /**
      * Get login token
      *
-     * @return void
+     * @return String   Token
      */
     private function getTokens()
     {

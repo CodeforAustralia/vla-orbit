@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,8 +12,6 @@ use DateTime;
 use DateInterval;
 use DatePeriod;
 use StdClass;
-
-
 use Validator;
 
 /**
@@ -87,6 +84,11 @@ class BookingEngineController extends Controller
         return $services;
     }
 
+    /**
+     * Generate current and next year calendars
+     *
+     * @return Array Current and next year calendars
+     */
     public function generateCalendars()
     {
         $current_year = date('Y');
@@ -101,6 +103,12 @@ class BookingEngineController extends Controller
                 ];
     }
 
+    /**
+     * Generate calendar by a given year
+     *
+     * @param int $year Year
+     * @return Array    Calendar for a given year
+     */
     public function generateCalendarByYear($year)
     {
         $days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -126,6 +134,11 @@ class BookingEngineController extends Controller
         return $list;
     }
 
+    /**
+     * Generate calendars for interface creation
+     *
+     * @return Array Currrent and next year calendars
+     */
     public function getServiceDays()
     {
         $sv_id = request('sv_id');
@@ -140,6 +153,11 @@ class BookingEngineController extends Controller
         return $calendars;
     }
 
+    /**
+     * Generate a calendar
+     *
+     * @return Array clendar by month and days
+     */
     public function generateCalendar()
     {
         $calendar = [];
@@ -153,12 +171,22 @@ class BookingEngineController extends Controller
         return $calendar;
     }
 
+    /**
+     * Get hours by service id
+     * @param Request $sv_id    Service id
+     * @return Array    Hours of a day grouped in 30 and 60 minutes
+     */
     public function getServiceHours()
     {
         $sv_id = request('sv_id');
         return self::generateHours();
     }
 
+    /**
+     * generate default hours by regular and interpreter services
+     *
+     * @return Array    Hours of a day grouped in 30 and 60 minutes
+     */
     public function generateHours()
     {
         $hour_lenght = 30;
@@ -176,6 +204,10 @@ class BookingEngineController extends Controller
         return $schedule;
     }
 
+    /**
+     * generate random hours by day
+     *
+     */
     public function generateHour($lenght)
     {
         $hours = [];
@@ -193,7 +225,7 @@ class BookingEngineController extends Controller
      * Get service availability in Booking Engine
      *
      * @param Request $request
-     * @return void
+     * @return Array    Service Availability
      */
     public function getServiceAvailability( Request $request)
     {
@@ -211,7 +243,7 @@ class BookingEngineController extends Controller
      * Get the booking by service and date
      *
      * @param Request $request
-     * @return void
+     * @return Array    Service Bookings
      */
     public function getServiceBookings( Request $request )
     {
@@ -228,7 +260,7 @@ class BookingEngineController extends Controller
      * Get all booking by service provider and date
      *
      * @param Request $request
-     * @return void
+     * @return Array    Service bookings for a given service provider
      */
     public function getServiceBookingsBySP( Request $request )
     {
@@ -249,11 +281,11 @@ class BookingEngineController extends Controller
         }
 
     }
-   /**
+    /**
      * Get Sms dates for a collection of bookings
      *
-     * @param array $bookings
-     * @return void
+     * @param Array $bookings
+     * @return Array Information of SMS dates by booking reference
      */
     private function getSentSMSDates($bookings)
     {
@@ -299,7 +331,7 @@ class BookingEngineController extends Controller
      * get 3 months in advance bookings for own office
      *
      * @param Request $request
-     * @return void
+     * @return Array Information of SMS dates by booking reference
      */
     public function nextBookings( Request $request )
     {
@@ -311,7 +343,7 @@ class BookingEngineController extends Controller
      * Get appointments made by the user
      *
      * @param Request $request
-     * @return void
+     * @return Array Information of SMS dates by booking reference
      */
     public function user( Request $request )
     {
@@ -319,7 +351,12 @@ class BookingEngineController extends Controller
         return self::getSentSMSDates($booking_engine_obj->getBookingsByUser());
     }
 
-
+    /**
+     * Delete bookings by ID
+     *
+     * @param Int $booking_id Booking ID
+     * @return String   Error or success message
+     */
     public function deleteBooking($booking_id)
     {
         $booking_engine_obj = new BookingEngine();
@@ -330,7 +367,6 @@ class BookingEngineController extends Controller
             $message = 'sucess,  the booking ' .$booking_id . ' has been deleted';
         }
         return $message;
-
     }
 
     /**
