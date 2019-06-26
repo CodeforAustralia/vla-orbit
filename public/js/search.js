@@ -40,20 +40,16 @@ var searchPage = function()
 	var fillFilters = function()
 	{
 		let filters = ''
-		if ($('#referral_CLC').is(":checked"))
-		{
+		if ($('#referral_CLC').is(":checked")){
 			filters += $('#referral_CLC').val() + ',';
 		}
-		if ($('#referral_VLA').is(":checked"))
-		{
-		filters +=  $('#referral_VLA').val()+ ',';
+		if ($('#referral_VLA').is(":checked")){
+			filters +=  $('#referral_VLA').val()+ ',';
 		}
-		if ($('#referral_NLP').is(":checked"))
-		{
+		if ($('#referral_NLP').is(":checked")){
 			filters += $('#referral_NLP').val()+ ',';
 		}
-		if ($('#referral_PP').is(":checked"))
-		{
+		if ($('#referral_PP').is(":checked")){
 			filters += $('#referral_PP').val()+ ',';
 		}
 		return filters;
@@ -72,12 +68,9 @@ var searchPage = function()
 			if(filters == ''){
 				swal('Alert','Please Select a Service Provider Type', "warning");
 			}
-			else if( legal_issue[0].id != '' && catchment[0].id != '')
-			{
+			else if( legal_issue[0].id != '' && catchment[0].id != ''){
 				redirectStep( legal_issue[0].id, catchment[0].id, filters );
-			}
-			else
-			{
+			} else {
 				swal("Alert", "Please Select a Legal Matter and catchment", "warning");
 			}
 
@@ -86,18 +79,15 @@ var searchPage = function()
 
 	var setSelectedValues = function ()
 	{
-		if( getUrlParameter('mt_id') != null )
-		{
+		if( getUrlParameter('mt_id') != null ) {
 			$('#single').val( getUrlParameter('mt_id') ).trigger('change');
 		}
 
-		if( getUrlParameter('ca_id') != null )
-		{
+		if( getUrlParameter('ca_id') != null ) {
 			$('#single-prepend-text').val( getUrlParameter('ca_id') ).trigger('change');
 		}
 		// Filter set values
-		if(getUrlParameter('filters') != null)
-		{
+		if(getUrlParameter('filters') != null) {
 			count = 0;
 			$('#referral_CLC').prop('checked', false).trigger('change');
 			$('#referral_VLA').prop('checked', false).trigger('change');
@@ -105,32 +95,26 @@ var searchPage = function()
 			$('#referral_PP').prop('checked', false).trigger('change');
 			$('#referral_All').prop('checked', false).trigger('change');
 			let filters= getUrlParameter('filters');
-			if(filters.indexOf('2')>=0)
-			{
+			if(filters.indexOf('2')>=0) {
 				$('#referral_CLC').prop('checked', true).trigger('change');
 				count++;
 			}
-			if(filters.indexOf('3')>=0)
-			{
+			if(filters.indexOf('3')>=0) {
 				$('#referral_VLA').prop('checked', true).trigger('change');
 				count++;
 			}
-			if(filters.indexOf('1')>=0)
-			{
+			if(filters.indexOf('1')>=0) {
 				$('#referral_NLP').prop('checked', true).trigger('change');
 				count++;
 			}
-			if(filters.indexOf('5')>=0)
-			{
+			if(filters.indexOf('5')>=0) {
 				$('#referral_PP').prop('checked', true).trigger('change');
 				count++;
 			}
-			if(count == 4)
-			{
+			if(count == 4) {
 				$('#referral_All').prop('checked', true).trigger('change');
 			}
-			else if($('#collapse').hasClass('collapse'))
-			{
+			else if($('#collapse').hasClass('collapse')) {
 				$('#collapse').addClass('in');
 			}
 
@@ -146,12 +130,10 @@ var searchPage = function()
 		sParameterName,
 		i;
 
-		for (i = 0; i < sURLVariables.length; i++)
-		{
+		for (i = 0; i < sURLVariables.length; i++) {
 			sParameterName = sURLVariables[i].split('=');
 
-			if (sParameterName[0] === sParam)
-			{
+			if (sParameterName[0] === sParam) {
 				return sParameterName[1] === undefined ? true : sParameterName[1];
 			}
 		}
@@ -174,7 +156,7 @@ var searchPage = function()
 		$.each(data.children, function (idx, child) {
 		//Compare against matter name and tags inside matters
 			if (child.text.toUpperCase().indexOf(params.term.toUpperCase()) !== -1 || child.Tag.toUpperCase().indexOf(params.term.toUpperCase()) !== -1 ) {
-			filteredChildren.push(child);
+				filteredChildren.push(child);
 			}
 		});
 
@@ -202,31 +184,28 @@ var searchPage = function()
 	var setServiceProviderSelect = function()
 	{
 
+		$("#select_all").change(function(){
+			$(".checkbox").prop('checked', $(this).prop("checked"));
+		});
 
-	$("#select_all").change(function(){
-		$(".checkbox").prop('checked', $(this).prop("checked"));
-	});
+		$('.checkbox').change(function(){
 
+			if(false == $(this).prop("checked")) {
+				$("#select_all").prop('checked', false);
+			}
 
-	$('.checkbox').change(function(){
+			if ($('.checkbox:checked').length == $('.checkbox').length ) {
+				$("#select_all").prop('checked', true);
+			}
+		});
 
-		if(false == $(this).prop("checked")){
-			$("#select_all").prop('checked', false);
-		}
-
-		if ($('.checkbox:checked').length == $('.checkbox').length ){
-			$("#select_all").prop('checked', true);
-		}
-	});
-
-	$("#select_all").prop('checked', true).trigger('change');
+		$("#select_all").prop('checked', true).trigger('change');
 
 	}
 
 	return {
 		//main function to initiate the module
-		init: function ()
-		{
+		init: function () {
 			getCatchments();
 			setLegalIssue();
 			nextPage();
