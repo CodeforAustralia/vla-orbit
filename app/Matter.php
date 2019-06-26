@@ -6,10 +6,11 @@ namespace App;
  * Model for the legal matter functionalities
  *
  * @author Christian Arevalo
- * @version 1.2.0
+ * @version 1.2.1
  * @see  OrbitSoap
  */
 
+const EMPTY_MATTER = 50;
 const SPECIFIC_MATTER = 7;
 
 Class Matter extends OrbitSoap
@@ -22,11 +23,10 @@ Class Matter extends OrbitSoap
     public function getAllMatters()
     {
         $matters = json_decode(
-                                    $this
-                                    ->client
-                                    ->ws_init('GetAllLegalMattersasJSON')
-                                    ->GetAllLegalMattersasJSON()
-                                    ->GetAllLegalMattersasJSONResult
+                                    $this->client
+                                        ->ws_init('GetAllLegalMattersasJSON')
+                                        ->GetAllLegalMattersasJSON()
+                                        ->GetAllLegalMattersasJSONResult
                                     , true
                                 );
         array_shift($matters);
@@ -41,11 +41,10 @@ Class Matter extends OrbitSoap
     public function getAllMattersWithQuestions()
     {
         $matters = json_decode(
-                                    $this
-                                    ->client
-                                    ->ws_init('GetAllMattersWithQuestionsasJSON')
-                                    ->GetAllMattersWithQuestionsasJSON()
-                                    ->GetAllMattersWithQuestionsasJSONResult
+                                    $this->client
+                                        ->ws_init('GetAllMattersWithQuestionsasJSON')
+                                        ->GetAllMattersWithQuestionsasJSON()
+                                        ->GetAllMattersWithQuestionsasJSONResult
                                     , true
                                 );
         return $matters;
@@ -142,7 +141,7 @@ Class Matter extends OrbitSoap
         }
 
         $matters = \App\Http\helpers::array_sort( $clean_matters, 'MatterName', SORT_ASC );
-        $output  = self::buildTree($matters, 50) ;
+        $output  = self::buildTree($matters, EMPTY_MATTER);
 
         return $output;
     }
@@ -218,7 +217,7 @@ Class Matter extends OrbitSoap
     {
         $matters = self::getAllMatters();
         $matters = \App\Http\helpers::array_sort( $matters, 'MatterName', SORT_ASC );
-        $output  = self::buildTree($matters, 50) ;
+        $output  = self::buildTree($matters, EMPTY_MATTER) ;
         return $output;
     }
 
@@ -256,12 +255,11 @@ Class Matter extends OrbitSoap
      */
     public function getAllMatterById( $mt_id )
     {
-        $matter = $this
-                  ->client
-                  ->ws_init('GetMattersById')
-                  ->GetMattersById( ['MatterId' => $mt_id] )
-                  ->GetMattersByIdResult
-                  ->LegalMatter;
+        $matter = $this->client
+                        ->ws_init('GetMattersById')
+                        ->GetMattersById( ['MatterId' => $mt_id] )
+                        ->GetMattersByIdResult
+                        ->LegalMatter;
         if ( isset( $matter->MatterQuestions->LegalMatterQuestions ) ) {
 
             $questions = [];

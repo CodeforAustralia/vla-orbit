@@ -13,7 +13,7 @@ use App\MatterQuestion;
  * Controller for the legal matter functionalities
  *
  * @author Christian Arevalo
- * @version 1.2.0
+ * @version 1.2.1
  * @see  Controller
  */
 class MatterController extends Controller
@@ -73,7 +73,7 @@ class MatterController extends Controller
                             'ParentId'     => request('parent_id'),
                             'Tag'          => filter_var(request('tag'), FILTER_SANITIZE_STRING),
                             'TypeId'       => request('lmt_id')
-                         ];
+                        ];
 
         $matter = new Matter();
         $response = $matter->saveMatter($matter_params);
@@ -152,6 +152,11 @@ class MatterController extends Controller
         $result = $matter->getAllMattersFormated();
         return $result;
     }
+    /**
+     * List matters with questions
+     *
+     * @return JSON
+     */
     public function listWithQuestionsFormated()
     {
         $matter = new Matter();
