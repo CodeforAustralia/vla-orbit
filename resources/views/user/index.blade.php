@@ -29,6 +29,7 @@
                                 'sp_id',
                                 'role'
                             ]"
+                    is-local
                 ></data-table>
             </div>
         </div>

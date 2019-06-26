@@ -74,7 +74,7 @@
                     <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
                 </li>
                 <li v-for="(page, key2) in pagesNumber" class="page-item"
-                    :class="{'active': page == pagination.current_page}"
+                    :class="{'active': isLocal ? page == pagination.current_page : page == (pagination.current_page + 1)  }"
                     :key="key2"
                 >
                 <a href="javascript:void(0)" @click.prevent="changePage(page)" class="page-link">{{ page }}</a>
@@ -113,6 +113,7 @@
             showLabel:{type:String, required:false, default:"Show"},
             editLabel:{type:String, required:false, default:"Edit"},
             deleteLabel:{type:String, required:false, default:"Delete"},
+            isLocal:{type:Boolean, required:false, default:false},
         },
         data() {
             return {
@@ -210,6 +211,9 @@
                         if('data' in data) { //If no data then reset array
                             this.tableData = data.data;
                             this.tableTotal = data.total;
+                            if(!self.isLocal) {
+                                this.pagination.last_page += 1;
+                            }
                         } else {
                             this.tableData = [];
                         }
