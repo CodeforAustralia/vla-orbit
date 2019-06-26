@@ -2,15 +2,12 @@
 namespace App;
 
 use Illuminate\Support\Facades\Mail;
-use \App\Repositories\BookingEngineApi;
 use Exception;
 use App\Log;
 use App\Mail\BookingEmail;
 use App\Mail\BookingRequestEmail;
-use App\Mail\BookingSms;
 use App\SentSms;
 use App\Service;
-use App\ServiceBooking;
 use App\ServiceProvider;
 use App\User;
 use Auth;
@@ -18,7 +15,7 @@ use Auth;
 /**
  * Booking model for the booking functionalities
  * @author Christian Arevalo
- * @version 1.0.0
+ * @version 1.0.1
  * @see  OrbitSoap
  */
 
@@ -28,6 +25,7 @@ const PHONE_ADVICE = 3;
 const DUTY_LAYER = 4;
 const CHILD_SUPPORT = 5;
 const CHILD_PROTECTION = 6;
+const DEFAULT_BOOKING_TIME = 30;
 const LEGAL_HELP_ID = 112;
 const LEGAL_HELP_EMAIL = 'LHReferrals@vla.vic.gov.au';
 
@@ -73,8 +71,8 @@ Class Booking extends OrbitSoap
 	{
 
         $info = [
-        			'FromDate'  => $from ,
-    				'ToDate'	=> $to
+                    'FromDate'  => $from ,
+                    'ToDate'	=> $to
 				];
 
         $bookings = $this
@@ -82,20 +80,20 @@ Class Booking extends OrbitSoap
                     ->ws_init( 'GetAllOrbitBookings' )
                     ->GetAllOrbitBookings( $info )
                     ->GetAllOrbitBookingsResult;
-    	$temp_bookings = [];
+        $temp_bookings = [];
 
-    	foreach ($bookings->Bookings as $booking) {
+        foreach ($bookings->Bookings as $booking) {
 
-    		$booking_date = $booking->BookingDate;
+            $booking_date = $booking->BookingDate;
 
-    		if ( ( $booking_date >= $from ) && ( $booking_date <= $to ) ) {
-    			$temp_bookings[] = $booking;
-    		}
-    	}
-    	if ( sizeof( $temp_bookings ) == 1 ) {
-    		 $temp_bookings =  $temp_bookings[0];
-    	}
-    	$bookings->Bookings = $temp_bookings;
+            if ( ( $booking_date >= $from ) && ( $booking_date <= $to ) ) {
+                $temp_bookings[] = $booking;
+            }
+        }
+        if ( sizeof( $temp_bookings ) == 1 ) {
+            $temp_bookings =  $temp_bookings[0];
+        }
+        $bookings->Bookings = $temp_bookings;
 
         return $bookings;
 	}
@@ -109,9 +107,9 @@ Class Booking extends OrbitSoap
 	public function getAllBookingsBySP( $from, $to, $sp_id )
 	{
         $info = [
-        			'FromDate'  => $from ,
-    				'ToDate'	=> $to ,
-    				'ServiceProviderId' => $sp_id
+                    'FromDate'  => $from ,
+                    'ToDate'	=> $to ,
+                    'ServiceProviderId' => $sp_id
 				];
 
         $bookings = $this
@@ -172,7 +170,7 @@ Class Booking extends OrbitSoap
      */
     public function getAllBookingsNextMonthCalendar( $from, $to, $sp_id = 0 )
     {
-    	$bookings = self::getFutureBookings( $from, $to );
+        $bookings = self::getFutureBookings( $from, $to );
 
         if ( isset( $bookings->Bookings ) ) {
             if ( sizeof( $bookings->Bookings ) == 1 ) {
@@ -197,9 +195,9 @@ Class Booking extends OrbitSoap
         $user = new User();
 
         if ( $sp_id != 0 ) {
-        	$bookings = self::getAllBookingsBySP( $from, $to, $sp_id );
+            $bookings = self::getAllBookingsBySP( $from, $to, $sp_id );
         } else {
-        	$bookings = self::getAllBookings( $from, $to );
+            $bookings = self::getAllBookings( $from, $to );
         }
 
         $output = [];
@@ -235,7 +233,7 @@ Class Booking extends OrbitSoap
                     '#2AAA00',
                     '#AD6400',
                     '#8C8700',
-                  ];
+                ];
 
         if ( isset( $bookings->Bookings ) ) {
 
@@ -243,7 +241,7 @@ Class Booking extends OrbitSoap
 
                 $event = $bookings->Bookings ;
 
-                $length = 30;
+                $length = DEFAULT_BOOKING_TIME;
                 if ( $event->ServiceId == $event->BookingBugInternalServiceId ) {
                     $length = $event->BookingBugInternalServiceLength;
                 } elseif ( $event->ServiceId == $event->BookingBugServiceId ) {
@@ -263,12 +261,12 @@ Class Booking extends OrbitSoap
                                 'allDay'            => false ,
                                 'data'              => $event ,
                                 'user'              => $user->find( $uid )
-                              ];
+                            ];
             } elseif ( sizeof( $bookings->Bookings ) > 1 ) {
 
                 $calendars = [];
                 foreach ( $bookings->Bookings as $event ) {
-                    $length = 30;
+                    $length = DEFAULT_BOOKING_TIME;
                     if ( $event->ServiceId == $event->BookingBugInternalServiceId ) {
                         $length = $event->BookingBugInternalServiceLength;
                     } elseif ( $event->ServiceId == $event->BookingBugServiceId ) {
@@ -289,7 +287,7 @@ Class Booking extends OrbitSoap
                     $output[] = [
                                     'title'             => $event->FirstName .  ' ' . $event->LastName . ' - ' . $event->ServiceName ,
                                     'start'             => $event->BookingDate . ' ' . $event->BookingTime ,
-                                	'end'               => $event->BookingDate . ' ' . $endTime,
+                                    'end'               => $event->BookingDate . ' ' . $endTime,
                                     'backgroundColor'   => $colors[ $calendar_pos ] ,
                                     'allDay'            => false ,
                                     'data'              => $event ,
@@ -311,9 +309,9 @@ Class Booking extends OrbitSoap
 	public function getAllBookingsByService( $from, $to, $sv_id )
 	{
         $info = [
-        			'FromDate'  => $from ,
-    				'ToDate' 	=> $to ,
-    				'ServiceId' => $sv_id
+                    'FromDate'  => $from,
+                    'ToDate' 	=> $to,
+                    'ServiceId' => $sv_id
 				];
 
         $bookings = json_decode(
@@ -326,7 +324,6 @@ Class Booking extends OrbitSoap
                                 );
 
         return $bookings;
-
 	}
     /**
      * Get all bookable services by day
@@ -338,9 +335,9 @@ Class Booking extends OrbitSoap
 	public function getBookableServiesByDay( $sv_id, $from, $to )
 	{
         $info = [
-        			'FromDate'  => $from ,
-    				'ToDate' 	=> $to ,
-    				'ServiceId' => $sv_id
+                    'FromDate'  => $from,
+                    'ToDate' 	=> $to,
+                    'ServiceId' => $sv_id
 				];
 
         $bookings = json_decode(
@@ -353,7 +350,6 @@ Class Booking extends OrbitSoap
                                 );
 
         return $bookings;
-
     }
 
     /**
@@ -366,12 +362,12 @@ Class Booking extends OrbitSoap
 	public function getBookableServiesByDayWithTime( $sv_id, $from, $to )
 	{
         $info = [
-        			'FromDate'  => $from ,
-    				'ToDate' 	=> $to ,
-    				'ServiceId' => $sv_id
+                    'FromDate'  => $from,
+                    'ToDate' 	=> $to,
+                    'ServiceId' => $sv_id
 				];
 
-         $bookings = json_decode(
+        $bookings = json_decode(
                                     $this
                                     ->client
                                     ->ws_booking_init( 'GetBookableServiesWithTime' )
@@ -394,7 +390,6 @@ Class Booking extends OrbitSoap
             $bookings = [];
         }
         return $bookings;
-
     }
 
     /**
@@ -429,11 +424,10 @@ Class Booking extends OrbitSoap
     {
         $client_details[ 'ClientId' ] = 0;
 
-        $new_client = $this
-                      ->client
-                      ->ws_booking_init( 'CreateClient' )
-                      ->CreateClient( $client_details )
-                      ->CreateClientResult;
+        $new_client = $this->client
+                            ->ws_booking_init( 'CreateClient' )
+                            ->CreateClient( $client_details )
+                            ->CreateClientResult;
 
         return $new_client;
     }
@@ -445,11 +439,10 @@ Class Booking extends OrbitSoap
      */
     public function addBookingItem( $booking )
     {
-        $reservation = $this
-                      ->client
-                      ->ws_booking_init( 'AddBookingItem' )
-                      ->AddBookingItem( $booking )
-                      ->AddBookingItemResult;
+        $reservation = $this->client
+                            ->ws_booking_init( 'AddBookingItem' )
+                            ->AddBookingItem( $booking )
+                            ->AddBookingItemResult;
 
         return $reservation;
     }
@@ -461,11 +454,10 @@ Class Booking extends OrbitSoap
      */
     public function createBookingService( $booking )
     {
-        $reservation = $this
-                      ->client
-                      ->ws_booking_init('CreateBooking')
-                      ->CreateBooking( $booking )
-                      ->CreateBookingResult;
+        $reservation = $this->client
+                            ->ws_booking_init('CreateBooking')
+                            ->CreateBooking( $booking )
+                            ->CreateBookingResult;
 
         return $reservation;
     }
@@ -518,11 +510,10 @@ Class Booking extends OrbitSoap
                     'ClientBooking' => $ClientBooking
                 ];
 
-        $result = $this
-                  ->client
-                  ->ws_booking_init( 'UpdateBooking' )
-                  ->UpdateBooking( $info )
-                  ->UpdateBookingResult;
+        $result = $this->client
+                        ->ws_booking_init( 'UpdateBooking' )
+                        ->UpdateBooking( $info )
+                        ->UpdateBookingResult;
 
         $log = new Log();
         $log::record( 'UPDATE', 'booking', $booking_ref, $info );
@@ -537,16 +528,15 @@ Class Booking extends OrbitSoap
      */
     public function updateBookingDetails( $booking )
     {
-    	$info = 	[ 'ObjectInstance'=> $booking ];
-        $result = $this
-                  ->client
-                  ->ws_init( 'SaveOrbitLocalBooking' )
-                  ->SaveOrbitLocalBooking( $info )->SaveOrbitLocalBookingResult;
+        $info = 	[ 'ObjectInstance'=> $booking ];
+        $result = $this->client
+                        ->ws_init( 'SaveOrbitLocalBooking' )
+                        ->SaveOrbitLocalBooking( $info )->SaveOrbitLocalBookingResult;
 
         $log = new Log();
         $log::record( 'UPDATE', 'booking', $booking->BookingRef, $booking );
 
-    	return $result;
+        return $result;
     }
 
     /**
@@ -559,19 +549,18 @@ Class Booking extends OrbitSoap
         $user = Auth::user();
 
         $info = [
-        			'BookingRef' 	=> $booking_id,
-        			'CalcelReason'	=> 'Canceled from admin',
-        			'Nortify'		=>	false,
-        			'User'			=> $user->id
+                    'BookingRef' 	=> $booking_id,
+                    'CalcelReason'	=> 'Canceled from admin',
+                    'Nortify'		=>	false,
+                    'User'			=> $user->id
     			];
         try {
-            $result = $this
-                      ->client
-                      ->ws_booking_init( 'DeleteBooking' )
-                      ->DeleteBooking( $info );
+            $result = $this->client
+                            ->ws_booking_init( 'DeleteBooking' )
+                            ->DeleteBooking( $info );
 
             if ( $result->DeleteBookingResult ) {
-            	$cancelation = json_decode( $result->DeleteBookingResult, true );
+                $cancelation = json_decode( $result->DeleteBookingResult, true );
 
                 $log = new Log();
                 $log::record( 'DELETE', 'booking', $booking_id, $info );
@@ -593,6 +582,7 @@ Class Booking extends OrbitSoap
      * @param  array  $client           client details
      * @param  Object $service_provider service provider details
      * @param  String $service_name     service name
+     * @return void
      */
     public function notifyBooking( $booking, $service_provider, $service_name )
     {
@@ -704,6 +694,13 @@ Class Booking extends OrbitSoap
         }
     }
 
+    /**
+     * Set email subject
+     *
+     * @param Service $service          Service object to be sent
+     * @param array $booking_request    Booking request to be sent containing client and service details
+     * @return void
+     */
     private function setSubject ($service, $booking_request){
         $subject = '';
         foreach ($service->ReferralFormServices as $e_referral_form) {

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -86,7 +85,7 @@ class BookingController extends Controller
 
         return view( "booking.show", compact( 'service_providers' ) );
     }
-     /**
+    /**
      * Show the form for creating a new service
      * @return view service creation page
      */
@@ -140,7 +139,6 @@ class BookingController extends Controller
      */
     public function store()
     {
-        //dd(request());
         $booking_obj = new Booking();
         $booking_engine_obj = new BookingEngine();
         $request_type = request('request_type');
@@ -431,9 +429,7 @@ class BookingController extends Controller
      */
     public function sendSmsReminder()
     {
-        //$reminder = request('reminder');
         $booking = json_decode(request('booking'));
-        //$reminder['template']; //Custom Template
         $sent_sms_obj = new SentSms();
         $result = $sent_sms_obj->sendReminder( $booking );
         return $result;
@@ -483,10 +479,6 @@ class BookingController extends Controller
             $date_array= [];
         }
         return [ 'data' => $bookings];
-
-        /*
-        $booking_obj = new Booking();
-        return array( 'data' => $booking_obj->legalHelpBookings() );*/
     }
     /**
      * Display Legal Help booking
