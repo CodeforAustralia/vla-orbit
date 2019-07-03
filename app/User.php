@@ -37,23 +37,6 @@ class User extends Authenticatable
                         ];
 
     /**
-     * Get users post
-     * @return Object relation between user and post
-     */
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
-    /**
-     * Save post
-     * @param  Post   $post post
-     * @return
-     */
-    public function publish(Post $post)
-    {
-        $this->posts()->save($post);
-    }
-    /**
      * Get user roles
      * @return Object user roles
      */
