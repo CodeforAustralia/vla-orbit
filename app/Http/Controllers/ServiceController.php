@@ -87,8 +87,10 @@ class ServiceController extends Controller
         $service_booking_questions_obj = new ServiceBookingQuestions();
         $service_booking_questions = $service_booking_questions_obj->getAllServiceBookingQuestions();
 
-        if (isset( $result['data'] ) ) {
-            $current_service = json_decode( $result['data'] )[0];
+        $data = json_decode($result['data']);
+
+        if ( !empty($data) ) {
+            $current_service = $data[0];
             $current_vulnerabilities = array_column($current_service->ServiceVulAnswers, 'QuestionId');
 
             $catchment = new Catchment();
@@ -128,7 +130,7 @@ class ServiceController extends Controller
             }
 
         } else {
-            return redirect('/service')->with( $result['success'], $result['message'] );
+            return redirect('/service')->with('error', 'Service not found');
         }
     }
 
@@ -146,7 +148,7 @@ class ServiceController extends Controller
                         'Phone'         => filter_var(request('phone'), FILTER_SANITIZE_STRING),
                         'Email'         => filter_var(request('email'), FILTER_SANITIZE_EMAIL),
                         'Description'   => request('description'),
-                        'Notes'         => isset($service['Notes']) ? $service['Notes'] : '',
+                        'Notes'         => request('Notes'),
                         'Location'      => filter_var(request('location'), FILTER_SANITIZE_STRING),
                         'URL'           => filter_var(request('URL'), FILTER_SANITIZE_URL),
                         'ServiceProviderId' => request('service_provider_id'),
