@@ -190,7 +190,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item {{ Request::is('catchment') ? 'active' : null }}">
+                        <li class="nav-item hidden {{ Request::is('catchment') ? 'active' : null }}">
                             <a href="/catchment" class="nav-link">
                                 <i class="fa fa-map-signs"></i>
                                 <span class="title">Catchment</span>
@@ -198,7 +198,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item {{ Request::is('statistic') ? 'active' : null }}">
+                        <li class="nav-item hidden {{ Request::is('statistic') ? 'active' : null }}">
                             <a href="/statistic" class="nav-link">
                                 <i class="fa fa-bar-chart"></i>
                                 <span class="title">Statistics</span>
