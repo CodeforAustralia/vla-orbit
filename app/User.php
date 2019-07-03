@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Auth;
 use DB;
-use Redirect;
+
 /**
  * User model for the user functionalities
  * @author Christian Arevalo
@@ -48,9 +49,9 @@ class User extends Authenticatable
      * @param  Post   $post post
      * @return
      */
-    public function publish( Post $post )
+    public function publish(Post $post)
     {
-        $this->posts()->save( $post );
+        $this->posts()->save($post);
     }
     /**
      * Get user roles
@@ -59,9 +60,29 @@ class User extends Authenticatable
     public function roles()
     {
         return $this
-                ->belongsToMany( 'App\Role' )
+                ->belongsToMany('App\Role')
                 ->withTimestamps();
     }
+
+    /**
+     * Return the role for current user
+     * @return String user role
+     */
+    public function getRoleAttribute()
+    {
+        return Auth::user()->roles()->first()->name;
+    }
+
+    /**
+     * Check if current user is an administrator
+     * @return boolean true if is administrator false otherwise.
+     */
+    public function isAdmin()
+    {
+        $role = Auth::user()->role;
+        return ($role == 'Administrator');
+    }
+
     /**
      * Check if the user has a specific role
      * @param  Object  $roles
@@ -69,25 +90,25 @@ class User extends Authenticatable
      */
     public function authorizeRoles($roles)
     {
-        if ( $this->hasAnyRole( $roles ) ) {
+        if ($this->hasAnyRole($roles)) {
             return true;
         }
-        abort( 401, 'This action is unauthorized.');
+        abort(401, 'This action is unauthorized.');
     }
     /**
      * Check if the user has a specific role
      * @param  Object  $roles
      * @return boolean        true if the user has the role false otherwise
      */
-    public function hasAnyRole( $roles )
+    public function hasAnyRole($roles)
     {
-        if ( is_array( $roles ) ) {
-            foreach ( $roles as $role ) {
-                if ( $this->hasRole( $role ) ) {
+        if (is_array($roles)) {
+            foreach ($roles as $role) {
+                if ($this->hasRole($role)) {
                     return true;
                 }
             }
-        } elseif ( $this->hasRole($roles) ) {
+        } elseif ($this->hasRole($roles)) {
             return true;
         }
         return false;
@@ -99,7 +120,7 @@ class User extends Authenticatable
      */
     public function hasRole($role)
     {
-        if ( $this->roles()->where('name', $role)->first() ) {
+        if ($this->roles()->where('name', $role)->first()) {
             return true;
         }
         return false;
@@ -109,11 +130,11 @@ class User extends Authenticatable
      * @param  int    $uid user id
      * @return array       sucess status and message
      */
-    public static function deleteUser( $uid )
+    public static function deleteUser($uid)
     {
-        $user = User::find( $uid );
+        $user = User::find($uid);
 
-        if ( $user ) {
+        if ($user) {
             $user->delete();
             return [ 'success' => 'success' , 'message' => 'User has been deleted.' ];
         }
@@ -124,9 +145,9 @@ class User extends Authenticatable
      * @param  Object $user_info user details
      * @return array             sucess status and message
      */
-    public static function updateUser( $user_info )
+    public static function updateUser($user_info)
     {
-        $user = User::find( $user_info->id );
+        $user = User::find($user_info->id);
 
         //create and save the user
 
@@ -137,22 +158,21 @@ class User extends Authenticatable
         //sign them in and Add role too
         $user
             ->roles()
-            ->sync(Role::where( 'id',  $user_info->ro_id )->first() );
+            ->sync(Role::where('id', $user_info->ro_id)->first());
 
         $user->save();
 
         return [ 'success' => 'success' , 'message' => 'User has been updated.' ];
-
     }
 
-     /**
-     * Update user
-     * @param  Object $user_info user details
-     * @return array             sucess status and message
-     */
-    public static function updateUserPassword( $user_info )
+    /**
+    * Update user
+    * @param  Object $user_info user details
+    * @return array             sucess status and message
+    */
+    public static function updateUserPassword($user_info)
     {
-        $user = User::find( $user_info->id );
+        $user = User::find($user_info->id);
 
         //create and save the user
         $hasher = app('hash');
@@ -162,7 +182,6 @@ class User extends Authenticatable
             return [ 'success' => 'success' , 'message' => 'User password has been changed.' ];
         }
         return [ 'success' => 'error' , 'message' => 'Old password does not match.' ];
-
     }
 
     /**
@@ -196,19 +215,18 @@ class User extends Authenticatable
     {
         $search_value = '%' . $request->search . '%';
         $query = User::prepareResourcesQuery($search_value);
-        if(isset($request->column) && !is_null($request->column)){
+        if (isset($request->column) && !is_null($request->column)) {
             $column = $request->column;
-            if($request->column == 'name'){
+            if ($request->column == 'name') {
                 $column = 'users.name';
             }
-            if($request->column == 'id'){
+            if ($request->column == 'id') {
                 $column = 'users.id';
             }
             $query->orderBy($column, $request->order);
         }
         $data = $query->paginate($request->per_page);
         return $data;
-
     }
     /**
      * Create query limiting users of each service provider and fields
@@ -219,14 +237,14 @@ class User extends Authenticatable
     public static function prepareResourcesQuery($search_value)
     {
         $query = DB::table('users')
-                    ->join('role_user', function($join){
-                            $join->on('role_user.user_id', '=', 'users.id');
+                    ->join('role_user', function ($join) {
+                        $join->on('role_user.user_id', '=', 'users.id');
                     })
-                    ->join('roles', function($join){
-                            $join->on('role_user.role_id', '=', 'roles.id');
+                    ->join('roles', function ($join) {
+                        $join->on('role_user.role_id', '=', 'roles.id');
                     })
                     ->select(
-                                User::getUsersFieldsToShow()
+                        User::getUsersFieldsToShow()
                             )
                     ->orWhere('roles.name', 'LIKE', '%'.$search_value.'%')
                     ->orWhere('users.name', 'LIKE', '%'.$search_value.'%')
@@ -251,5 +269,4 @@ class User extends Authenticatable
         ];
         return $fields;
     }
-
 }

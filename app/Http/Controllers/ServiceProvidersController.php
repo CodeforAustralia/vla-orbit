@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\ServiceProvider;
 use App\User;
-use Carbon\Carbon;
 use Auth;
+use function GuzzleHttp\json_decode;
 
 /**
  * Service Provider Controller.
@@ -41,22 +40,23 @@ class ServiceProvidersController extends Controller
      */
     public function show($sp_id)
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp','AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp','AdminSpClc']);
 
-        $is_admin = (new \App\Repositories\RolesCheck)->is_admin();
+        $is_admin = Auth::user()->isAdmin();
 
-        if ( Auth::user()->sp_id == $sp_id || $is_admin ) {
+        if (Auth::user()->sp_id == $sp_id || $is_admin) {
             $service_provider_obj   = new ServiceProvider();
-            $result                 = $service_provider_obj->getServiceProviderByID($sp_id);
+            $result = $service_provider_obj->getServiceProviderByID($sp_id);
+            $data   = json_decode($result['data']);
 
-            if ( isset( $result['data'] ) ) {
-                $current_sp = json_decode( $result['data'] )[0];
-                return view( "service_provider.show", compact( 'current_sp' ) );
+            if (!empty($data)) {
+                $current_sp = $data[0];
+                return view("service_provider.show", compact('current_sp'));
             } else {
-                return redirect('/service_provider')->with( $response['success'], $response['message'] );
+                return redirect('/service_provider')->with('error', 'Service Provider not found');
             }
         } else {
-            return redirect('/service_provider')->with( 'error', 'Not Authorized' );
+            return redirect('/service_provider')->with('error', 'Not Authorized');
         }
     }
     /**
@@ -65,12 +65,13 @@ class ServiceProvidersController extends Controller
      * @param int $sp_id
      * @return void
      */
-    public function getById($sp_id){
+    public function getById($sp_id)
+    {
         $service_provider_obj   = new ServiceProvider();
         $service_provider = [];
         $result = $service_provider_obj->getServiceProviderByID($sp_id);
-        if ( isset( $result['data'] ) ) {
-            $service_provider = json_decode( $result['data'] )[0];
+        if (isset($result['data'])) {
+            $service_provider = json_decode($result['data'])[0];
         }
         return ['sp'=>$service_provider];
     }
@@ -81,7 +82,7 @@ class ServiceProvidersController extends Controller
      */
     public function store()
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp']);
 
         $sp_params = [
                         'ServiceProviderId'     => request('sp_id'),
@@ -94,18 +95,18 @@ class ServiceProvidersController extends Controller
                         'ServiceProviderURL'    => filter_var(request('url'), FILTER_SANITIZE_URL),
                         'ServiceProviderAddress' => filter_var(request('address'), FILTER_SANITIZE_STRING),
                         'ServiceProviderTypeId' => request('spt_id')
-                      ];
+                    ];
 
         $service_provider = new ServiceProvider();
-        $response = $service_provider->saveServiceProvider( $sp_params );
+        $response = $service_provider->saveServiceProvider($sp_params);
 
-        return redirect('/service_provider')->with( $response['success'], $response['message'] );
+        return redirect('/service_provider')->with($response['success'], $response['message']);
     }
 
-   /**
-     * Show the form for creating a new service provider
-     * @return view service provider creation page
-     */
+    /**
+      * Show the form for creating a new service provider
+      * @return view service provider creation page
+      */
     public function create()
     {
         Auth::user()->authorizeRoles('Administrator');
@@ -125,7 +126,7 @@ class ServiceProvidersController extends Controller
         $service_provider = new ServiceProvider();
         $response = $service_provider->deleteServiceProvider($sp_id);
 
-        return redirect('/service_provider')->with( $response['success'], $response['message'] );
+        return redirect('/service_provider')->with($response['success'], $response['message']);
     }
 
     /**
@@ -146,7 +147,7 @@ class ServiceProvidersController extends Controller
     public function listFormated()
     {
         $service_provider = new ServiceProvider();
-        $result = $service_provider->getAllServiceProvidersFormated( request('scope') );
+        $result = $service_provider->getAllServiceProvidersFormated(request('scope'));
         return $result;
     }
     /**
@@ -154,7 +155,6 @@ class ServiceProvidersController extends Controller
      */
     public function setServiceProvider()
     {
-
         $request = request()->all();
 
         $user_obj = new User();
@@ -163,11 +163,11 @@ class ServiceProvidersController extends Controller
         $user_obj->sp_id=$request['sp'];
         $user_obj->ro_id=Auth::user()->roles()->first()->id;
         $user_obj->name=filter_var($request['name'], FILTER_SANITIZE_STRING);
-        if ( empty($request['name']) ) {
+        if (empty($request['name'])) {
             $user_obj->name=Auth::user()->name;
         }
 
-        $response = User::updateUser( $user_obj );
+        $response = User::updateUser($user_obj);
 
         return redirect('/')->with($response['success'], $response['message']);
     }
