@@ -198,7 +198,7 @@ class BookingEngineController extends Controller
         $hour_lenght = 60;
         $schedule['interpreter'] = [
             'time_name' => 'hour',
-            'time_lenght' => 60,
+            'time_lenght' => $hour_lenght,
             'days' => self::generateHour($hour_lenght)
         ];
         return $schedule;
