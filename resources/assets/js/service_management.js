@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import Vue from 'vue';
 import axios from 'axios';
 import EventBus from './utils/event-bus';
