@@ -22,7 +22,7 @@
                         title="Outbound Referrals"
                         identifier="id"
                         show-print
-                        :columns="['id','date', 'legal_issue', 'location' , 'contact' ,'reason', 'service_provider', 'service_name', 'user']"
+                        :columns="['id','date', 'legal_issue', 'location' ,'reason', 'service_provider', 'service_name', 'user']"
                     ></data-table>
                 </div>
             </div>
