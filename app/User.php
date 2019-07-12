@@ -252,4 +252,14 @@ class User extends Authenticatable
         ];
         return $fields;
     }
+
+    /**
+     * Check if the current user belongs to a service provider of type CLC
+     *
+     * @return boolean
+     */
+    public function isClcUser()
+    {
+        return in_array(\App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
+    }
 }
