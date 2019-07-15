@@ -204,7 +204,7 @@ class NoReplyEmail extends OrbitSoap
 
             $response = $this
                         ->client
-                        ->ws_no_reply_emails_init_local('SendEmailasJSON')
+                        ->ws_no_reply_emails_init('SendEmailasJSON')
                         ->SendEmailasJSON($info);
 
             //Mail::to(auth()->user()->email)->send(new NoReplyEmailMailable($email_data));
