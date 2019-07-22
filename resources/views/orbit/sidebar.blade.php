@@ -245,6 +245,14 @@
                                 <span class="arrow {{ Request::is('outdated_services','outdated_services/*') ? 'open' : null }}"></span>
                             </a>
                         </li>
+
+                        <li class="nav-item {{ Request::is('configuration','configuration/*') ? 'active' : null }}">
+                            <a href="/configuration" class="nav-link">
+                                <i class="fa fa-cog"></i>
+                                <span class="title">Configuration</span>
+                                <span class="arrow {{ Request::is('configuration','configuration/*') ? 'open' : null }}"></span>
+                            </a>
+                        </li>
                         @endif
                     </ul>
                     <!-- END SIDEBAR MENU -->

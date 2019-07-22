@@ -457,6 +457,20 @@ Route::get('/e_referral/listFormsFormated', 'EReferralController@listFormsFormat
 
 Route::post('/e_referral', 'EReferralController@store');
 
+// Configuration
+
+Route::get('/configuration', 'ConfigurationController@index');
+
+Route::get('/configuration/list_table', 'ConfigurationController@listTable');
+
+Route::get('/configuration/new', 'ConfigurationController@create');
+
+Route::get('/configuration/show/{configuration}', 'ConfigurationController@show');
+
+Route::get('/configuration/delete/{configuration}', 'ConfigurationController@destroy');
+
+Route::post('/configuration', 'ConfigurationController@store');
+
 // Login && Auth routes
 
 Route::get('/', 'RegistrationController@index')->name('home');
@@ -466,7 +480,6 @@ Route::get('/information', 'RegistrationController@information');
 Route::post('/information', 'RegistrationController@contact');
 
 Route::post('/contact_information', 'InformationController@contact');
-
 
 Route::get('/register', 'RegistrationController@create');
 

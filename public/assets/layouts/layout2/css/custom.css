@@ -28,6 +28,15 @@ body .page-container-bg-solid .page-content, .page-container-bg-solid .page-cont
     line-height: 36px;
     margin-bottom: 0;
 }
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #e5e5e5;
+}
+
+.text-inline {
+    line-height: 35px;
+}
+
 /*** Dismiss modal ****/
 .modal .modal-header .close {
     position: absolute;
@@ -210,6 +219,10 @@ b, optgroup, strong {
 
 .margin-bottom-0 {
     margin-bottom: 0px !important;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px !important;
 }
 
 .margin-bottom-10 {
