@@ -17,6 +17,8 @@ use DateTime;
 
 class NoReplyEmail extends OrbitSoap
 {
+
+    const STORE_CLC_CLIENT_DATA = 'STORE_CLC_CLIENT_DATA';
     /**
      * Get All Email Templates
      *
@@ -181,6 +183,14 @@ class NoReplyEmail extends OrbitSoap
                 $fromAddress = env('MAIL_FROM_ADDRESS_CLC', 'hello@example.com');
             }
 
+            // check the configuration parameters
+            $configuration =  new  Configuration();
+            $is_store_cls = $configuration->getConfigurationValueByKey(self::STORE_CLC_CLIENT_DATA);
+            $is_cls = false;
+            if(strtolower($is_store_cls) == 'true' && Auth::user()->isClcUser()) {
+                $is_cls = true;
+            }
+
             $email_data['message'] = $prefix . $email_data['message'] . $suffix;
             $info = [
                         'MessageObject' => [
@@ -196,7 +206,7 @@ class NoReplyEmail extends OrbitSoap
                                                 'Subject' 		=> filter_var($email_data['subject'], FILTER_SANITIZE_STRING),
                                                 'ToAddress' 	=> filter_var($email_data['to'], FILTER_VALIDATE_EMAIL),
 												'CreatedBy'		=> auth()->user()->name,
-												'IsClc'			=> Auth::user()->isClcUser()
+												'IsClc'			=> $is_cls,
                                             ],
                         'IsHTML'		=> true,
                     ];

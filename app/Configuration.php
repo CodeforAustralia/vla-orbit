@@ -28,9 +28,9 @@ class Configuration extends OrbitSoap
         try {
             $configurations = json_decode(
                 $this->client
-                                                ->ws_init('GetAllConfigurationsasJSON')
-                                                ->GetAllConfigurationsasJSON()
-                                                ->GetAllConfigurationsasJSONResult,
+                    ->ws_init('GetAllConfigurationsasJSON')
+                    ->GetAllConfigurationsasJSON()
+                    ->GetAllConfigurationsasJSONResult,
                 true
                                         );
 
@@ -100,11 +100,12 @@ class Configuration extends OrbitSoap
 
             $response = json_decode(
                 $this->client
-                                            ->ws_init('GetConfigutationByKeyasJSON')
-                                            ->GetConfigutationByKeyasJSON($info)
-                                            ->GetConfigutationByKeyasJSONResult,
+                    ->ws_init('GetConfigutationByKeyasJSON')
+                    ->GetConfigutationByKeyasJSON($info)
+                    ->GetConfigutationByKeyasJSONResult,
                 true
                                     );
+
             $response = reset($response); //Get first element of the array
             if (!empty($response)) {
                 $response['Value'] = Crypt::decryptString($response['Value']);
@@ -120,6 +121,39 @@ class Configuration extends OrbitSoap
             } else {
                 return ['success' => 'error' , 'message' =>  'Key Not found'];
             }
+        } catch (\Exception $e) {
+            return ['success' => 'error' , 'message' =>  $e->getMessage()];
+        }
+    }
+
+    /**
+     * Get Configuration Value by Key
+     * @param  string   $key
+     * @return string value
+     */
+    public function getConfigurationValueByKey($key)
+    {
+        try {
+            $info = [ 'Key' => $key ];
+
+            $response = json_decode(
+                $this->client
+                    ->ws_init('GetConfigutationByKeyasJSON')
+                    ->GetConfigutationByKeyasJSON($info)
+                    ->GetConfigutationByKeyasJSONResult,
+                true
+                                    );
+            $response = reset($response); //Get first element of the array
+            if (!empty($response)) {
+                $response['Value'] = Crypt::decryptString($response['Value']);
+            } elseif (config('settings.' . $key)) {
+                $response = [
+                                'Value' => config('settings.' . $key)
+                            ];
+            } else {
+                $response['Value'] = 'Key Not found';
+            }
+            return $response['Value'];
         } catch (\Exception $e) {
             return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }

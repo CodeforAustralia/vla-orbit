@@ -24,6 +24,7 @@ use DateTime;
 class Referral extends OrbitSoap
 {
     const REFERRAL_LIMIT = 2000;
+    const STORE_CLC_CLIENT_DATA = 'STORE_CLC_CLIENT_DATA';
 
     /**
      * Get all Referrals
@@ -362,8 +363,14 @@ class Referral extends OrbitSoap
         // If is a CLC remove client names and numbers
         $client_email = $referral['Email'];
         $client_mobile = $referral['Mobile'];
-        $referral = Self::stripClientDataFromClcs($referral);
 
+        // check the configuration parameters
+        $configuration =  new  Configuration();
+        $is_store_cls = $configuration->getConfigurationValueByKey(self::STORE_CLC_CLIENT_DATA);
+        if(strtolower($is_store_cls) == 'true') {
+            //Remove the contact details
+            $referral = Self::stripClientDataFromClcs($referral);
+        }
         $info = [ 'ObjectInstance' => $referral ];
 
         try {
