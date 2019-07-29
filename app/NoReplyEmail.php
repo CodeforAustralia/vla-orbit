@@ -3,6 +3,7 @@ namespace App;
 
 use App\Log as Logs;
 use App\ServiceProvider;
+use App\Mail\NoReplyEmailMailable;
 use Auth;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
