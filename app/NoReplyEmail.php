@@ -17,7 +17,6 @@ use DateTime;
 
 class NoReplyEmail extends OrbitSoap
 {
-
     const STORE_CLC_CLIENT_DATA = 'STORE_CLC_CLIENT_DATA';
     /**
      * Get All Email Templates
@@ -187,7 +186,7 @@ class NoReplyEmail extends OrbitSoap
             $configuration =  new  Configuration();
             $is_store_cls = $configuration->getConfigurationValueByKey(self::STORE_CLC_CLIENT_DATA);
             $is_cls = false;
-            if(strtolower($is_store_cls) == 'true' && Auth::user()->isClcUser()) {
+            if (strtolower($is_store_cls) == 'true' && Auth::user()->isClcUser()) {
                 $is_cls = true;
             }
 
@@ -205,19 +204,19 @@ class NoReplyEmail extends OrbitSoap
                                                 'SentOn' 		=> $date_time,
                                                 'Subject' 		=> filter_var($email_data['subject'], FILTER_SANITIZE_STRING),
                                                 'ToAddress' 	=> filter_var($email_data['to'], FILTER_VALIDATE_EMAIL),
-												'CreatedBy'		=> auth()->user()->name,
-												'IsClc'			=> $is_cls,
+                                                'CreatedBy'		=> auth()->user()->name,
+                                                'IsClc'			=> $is_cls,
                                             ],
                         'IsHTML'		=> true,
                     ];
-			$email_data['attachments'] = $attachments;
+            $email_data['attachments'] = $attachments;
 
             $response = $this
                         ->client
                         ->ws_no_reply_emails_init('SendEmailasJSON')
                         ->SendEmailasJSON($info);
 
-            //Mail::to(auth()->user()->email)->send(new NoReplyEmailMailable($email_data));
+            Mail::to(auth()->user()->email)->send(new NoReplyEmailMailable($email_data));
 
             return ['success' => 'success' , 'message' => 'The email was sent.'];
         } catch (Exception $e) {
