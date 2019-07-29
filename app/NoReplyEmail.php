@@ -5,6 +5,7 @@ use App\Log as Logs;
 use App\ServiceProvider;
 use Auth;
 use DateTime;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * No Reply Email Model.
