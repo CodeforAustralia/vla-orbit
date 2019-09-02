@@ -7,11 +7,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupEmail;
 use App\Report;
 use App\BookingEngine;
-use App\Role;
 use App\User;
 use App\ServiceProvider;
 use Auth;
-use SimpleSAML_Auth_Simple;
 
 /**
  * Registration Controller.
@@ -47,15 +45,14 @@ class RegistrationController extends Controller
 
         $report_obj     = new Report();
         $booking_engine_obj = new BookingEngine();
-        $stats          = $report_obj->getDashboadStats( $financial_year );
-        $stats_year     = $booking_engine_obj->getStatsPeriod( $year );
-        $stats_today    = $booking_engine_obj->getStatsDay( $today );
-        $stats_month    = $report_obj->getDashboadStats( $month );
-        $stats_week     = $booking_engine_obj->getStatsPeriod( $last_monday );
+        $stats          = $report_obj->getDashboadStats($financial_year);
+        $stats_year     = (is_numeric($booking_engine_obj->getStatsPeriod($year)) ? $booking_engine_obj->getStatsPeriod($year) : '-');
+        $stats_today    = (is_numeric($booking_engine_obj->getStatsDay($today)) ? $booking_engine_obj->getStatsDay($today) : '-');
+        $stats_month    = $report_obj->getDashboadStats($month);
+        $stats_week     = (is_numeric($booking_engine_obj->getStatsPeriod($last_monday)) ? $booking_engine_obj->getStatsPeriod($last_monday) : '-');
 
         $referrals_made = 0;
-        if( isset($user->id) )
-        {
+        if (isset($user->id)) {
             $referrals_made = DB::table('logs')
                                 ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as referrals'))
                                 ->where([
@@ -71,15 +68,19 @@ class RegistrationController extends Controller
         }
 
         $dashboards = \App\Dashboard::all()->sortBy('position');
-        return view("orbit.index",
-               compact( 'stats',
-                        'stats_today',
-                        'stats_month',
-                        'stats_week',
-                        'stats_year',
-                        'referrals_made',
-                        'dashboards',
-                        'service_providers' ));
+        return view(
+            "orbit.index",
+            compact(
+                'stats',
+                'stats_today',
+                'stats_month',
+                'stats_week',
+                'stats_year',
+                'referrals_made',
+                'dashboards',
+                'service_providers'
+            )
+        );
     }
 
     /**
@@ -95,13 +96,13 @@ class RegistrationController extends Controller
     {
         // Validate the form
         $this->validate(
-                            request(),
-                            [
+            request(),
+            [
                                 'name' => 'required',
                                 'email' => 'required|email',
                                 'message' => 'required'
                             ]
-                        );
+        );
         $app_name = strtoupper(config('app.name'));
         $args['Message'] = 'Thanks for showing interest in '. $app_name .'. Please fill in your details below and an '. $app_name .' team member will get in touch shortly.<br><br>
 
@@ -109,7 +110,7 @@ class RegistrationController extends Controller
                             Email address:' . request('email') .'<br>
                             Message:' . request('message') ;
 
-        Mail::to(config('app.team_email'))->send( new SignupEmail( $args ) );
+        Mail::to(config('app.team_email'))->send(new SignupEmail($args));
     }
 
     /**
@@ -129,13 +130,13 @@ class RegistrationController extends Controller
     {
         // Validate the form
         $this->validate(
-                            request(),
-                            [
+            request(),
+            [
                                 'name' => 'required',
                                 'email' => 'required|unique:users|email',
                                 'password' => 'required|confirmed'
                             ]
-                        );
+        );
 
         //create and save the user
         $user = User::create([
@@ -145,7 +146,7 @@ class RegistrationController extends Controller
                             ]);
 
         //sign them in and add role
-        if( request('sp_id') != 0 ) {
+        if (request('sp_id') != 0) {
             $user->sp_id = request('sp_id'); //No service provider
         } else {
             $user->sp_id = 0; //No service provider
@@ -156,5 +157,4 @@ class RegistrationController extends Controller
 
         return redirect('/');
     }
-
 }

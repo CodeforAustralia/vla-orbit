@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use Exception;
 
@@ -18,17 +17,19 @@ const LOGIN_URL = '/api/auth/login';
 const LOGOUT_URL = '/api/auth/logout';
 class BookingEngineAPI
 {
-
-    private $client, $email, $password, $remember_me;
+    private $client;
+    private $email;
+    private $password;
+    private $remember_me;
     /**
      * Constructor. Initialize client and basic auth
      */
-    function __construct()
+    public function __construct()
     {
-        $this->client = new Client(['base_uri' => env( 'BOOKING_ENGINE_BASE_URL' ), 'verify' => env( 'BOOKING_ENGINE_VERIFY_PATH', false ) ]);
-        $this->email        = env( 'BOOKING_ENGINE_EMAIL' );
-        $this->password     = env( 'BOOKING_ENGINE_PASSWORD' );
-        $this->remember_me  = env( 'BOOKING_ENGINE_REMEMBER_ME' );
+        $this->client = new Client(['base_uri' => env('BOOKING_ENGINE_BASE_URL'), 'verify' => env('BOOKING_ENGINE_VERIFY_PATH', false) ]);
+        $this->email        = env('BOOKING_ENGINE_EMAIL');
+        $this->password     = env('BOOKING_ENGINE_PASSWORD');
+        $this->remember_me  = env('BOOKING_ENGINE_REMEMBER_ME');
     }
 
     /**
@@ -41,19 +42,19 @@ class BookingEngineAPI
      */
     public function post($form_params, $tokens, $url)
     {
-            $headers = [
+        $headers = [
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
             ];
-            $response = $this->client->post(
-                                        $url,
-                                        [
+        $response = $this->client->post(
+            $url,
+            [
                                             'headers' => $headers,
                                             'form_params' => $form_params
                                         ]
-                                    )->getBody();
-            $data = json_decode($response);
-            return $data;
+        )->getBody();
+        $data = json_decode($response);
+        return $data;
     }
     /**
      * Patch request to API
@@ -70,15 +71,14 @@ class BookingEngineAPI
             'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
         ];
         $response = $this->client->patch(
-                                        $url,
-                                        [
+            $url,
+            [
                                             'headers' => $headers,
                                             'form_params' => $form_params
                                         ]
-                                        )->getBody();
+        )->getBody();
         $data = json_decode($response);
         return $data;
-
     }
 
     /**
@@ -90,20 +90,21 @@ class BookingEngineAPI
      */
     public function get($tokens, $url)
     {
-        try{
+        try {
             $headers = [
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
             ];
             $response = $this->client->get(
-                                        $url,
-                                        [
-                                            'headers' => $headers
+                $url,
+                [
+                                            'headers' => $headers,
+                                            'connect_timeout' => 5
                                         ]
-                                    )->getBody();
+            )->getBody();
             $data = json_decode($response);
             return $data;
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             return $exception->getMessage();
         }
     }
@@ -116,18 +117,18 @@ class BookingEngineAPI
      */
     public function delete($tokens, $url)
     {
-            $headers = [
+        $headers = [
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
             ];
-            $response = $this->client->delete(
-                                        $url,
-                                        [
+        $response = $this->client->delete(
+            $url,
+            [
                                             'headers' => $headers
                                         ]
-                                    )->getBody();
-            $data = json_decode($response);
-            return $data;
+        )->getBody();
+        $data = json_decode($response);
+        return $data;
     }
 
     /**
@@ -138,21 +139,20 @@ class BookingEngineAPI
     public function login()
     {
         $response = $this->client->post(
-                                        LOGIN_URL,
-                                        [
+            LOGIN_URL,
+            [
                                             RequestOptions::JSON => [
                                                                         "email" => $this->email,
                                                                         "password" => $this->password,
                                                                         "remember_me" => $this->remember_me
                                                                     ]
                                         ]
-                                    )->getBody();
+        )->getBody();
         $data = json_decode($response);
         return  [
                     'token_type' => $data->token_type,
                     'access_token' => $data->access_token
                 ];
-
     }
 
     /**
@@ -162,20 +162,20 @@ class BookingEngineAPI
      */
     public function logout()
     {
-        try{
+        try {
             $headers = [
                 'content-type' => 'application/x-www-form-urlencoded',
                 'Authorization' => $tokens['token_type'] . ' ' . $tokens['access_token'],
             ];
             $response = $this->client->get(
-                                            LOGOUT_URL,
-                                            [
+                LOGOUT_URL,
+                [
                                                 'headers' => $headers
                                             ]
-                                        )->getBody();
+            )->getBody();
             $data = json_decode($response);
             return  $data;
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             return $exception->getMessage();
         }
     }
