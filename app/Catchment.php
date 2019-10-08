@@ -13,32 +13,32 @@ const SUBURBS_ID = 2;
 const LGA_ID = 3;
 const ALL_CATCHMENTS_ID = 4;
 
-Class Catchment extends OrbitSoap
+class Catchment extends OrbitSoap
 {
     /**
      * Get all catchments from web service
      *
      * @return array Array of catchments
      */
-	public function getAllCatchments()
-	{
+    public function getAllCatchments()
+    {
         $services = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetAllCatchmentsasJSON')
                                     ->GetAllCatchmentsasJSON()
-                                    ->GetAllCatchmentsasJSONResult
-                                    , true
-                                );
+                                    ->GetAllCatchmentsasJSONResult,
+            true
+        );
 
         foreach ($services as $pos => $service) {
-            if ( $service['PostCode'] == 0 ) {
-                unset( $services[$pos] );
+            if ($service['PostCode'] == 0) {
+                unset($services[$pos]);
             }
         }
 
         return $services;
-	}
+    }
 
     /**
      * Get all catchments from web services
@@ -69,7 +69,7 @@ Class Catchment extends OrbitSoap
      */
     public function getDistinctLGC()
     {
-        $lgcs = self::getDistinctByKey( 'LGC' );
+        $lgcs = self::getDistinctByKey('LGC');
         return $lgcs;
     }
 
@@ -80,7 +80,7 @@ Class Catchment extends OrbitSoap
      */
     public function getDistinctPostcode()
     {
-        $postcodes = self::getDistinctByKey( 'PostCode' );
+        $postcodes = self::getDistinctByKey('PostCode');
         return $postcodes;
     }
 
@@ -91,7 +91,7 @@ Class Catchment extends OrbitSoap
      */
     public function getDistinctSuburb()
     {
-        $suburbs = self::getDistinctByKey( 'Suburb' );
+        $suburbs = self::getDistinctByKey('Suburb');
         return $suburbs;
     }
 
@@ -101,22 +101,20 @@ Class Catchment extends OrbitSoap
      * @param string $key One of LGC, Postcode or Suburb
      * @return array Array with Catchments by key
      */
-    public function getDistinctByKey( $key='' )
+    public function getDistinctByKey($key='')
     {
         $catchments = self::getAllCatchments();
 
 
-       $temp_array = [];
+        $temp_array = [];
 
-       foreach ( $catchments as $catchment ) {
-
-            if ( !isset( $temp_array[ $catchment[ $key ] ] ) ) {
+        foreach ($catchments as $catchment) {
+            if (!isset($temp_array[ $catchment[ $key ] ])) {
                 $temp_array[ $catchment[ $key ] ] = [ 'id' => $catchment['CatchmentId'] , 'text' => $catchment[ $key ] ];
             }
+        }
 
-       }
-
-        return array_values( $temp_array );
+        return array_values($temp_array);
     }
 
     /**
@@ -125,17 +123,16 @@ Class Catchment extends OrbitSoap
      * @param string $ca_id Catchment ID
      * @return object Object of catchments by ID
      */
-    public function getCatchmentByID( $ca_id )
+    public function getCatchmentByID($ca_id)
     {
         $catchments = $this
                       ->client
                       ->ws_init('GetCatchmentById')
-                      ->GetCatchmentById( ['RefNumber' => $ca_id] )
+                      ->GetCatchmentById(['RefNumber' => $ca_id])
                       ->GetCatchmentByIdResult
                       ->Catchment;
 
         return $catchments;
-
     }
 
     /**
@@ -144,19 +141,18 @@ Class Catchment extends OrbitSoap
      * @param string $ca_id Catchment ID
      * @return array Array of catchments by ID
      */
-    public function getCatchmentsByID( $ca_id )
+    public function getCatchmentsByID($ca_id)
     {
         $catchments = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetCatchmentByCatchmentIdasJSON')
-                                    ->GetCatchmentByCatchmentIdasJSON( ['CatchmentId' => $ca_id] )
-                                    ->GetCatchmentByCatchmentIdasJSONResult
-                                    , true
-                                );
+                                    ->GetCatchmentByCatchmentIdasJSON(['CatchmentId' => $ca_id])
+                                    ->GetCatchmentByCatchmentIdasJSONResult,
+            true
+        );
 
         return $catchments;
-
     }
 
     /**
@@ -165,18 +161,17 @@ Class Catchment extends OrbitSoap
      * @param string $ca_id Catchment ID
      * @return array Array of catchments
      *     */
-    public function getCatchmentsByListofID( $ca_ids )
+    public function getCatchmentsByListofID($ca_ids)
     {
         $catchments = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetCatchmentsByCatchmentIdasJSON')
-                                    ->GetCatchmentsByCatchmentIdasJSON( ['CatchmentsId' => $ca_ids] )
-                                    ->GetCatchmentsByCatchmentIdasJSONResult
-                                    , true
-                                );
+                                    ->GetCatchmentsByCatchmentIdasJSON(['CatchmentsId' => $ca_ids])
+                                    ->GetCatchmentsByCatchmentIdasJSONResult,
+            true
+        );
         return $catchments;
-
     }
 
 
@@ -186,19 +181,18 @@ Class Catchment extends OrbitSoap
      * @param string $postcode  Postcode
      * @return array    Array of Catchments by Postcode
      */
-    public function getCatchmentsByPostCode( $postcode )
+    public function getCatchmentsByPostCode($postcode)
     {
         $catchments = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetCatchmentByPostCodeasJSON')
-                                    ->GetCatchmentByPostCodeasJSON( ['PostCode' => $postcode] )
-                                    ->GetCatchmentByPostCodeasJSONResult
-                                    , true
-                                );
+                                    ->GetCatchmentByPostCodeasJSON(['PostCode' => $postcode])
+                                    ->GetCatchmentByPostCodeasJSONResult,
+            true
+        );
 
         return $catchments;
-
     }
 
     /**
@@ -207,19 +201,18 @@ Class Catchment extends OrbitSoap
      * @param string $postcode  Postcode List
      * @return array    Array of Catchments by Postcode
      */
-    public function getCatchmentsByPostCodeList( $postcodes )
+    public function getCatchmentsByPostCodeList($postcodes)
     {
         $catchments = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetCatchmentByPostCodesasJSON')
-                                    ->GetCatchmentByPostCodesasJSON( ['PostCodes' => $postcodes] )
-                                    ->GetCatchmentByPostCodesasJSONResult
-                                    , true
-                                );
+                                    ->GetCatchmentByPostCodesasJSON(['PostCodes' => $postcodes])
+                                    ->GetCatchmentByPostCodesasJSONResult,
+            true
+        );
 
         return $catchments;
-
     }
 
     /**
@@ -228,19 +221,18 @@ Class Catchment extends OrbitSoap
      * @param string $suburb  Suburb
      * @return array Array of Catchments by Suburb
      */
-    public function getCatchmentsBySuburb( $suburb )
+    public function getCatchmentsBySuburb($suburb)
     {
         $catchments = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetCatchmentBySuburbasJSON')
-                                    ->GetCatchmentBySuburbasJSON( ['Suburb' => $suburb] )
-                                    ->GetCatchmentBySuburbasJSONResult
-                                    , true
-                                );
+                                    ->GetCatchmentBySuburbasJSON(['Suburb' => $suburb])
+                                    ->GetCatchmentBySuburbasJSONResult,
+            true
+        );
 
         return $catchments;
-
     }
 
     /**
@@ -249,19 +241,18 @@ Class Catchment extends OrbitSoap
      * @param string $suburb  Suburb
      * @return array Array of Catchments by Suburb
      */
-    public function getCatchmentsBySuburbList( $ca_ids )
+    public function getCatchmentsBySuburbList($ca_ids)
     {
         $catchments = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetCatchmentBySuburbIdasJSON')
-                                    ->GetCatchmentBySuburbIdasJSON( ['CatchmentsId' => $ca_ids] )
-                                    ->GetCatchmentBySuburbIdasJSONResult
-                                    , true
-                                );
+                                    ->GetCatchmentBySuburbIdasJSON(['CatchmentsId' => $ca_ids])
+                                    ->GetCatchmentBySuburbIdasJSONResult,
+            true
+        );
 
         return $catchments;
-
     }
 
     /**
@@ -271,40 +262,41 @@ Class Catchment extends OrbitSoap
      * @param int $sv_id Service ID
      * @return void
      */
-    public function setCatchmentsOnRequest( $request, $sv_id )
+    public function setCatchmentsOnRequest($request, $sv_id)
     {
-        self::deleteCatchmentAreaByServiceId( $sv_id );
+        self::deleteCatchmentAreaByServiceId($sv_id);
 
         $catchments = [];
-        if ( isset( $request['lga'] ) ) {
-            $catchment_lgas = self::getCatchmentsByListofID( array_column($request['lga'], 'id') );
-            $catchments = array_merge( $catchments, $catchment_lgas );
-            self::processCatchmentArea( $catchments, $sv_id, LGA_ID );
+        if (isset($request['lga'])) {
+            $catchment_lgas = self::getCatchmentsByListofID(array_column($request['lga'], 'id'));
+            $catchments = array_merge($catchments, $catchment_lgas);
+            self::processCatchmentArea($catchments, $sv_id, LGA_ID);
         }
         $catchments = [];
-        if ( isset( $request['suburbs'] ) ) {
+        if (isset($request['suburbs'])) {
             $catchments_suburb = self::getCatchmentsBySuburbList(array_column($request['suburbs'], 'id'));
-            $catchments = array_merge( $catchments, $catchments_suburb );
-            self::processCatchmentArea( $catchments, $sv_id, SUBURBS_ID );
+            $catchments = array_merge($catchments, $catchments_suburb);
+            self::processCatchmentArea($catchments, $sv_id, SUBURBS_ID);
         }
 
         $catchments = [];
-        if ( isset( $request['postcodes'] ) ) {
-            $postcodes = explode( ",", $request['postcodes'] );
-            $catchments_postcode = self::getCatchmentsByPostCodeList( $postcodes );
+        if (isset($request['postcodes'])) {
+            $postcodes = explode(",", $request['postcodes']);
+            $catchments_postcode = self::getCatchmentsByPostCodeList($postcodes);
 
-            foreach ( $catchments_postcode as $temp_postcode ) {
+            foreach ($catchments_postcode as $temp_postcode) {
                 $catchments[ $temp_postcode['PostCode'] ] = $temp_postcode;
             }
-            self::processCatchmentArea( $catchments, $sv_id, POSTCODE_ID );
+            self::processCatchmentArea($catchments, $sv_id, POSTCODE_ID);
         }
 
-        if ( !isset( $request['lga'] ) && !isset( $request['postcodes'] ) && !isset( $request['suburbs'] ) ) {
-
+        if ((!isset($request['lga']) || empty($request['lga']))
+                && (!isset($request['postcodes']) || empty($request['postcodes']))
+                && (!isset($request['suburbs']) || empty($request['suburbs']))) {
             $catchments[] = [
                                 'CatchmentId' => 10209, //ID for all catchments
                             ];
-            self::processCatchmentArea( $catchments, $sv_id, ALL_CATCHMENTS_ID ); //All catchments
+            self::processCatchmentArea($catchments, $sv_id, ALL_CATCHMENTS_ID); //All catchments
         }
     }
 
@@ -316,7 +308,7 @@ Class Catchment extends OrbitSoap
      * @param string $ct_id Catchment Type ID
      * @return void
      */
-    public function processCatchmentArea( $catchments, $sv_id, $ct_id )
+    public function processCatchmentArea($catchments, $sv_id, $ct_id)
     {
         $info=[];
         $save = false;
@@ -326,9 +318,7 @@ Class Catchment extends OrbitSoap
         $date_time = $date_now . "T" . $time_now;
 
         foreach ($catchments as $catchment) {
-
             if (isset($catchment['CatchmentId'])) {
-
                 $catchment_area['CatchmentAreaId'] = 0;
                 $catchment_area['CatchmentId']     = $catchment['CatchmentId'];
                 $catchment_area['ServiceId']       = $sv_id;
@@ -340,17 +330,16 @@ Class Catchment extends OrbitSoap
             }
         }
 
-        if($save) {
+        if ($save) {
             try {
                 $chunk_info = array_chunk($info, 100); //Make smaller sets of data to store information
                 foreach ($chunk_info as $smaller_set) {
                     $result = $this->client
                         ->ws_init('SaveCatchmentsArea')
-                        ->SaveCatchmentsArea( ['ObjectInstance' => $smaller_set] )
+                        ->SaveCatchmentsArea(['ObjectInstance' => $smaller_set])
                         ->SaveCatchmentsAreaResult;
                 }
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return ['success' => 'error' , 'message' =>  $e->getMessage()];
             }
         }
@@ -362,12 +351,12 @@ Class Catchment extends OrbitSoap
      * @param string $sv_id Service ID
      * @return void
      */
-    public function deleteCatchmentAreaByServiceId( $sv_id )
+    public function deleteCatchmentAreaByServiceId($sv_id)
     {
         // Create call request
         $info = [ 'ServiceId' => $sv_id ];
 
-        $this->client->ws_init('DeleteCatchmentAreaByServiceId')->DeleteCatchmentAreaByServiceId( $info );
+        $this->client->ws_init('DeleteCatchmentAreaByServiceId')->DeleteCatchmentAreaByServiceId($info);
     }
 
     /**
@@ -376,20 +365,19 @@ Class Catchment extends OrbitSoap
      * @param array $catchments
      * @return array Array of catchments categorized by Suburb, Postcode, LGA
      */
-    public function sortCatchments( $catchments )
+    public function sortCatchments($catchments)
     {
         $result = [];
         $result['Suburbs'] = [];
         $result['Postcode'] = [];
         $result['LGA'] = [];
 
-        foreach ( $catchments as $catchment ) {
-
-            switch ( $catchment->CatchmentTypeId ) {
+        foreach ($catchments as $catchment) {
+            switch ($catchment->CatchmentTypeId) {
 
                 case SUBURBS_ID: //Suburbs
-                    if ( !isset( $result['Suburbs'][ $catchment->CatchmentSuburb ] )
-                        || $result['Suburbs'][ $catchment->CatchmentSuburb ] > $catchment->CatchmentId ) {
+                    if (!isset($result['Suburbs'][ $catchment->CatchmentSuburb ])
+                        || $result['Suburbs'][ $catchment->CatchmentSuburb ] > $catchment->CatchmentId) {
                         $result['Suburbs'][ $catchment->CatchmentSuburb ] = $catchment->CatchmentId;
                     }
                     break;
@@ -407,11 +395,10 @@ Class Catchment extends OrbitSoap
         }
 
         //$result['Suburbs']  = implode( ',', array_values( $result['Suburbs'] ) ) ;
-        $result['Suburbs']  = array_values( $result['Suburbs'] );
-        $result['Postcode'] = implode( ',', $result['Postcode'] ) ;
+        $result['Suburbs']  = array_values($result['Suburbs']);
+        $result['Postcode'] = implode(',', $result['Postcode']) ;
         //$result['LGA']      = implode( ',', $result['LGA'] ) ;
 
         return $result;
     }
-
 }
