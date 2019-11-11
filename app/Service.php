@@ -15,13 +15,14 @@ use App\ServiceBookingQuestions;
 use App\Vulnerability;
 use App\NoReplyEmail;
 use DateTime;
+
 /**
  * Service model for the service functionalities
  * @author Christian Arevalo
  * @version 1.1.0
  * @see  OrbitSoap
  */
-Class Service extends OrbitSoap
+class Service extends OrbitSoap
 {
     /**
      * Get all services
@@ -29,48 +30,48 @@ Class Service extends OrbitSoap
      */
     public function getAllServices()
     {
-
         $services = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetAllOrbitServicesasJSON')
                                     ->GetAllOrbitServicesasJSON()
-                                    ->GetAllOrbitServicesasJSONResult
-                                    , true
-                                );
+                                    ->GetAllOrbitServicesasJSONResult,
+            true
+        );
 
         //Sort by key on a multidimentional array
-        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+        usort($services, function ($a, $b) {
+            return strcmp($a["ServiceName"], $b["ServiceName"]);
+        });
 
         return $services;
-
     }
     /**
      * Get all services by services provider
      * @param  int    $sp_id    service provider id
      * @return array  $services services by service provider
      */
-    public function getAllServicesBySP( $sp_id )
+    public function getAllServicesBySP($sp_id)
     {
-
         $info = [
                     'ServiceProviderId'    => $sp_id
                 ];
 
         $services = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetAllOrbitServicesByServiceProviderasJSON')
-                                    ->GetAllOrbitServicesByServiceProviderasJSON( $info )
-                                    ->GetAllOrbitServicesByServiceProviderasJSONResult
-                                    , true
-                                );
+                                    ->GetAllOrbitServicesByServiceProviderasJSON($info)
+                                    ->GetAllOrbitServicesByServiceProviderasJSONResult,
+            true
+        );
 
         //Sort by key on a multidimentional array
-        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+        usort($services, function ($a, $b) {
+            return strcmp($a["ServiceName"], $b["ServiceName"]);
+        });
 
         return $services;
-
     }
     /**
      * Get all services by service provider and service provider user
@@ -78,36 +79,36 @@ Class Service extends OrbitSoap
      * @param  int    $user_sp_id service provider user id
      * @return array  $services   services by service provider
      */
-	public function getAllServicesBySPAndUserSP( $sp_id, $user_sp_id )
-	{
-
+    public function getAllServicesBySPAndUserSP($sp_id, $user_sp_id)
+    {
         $info = [
                     'OwnerProviderId'   => $sp_id ,
                     'ServiceProviderId' => $user_sp_id
                 ];
 
         $services = json_decode(
-                                    $this
+            $this
                                     ->client
                                     ->ws_init('GetAllEligibleOrbitServicesByProviderasJSON')
-                                    ->GetAllEligibleOrbitServicesByProviderasJSON( $info )
-                                    ->GetAllEligibleOrbitServicesByProviderasJSONResult
-                                    , true
-                                );
+                                    ->GetAllEligibleOrbitServicesByProviderasJSON($info)
+                                    ->GetAllEligibleOrbitServicesByProviderasJSONResult,
+            true
+        );
 
         //Sort by key on a multidimentional array
-        usort($services, function($a, $b){ return strcmp($a["ServiceName"], $b["ServiceName"]); });
+        usort($services, function ($a, $b) {
+            return strcmp($a["ServiceName"], $b["ServiceName"]);
+        });
 
         return $services;
-
-	}
+    }
     /**
      * Create or update a service
      * @param  Object   $sv_params  service details
      * @param Array     $request    Form paramenters with additional service information
      * @return Array    success or error message
      */
-    public function saveService( $sv_params, $request )
+    public function saveService($sv_params, $request)
     {
         // Current time
         $date_now = date("Y-m-d");
@@ -120,13 +121,13 @@ Class Service extends OrbitSoap
         $sv_params['UpdatedOn'] = $date_time;
 
         $catchment_info = [];
-        if( isset($request['lga']) && !is_null($request['lga']) ){
+        if (isset($request['lga']) && !is_null($request['lga'])) {
             $catchment_info['lga'] = $request['lga'];
         }
-        if( isset($request['postcodes']) && !is_null($request['postcodes']) ){
+        if (isset($request['postcodes']) && !is_null($request['postcodes'])) {
             $catchment_info['postcodes'] = $request['postcodes'];
         }
-        if( isset($request['suburbs']) && !is_null($request['suburbs']) ){
+        if (isset($request['suburbs']) && !is_null($request['suburbs'])) {
             $catchment_info['suburbs'] = $request['suburbs'];
         }
 
@@ -136,9 +137,9 @@ Class Service extends OrbitSoap
             $response = $this
                         ->client
                         ->ws_init('SaveOrbitService')
-                        ->SaveOrbitService( $info );
+                        ->SaveOrbitService($info);
             // Redirect to index
-            if ( $response->SaveOrbitServiceResult >= 0 ) {
+            if ($response->SaveOrbitServiceResult >= 0) {
                 $sv_id = $response->SaveOrbitServiceResult;
 
                 $matters       = (isset($request['matters']) ? $request['matters'] : []);
@@ -172,7 +173,7 @@ Class Service extends OrbitSoap
      * @param int $sv_id
      * @return void
      */
-    public function updateServiceDate( $sv_id )
+    public function updateServiceDate($sv_id)
     {
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
@@ -208,10 +209,9 @@ Class Service extends OrbitSoap
         $response = $this
                         ->client
                         ->ws_init('SaveOrbitService')
-                        ->SaveOrbitService( $info );
+                        ->SaveOrbitService($info);
 
         return $response;
-
     }
 
     /**
@@ -220,7 +220,7 @@ Class Service extends OrbitSoap
      * @param Array     $request    Form paramenters with additional service information
      * @return Array    success or error message
      */
-    public function saveServices( $sv_params, $request )
+    public function saveServices($sv_params, $request)
     {
         // Current time
         $date_now = date("Y-m-d");
@@ -233,13 +233,13 @@ Class Service extends OrbitSoap
         $sv_params['UpdatedOn'] = $date_time;
 
         $catchment_info = [];
-        if( isset($request['lga']) && !is_null($request['lga']) ){
+        if (isset($request['lga']) && !is_null($request['lga'])) {
             $catchment_info['lga'] = $request['lga'];
         }
-        if( isset($request['postcodes']) && !is_null($request['postcodes']) ){
+        if (isset($request['postcodes']) && !is_null($request['postcodes'])) {
             $catchment_info['postcodes'] = $request['postcodes'];
         }
-        if( isset($request['suburbs']) && !is_null($request['suburbs']) ){
+        if (isset($request['suburbs']) && !is_null($request['suburbs'])) {
             $catchment_info['suburbs'] = $request['suburbs'];
         }
         $info = [ 'ObjectInstance' => $sv_params ];
@@ -247,17 +247,17 @@ Class Service extends OrbitSoap
             $response = $this
                         ->client
                         ->ws_init('SaveOrbitService')
-                        ->SaveOrbitService( $info );
+                        ->SaveOrbitService($info);
             // Redirect to index
-            if ( $response->SaveOrbitServiceResult >= 0 ) {
+            if ($response->SaveOrbitServiceResult >= 0) {
                 $sv_id = $response->SaveOrbitServiceResult;
                 $log = new Log();
                 $action = 'UPDATE';
-                if($sv_params['ServiceId'] == 0 ) { // Is new Service
+                if ($sv_params['ServiceId'] == 0) { // Is new Service
                     $action = 'CREATE';
                 }
-                $log::record( $action, 'service', $sv_id, ['general_settings' => $sv_params] );
-                $log::record( $action, 'service', $sv_id, ['catchment_info' => $catchment_info] );
+                $log::record($action, 'service', $sv_id, ['general_settings' => $sv_params]);
+                $log::record($action, 'service', $sv_id, ['catchment_info' => $catchment_info]);
                 self::saveServiceCatchments($sv_id, $catchment_info);
                 return [ 'success' => 'success' , 'message' => 'General Settings saved..', 'data' => $sv_id ];
             } else {
@@ -279,18 +279,17 @@ Class Service extends OrbitSoap
         $info = [ 'RefNumber' => $sv_id ];
 
         try {
-            $response = $this->client->ws_init('DeleteOrbitService')->DeleteOrbitService( $info );
-            if ( $response->DeleteOrbitServiceResult ) {
+            $response = $this->client->ws_init('DeleteOrbitService')->DeleteOrbitService($info);
+            if ($response->DeleteOrbitServiceResult) {
                 $log = new Log();
-                $log::record( 'DELETE', 'service', $sv_id, 'Service deleted.' );
+                $log::record('DELETE', 'service', $sv_id, 'Service deleted.');
                 return array( 'success' => 'success' , 'message' => 'Service deleted.' );
             } else {
                 return array( 'success' => 'error' , 'message' => 'Ups, something went wrong.' );
             }
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             return array( 'success' => 'error' , 'message' =>  $e->getMessage() );
         }
-
     }
     /**
      * Gete service by service id
@@ -306,14 +305,14 @@ Class Service extends OrbitSoap
             $response =     $this
                             ->client
                             ->ws_init('GetOrbitServicesWithMattersByIdasJSON')
-                            ->GetOrbitServicesWithMattersByIdasJSON( $info );
+                            ->GetOrbitServicesWithMattersByIdasJSON($info);
 
-            if ( $response->GetOrbitServicesWithMattersByIdasJSONResult ) {
+            if ($response->GetOrbitServicesWithMattersByIdasJSONResult) {
                 return [ 'success' => 'success' , 'message' => 'Service.', 'data' => $response->GetOrbitServicesWithMattersByIdasJSONResult ];
             } else {
                 return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
             }
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
@@ -329,22 +328,24 @@ Class Service extends OrbitSoap
             $result  = self::getServiceByID($sv_id)['data'];
             $service = json_decode($result)[0];
             //Sort service matters and sort alphabetically
-            usort($service->ServiceMatters, function($a, $b){ return strcasecmp($a->MatterName, $b->MatterName); });
+            usort($service->ServiceMatters, function ($a, $b) {
+                return strcasecmp($a->MatterName, $b->MatterName);
+            });
             //Get vulnerability question information
             $vulnerability_obj = new Vulnerability();
             $vulnertability_questions = $vulnerability_obj->getAllVulnerabilityQuestions();
             $serv_vuln = $service;
             //Get vulnerability Questions of this service
             $service_vulnerabilities = [];
-            foreach ( $serv_vuln->ServiceVulAnswers as $vulnerability) {
-                $vul_pos = array_search( $vulnerability->QuestionId,  array_column( $vulnertability_questions, 'QuestionId' ) );
+            foreach ($serv_vuln->ServiceVulAnswers as $vulnerability) {
+                $vul_pos = array_search($vulnerability->QuestionId, array_column($vulnertability_questions, 'QuestionId'));
                 $service_vulnerabilities[] = $vulnertability_questions[$vul_pos]['QuestionLabel'];
             }
             asort($service_vulnerabilities);
-            $service->vulnerabilities =  empty($service_vulnerabilities) ? ['None'] : array_values( $service_vulnerabilities );
+            $service->vulnerabilities =  empty($service_vulnerabilities) ? ['None'] : array_values($service_vulnerabilities);
             //Get service catchments and sort alphabetically
             $service_catchments = [];
-            foreach ( $serv_vuln->ServiceCatchments as $catchments) {
+            foreach ($serv_vuln->ServiceCatchments as $catchments) {
                 $service_catchments[$catchments->CatchmentSuburb] = $catchments->CatchmentSuburb;
             }
             asort($service_catchments);
@@ -360,14 +361,14 @@ Class Service extends OrbitSoap
      * @param  int    $sp_id        service provider id
      * @return array  $sp_services  services by service provider
      */
-    public function getAllServicesByServiceProvider( $sp_id )
+    public function getAllServicesByServiceProvider($sp_id)
     {
         $services = self::getAllServices();
 
         $sp_services = [];
 
-        foreach ( $services as $service ) {
-            if ( $service['ServiceProviderId'] == $sp_id ){
+        foreach ($services as $service) {
+            if ($service['ServiceProviderId'] == $sp_id) {
                 $sp_services[] = $service;
             }
         }
@@ -380,21 +381,20 @@ Class Service extends OrbitSoap
      * @param  int    $user_sp_id        service provider user id
      * @return array  $filtered_services services by service provider and service provider user
      */
-    public function getAllServicesByServiceProviderAndUSerSP( $sp_id, $user_sp_id )
+    public function getAllServicesByServiceProviderAndUSerSP($sp_id, $user_sp_id)
     {
-        $services = self::getAllServicesBySP( $sp_id );
+        $services = self::getAllServicesBySP($sp_id);
 
-        $services_with_actions = self::getAllServicesBySPAndUserSP( $sp_id, $user_sp_id );
+        $services_with_actions = self::getAllServicesBySPAndUserSP($sp_id, $user_sp_id);
 
         $filtered_services = [];
 
-        foreach ( $services as $service ) {
-
-            $service_position = array_search( $service['ServiceId'],  array_column( $services_with_actions, 'ServiceId' ) );
-            if ( $service_position === false ) { //The user has an action in the serice
+        foreach ($services as $service) {
+            $service_position = array_search($service['ServiceId'], array_column($services_with_actions, 'ServiceId'));
+            if ($service_position === false) { //The user has an action in the serice
 
                 $service['ServiceActions'] = [];
-                if ( auth()->user()->sp_id === 0 ) {
+                if (auth()->user()->sp_id === 0) {
                     $service['ServiceActions'] = array(["Action" => "ALL"]);
                 }
                 $filtered_services[] = $service;
@@ -426,11 +426,11 @@ Class Service extends OrbitSoap
 
             $services = json_decode(
                                         $this
-                                        ->client
-                                        ->ws_init('GetAllServicesinBatchasJSON')
-                                        ->GetAllServicesinBatchasJSON( $params )
-                                        ->GetAllServicesinBatchasJSONResult
-                                        , true
+                                            ->client
+                                            ->ws_init('GetAllServicesinBatchasJSON')
+                                            ->GetAllServicesinBatchasJSON($params)
+                                            ->GetAllServicesinBatchasJSONResult,
+                                        true
                                     );
             $services['data'] = self::mapServicesToFields($services['data']);
             return [ 'success' => 'success' , 'data' => $services ];
@@ -448,7 +448,11 @@ Class Service extends OrbitSoap
     public static function mapServicesToFields($services)
     {
         $mapped_services = [];
+        $updated_date = '';
         foreach ($services as $service) {
+            $updated_date = preg_replace('/[^0-9]/', '', $service['UpdatedOn']);
+
+            $updated_date = ($service['UpdatedOn'] != '' ? date('d/m/Y', ($updated_date / 1000))  : '');
             $mapped_services[] = [
                                     'sv_id' => $service['ServiceId'],
                                     'name' => $service['ServiceName'],
@@ -458,6 +462,7 @@ Class Service extends OrbitSoap
                                     'service_type' => $service['ServiceTypeName'],
                                     'service_level' => $service['ServiceLevelName'],
                                     'sp_id' => $service['ServiceProviderId'],
+                                    'updated_on' => $updated_date
                                 ];
         }
         return $mapped_services;
@@ -469,7 +474,8 @@ Class Service extends OrbitSoap
      * @param String $column Column name
      * @return String   Column name in table
      */
-    public static function mapServicesColumnsToFields($column) {
+    public static function mapServicesColumnsToFields($column)
+    {
         switch ($column) {
             case 'sv_id':
                 return 'sv_id';
@@ -492,6 +498,9 @@ Class Service extends OrbitSoap
             case 'service_level':
                 return 'sl_name';
                 break;
+            case 'updated_on':
+                return 'sv_updated_on';
+                break;
             default:
                 return '';
                 break;
@@ -509,10 +518,10 @@ Class Service extends OrbitSoap
     {
         $result = true;
         $matter_service_obj = new MatterService();
-        $matter_service_obj->deleteMatterServiceByID( $sv_id ) ;
+        $matter_service_obj->deleteMatterServiceByID($sv_id) ;
 
-        if ( !empty( $matters ) ) {
-            $result = $matter_service_obj->saveMattersService( $sv_id, $matters );
+        if (!empty($matters)) {
+            $result = $matter_service_obj->saveMattersService($sv_id, $matters);
         }
         return $result;
     }
@@ -527,7 +536,7 @@ Class Service extends OrbitSoap
     public static function saveServiceCatchments($sv_id, $catchment_info)
     {
         $catchment = new Catchment();
-        $catchment->setCatchmentsOnRequest( $catchment_info, $sv_id );
+        $catchment->setCatchmentsOnRequest($catchment_info, $sv_id);
     }
 
     /**
@@ -544,25 +553,25 @@ Class Service extends OrbitSoap
     {
         // Delete previous vul. answers
         $vulnerability_obj = new Vulnerability();
-        $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );
-        if ( !empty( $vulnerability_questions ) ) {
-            $vul_questions = array_keys( $vulnerability_questions );
+        $vulnerability_obj->deleteVulnerabilityByServiceID($sv_id);
+        if (!empty($vulnerability_questions)) {
+            $vul_questions = array_keys($vulnerability_questions);
             // Save vul. answers
-            $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vul_questions );
+            $vulnerability_obj->saveVulnerabilityQuestions($sv_id, $vul_questions);
         }
 
-        if ( !empty( $regular_questions ) ) {
+        if (!empty($regular_questions)) {
             $matter_service_answer = new MatterServiceAnswer();
-            $matter_service_answer->processMatterServiceAnswer( $regular_questions, $sv_id );
-            $matter_service_answer->processVulnerabilityMatterServiceAnswer( $vulnerability_matter, $sv_id );
+            $matter_service_answer->processMatterServiceAnswer($regular_questions, $sv_id);
+            $matter_service_answer->processVulnerabilityMatterServiceAnswer($vulnerability_matter, $sv_id);
         }
 
         // Delete previous service booking questions
         $service_booking_questions = new ServiceBookingQuestions();
         $service_booking_questions->deleteServiceBookingQuestionsByServiceId($sv_id);
-        if ( !empty( $sv_booking_questions ) ) {
+        if (!empty($sv_booking_questions)) {
             foreach ($sv_booking_questions as $qu_id => $sv_booking_question) {
-                if( !is_null($sv_booking_question['operator']) && !is_null($sv_booking_question['answer']) ){
+                if (!is_null($sv_booking_question['operator']) && !is_null($sv_booking_question['answer'])) {
                     $sbq_params[] = [
                                         'ServiceId' => $sv_id,
                                         'QuestionId' => $qu_id,
@@ -572,7 +581,7 @@ Class Service extends OrbitSoap
                                     ];
                 }
             }
-            $service_booking_questions->saveServiceBookingQuestions( $sbq_params );
+            $service_booking_questions->saveServiceBookingQuestions($sbq_params);
         }
     }
 
@@ -588,15 +597,14 @@ Class Service extends OrbitSoap
     public static function saveServiceActions($sv_id, $referral_conditions, $booking_conditions, $e_referral_conditions)
     {
         $service_action = new ServiceAction();
-        $service_action->deleteAllActionsByService( $sv_id );
-        $service_action->saveServiceAction( 'REFER', $sv_id, $referral_conditions );
-        $service_action->saveServiceAction( 'BOOK', $sv_id, $booking_conditions );
-        $service_action->saveServiceAction( 'E_REFER', $sv_id, $e_referral_conditions );
+        $service_action->deleteAllActionsByService($sv_id);
+        $service_action->saveServiceAction('REFER', $sv_id, $referral_conditions);
+        $service_action->saveServiceAction('BOOK', $sv_id, $booking_conditions);
+        $service_action->saveServiceAction('E_REFER', $sv_id, $e_referral_conditions);
         $log = new Log();
-        $log::record( 'UPDATE', 'service', $sv_id, ['actions_refer' => $referral_conditions] );
-        $log::record( 'UPDATE', 'service', $sv_id, ['actions_book' => $booking_conditions] );
-        $log::record( 'UPDATE', 'service', $sv_id, ['actions_e_refer' => $e_referral_conditions] );
-
+        $log::record('UPDATE', 'service', $sv_id, ['actions_refer' => $referral_conditions]);
+        $log::record('UPDATE', 'service', $sv_id, ['actions_book' => $booking_conditions]);
+        $log::record('UPDATE', 'service', $sv_id, ['actions_e_refer' => $e_referral_conditions]);
     }
 
     /**
@@ -609,10 +617,10 @@ Class Service extends OrbitSoap
     public static function saveServiceEReferrals($sv_id, $e_referral_forms)
     {
         $e_referral_obj = new EReferral();
-        $e_referral_obj->deleteAllEReferralByServiceId( $sv_id );
-        $e_referral_obj->saveAllFormsInService( $sv_id, $e_referral_forms );
+        $e_referral_obj->deleteAllEReferralByServiceId($sv_id);
+        $e_referral_obj->saveAllFormsInService($sv_id, $e_referral_forms);
         $log = new Log();
-        $log::record( 'UPDATE', 'service', $sv_id, ['e_referral_forms' => $e_referral_forms] );
+        $log::record('UPDATE', 'service', $sv_id, ['e_referral_forms' => $e_referral_forms]);
     }
 
     /**
@@ -626,12 +634,12 @@ Class Service extends OrbitSoap
     {
         // Delete previous vul. answers
         $vulnerability_obj = new Vulnerability();
-        $vulnerability_obj->deleteVulnerabilityByServiceID( $sv_id );
-        if ( !empty( $vulnerability_questions ) ) {
+        $vulnerability_obj->deleteVulnerabilityByServiceID($sv_id);
+        if (!empty($vulnerability_questions)) {
             // Save vul. answers
-            $vulnerability_obj->saveVulnerabilityQuestions( $sv_id, $vulnerability_questions );
+            $vulnerability_obj->saveVulnerabilityQuestions($sv_id, $vulnerability_questions);
             $log = new Log();
-            $log::record( 'UPDATE', 'service', $sv_id, ['eligibility_questions' => $vulnerability_questions] );
+            $log::record('UPDATE', 'service', $sv_id, ['eligibility_questions' => $vulnerability_questions]);
         }
     }
 
@@ -647,10 +655,10 @@ Class Service extends OrbitSoap
         // Delete previous service booking questions
         $service_booking_questions = new ServiceBookingQuestions();
         $service_booking_questions->deleteServiceBookingQuestionsByServiceId($sv_id);
-        if ( !empty( $sv_booking_questions ) ) {
+        if (!empty($sv_booking_questions)) {
             $sbq_params = [];
             foreach ($sv_booking_questions as $sv_booking_question) {
-                if( !is_null($sv_booking_question['Operator']) && !is_null($sv_booking_question['QuestionValue']) && !is_null($sv_booking_question['QuestionId'])){
+                if (!is_null($sv_booking_question['Operator']) && !is_null($sv_booking_question['QuestionValue']) && !is_null($sv_booking_question['QuestionId'])) {
                     $sbq_params[] = [
                                         'ServiceId' => $sv_id,
                                         'QuestionId' => $sv_booking_question['QuestionId'],
@@ -660,11 +668,10 @@ Class Service extends OrbitSoap
                                     ];
                 }
             }
-            $service_booking_questions->saveServiceBookingQuestions( $sbq_params );
+            $service_booking_questions->saveServiceBookingQuestions($sbq_params);
             $log = new Log();
-            $log::record( 'UPDATE', 'service', $sv_id, ['booking_questions' => $sbq_params] );
+            $log::record('UPDATE', 'service', $sv_id, ['booking_questions' => $sbq_params]);
         }
-
     }
 
     /**
@@ -680,7 +687,7 @@ Class Service extends OrbitSoap
         $notes = [];
         $scope_notes = []; //Keep track of each note in log and allows only the new ones
         foreach ($logs as $register) {
-            if(!in_array($register['data']['general_settings']['Notes'], $scope_notes)) {
+            if (!in_array($register['data']['general_settings']['Notes'], $scope_notes)) {
                 $notes[] = [
                                 'created_at' => date("d-m-Y", strtotime($register['created_at'])),
                                 'note' => $register['data']['general_settings']['Notes']
@@ -703,27 +710,26 @@ Class Service extends OrbitSoap
         $services = self::getAllServices();
         $data = [];
         $date_limit = '-' . $date_limit . ' days';
-        $date_limit = new DateTime(date('d-m-Y H:i:s', strtotime( $date_limit )));
+        $date_limit = new DateTime(date('d-m-Y H:i:s', strtotime($date_limit)));
         $two_minutes_before = new DateTime(date('d-m-Y H:i:s', strtotime('-2 minutes')));
         $notifications = $log->getServiceLastNotification(array_column($services, 'ServiceId'))->toarray();
         //Save notified ones in log
         //Remove notified ones from date of notification
         foreach ($services as $service) {
-
             $service['UpdatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['UpdatedOn']);
             $service['CreatedOn'] = \App\Http\helpers::transformMicrosoftDateToDate($service['CreatedOn']);
             $service_created =  new DateTime(date('d-m-Y H:i:s', strtotime($service['CreatedOn'])));
             $service_last_update =  new DateTime(date('d-m-Y H:i:s', strtotime($service['UpdatedOn'])));
-            $last_notification = array_filter($notifications, function($notification) use ($service) {
-                                    if ( $notification['object_id'] == $service['ServiceId'] ) {
-                                        return $notification;
-                                    }
-                                });
+            $last_notification = array_filter($notifications, function ($notification) use ($service) {
+                if ($notification['object_id'] == $service['ServiceId']) {
+                    return $notification;
+                }
+            });
             $last_notification = array_shift($last_notification);
 
-            if( $date_limit->format('Y-m-d" H:i:s') > $service_last_update->format('Y-m-d" H:i:s')
-                || ( $two_minutes_before->format('Y-m-d" H:i:s') < $service_last_update->format('Y-m-d" H:i:s')
-                    && $date_limit->format('Y-m-d" H:i:s') > $service_created->format('Y-m-d" H:i:s'))){
+            if ($date_limit->format('Y-m-d" H:i:s') > $service_last_update->format('Y-m-d" H:i:s')
+                || ($two_minutes_before->format('Y-m-d" H:i:s') < $service_last_update->format('Y-m-d" H:i:s')
+                    && $date_limit->format('Y-m-d" H:i:s') > $service_created->format('Y-m-d" H:i:s'))) {
                 $service_last_update = ($service_last_update->format('Y-m-d H:i:s') > $two_minutes_before->format('Y-m-d H:i:s'))
                                         ? 'Not Updated' : $service_last_update->format('d-m-Y');
                 $data[] = [
@@ -737,11 +743,12 @@ Class Service extends OrbitSoap
                     'UpdatedOn' => $service_last_update,
                     'last_notification' => !is_null($last_notification)?$last_notification['data']['date']: 'Not sent',
                 ];
-
             }
         }
 
-        usort($data, function($a, $b){ return strcmp(strtotime($a["UpdatedOn"]), strtotime($b["UpdatedOn"])); });
+        usort($data, function ($a, $b) {
+            return strcmp(strtotime($a["UpdatedOn"]), strtotime($b["UpdatedOn"]));
+        });
         return $data;
     }
     /**
@@ -767,23 +774,22 @@ Class Service extends OrbitSoap
 
             foreach ($service_ids as $service_id) {
                 $email_info = [];
-                $email_info = self::getServiceEmailAndType( $service_id, $service_providers, $users, $services);
-                $suffix =   '<br><br><em>You can update the service in the following link <a href="'.env('APP_URL','http://localhost') .'/service/show/' . $service_id .'">Update Service</a></em><br><br><em>If you wish to contact us, please do not reply to this message. Replies to this message will not be read or responded to.</em><br><br><br><p classname = "orbitprefix" style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">© 2019 '. ucfirst(config('app.name')) .'. All rights reserved.</p><p classname = "emailprefix" style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;"> Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
+                $email_info = self::getServiceEmailAndType($service_id, $service_providers, $users, $services);
+                $suffix =   '<br><br><em>You can update the service in the following link <a href="'.env('APP_URL', 'http://localhost') .'/service/show/' . $service_id .'">Update Service</a></em><br><br><em>If you wish to contact us, please do not reply to this message. Replies to this message will not be read or responded to.</em><br><br><br><p classname = "orbitprefix" style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">© 2019 '. ucfirst(config('app.name')) .'. All rights reserved.</p><p classname = "emailprefix" style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;"> Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time and the general information in this email may not always apply to your own situation. The information in this email has been carefully collected from reliable sources. The sender is not responsible for any mistakes or for any decisions you may make or action you may take based on the information in this email. Some links in this email may connect to websites maintained by third parties. The sender is not responsible for the accuracy or any other aspect of information contained in the third-party websites. This email is intended for the use of the person or organisation it is addressed to and must not be copied, forwarded or shared with anyone without the sender’s consent (agreement). If you are not the intended recipient (the person the email is addressed to), any use, sharing, forwarding or copying of this email and/or any attachments is strictly prohibited. If you received this e-mail by mistake, please let the sender know and please destroy the original email and its contents.</p><br><br>';
                 $email_info['message'] = $prefix . $template['TemplateText'] . $suffix;
                 $email_info['subject'] = $service_id . ' '. $email_info['service_name'] . ' ' . $template['Subject'];
-                if($email_info['email'] != '') {
+                if ($email_info['email'] != '') {
                     $log = new Log();
-                    $log::record( 'CREATE', 'service_notification', $service_id, ['date' => date("d-m-Y")] );
+                    $log::record('CREATE', 'service_notification', $service_id, ['date' => date("d-m-Y")]);
                     $emails_to_admin++;
-                }
-                else {
+                } else {
                     $email_info['subject'] = 'Service '. $service_id . ' '. $email_info['service_name'] . " out of date";
                     $email_info['email'] = env('APP_TEAM_EMAIL', 'LHO@vla.vic.gov.au');
                     $email_info['message'] = $prefix .
                                             '<em>Good day <br> The service '. $service_id . ' '. $email_info['service_name'] .' has not been updated since '. $email_info['last_update']  .' and it does not have an Administrator. Please Check </em><br>';
                     $email_to_lho++;
                 }
-                Mail::to( $email_info['email'] )->send( new ServiceNotification( $email_info ) );
+                Mail::to($email_info['email'])->send(new ServiceNotification($email_info));
             }
             return [ 'success' => 'success' , 'message' => 'Email(s) sent.', 'data' => ['email_to_admin' => $emails_to_admin, 'email_to_lho' => $email_to_lho] ];
         } catch (\Exception $e) {
@@ -796,17 +802,17 @@ Class Service extends OrbitSoap
      * @param Array $service_ids
      * @return void
      */
-    private function getServiceEmailAndType ($service_id,  $service_providers, $users, $services)
+    private function getServiceEmailAndType($service_id, $service_providers, $users, $services)
     {
         try {
             $two_minutes_before = new DateTime(date('d-m-Y H:i:s', strtotime('-2 minutes')));
             $result=['email'=>'', 'service_provider_type'=> '', 'service_name'=>'', 'last_update'=>''];
             // Service
-            $service = array_filter($services, function($service) use ($service_id) {
-                    if ( $service['ServiceId'] == $service_id ) {
-                        return $service;
-                    }
-                });
+            $service = array_filter($services, function ($service) use ($service_id) {
+                if ($service['ServiceId'] == $service_id) {
+                    return $service;
+                }
+            });
             $service=array_shift($service);
             $result['service_name'] = $service['ServiceName'];
             //get last update of service
@@ -816,16 +822,16 @@ Class Service extends OrbitSoap
                                     ? 'Never Updated' : $service_last_update->format('d-m-Y');
             $result['last_update'] = $service_last_update;
             //Service Provider
-            $service_provider = array_filter($service_providers, function($service_provider) use ($service) {
-                    if ( $service_provider['ServiceProviderId'] == $service['ServiceProviderId'] ) {
-                        return $service_provider;
-                    }
-                });
+            $service_provider = array_filter($service_providers, function ($service_provider) use ($service) {
+                if ($service_provider['ServiceProviderId'] == $service['ServiceProviderId']) {
+                    return $service_provider;
+                }
+            });
             $service_provider = array_shift($service_provider);
             $result['service_provider_type'] = $service_provider['ServiceProviderTypeName'];
             //Users
-            foreach($users as $user) {
-                if($service_provider['ServiceProviderId'] ==  $user->sp_id
+            foreach ($users as $user) {
+                if ($service_provider['ServiceProviderId'] ==  $user->sp_id
                 && ($user->roles()->first()->name == "AdminSp" || $user->roles()->first()->name == "AdminSpClc")) {
                     $result['email'] = $user->email;
                 }
@@ -835,6 +841,4 @@ Class Service extends OrbitSoap
             throw $e;
         }
     }
-
 }
-
