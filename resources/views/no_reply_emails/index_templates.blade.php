@@ -26,6 +26,7 @@
                             <th width="10%"> Template Name </th>
                             <th width="10%"> Subject </th>
                             <th width="10%"> Available for </th>
+                            <th width="10%"> Updated On </th>
                             <th width="3%">  </th>
                         </tr>
                     </thead>

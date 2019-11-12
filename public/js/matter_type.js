@@ -1474,7 +1474,7 @@ var TableDatatablesAjax = function () {
                     "type": "get"
                 },
                 "order": [
-                    [4, "desc"]
+                    [5, "desc"]
                 ],// set first column as a default sort by asc,
 
                 "serverSide": false,
@@ -1485,6 +1485,16 @@ var TableDatatablesAjax = function () {
                         { data: "Name"},
                         { data: "Subject" },
                         { data: "Section" },
+                        {
+                            data: null,
+                            type: 'date-uk',
+                            className: "center" ,
+                            render: function (data, type, row) {
+                                // body...
+                                var updated_on_date = moment(data.Updated).toDate();
+                                return moment(updated_on_date).format('DD/MM/YYYY');
+                            }
+                        },
                         {
                             data: null,
                             className: "center",

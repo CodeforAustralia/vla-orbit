@@ -87,6 +87,7 @@ class NoReplyEmail extends OrbitSoap
                             $tempLog = ['UserSp' => $user->sp_id];
                             $template = array_merge($template, $tempLog);
                         }
+                        $template['Updated'] = explode('T', $template['Updated'])[0];
                         $data[] = $template;
                     }
                 }
@@ -95,6 +96,7 @@ class NoReplyEmail extends OrbitSoap
                 array_shift($templates); // Remove first element of array as it is returning an empty element
                 foreach ($templates as $template) {
                     unset($template['TemplateText']);
+                    $template['Updated'] = explode('T', $template['Updated'])[0];
                     $data[] = $template;
                 }
             }
