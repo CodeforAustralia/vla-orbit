@@ -20,13 +20,13 @@
                         <div class="col-md-8 col-lg-4">
                             <input type="checkbox" class="checkbox_all" id="all" name="all" {{ ( isset($template['Section']) && $template['Section'] == 'All' ? 'checked' : '' ) }}>
                         </div>
-                    </div>                    
+                    </div>
 
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Available for specific service provider:</label>
                         <div class="col-md-8 col-lg-4">
-                            <select class="form-control" id="Section" name="Section"> 
+                            <select class="form-control" id="Section" name="Section">
                                 <option></option>
                                 @foreach( $service_providers as $service_provider )
                                 <option value="{{ $service_provider['ServiceProviderName'] }}" {{ ( isset($template['Section']) && (strpos($service_provider['ServiceProviderName'], $template['Section']) !== false) ? 'selected' : '') }}> {{ $service_provider['ServiceProviderName'] }} </option>
@@ -58,11 +58,11 @@
 
                     <div class="form-group">
                         <label class="col-md-3 control-label">Template:</label>
-                        <div class="col-md-7">                            
+                        <div class="col-md-7">
                             <textarea class="form-control" rows="15" class="form-control" id="template" name="template">{{ ( isset($template['TemplateText']) ? $template['TemplateText'] : '' ) }}</textarea>
                         </div>
                     </div>
-        
+
                 </div>
 
                 <div class="form-actions">
@@ -78,12 +78,46 @@
     </div>
 
 
-@section('styles')    
+@section('styles')
 
 @endsection
 
-@section('scripts')    
+@section('scripts')
     <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
     <script src="/js/no-reply-email-template.js" type="text/javascript"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            var formHasChanged = false;
+            var submitted = false;
+            //Check for changes on input, select an text area fields
+            $(document).on('change', 'form.nre_template_form input, form.nre_template_form select, form.nre_template_form textarea', function (e) {
+                formHasChanged = true;
+            });
+
+            //Check for changes on select an text area - the waiting time is needed for Edge as it validates inmediatly it causes a small bug
+            setTimeout(function() {
+                $(document).on('DOMSubtreeModified', 'form.nre_template_form .note-editable', function (e) {
+                    formHasChanged = true;
+                });
+            }, 500);
+
+            //Validate before leaving the current tab except if it the user is submiting the form.
+            window.onbeforeunload = function (e) {
+                if (formHasChanged && !submitted) {
+                    e.preventDefault();
+                    var message = "You have not saved your changes.", e = e || window.event;
+                    if (e) {
+                        e.returnValue = message;
+                    }
+                    return message;
+                }
+            }
+            $("form").submit(function() {
+                submitted = true;
+            });
+        });
+    </script>
 @endsection
