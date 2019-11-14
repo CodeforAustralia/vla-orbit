@@ -124,8 +124,6 @@
                         </li>
                         @endif
 
-                        @if ( \App\Http\helpers::getRole() == 'Administrator' )
-
                         <li class="nav-item {{ Request::is('matter','matter/*') ? 'active' : null }}">
                             <a href="/matter" class="nav-link nav-toggle">
                                 <i class="fa fa-legal"></i>
@@ -147,6 +145,8 @@
                                 </li>
                             </ul>
                         </li>
+
+                        @if ( \App\Http\helpers::getRole() == 'Administrator' )
 
                         <li class="nav-item {{ Request::is('legal_matter_questions','eligibility_criteria', 'question_group/*', 'service_booking_questions') ? 'active' : null }}">
                             <a href="javascript:;" class="nav-link nav-toggle">

@@ -13,6 +13,14 @@
                         <a href="javascript:;" class="btn btn-xs green" @click="matters_selected = matters">Select All</a> &nbsp;
                         <a href="javascript:;" class="btn btn-xs red" @click="matters_selected = []">Clear</a>
                     </p>
+                    <p>
+                        <small>
+                            For more information you can download a copy of all the legal matters 
+                            <a href="/docs/Legal Matters with area and group 14112019.xlsx" download target="_blank">
+                                here
+                            </a>.
+                        </small>
+                    </p>
                     <multiselect
                         v-model="matters_selected"
                         label="text"
@@ -58,7 +66,11 @@
                     >
                     </multiselect>
                     <div class="tab-content">
-                        <p>To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)</p>
+                        <p class="margin-bottom-0">
+                            <small>
+                                To narrow down Legal Matters to specific conditions add an operator and a value to applicable conditions. If the condition is not visible below it can be added from the 'Legal Matter Conditions' page. Values can either be numbers if the condition is numerical (EG: Fines > 4000) or 'true/false' if the condition is a boolean (EG: Has court date = true)
+                            </small>
+                        </p>
                         <div v-for="matter in matters_selected"  :key='matter.id' :id="matter.id" v-bind:class="['tab-pane', { active: (currentTab === matter) }]">
                             <div class="form-group col-md-12" v-for="question in matter.questions" :key='question.QuestionId'>
                                 <div class="col-md-5">
