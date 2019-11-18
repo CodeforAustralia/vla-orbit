@@ -6,11 +6,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SignupEmail;
 
 /**
  * User model for the user functionalities
  * @author Christian Arevalo
- * @version 1.0.0
+ * @version 1.1.0
  * @see  Authenticatable
  */
 class User extends Authenticatable
