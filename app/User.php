@@ -134,8 +134,13 @@ class User extends Authenticatable
     {
         $user = User::find($user_info->id);
 
-        //create and save the user
+        // Check if an account has been activated and should be notified
+        $notify = false;
+        if(isset($user_info->status) && $user->status == 0 && $user_info->status == 1) {
+            $notify = true;
+        }
 
+        //create and save the user
         $user->name     = $user_info->name;
         $user->email    = $user_info->email;
         $user->sp_id    = $user_info->sp_id;
@@ -147,6 +152,11 @@ class User extends Authenticatable
             ->sync(Role::where('id', $user_info->ro_id)->first());
 
         $user->save();
+
+        //Notify User after 
+        if($notify) {
+            self::notifyToUserAccountActivation($user_info->email);
+        }
 
         return [ 'success' => 'success' , 'message' => 'User has been updated.' ];
     }
@@ -286,6 +296,34 @@ class User extends Authenticatable
 
                             LHO Team.';
 
+        $args['subject'] = 'Account Request';
+
         Mail::to(config('app.team_email'))->send(new SignupEmail($args));
+    }
+
+    /**
+     * Notify base team a User registration
+     *
+     * @param User $user
+     * @return void
+     */
+    public function notifyToUserAccountActivation($email)
+    {
+        $app_name = strtoupper(config('app.name'));
+        $app_url = strtoupper(config('app.url'));
+
+        $args['Message'] = 'Hi, your account in '. $app_name .' is now active.
+                            <br><br>
+
+                            If you want to start using the tool please follow this <a href="' . $app_url .'/login">link</a>.
+                            <br><br>
+
+                            Regards,<br><br>
+
+                            LHO Team.';
+
+        $args['subject'] = 'Account activated - ' . $app_name;
+
+        Mail::to($email)->send(new SignupEmail($args));
     }
 }
