@@ -34,7 +34,7 @@
                         <div class="col-md-4">
                             <select class="form-control" id="sp_id" name="sp_id">
 
-                                @if ( isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
+                                @if ( isset($roles) && isset(Auth::user()->roles()->first()->name) && Auth::user()->roles()->first()->name == 'Administrator' )
                                 <option value="0">{{ ucfirst(config('app.name')) }} Admin</option>
                                 @endif
                                 @foreach($service_providers as $service_provider)
@@ -44,6 +44,7 @@
                         </div>
                     </div>
 
+                    @if(isset($roles))
                     <div class="form-group">
                         <label for="ro_id" class="col-md-3 control-label">Role:</label>
                         <div class="col-md-4">
@@ -54,6 +55,7 @@
                             </select>
                         </div>
                     </div>
+                    @endif
 
                     @if(!isset($user))
                     <div class="form-group">
@@ -69,6 +71,15 @@
 
                         <div class="col-md-4">
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(isset($roles))
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="status">Active:</label>
+                        <div class="col-md-4 margin-top-10">
+                            <input type="checkbox" class="checkbox_all" id="status" name="status" {{ ( isset($user) && $user->status == 1 ? 'checked' : '' ) }}>
                         </div>
                     </div>
                     @endif

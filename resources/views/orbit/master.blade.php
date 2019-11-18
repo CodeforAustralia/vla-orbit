@@ -64,7 +64,9 @@
             @if(Auth::check())
                 @include ('orbit.sidebar')
             @else
-                @include ('orbit.login_modal')
+                @if(!Request::is('registration'))
+                    @include ('orbit.login_modal')
+                @endif
             @endif
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">

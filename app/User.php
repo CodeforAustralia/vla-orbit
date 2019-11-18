@@ -137,6 +137,7 @@ class User extends Authenticatable
         $user->name     = $user_info->name;
         $user->email    = $user_info->email;
         $user->sp_id    = $user_info->sp_id;
+        $user->status   = isset($user_info->status) ? 1 : 0;
 
         //sign them in and Add role too
         $user
@@ -228,7 +229,7 @@ class User extends Authenticatable
                     })
                     ->select(
                         User::getUsersFieldsToShow()
-                            )
+                    )
                     ->orWhere('roles.name', 'LIKE', '%'.$search_value.'%')
                     ->orWhere('users.name', 'LIKE', '%'.$search_value.'%')
                     ->orWhere('users.email', 'LIKE', '%'.$search_value.'%')

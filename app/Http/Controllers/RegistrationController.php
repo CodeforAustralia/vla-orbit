@@ -92,6 +92,18 @@ class RegistrationController extends Controller
         return view("orbit.information");
     }
 
+    /**
+     * Display the registration form page for CLCs
+     * @return view registration form page
+     */
+    public function registration()
+    {
+        $service_provider_obj = new ServiceProvider();
+        $service_providers    = $service_provider_obj->getAllServiceproviders();
+
+        return view("user.registration", compact('service_providers'));
+    }
+
     public function contact()
     {
         // Validate the form

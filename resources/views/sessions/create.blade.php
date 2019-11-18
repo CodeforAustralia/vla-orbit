@@ -36,6 +36,7 @@
 
                         <br><br><br><br>
                         @include ('orbit.errors')
+                        @include ('orbit.alert')
                         <hr id="login_hr">
                         <div class="row">
                             <div class="col-sm-8 text-left">
@@ -60,7 +61,7 @@
                         </div>
                         <div class="col-xs-7 bs-reset">
                             <div class="login-copyright text-right">
-                                <p>Copyright © VLA 2018</p>
+                                <p>Copyright © VLA 2019</p>
                             </div>
                         </div>
                     </div>

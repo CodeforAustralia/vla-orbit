@@ -475,6 +475,8 @@ Route::post('/configuration', 'ConfigurationController@store');
 
 Route::get('/', 'RegistrationController@index')->name('home');
 
+Route::get('/registration', 'RegistrationController@registration');
+
 Route::get('/information', 'RegistrationController@information');
 
 Route::post('/information', 'RegistrationController@contact');

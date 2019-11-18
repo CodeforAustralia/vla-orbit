@@ -54,6 +54,10 @@ class SessionController extends Controller
     public function destroy()
     {
         auth()->logout();
+
+        if(session('error')) {
+            return redirect('/login')->with('error', session('error'));
+        }
         return redirect('/login');
     }
 
