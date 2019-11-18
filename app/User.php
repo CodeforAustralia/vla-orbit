@@ -155,7 +155,7 @@ class User extends Authenticatable
 
         //Notify User after 
         if($notify) {
-            self::notifyToUserAccountActivation($user_info->email);
+            $user->notifyToUserAccountActivation($user_info->email);
         }
 
         return [ 'success' => 'success' , 'message' => 'User has been updated.' ];
