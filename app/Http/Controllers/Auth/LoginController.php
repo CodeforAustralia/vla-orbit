@@ -47,7 +47,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if($user->status == 0) {
-            return redirect('/logout')->with('error', 'Your account is not activated, please contact LHO team in the email address lho@vla.vic.gov.au to activate your account.');
+            return redirect('/logout')->with('error', 'Your account is not active, please contact LHO team through the email address lho@vla.vic.gov.au to activate your account.');
         }
     }
 }
