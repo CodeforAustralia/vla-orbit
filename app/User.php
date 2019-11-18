@@ -263,4 +263,25 @@ class User extends Authenticatable
     {
         return in_array(\App\Http\helpers::getRole(), ['CLC', 'AdminSpClc']) ;
     }
+
+    /**
+     * Notify base team a User registration
+     *
+     * @param User $user
+     * @return void
+     */
+    public function notifyRegistration($user)
+    {
+        $app_name = strtoupper(config('app.name'));
+
+        $args['Message'] = 'The user '. $user->name .' has registered in '. $app_name .'.<br><br>
+
+                            Please go to the users section, validate their details before activate it.<br><br>
+
+                            Regards,
+
+                            LHO Team.';
+
+        Mail::to(config('app.team_email'))->send(new SignupEmail($args));
+    }
 }

@@ -46,9 +46,10 @@ class SignupEmail extends Mailable
      */
     public function build()
     {
+        $subject = isset( $this->args['subject'] ) ? $this->args['subject'] : 'Request login';
         return $this
-               ->subject('Request login')
-               ->markdown('emails.login.signup')
-               ->with($this->args);
+                    ->subject($subject)
+                    ->markdown('emails.login.signup')
+                    ->with($this->args);
     }
 }
