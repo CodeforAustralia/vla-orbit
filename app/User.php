@@ -136,7 +136,7 @@ class User extends Authenticatable
 
         // Check if an account has been activated and should be notified
         $notify = false;
-        if(isset($user_info->status) && $user->status == 0 && $user_info->status == 1) {
+        if(isset($user_info->status) && $user->status == 0) {
             $notify = true;
         }
 
