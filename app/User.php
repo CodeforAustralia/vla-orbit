@@ -278,9 +278,9 @@ class User extends Authenticatable
 
         $args['Message'] = 'The user '. $user->name .' has registered in '. $app_name .'.<br><br>
 
-                            Please go to the users section, validate their details before activate it.<br><br>
+                            Please go to the Users section and validate its details before activate it.<br><br>
 
-                            Regards,
+                            Regards,<br><br>
 
                             LHO Team.';
 
