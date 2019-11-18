@@ -115,7 +115,7 @@ class UserController extends Controller
                 ->roles()
                 ->attach(Role::where('name', 'CLC')->first());
 
-            User::notifyRegistration($user);
+            $user->notifyRegistration($user);
             //Create the User
             return redirect('/registration')->with('success', 'Your request has been received, you will recive an email once your account is activated.');
         }
