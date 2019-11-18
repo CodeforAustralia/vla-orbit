@@ -276,9 +276,11 @@ class User extends Authenticatable
     {
         $app_name = strtoupper(config('app.name'));
 
-        $args['Message'] = 'The user '. $user->name .' has registered in '. $app_name .'.<br><br>
+        $args['Message'] = 'The user '. $user->name .' has registered in '. $app_name .'.
+                            <br><br>
 
-                            Please go to the Users section and validate its details before activate it.<br><br>
+                            Please go to the Users section and validate its details before activate it.
+                            <br><br>
 
                             Regards,<br><br>
 
