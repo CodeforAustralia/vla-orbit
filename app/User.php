@@ -12,7 +12,7 @@ use App\Mail\SignupEmail;
 /**
  * User model for the user functionalities
  * @author Christian Arevalo
- * @version 1.1.0
+ * @version 1.2.0
  * @see  Authenticatable
  */
 class User extends Authenticatable
@@ -25,7 +25,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable =[
-                            'name', 'email', 'password',
+                            'name',
+                            'email',
+                            'password',
+                            'last_login_at'
                         ];
 
     /**
@@ -136,7 +139,7 @@ class User extends Authenticatable
 
         // Check if an account has been activated and should be notified
         $notify = false;
-        if(isset($user_info->status) && $user->status == 0) {
+        if (isset($user_info->status) && $user->status == 0) {
             $notify = true;
         }
 
@@ -153,8 +156,8 @@ class User extends Authenticatable
 
         $user->save();
 
-        //Notify User after 
-        if($notify) {
+        //Notify User after
+        if ($notify) {
             $user->notifyToUserAccountActivation($user_info->email);
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,11 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if($user->status == 0) {
+        $user->update([
+            'last_login_at' => Carbon::now()->toDateTimeString()
+        ]);
+
+        if ($user->status == 0) {
             return redirect('/logout')->with('error', 'Your account is not active, please contact LHO team through the email address lho@vla.vic.gov.au to activate your account.');
         }
     }
