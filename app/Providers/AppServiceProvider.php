@@ -40,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
                 $email = $attributes['mail'][0];
                 $user = User::where('email',$email)->first();
                 if ($user) { // User exists?
+                    $user->setLoginDate();
                     Auth::login($user);
                 } else { //Create that user!!!
                     $user = User::create([
@@ -53,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
                         ->attach(Role::where('name', 'VLA')->first());
                     $user->sp_id = NO_SP ; // No service provider set LH by default
                     $user->save();
+                    $user->setLoginDate();
                     Auth::login($user);
                 }
             }

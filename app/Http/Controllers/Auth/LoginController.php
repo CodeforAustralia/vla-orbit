@@ -47,10 +47,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $user->update([
-            'last_login_at' => Carbon::now()->toDateTimeString()
-        ]);
-
+        $user->setLoginDate();
         if ($user->status == 0) {
             return redirect('/logout')->with('error', 'Your account is not active, please contact LHO team through the email address lho@vla.vic.gov.au to activate your account.');
         }

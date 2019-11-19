@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupEmail;
+use Carbon\Carbon;
 
 /**
  * User model for the user functionalities
@@ -328,5 +329,17 @@ class User extends Authenticatable
         $args['subject'] = 'Account activated - ' . $app_name;
 
         Mail::to($email)->send(new SignupEmail($args));
+    }
+
+    /**
+     * Store last login of Users
+     *
+     * @return void
+     */
+    public function setLoginDate()
+    {
+        $this->update([
+            'last_login_at' => Carbon::now()->toDateTimeString()
+        ]);
     }
 }
