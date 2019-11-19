@@ -266,6 +266,7 @@ class User extends Authenticatable
             'users.email',
             'users.sp_id',
             'roles.name as role',
+            'users.last_login_at'
         ];
         return $fields;
     }

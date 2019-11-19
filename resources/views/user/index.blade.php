@@ -27,7 +27,8 @@
                                 'name',
                                 'email',
                                 'sp_id',
-                                'role'
+                                'role',
+                                'last_login_at'
                             ]"
                     is-local
                 ></data-table>
