@@ -39,6 +39,18 @@ class UserController extends Controller
     }
 
     /**
+     * List the current user information
+     * @param Request $request request
+     * @return view users information
+     */
+    public function information()
+    {
+        $user = Auth::user();
+        $user->role =  Auth::user()->role;
+        return $user;
+    }
+
+    /**
      * Show the form for creating a new user
      * @param Request $request request
      * @return view user creation page

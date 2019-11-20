@@ -320,6 +320,8 @@ Route::post('/referral', 'ReferralController@store');
 
 Route::get('/user', 'UserController@index');
 
+Route::get('/user/information', 'UserController@information');
+
 Route::get('/user/show/{uid}', 'UserController@show');
 
 Route::get('/user/delete/{uid}', 'UserController@destroy');

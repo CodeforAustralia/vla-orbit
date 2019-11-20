@@ -35,7 +35,7 @@
                             </ul>
                         </li>
 
-                        @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp' , 'VLA']) )
+
 
                         <li class="nav-item {{ Request::is('booking','booking/*') ? 'active' : null }}">
                             <a href="/booking/by_service_provider" class="nav-link nav-toggle">
@@ -44,26 +44,42 @@
                                 <span class="arrow {{ Request::is('booking','booking/*') ? 'open' : null }}"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item {{ Request::is('booking/by_service_provider') ? 'active' : null }}">
-                                    <a href="/booking/by_service_provider" class="nav-link ">
-                                        <i class="icon-calendar"></i>
-                                        <span class="title">My Bookings</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item {{ Request::is('booking/next_bookings') ? 'active' : null }}">
-                                    <a href="/booking/next_bookings" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Upcoming</span>
-                                    </a>
-                                </li>
-                                @if( in_array(\App\Http\helpers::getUSerServiceProviderId(), [0,112]) && in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp']) )
-                                <li class="nav-item {{ Request::is('booking/legalHelp') ? 'active' : null }}">
-                                    <a href="/booking/legalHelp" class="nav-link ">
-                                        <i class="fa fa-list"></i>
-                                        <span class="title">Legal Help</span>
-                                    </a>
-                                </li>
+                                {{-- Page to control VLA's bookings --}}
+                                @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp' , 'VLA']) )
+                                    <li class="nav-item {{ Request::is('booking/by_service_provider') ? 'active' : null }}">
+                                        <a href="/booking/by_service_provider" class="nav-link ">
+                                            <i class="icon-calendar"></i>
+                                            <span class="title">My Bookings</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{ Request::is('booking/next_bookings') ? 'active' : null }}">
+                                        <a href="/booking/next_bookings" class="nav-link ">
+                                            <i class="fa fa-list"></i>
+                                            <span class="title">Upcoming</span>
+                                        </a>
+                                    </li>
                                 @endif
+
+                                {{-- Page to control CLC's bookings --}}
+                                @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSpClc' , 'CLC']) )
+                                    <li class="nav-item {{ Request::is('booking/by_service_provider') ? 'active' : null }}">
+                                        <a href="/booking/by_service_provider" class="nav-link ">
+                                            <i class="icon-calendar"></i>
+                                            <span class="title">My Bookings</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if( in_array(\App\Http\helpers::getUSerServiceProviderId(), [0,112]) && in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp']) )
+                                    <li class="nav-item {{ Request::is('booking/legalHelp') ? 'active' : null }}">
+                                        <a href="/booking/legalHelp" class="nav-link ">
+                                            <i class="fa fa-list"></i>
+                                            <span class="title">Legal Help</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                {{-- If is VLA Use Simple saml login --}}
                                 @if( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp']) )
                                 <li class="nav-item">
                                     <a href="{{ env('BOOKING_ENGINE_BASE_URL') }}login_vla" class="nav-link" target="_blank">
@@ -74,7 +90,7 @@
                                 @endif
                             </ul>
                         </li>
-                        @endif
+
                         <li class="nav-item {{ Request::is('no_reply_emails','no_reply_emails/*') ? 'active' : null }}">
                             <a href="/no_reply_emails" class="nav-link nav-toggle">
                                 <i class="icon-envelope"></i>

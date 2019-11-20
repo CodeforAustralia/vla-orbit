@@ -50,6 +50,12 @@ Class ServiceProvider extends OrbitSoap
                             'id'    => $service_provider['ServiceProviderId'],
                             'text'  => $service_provider['ServiceProviderName']
                             ];
+            } elseif ( $sp_type === $scope) {
+                //Restrict list just to VLA
+                $output[] = [
+                            'id'    => $service_provider['ServiceProviderId'],
+                            'text'  => $service_provider['ServiceProviderName']
+                            ];
             }
 
         }

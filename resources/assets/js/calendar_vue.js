@@ -53,27 +53,51 @@ new Vue({
         selected_date:null,
         sms:null,
         booking_to_delete : 0,
-        booking_to_update : 0
-
+        booking_to_update : 0,
+        scope: 'VLA',
+        user: {}
     },
     methods: {
+        initGetUserDetails: function() {
+            const self = this;
+            let url = '/user/information';
+            axios.get(url)
+                .then(function (response) {
+                    self.user = response.data;
+                    self.scope = self.getUserScope();
+                })
+                .then(() => self.intitServiceProviders())
+                .catch(function (error) {
+                    self.initGetUserDetails();
+                });
+        },
         intitServiceProviders: function () {
             $("#contentLoading").modal("show");
             const self = this;
             let url = '/service_provider/listFormated';
             let scope = {
-                scope: 'VLA'
+                scope: self.scope
             };
             axios.post(url, scope)
                 .then(function (response) {
                     self.service_provider_options = response.data;
+                    if (self.getUserScope() === 'CLC') {
+                        self.service_provider_options = self.service_provider_options.filter(item => item.id === self.user.sp_id);
+                    }
                     $("#contentLoading").modal("hide");
                 })
                 .then(() => self.selectInitialServiceProvider())
                 .catch(function (error) {
-                    alert('Please refresh the page');
+                    self.intitServiceProviders();
                     $("#contentLoading").modal("hide");
                 });
+        },
+        getUserScope: function () {
+            const self = this;
+            if (self.user.role === 'CLC' || self.user.role === 'AdminSpClc') {
+                return 'CLC';
+            }
+            return 'VLA';
         },
         selectInitialServiceProvider: function() {
             const self = this;
@@ -379,7 +403,7 @@ new Vue({
 
     },
     mounted() {
-        this.intitServiceProviders();
+        this.initGetUserDetails();
     }
 
 });
