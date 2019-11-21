@@ -124,6 +124,8 @@ Route::get('/service_provider/list', 'ServiceProvidersController@list');
 
 Route::post('/service_provider/listFormated', 'ServiceProvidersController@listFormated');
 
+Route::post('/service_provider/list_bookable_formated', 'ServiceProvidersController@listBookableFormated');
+
 Route::get('/service_provider/show/{sp_id}', 'ServiceProvidersController@show');
 
 Route::get('/service_provider/delete/{sp_id}', 'ServiceProvidersController@destroy');

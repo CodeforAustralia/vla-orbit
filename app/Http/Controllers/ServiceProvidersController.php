@@ -150,6 +150,18 @@ class ServiceProvidersController extends Controller
         $result = $service_provider->getAllServiceProvidersFormated(request('scope'));
         return $result;
     }
+
+    /**
+     * List all bookable service providers by service provider id
+     * @return array list of all service provider
+     */
+    public function listBookableFormated()
+    {
+        $service_provider = new ServiceProvider();
+        $result = $service_provider->getAllBookableServiceProvidersByIdFormated(request('sp_id'));
+        return $result;
+    }
+
     /**
      * Set Service provicer and name for users with no service provider and role VLA
      */

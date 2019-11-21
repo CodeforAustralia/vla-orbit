@@ -48,7 +48,8 @@ new Vue({
         header_value : '',
         disable_submit: false,
         display_help:false,
-        display_no_book_refer:false,
+        display_no_book_refer: false,
+        user: {}
     },
 
     methods: {
@@ -249,9 +250,9 @@ new Vue({
                     'X-CSRF-TOKEN': csrf
                 },
                 method: "POST",
-                url: "/service_provider/listFormated",
+                url: "/service_provider/list_bookable_formated",
                 data: {
-                    scope: 'VLA'
+                    sp_id: self.user.sp_id
                 },
                 success: function (data) {
                     self.service_providers = data;
@@ -318,6 +319,18 @@ new Vue({
                 };
                 self.getServiceAvailabilityByDate(booking_info);
             }
+        },
+        initGetUserDetails: function () {
+            const self = this;
+            let url = '/user/information';
+            axios.get(url)
+                .then(function (response) {
+                    self.user = response.data;
+                })
+                .then(() => self.getServiceProviders())
+                .catch(function (error) {
+                    self.initGetUserDetails();
+                });
         },
         initDatePicker: function () {
 
@@ -538,10 +551,10 @@ new Vue({
     },
 
     mounted() {
+        this.initGetUserDetails();
         this.initDatePicker();
         this.initDOBMask();
         this.initFormValidation();
-        this.getServiceProviders();
         this.openBookingInReferral();
     }
 });

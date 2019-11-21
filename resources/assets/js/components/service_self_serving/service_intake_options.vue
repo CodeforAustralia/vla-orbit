@@ -42,7 +42,8 @@
             <!-- END: Referral settings -->
 
             <!-- Booking Settings -->
-            <div class="panel panel-default" v-if="current_service.hasOwnProperty('ServiceProviderTypeName') && current_service.ServiceProviderTypeName === 'VLA'">
+            <!-- <div class="panel panel-default" v-if="current_service.hasOwnProperty('ServiceProviderTypeName') && current_service.ServiceProviderTypeName === 'VLA'"> -->
+            <div class="panel panel-default" >
                 <div class="panel-heading">
                     <h4 class="panel-title font-purple-soft bold uppercase">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#sio_booking_settings"> Who can book to you? </a>

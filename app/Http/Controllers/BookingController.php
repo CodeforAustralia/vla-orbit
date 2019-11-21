@@ -79,7 +79,7 @@ class BookingController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles(['Administrator', 'AdminSp' , 'VLA']);
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp' , 'VLA', 'AdminSpClc' , 'CLC']);
         $service_providers_obj  = new ServiceProvider();
         $service_providers      = $service_providers_obj->getAllServiceProviders();
 

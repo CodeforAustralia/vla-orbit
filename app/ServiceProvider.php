@@ -4,7 +4,7 @@ namespace App;
 /**
  * Service Provicer model for the service provider functionalities
  * @author Christian Arevalo
- * @version 1.2.0
+ * @version 1.3.0
  * @see  OrbitSoap
  */
 Class ServiceProvider extends OrbitSoap
@@ -26,6 +26,48 @@ Class ServiceProvider extends OrbitSoap
         usort($service_providers, function($a, $b){ return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]); });
         return $service_providers;
 	}
+    /**
+     * Get all bookable service providers by service provider id
+     * @param  int   $scope  service provicer id
+     * @return array service providers
+     */
+	public function getAllBookableServiceProvidersById($sp_id)
+	{
+        $info = [ 'RefNumber' => $sp_id ];
+
+        $service_providers = json_decode(   $this
+                                            ->client
+                                            ->ws_init('GetAllOrbitBookableServiceProvidersByIdasJSON')
+                                            ->GetAllOrbitBookableServiceProvidersByIdasJSON( $info )
+                                            ->GetAllOrbitBookableServiceProvidersByIdasJSONResult
+                                            , true
+                                        );
+        usort($service_providers, function($a, $b){ return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]); });
+        return $service_providers;
+	}
+    /**
+     * Get all bookable service providers by service provider id
+     * @param  int   $scope  service provicer id
+     * @return array    $output service providers formated
+     */
+    public function getAllBookableServiceProvidersByIdFormated( $sp_id )
+    {
+        if($sp_id == 0){
+            return self::getAllServiceProvidersFormated( "All" );
+        }
+        $service_providers = self::getAllBookableServiceProvidersById($sp_id);
+
+        $output = [];
+
+        foreach ($service_providers as $service_provider) {
+            $output[] = [
+                            'id'    => $service_provider['ServiceProviderId'],
+                            'text'  => $service_provider['ServiceProviderName']
+                        ];
+        }
+
+        return $output;
+    }
     /**
      * Get all service providers formated with id and text
      * @param  String   $scope  service provicer type
