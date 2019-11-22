@@ -9,6 +9,7 @@ use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupEmail;
 use Carbon\Carbon;
+use App\ServiceProvider;
 
 /**
  * User model for the user functionalities
@@ -342,5 +343,26 @@ class User extends Authenticatable
         $this->update([
             'last_login_at' => Carbon::now()->toDateTimeString()
         ]);
+    }
+
+    /**
+     * Get Users hash to be created or authenticated in BE
+     *
+     * @return String
+     */
+    public function getUserHash()
+    {
+        $service_providers_obj  = new ServiceProvider();
+        $service_provider_data = $service_providers_obj->getServiceProviderByID($this->sp_id);
+
+        $service_provider = !empty(json_decode($service_provider_data['data'])) ? json_decode($service_provider_data['data'])[0]->ServiceProviderName : '';
+        $user_hash = [
+            'name' => $this->name,
+            'email' => $this->email,
+            'service_provider' => $service_provider,
+            'password' => $this->password,
+            'remember_token' => $this->remember_token
+        ];
+        return base64_encode(implode('---', $user_hash));
     }
 }

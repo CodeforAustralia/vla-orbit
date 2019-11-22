@@ -88,6 +88,15 @@
                                     </a>
                                 </li>
                                 @endif
+                                {{-- If is CLC Use custom login --}}
+                                @if( in_array( \App\Http\helpers::getRole(), ['AdminSpClc']) )
+                                <li class="nav-item">
+                                    <a href="{{ env('BOOKING_ENGINE_BASE_URL') }}login_clc/{{Auth::user()->getUserHash()}}" class="nav-link" target="_blank">
+                                        <i class="fa fa-cog"></i>
+                                        <span class="title">Manage Bookings</span>
+                                    </a>
+                                </li>
+                                @endif
                             </ul>
                         </li>
 
