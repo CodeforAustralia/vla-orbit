@@ -6,6 +6,16 @@ function isEmail(email)
   return regex.test(email);
 }
 
+//Taken from https://stackoverflow.com/questions/1226574/disable-pasting-text-into-html-form
+function isNumberKey(evt) {
+  var e = evt || window.event; // for trans-browser compatibility
+  var charCode = e.which || e.keyCode;
+  if (charCode > 31 && (charCode < 47 || charCode > 57))
+    return false;
+  if (e.shiftKey) return false;
+  return true;
+}
+
 /** rewrite module */
 var initReadmore = function()
 {
