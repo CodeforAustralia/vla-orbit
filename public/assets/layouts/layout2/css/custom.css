@@ -690,6 +690,18 @@ body .select2-container--bootstrap .select2-results__option:not([aria-disabled])
     line-height: 1.84;
 }
 
+.service-information {
+    height: 100%;
+}
+
+.service-information .last-updated {
+    position: absolute;
+    bottom: 10px;
+    font-weight: bold;
+    border: 1px solid;
+    padding: 3px 5px;
+}
+
 @media (max-width:767px){
     .card-top-info {
         padding: 30px;

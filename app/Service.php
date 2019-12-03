@@ -425,13 +425,13 @@ class Service extends OrbitSoap
             ];
 
             $services = json_decode(
-                                        $this
+                $this
                                             ->client
                                             ->ws_init('GetAllServicesinBatchasJSON')
                                             ->GetAllServicesinBatchasJSON($params)
                                             ->GetAllServicesinBatchasJSONResult,
-                                        true
-                                    );
+                true
+            );
             $services['data'] = self::mapServicesToFields($services['data']);
             return [ 'success' => 'success' , 'data' => $services ];
         } catch (\Exception $e) {
@@ -840,5 +840,18 @@ class Service extends OrbitSoap
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * Get updated date from a service.
+     *
+     * @param array $service
+     * @return String
+     */
+    public static function getUpdatedDate($service)
+    {
+        $updated_date = preg_replace('/[^0-9]/', '', $service['UpdatedOn']);
+
+        return ($service['UpdatedOn'] != '' ? date('d/m/Y', ($updated_date / 1000))  : '');
     }
 }

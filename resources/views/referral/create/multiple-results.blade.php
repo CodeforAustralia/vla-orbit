@@ -71,7 +71,7 @@
 
                 </div>
 
-                <div class="col-xs-12 col-sm-7 padding-0">
+                <div class="col-xs-12 col-sm-7 padding-0 service-information">
                     <h3 class="margin-0 service-name"><strong>{{ $match['ServiceName'] }}</strong></h3>
                     <h4 class="service-provider-name">{{ $match['ServiceProviderName'] }}</h4>
                     @if( $match['Location'] != '#')
@@ -88,6 +88,9 @@
                     @endif
                     @if( $match['Wait'] != '#' && $match['Wait'] != 'TBA' )
                     <p> <i class="fa fa-hourglass-end" aria-hidden="true"></i> {{ $match['Wait'] }} </p>
+                    @endif
+                    @if( $match['UpdatedOn'] != '' )
+                    <p class="last-updated"> <small> The service information was last updated on: {{ $match['UpdatedOn'] }} </small> </p>
                     @endif
                 </div>
 

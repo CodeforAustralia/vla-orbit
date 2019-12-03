@@ -271,7 +271,7 @@ class Referral extends OrbitSoap
                                     ->GetAllReferralsByServiceProviderasJSON($info)
                                     ->GetAllReferralsByServiceProviderasJSONResult,
             true
-                                );
+        );
 
         if (sizeof($referrals) > 1) {
             usort($referrals, function ($a, $b) {
@@ -367,7 +367,7 @@ class Referral extends OrbitSoap
         // check the configuration parameters
         $configuration =  new  Configuration();
         $is_store_cls = $configuration->getConfigurationValueByKey(self::STORE_CLC_CLIENT_DATA);
-        if(strtolower($is_store_cls) == 'true') {
+        if (strtolower($is_store_cls) == 'true') {
             //Remove the contact details
             $referral = Self::stripClientDataFromClcs($referral);
         }
@@ -479,7 +479,7 @@ class Referral extends OrbitSoap
                                     ->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSON($info)
                                     ->GetOrbitServicesWithMattersByCatchmentandMatterIdasJSONResult,
             true
-                                );
+        );
         return $services;
     }
     /**
@@ -499,7 +499,7 @@ class Referral extends OrbitSoap
                                     ->GetOrbitServicesWithMattersByCatchmentandMatterIdandSpIdasJSON($info)
                                     ->GetOrbitServicesWithMattersByCatchmentandMatterIdandSpIdasJSONResult,
             true
-                                );
+        );
         $output_services = [];
 
         foreach ($services as $service) {
@@ -840,6 +840,7 @@ class Referral extends OrbitSoap
                     (isset($service['sort']['weight']) ? $service['sort']['weight'] + $catcment_w : $catcment_w);
                 }
             }
+            $service['UpdatedOn'] = Service::getUpdatedDate($service);
             $matches[$key] = $service;
         }
 
