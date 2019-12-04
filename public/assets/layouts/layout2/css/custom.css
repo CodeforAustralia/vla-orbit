@@ -1037,3 +1037,8 @@ table#data_table.table>thead>tr>th {
 .feeds:not(.referral_feed) li:first-child {
     display: none;
 }
+
+/********* All services page *************/
+.view-btn {
+    margin: 5px 0;
+}

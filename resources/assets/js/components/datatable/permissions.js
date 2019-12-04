@@ -88,6 +88,7 @@ export default function buttonPermissions(model, data) {
         case 'Administrator':
             can_edit = true;
             can_delete = true;
+            can_view = true;
             break;
         default:
             break;
