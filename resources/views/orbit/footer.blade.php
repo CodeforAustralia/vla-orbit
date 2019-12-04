@@ -29,7 +29,7 @@
                                         @endforeach
                                         </select>
                                         @endif
-                                        <label><small>Not listed? send us an email on orbitteam@vla.vic.gov.au</small></label>
+                                        <label><small>Not listed? send us an email on {{ env('APP_TEAM_EMAIL', 'LHO@vla.vic.gov.au') }}</small></label>
                                     </div>
                                 </div>
                                    <div class="form-group">
