@@ -58,10 +58,9 @@
                                             <span class="title">Upcoming</span>
                                         </a>
                                     </li>
-                                @endif
 
                                 {{-- Page to control CLC's bookings --}}
-                                @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSpClc' , 'CLC']) )
+                                @elseif ( in_array( \App\Http\helpers::getRole(), ['AdminSpClc' , 'CLC']) )
                                     <li class="nav-item {{ Request::is('booking/by_service_provider') ? 'active' : null }}">
                                         <a href="/booking/by_service_provider" class="nav-link ">
                                             <i class="icon-calendar"></i>
