@@ -109,11 +109,11 @@
             <script src="/js/summernote.js"></script>
             <script src="/js/summernote-cleaner.js"></script>
             <!-- end include summernote js-->
-            @if ( \App\Http\helpers::firstFridayOfMonth() )
+            {{-- @if ( \App\Http\helpers::firstFridayOfMonth() )
             <!-- If first friday of the month display net propmoter score form -->
             <script src="/js/survey-monkey.js" type="text/javascript"></script>
             <!-- END first friday of the month display net propmoter score form -->
-            @endif
+            @endif --}}
 
             <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 
