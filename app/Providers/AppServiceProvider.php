@@ -24,11 +24,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        $adsf_rul = 'fs.vla.vic.gov.au';
+        $adsf_rul = 'login.microsoftonline.com';
         $prev_url = URL::previous();
 
-        if ( !Auth::check() && \Request::is('login_vla') ) {
-
+        if (!Auth::check() && \Request::is('login_vla')) {
             session(['login_vla' => true ]);
             $as = new SimpleSAML_Auth_Simple(env('SIMPLESML_SP'));
             $as->requireAuth();
@@ -38,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
             //Check if is a VLA USER
             if (isset($attributes['mail'][0]) && $attributes['mail'][0] != '') {
                 $email = $attributes['mail'][0];
-                $user = User::where('email',$email)->first();
+                $user = User::where('email', $email)->first();
                 if ($user) { // User exists?
                     $user->setLoginDate();
                     Auth::login($user);
@@ -58,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
                     Auth::login($user);
                 }
             }
-        } elseif( strpos( $prev_url, $adsf_rul ) !== false && is_null( session('login_vla') ) ) {
+        } elseif (strpos($prev_url, $adsf_rul) !== false && is_null(session('login_vla'))) {
             echo '
             <script>
                 window.location.replace("/login_vla");
