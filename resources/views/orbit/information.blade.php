@@ -282,7 +282,7 @@
     <!-- End - Form Section -->
 
     <footer class="row text-center">
-        <p>© 2018 Victoria Legal Aid & Code for Australia</p>
+        <p>© 2020 Victoria Legal Aid & Code for Australia</p>
     </footer>
 
     <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>

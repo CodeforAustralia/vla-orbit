@@ -1,7 +1,7 @@
 
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
-            <div class="page-footer-inner"> 2018 &copy; VLA &
+            <div class="page-footer-inner"> 2020 &copy; VLA &
                 <a target="_blank" href="http://codeforaustralia.org">Code for Australia</a>
                 <div class="scroll-to-top">
                     <i class="icon-arrow-up"></i>
