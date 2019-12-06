@@ -16,6 +16,12 @@ function isNumberKey(evt) {
   return true;
 }
 
+function clearString(evt) {
+  setTimeout(() => {
+    document.querySelector('#Phone').value = document.querySelector('#Phone').value.replace(/[^0-9]/g, '');
+  }, 100);
+}
+
 /** rewrite module */
 var initReadmore = function()
 {
@@ -182,6 +188,10 @@ var sendToClient = function () {
     else if( safe_phone == 1 && phone == ''  ) // Empty Phone
     {
       swal("Alert", "Please enter a mobile number", "warning");
+    }
+    else if( safe_phone == 1 && phone != '' && (phone.length < 9 || phone.length > 10)) // Not safe phone
+    {
+      swal("Alert", "Please enter a valid mobile number", "warning");
     }
     else if( ( isEmail( email ) && safe_email == 1 ) || ( phone != '' && safe_phone ) )
     {
