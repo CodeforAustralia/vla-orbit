@@ -5,7 +5,7 @@
         </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
-            <form method="POST" action="/no_reply_emails/templates" class="form-horizontal nre_template_form" id="nre_template_form">
+            <form method="POST" action="/no_reply_emails/templates" class="form-horizontal nre_template_form" id="nre_template_form" onsubmit="formSubmited">
                 {{ csrf_field() }}
                 <div class="form-body">
 
@@ -68,7 +68,7 @@
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">
-                            <button type="submit" class="btn btn-circle green">Save</button>
+                            <button type="submit" class="btn btn-circle green" id="submit_template">Save</button>
                         </div>
                     </div>
                 </div>
@@ -92,6 +92,10 @@
 
             var formHasChanged = false;
             var submitted = false;
+
+            $(document).on('click', '#submit_template', function(e){
+                submitted = true;
+            })
             //Check for changes on input, select an text area fields
             $(document).on('change', 'form.nre_template_form input, form.nre_template_form select, form.nre_template_form textarea', function (e) {
                 formHasChanged = true;
@@ -115,9 +119,6 @@
                     return message;
                 }
             }
-            $("form").submit(function() {
-                submitted = true;
-            });
         });
     </script>
 @endsection
