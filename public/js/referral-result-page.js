@@ -17,7 +17,7 @@ function isNumberKey(evt) {
 }
 
 function clearString(evt) {
-  setTimeout(() => {
+  setTimeout(function() {
     document.querySelector('#Phone').value = document.querySelector('#Phone').value.replace(/[^0-9]/g, '');
   }, 100);
 }
