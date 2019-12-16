@@ -12,7 +12,7 @@
 <br><br><br>
 <p classname="orbitprefix"
     style="background: #f5f8fa; padding-top: 15px;box-sizing: border-box; color: #aeaeae; font-size: smaller; text-align: center; margin:0px">
-    © 2019 '. ucfirst(config('app.name')) .'. All rights reserved.</p>
+    © 2019 {{ ucfirst(config('app.name')) }} All rights reserved.</p>
 <p classname="emailprefix"
     style=" background: #f5f8fa; padding: 15px;box-sizing: border-box; color: #74787e;line-height: 1.4; margin: 0px; font-size: small;">
     Disclaimer: The material in this email is a general guide only. It is not legal advice. The law changes all the time
