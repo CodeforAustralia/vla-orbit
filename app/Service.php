@@ -782,18 +782,20 @@ class Service extends OrbitSoap
                     $email_info['email'] = env('APP_TEAM_EMAIL', 'LHO@vla.vic.gov.au');
                     $email_info['message'] = '<p>- '. $email_info['service_name'] .' has not been updated since '. $email_info['last_update']  .' and it does not have an Administrator. Please Check (Not recorded as messsage sent) </p>';
                 }
-                $data[$email_info['email']]['message'] = $email_info['message'];
+                $data[$email_info['email']]['messages'][] = $email_info['message'];
                 $data[$email_info['email']]['ServiceProviderId'] = $email_info['ServiceProviderId'];
                 $data[$email_info['email']]['service_provider_type'] = $email_info['service_provider_type'];
                 $data[$email_info['email']]['type_to'] = ($email_info['email'] != '' ? 'sp_admin' : 'lho');
+                if ($email_info['email'] != '' ) {
+                    $log = new Log();
+                    $log::record('CREATE', 'service_notification', $service_id, ['date' => date("d-m-Y"), 'data' => $data]);
+                }
             }
 
             foreach ($data as $email => $info) {
                 $info['subject'] = 'List of outdated services in LHO';
-                $info['message'] = $template['TemplateText'] .  $info['message'];
+                $info['message'] = $template['TemplateText'] .  implode('', $info['messages']);
                 if ($info['type_to'] == 'sp_admin') {
-                    $log = new Log();
-                    $log::record('CREATE', 'service_notification', $info['ServiceProviderId'], ['date' => date("d-m-Y"), 'data' => $info]);
                     $emails_to_admin++;
                 } else {
                     $email_to_lho++;
