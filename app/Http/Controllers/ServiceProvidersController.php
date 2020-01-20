@@ -11,7 +11,7 @@ use function GuzzleHttp\json_decode;
  * Service Provider Controller.
  * Controller for the service provider functionalities
  * @author Christian Arevalo
- * @version 1.0.0
+ * @version 1.0.1
  * @see  Controller
  */
 class ServiceProvidersController extends Controller
@@ -82,7 +82,7 @@ class ServiceProvidersController extends Controller
      */
     public function store()
     {
-        Auth::user()->authorizeRoles(['Administrator', 'AdminSp']);
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpCLC']);
 
         $sp_params = [
                         'ServiceProviderId'     => request('sp_id'),
@@ -163,7 +163,7 @@ class ServiceProvidersController extends Controller
     }
 
     /**
-     * Set Service provicer and name for users with no service provider and role VLA
+     * Set Service provider and name for users with no service provider and role VLA
      */
     public function setServiceProvider()
     {
