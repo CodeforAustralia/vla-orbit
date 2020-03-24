@@ -139,7 +139,7 @@
         <!-- END THUMBNAILS PORTLET-->
 
         <!-- BEGIN THUMBNAILS PORTLET-->
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-6 hidden">
             <div class="portlet light ">
                 <div class="portlet-title">
                     <div class="caption">
