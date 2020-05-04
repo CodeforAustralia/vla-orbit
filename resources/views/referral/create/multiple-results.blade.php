@@ -1,7 +1,7 @@
 <?php
-  $filter_type  = array_unique( array_column( $matches, 'ServiceTypeName'  ) );
-  $filter_level = array_unique( array_column( $matches, 'ServiceLevelName' ) );
-  $filter_sp_type = array_unique( array_column( $matches, 'ServiceProviderTypeName' ) );
+  $filter_type  = array_unique(array_column($matches, 'ServiceTypeName'));
+  $filter_level = array_unique(array_column($matches, 'ServiceLevelName'));
+  $filter_sp_type = array_unique(array_column($matches, 'ServiceProviderTypeName'));
   $is_admin = \App\Http\helpers::getRole() === 'Administrator';
   $user_sp_id = \App\Http\helpers::getUSerServiceProviderId();
 ?>
@@ -43,15 +43,15 @@
 @foreach( $matches as $match )
 
     <?php
-      $service_actions = array_column( $match['ServiceActions'], 'Action' );
-      $current_sp_pos  = array_search( $match['ServiceProviderId'],  array_column( $service_providers, 'ServiceProviderId' ) );
+      $service_actions = array_column($match['ServiceActions'], 'Action');
+      $current_sp_pos  = array_search($match['ServiceProviderId'], array_column($service_providers, 'ServiceProviderId'));
       $current_sp_logo = $service_providers[ $current_sp_pos ]['ServiceProviderLogo'];
-      $filters_class   = str_replace( ' ', '-', strtolower( $match['ServiceLevelName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceTypeName'] ) ) . ' ' . str_replace( ' ', '-', strtolower( $match['ServiceProviderTypeName'] ) ) ;
-      $allows_book_and_refer = empty( array_diff( ['BOOK', 'REFER'], $service_actions) );
+      $filters_class   = str_replace(' ', '-', strtolower($match['ServiceLevelName'])) . ' ' . str_replace(' ', '-', strtolower($match['ServiceTypeName'])) . ' ' . str_replace(' ', '-', strtolower($match['ServiceProviderTypeName'])) ;
+      $allows_book_and_refer = empty(array_diff(['BOOK', 'REFER'], $service_actions));
       $user_belong_to_office = $user_sp_id === $match['ServiceProviderId'];
-      $is_vla = in_array( $match['ServiceProviderTypeId'], [3,4]);
+      $is_vla = in_array($match['ServiceProviderTypeId'], [3,4]);
       $can_refer   = in_array('REFER', $service_actions);
-      $can_e_refer = $is_vla && in_array('E_REFER', $service_actions);
+      $can_e_refer = in_array('E_REFER', $service_actions);
     ?>
 
     <div class="card-container col-xs-12 col-sm-6 col-xl-4 {{ $filters_class }}" id="{{ $match['ServiceId'] }}">
