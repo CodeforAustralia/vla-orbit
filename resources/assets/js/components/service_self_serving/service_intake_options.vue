@@ -152,7 +152,11 @@
 
                         <div class="form-group col-sm-12">
 
-                            <p class="font-grey-silver margin-bottom-10">Enable E-Referreal to specific Service Providers by adding them here.
+                            <p class="font-grey-silver margin-bottom-10">
+                                E-referrals are referrals sent via email by users who perform legal triage for you (such as VLA Legal Help). Please contact LHO lho@vla.vic.gov.au if you would like to establish an e-referral arrangement with another service provider.
+                            </p>
+                            <p class="font-grey-silver margin-bottom-10">
+                                If you have an established e-referral arrangement with a service provider, these are displayed below. 
                                 <span id="count_e_referral_conditions">({{ selected_e_referral_service_providers.length }}) </span> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs green" @click="selected_e_referral_service_providers = service_providers">Select All</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs red" @click="selected_e_referral_service_providers = []">Clear</a>

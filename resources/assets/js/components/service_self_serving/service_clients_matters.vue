@@ -5,12 +5,44 @@
                 <div class="col-xs-12">
                     <p class="caption-subject font-purple-soft bold uppercase margin-bottom-10">Service client matters</p>
                     <!-- Eligibility Questions -->
-                    <p class="margin-bottom-0">
+                    <!-- <p class="margin-bottom-0">
                         <small>
-                            These eligibility criteria are threshold requirements for entry into the service. 
+                            These eligibility criteria are threshold requirements for this service to appear in LHO search results. 
                             The chosen criteria are service wide and will be overridden is a condition is added. 
                             If needed <a data-toggle="modal" href="#request-vulnerability">request a new criteria</a>.
                         </small>
+                    </p> -->
+                    <p>
+                        <small>
+                            These eligibility criteria are threshold requirements for this service to appear in LHO search results.
+                        </small>
+                    </p>
+                    <p>
+                        <small>
+                            If none are selected, the service will always appear in results for the legal matter and location selected on the previous screen.
+                        </small>
+                    </p>
+                    <p>
+                        <small>
+                            If one or more are selected, the service will only appear if the user checks any one or more of those in their search.
+                        </small>
+                    </p>
+                    <p class="margin-bottom-0">
+                        <small>
+                            For example:
+                        </small>
+                        <ul>
+                            <li>
+                                <small>
+                                    if a service is only for women, that eligibility requirement should be set.
+                                </small>
+                            </li>
+                            <li>
+                                <small>
+                                    If a service is only for women experiencing family violence, that eligibility requirement should be set as a single requirement, and not two separate requirements.
+                                </small>
+                            </li>
+                        </ul>
                     </p>
                 </div>
             </div>
