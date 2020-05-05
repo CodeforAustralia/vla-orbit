@@ -4,15 +4,21 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title font-purple-soft bold uppercase">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#sio_referral_settings_accordion" href="#sio_referral_settings"> Who can refer to you? </a>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#sio_referral_settings_accordion" href="#sio_referral_settings"> WHO CAN REFER TO THIS SERVICE? </a>
                     </h4>
                 </div>
                 <div id="sio_referral_settings" class="panel-collapse collapse">
                     <div class="panel-body">
 
                         <div class="form-group col-sm-12">
-                            <p class="margin-0">Referrals conditions:</p>
-                            <p class="font-grey-silver margin-bottom-10">Enable Referrals to specific Service Providers by adding them here.
+                            <p class="margin-0">
+                                <strong> Referrals conditions: </strong>
+                            </p>
+                            <p class=" margin-bottom-10">Enable or disable referrals from these service providers listed below.</p>
+                            <p class=" margin-bottom-10">
+                                If this service is not temporarily not running, simply click ‘clear’ to remove all the organisations from this list. 
+                                This will prevent users from able to send an SMS or email referral to clients for this service. 
+                                To add all the service providers back again, click Select All and save.
                                 <span id="count_referral_conditions">({{ selected_service_providers.length }}) </span> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs green" @click="selected_service_providers = service_providers">Select All</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs red" @click="selected_service_providers = []">Clear</a>
@@ -46,11 +52,15 @@
             <div class="panel panel-default" >
                 <div class="panel-heading">
                     <h4 class="panel-title font-purple-soft bold uppercase">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#sio_booking_settings"> Who can book to you? </a>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#sio_booking_settings"> WHO CAN BOOK APPOINTMENTS AT THIS SERVICE? </a>
                     </h4>
                 </div>
                 <div id="sio_booking_settings" class="panel-collapse collapse">
                     <div class="panel-body">
+
+                        <p class="margin-left-10">
+                            This is a VLA-only function at this stage. If you are interested in setting up direct bookings get in touch with the LHO team: lho@vla.vic.gov.au 
+                        </p>
                         <span v-if="!current_service.hasOwnProperty('ServiceId')">To enable bookings you must save this service first.</span>
 
                         <div v-else-if="!is_bookable" class="form-group col-sm-12 margin-0" id="service_booking">
@@ -59,7 +69,7 @@
 
                         <div v-if="is_bookable" class="form-group col-sm-12 service_booking_conditions">
 
-                            <p class="font-grey-silver margin-bottom-10">Enable bookings to specific Service Providers by adding them here.
+                            <p class=" margin-bottom-10">Enable bookings to specific Service Providers by adding them here.
                                 <span id="count_booking_conditions">({{ selected_booking_service_providers.length }}) </span> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs green" @click="selected_booking_service_providers = service_providers">Select All</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs red" @click="selected_booking_service_providers = []">Clear</a>
@@ -93,7 +103,7 @@
                                     <div id="sio_booking_questions" class="panel-collapse collapse">
                                         <div class="panel-body">
 
-                                            <p class="font-grey-silver margin-bottom-10">Questions without value or operator won't be saved.</p>
+                                            <p class=" margin-bottom-10">Questions without value or operator won't be saved.</p>
 
                                             <div class="form-group col-sm-12" v-for="question in service_booking_questions_mapped" :key='question.QuestionId'>
                                                 <div class="col-sm-4 col-md-3">
@@ -144,7 +154,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title font-purple-soft bold uppercase">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#sio_e_ref_settings"> Who can E-Refer to you? </a>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#sio_e_ref_settings"> WHO CAN E-REFER TO THIS SERVICE? </a>
                     </h4>
                 </div>
                 <div id="sio_e_ref_settings" class="panel-collapse collapse">
@@ -152,10 +162,10 @@
 
                         <div class="form-group col-sm-12">
 
-                            <p class="font-grey-silver margin-bottom-10">
-                                E-referrals are referrals sent via email by users who perform legal triage for you (such as VLA Legal Help). Please contact LHO lho@vla.vic.gov.au if you would like to establish an e-referral arrangement with another service provider.
+                            <p class=" margin-bottom-10">
+                                E-referrals allow other organisations in LHO to refer help-seekers directly to your office after they’ve done some of the legal triage work on your behalf. You can customise the questions asked and the information collected to ensure you only receive correct referrals. You also save clients from ringing around and you staff from asking the same questions!
                             </p>
-                            <p class="font-grey-silver margin-bottom-10">
+                            <p class=" margin-bottom-10">
                                 If you have an established e-referral arrangement with a service provider, these are displayed below. 
                                 <span id="count_e_referral_conditions">({{ selected_e_referral_service_providers.length }}) </span> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs green" @click="selected_e_referral_service_providers = service_providers">Select All</a> &nbsp;
@@ -181,7 +191,7 @@
                         </div>
 
                         <div class="form-group col-sm-12">
-                            <p class="font-grey-silver margin-bottom-10">Choose e-referral template available for ths service. Template chosen here are for all added service providers.</p>
+                            <p class=" margin-bottom-10">If no templates appear here and you would like to streamline your intake processes, get in touch with the LHO team: lho@vla.vic.gov.au </p>
 
                             <multiselect
                                         v-model="selected_e_referral_templates"
