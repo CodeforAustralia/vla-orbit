@@ -43,9 +43,7 @@
                 </tr>
                 <tr v-for="data in tableDataFiltered" :key="data[identifier]" class="m-datatable__row" v-else>
                     <td v-for="(value, key) in data" v-bind:key="key" >
-                        <span v-if="key !== 'actions'">
-                            {{ value }}
-                        </span>
+                        <span v-if="key !== 'actions'" v-html="value"></span>
                         <span v-if="(showUrl != '' || editUrl != '' || deleteUrl != '') && key == 'actions' ">
                             <form method="GET" :action="deleteUrl + '/'  + data[identifier]" accept-charset="UTF-8">
                                 <input name="_method" value="DELETE" type="hidden">
