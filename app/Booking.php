@@ -701,7 +701,7 @@ class Booking extends OrbitSoap
                     $booking_request['firstName'] .
                     (
                         isset($booking_request['court_date']) ?
-                        ' - ' . $booking_request['court_date'] : ''
+                        ', Court date ' . $booking_request['court_date'] : ''
                     ) .
                     (
                         isset($booking_request['phone']) ?
