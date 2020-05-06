@@ -90,7 +90,7 @@
                     <p> <i class="fa fa-hourglass-end" aria-hidden="true"></i> {{ $match['Wait'] }} </p>
                     @endif
                     @if( $match['UpdatedOn'] != '' )
-                    <p class="last-updated"> <small> The service information was last updated on: {{ $match['UpdatedOn'] }} </small> </p>
+                    <p class="last-updated"> <small> Service info last updated: {{ $match['UpdatedOn'] }} </small> </p>
                     @endif
                 </div>
 
