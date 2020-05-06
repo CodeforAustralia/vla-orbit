@@ -381,6 +381,13 @@ new Vue({
                 "placeholder": "dd/mm/yyyy"
             });
         },
+        initCourtDateMask: function () {
+            //TODO: implement with in a vue js way
+            let cd = document.getElementById('court_date');
+            $(cd).inputmask("d/m/y", {
+                "placeholder": "dd/mm/yyyy"
+            });
+        },
         initFormValidation: function () {
 
             var self = this;
@@ -554,6 +561,7 @@ new Vue({
         this.initGetUserDetails();
         this.initDatePicker();
         this.initDOBMask();
+        this.initCourtDateMask();
         this.initFormValidation();
         this.openBookingInReferral();
     }

@@ -70,6 +70,15 @@
                 </div>
 
                 <div class="form-group">
+                    <div class="col-sm-3 col-sm-offset-3">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" id="court_date" name="court_date" {{ ( isset( $fields )  && in_array('court_date', $fields) ? 'checked' : '' ) }}>
+                            Court Date
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-md-3 control-label">Body of booking:</label>
                     <div class="col-md-8">
                         <textarea class="form-control hidden" id="body_text" rows="20">{{ ( isset($e_referral) && isset( $e_referral->Body ) && $e_referral->Body  ? $e_referral->Body : '' )}}</textarea>

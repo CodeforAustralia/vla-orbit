@@ -10,7 +10,7 @@ use Auth;
  * @version 1.2.0
  * @see Controller
  */
-Class EReferral extends OrbitSoap
+class EReferral extends OrbitSoap
 {
     /**
      * Get all eReferral forms
@@ -19,7 +19,6 @@ Class EReferral extends OrbitSoap
      */
     public function getAllEReferralForms()
     {
-
         $e_referral_forms = $this
                             ->client
                             ->ws_init('GetAllReferralForms')
@@ -35,7 +34,6 @@ Class EReferral extends OrbitSoap
      */
     public function getAllEReferralFormsFormated()
     {
-
         $e_referral_forms = $this
                             ->client
                             ->ws_init('GetAllReferralForms')
@@ -45,7 +43,6 @@ Class EReferral extends OrbitSoap
         $output = [];
 
         foreach ($forms as $form) {
-
             $output[] = ['id' => $form->RefNo, 'text' => $form->Name ];
         }
 
@@ -55,18 +52,22 @@ Class EReferral extends OrbitSoap
     private function getFields($e_referral_form)
     {
         $fields = [];
-        if( array_key_exists ( 'dob', $e_referral_form ) ){
+        if (array_key_exists('dob', $e_referral_form)) {
             $fields[] = 'dob';
         }
-        if( array_key_exists ( 'suburb', $e_referral_form ) ){
+        if (array_key_exists('suburb', $e_referral_form)) {
             $fields[] = 'suburb';
         }
-        if( array_key_exists ( 'postal_address', $e_referral_form ) ){
+        if (array_key_exists('postal_address', $e_referral_form)) {
             $fields[] = 'postal_address';
         }
-        if( array_key_exists ( 'email', $e_referral_form ) ){
+        if (array_key_exists('email', $e_referral_form)) {
             $fields[] = 'email';
         }
+        if (array_key_exists('court_date', $e_referral_form)) {
+            $fields[] = 'court_date';
+        }
+
         return implode(',', $fields);
     }
 
@@ -76,17 +77,17 @@ Class EReferral extends OrbitSoap
      * @param array $e_referral_form Array with eReferral form information
      * @return array Array with error or success message
      */
-    public function saveEReferralForm( $e_referral_form )
+    public function saveEReferralForm($e_referral_form)
     {
         $date_now = date("Y-m-d");
         $time_now = date("H:i:s");
         $date_time = $date_now . "T" . $time_now;
         $header =  '';
         $body = '';
-        if( isset($e_referral_form['Body']) ) {
+        if (isset($e_referral_form['Body'])) {
             $body = $e_referral_form['Body'];
         }
-        if(isset($e_referral_form['Header'])) {
+        if (isset($e_referral_form['Header'])) {
             $header = $e_referral_form['Header'];
         }
 
@@ -94,10 +95,10 @@ Class EReferral extends OrbitSoap
 
         $info = [ 'ObjectInstance' =>
                     [
-                        'RefNo'		  => filter_var( $e_referral_form['RefNo'], FILTER_SANITIZE_STRING ),
-                        'Name'		  => filter_var( $e_referral_form['Name'], FILTER_SANITIZE_STRING ),
-                        'Description' => filter_var( $e_referral_form['Description'], FILTER_SANITIZE_STRING ),
-                        'Header'      => filter_var( $header, FILTER_SANITIZE_STRING ),
+                        'RefNo'		  => filter_var($e_referral_form['RefNo'], FILTER_SANITIZE_STRING),
+                        'Name'		  => filter_var($e_referral_form['Name'], FILTER_SANITIZE_STRING),
+                        'Description' => filter_var($e_referral_form['Description'], FILTER_SANITIZE_STRING),
+                        'Header'      => filter_var($header, FILTER_SANITIZE_STRING),
                         'Body'        =>  $body,
                         'Fields'      =>  $fields,
                         'CreatedBy' => auth()->user()->id,
@@ -118,8 +119,7 @@ Class EReferral extends OrbitSoap
             } else {
                 return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
@@ -130,7 +130,7 @@ Class EReferral extends OrbitSoap
      * @param integer $erf_id eReferral form ID
      * @return array Array with error or success message
      */
-    public function getEReferralFormByID( $erf_id )
+    public function getEReferralFormByID($erf_id)
     {
         $info = [ 'FormId' => $erf_id];
 
@@ -144,11 +144,9 @@ Class EReferral extends OrbitSoap
             } else {
                 return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
-
     }
 
     /**
@@ -157,7 +155,7 @@ Class EReferral extends OrbitSoap
      * @param integer $erf_id eReferral form ID
      * @return array Array with error or success message
      */
-    public function deleteEReferralForm( $erf_id )
+    public function deleteEReferralForm($erf_id)
     {
         $info = [ 'FormId' => $erf_id];
 
@@ -172,8 +170,7 @@ Class EReferral extends OrbitSoap
             } else {
                 return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
@@ -183,7 +180,7 @@ Class EReferral extends OrbitSoap
      * @param integer $sv_id Service ID
      * @return array Array with error or success message
      */
-    public function deleteAllEReferralByServiceId( $sv_id )
+    public function deleteAllEReferralByServiceId($sv_id)
     {
         $info = [ 'ServiceId' => $sv_id];
 
@@ -198,8 +195,7 @@ Class EReferral extends OrbitSoap
             } else {
                 return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }
@@ -211,12 +207,11 @@ Class EReferral extends OrbitSoap
      * @param array $form_ids Array of eReferral form IDs
      * @return array Array with error or success message
      */
-    public function saveAllFormsInService( $sv_id, $form_ids )
+    public function saveAllFormsInService($sv_id, $form_ids)
     {
         $info = [];
         try {
             foreach ($form_ids as $form_id) {
-
                 $info[] = [
                             'RefNo'=> 0,
                             'ReferralFormID'=> $form_id,
@@ -227,15 +222,14 @@ Class EReferral extends OrbitSoap
             $response = $this
                         ->client
                         ->ws_init('SaveAllReferralFormService')
-                        ->SaveAllReferralFormService( ['ObjectInstance'  => $info ] );
+                        ->SaveAllReferralFormService(['ObjectInstance'  => $info ]);
 
             if ($response->SaveAllReferralFormServiceResult) {
                 return ['success' => 'success' , 'message' => 'E-Referral Associated to service.'];
             } else {
                 return ['success' => 'error' , 'message' => 'Ups, something went wrong.'];
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ['success' => 'error' , 'message' =>  $e->getMessage()];
         }
     }

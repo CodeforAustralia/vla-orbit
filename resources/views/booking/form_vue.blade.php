@@ -261,6 +261,17 @@
             </div>
         </div>
 
+        <div class="row" v-show="displayField('court_date')">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-xs-12 padding-bottom-20">
+                        <label>Court Date:</label>
+                        <input type="text" class="form-control input-large" autocomplete="off" name="court_date" id="court_date">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xs-5 col-md-6 col-lg-5">
                 <div class="form-group">
