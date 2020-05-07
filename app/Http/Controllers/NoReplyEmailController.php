@@ -39,17 +39,20 @@ class NoReplyEmailController extends Controller
      * @param  integer  $te_id    template Id
      * @return view single template information page
      */
-    public function show( $te_id )
+    public function show($te_id)
     {
         $nre_obj = new NoReplyEmail();
-        $template = $nre_obj->getTemplateById( $te_id );
+        $template = $nre_obj->getTemplateById($te_id);
 
         $sp_obj = new ServiceProvider();
         $service_providers = $sp_obj->getAllServiceProviders();
 
-        usort($service_providers, function($a, $b){ return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]); });
+        usort($service_providers, function ($a, $b) {
+            return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]);
+        });
 
-        return view( "no_reply_emails.show_template", compact('template', 'service_providers') );
+        return redirect('/no_reply_emails/templates')->with('warning', 'This functionality is no longer available at LHO, please refer to the new LHIS.');
+        //return view( "no_reply_emails.show_template", compact('template', 'service_providers') );
     }
 
     /**
@@ -60,12 +63,14 @@ class NoReplyEmailController extends Controller
     {
         $nre_obj = new NoReplyEmail();
         $section = 'All';
-        if ( auth()->user()->sp_id != 0) {
+        if (auth()->user()->sp_id != 0) {
             $section = $nre_obj->getSection();
         }
         $templates = $nre_obj->getAllTemplatesBySection()['data'];
-        usort($templates, function($a, $b){ return strcasecmp($a["Name"], $b["Name"]); });
-        return view( "no_reply_emails.create", compact('templates', 'section') );
+        usort($templates, function ($a, $b) {
+            return strcasecmp($a["Name"], $b["Name"]);
+        });
+        return view("no_reply_emails.create", compact('templates', 'section'));
     }
 
     /**
@@ -74,14 +79,14 @@ class NoReplyEmailController extends Controller
      * @param  Request $request
      * @return mixed legal matter listing page with success/error message
      */
-    public function destroyTemplate( Request $request, $te_id )
+    public function destroyTemplate(Request $request, $te_id)
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpClc']);
 
         $nre_obj = new NoReplyEmail();
-        $response = $nre_obj->deleteTemplate( $te_id );
+        $response = $nre_obj->deleteTemplate($te_id);
 
-        return redirect('/no_reply_emails/templates')->with( $response['success'], $response['message'] );
+        return redirect('/no_reply_emails/templates')->with($response['success'], $response['message']);
     }
 
     /**
@@ -102,9 +107,11 @@ class NoReplyEmailController extends Controller
         $sp_obj = new ServiceProvider();
         $service_providers = $sp_obj->getAllServiceProviders();
 
-        usort($service_providers, function($a, $b){ return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]); });
+        usort($service_providers, function ($a, $b) {
+            return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]);
+        });
 
-        return view("no_reply_emails.create_template", compact( 'service_providers' ) );
+        return view("no_reply_emails.create_template", compact('service_providers'));
     }
 
     /**
@@ -125,7 +132,7 @@ class NoReplyEmailController extends Controller
     {
         $template_id = request('template_id');
         $nre_obj = new NoReplyEmail();
-        return $nre_obj->getTemplateById( $template_id );
+        return $nre_obj->getTemplateById($template_id);
     }
 
     /**
@@ -165,7 +172,7 @@ class NoReplyEmailController extends Controller
     public function sendEmail()
     {
         $nre_obj = new NoReplyEmail();
-        $response = $nre_obj->sendEmail( request()->all() );
+        $response = $nre_obj->sendEmail(request()->all());
 
         return redirect('/no_reply_emails')->with($response['success'], $response['message']);
     }
@@ -177,7 +184,7 @@ class NoReplyEmailController extends Controller
     public function saveTemplate()
     {
         $nre_obj = new NoReplyEmail();
-        $response = $nre_obj->saveEmailTemplate( request()->all() );
+        $response = $nre_obj->saveEmailTemplate(request()->all());
         return redirect('/no_reply_emails/templates')->with($response['success'], $response['message']);
     }
 
