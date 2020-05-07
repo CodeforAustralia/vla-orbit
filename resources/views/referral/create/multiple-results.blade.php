@@ -84,7 +84,7 @@
                     <p><i class="fa fa-phone" aria-hidden="true"></i> {{ $match['Phone'] }}</p>
                     @endif
                     @if( $match['OpenningHrs'] != '#' && $match['OpenningHrs'] != 'TBA' )
-                    <p> <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $match['OpenningHrs'] }} </p>
+                    <p> <i class="fa fa-clock-o" aria-hidden="true"></i> {{ mb_strimwidth($match['OpenningHrs'], 0, 65, "...") }} </p>
                     @endif
                     @if( $match['Wait'] != '#' && $match['Wait'] != 'TBA' )
                     <p> <i class="fa fa-hourglass-end" aria-hidden="true"></i> {{ $match['Wait'] }} </p>
