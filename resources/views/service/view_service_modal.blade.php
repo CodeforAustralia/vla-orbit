@@ -2,7 +2,13 @@
 	<input type="hidden" id="user_service_provicer" value="{{Auth::user()->sp_id}}">
 
 	<div class="col-sm-12 alert alert-warning" v-if="!can_refer">
-			<p align="justify" > You do not have permission to refer to this service.</p>
+			<p> Clients cannot be directly referred to this service. It might be:</p>
+			<ul>
+				<li>only available for direct bookings or e-referrals</li>
+				<li>restricted to certain users</li>
+				<li>not operating at the moment</li>
+			</ul>
+			<p>If you believe this is in error please email lho@vla.vic.gov.au. </p>
 	</div>
 
 	<div class="col-sm-6 col-xs-8">
