@@ -20,7 +20,7 @@ class Report extends OrbitSoap
 
         $stats = json_decode($this
                             ->client
-                            ->ws_init_local('GetAllStatsasJSON')
+                            ->ws_init('GetAllStatsasJSON')
                             ->GetAllStatsasJSON($period)
                             ->GetAllStatsasJSONResult);
 
