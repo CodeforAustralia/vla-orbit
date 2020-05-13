@@ -39,6 +39,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
+                                        @input="changeInForm()"
                                         ></multiselect>
                         </div>
 
@@ -90,6 +91,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
+                                        @input="changeInForm()"
                                         ></multiselect>
 
                             <!-- Booking Questions -->
@@ -187,6 +189,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
+                                        @input="changeInForm()"
                                         ></multiselect>
                         </div>
 
@@ -208,6 +211,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
+                                        @input="changeInForm()"
                                         ></multiselect>
                         </div>
 
@@ -285,11 +289,30 @@
                                 { label: 'Is equal to', value: '=' },
                                 { label: 'Is not Equal to', value: '!=' },
                                 { label: 'Is one of', value: 'in' }
-                            ]
+                            ],
+                modified: false
             };
         },
 
         methods: {
+            changeInForm: function() {
+                this.modified = true;
+                console.log("Modified");
+            },
+            avoidLeaveWithoutChanges: function() {
+                let self = this;
+                //Validate before leaving the current tab except if it the user is submiting the form.
+                window.onbeforeunload = function (e) {
+                    if (self.modified) {
+                        e.preventDefault();
+                        var message = "You have not saved your changes.", e = e || window.event;
+                        if (e) {
+                            e.returnValue = message;
+                        }
+                        return message;
+                    }
+                }
+            },
             pre_select_booking_questions() {
                 let self = this;
                 let cs_booking_questions = self.current_service.ServiceBookingQuestions;
@@ -414,6 +437,7 @@
                 let url = '/service/intake_options';
                 this.$parent.submit('post',url, intake_options)
                     .then(response => {
+                        this.modified = false;
                         $('#contentLoading').modal('hide');
                         this.$parent.swal_messages(response.success, response.message);
                     })
@@ -457,6 +481,7 @@
             this.load_e_referral_forms();
             this.pre_select_booking_questions();
             this.event_on_change_tab();
+            this.avoidLeaveWithoutChanges();
         },
     }
 </script>

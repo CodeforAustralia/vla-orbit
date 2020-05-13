@@ -36,6 +36,7 @@
                         :show-no-results="false"
                         :show-labels="false"
                         @remove="removeLegalMatter"
+                        @input="changeInForm()"
                         >
                         </multiselect>
 
@@ -123,6 +124,7 @@
                                     :close-on-select="true"
                                     :show-no-results="false"
                                     :show-labels="false"
+                                    @input="changeInForm()"
                                     ></multiselect>
                             </div>
                         </div>
@@ -163,23 +165,42 @@
         },
         data () {
             return {
-                    matters_selected: [],
-                    matter_selected: [],
-                    matters: [],
-                    currentTab:{},
-                    operators:[ {label:'>',value:'>'},
-                                {label:'>=', value:'>='},
-                                {label:'<', value:'<'},
-                                {label:'<=', value:'<='},
-                                {label:'Equal', value:'='},
-                                {label:'Not Equal', value:'!='},
-                                {label:'IN', value:'in'},
-                                ],
-                    tag: '',
-                    initial_lm: [],
+                matters_selected: [],
+                matter_selected: [],
+                matters: [],
+                currentTab:{},
+                operators:[ {label:'>',value:'>'},
+                            {label:'>=', value:'>='},
+                            {label:'<', value:'<'},
+                            {label:'<=', value:'<='},
+                            {label:'Equal', value:'='},
+                            {label:'Not Equal', value:'!='},
+                            {label:'IN', value:'in'},
+                            ],
+                tag: '',
+                initial_lm: [],
+                modified: false
             }
         },
         methods: {
+            changeInForm: function() {
+                this.modified = true;
+                console.log("Modified");
+            },
+            avoidLeaveWithoutChanges: function() {
+                let self = this;
+                //Validate before leaving the current tab except if it the user is submiting the form.
+                window.onbeforeunload = function (e) {
+                    if (self.modified) {
+                        e.preventDefault();
+                        var message = "You have not saved your changes.", e = e || window.event;
+                        if (e) {
+                            e.returnValue = message;
+                        }
+                        return message;
+                    }
+                }
+            },
             validate_value(operator, questionValue, questionValueTag){
                 if( ((questionValueTag && questionValueTag.length < 1) || questionValue == '')
                         && operator != ''){
@@ -293,6 +314,7 @@
                     let url = '/service/legal_matter';
                     self.$parent.submit('post',url, legal_matters)
                     .then(response => {
+                        this.modified = false;
                         $('#contentLoading').modal('hide');
                         self.$parent.swal_messages(response.success, response.message);
                         self.initial_lm = self.get_lm();
@@ -363,6 +385,7 @@
                 } else {
                     self.currentTab = {};
                 }
+                this.changeInForm();
             },
             removeLegalMatter(matter_removed){
                 let self = this;
@@ -376,6 +399,7 @@
             let self = this;
             this.init_legal_matters();
             this.event_on_change_tab();
+            this.avoidLeaveWithoutChanges();
         },
     }
 

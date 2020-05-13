@@ -63,6 +63,7 @@
                     :close-on-select="true"
                     :show-no-results="false"
                     :show-labels="false"
+                    @input="changeInForm()"
                     ></multiselect>
                 </div>
             </div>
@@ -105,10 +106,29 @@
             return {
                 selected_questions: [], //Those are vulnerability/eligibility questions
                 selected_operator: [],
-                initial_client_matters: {}
+                initial_client_matters: {},
+                modified: false
             };
         },
         methods: {
+            changeInForm: function() {
+                this.modified = true;
+                console.log("Modified");
+            },
+            avoidLeaveWithoutChanges: function() {
+                let self = this;
+                //Validate before leaving the current tab except if it the user is submiting the form.
+                window.onbeforeunload = function (e) {
+                    if (self.modified) {
+                        e.preventDefault();
+                        var message = "You have not saved your changes.", e = e || window.event;
+                        if (e) {
+                            e.returnValue = message;
+                        }
+                        return message;
+                    }
+                }
+            },
             pre_select_questions() {
                 let self = this;
                 self.selected_questions = self.eligibility_questions.filter(question => {
@@ -135,6 +155,7 @@
                 let url = '/service/client_eligibility';
                 this.$parent.submit('post',url, client_matters)
                     .then(response => {
+                        this.modified = false;
                         $('#contentLoading').modal('hide');
                         this.$parent.swal_messages(response.success, response.message);
                         this.initial_client_matters = Object.assign({}, this.get_client_matters());
@@ -171,6 +192,7 @@
             this.pre_select_questions();
             this.set_initial_client_matters();
             this.event_on_change_tab();
+            this.avoidLeaveWithoutChanges();
         },
     }
 </script>

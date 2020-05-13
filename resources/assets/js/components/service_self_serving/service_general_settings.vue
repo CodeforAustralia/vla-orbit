@@ -17,7 +17,7 @@
                             <multiselect v-model="service_provider_selected" label="ServiceProviderName" key="ServiceProviderId"
                                 id="service-provider-select" placeholder="Select Service..." open-direction="bottom"
                                 :options='service_providers' :multiple="false" :searchable="true" :close-on-select="true"
-                                :show-no-results="false" :show-labels="false" :allow-empty="false"></multiselect>
+                                :show-no-results="false" :show-labels="false" :allow-empty="false" @input="changeInForm()"></multiselect>
                         </div>
                     </div>
                     <!-- END: Service Provider  -->
@@ -28,6 +28,7 @@
                         </div>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="name" name="name" v-model="current_service.ServiceName"
+                            @change="changeInForm()" @input="changeInForm()"
                                 required>
                         </div>
                     </div>
@@ -41,7 +42,7 @@
                             <multiselect v-model="service_level_selected" label="ServiceLevelName" key="ServiceLevelId"
                                 id="service-level-select" placeholder="Select Service Level..." open-direction="bottom"
                                 :options='service_levels' :multiple="false" :searchable="true" :close-on-select="true"
-                                :show-no-results="false" :show-labels="false" :allow-empty="false">
+                                :show-no-results="false" :show-labels="false" :allow-empty="false" @input="changeInForm()">
                             </multiselect>
                         </div>
                     </div>
@@ -54,7 +55,8 @@
                                     service</small></label>
                         </div>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="wait" name="wait" v-model="current_service.Wait" required>
+                            <input type="text" class="form-control" id="wait" name="wait" v-model="current_service.Wait"
+                            @change="changeInForm()" @input="changeInForm()" required>
                         </div>
                     </div>
                     <!-- End: Wait time -->
@@ -66,7 +68,8 @@
                         <div class="col-sm-12">
                             <label for="Status"><small>Show this service in results?</small></label>
                             <toggle-button v-model="status" :labels="{checked: 'Yes', unchecked: 'No'}" :sync="true"
-                                :color="{checked:'#32c5d2', unchecked:'#e73d4a'}" />
+                                :color="{checked:'#32c5d2', unchecked:'#e73d4a'}"
+                                @change="changeInForm()" @input="changeInForm()" />
                         </div>
                     </div>
                     <div class="row">
@@ -92,7 +95,7 @@
                                     prepare ahead
                                     of making contact</small></label>
                             <vue-mce id="description" class="form-control" v-model="current_service.Description"
-                                :config="config_description" name="description" />
+                                :config="config_description" name="description" @change="changeInForm()"  @input="changeInForm()"/>
                         </div>
                     </div>
                     <!-- End: Description -->
@@ -104,7 +107,7 @@
                                     receive/see
                                     this information)</small></label>
                             <vue-mce id="notes" class="form-control" v-model="current_service.Notes" :config="config_notes"
-                                name="notes" />
+                                name="notes" @change="changeInForm()"  @input="changeInForm()"/>
                         </div>
 
                         <div class="col-sm-12" v-if="service_notes_log.length > 1">
@@ -128,7 +131,7 @@
                         </div>
                         <div class="col-sm-12">
                             <input type="location" class="form-control" id="location" name="location"
-                                v-model="current_service.Location" required>
+                                v-model="current_service.Location" @change="changeInForm()" @input="changeInForm()" required>
                         </div>
                     </div>
                     <!-- End: Location  -->
@@ -142,7 +145,7 @@
                         </div>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="phone" name="phone" v-model="current_service.Phone"
-                                required>
+                                @change="changeInForm()" @input="changeInForm()" required>
                         </div>
                     </div>
                     <!-- End: Phone Number  -->
@@ -154,7 +157,7 @@
                         </div>
                         <div class="col-sm-12">
                             <input type="email" class="form-control" id="email" name="email" v-model="current_service.Email"
-                                required>
+                                @change="changeInForm()" @input="changeInForm()" required>
                         </div>
                     </div>
                     <!-- End: Email  -->
@@ -165,7 +168,7 @@
                             <label for="URL">Website: <small>eg. www.codeforaustralia.org. Do not include http://</small></label>
                         </div>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="URL" name="URL" v-model="current_service.URL" required>
+                            <input type="text" class="form-control" id="URL" name="URL" v-model="current_service.URL" @change="changeInForm()" @input="changeInForm()" required>
                         </div>
 
                     </div>
@@ -179,7 +182,7 @@
                         </div>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs"
-                                v-model="current_service.OpenningHrs" required>
+                                v-model="current_service.OpenningHrs" @change="changeInForm()" @input="changeInForm()" required>
                         </div>
                     </div>
                     <!-- End: Opening Hours  -->
@@ -211,7 +214,7 @@
                                     <multiselect v-model="lgas_selected" label="text" key="id" id="lga" track-by="id"
                                         open-direction="top" placeholder="Select LGA" :options='lgas' :multiple="true"
                                         :searchable="true" :close-on-select="true" :show-no-results="false" :show-labels="false"
-                                        name="lga[]">
+                                        name="lga[]" @input="changeInForm()">
                                     </multiselect>
 
                                 </div>
@@ -220,13 +223,13 @@
                                     <multiselect v-model="suburbs_selected" label="text" key="id" id="suburbs" track-by="id"
                                         open-direction="top" placeholder="Select Suburb" :options='suburbs' :multiple="true"
                                         :searchable="true" :close-on-select="true" :show-no-results="false" :show-labels="false"
-                                        name="suburbs[]">
+                                        name="suburbs[]" @input="changeInForm()">
                                     </multiselect>
                                 </div>
 
                                 <div class="tab-pane fade" id="tab_postcode">
                                     <input type="postcodes" class="form-control" id="postcodes" name="postcodes"
-                                        v-model="catchments.Postcode">
+                                        v-model="catchments.Postcode" @change="changeInForm()" @input="changeInForm()">
                                 </div>
 
                             </div>
@@ -243,6 +246,7 @@
                     </div>
                     <!-- End: Save Section  -->
                 </div>
+            </div>
         </div>
     </div>
 </template>
@@ -313,6 +317,7 @@
                     config_notes,
                     status:false,
                     initial_general_settings: {},
+                    modified: false
             }
         },
         computed: {
@@ -337,6 +342,24 @@
             }
         },
         methods: {
+            changeInForm: function() {
+                this.modified = true;
+                console.log("Modified");
+            },
+            avoidLeaveWithoutChanges: function() {
+                let self = this;
+                //Validate before leaving the current tab except if it the user is submiting the form.
+                window.onbeforeunload = function (e) {
+                    if (self.modified) {
+                        e.preventDefault();
+                        var message = "You have not saved your changes.", e = e || window.event;
+                        if (e) {
+                            e.returnValue = message;
+                        }
+                        return message;
+                    }
+                }
+            },
             preselect_data: function() {
                 let self = this;
                 if(self.current_service) {
@@ -442,6 +465,7 @@
                     let url = '/service/general_settings';
                     self.$parent.submit('post',url, general_settings)
                         .then(response => {
+                            self.modified = false;
                             if(!self.current_service.ServiceId){
                                 window.location.href = '/service/show/'+ response.data + "?success=Service Saved!";
                             }else {
@@ -509,6 +533,7 @@
             this.preselect_data();
             this.set_initial_general_settings();
             this.event_on_change_tab();
+            this.avoidLeaveWithoutChanges();
         },
     }
 
