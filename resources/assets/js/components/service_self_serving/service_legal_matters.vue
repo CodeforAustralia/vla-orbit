@@ -73,36 +73,39 @@
                             </small>
                         </p>
                         <div v-for="matter in matters_selected"  :key='matter.id' :id="matter.id" v-bind:class="['tab-pane', { active: (currentTab === matter) }]">
-                            <div class="form-group col-md-12" v-for="question in matter.questions" :key='question.QuestionId'>
-                                <div class="col-md-5">
-                                    <label class="pull-right" v-if="question.QuestionName != ''">
-                                        {{question.QuestionName}}
-                                    </label>
-                                    <label class="pull-right" v-else>
-                                        {{question.QuestionLabel}}
-                                    </label>
+                            <div class="form-group col-md-12 question-group" v-for="(question, index) in matter.questions" :key='question.QuestionId'>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label :class="'pull-right ' + (question.QuestionName.length > 56 ? 'long-text-label' : '')" v-if="question.QuestionName != ''">
+                                            {{question.QuestionName}}
+                                        </label>
+                                        <label :class="'pull-right ' + (question.QuestionLabel.length > 56 ? 'long-text-label' : '')" v-else>
+                                            {{question.QuestionLabel}}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select  class="form-control" v-model="question.Operator">
+                                            <option></option>
+                                            <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator. label }}</option>
+                                        </select>
+                                        <small v-show="validate_operator(question.Operator, question.QuestionValue, question.QuestionValueTag)" class="red">Please provide an operator</small>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <vue-tags-input
+                                            v-model="question.tag"
+                                            :tags="question.QuestionValueTag"
+                                            :add-on-key="[13, ':', ';', ',']"
+                                            placeholder=""
+                                            @tags-changed="newTags => question.QuestionValueTag = newTags"
+                                            v-if="question.QuestionTypeName == 'multiple'"
+                                            />
+                                        <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
+                                        <small v-show="validate_value(question.Operator, question.QuestionValue, question.QuestionValueTag)" class="red">Please provide a value</small>
+                                    </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <select  class="form-control" v-model="question.Operator">
-                                        <option></option>
-                                        <option v-for="operator in operators" :key="operator.value" v-bind:value="operator.value"> {{ operator. label }}</option>
-                                    </select>
-                                    <small v-show="validate_operator(question.Operator, question.QuestionValue, question.QuestionValueTag)" class="red">Please provide an operator</small>
-                                </div>
-                                <div class="col-md-5">
-                                    <vue-tags-input
-                                        v-model="question.tag"
-                                        :tags="question.QuestionValueTag"
-                                        :add-on-key="[13, ':', ';', ',']"
-                                        placeholder=""
-                                        @tags-changed="newTags => question.QuestionValueTag = newTags"
-                                        v-if="question.QuestionTypeName == 'multiple'"
-                                        />
-                                    <input type="text" class="form-control" v-model="question.QuestionValue" v-else id="answer"  value="" >
-                                    <small v-show="validate_value(question.Operator, question.QuestionValue, question.QuestionValueTag)" class="red">Please provide a value</small>
-                                </div>
+                                <hr class="col-sm-12 margin-hr" v-if="index < matter.questions.length-1">
                             </div>
-                            <hr>
+
                             <div class="col-xs-5">
                                 <p class="caption-subject font-purple-soft bold uppercase">Eligibility Criteria</p>
                             </div>
@@ -404,3 +407,14 @@
     }
 
 </script>
+
+<style>
+    .long-text-label {
+        line-height: initial !important;
+        text-align: justify;
+    }
+
+    .margin-hr {
+        margin-bottom: 5px;
+    }
+</style>
