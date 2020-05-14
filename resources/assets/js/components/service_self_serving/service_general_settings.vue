@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <!-- END: Service Provider  -->
-                    <!-- Service type  -->
+                    <!-- Service name  -->
                     <div class="row">
                         <div class="col-sm-12">
                             <label for="name">Service Name: <small>eg. Fines Drop-in Clinic</small></label>
@@ -30,6 +30,30 @@
                             <input type="text" class="form-control" id="name" name="name" v-model="current_service.ServiceName"
                             @change="changeInForm()" @input="changeInForm()"
                                 required>
+                        </div>
+                    </div>
+                    <!-- End: Service name  -->
+                    <!-- Service type  -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="service_type_id">Service Type:</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <multiselect
+                            v-model="service_type_selected"
+                            label="ServiceTypeName"
+                            key="ServiceTypelId"
+                            id="service-type-select"
+                            placeholder="Select Service Type..."
+                            open-direction="bottom"
+                            :options='service_types'
+                            :multiple="false"
+                            :searchable="true"
+                            :close-on-select="true"
+                            :show-no-results="false"
+                            :show-labels="false"
+                            :allow-empty="false" @input="changeInForm()">
+                            </multiselect>
                         </div>
                     </div>
                     <!-- End: Service type  -->
