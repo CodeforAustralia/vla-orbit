@@ -105,7 +105,7 @@
                                 </div>
                                 <hr class="col-sm-12 margin-hr" v-if="index < matter.questions.length-1">
                             </div>
-
+                            <hr>
                             <div class="col-xs-5">
                                 <p class="caption-subject font-purple-soft bold uppercase">Eligibility Criteria</p>
                             </div>
