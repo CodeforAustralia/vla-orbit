@@ -20,6 +20,7 @@
                                 This will prevent users from able to send an SMS or email referral to clients for this service. 
                                 To add all the service providers back again, click Select All and save.
                                 <span id="count_referral_conditions">({{ selected_service_providers.length }}) </span> &nbsp;
+                                <a href="javascript:;" class="btn btn-xs grey-mint" @click="select_all_referrals_by_scope('VLA')">Select VLA</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs green" @click="selected_service_providers = service_providers">Select All</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs red" @click="selected_service_providers = []">Clear</a>
                             </p>
@@ -170,6 +171,7 @@
                             <p class=" margin-bottom-10">
                                 If you have an established e-referral arrangement with a service provider, these are displayed below. 
                                 <span id="count_e_referral_conditions">({{ selected_e_referral_service_providers.length }}) </span> &nbsp;
+                                <a href="javascript:;" class="btn btn-xs grey-mint" @click="select_all_e_referrals_by_scope('VLA')">Select VLA</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs green" @click="selected_e_referral_service_providers = service_providers">Select All</a> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs red" @click="selected_e_referral_service_providers = []">Clear</a>
                             </p>
@@ -469,6 +471,14 @@
                     }
 
                 });
+            },
+            select_all_referrals_by_scope(scope) {
+                this.selected_service_providers =
+                    this.service_providers.filter(item => (item.type === scope || (item.type === 'Legal Help' && scope === 'VLA')));
+            },
+            select_all_e_referrals_by_scope(scope) {
+                this.selected_e_referral_service_providers =
+                    this.service_providers.filter(item => (item.type === scope || (item.type === 'Legal Help' && scope === 'VLA')));
             }
         },
         computed: {

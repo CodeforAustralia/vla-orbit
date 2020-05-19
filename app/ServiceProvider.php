@@ -7,53 +7,58 @@ namespace App;
  * @version 1.3.0
  * @see  OrbitSoap
  */
-Class ServiceProvider extends OrbitSoap
+class ServiceProvider extends OrbitSoap
 {
     /**
      * Get all service providers
      * @return array service providers
      */
-	public function getAllServiceProviders()
-	{
-
-        $service_providers = json_decode(   $this
+    public function getAllServiceProviders()
+    {
+        $service_providers = json_decode(
+            $this
                                             ->client
                                             ->ws_init('GetAllOrbitServiceProviderssasJSON')
                                             ->GetAllOrbitServiceProviderssasJSON()
-                                            ->GetAllOrbitServiceProviderssasJSONResult
-                                            , true
-                                        );
-        usort($service_providers, function($a, $b){ return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]); });
+                                            ->GetAllOrbitServiceProviderssasJSONResult,
+            true
+        );
+        usort($service_providers, function ($a, $b) {
+            return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]);
+        });
         return $service_providers;
-	}
+    }
     /**
      * Get all bookable service providers by service provider id
      * @param  int   $scope  service provicer id
      * @return array service providers
      */
-	public function getAllBookableServiceProvidersById($sp_id)
-	{
+    public function getAllBookableServiceProvidersById($sp_id)
+    {
         $info = [ 'RefNumber' => $sp_id ];
 
-        $service_providers = json_decode(   $this
+        $service_providers = json_decode(
+            $this
                                             ->client
                                             ->ws_init('GetAllOrbitBookableServiceProvidersByIdasJSON')
-                                            ->GetAllOrbitBookableServiceProvidersByIdasJSON( $info )
-                                            ->GetAllOrbitBookableServiceProvidersByIdasJSONResult
-                                            , true
-                                        );
-        usort($service_providers, function($a, $b){ return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]); });
+                                            ->GetAllOrbitBookableServiceProvidersByIdasJSON($info)
+                                            ->GetAllOrbitBookableServiceProvidersByIdasJSONResult,
+            true
+        );
+        usort($service_providers, function ($a, $b) {
+            return strcasecmp($a["ServiceProviderName"], $b["ServiceProviderName"]);
+        });
         return $service_providers;
-	}
+    }
     /**
      * Get all bookable service providers by service provider id
      * @param  int   $scope  service provicer id
      * @return array    $output service providers formated
      */
-    public function getAllBookableServiceProvidersByIdFormated( $sp_id )
+    public function getAllBookableServiceProvidersByIdFormated($sp_id)
     {
-        if($sp_id == 0){
-            return self::getAllServiceProvidersFormated( "All" );
+        if ($sp_id == 0) {
+            return self::getAllServiceProvidersFormated("All");
         }
         $service_providers = self::getAllBookableServiceProvidersById($sp_id);
 
@@ -73,7 +78,7 @@ Class ServiceProvider extends OrbitSoap
      * @param  String   $scope  service provicer type
      * @return array    $output service providers formated
      */
-    public function getAllServiceProvidersFormated( $scope )
+    public function getAllServiceProvidersFormated($scope)
     {
         $service_providers = self::getAllServiceProviders();
 
@@ -81,25 +86,27 @@ Class ServiceProvider extends OrbitSoap
 
         foreach ($service_providers as $service_provider) {
             $sp_type = $service_provider['ServiceProviderTypeName'];
-            if ( $scope === "All" ) {
+            if ($scope === "All") {
                 $output[] = [
                             'id'    => $service_provider['ServiceProviderId'],
-                            'text'  => $service_provider['ServiceProviderName']
+                            'text'  => $service_provider['ServiceProviderName'],
+                            'type'  => $sp_type
                             ];
-            } elseif ( ($sp_type === "VLA" || $sp_type === "Legal Help") && $scope === "VLA"  ) {
+            } elseif (($sp_type === "VLA" || $sp_type === "Legal Help") && $scope === "VLA") {
                 //Restrict list just to VLA
                 $output[] = [
                             'id'    => $service_provider['ServiceProviderId'],
-                            'text'  => $service_provider['ServiceProviderName']
+                            'text'  => $service_provider['ServiceProviderName'],
+                            'type'  => $sp_type
                             ];
-            } elseif ( $sp_type === $scope) {
+            } elseif ($sp_type === $scope) {
                 //Restrict list just to VLA
                 $output[] = [
                             'id'    => $service_provider['ServiceProviderId'],
-                            'text'  => $service_provider['ServiceProviderName']
+                            'text'  => $service_provider['ServiceProviderName'],
+                            'type'  => $sp_type
                             ];
             }
-
         }
 
         return $output;
@@ -109,7 +116,7 @@ Class ServiceProvider extends OrbitSoap
      * @param  Object $sp_params service provider details
      * @return array             success or error message
      */
-    public function saveServiceProvider( $sp_params )
+    public function saveServiceProvider($sp_params)
     {
 
         // Current time
@@ -127,10 +134,10 @@ Class ServiceProvider extends OrbitSoap
         try {
             $response = $this
                         ->client
-                        ->ws_init( 'SaveOrbitServiceProvider' )
-                        ->SaveOrbitServiceProvider( $info );
+                        ->ws_init('SaveOrbitServiceProvider')
+                        ->SaveOrbitServiceProvider($info);
             // Redirect to index
-            if ( $response->SaveOrbitServiceProviderResult ) {
+            if ($response->SaveOrbitServiceProviderResult) {
                 return [ 'success' => 'success' , 'message' => 'Service provider created.' ];
             } else {
                 return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
@@ -144,7 +151,7 @@ Class ServiceProvider extends OrbitSoap
      * @param  int   $sp_id service provider id
      * @return array        success or error message
      */
-    public function deleteServiceProvider( $sp_id )
+    public function deleteServiceProvider($sp_id)
     {
         // Create call request
         $info = [ 'RefNumber' => $sp_id ];
@@ -153,8 +160,8 @@ Class ServiceProvider extends OrbitSoap
             $response =     $this
                             ->client
                             ->ws_init('DeleteOrbitServiceProvider')
-                            ->DeleteOrbitServiceProvider( $info );
-            if ( $response->DeleteOrbitServiceProviderResult ) {
+                            ->DeleteOrbitServiceProvider($info);
+            if ($response->DeleteOrbitServiceProviderResult) {
                 return [ 'success' => 'success' , 'message' => 'Service provider deleted.' ];
             } else {
                 return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
@@ -162,7 +169,6 @@ Class ServiceProvider extends OrbitSoap
         } catch (\Exception $e) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
-
     }
     /**
      * Get service provider by id
@@ -178,8 +184,8 @@ Class ServiceProvider extends OrbitSoap
             $response =     $this
                             ->client
                             ->ws_init('GetOrbitServiceProviderByIdasJSON')
-                            ->GetOrbitServiceProviderByIdasJSON( $info );
-            if ( $response->GetOrbitServiceProviderByIdasJSONResult ) {
+                            ->GetOrbitServiceProviderByIdasJSON($info);
+            if ($response->GetOrbitServiceProviderByIdasJSONResult) {
                 return [ 'success' => 'success' , 'message' => 'Service.', 'data' => $response->GetOrbitServiceProviderByIdasJSONResult ];
             } else {
                 return [ 'success' => 'error' , 'message' => 'Ups, something went wrong.' ];
@@ -189,4 +195,3 @@ Class ServiceProvider extends OrbitSoap
         }
     }
 }
-
