@@ -122,11 +122,25 @@
                         </li>
 
                         <li class="nav-item {{ Request::is('service','service/*') ? 'active' : null }}">
-                            <a href="/service" class="nav-link">
+                            <a href="/service" class="nav-link nav-toggle">
                                 <i class="icon-notebook"></i>
                                 <span class="title">Services</span>
                                 <span class="arrow {{ Request::is('service','service/*') ? 'open' : null }}"></span>
                             </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item {{ Request::is('service/my_services') ? 'active' : null }}">
+                                    <a href="/service/my_services/" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">My Services</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ Request::is('service') ? 'active' : null }}">
+                                    <a href="/service/" class="nav-link ">
+                                        <i class="fa fa-list"></i>
+                                        <span class="title">All Services</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item {{ Request::is('service_provider','service_provider/*') ? 'active' : null }}">

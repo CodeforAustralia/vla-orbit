@@ -19,6 +19,7 @@ use App\Question;
 use App\Mail\RequestEmail;
 use App\MatterServiceAnswer;
 use Auth;
+use Exception;
 
 /**
  * Service Controller.
@@ -47,11 +48,20 @@ class ServiceController extends Controller
     }
 
     /**
+     * Display a listing of service by service provider
+     * @return view service information
+     */
+    public function myServices()
+    {
+        return view("service.my_services");
+    }
+
+    /**
      * Display a specific service
      * @param  integer $sv_id service id
      * @return view single service information page
      */
-    public function show( $sv_id )
+    public function show($sv_id)
     {
         $user = Auth::user();
 
@@ -89,24 +99,24 @@ class ServiceController extends Controller
 
         $data = json_decode($result['data']);
 
-        if ( !empty($data) ) {
+        if (!empty($data)) {
             $current_service = $data[0];
             $current_vulnerabilities = array_column($current_service->ServiceVulAnswers, 'QuestionId');
 
             $catchment = new Catchment();
-            $catchments = $catchment->sortCatchments( $current_service->ServiceCatchments );
+            $catchments = $catchment->sortCatchments($current_service->ServiceCatchments);
 
             $referral_conditions = [];
             $booking_conditions = [];
             $e_referral_conditions = [];
-            foreach ( $current_service->ServiceActions as $action ) {
-                if ( $action->Action === 'REFER' ) {
+            foreach ($current_service->ServiceActions as $action) {
+                if ($action->Action === 'REFER') {
                     $referral_conditions[] = $action->ServiceProviderId;
                 }
-                if ( $action->Action === 'BOOK' ) {
+                if ($action->Action === 'BOOK') {
                     $booking_conditions[] = $action->ServiceProviderId;
                 }
-                if ( $action->Action === 'E_REFER' ) {
+                if ($action->Action === 'E_REFER') {
                     $e_referral_conditions[] = $action->ServiceProviderId;
                 }
             }
@@ -115,20 +125,33 @@ class ServiceController extends Controller
 
             $service_notes_log = $service->getServiceNotesLogs($sv_id); //Get log of notes made in this service
 
-            if ( $user->sp_id == $current_service->ServiceProviderId
-                || $user->roles()->first()->name == 'Administrator' ) {
+            if ($user->sp_id == $current_service->ServiceProviderId
+                || $user->roles()->first()->name == 'Administrator') {
                 //Same service provider or admin
                 return view(
-                                "service.show",
-                                compact( 'current_service', 'service_types', 'service_levels', 'service_providers', 'matters',
-                                        'matter_services' , 'catchments', 'vulnertability_questions', 'current_vulnerabilities',
-                                        'referral_conditions', 'booking_conditions', 'e_referral_conditions', 'e_referral_forms',
-                                        'service_booking', 'service_booking_questions', 'service_notes_log')
-                            );
+                    "service.show",
+                    compact(
+                        'current_service',
+                        'service_types',
+                        'service_levels',
+                        'service_providers',
+                        'matters',
+                        'matter_services',
+                        'catchments',
+                        'vulnertability_questions',
+                        'current_vulnerabilities',
+                        'referral_conditions',
+                        'booking_conditions',
+                        'e_referral_conditions',
+                        'e_referral_forms',
+                        'service_booking',
+                        'service_booking_questions',
+                        'service_notes_log'
+                    )
+                );
             } else {
                 abort(401, 'This action is unauthorized.');
             }
-
         } else {
             return redirect('/service')->with('error', 'Service not found');
         }
@@ -140,7 +163,7 @@ class ServiceController extends Controller
      */
     public function store()
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpClc']);
 
         $sv_params = [
                         'ServiceId'   	=> request('sv_id'),
@@ -156,14 +179,14 @@ class ServiceController extends Controller
                         'ServiceLevelId' => request('service_level_id'),
                         'ServiceTypeId'  => request('service_type_id'),
                         'OpenningHrs'    => filter_var(request('OpenningHrs'), FILTER_SANITIZE_STRING),
-                        'Status'         => ( request('Status') == 'on' ? 1 : 0 ),
+                        'Status'         => (request('Status') == 'on' ? 1 : 0),
                         'Specialist'     => false,
                     ];
 
         $service = new Service();
-        $response = $service->saveService( $sv_params, request()->all() );
+        $response = $service->saveService($sv_params, request()->all());
 
-        return redirect('/service')->with( $response['success'], $response['message'] );
+        return redirect('/service')->with($response['success'], $response['message']);
     }
 
     /**
@@ -174,7 +197,7 @@ class ServiceController extends Controller
      */
     public function storeGeneralSettings(Request $request)
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpClc']);
         try {
             $service = $request['current_service'];
             $sv_params = [
@@ -198,8 +221,7 @@ class ServiceController extends Controller
             $service_obj = new Service();
             $response = $service_obj->saveServices($sv_params, $request);
             return $response;
-
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
@@ -212,10 +234,10 @@ class ServiceController extends Controller
      */
     public function storeIntakeOptions(Request $request)
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpClc']);
 
         try {
-            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
+            if (isset($request['sv_id']) && $request['sv_id'] > 0) {
                 $sv_id = $request['sv_id'];
 
                 $referral_conditions  = (isset($sv_id, $request['referral_conditions']) ? $request['referral_conditions'] : []);
@@ -230,11 +252,10 @@ class ServiceController extends Controller
                 $service->saveServiceEReferrals($sv_id, $e_referral_forms);
                 $service->saveServiceBookingQuestions($sv_id, $booking_question);
                 return ['success' => 'success' , 'message' => 'Intake options saved.'];
-
             } else {
                 return ['success' => 'error' , 'message' => 'Please save service first.'];
             }
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
@@ -248,11 +269,10 @@ class ServiceController extends Controller
      */
     public function storeClientEligibility(Request $request)
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpClc']);
 
         try {
-            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
-
+            if (isset($request['sv_id']) && $request['sv_id'] > 0) {
                 $sv_id = $request['sv_id'];
 
                 $vulnerability    = (isset($request['vulnerability']) ? $request['vulnerability'] : []);
@@ -265,7 +285,7 @@ class ServiceController extends Controller
             } else {
                 return ['success' => 'error' , 'message' => 'Please save service first.'];
             }
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
@@ -278,11 +298,10 @@ class ServiceController extends Controller
      */
     public function storeLegalMatter(Request $request)
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpClc']);
 
         try {
-            if(isset($request['sv_id']) && $request['sv_id'] > 0) {
-
+            if (isset($request['sv_id']) && $request['sv_id'] > 0) {
                 $sv_id = $request['sv_id'];
 
                 $matters    = (isset($request['matters']) ? $request['matters'] : []);
@@ -291,7 +310,7 @@ class ServiceController extends Controller
                 $matters_ids = array_column($matters, 'id');
                 // Save the legal matters
                 $result = $service->saveServiceMatters($sv_id, $matters_ids);
-                if($result['message']){
+                if ($result['message']) {
                     $service->updateServiceDate($sv_id);
                     // Get the legal Matter Service
                     $matter_service_obj     = new MatterService();
@@ -299,17 +318,15 @@ class ServiceController extends Controller
 
                     $matter_service_answer = new MatterServiceAnswer();
                     // Save the Legal Matter Conditions.
-                    $matter_service_answer->processMatterServiceAnswers( $matters , $sv_id , $matter_services_list);
+                    $matter_service_answer->processMatterServiceAnswers($matters, $sv_id, $matter_services_list);
                     // Save the Legal Matter Eligibility Criteria
-                    $matter_service_answer->processVulnerabilityMatterServiceAnswers( $matters , $matter_services_list );
-
-
+                    $matter_service_answer->processVulnerabilityMatterServiceAnswers($matters, $matter_services_list);
                 }
                 return ['success' => 'success' , 'message' => 'Client Matters saved.'];
             } else {
                 return ['success' => 'error' , 'message' => 'Please save service first.'];
             }
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             return [ 'success' => 'error' , 'message' =>  $e->getMessage() ];
         }
     }
@@ -320,7 +337,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        Auth::user()->authorizeRoles( ['Administrator', 'AdminSp', 'AdminSpClc'] );
+        Auth::user()->authorizeRoles(['Administrator', 'AdminSp', 'AdminSpClc']);
 
         $service_type_obj   = new ServiceType();
         $service_types      = $service_type_obj->getAllServiceTypes();
@@ -340,12 +357,12 @@ class ServiceController extends Controller
         $e_referral_obj = new EReferral();
 
         $user = Auth::user();
-        if ( $user->sp_id != 0 ) {
-             //Just return current service provider
+        if ($user->sp_id != 0) {
+            //Just return current service provider
             $service_provider = $service_providers[array_search($user->sp_id, array_column($service_providers, 'ServiceProviderId'))];
             $service_providers = [$service_provider];
         }
-        return view( "service.create", compact( 'service_types','service_levels','service_providers', 'matters', 'vulnertability_questions' ) );
+        return view("service.create", compact('service_types', 'service_levels', 'service_providers', 'matters', 'vulnertability_questions'));
     }
 
     /**
@@ -355,12 +372,12 @@ class ServiceController extends Controller
      */
     public function destroy($sv_id)
     {
-        Auth::user()->authorizeRoles( 'Administrator' );
+        Auth::user()->authorizeRoles('Administrator');
 
         $service  = new Service();
         $response = $service->deleteService($sv_id);
 
-        return redirect('/service')->with( $response['success'], $response['message'] );
+        return redirect('/service')->with($response['success'], $response['message']);
     }
 
     /**
@@ -398,7 +415,7 @@ class ServiceController extends Controller
         $service = new Service();
         $services = $service->getServiceTable($request);
 
-        if($services['success'] === 'success') {
+        if ($services['success'] === 'success') {
             return $services['data'];
         }
         return ['errors' => $services['message']];
@@ -408,21 +425,41 @@ class ServiceController extends Controller
      * List all service by service provider and user service provider
      * @return array list of all service filtered by service provider and user service provider
      */
-    public function listServicesSP( $sp_id )
+    public function listServicesSP($sp_id)
     {
         $user = Auth::user();
 
         $service = new Service();
-        $result  = $service->getAllServicesByServiceProviderAndUSerSP( $sp_id, $user->sp_id );
+        $result  = $service->getAllServicesByServiceProviderAndUSerSP($sp_id, $user->sp_id);
 
         return $result;
     }
 
     /**
+     * List all service by service provider
+     * @return array list of all service filtered by service provider
+     */
+    public function listOwnServices($sp_id)
+    {
+        try {
+            $user = Auth::user();
+            $service = new Service();
+
+            $services = $service->getAllServicesByServiceProviderAndUSerSP($sp_id, $user->sp_id);
+
+            $services_list['data'] = $service->mapServicesToFields($services);
+
+            $services_list['success'] = 'success';
+            return $services_list;
+        } catch (Exception $e) {
+            return ['errors' => 'Something went wrong.'];
+        }
+    }
+    /**
      * Get service by id
      * @return object service
      */
-    public function listServiceById( $sv_id )
+    public function listServiceById($sv_id)
     {
         $service_obj = new Service();
         $service  = $service_obj->getServiceInformationByID($sv_id);
@@ -438,16 +475,14 @@ class ServiceController extends Controller
         $user = Auth::user();
         $request = request()->all();
         $request['user'] = $user;
-        Mail::to('orbitteam@vla.vic.gov.au')->send( new RequestEmail( $request ) );
+        Mail::to('orbitteam@vla.vic.gov.au')->send(new RequestEmail($request));
     }
 
 
     public function sendNotification(Request $request)
     {
         $service_obj = new Service();
-        $result  = $service_obj->sendServiceNotificacion($request['services'],$request['template_id']);
+        $result  = $service_obj->sendServiceNotificacion($request['services'], $request['template_id']);
         return $result;
-
     }
-
 }

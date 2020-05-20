@@ -58,6 +58,8 @@ Route::post('/matter_type', 'MatterTypeController@store');
 //Service
 Route::get('/service', 'ServiceController@index')->name('serviceList');
 
+Route::get('/service/my_services', 'ServiceController@myServices');
+
 Route::get('/service/list', 'ServiceController@list');
 
 Route::get('/service/list_without_update/{days}', 'ServiceController@listWithoutUpdate');
@@ -67,6 +69,8 @@ Route::get('/service/list_table', 'ServiceController@listTable');
 Route::get('/service/list_service_by_id/{sv_id}', 'ServiceController@listServiceById');
 
 Route::get('/service/list_services_sp/{sp_id}', 'ServiceController@listServicesSP');
+
+Route::get('/service/list_own_services/{sp_id}', 'ServiceController@listOwnServices');
 
 Route::get('/service/show/{sv_id}', 'ServiceController@show');
 
