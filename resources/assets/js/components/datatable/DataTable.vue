@@ -21,7 +21,7 @@
             </div>
             <label class="col-form-label font-weight-bold padding-top-10 col-sm-2 text-right" for="search" :placeholder="title.toLowerCase() + ' name'">Search</label>
             <div class="col-sm-4 col-md-3">
-                <input type="text" v-debounce:500ms="searchFilter" id="search"  class="form-control form-control-sm">
+                <input type="text" v-debounce:1000ms="searchFilter" id="search"  class="form-control form-control-sm">
             </div>
         </div>
         <table class="table" id="data_table">
