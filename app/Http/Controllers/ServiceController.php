@@ -20,6 +20,7 @@ use App\Mail\RequestEmail;
 use App\MatterServiceAnswer;
 use Auth;
 use Exception;
+use App\Log;
 
 /**
  * Service Controller.
@@ -310,6 +311,7 @@ class ServiceController extends Controller
                 $matters_ids = array_column($matters, 'id');
                 // Save the legal matters
                 $result = $service->saveServiceMatters($sv_id, $matters_ids);
+
                 if ($result['message']) {
                     $service->updateServiceDate($sv_id);
                     // Get the legal Matter Service
@@ -322,6 +324,10 @@ class ServiceController extends Controller
                     // Save the Legal Matter Eligibility Criteria
                     $matter_service_answer->processVulnerabilityMatterServiceAnswers($matters, $matter_services_list);
                 }
+
+                $log = new Log();
+                $log::record('UPDATE', 'service', $sv_id, ['legal_matters' => $matters]);
+
                 return ['success' => 'success' , 'message' => 'Client Matters saved.'];
             } else {
                 return ['success' => 'error' , 'message' => 'Please save service first.'];

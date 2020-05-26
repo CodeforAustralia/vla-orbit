@@ -8,6 +8,7 @@ import service_general_settings from './components/service_self_serving/service_
 import service_clients_matters from './components/service_self_serving/service_clients_matters.vue';
 import service_intake_options from './components/service_self_serving/service_intake_options.vue';
 import service_legal_matters from './components/service_self_serving/service_legal_matters.vue';
+import service_client_history from './components/service_self_serving/service_client_history.vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import ToggleButton from 'vue-js-toggle-button'
 
@@ -22,7 +23,8 @@ const service_management = new Vue({
         'service-general-settings': service_general_settings,
         'service-clients-matters': service_clients_matters,
         'service-intake-options': service_intake_options,
-        'service-legal-matters': service_legal_matters
+        'service-legal-matters': service_legal_matters,
+        'service-client-history': service_client_history
     },
     data: {
         tab_active: 'settings',

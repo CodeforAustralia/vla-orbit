@@ -14,7 +14,7 @@ Route::get('/soap/functions', 'MasterController@_functions');
 Route::get('/mail', 'OutlookController@mail')->name('mail');
 
 //Comments
-Route::post('/posts/{post}/comments','CommentsController@store') ;
+Route::post('/posts/{post}/comments', 'CommentsController@store') ;
 
 //posts
 Route::post('/posts', 'PostsController@store');
@@ -140,7 +140,7 @@ Route::get('/service_provider/getById/{sp_id}', 'ServiceProvidersController@getB
 
 Route::post('/service_provider', 'ServiceProvidersController@store');
 
-Route::post('/service_provider/set_sp','ServiceProvidersController@setServiceProvider');
+Route::post('/service_provider/set_sp', 'ServiceProvidersController@setServiceProvider');
 
 //Catchment
 Route::get('/catchment', 'CatchmentController@index');
@@ -278,9 +278,9 @@ Route::get('/booking/service/{service_id}/booking/{start_date}/{end_date}', 'Boo
 
 Route::get('/booking/service_provider/booking', 'BookingEngineController@getServiceBookingsBySP');
 
-Route::get('/booking/service/{sv_id}/getAvailability/{start_date}/{end_date}','BookingEngineController@getServiceAvailability');
+Route::get('/booking/service/{sv_id}/getAvailability/{start_date}/{end_date}', 'BookingEngineController@getServiceAvailability');
 
-Route::patch('/booking','BookingController@updateBooking');
+Route::patch('/booking', 'BookingController@updateBooking');
 
 Route::delete('/booking/{booking_id}', 'BookingEngineController@deleteBooking');
 
@@ -422,19 +422,19 @@ Route::post('/dashboard/updatePositions', 'DashboardController@updatePositions')
 
 // Service Booking
 
-Route::get('/service_booking','ServiceBookingController@index');
+Route::get('/service_booking', 'ServiceBookingController@index');
 
-Route::get('/service_booking/list','ServiceBookingController@list');
+Route::get('/service_booking/list', 'ServiceBookingController@list');
 
-Route::get('/service_booking/show/{sb_id}','ServiceBookingController@show');
+Route::get('/service_booking/show/{sb_id}', 'ServiceBookingController@show');
 
-Route::get('/service_booking/new','ServiceBookingController@create');
+Route::get('/service_booking/new', 'ServiceBookingController@create');
 
-Route::post('/service_booking','ServiceBookingController@store');
+Route::post('/service_booking', 'ServiceBookingController@store');
 
 Route::get('/service_booking/delete/{sb_id}', 'ServiceBookingController@destroy');
 
-Route::post('/service_booking/activate_service','ServiceBookingController@activateService');
+Route::post('/service_booking/activate_service', 'ServiceBookingController@activateService');
 // Panel Lawyers
 
 Route::get('/panel_lawyers', 'PanelLawyersController@index');
@@ -478,6 +478,11 @@ Route::get('/configuration/show/{configuration}', 'ConfigurationController@show'
 Route::get('/configuration/delete/{configuration}', 'ConfigurationController@destroy');
 
 Route::post('/configuration', 'ConfigurationController@store');
+
+// Service Log
+
+Route::get('/service_log/{sv_id}', 'ServiceLogController@getBySvId');
+
 
 // Login && Auth routes
 

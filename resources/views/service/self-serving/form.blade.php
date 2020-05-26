@@ -24,6 +24,9 @@
                         <a v-if="!is_new_service" @click="change_tab('intake_options')" href="#service_intake_options" data-toggle="tab"> Intake Options </a>
                         <a v-else @click="save_service_first()"> Intake Options</a>
                     </li>
+                    <li>
+                        <a v-if="!is_new_service" href="#service_client_history" data-toggle="tab"> Service History </a>
+                    </li>
                 </ul>
                 <div class="tab-content padding-top-10">
 
@@ -89,6 +92,14 @@
                                 :service_booking_questions='{{ json_encode($service_booking_questions) }}'
                             @endisset
                         ></service-intake-options>
+                    </div>
+
+                    <div class="tab-pane" id="service_client_history">
+                        <service-client-history
+                            @isset($current_service)
+                                :current_service='{{ json_encode($current_service) }}'
+                            @endisset
+                        ></service-client-history>
                     </div>
 
                 </div>
