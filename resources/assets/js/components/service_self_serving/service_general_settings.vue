@@ -98,14 +98,25 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-7 messageBox">
-                            <p class="margin-bottom-5 text-justify"><small>Service temporarily not running?
-                                Consider leaving this switch on!</small></p>
-                            <p class="margin-bottom-5 text-justify"><small>Instead, simply disable the ability to refer to
-                                this service under <strong>Intake Options</strong>.</small></p>
-                            <p class="margin-bottom-5 text-justify"><small>Users will then be able to see the service and the
-                                changes you make on this page in their search results, but won’t be able to refer clients to it.
-                                If they know why they can’t refer to this service, they won’t think it’s simply missing from the results,
-                                and won’t try to refer another way.</small></p>
+                            <p class="margin-bottom-5 text-justify">
+                                <small>
+                                    If this switch is off, it means users won’t see this service after searching for services using the
+                                    ‘New referral’ button.
+                                </small>
+                            </p>
+                            <p class="margin-bottom-5 text-justify">
+                                <small>
+                                    This switch won’t affect whether users can refer to the service from the ‘Services’ menu on the left.
+                                </small>
+                            </p>
+                            <p class="margin-bottom-5 text-justify">
+                                <small>
+                                If you want to ensure no user refers to this service, change the options under the <strong>Intake Options</strong> tab.
+                                </small>
+                            </p>
+                            <p class="margin-bottom-5 text-justify">
+                                <small>If the service is permanently closed, you can delete it instead.</small>
+                            </p>
                         </div>
 
                     </div>
@@ -285,7 +296,7 @@
         menubar:false,
         fontsize_formats: "8px 10px 12px 14px 16px 18px 20px 22px 24px 26px 28px",
         plugins: 'lists paste link',
-        paste_as_text: true,
+        // paste_as_text: true,
         toolbar1: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
         content_css: [
             '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',

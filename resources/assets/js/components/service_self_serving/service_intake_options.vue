@@ -11,13 +11,11 @@
                     <div class="panel-body">
 
                         <div class="form-group col-sm-12">
-                            <p class="margin-0">
-                                <strong> Referrals conditions: </strong>
-                            </p>
                             <p class=" margin-bottom-10">Enable or disable referrals from these service providers listed below.</p>
                             <p class=" margin-bottom-10">
-                                If this service is not temporarily not running, simply click ‘clear’ to remove all the organisations from this list. 
-                                This will prevent users from able to send an SMS or email referral to clients for this service. 
+                                If you don't want any LHO users to send service details directly to clients (eg this service is for bookings or e-referrals only),
+                                simply click 'clear' to remove all organisations from this list.
+                                This will prevent users from able to send an SMS or email referral to clients for this service.
                                 To add all the service providers back again, click Select All and save.
                                 <span id="count_referral_conditions">({{ selected_service_providers.length }}) </span> &nbsp;
                                 <a href="javascript:;" class="btn btn-xs grey-mint" @click="select_all_referrals_by_scope('VLA')">Select VLA</a> &nbsp;
