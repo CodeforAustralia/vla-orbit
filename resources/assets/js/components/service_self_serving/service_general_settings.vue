@@ -216,7 +216,7 @@
                                     5pm</small></label>
                         </div>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs"
+                            <input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs" maxlength="65"
                                 v-model="current_service.OpenningHrs" @change="changeInForm()" @input="changeInForm()" required>
                         </div>
                     </div>
