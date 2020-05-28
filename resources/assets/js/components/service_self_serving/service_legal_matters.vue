@@ -36,7 +36,7 @@
                         :show-no-results="false"
                         :show-labels="false"
                         @remove="removeLegalMatter"
-                        @input="changeInForm()"
+                        @input="$parent.changeInForm"
                         >
                         </multiselect>
 
@@ -127,7 +127,7 @@
                                     :close-on-select="true"
                                     :show-no-results="false"
                                     :show-labels="false"
-                                    @input="changeInForm()"
+                                    @input="$parent.changeInForm"
                                     ></multiselect>
                             </div>
                         </div>
@@ -181,29 +181,10 @@
                             {label:'IN', value:'in'},
                             ],
                 tag: '',
-                initial_lm: [],
-                modified: false
+                initial_lm: []
             }
         },
         methods: {
-            changeInForm: function() {
-                this.modified = true;
-                console.log("Modified");
-            },
-            avoidLeaveWithoutChanges: function() {
-                let self = this;
-                //Validate before leaving the current tab except if it the user is submiting the form.
-                window.onbeforeunload = function (e) {
-                    if (self.modified) {
-                        e.preventDefault();
-                        var message = "You have not saved your changes.", e = e || window.event;
-                        if (e) {
-                            e.returnValue = message;
-                        }
-                        return message;
-                    }
-                }
-            },
             validate_value(operator, questionValue, questionValueTag){
                 if( ((questionValueTag && questionValueTag.length < 1) || questionValue == '')
                         && operator != ''){
@@ -237,7 +218,6 @@
                     })
                     .catch(function (error) {
                         self.init_legal_matters();
-                        console.log(error);
                     });
             },
             setLegalMatterValues: function() {
@@ -317,13 +297,12 @@
                     let url = '/service/legal_matter';
                     self.$parent.submit('post',url, legal_matters)
                     .then(response => {
-                        this.modified = false;
+                        this.$parent.void$parent.changeInForm;
                         $('#contentLoading').modal('hide');
                         self.$parent.swal_messages(response.success, response.message);
                         self.initial_lm = self.get_lm();
                     })
                     .catch(error => {
-                        console.log(error);
                     });
                 }
             },
@@ -388,7 +367,7 @@
                 } else {
                     self.currentTab = {};
                 }
-                this.changeInForm();
+                this.$parent.changeInForm;
             },
             removeLegalMatter(matter_removed){
                 let self = this;
@@ -402,7 +381,6 @@
             let self = this;
             this.init_legal_matters();
             this.event_on_change_tab();
-            this.avoidLeaveWithoutChanges();
         },
     }
 

@@ -28,7 +28,8 @@ const service_management = new Vue({
     },
     data: {
         tab_active: 'settings',
-        current_path: window.location.pathname
+        current_path: window.location.pathname,
+        modified: false
     },
     computed: {
         is_new_service() {
@@ -64,8 +65,33 @@ const service_management = new Vue({
                     });
             });
         },
+        changeInForm() {
+            this.modified = true;
+            console.log("Change in form");
+        },
+        voidChangeInForm() {
+            this.modified = false;
+            console.log("Void Change in form");
+        },
+        avoidLeaveWithoutChanges: function () {
+            let self = this;
+            //Validate before leaving the current tab except if it the user is submiting the form.
+            window.onbeforeunload = function (e) {
+                if (self.modified) {
+                    e.preventDefault();
+                    var message = "You have not saved your changes.", e = e || window.event;
+                    if (e) {
+                        e.returnValue = message;
+                    }
+                    return message;
+                }
+            }
+        },
         swal_messages(type, message) {
             this.$swal(type.charAt(0).toUpperCase() + type.slice(1), message, type);
         },
+    },
+    mounted() {
+        this.avoidLeaveWithoutChanges();
     },
 })

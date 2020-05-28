@@ -38,7 +38,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
-                                        @input="changeInForm()"
+                                        @input="$parent.changeInForm"
                                         ></multiselect>
                         </div>
 
@@ -90,7 +90,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
-                                        @input="changeInForm()"
+                                        @input="$parent.changeInForm"
                                         ></multiselect>
 
                             <!-- Booking Questions -->
@@ -189,7 +189,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
-                                        @input="changeInForm()"
+                                        @input="$parent.changeInForm"
                                         ></multiselect>
                         </div>
 
@@ -211,7 +211,7 @@
                                         :close-on-select="true"
                                         :show-no-results="false"
                                         :show-labels="false"
-                                        @input="changeInForm()"
+                                        @input="$parent.changeInForm"
                                         ></multiselect>
                         </div>
 
@@ -289,30 +289,11 @@
                                 { label: 'Is equal to', value: '=' },
                                 { label: 'Is not Equal to', value: '!=' },
                                 { label: 'Is one of', value: 'in' }
-                            ],
-                modified: false
+                            ]
             };
         },
 
         methods: {
-            changeInForm: function() {
-                this.modified = true;
-                console.log("Modified");
-            },
-            avoidLeaveWithoutChanges: function() {
-                let self = this;
-                //Validate before leaving the current tab except if it the user is submiting the form.
-                window.onbeforeunload = function (e) {
-                    if (self.modified) {
-                        e.preventDefault();
-                        var message = "You have not saved your changes.", e = e || window.event;
-                        if (e) {
-                            e.returnValue = message;
-                        }
-                        return message;
-                    }
-                }
-            },
             pre_select_booking_questions() {
                 let self = this;
                 let cs_booking_questions = self.current_service.ServiceBookingQuestions;
@@ -365,8 +346,6 @@
                     self.initial_intake_options = Object.assign({}, self.get_intake_options());
                 })
                 .catch(error => {
-                    console.log('retrying: ', error);
-                    self.load_e_referral_forms();
                 });
             },
             load_service_providers() {
@@ -384,7 +363,6 @@
                     self.selected_e_referral_service_providers = self.pre_select_conditions(self.service_providers, self.selected_e_referral_conditions);
                 })
                 .catch(error => {
-                    console.log('retrying: ', error);
                     self.load_service_providers();
                 });
             },
@@ -413,12 +391,10 @@
                             swal("Done!", "Your service has been activated, now you need to set availability in the manage bookings page.", "success");
                             self.sb_activated = true;
                         } else {
-                            console.log('Error: ', response.message);
                             swal("Error", 'Unfortunately we cannot process your request right now. Please contact a system admin for futher information.', "error");
                         }
                     }).catch(function (error) {
                         $('#contentLoading').modal('hide');
-                        console.log('Error: ', error)
                     });
             },
             get_intake_options() {
@@ -437,12 +413,11 @@
                 let url = '/service/intake_options';
                 this.$parent.submit('post',url, intake_options)
                     .then(response => {
-                        this.modified = false;
+                        this.$parent.void$parent.changeInForm;
                         $('#contentLoading').modal('hide');
                         this.$parent.swal_messages(response.success, response.message);
                     })
                     .catch(error => {
-                        console.log(error);
                     });
             },
             event_on_change_tab() {
@@ -489,7 +464,6 @@
             this.load_e_referral_forms();
             this.pre_select_booking_questions();
             this.event_on_change_tab();
-            this.avoidLeaveWithoutChanges();
         },
     }
 </script>
