@@ -213,7 +213,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <label for="OpenningHrs">Opening Hours: <small>eg. Wednesdays 2-4pm or Weekdays 9am -
-                                    5pm</small></label>
+                                    5pm (65 characters max)</small></label>
                         </div>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="OpenningHrs" name="OpenningHrs" maxlength="65"
