@@ -49,7 +49,7 @@
 
                     <div class="tab-pane" id="service_clients_matters">
                         <service-clients-matters
-                            :eligibility_questions='{{ json_encode($vulnertability_questions) }}'
+                            :eligibility_questions='{{  htmlspecialchars(json_encode($vulnertability_questions), ENT_QUOTES, 'UTF-8')  }}'
                             @isset($current_vulnerabilities)
                                 :selected_eligibility_questions='{!! json_encode($current_vulnerabilities) !!}'
                             @endisset
@@ -64,7 +64,7 @@
                             @isset($current_service)
                                 :current_service = '{{ json_encode($current_service) }}'
                             @endisset
-                                :eligibility_questions='{{ json_encode($vulnertability_questions) }}'
+                                :eligibility_questions='{{  htmlspecialchars(json_encode($vulnertability_questions), ENT_QUOTES, 'UTF-8')  }}'
                         ></service-legal-matters>
                     </div>
 
