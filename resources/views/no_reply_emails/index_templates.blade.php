@@ -6,7 +6,7 @@
     <div class="portlet ">
         <h1 class="page-title col-xs-10"> Info Email Templates </h1>
         @if ( in_array( \App\Http\helpers::getRole(), ['Administrator', 'AdminSp' , 'AdminSpClc']) )
-        <a role="button" class="btn main-green col-xs-2 pull-right" href="/no_reply_emails/templates/new">Create Template</a>
+        <!-- <a role="button" class="btn main-green col-xs-2 pull-right" href="/no_reply_emails/templates/new">Create Template</a> -->
         @endif
         <br>
     </div>
