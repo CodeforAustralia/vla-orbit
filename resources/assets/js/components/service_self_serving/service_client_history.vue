@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="current_service">
 
         <histor-widget title="General Settings" :logInfo="serviceHistory.general_settings"></histor-widget>
         <histor-widget title="Catchments" :logInfo="serviceHistory.catchment_info"></histor-widget>
