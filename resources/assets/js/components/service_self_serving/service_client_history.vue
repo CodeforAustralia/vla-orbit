@@ -29,13 +29,15 @@ export default {
     },
     methods: {
         getServiceHistory() {
-            $("#contentLoading").modal("show");
-            let self = this;
-            let url = `/service_log/${self.current_service.ServiceId}`;
-            axios.get(url)
-                .then(response => {self.serviceHistory = response.data; console.log(response.data); $("#contentLoading").modal("hide");})
-                .catch(error => this.getServiceHistory());
-            //self.current_service.ServiceId
+            if(this.current_service.ServiceId) {
+                $("#contentLoading").modal("show");
+                let self = this;
+                let url = `/service_log/${self.current_service.ServiceId}`;
+                axios.get(url)
+                    .then(response => {self.serviceHistory = response.data; console.log(response.data); $("#contentLoading").modal("hide");})
+                    .catch(error => this.getServiceHistory());
+                //self.current_service.ServiceId
+            }
         }
     },
     mounted() {
