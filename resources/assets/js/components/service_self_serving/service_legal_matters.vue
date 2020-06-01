@@ -297,7 +297,7 @@
                     let url = '/service/legal_matter';
                     self.$parent.submit('post',url, legal_matters)
                     .then(response => {
-                        this.$parent.void$parent.changeInForm;
+                        this.$parent.voidChangeInForm();
                         $('#contentLoading').modal('hide');
                         self.$parent.swal_messages(response.success, response.message);
                         self.initial_lm = self.get_lm();

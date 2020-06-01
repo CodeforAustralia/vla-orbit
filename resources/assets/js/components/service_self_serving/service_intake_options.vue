@@ -413,7 +413,7 @@
                 let url = '/service/intake_options';
                 this.$parent.submit('post',url, intake_options)
                     .then(response => {
-                        this.$parent.void$parent.changeInForm;
+                        this.$parent.voidChangeInForm();
                         $('#contentLoading').modal('hide');
                         this.$parent.swal_messages(response.success, response.message);
                     })
