@@ -181,7 +181,7 @@ var noReplyEmails = function()
 		$('#message').summernote({
 			styleTags: ['p', 'blockquote','h1', 'h2','h3'],
 			toolbar: [
-			    ['style', ['style','bold','italic', 'underline','borderText','alertText','alertTextBold','headingAlert']],
+			    ['style', ['style','bold','italic', 'underline']],
 			    ['para', ['ul']],
 			    ['link', ['linkDialogShow', 'unlink']],
 			    ['misc',['undo','codeview']],
@@ -202,10 +202,10 @@ var noReplyEmails = function()
 				limitStop: false // true/false
 		    },
 			buttons:{
-				borderText		: borderText,
-				alertText 		: alertText,
-				alertTextBold  	: alertTextBold,
-				headingAlert	: headingAlert,
+				// borderText		: borderText,
+				// alertText 		: alertText,
+				// alertTextBold  	: alertTextBold,
+				// headingAlert	: headingAlert,
 				clearAll		: clearAll
 			},
         	height: 500

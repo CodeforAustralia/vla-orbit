@@ -100,7 +100,7 @@
 @endsection
 
 @section('scripts')    
-    <script src="/js/no-reply-emails.js" type="text/javascript"></script>    
+    <script src="/js/no-reply-emails.js?id={{ str_random(6) }}" type="text/javascript"></script>    
     <script src="/assets/global/plugins/jquery-repeater/jquery.repeater.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/form-repeater.min.js" type="text/javascript"></script>
 @endsection
