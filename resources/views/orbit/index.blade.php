@@ -153,7 +153,7 @@
                             <div class="thumbnail">
                             <!-- 16:9 aspect ratio -->
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe width="100%" src="https://web.microsoftstream.com/embed/video/5aabe04a-4747-4533-b5bd-dd9881058abd?autoplay=false&amp;showinfo=false" allowfullscreen style="border:none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; height: 100%; max-width: 100%;">
+                                    <iframe width="100%" src="https://web.microsoftstream.com/embed/video/5aabe04a-4747-4533-b5bd-dd9881058abd?autoplay=false&amp;showinfo=false" allowfullscreen style="border:none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; height: 100%; max-width: 100%;"></iframe>
                                 </div>
 
                                 <div class="caption ">
