@@ -149,6 +149,23 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-6">
+                            <div class="thumbnail">
+                            <!-- 16:9 aspect ratio -->
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe width="100%" src="https://web.microsoftstream.com/embed/video/5aabe04a-4747-4533-b5bd-dd9881058abd?autoplay=false&amp;showinfo=false" allowfullscreen style="border:none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; height: 100%; max-width: 100%;">
+                                </div>
+
+                                <div class="caption ">
+                                    <h3 class="hidden"></h3>
+                                    <p class="margin-bottom-0 small"> How to update services in LHO (for VLA ASMs and other Service Directory updaters)</p>
+                                    <p class="hidden">
+                                        <a href="javascript:;" class="btn red"> Read More </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
