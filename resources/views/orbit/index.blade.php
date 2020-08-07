@@ -158,7 +158,7 @@
 
                                 <div class="caption ">
                                     <h3 class="hidden"></h3>
-                                    <p class="margin-bottom-0 small"> How to update services in LHO (for VLA ASMs and other Service Directory updaters)</p>
+                                    <p class="margin-bottom-0 small"> VLA users: How to update services in LHO (for VLA ASMs and other Service Directory updaters)</p>
                                     <p class="hidden">
                                         <a href="javascript:;" class="btn red"> Read More </a>
                                     </p>
