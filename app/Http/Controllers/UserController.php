@@ -248,6 +248,15 @@ class UserController extends Controller
         return view("user.change_password");
     }
     /**
+     * Return view to forgot password
+     *
+     * @return void
+     */
+    public function forgotPassword()
+    {
+        return view('auth.passwords.reset');        
+    }
+    /**
      * Change User Password
      *
      * @return void

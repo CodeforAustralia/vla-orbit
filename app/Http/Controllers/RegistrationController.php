@@ -36,7 +36,10 @@ class RegistrationController extends Controller
     public function index()
     {
         $user = Auth::user();
-
+        if(!is_null($user) && !is_null($user->two_factor_code))
+        {
+            return redirect('/verify')->withErrors(['two_factor_code' => 'Enter the two factor code']);
+        }
         $financial_year = date("Y");
         $year = date("Y-m-d", strtotime('first day of January'));
         $last_monday =  date("Y-m-d", strtotime('monday this week'));//date('Y-m-d',time()+( 1 - date('w'))*24*3600);
@@ -66,7 +69,7 @@ class RegistrationController extends Controller
             $service_providers_obj  = new ServiceProvider();
             $service_providers      = $service_providers_obj->getAllServiceProviders();
         }
-
+        $service_providers      = [];
         $dashboards = \App\Dashboard::all()->sortBy('position');
         return view(
             "orbit.index",

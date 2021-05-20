@@ -2,14 +2,15 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupEmail;
-use Carbon\Carbon;
 use App\ServiceProvider;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 
 /**
  * User model for the user functionalities
@@ -21,6 +22,13 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $dates = [
+        'updated_at',
+        'created_at',
+        'deleted_at',
+        'two_factor_expires_at',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +38,13 @@ class User extends Authenticatable
                             'name',
                             'email',
                             'password',
-                            'last_login_at'
+                            'last_login_at',
+                            'created_at',
+                            'updated_at',
+                            'deleted_at',
+                            'remember_token',
+                            'two_factor_code',
+                            'two_factor_expires_at',
                         ];
 
     /**
@@ -364,5 +378,38 @@ class User extends Authenticatable
             'remember_token' => $this->remember_token
         ];
         return base64_encode(implode('---', $user_hash));
+    }
+
+    public function getEmailVerifiedAtAttribute($value)
+    {
+        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
+    }
+
+    public function setPasswordAttribute($input)
+    {
+        if ($input) {
+            $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
+        }
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function generateTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_expires_at = \Carbon\Carbon::now()->addMinutes(10);
+        $this->save();
+    }
+
+    public function resetTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
     }
 }

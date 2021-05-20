@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupEmail;
+use App\Notifications\TwoFactorCode;
+
 
 /**
  * Session Controller.
@@ -40,11 +42,19 @@ class SessionController extends Controller
     {
         //attempt to authenticate the user
         if (! auth()->attempt( request(['email', 'password'])) ) {
-            return back()->withErrors( ['message' => 'Please check your credentials'] );
+            return back()->withErrors( ['message' => 'Please check your credentials.'] );
         }
 
-        //redirect them home
-        return redirect()->home();
+        /// Logic:
+        //1. Generate the 6 digit varification code
+        //2. send in email
+        //3. redirect to 'varify' view
+
+        //1 & 2
+        self::authenticated(auth()->user());
+        
+        //3. redirect to varify view
+        return view('auth.passwords.twoFactor');
     }
 
     /**
@@ -69,6 +79,12 @@ class SessionController extends Controller
     {
         $request = request()->all();
         Mail::to('orbitteam@vla.vic.gov.au')->send( new SignupEmail( $request ) );
+    }
+
+    protected function authenticated($user)
+    {
+        $user->generateTwoFactorCode();
+        $user->notify(new TwoFactorCode());
     }
 
 }
