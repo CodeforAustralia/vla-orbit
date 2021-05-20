@@ -6,6 +6,15 @@ ___
 
 <p>First name: {{ $args['firstName'] }}</p>
 <p>Last  name: {{ $args['lastName'] }}</p>
+
+@if( isset($args['dob']) && $args['dob'] != '')
+<p>DOB: {{ $args['dob'] }}</p>
+@endif
+
+@if( isset($args['suburb']) && $args['suburb'] != '')
+<p>Suburb town of caller: {{ $args['suburb'] }}</p>
+@endif
+
 @if( isset($args['postal_address']) && $args['postal_address'] != '')
 <p>Postal Address: {{ $args['postal_address'] }}</p>
 @endif
@@ -24,10 +33,6 @@ ___
 
 @if( isset($args['phone']) && $args['phone'] != '')
 <p>Contact number: {{ $args['phone'] }}</p>
-@endif
- 
-@if( isset($args['reContact']) && $args['reContact'] != '')
-<p>Instructions re contact: {{ $args['reContact'] }}</p>
 @endif
 
 {!! $args['Desc'] !!}
