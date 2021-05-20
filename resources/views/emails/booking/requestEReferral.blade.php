@@ -31,10 +31,6 @@ ___
 <p>Contact number: {{ $args['phone'] }}</p>
 @endif
 
-@if( isset($args['reContact']) && $args['reContact'] != '')
-<p>Instructions re contact: {{ $args['reContact'] }}</p>
-@endif
-
 {!! $args['Desc'] !!}
 
 

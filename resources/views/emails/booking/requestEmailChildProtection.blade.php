@@ -6,6 +6,15 @@ ___
 
 <p>First name: {{ $args['firstName'] }}</p>
 <p>Last  name: {{ $args['lastName'] }}</p>
+
+@if( isset($args['dob']) && $args['dob'] != '')
+<p>DOB: {{ $args['dob'] }}</p>
+@endif
+
+@if( isset($args['suburb']) && $args['suburb'] != '')
+<p>Suburb town of caller: {{ $args['suburb'] }}</p>
+@endif
+
 <p>If interpreter is needed, what language?: {{ ( isset($args['Language']) && $args['Language'] != '' ? $args['Language'] : 'N/A') }}</p>
 <p>Complex needs? {{ ( isset($args['IsComplex']) && $args['IsComplex'] != '' ? ($args['IsComplex'] == 1 ? 'Yes' : 'No' ) : 'N/A') }}</p>
 <p>Client Intake Record - Legal Advice ID:  {{ ( isset($args['CIRNumber']) && $args['CIRNumber'] != '' ? $args['CIRNumber'] : 'N/A') }}</p>
@@ -17,10 +26,6 @@ ___
 
 @if( isset($args['phone']) && $args['phone'] != '')
 <p>Contact number: {{ $args['phone'] }}</p>
-@endif
- 
-@if( isset($args['reContact']) && $args['reContact'] != '')
-<p>Instructions re contact: {{ $args['reContact'] }}</p>
 @endif
 
 {!! $args['Desc'] !!}

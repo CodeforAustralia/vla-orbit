@@ -320,7 +320,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="display: none;">
             <div class="col-xs-5 col-md-7 col-lg-8">
                 <div class="form-group">
                     <div class="col-xs-12 padding-bottom-20">
