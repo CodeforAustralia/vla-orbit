@@ -10,7 +10,7 @@ const config = {
     theme: 'modern',
     menubar:false,
     fontsize_formats: "8px 10px 12px 14px 16px 18px 20px 22px 24px 26px 28px",
-    plugins: 'lists paste',
+    plugins: 'lists paste link',
     paste_as_text: true,
     toolbar1: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
     content_css: [
